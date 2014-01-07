@@ -19,7 +19,7 @@ namespace BlahguaMobile.BlahguaCore
             public string Password { get; set; }
         }
 
-        static public BlahguaAPIObject Current = null;
+        private static BlahguaAPIObject _instance = null;
 
         ChannelList curChannelList = null;
         ChannelTypeList curChannelTypes = null;
@@ -133,14 +133,33 @@ namespace BlahguaMobile.BlahguaCore
         }
         
 
-        public BlahguaAPIObject()
+        private BlahguaAPIObject()
         {
             BlahguaRest = new BlahguaRESTservice();
             NewBlahToInsert = null;
-            signinTimer = new Timer(timer_callback, null, 2000, System.Threading.Timeout.Infinite);
+            signinTimer = new Timer(timer_callback, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
 
         }
 
+        public static BlahguaAPIObject Current
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new BlahguaAPIObject();
+                return _instance;
+            }
+        }
+
+        public void StartSigninTimer()
+        {
+            signinTimer.Change(2000, System.Threading.Timeout.Infinite);
+        }
+
+        public void StopSigninTimer()
+        {
+            signinTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+        }
 
         public void EnsureSignin()
         {

@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlahguaWP7</RootNamespace>
+    <RootNamespace>BlahguaMobile.Winphone</RootNamespace>
     <AssemblyName>BlahguaWP7</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -22,7 +22,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>BlahguaWP7.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>BlahguaWP7.App</SilverlightAppEntry>
+    <SilverlightAppEntry>BlahguaMobile.Winphone.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
   </PropertyGroup>
@@ -49,7 +49,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="RestSharp.WindowsPhone">
       <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
     </Reference>
@@ -110,36 +115,194 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BadgeElement.xaml.cs">
+      <DependentUpon>BadgeElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BlahAuthorHeader.xaml.cs">
+      <DependentUpon>BlahAuthorHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BlahRollItem.xaml.cs">
+      <DependentUpon>BlahRollItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CommentItem.xaml.cs">
+      <DependentUpon>CommentItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Resources.Designer.cs" />
+    <Compile Include="Screens\BadgingPage.xaml.cs">
+      <DependentUpon>BadgingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\BlahDetails.xaml.cs">
+      <DependentUpon>BlahDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CreateBlah.xaml.cs">
+      <DependentUpon>CreateBlah.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CreateComment.xaml.cs">
+      <DependentUpon>CreateComment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\PhotoShare.xaml.cs">
+      <DependentUpon>PhotoShare.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ProfileViewer.xaml.cs">
+      <DependentUpon>ProfileViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Signin.xaml.cs">
+      <DependentUpon>Signin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared.cs" />
+    <Compile Include="TiltEffect.cs" />
+    <Compile Include="UrlTextBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Controls\BadgeElement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BlahAuthorHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BlahRollItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CommentItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\BadgingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\BlahDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CreateBlah.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CreateComment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImageViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\PhotoShare.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ProfileViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\Signin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
+    <None Include="Images\bkgnds\Thumbs.db" />
+    <None Include="Images\Icons\Thumbs.db" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
+    <Content Include="Resources\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Store Assets\promo.pdn" />
+    <None Include="Store Assets\Thumbs.db" />
+    <None Include="Toolkit.Content\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\LargeIcon.png" />
+    <Content Include="Assets\MediumIcon.png" />
+    <Content Include="Assets\SmallIcon.png" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\badge1.jpg" />
+    <Content Include="Images\badge_standalone_30x31.png" />
+    <Content Include="Images\bkgnds\asks.jpg" />
+    <Content Include="Images\bkgnds\comment.jpg" />
+    <Content Include="Images\bkgnds\leaks.jpg" />
+    <Content Include="Images\bkgnds\polls.jpg" />
+    <Content Include="Images\bkgnds\predicts.jpg" />
+    <Content Include="Images\bkgnds\profile.jpg" />
+    <Content Include="Images\bkgnds\says.jpg" />
+    <Content Include="Images\createBgnd.jpg" />
+    <Content Include="Images\Icons\appbar.add.rest.png" />
+    <Content Include="Images\Icons\appbar.delete.rest.png" />
+    <Content Include="Images\Icons\black_demote.png" />
+    <Content Include="Images\Icons\black_demote_disabled.png" />
+    <Content Include="Images\Icons\black_promote.png" />
+    <Content Include="Images\Icons\black_promote_disabled.png" />
+    <Content Include="Images\Icons\comment.png" />
+    <Content Include="Images\Icons\demote.png" />
+    <Content Include="Images\Icons\demote_active.png" />
+    <Content Include="Images\Icons\open.png" />
+    <Content Include="Images\Icons\promote.png" />
+    <Content Include="Images\Icons\promote_active.png" />
+    <Content Include="Images\Icons\share.png" />
+    <Content Include="Images\Icons\signin.png" />
+    <Content Include="Images\Icons\signout.png" />
+    <Content Include="Images\Icons\white_comment.png" />
+    <Content Include="Images\Icons\white_demote.png" />
+    <Content Include="Images\Icons\white_promote.png" />
+    <Content Include="Images\Icons\white_share.png" />
+    <Content Include="Images\Large_CloseGreen.png" />
+    <Content Include="Images\newblah.png" />
+    <Content Include="Images\The Now Network.png" />
+    <Content Include="Images\unknown-user.png" />
+    <Content Include="Images\uploadplaceholder.png" />
+    <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
+    <Content Include="Store Assets\522cd839e4b03364f826a5ce-D.jpg" />
+    <Content Include="Store Assets\icon 300.png" />
+    <Content Include="Store Assets\icon max.jpg" />
+    <Content Include="Store Assets\promo.png" />
+    <Content Include="Store Assets\ss1.png" />
+    <Content Include="Store Assets\ss2.png" />
+    <Content Include="Store Assets\ss3.png" />
+    <Content Include="Store Assets\ss4.png" />
+    <Content Include="Store Assets\ss5.png" />
+    <Content Include="Store Assets\ss6.png" />
+    <Content Include="Store Assets\ss7.png" />
+    <Content Include="Store Assets\ss8.png" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resources.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

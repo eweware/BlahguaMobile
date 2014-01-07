@@ -537,7 +537,6 @@ namespace BlahguaMobile.BlahguaCore
                     callback(null);
                 }
             });
-
         }
 
         public void UploadObjectPhoto(string objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
@@ -562,7 +561,6 @@ namespace BlahguaMobile.BlahguaCore
                     callback(null);
                 }
             });
-
         }
 
         //method for converting stream to byte[]
