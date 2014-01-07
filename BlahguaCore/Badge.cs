@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
 
     public class BadgeRecord
@@ -76,7 +76,7 @@ namespace WinPhoneBlahgua
 
         public void UpdateBadge()
         {
-            App.BlahguaAPI.GetBadgeInfo(ID, (theBadge) =>
+            BlahguaAPIObject.Current.GetBadgeInfo(ID, (theBadge) =>
                 {
                     BadgeName = theBadge.N;
                     CreationDate = theBadge.c;

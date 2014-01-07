@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     public class Channel
     {
@@ -51,7 +51,7 @@ namespace WinPhoneBlahgua
             get
             {
                 if (Y != null)
-                    return App.BlahguaAPI.CurrentChannelTypeList.ChannelTypeName(Y);
+                    return BlahguaAPIObject.Current.CurrentChannelTypeList.ChannelTypeName(Y);
                 else
                     return null;
             }

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     [DataContract]
     public class UserProfile : INotifyPropertyChanged

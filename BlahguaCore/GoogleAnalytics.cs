@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RestSharp;
-using Microsoft.Phone.Info;
 using System.Net;
 using System.IO;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     public class GoogleAnalytics
     {
@@ -20,17 +19,23 @@ namespace WinPhoneBlahgua
         private string userAgentStr;
         private int counter = 1;
 
-        public GoogleAnalytics (string uniqueId)
+        public GoogleAnalytics (string userAgent, string maker, string model, string version, string platform, string uniqueId)
         {
             restClient = new RestClient("http://www.google-analytics.com");
             restClient.CookieContainer = new CookieContainer();
             clientId = uniqueId;
 
+            /*
             ManifestAppInfo am = new ManifestAppInfo(); // gets appmanifest as per link above
             string maker = Microsoft.Phone.Info.DeviceStatus.DeviceManufacturer;
             string model = Microsoft.Phone.Info.DeviceStatus.DeviceName;
+            string version = am.Version;
+            string platform = "WP7";
+            string userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch";
+            */
+            userAgentStr = string.Format("{0}; {1}; {2};  AppVersion {3})", userAgent, maker, model, version);
 
-            userAgentStr = string.Format("{0} {1} {2} AppVersion {3}", maker, model, "WP7", am.Version);
+            restClient.UserAgent = userAgentStr;
         }
 
         public void PostPageView(string pageURL)

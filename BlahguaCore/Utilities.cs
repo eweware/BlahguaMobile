@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     public static class DateTimeJavaScript
     {

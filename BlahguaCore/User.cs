@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     public class User : INotifyPropertyChanged
     {
@@ -103,16 +103,16 @@ namespace WinPhoneBlahgua
             get
             {
                 string theName = "Someone";
-                if ((App.BlahguaAPI.CurrentUserDescription != null) && (App.BlahguaAPI.CurrentUserDescription.K != null))
-                    theName = App.BlahguaAPI.CurrentUserDescription.K;
+                if ((BlahguaAPIObject.Current.CurrentUserDescription != null) && (BlahguaAPIObject.Current.CurrentUserDescription.K != null))
+                    theName = BlahguaAPIObject.Current.CurrentUserDescription.K;
 
                 return theName;
             }
 
             set
             {
-                if (App.BlahguaAPI.CurrentUserDescription != null)
-                    App.BlahguaAPI.CurrentUserDescription.K = value;
+                if (BlahguaAPIObject.Current.CurrentUserDescription != null)
+                    BlahguaAPIObject.Current.CurrentUserDescription.K = value;
                 OnPropertyChanged("UserName");
             }
         }
@@ -135,7 +135,7 @@ namespace WinPhoneBlahgua
             get
             {
                 if (M != null)
-                    return App.BlahguaAPI.GetImageURL(M[0], "A");
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], "A");
                 else
                     return "Images/unknown-user.png";
             }
@@ -145,8 +145,8 @@ namespace WinPhoneBlahgua
         {
             get
             {
-                if (App.BlahguaAPI.CurrentUserDescription != null)
-                    return App.BlahguaAPI.CurrentUserDescription.d;
+                if (BlahguaAPIObject.Current.CurrentUserDescription != null)
+                    return BlahguaAPIObject.Current.CurrentUserDescription.d;
                 else
                     return null;
             }

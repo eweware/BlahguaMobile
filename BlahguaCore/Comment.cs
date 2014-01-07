@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
 
     public class CommentCreateRecord : INotifyPropertyChanged
@@ -65,7 +65,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.N;
+                    return BlahguaAPIObject.Current.CurrentUser.N;
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.UserImage;
+                    return BlahguaAPIObject.Current.CurrentUser.UserImage;
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.DescriptionString;
+                    return BlahguaAPIObject.Current.CurrentUser.DescriptionString;
                 }
             }
         }
@@ -229,7 +229,7 @@ namespace WinPhoneBlahgua
                 if ((XX == false) && (_m != null))
                 {
                     string imageName = _m[0];
-                    return App.BlahguaAPI.GetImageURL(_m[0], "A");
+                    return BlahguaAPIObject.Current.GetImageURL(_m[0], "A");
                 }
                 else
                     return "/Images/unknown-user.png";
@@ -293,7 +293,7 @@ namespace WinPhoneBlahgua
                 if (M != null)
                 {
                     string imageName = M[0];
-                    return App.BlahguaAPI.GetImageURL(M[0], "D");
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
                 }
                 else
                     return null;

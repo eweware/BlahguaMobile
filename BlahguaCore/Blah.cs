@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     
 
@@ -297,8 +297,8 @@ namespace WinPhoneBlahgua
         public BlahCreateRecord()
         {
             XX = true;
-            Y = App.BlahguaAPI.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
-            G = App.BlahguaAPI.CurrentChannelList.First(c => c.N == "Public")._id;
+            Y = BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
+            G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == "Public")._id;
             ExpirationDate = DateTime.Now + new TimeSpan(30, 0, 0, 0);
 
             I = new PollItemList();
@@ -321,7 +321,7 @@ namespace WinPhoneBlahgua
         {
             get 
             {
-                return App.BlahguaAPI.CurrentBlahTypes.First<BlahType>(n => n._id == Y);
+                return BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n._id == Y);
             }
             set
             {
@@ -339,7 +339,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.UserImage;
+                    return BlahguaAPIObject.Current.CurrentUser.UserImage;
                 }
             }
         }
@@ -354,7 +354,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.UserName;
+                    return BlahguaAPIObject.Current.CurrentUser.UserName;
                 }
             }
         }
@@ -369,7 +369,7 @@ namespace WinPhoneBlahgua
                 }
                 else
                 {
-                    return App.BlahguaAPI.CurrentUser.DescriptionString;
+                    return BlahguaAPIObject.Current.CurrentUser.DescriptionString;
                 }
             }
         }
@@ -1160,7 +1160,7 @@ namespace WinPhoneBlahgua
             get
             {
                 if ((!XX) && (Description != null) && (Description.m != null))
-                    return App.BlahguaAPI.GetImageURL(Description.m, "A");
+                    return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
                 else
                     return "/Images/unknown-user.png";
             }
@@ -1173,7 +1173,7 @@ namespace WinPhoneBlahgua
                 if (M != null)
                 {
                     string imageName = M[0];
-                    return App.BlahguaAPI.GetImageURL(M[0], "D");
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
                 }
                 else
                     return null;
@@ -1185,7 +1185,7 @@ namespace WinPhoneBlahgua
         {
             get
             {
-                string typeName = App.BlahguaAPI.CurrentBlahTypes.GetTypeName(Y);
+                string typeName = BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(Y);
                 return typeName;
             }
         }
@@ -1194,7 +1194,7 @@ namespace WinPhoneBlahgua
         {
             get
             {
-                string channelName = App.BlahguaAPI.CurrentChannelList.ChannelName(G);
+                string channelName = BlahguaAPIObject.Current.CurrentChannelList.ChannelName(G);
                 return channelName;
             }
         }

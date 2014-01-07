@@ -6,12 +6,11 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Text;
 using RestSharp;
-using Microsoft.Phone.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
     public delegate void ChannelList_callback(ChannelList theList);
     public delegate void ChannelTypeList_callback(ChannelTypeList theList);
@@ -520,7 +519,7 @@ namespace WinPhoneBlahgua
         {
             var request = new RestRequest("images/upload", Method.POST);
             request.AddHeader("Accept", "*/*");
-            request.AlwaysMultipartFormData = true;
+            //request.AlwaysMultipartFormData = true;
             request.AddParameter("objectType", "X");
             request.AddParameter("objectId", "");
             request.AddParameter("primary", "true");
@@ -545,7 +544,7 @@ namespace WinPhoneBlahgua
         {
             var request = new RestRequest("images/upload", Method.POST);
             request.AddHeader("Accept", "*/*");
-            request.AlwaysMultipartFormData = true;
+            //request.AlwaysMultipartFormData = true;
             request.AddParameter("objectType", objectType);
             request.AddParameter("objectId", objectId);
             request.AddParameter("primary", "true");

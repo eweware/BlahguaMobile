@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using Microsoft.Phone.Tasks;
 using System.IO.IsolatedStorage;
 using RestSharp;
-using System.Windows.Threading;
+using System.Threading;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
 
 
@@ -20,6 +19,8 @@ namespace WinPhoneBlahgua
             public string Password { get; set; }
         }
 
+        static public BlahguaAPIObject Current = null;
+
         ChannelList curChannelList = null;
         ChannelTypeList curChannelTypes = null;
         BlahTypeList blahTypeList = null;
@@ -30,7 +31,7 @@ namespace WinPhoneBlahgua
         BlahCreateRecord createRec = null;
         CommentCreateRecord createCommentRec = null;
         private UserDescription _userDescription = null;
-        DispatcherTimer signinTimer;
+        Timer signinTimer;
         private string _recoveryEmail;
 
         string badgeEndpoint;
@@ -136,21 +137,10 @@ namespace WinPhoneBlahgua
         {
             BlahguaRest = new BlahguaRESTservice();
             NewBlahToInsert = null;
-            signinTimer = new DispatcherTimer();
-            signinTimer.Interval = new TimeSpan(0, 2, 0);
-            signinTimer.Tick += signinTimer_Tick;
-            signinTimer.Start();
+            signinTimer = new Timer(timer_callback, null, 2000, System.Threading.Timeout.Infinite);
+
         }
 
-        public void StopSigninTimer()
-        {
-            signinTimer.Stop();
-        }
-
-        public void StartSigninTimer()
-        {
-            signinTimer.Start();
-        }
 
         public void EnsureSignin()
         {
@@ -171,9 +161,9 @@ namespace WinPhoneBlahgua
             }
         }
 
-        void signinTimer_Tick(object sender, EventArgs e)
+        void timer_callback(object state)
         {
-            EnsureSignin();   
+            EnsureSignin();
         }
 
         SavedUserInfo GetSavedUserInfo()
@@ -206,7 +196,7 @@ namespace WinPhoneBlahgua
 
         public object SafeLoadSetting(string setting, object defVal)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            System.IO.IsolatedStorage.IsolatedStorageSettings settings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(setting))
                 return settings[setting];
             else
@@ -223,7 +213,7 @@ namespace WinPhoneBlahgua
 
         public void SafeSaveSetting(string setting, object val)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            System.IO.IsolatedStorage.IsolatedStorageSettings settings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(setting))
                 settings[setting] = val;
             else
@@ -235,7 +225,7 @@ namespace WinPhoneBlahgua
 
         public void SafeClearSetting(string setting)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            System.IO.IsolatedStorage.IsolatedStorageSettings settings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(setting))
             {
                 settings.Remove(setting);

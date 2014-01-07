@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 
-namespace WinPhoneBlahgua
+namespace BlahguaMobile.BlahguaCore
 {
  /// <summary>
   /// A helper class to easily retrieve data from the WMAppManifest.xml

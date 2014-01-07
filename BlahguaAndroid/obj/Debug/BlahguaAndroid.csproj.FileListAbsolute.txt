@@ -1,1 +1,16 @@
 d:\davevr\Documents\Projects\BlahguaMobile\BlahguaAndroid\obj\Debug\BlahguaAndroid.csprojResolveAssemblyReference.cache
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\BlahguaAndroid.dll
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\BlahguaAndroid.pdb
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\BlahguaAndroid.dll.mdb
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\BlahguaAndroid.BlahguaAndroid.apk
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\BlahguaAndroid.BlahguaAndroid-Signed.apk
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\RestSharp.MonoDroid.dll
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\RestSharp.MonoDroid.dll.mdb
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\BlahguaAndroid.dll
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\BlahguaAndroid.pdb
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\android\bin\BlahguaAndroid.BlahguaAndroid.apk
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\layout\main.xml
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\values\strings.xml
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\drawable\icon.png
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\R.cs.flag
+d:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\uploadflags.txt
