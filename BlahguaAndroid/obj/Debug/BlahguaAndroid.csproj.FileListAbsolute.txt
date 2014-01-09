@@ -10,8 +10,8 @@ D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\bin\Debug\RestSharp.Mono
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\BlahguaAndroid.dll
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\BlahguaAndroid.pdb
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\android\bin\com.eweware.BlahguaMobile.Android.apk
-D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\layout\main.xml
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\values\strings.xml
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\drawable\icon.png
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\R.cs.flag
 D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\uploadflags.txt
+D:\davevr\Documents\GitHub\BlahguaMobile\BlahguaAndroid\obj\Debug\res\layout\mainscreen.xml
