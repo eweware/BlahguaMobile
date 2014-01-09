@@ -1,6 +1,6 @@
-﻿using BlahguaWP8.Resources;
+﻿using BlahguaMobile.Winphone.Resources;
 
-namespace BlahguaWP8
+namespace BlahguaMobile.Winphone
 {
     /// <summary>
     /// Provides access to string resources.

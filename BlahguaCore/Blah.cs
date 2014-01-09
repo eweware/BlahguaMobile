@@ -85,6 +85,30 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+        public string ImageURL
+        {
+            get
+            {
+                if (M != null)
+                {
+                    string imageName = M[0];
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
+                }
+                else
+                    return null;
+            }
+
+        }
+
+        public string TypeName
+        {
+            get
+            {
+                string typeName = BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(Y);
+                return typeName;
+            }
+        }
+
     }
 
     public class Inbox : List<InboxBlah>

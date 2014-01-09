@@ -54,12 +54,14 @@ namespace BlahguaMobile.Winphone
             if (newBlah != null)
             {
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
+                App.analytics.PostCreateBlah(newBlah.Y);
 
                 NavigationService.GoBack();
             }
             else
             {
                 MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.");
+                App.analytics.PostFormatError("blah create failed");
 
             }
         }
@@ -238,9 +240,13 @@ namespace BlahguaMobile.Winphone
                             BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
                             BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
                             BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
+                            App.analytics.PostUploadBlahImage();
                         }
                         else
+                        {
                             ClearImages();
+                            App.analytics.PostSessionError("blahimageuploadfailed");
+                        }
                     }
                 );
             }

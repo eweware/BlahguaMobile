@@ -127,7 +127,7 @@ namespace BlahguaMobile.Winphone
             {
 
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
-
+                App.analytics.PostCreateBlah("photoshare");
                 NavigationService.GoBack();
             }
             else

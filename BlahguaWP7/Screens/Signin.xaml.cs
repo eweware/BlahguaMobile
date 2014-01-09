@@ -52,7 +52,10 @@ namespace BlahguaMobile.Winphone
                     if (errMsg == null)
                         HandleUserSignIn();
                     else
+                    {
+                        App.analytics.PostSessionError("signinfailed-" + errMsg);
                         MessageBox.Show("could not register: " + errMsg);
+                    }
                 }
             );
         }
@@ -68,9 +71,15 @@ namespace BlahguaMobile.Winphone
                     {
                         SignInProgress.Visibility = Visibility.Collapsed;
                         if (errMsg == null)
+                        {
+                            App.analytics.PostRegisterUser();
                             HandleUserSignIn();
+                        }
                         else
+                        {
+                            App.analytics.PostSessionError("registerfailed-" + errMsg);
                             MessageBox.Show("could not register: " + errMsg);
+                        }
                     }
                 );
             }
@@ -100,11 +109,25 @@ namespace BlahguaMobile.Winphone
             emailComposeTask.Show();    
         }
 
+#if WP8
+        private async void Recover_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#else
         private void Recover_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#endif
         {
             InputPromptSettings settings = new InputPromptSettings();
             settings.Field1Mode = InputMode.Text;
             settings.Field2Mode = InputMode.Text;
+#if WP8
+            InputPromptClosedEventArgs args = await RadInputPrompt.ShowAsync(settings, "Please enter username and email address");
+
+            BlahguaAPIObject.Current.UpdatePassword(args.Text, (theResult) =>
+                {
+                    MessageBox.Show("Check the email for a recovery link.");
+                }
+            );
+
+#else
             RadInputPrompt.Show(settings, "Please enter username and email address", closedHandler: (args) =>
                 {
                     BlahguaAPIObject.Current.UpdatePassword(args.Text, (theResult) =>
@@ -114,6 +137,8 @@ namespace BlahguaMobile.Winphone
                     );
                 }
             );
+#endif
+            
         }
 
         private void RateReview_Tap(object sender, System.Windows.Input.GestureEventArgs e)

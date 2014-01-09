@@ -14,8 +14,7 @@
     mc:Ignorable="d"
     xmlns:local="clr-namespace:BlahguaMobile.Winphone" 
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    d:DataContext="{d:DesignData /SampleData/BlahguaAPIObjectSampleData.xaml}"
-    local:TiltEffect.IsTiltEnabled="True"
+    toolkit:TiltEffect.IsTiltEnabled="True"
     shell:SystemTray.IsVisible="False">
 
     <toolkit:TransitionService.NavigationInTransition>

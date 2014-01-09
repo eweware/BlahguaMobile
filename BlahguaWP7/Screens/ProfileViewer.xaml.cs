@@ -1184,11 +1184,11 @@ namespace BlahguaMobile.Winphone
                         UploadImageProgress.Visibility = Visibility.Collapsed;
                         if ((photoString != null) && (photoString.Length > 0))
                         {
-
+                            App.analytics.PostUploadUserImage();
                         }
                         else
                         {
-
+                            App.analytics.PostSessionError("userimageuploadfailed");
                         }
                     }
                 );
@@ -1277,11 +1277,31 @@ namespace BlahguaMobile.Winphone
 
         }
 
+
+#if WP8
+        private async void ChangePassword_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#else
         private void ChangePassword_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#endif
+
         {
             InputPromptSettings settings = new InputPromptSettings();
             settings.Field1Mode = InputMode.Password;
             settings.Field2Mode = InputMode.Password;
+
+#if WP8
+            InputPromptClosedEventArgs args = await RadInputPrompt.ShowAsync(settings, "Please enter new password");
+
+            if (args.Text != args.Text2)
+                MessageBox.Show("Passwords do not match.");
+            else
+                BlahguaAPIObject.Current.UpdatePassword(args.Text, (theResult) =>
+                {
+
+                }
+            );
+
+#else
             RadInputPrompt.Show(settings, "Please enter new password", closedHandler: (args) =>
                 {
                     if (args.Text != args.Text2)
@@ -1294,12 +1314,29 @@ namespace BlahguaMobile.Winphone
                     );
                 }
             );
+#endif
         }
 
+
+#if WP8
+        private async void RecoveryInfo_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#else
         private void RecoveryInfo_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+#endif
         {
             InputPromptSettings settings = new InputPromptSettings();
             settings.Field1Mode = InputMode.Text;
+
+#if WP8
+            InputPromptClosedEventArgs args = await RadInputPrompt.ShowAsync(settings, "Please enter recovery email (leave blank to clear)");
+
+            BlahguaAPIObject.Current.SetRecoveryEmail(args.Text, (resultStr) =>
+                {
+
+                }
+            );
+
+#else
             RadInputPrompt.Show(settings, "Please enter recovery email (leave blank to clear)", closedHandler: (args) =>
             {
                 BlahguaAPIObject.Current.SetRecoveryEmail(args.Text, (resultStr) =>
@@ -1309,6 +1346,9 @@ namespace BlahguaMobile.Winphone
                 );
             }
             );
+#endif
+
+
         }
 
         private void RateReview_Tap(object sender, System.Windows.Input.GestureEventArgs e)

@@ -43,6 +43,7 @@ namespace BlahguaMobile.Winphone
         bool statsLoaded = false;
         private string curCommentSort = "byDateDesc";
         private CollectionViewSource commentDataView;
+        string defaultImg;
 
 
         public BlahDetails()
@@ -52,7 +53,7 @@ namespace BlahguaMobile.Winphone
             currentPage = "summary";
             InitializeComponent();
 
-            this.DataContext = BlahguaAPIObject.Current;
+            this.DataContext = null;// BlahguaAPIObject.Current;
             this.ApplicationBar = new ApplicationBar();
             SetBlahBackground();
             ApplicationBar.IsMenuEnabled = true;
@@ -267,9 +268,8 @@ namespace BlahguaMobile.Winphone
         void SetBlahBackground()
         {
             Brush newBrush;
-            string defaultImg;
 
-            switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+            switch (BlahguaAPIObject.Current.CurrentInboxBlah.TypeName)
             {
                 case "leaks":
                     newBrush = (Brush)App.Current.Resources["BaseBrushLeaks"];
@@ -295,12 +295,7 @@ namespace BlahguaMobile.Winphone
 
             BackgroundScreen.Fill = newBrush;
 
-            if (BlahguaAPIObject.Current.CurrentBlah.ImageURL == null)
-            {
-                ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
-                BackgroundImage.Source = defaultSrc;
-                BackgroundImage2.Source = defaultSrc;
-            }
+            
         }
 
         private void HandlePollInit()
@@ -352,6 +347,7 @@ namespace BlahguaMobile.Winphone
                 BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
                     {
                         UpdateSummaryButtons();
+                        App.analytics.PostBlahVote(1);
                     });
             }
             else
@@ -363,6 +359,7 @@ namespace BlahguaMobile.Winphone
                     BlahguaAPIObject.Current.SetCommentVote(curComment, 1, (newVote) =>
                         {
                             UpdateCommentButtons();
+                            App.analytics.PostCommentVote(1);
                         }
                     );
                 }
@@ -381,6 +378,7 @@ namespace BlahguaMobile.Winphone
                 BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
                 {
                     UpdateSummaryButtons();
+                    App.analytics.PostBlahVote(-1);
                 });
             }
             else
@@ -392,6 +390,7 @@ namespace BlahguaMobile.Winphone
                     BlahguaAPIObject.Current.SetCommentVote(curComment, -1, (newVote) =>
                     {
                         UpdateCommentButtons();
+                        App.analytics.PostCommentVote(-1);
                     }
                     );
                 }
@@ -921,15 +920,7 @@ namespace BlahguaMobile.Winphone
 
         private void NavigationInTransition_EndTransition(object sender, RoutedEventArgs e)
         {
-            switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
-            {
-                case "polls":
-                    HandlePollInit();
-                    break;
-                case "predicts":
-                    HandlePredictInit();
-                    break;
-            }  
+           
         }
 
         private void AllCommentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -992,6 +983,47 @@ namespace BlahguaMobile.Winphone
                 App.analytics.PostPageView("/ImageViewer");
                 NavigationService.Navigate(new Uri("/Screens/ImageViewer.xaml", UriKind.Relative));    
             }
+        }
+
+        internal static class Util
+        {
+            public delegate void MethodInvoker();
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            BlahguaAPIObject.Current.SetCurrentBlahFromId(BlahguaAPIObject.Current.CurrentInboxBlah.I, (theBlah) =>
+                {
+                    BlahLoadingBox.Visibility = Visibility.Collapsed;
+                    
+                    if (BlahguaAPIObject.Current.CurrentInboxBlah.ImageURL == null)
+                    {
+                        ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
+                        BackgroundImage.Source = defaultSrc;
+                        BackgroundImage2.Source = defaultSrc;
+                    }
+                    this.DataContext = BlahguaAPIObject.Current;
+                    if (BlahguaAPIObject.Current.CurrentBlah != null)
+                    {
+                        BlahSummaryArea.Visibility = Visibility.Visible;
+                        switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+                        {
+                            case "polls":
+                                HandlePollInit();
+                                break;
+                            case "predicts":
+                                HandlePredictInit();
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("unable to load blah.  Sorry!");
+                        App.analytics.PostSessionError("loadblahfailed");
+                        NavigationService.GoBack();
+                    }
+                }
+                );
         }
 
         

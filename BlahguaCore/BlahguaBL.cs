@@ -49,6 +49,7 @@ namespace BlahguaMobile.BlahguaCore
         private ProfileSchema _profileSchema = null;
         private bool _filterProfanity = true;
         private bool _filterFlaggedContent = true;
+        public InboxBlah CurrentInboxBlah { get; set; }
 
         public string RecoveryEmail
         {
@@ -153,7 +154,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public void StartSigninTimer()
         {
-            signinTimer.Change(2000, System.Threading.Timeout.Infinite);
+            signinTimer.Change(2000, 20000);
         }
 
         public void StopSigninTimer()

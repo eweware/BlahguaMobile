@@ -6,9 +6,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace BlahguaAndroid
+namespace BlahguaMobile.Android
 {
-	[Activity (Label = "BlahguaAndroid", MainLauncher = true)]
+	[Activity (Label = "blahgua", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		int count = 1;

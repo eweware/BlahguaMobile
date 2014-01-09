@@ -12,10 +12,10 @@ namespace BlahguaMobile.BlahguaCore
     {
         private RestClient restClient;
         private string trackingId = "UA-35868442-2";
-        private string accountId = "35868442";
+        //private string accountId = "35868442";
         private string version = "1";
         private string clientId;
-        private bool sessionStarted = false;
+        //private bool sessionStarted = false;
         private string userAgentStr;
         private int counter = 1;
 
@@ -48,6 +48,33 @@ namespace BlahguaMobile.BlahguaCore
             request.AddParameter("cid", clientId);
             request.AddParameter("t", "pageview");
             request.AddParameter("dp", pageURL);
+            request.AddParameter("dl", "https://beta.blahgua.com/");
+            request.AddParameter("_s", counter++);
+
+            restClient.ExecuteAsync(request, (response) =>
+            {
+                if (response.StatusCode == HttpStatusCode.Accepted)
+                {
+                    System.Console.WriteLine("OK.");
+                }
+            });
+        }
+
+        public void PostEvent(string eventCategory, string eventAction, string eventLabel = null, int eventValue = 0)
+        {
+            RestRequest request = new RestRequest("collect", Method.POST);
+            //request.AddHeader("Accept", "*/*");
+            request.AddHeader("User-Agent", userAgentStr);
+            request.AddParameter("v", version);
+            request.AddParameter("tid", trackingId);
+            request.AddParameter("cid", clientId);
+            request.AddParameter("t", "event");
+            request.AddParameter("ec", eventCategory);
+            request.AddParameter("ea", eventAction);
+            if (eventLabel != null)
+                request.AddParameter("el", eventLabel);
+            if (eventValue != 0)
+                request.AddParameter("ev", eventValue);
             request.AddParameter("dl", "https://beta.blahgua.com/");
             request.AddParameter("_s", counter++);
 
@@ -103,6 +130,96 @@ namespace BlahguaMobile.BlahguaCore
                      System.Console.WriteLine("OK.");
                  }
              });
+         }
+
+         public void PostCrash(string infoString)
+         {
+             PostEvent("crash", infoString);
+         }
+
+        public void PostSessionError(string infoString)
+        {
+            PostEvent("sessionerror", infoString);
+        }
+
+         public void PostBlahVote(int vote)
+         {
+             PostEvent("blahvote", "blah", vote.ToString(), 1);
+         }
+
+         public void PostCreateComment()
+         {
+             PostEvent("createcomment", "comment", "default", 1);
+         }
+
+         public void PostUploadCommentImage()
+         {
+             PostEvent("uploadimage", "comment", "1", 1);
+         }
+
+         public void PostCommentVote(int vote)
+         {
+             PostEvent("commentvote", "comment", vote.ToString(), 1);
+         }
+
+         public void PostCreateBlah(string blahType)
+         {
+             PostEvent("createblah", "blah", blahType, 1);
+         }
+
+         public void PostUploadBlahImage()
+         {
+             PostEvent("uploadimage", "blah", "1", 1);
+         }
+
+         public void PostFormatError(string infoString)
+         {
+             PostEvent("formaterror", infoString);
+         }
+
+         public void PostRequestBadge(string badgeId)
+         {
+             PostEvent("requestbadge", "badge", badgeId, 1);
+         }
+
+         public void PostBadgeNoEmail(string email)
+         {
+             PostEvent("badge", "noemail", email, 1);
+         }
+
+         public void PostBadgeValidateFailed()
+         {
+             PostEvent("badge", "validatefailed");
+         }
+
+         public void PostGotBadge()
+         {
+             PostEvent("badge", "added");
+         }
+
+         public void PostUploadUserImage()
+         {
+             PostEvent("uploadimage", "user", "1", 1);
+         }
+
+         public void PostRegisterUser()
+         {
+             PostEvent("register", "register", "default", 1);
+         }
+
+         public void PostLogin()
+         {
+             PostEvent("login", "login", "default", 1);
+         }
+
+         public void PostAutoLogin()
+         {
+             PostEvent("login", "auto", "default", 1);
+         }
+
+         public void PostLogout()
+         {
+             PostEvent("logout", "logout", "default", 1);
          }
 
 

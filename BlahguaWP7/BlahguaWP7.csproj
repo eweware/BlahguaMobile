@@ -157,7 +157,6 @@
       <DependentUpon>Signin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shared.cs" />
-    <Compile Include="TiltEffect.cs" />
     <Compile Include="UrlTextBlock.cs" />
   </ItemGroup>
   <ItemGroup>

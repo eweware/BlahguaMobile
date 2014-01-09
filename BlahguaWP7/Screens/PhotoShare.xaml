@@ -13,8 +13,7 @@
         xmlns:local="clr-namespace:BlahguaMobile.Winphone" 
         xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
-        d:DataContext="{d:DesignData /SampleData/BlahguaAPIObjectSampleData.xaml}"
-    local:TiltEffect.IsTiltEnabled="True"
+    toolkit:TiltEffect.IsTiltEnabled="True"
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.Resources>

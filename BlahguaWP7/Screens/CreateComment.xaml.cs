@@ -110,10 +110,14 @@ namespace BlahguaMobile.Winphone
                             ImagesPanel.Children.Remove(newBar);
                             BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
                             BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
+                            App.analytics.PostUploadCommentImage();
                             //BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
                         }
                         else
+                        {
+                            App.analytics.PostSessionError("commentimageuploadfailed");
                             ClearImages();
+                        }
                     }
                 );
             }
@@ -145,11 +149,13 @@ namespace BlahguaMobile.Winphone
         {
             if (newComment != null)
             {
+                App.analytics.PostCreateComment();
                 // might want to resort the comments...
                 NavigationService.GoBack();
             }
             else
             {
+                App.analytics.PostSessionError("commentcreatefailed");
                 // handle create comment failed
                 MessageBox.Show("Your comment was not created.  Please try again or come back another time.");
                 CommentTextField.IsEnabled = true;

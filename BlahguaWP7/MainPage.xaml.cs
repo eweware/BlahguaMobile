@@ -418,6 +418,7 @@ namespace BlahguaMobile.Winphone
             {
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
+                    App.analytics.PostAutoLogin();
                     UserInfoBtn.Visibility = Visibility.Visible;
                     NewBlahBtn.Visibility = Visibility.Visible;
                     SignInBtn.Visibility = Visibility.Collapsed;

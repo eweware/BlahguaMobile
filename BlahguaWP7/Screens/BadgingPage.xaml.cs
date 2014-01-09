@@ -47,6 +47,8 @@ namespace BlahguaMobile.Winphone
                                 MessageBox.Show("The authority currently has no badges for that email address.  Please try again in the future.");
                                 SubmitBtn.IsEnabled = true;
                                 EmailField.IsEnabled = true;
+                                App.analytics.PostRequestBadge(badgeId);
+                                App.analytics.PostBadgeNoEmail(emailAddr);
                             }
                             else
                             {
@@ -56,6 +58,7 @@ namespace BlahguaMobile.Winphone
                                 ValidationArea.Visibility = Visibility.Visible;
                                 ValidateBtn.IsEnabled = true;
                                 ValidationField.IsEnabled = true;
+                                App.analytics.PostRequestBadge(badgeId);
                             }
                         }
                     );
@@ -82,13 +85,16 @@ namespace BlahguaMobile.Winphone
                         EmailField.IsEnabled = true;
                         EmailArea.Visibility = Visibility.Visible;
                         ValidationArea.Visibility = Visibility.Collapsed;
+                        App.analytics.PostBadgeValidateFailed();
                     }
                     else
                     {
+                        App.analytics.PostGotBadge();
                         BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
                             {
                                 ProgressBox.Visibility = Visibility.Collapsed;
                                 MessageBox.Show("Badging successful!");
+
                                 NavigationService.GoBack();
                             }
                         );

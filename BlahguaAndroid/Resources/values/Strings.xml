@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">BlahguaAndroid</string>
+	<string name="app_name">blahgua</string>
+	<string name="welcome">Welcome to blahgua</string>
 </resources>
