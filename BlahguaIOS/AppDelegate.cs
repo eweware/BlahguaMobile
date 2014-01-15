@@ -5,22 +5,23 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace BlahguaIOS
+namespace BlahguaMobile.IOS
 {
     [Register("AppDelegate")]
     public partial class AppDelegate : UIApplicationDelegate
     {
         UIWindow window;
-        MyViewController viewController;
+
+        
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             window = new UIWindow(UIScreen.MainScreen.Bounds);
-
-            viewController = new MyViewController();
-            window.RootViewController = viewController;
-
-            window.MakeKeyAndVisible();
+			var rootNavigationController = new UINavigationController ();
+			BlahRoll blahRoll = new BlahRoll ();
+			rootNavigationController.PushViewController (blahRoll, false);
+			this.window.RootViewController = rootNavigationController;
+			this.window.MakeKeyAndVisible ();
 
             return true;
         }

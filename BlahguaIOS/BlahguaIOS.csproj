@@ -8,9 +8,10 @@
     <ProjectGuid>{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BlahguaIOS</RootNamespace>
+    <RootNamespace>BlahguaMobile.IOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>BlahguaIOS</AssemblyName>
+    <StartupObject>BlahguaMobile.IOS.Application</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,8 +22,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -44,6 +48,12 @@
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
+    <CodesignProvision>0C499EE3-E813-4FAF-939B-B760D0B246A5</CodesignProvision>
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -120,17 +130,34 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\BlahRoll.cs" />
+    <Compile Include="Screens\BlahRoll.designer.cs">
+      <DependentUpon>BlahRoll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SignIn.cs" />
+    <Compile Include="Screens\SignIn.designer.cs">
+      <DependentUpon>SignIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\BlahDetails.cs" />
+    <Compile Include="Screens\BlahDetails.designer.cs">
+      <DependentUpon>BlahDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Profile.cs" />
+    <Compile Include="Screens\Profile.designer.cs">
+      <DependentUpon>Profile.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyViewController.cs" />
     <BundleResource Include="Resources\Default.png" />
-    <BundleResource Include="Resources\Default@2x.png" />
-    <BundleResource Include="Resources\Default-568h@2x.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="restsharp">
-      <Visible>False</Visible>
       <Version>104.1.0</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
@@ -153,4 +180,10 @@
     <Folder Include="Screens\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <InterfaceDefinition Include="Screens\BlahRoll.xib" />
+    <InterfaceDefinition Include="Screens\SignIn.xib" />
+    <InterfaceDefinition Include="Screens\BlahDetails.xib" />
+    <InterfaceDefinition Include="Screens\Profile.xib" />
+  </ItemGroup>
 </Project>

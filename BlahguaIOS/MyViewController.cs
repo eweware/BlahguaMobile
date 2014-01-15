@@ -2,7 +2,7 @@ using System;
 using MonoTouch.UIKit;
 using System.Drawing;
 
-namespace BlahguaIOS
+namespace BlahguaMobile.IOS
 {
     public class MyViewController : UIViewController
     {
