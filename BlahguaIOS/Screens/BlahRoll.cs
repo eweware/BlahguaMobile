@@ -38,13 +38,13 @@ namespace BlahguaMobile.IOS
 
 		private void AddBlahs()
 		{
-			double curY = 0;
-			double curX = 0;
-			double gutter = 4;
-			double margin = 8;
-			double screenWidth = 320;
-			double blahWidth = (screenWidth - ((gutter * 2) + (margin * 3))) / 4;
-			double blahHeight = blahWidth;
+			float curY = 0;
+			float curX = 0;
+			float gutter = 4;
+			float margin = 8;
+			float screenWidth = 320;
+			float blahWidth = (screenWidth - ((gutter * 2) + (margin * 3))) / 4;
+			float blahHeight = blahWidth;
 
 			for (int curRow = 0; curRow < 20; curRow++) {
 				curX = gutter;
