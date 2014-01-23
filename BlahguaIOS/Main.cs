@@ -5,7 +5,7 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace BlahguaIOS
+namespace BlahguaMobile.IOS
 {
     public class Application
     {
