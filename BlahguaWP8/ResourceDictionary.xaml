@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
 	<!-- Resource dictionary entries should be defined here. -->
-	<Style x:Key="CompactExpanderTemplate" TargetType="toolkit:ExpanderView">
+
+    <Style x:Key="CompactExpanderTemplate" TargetType="toolkit:ExpanderView">
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		<Setter Property="ItemsPanel">

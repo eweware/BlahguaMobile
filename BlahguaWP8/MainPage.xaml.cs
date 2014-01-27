@@ -26,8 +26,8 @@ namespace BlahguaMobile.Winphone
         int inboxCounter = 0;
 
         int[] rowSequence = new int[]{4,32,31,4,1,33,4,2,4,32,1,4,31,32,33,31,4,33,1,31,4,32,33,1,4,2};
-        int screenMargin = 4;
-        int blahMargin = 8;
+        int screenMargin = 24;
+        int blahMargin = 12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
         bool AtScrollEnd = false;
         int FramesPerSecond = 60;
@@ -91,6 +91,8 @@ namespace BlahguaMobile.Winphone
         {
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
                 {
+                    if (newBlahList == null)
+                        newBlahList = new Inbox();
                     blahList = newBlahList;
                     blahList.PrepareBlahs();
                     RenderInitialBlahs();
@@ -193,9 +195,9 @@ namespace BlahguaMobile.Winphone
         private void RenderInitialBlahs()
         {
             double curTop = screenMargin;
-            smallBlahSize = (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
-            mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
-            largeBlahSize = mediumBlahSize + mediumBlahSize + blahMargin;
+            smallBlahSize = 99; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
+            mediumBlahSize = 210;// smallBlahSize + smallBlahSize + blahMargin;
+            largeBlahSize = 432; // mediumBlahSize + mediumBlahSize + blahMargin;
 
             foreach (int rowType in rowSequence)
             {
@@ -433,12 +435,24 @@ namespace BlahguaMobile.Winphone
                     SignInBtn.Visibility = Visibility.Visible;
                 }
                 this.DataContext = BlahguaAPIObject.Current;
+                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                    {
+                        if ((whatsNew != null) && (whatsNew.message != ""))
+                        {
+                            ShowNewsFloater(whatsNew);
+                        }
+                    });
             }
             else
             {
                 LoadingBox.Visibility = Visibility.Collapsed;
                 ConnectFailure.Visibility = Visibility.Visible;
             }
+        }
+
+        private void ShowNewsFloater(WhatsNewInfo newInfo)
+        {
+
         }
 
         void OnChannelChanged()

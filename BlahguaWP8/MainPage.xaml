@@ -40,13 +40,15 @@
 
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Name="ChannelItemTemplate">
-            <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-                <StackPanel.RenderTransform>
-                    <CompositeTransform TranslateY="-5"/>
-                </StackPanel.RenderTransform>
-                <TextBlock Foreground="White" Text="{Binding ChannelName}" Margin="0" Padding="0"/>
-                <TextBlock Foreground="White" Text="&#xf0d7;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
-            </StackPanel>
+            <Grid Background="Transparent" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock MaxWidth="210" Grid.Column="0" VerticalAlignment="Center" Foreground="White" Text="{Binding ChannelName}" Margin="0" Padding="0" TextWrapping="Wrap" FontStretch="UltraCondensed"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="White" Text="&#xf0d7;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Name="ChannelFullModeItemTemplate">
             <Grid>
@@ -54,7 +56,6 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding ChannelImageUrl}" Width="64" VerticalAlignment="Top" Margin="0 0 12 0" Stretch="Uniform"/>
                 <StackPanel Grid.Column="1" Margin="0,0,0,16">
                     <TextBlock FontSize="36" TextWrapping="NoWrap" Text="{Binding N}"/>
                     <TextBlock FontSize="18" TextWrapping="Wrap" Text="{Binding D}"/>
@@ -188,6 +189,8 @@
 
 
     </phone:PhoneApplicationPage.Resources>
+    
+    
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
@@ -200,15 +203,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Rectangle Canvas.ZIndex="1" Height="8" Margin="0,56,0,0" VerticalAlignment="Top">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#20000000" Offset="1"/>
-                    <GradientStop Color="#80000000"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Grid Height="48" VerticalAlignment="Top" Margin="0,8,0,0" Canvas.ZIndex="2">
+        
+        <ScrollViewer x:Name="BlahScroller" ManipulationStarted="HandleScrollStart">
+            <Canvas x:Name="BlahContainer">
+            </Canvas>
+        </ScrollViewer>
+
+        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF7DBFE3" Offset="0.55"/>
@@ -217,35 +218,46 @@
             </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="48"/>
-                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" FontSize="29.333" ExpansionMode="FullScreenOnly"
+            
+            <Grid Background="Transparent" VerticalAlignment="Top" Margin="80 0 0 0" Height="80">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"  />
+                    <ColumnDefinition Width="auto"  />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Center" FontSize="29.333" ExpansionMode="FullScreenOnly" Height="80"
                                  ItemTemplate="{StaticResource ChannelItemTemplate}"  Background="Transparent"
                                 BorderThickness="0"
                                 HeaderTemplate="{StaticResource EmptyTemplate}"
                                 FullModeItemTemplate="{StaticResource ChannelFullModeItemTemplate}"  
-                                FullModeHeader="Choose a channel:" Margin="0" Padding="0"
+                                FullModeHeader="Choose a channel:" Margin="80 0 0 0" Padding="0"
                                 ItemsSource="{Binding CurrentChannelList}"
                                 SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" FontFamily="Segoe WP Semibold">
             </toolkit:ListPicker>
-            <Button x:Name="SignInBtn"  Grid.Column="1" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="2" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" Foreground="White" FontSize="20" Content="Sign In" Click="DoSignIn"/>
-            <Button x:Name="NewBlahBtn"  Grid.Column="1" Visibility="Collapsed" BorderThickness="0" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" Foreground="White" FontSize="20" Tap="NewBlahBtn_Tap">
+            <TextBlock IsHitTestVisible="False" Text="b" Foreground="{StaticResource BrushBlahguaWhite}" FontSize="72" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 -12 0 0" />
+            <Button x:Name="SignInBtn"  Grid.Column="2" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="1" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" 
+                     Content="&#xf090;"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"
+                                Foreground="White" FontSize="48" Click="DoSignIn"/>
+            <Button x:Name="NewBlahBtn2"  Grid.Column="1" Visibility="Collapsed" BorderThickness="0" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" Foreground="White" FontSize="20" Tap="NewBlahBtn_Tap">
                 <TextBlock Text="+" FontSize="36" VerticalAlignment="Top" FontFamily="Segoe WP Black">
                     <TextBlock.Projection>
                         <PlaneProjection GlobalOffsetY="-8"/>
                     </TextBlock.Projection></TextBlock>
             </Button>
-            <Image x:Name="UserInfoBtn" Width="48" Height="48" Grid.Column="2"  Visibility="Collapsed" Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
+
+            <Image x:Name="UserInfoBtn" Width="80" Height="80" Grid.Column="1"  Visibility="Collapsed" Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
 
             </Image>
 
 
         </Grid>
-        <ScrollViewer x:Name="BlahScroller" ManipulationStarted="HandleScrollStart">
-            <Canvas x:Name="BlahContainer">
-            </Canvas>
-        </ScrollViewer>
+        <Image x:Name="NewBlahBtn" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 0 0 0" Source="/Images/postBtn.png" Width="80" Height="120" Canvas.ZIndex="10"></Image>
+
+
+
         <Border x:Name="LoadingBox"  Margin="0 200 0 0" Padding="24 24" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8" Background="#80000000" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical">
                 <TextBlock  Text="loading" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource BrushBlahguaWhite}" />

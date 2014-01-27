@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("blahgua")]
-[assembly: AssemblyDescription("the next generation of social sharing")]
+[assembly: AssemblyDescription("it's not who you are, it's what you say!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("eweware")]
 [assembly: AssemblyProduct("blahgua")]
-[assembly: AssemblyCopyright("Copyright ©  2013,2014")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("10362f02-414d-46be-949a-891a5d87f61f")]
+[assembly: Guid("f83bc88f-3bc4-43ed-9c97-2bbb656a110d")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,6 +32,6 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.4")]
-[assembly: AssemblyFileVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.0.6")]
+[assembly: AssemblyFileVersion("1.0.0.6")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

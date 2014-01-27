@@ -96,7 +96,11 @@ namespace System.IO.IsolatedStorage {
 			get {
 				if (site_settings == null) {
 					site_settings = new IsolatedStorageSettings (
-						IsolatedStorageFile.GetUserStoreForSite ());
+#if WP8
+                        IsolatedStorageFile.GetUserStoreForApplication());
+#else
+                        IsolatedStorageFile.GetUserStoreForSite());
+#endif
 				}
 				return site_settings;
 			}

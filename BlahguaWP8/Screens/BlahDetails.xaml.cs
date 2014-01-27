@@ -255,13 +255,18 @@ namespace BlahguaMobile.Winphone
         {
             base.OnNavigatedTo(e);
             App.analytics.PostPageView("/blah");
-            if (currentPage == "comments")
-            {
-                AllCommentList.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.Comments;
-            }
 
-            // update the text
-            UpdateButtonsForPage();
+            if (this.DataContext != null)
+            {
+                if (currentPage == "comments")
+                {
+                    AllCommentList.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.Comments;
+                }
+
+                // update the text
+                UpdateButtonsForPage();
+            }
+           
           
         }
 
@@ -845,6 +850,9 @@ namespace BlahguaMobile.Winphone
 
         private void UpdateButtonsForPage()
         {
+            if (this.DataContext == null)
+                return;
+
             ApplicationBar.Buttons.Clear();
             ApplicationBar.MenuItems.Clear();
             App.analytics.PostPageView("/blah/" + currentPage);
@@ -1006,6 +1014,7 @@ namespace BlahguaMobile.Winphone
                     if (BlahguaAPIObject.Current.CurrentBlah != null)
                     {
                         BlahSummaryArea.Visibility = Visibility.Visible;
+                        UpdateButtonsForPage();
                         switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
                         {
                             case "polls":

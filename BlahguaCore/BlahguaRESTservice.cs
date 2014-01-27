@@ -35,6 +35,8 @@ namespace BlahguaMobile.BlahguaCore
     public delegate void ProfileSchemaWrapper_callback(ProfileSchemaWrapper theResult);
     public delegate void Profile_callback(UserProfile theResult);
     public delegate void bool_callback(bool theResult);
+    public delegate void WhatsNew_callback(WhatsNewInfo theResult);
+
 
 
     public class BlahguaRESTservice
@@ -51,20 +53,20 @@ namespace BlahguaMobile.BlahguaCore
         public BlahguaRESTservice()
         {
 #if DEBUG
-            usingQA = true;
+            usingQA = true; // false; // true;
 #endif
             if (usingQA)
             {
                 System.Console.WriteLine("Using QA Server");
-                apiClient = new RestClient("http://qa.rest.blahgua.com:8080/v2");  // "http://192.168.0.27:8080/v2"
+                apiClient = new RestClient("http://192.168.0.37:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
                 BaseShareURL = "http://qa.rest.blahgua.com:8080/";
                 imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
             }
             else
             {
                 System.Console.WriteLine("Using Production Server");
-                apiClient = new RestClient("https://beta.blahgua.com/v2");
-                BaseShareURL = "https://beta.blahgua.com/";
+                apiClient = new RestClient("http://beta2.blahgua.com/v2");
+                BaseShareURL = "http://beta2.blahgua.com/";
                 imageBaseURL = "https://s3-us-west-2.amazonaws.com/blahguaimages/image/";
             }
 
@@ -96,6 +98,35 @@ namespace BlahguaMobile.BlahguaCore
                     commentList = (CommentList)theObj;
 
                 callback(commentList);
+            });
+        }
+
+        public void GetWhatsNew(WhatsNew_callback theCallback)
+        {
+            RestRequest request = new RestRequest("users/whatsnew", Method.GET);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+                WhatsNewInfo newInfo = null;
+                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(WhatsNewInfo));
+                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                object theObj = null;
+                try
+                {
+                    theObj = des.ReadObject(stream);
+                }
+                catch (SerializationException exp)
+                {
+                    // probably have a TomCat error here..
+                }
+
+                stream.Close();
+
+                if (theObj != null)
+                {
+                    newInfo = (WhatsNewInfo)theObj;
+                }
+
+                theCallback(newInfo);
             });
         }
 

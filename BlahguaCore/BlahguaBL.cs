@@ -1199,6 +1199,15 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
+        public void GetWhatsNew(WhatsNew_callback theCallback)
+        {
+            BlahguaRest.GetWhatsNew((newInfo) =>
+            {
+                theCallback(newInfo);
+            }
+            );
+        }
+
         void GetOrAddUserChannels(ChannelList_callback callback)
         {
             BlahguaRest.GetUserChannels((chanList) =>

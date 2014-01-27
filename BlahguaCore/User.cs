@@ -7,6 +7,18 @@ using System.Collections.ObjectModel;
 
 namespace BlahguaMobile.BlahguaCore
 {
+
+    public class WhatsNewInfo
+    {
+        public string message { get; set; }
+        public int newComments { get; set; }
+        public int newOpens { get; set; }
+        public int newUpVotes { get; set; }
+        public int newDownVotes { get; set; }
+        public int newMessages { get; set; }
+    }
+
+
     public class User : INotifyPropertyChanged
     {
         public List<string> M { get; set; }
