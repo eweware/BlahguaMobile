@@ -35,12 +35,12 @@ namespace BlahguaMobile.Winphone
         {
             BlahData = theBlah;
             //BlahBackground.Fill = GetBlahFrameBrush(BlahData);
-            TopBorder.BorderBrush = GetBlahFrameBrush(BlahData);
+            TopBorder.Fill = GetBlahFrameBrush(BlahData);
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 
             if ((curUser != null) && (curUser._id == theBlah.A))
             {
-                OwnedBlahIndicator.Stroke = TopBorder.BorderBrush;
+                OwnedBlahIndicator.Stroke = TopBorder.Fill;
             }
             else
                 ((Grid)OwnedBlahIndicator.Parent).Children.Remove(OwnedBlahIndicator);

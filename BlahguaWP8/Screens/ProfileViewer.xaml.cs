@@ -164,6 +164,7 @@ namespace BlahguaMobile.Winphone
         {
             if (curBlah != null)
             {
+                App.BlahIdToOpen = curBlah._id;
                 BlahguaAPIObject.Current.SetCurrentBlahFromId(curBlah._id, OpenFullBlah);
             }
         }

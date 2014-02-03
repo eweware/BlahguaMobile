@@ -78,11 +78,15 @@ namespace BlahguaMobile.BlahguaCore
         {
             BlahguaAPIObject.Current.GetBadgeInfo(ID, (theBadge) =>
                 {
-                    BadgeName = theBadge.N;
-                    CreationDate = theBadge.c;
-                    ExpirationDate = theBadge.ExpirationDate;
-                    AuthorityDisplayName = theBadge.D;
-                    AuthorityEndpoint = theBadge.A;
+                    if (theBadge != null)
+                    {
+                        BadgeName = theBadge.N;
+                        CreationDate = theBadge.c;
+                        ExpirationDate = theBadge.ExpirationDate;
+                        AuthorityDisplayName = theBadge.D;
+                        AuthorityEndpoint = theBadge.A;
+                    }
+
 
                 }
             );

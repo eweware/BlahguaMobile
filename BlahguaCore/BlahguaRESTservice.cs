@@ -53,7 +53,7 @@ namespace BlahguaMobile.BlahguaCore
         public BlahguaRESTservice()
         {
 #if DEBUG
-            usingQA = true; // false; // true;
+            usingQA = false; // false; // true;
 #endif
             if (usingQA)
             {

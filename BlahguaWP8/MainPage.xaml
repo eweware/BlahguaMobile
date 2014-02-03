@@ -39,6 +39,11 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <phone:PhoneApplicationPage.Resources>
+        <LinearGradientBrush x:Key="BrandBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF7DBFE3" Offset="0.55"/>
+            <GradientStop Color="#FF7AD000" Offset="0.734"/>
+        </LinearGradientBrush>
+
         <DataTemplate x:Name="ChannelItemTemplate">
             <Grid Background="Transparent" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                 <Grid.ColumnDefinitions>
@@ -50,6 +55,7 @@
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="White" Text="&#xf0d7;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
             </Grid>
         </DataTemplate>
+
         <DataTemplate x:Name="ChannelFullModeItemTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -62,9 +68,11 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+
         <DataTemplate x:Name="EmptyTemplate">
             <Grid Height="0" />
         </DataTemplate>
+
         <ControlTemplate x:Key="ListPickerNoHeader" TargetType="toolkit:ListPicker">
             <StackPanel>
                 <VisualStateManager.VisualStateGroups>
@@ -189,8 +197,8 @@
 
 
     </phone:PhoneApplicationPage.Resources>
-    
-    
+
+
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
@@ -203,64 +211,52 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <ScrollViewer x:Name="BlahScroller" ManipulationStarted="HandleScrollStart">
             <Canvas x:Name="BlahContainer">
             </Canvas>
         </ScrollViewer>
 
-        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF7DBFE3" Offset="0.55"/>
-                    <GradientStop Color="#FF7AD000" Offset="0.734"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2" Background="{StaticResource BrandBrush}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            
-            <Grid Background="Transparent" VerticalAlignment="Top" Margin="80 0 0 0" Height="80">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"  />
-                    <ColumnDefinition Width="auto"  />
-                </Grid.ColumnDefinitions>
-            </Grid>
-            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Center" FontSize="29.333" ExpansionMode="FullScreenOnly" Height="80"
-                                 ItemTemplate="{StaticResource ChannelItemTemplate}"  Background="Transparent"
+
+            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Center" Grid.Column="1"
+                                FontSize="29.333" ExpansionMode="FullScreenOnly" Height="80"
+                                 ItemTemplate="{StaticResource ChannelItemTemplate}"  
+                                Background="Transparent"
                                 BorderThickness="0"
                                 HeaderTemplate="{StaticResource EmptyTemplate}"
                                 FullModeItemTemplate="{StaticResource ChannelFullModeItemTemplate}"  
-                                FullModeHeader="Choose a channel:" Margin="80 0 0 0" Padding="0"
+                                FullModeHeader="Choose a channel:" Padding="0" 
                                 ItemsSource="{Binding CurrentChannelList}"
                                 SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" FontFamily="Segoe WP Semibold">
             </toolkit:ListPicker>
-            <TextBlock IsHitTestVisible="False" Text="b" Foreground="{StaticResource BrushBlahguaWhite}" FontSize="72" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 -12 0 0" />
             <Button x:Name="SignInBtn"  Grid.Column="2" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="1" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" 
                      Content="&#xf090;"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"
                                 Foreground="White" FontSize="48" Click="DoSignIn"/>
-            <Button x:Name="NewBlahBtn2"  Grid.Column="1" Visibility="Collapsed" BorderThickness="0" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" Foreground="White" FontSize="20" Tap="NewBlahBtn_Tap">
-                <TextBlock Text="+" FontSize="36" VerticalAlignment="Top" FontFamily="Segoe WP Black">
-                    <TextBlock.Projection>
-                        <PlaneProjection GlobalOffsetY="-8"/>
-                    </TextBlock.Projection></TextBlock>
-            </Button>
 
-            <Image x:Name="UserInfoBtn" Width="80" Height="80" Grid.Column="1"  Visibility="Collapsed" Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
+            <Image x:Name="UserInfoBtn" Grid.Column="2" Width="80" Height="80" Visibility="Collapsed"   Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
 
             </Image>
 
 
+
         </Grid>
-        <Image x:Name="NewBlahBtn" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 0 0 0" Source="/Images/postBtn.png" Width="80" Height="120" Canvas.ZIndex="10"></Image>
+        <Image x:Name="NewBlahBtn" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
+               Source="/Images/postBtn.png" Width="80" Height="120" Canvas.ZIndex="10"
+               Tap="NewBlahBtn_Tap"
+               />
+        <TextBlock IsHitTestVisible="False" Text="b" Foreground="{StaticResource BrushBlahguaWhite}" FontSize="72" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 -12 0 0" Canvas.ZIndex="12" />
 
 
 
         <Border x:Name="LoadingBox"  Margin="0 200 0 0" Padding="24 24" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8" Background="#80000000" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical">
-                <TextBlock  Text="loading" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource BrushBlahguaWhite}" />
+                <TextBlock x:Name="LoadingMessageBox" Text="loading" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource BrushBlahguaWhite}" />
                 <ProgressBar Width="200" Height="15" IsIndeterminate="True" />
             </StackPanel>
         </Border>
@@ -268,12 +264,48 @@
             <Rectangle Fill="#80000000"  />
             <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8" Background="#80000000" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Sorry, we were unable to connect to the blahgua servers." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ErrorMessageBox" Text="Sorry, we were unable to connect to the blahgua servers." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
                     <TextBlock Margin="0 24" Text="Please exit the application and try again later." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
         </Grid>
-           
+
+        <Grid x:Name="WelcomeMessage" Visibility="Visible" Canvas.ZIndex="1000" VerticalAlignment="Bottom" Tap="WelcomeMessage_Tap" RenderTransformOrigin="0.5,0.5" >
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="WelcomeTransform" Y="350" />
+            </Grid.RenderTransform>
+
+            <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8"  Background="{StaticResource BrandBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="WelcomeTextBox" FontSize="24" Text="Welcome to blahgua beta!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="NewMessageBox" FontSize="18" Text="Here is a personal message for you!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                    <Border x:Name="UserStatsBox" Margin="0 16 0 0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Since your last sign-in:" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
+                            <StackPanel Orientation="Horizontal" x:Name="NewCommentsArea">
+                                <TextBlock x:Name="NewCommentCount" Text="35"  FontSize="18" />
+                                <TextBlock  FontSize="18" Text=" new comments on your posts" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" x:Name="PostOpensArea">
+                                <TextBlock FontSize="18" Text="Your posts were opened " />
+                                <TextBlock FontSize="18" x:Name="PostOpenCount" Text="35" />
+                                <TextBlock FontSize="18" Text=" times" />
+                            </StackPanel>
+
+                            <TextBlock x:Name="PostUpVotesString" FontSize="18" TextWrapping="Wrap" Text="Your content received 10 promotes and 5 demotes" />
+
+                            <StackPanel Orientation="Horizontal" x:Name="MessagesArea">
+                                <TextBlock FontSize="18" Text="You have " />
+                                <TextBlock FontSize="18" x:Name="MessagesCount" Text="35" />
+                                <TextBlock FontSize="18" Text=" new messages" />
+                            </StackPanel>
+                            <Button Tap="ShareStats_Tap" Content="Share these stats!" Width="Auto" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+
     </Grid>
 
 </phone:PhoneApplicationPage>

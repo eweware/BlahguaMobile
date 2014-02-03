@@ -43,6 +43,9 @@ namespace BlahguaMobile.BlahguaCore
         public string UserPassword { get; set; }
         public string UserPassword2 { get; set; }
         public bool NewAccount { get; set; }
+
+
+
         bool inited = false;
         public Blah NewBlahToInsert { get; set; }
         private Dictionary<string, BadgeRecord> intBadgeMap = new Dictionary<string, BadgeRecord>();
@@ -85,6 +88,12 @@ namespace BlahguaMobile.BlahguaCore
         {
             return BlahguaRest.BaseShareURL + "?blahId=" + CurrentBlah._id;
         }
+
+        public string GetBaseShareURL()
+        {
+            return BlahguaRest.BaseShareURL;
+        }
+
 
 
         public bool FilterFlaggedContent

@@ -1000,7 +1000,7 @@ namespace BlahguaMobile.Winphone
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            BlahguaAPIObject.Current.SetCurrentBlahFromId(BlahguaAPIObject.Current.CurrentInboxBlah.I, (theBlah) =>
+            BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
                 {
                     BlahLoadingBox.Visibility = Visibility.Collapsed;
                     

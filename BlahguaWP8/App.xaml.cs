@@ -21,6 +21,7 @@ namespace BlahguaMobile.Winphone
 {
     class CustomUriMapper : UriMapperBase
     {
+       
         public override Uri MapUri(Uri uri)
         {
             string tempUri = uri.ToString();
@@ -65,6 +66,8 @@ namespace BlahguaMobile.Winphone
         
         private BlahguaAPIObject BlahguaAPI = null;
         public static GoogleAnalytics analytics = null;
+        public static string BlahIdToOpen { get; set; }
+
 
 
         /// <summary>

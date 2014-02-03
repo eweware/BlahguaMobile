@@ -61,9 +61,9 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock Text="user name" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
-                        <TextBox  Text="{Binding UserName, Mode=TwoWay}"></TextBox>
+                        <TextBox x:Name="UserNameField"  Text="{Binding UserName, Mode=TwoWay}"></TextBox>
                         <TextBlock Text="password" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
-                        <PasswordBox Password="{Binding UserPassword, Mode=TwoWay}"></PasswordBox>
+                        <PasswordBox x:Name="PasswordField" Password="{Binding UserPassword, Mode=TwoWay}"></PasswordBox>
                         <StackPanel x:Name="AdditionalInfoPanel" Visibility="Collapsed">
                             <TextBlock Text="confirm password" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
                             <PasswordBox Password="{Binding UserPassword2, Mode=TwoWay}"></PasswordBox>

@@ -45,6 +45,12 @@ namespace BlahguaMobile.Winphone
 
         private void DoSignIn(object sender, EventArgs e)
         {
+            if (BlahguaAPIObject.Current.UserName != UserNameField.Text)
+                BlahguaAPIObject.Current.UserName = UserNameField.Text;
+
+            if (BlahguaAPIObject.Current.UserPassword != PasswordField.Password)
+                BlahguaAPIObject.Current.UserPassword = PasswordField.Password;
+
             SignInProgress.Visibility = Visibility.Visible;
             BlahguaAPIObject.Current.SignIn(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
                 {

@@ -15,7 +15,8 @@ using System.Windows.Threading;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using BlahguaMobile.BlahguaCore;
-
+using Microsoft.Phone.Tasks;
+using Microsoft.Advertising.Mobile.UI;
 
 namespace BlahguaMobile.Winphone
 {
@@ -33,8 +34,12 @@ namespace BlahguaMobile.Winphone
         int FramesPerSecond = 60;
         BlahRollItem targetBlah = null;
         DispatcherTimer BlahAnimateTimer = new DispatcherTimer();
+        DispatcherTimer WelcomeTimer = new DispatcherTimer();
         Dictionary<string, int> ImpressionMap = new Dictionary<string, int>();
         int maxScroll = 0;
+        Storyboard sb = null;
+        WhatsNewInfo _savedNewInfo = null;
+        DispatcherTimer loadTimer = new DispatcherTimer();
      
         // Constructor
         public MainPage()
@@ -42,13 +47,16 @@ namespace BlahguaMobile.Winphone
             Loaded += new RoutedEventHandler(MainPage_Loaded); 
             InitializeComponent();
             this.DataContext = null;
-            BlahAnimateTimer = new DispatcherTimer();
             BlahAnimateTimer.Tick += BlahAnimateTimer_Tick;
             BlahAnimateTimer.Interval = new TimeSpan(0,0,2);
+
+            WelcomeTimer.Tick += WelcomeTimer_Tick;
+
 
 
             
         }
+
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
@@ -81,23 +89,58 @@ namespace BlahguaMobile.Winphone
 
         private void InitService()
         {
+            LoadingMessageBox.Text = "looking for server...";
+            loadTimer.Stop();
+            loadTimer.Interval = TimeSpan.FromSeconds(10);
+            loadTimer.Tick += (theObj, theArgs) =>
+            {
+                LoadingMessageBox.Text = "still looking...";
+            };
+            loadTimer.Start();
+
             BlahguaAPIObject.Current.Initialize(DoServiceInited); 
 
             
         }
 
 
-        private void FetchInitialBlahList()
+        private void FetchInitialBlahList(bool secondTry = false)
         {
+            LoadingMessageBox.Text = "loading...";
+            loadTimer.Stop();
+            loadTimer.Interval = TimeSpan.FromSeconds(10);
+            loadTimer.Tick += (theObj, theArgs) =>
+            {
+                LoadingMessageBox.Text = "still loading...";
+            };
+            loadTimer.Start();
+
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
                 {
+                    loadTimer.Stop();
                     if (newBlahList == null)
                         newBlahList = new Inbox();
                     blahList = newBlahList;
                     blahList.PrepareBlahs();
-                    RenderInitialBlahs();
-                    StartTimers();
-                    LoadingBox.Visibility = Visibility.Collapsed;
+                    if (blahList.Count == 100)
+                    {
+                        RenderInitialBlahs();
+                        StartTimers();
+                        LoadingBox.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!secondTry)
+                    {
+                        MessageBox.Show("We had a problem loading.  Press OK and we will try it again.");
+                        LoadingMessageBox.Text = "retrying load...";
+                        FetchInitialBlahList(true);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.");
+                        LoadingBox.Visibility = Visibility.Collapsed;
+                        ConnectFailure.Visibility = Visibility.Visible;
+                    }
+
                    
                 });
         }
@@ -119,36 +162,53 @@ namespace BlahguaMobile.Winphone
 
         private void FetchNextBlahList()
         {
+            LoadingMessageBox.Text = "loading...";
+            loadTimer.Stop();
+            loadTimer.Interval = TimeSpan.FromSeconds(10);
+            loadTimer.Tick += (theObj, theArgs) =>
+            {
+                LoadingMessageBox.Text = "still loading...";
+            };
+            loadTimer.Start();
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
             {
-                blahList = newBlahList;
-                blahList.PrepareBlahs();
-                InsertAdditionalBlahs();
-                AtScrollEnd = false;
-                inboxCounter++;
-                if (inboxCounter >= 5)
-                {
-                    BlahRollItem curBlah;
-                    double bottom = 0;
-                    // remove some blahs...
-                    for (int i = 0; i < 100; i++)
+                loadTimer.Stop();
+                if (newBlahList != null)
+                { 
+                    blahList = newBlahList;
+                    blahList.PrepareBlahs();
+                    InsertAdditionalBlahs();
+                    AtScrollEnd = false;
+                    inboxCounter++;
+                    if (inboxCounter >= 5)
                     {
-                        curBlah = (BlahRollItem)BlahContainer.Children[0];
-                        AddImpression(curBlah.BlahData.I);
-                        BlahContainer.Children.Remove(curBlah);
-                    }
+                        UIElement curItem;
+                        double bottom = 0;
+                        // remove some blahs...
+                        for (int i = 0; i < 101; i++)
+                        {
+                            curItem = BlahContainer.Children[0];
+                            if (curItem is BlahRollItem)
+                            {
+                                BlahRollItem curBlah = (BlahRollItem)curItem;
+                                AddImpression(curBlah.BlahData.I);
+                            }
 
-                    bottom = Canvas.GetTop(BlahContainer.Children[0]);
+                            BlahContainer.Children.Remove(curItem);
+                        }
 
-                    // now shift everything up
-                    foreach (UIElement theBlah in BlahContainer.Children)
-                    {
-                        Canvas.SetTop(theBlah, Canvas.GetTop(theBlah) - bottom);
+                        bottom = Canvas.GetTop(BlahContainer.Children[0]);
+
+                        // now shift everything up
+                        foreach (UIElement theBlah in BlahContainer.Children)
+                        {
+                            Canvas.SetTop(theBlah, Canvas.GetTop(theBlah) - bottom);
+                        }
+                        BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
+                        BlahContainer.Height -= bottom;
+                        maxScroll -= (int)bottom;
+                        inboxCounter--;
                     }
-                    BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
-                    BlahContainer.Height -= bottom;
-                    maxScroll -= (int)bottom;
-                    inboxCounter--;
 
                 }
                 App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
@@ -168,10 +228,14 @@ namespace BlahguaMobile.Winphone
 
         private void FlushImpressionList()
         {
-            foreach (BlahRollItem curItem in BlahContainer.Children)
+            foreach (UIElement curItem in BlahContainer.Children)
             {
-                if (Canvas.GetTop(curItem) < maxScroll)
-                    AddImpression(curItem.BlahData.I);
+                if (curItem is BlahRollItem)
+                {
+                    if (Canvas.GetTop(curItem) < maxScroll)
+                        AddImpression(((BlahRollItem)curItem).BlahData.I);
+                }
+
             }
 
             BlahguaAPIObject.Current.RecordImpressions(ImpressionMap);
@@ -205,8 +269,31 @@ namespace BlahguaMobile.Winphone
                 curTop += blahMargin;
             }
 
+
+           
+            curTop = InsertAd(curTop);
+            
+
             BlahContainer.Height = curTop + screenMargin;
             inboxCounter++;
+        }
+
+        private double InsertAd(double curTop)
+        {
+            // insert an add
+            AdControl theAd = new AdControl();
+            theAd.IsAutoCollapseEnabled = false;
+            theAd.IsAutoRefreshEnabled = true;
+            theAd.AdUnitId = "Image480_80";
+            theAd.ApplicationId = "test_client";
+            theAd.IsEnabled = true;
+            theAd.Width = 480;
+            theAd.Height = 80;
+            Canvas.SetLeft(theAd, 0);
+            Canvas.SetTop(theAd, curTop);
+            BlahContainer.Children.Add(theAd);
+
+            return curTop + 80;
         }
 
         private void ClearBlahs()
@@ -224,6 +311,8 @@ namespace BlahguaMobile.Winphone
                 curTop = InsertRow(rowType, curTop);
                 curTop += blahMargin;
             }
+
+            curTop = InsertAd(curTop);
 
             BlahContainer.Height = curTop + blahMargin;
         }
@@ -321,10 +410,16 @@ namespace BlahguaMobile.Winphone
                 while (curEl.GetType() != typeof(BlahRollItem))
                 {
                     curEl = (FrameworkElement)curEl.Parent;
+                    if (curEl == null)
+                        break;
                 }
 
-                BlahRollItem curBlah = (BlahRollItem)curEl;
-                OpenBlahItem(curBlah);
+                if (curEl != null)
+                {
+                    BlahRollItem curBlah = (BlahRollItem)curEl;
+                    OpenBlahItem(curBlah);
+                }
+
             }
             if (!scrollTimer.IsEnabled)
                 scrollTimer.Start();
@@ -334,10 +429,8 @@ namespace BlahguaMobile.Winphone
         {
             StopTimers();
             BlahguaAPIObject.Current.CurrentInboxBlah = curBlah.BlahData;
+            App.BlahIdToOpen = curBlah.BlahData.I;
             NavigationService.Navigate(new Uri("/Screens/BlahDetails.xaml", UriKind.Relative));
-
-  
-          
 
         }
 
@@ -363,6 +456,7 @@ namespace BlahguaMobile.Winphone
             {
                 InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
                 BlahguaAPIObject.Current.NewBlahToInsert = null;
+                ShowNewBlahFloater();
             }
 
             StartTimers();
@@ -419,6 +513,7 @@ namespace BlahguaMobile.Winphone
 
         void DoServiceInited(bool didIt)
         {
+            loadTimer.Stop();
             if (didIt)
             {
                 if (BlahguaAPIObject.Current.CurrentUser != null)
@@ -450,8 +545,174 @@ namespace BlahguaMobile.Winphone
             }
         }
 
+        private void ShowNewBlahFloater()
+        {
+            WelcomeMessage.Visibility = Visibility.Visible;
+            WelcomeMessage.Opacity = 1;
+            WelcomeTextBox.Text = "Your blah has been created!  Now look for it in the stream.  The more people like it, the more other people will see it!";
+            UserStatsBox.Visibility = Visibility.Collapsed;
+            NewMessageBox.Visibility = Visibility.Collapsed;
+
+            // animate it
+            WelcomeMessage.Opacity = 1.0;
+            WelcomeTransform.Y = 400;
+            sb = new Storyboard();
+            DoubleAnimation db1 = new DoubleAnimation();
+
+            ExponentialEase ease = new ExponentialEase();
+            ease.Exponent = 5;
+            ease.EasingMode = EasingMode.EaseIn;
+
+            db1.EasingFunction = ease;
+            db1.BeginTime = TimeSpan.FromSeconds(0);
+            db1.Duration = TimeSpan.FromSeconds(3);
+            db1.From = 400;
+            db1.To = 0;
+            Storyboard.SetTarget(db1, WelcomeTransform);
+            Storyboard.SetTargetProperty(db1, new PropertyPath("Y"));
+            sb.Children.Add(db1);
+
+            sb.Completed += sbWrap_Completed;
+
+            sb.Begin();
+        }
+
+
         private void ShowNewsFloater(WhatsNewInfo newInfo)
         {
+            _savedNewInfo = newInfo;
+            if ((newInfo.message != null) && (newInfo.message != ""))
+            {
+                NewMessageBox.Text = newInfo.message;
+                NewMessageBox.Visibility = Visibility.Visible;
+            }
+            else
+                NewMessageBox.Visibility = Visibility.Collapsed;
+
+            bool statShown = false;
+
+            if (newInfo.newComments > 0)
+            {
+                NewCommentCount.Text = newInfo.newComments.ToString();
+                NewCommentsArea.Visibility = Visibility.Visible;
+                statShown = true;
+            }
+            else NewCommentsArea.Visibility = Visibility.Collapsed;
+
+            if (newInfo.newOpens > 0)
+            {
+                PostOpenCount.Text = newInfo.newOpens.ToString();
+                PostOpensArea.Visibility = Visibility.Visible;
+                statShown = true;
+            }
+            else PostOpensArea.Visibility = Visibility.Collapsed;
+
+            if ((newInfo.newUpVotes > 0) || (newInfo.newDownVotes > 0))
+            {
+                bool andNeeded = false;
+                string textStr = "Your posts received ";
+                if (newInfo.newUpVotes > 0)
+                {
+                    textStr += newInfo.newUpVotes.ToString() + " promotes ";
+                    andNeeded = true;
+                }
+
+                if (newInfo.newDownVotes > 0)
+                {
+                    if (andNeeded)
+                        textStr += "and ";
+                    textStr += newInfo.newDownVotes.ToString() + " demotes";
+                }
+
+                PostUpVotesString.Text = textStr;
+                PostUpVotesString.Visibility = Visibility.Visible;
+                statShown = true;
+            }
+            else PostUpVotesString.Visibility = Visibility.Collapsed;
+
+            if (newInfo.newMessages > 0)
+            {
+                MessagesCount.Text = newInfo.newMessages.ToString();
+                MessagesArea.Visibility = Visibility.Visible;
+                statShown = true;
+            }
+            else MessagesArea.Visibility = Visibility.Collapsed;
+
+            if (statShown)
+                UserStatsBox.Visibility = Visibility.Visible;
+            else
+                UserStatsBox.Visibility = Visibility.Collapsed;
+
+            // animate it
+            WelcomeMessage.Opacity = 1.0;
+            WelcomeTransform.Y = 400;
+            sb = new Storyboard();
+            DoubleAnimation db1 = new DoubleAnimation();
+
+            ExponentialEase ease = new ExponentialEase();
+            ease.Exponent = 5;
+            ease.EasingMode = EasingMode.EaseIn;
+
+            db1.EasingFunction = ease;
+            db1.BeginTime = TimeSpan.FromSeconds(0);
+            db1.Duration = TimeSpan.FromSeconds(3);
+            db1.From = 400;
+            db1.To = 0;
+            Storyboard.SetTarget(db1, WelcomeTransform);
+            Storyboard.SetTargetProperty(db1, new PropertyPath("Y"));
+            sb.Children.Add(db1);
+
+            sb.Completed += sbWrap_Completed;
+            
+            sb.Begin();
+
+        }
+
+        void sbWrap_Completed(object sender, EventArgs e)
+        {
+            WelcomeTransform.Y = 0;
+            WelcomeTimer.Interval = new TimeSpan(0, 0, 10);
+            WelcomeTimer.Start(); 
+        }
+
+
+        void WelcomeTimer_Tick(object sender, EventArgs e)
+        {
+            WelcomeTimer.Stop();
+            HideNewsFloater(true);
+        }
+
+
+        private void HideNewsFloater(bool animate)
+        {
+            // to do:  animate
+            WelcomeTimer.Stop();
+            sb.Stop();
+            _savedNewInfo = null;
+
+            if (animate)
+            {
+                Storyboard sb2 = new Storyboard();
+                DoubleAnimation db1 = new DoubleAnimation();
+
+                db1.BeginTime = TimeSpan.FromSeconds(0);
+                db1.Duration = TimeSpan.FromSeconds(2);
+                db1.From = 1.0;
+                db1.To = 0.0;
+                Storyboard.SetTarget(db1, WelcomeMessage);
+                Storyboard.SetTargetProperty(db1, new PropertyPath("Opacity"));
+                sb2.Children.Add(db1);
+
+                sb2.Completed += (sender, args) =>
+                    {
+                        WelcomeMessage.Visibility = Visibility.Collapsed;
+                    }
+                    ;
+
+                sb2.Begin();
+            }
+            else
+                WelcomeMessage.Visibility = Visibility.Collapsed;
 
         }
 
@@ -769,6 +1030,25 @@ namespace BlahguaMobile.Winphone
         private void UserImageLoadFailed(object sender, ExceptionRoutedEventArgs e)
         {
             UserInfoBtn.Source = new BitmapImage(new Uri("/Images/unknown-user.png", UriKind.Relative));
+        }
+
+        private void WelcomeMessage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            HideNewsFloater(false);
+        }
+
+        private void ShareStats_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            ShareLinkTask shareLinkTask = new ShareLinkTask();
+            Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+            string blahURL = BlahguaAPIObject.Current.GetBaseShareURL();
+            string msgStr = _savedNewInfo.SummaryString;
+
+            shareLinkTask.Title = "I am being heard on blahgua!";
+            shareLinkTask.LinkUri = new Uri(blahURL, UriKind.Absolute);
+            shareLinkTask.Message = msgStr; ;
+
+            shareLinkTask.Show();
         }
     }
 

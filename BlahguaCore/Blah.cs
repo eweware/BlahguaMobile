@@ -171,9 +171,13 @@ namespace BlahguaMobile.BlahguaCore
 
         public void PrepareBlahs()
         {
-            EnsureInboxSize();
-            ComputeSizes();
-            Shuffle();
+            if (this.Count > 0)
+            {
+                EnsureInboxSize();
+                ComputeSizes();
+                Shuffle();
+            }
+
         }
 
 
