@@ -145,7 +145,7 @@ namespace BlahguaMobile.Winphone
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            BlahguaAPI.SignOut((theObj) =>
+            BlahguaAPI.SignOut(null, (theObj) =>
                 {
                 }
             );

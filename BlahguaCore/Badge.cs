@@ -45,6 +45,8 @@ namespace BlahguaMobile.BlahguaCore
 
         private string badgeId = "";
 
+      
+
         public BadgeReference()
         {
             BadgeName = "";
@@ -74,6 +76,7 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+
         public void UpdateBadge()
         {
             BlahguaAPIObject.Current.GetBadgeInfo(ID, (theBadge) =>
@@ -91,10 +94,33 @@ namespace BlahguaMobile.BlahguaCore
                 }
             );
         }
+
+        public void UpdateBadgeForId(string theId, bool_callback callback)
+        {
+            BlahguaAPIObject.Current.GetBadgeInfo(theId, (theBadge) =>
+            {
+                if (theBadge != null)
+                {
+                    ID = theId;
+                    BadgeName = theBadge.N;
+                    CreationDate = theBadge.c;
+                    ExpirationDate = theBadge.ExpirationDate;
+                    AuthorityDisplayName = theBadge.D;
+                    AuthorityEndpoint = theBadge.A;
+                    callback(true);
+                }
+                else
+                    callback(false);
+
+
+            }
+            );
+        }
     }
 
     public class BadgeList : ObservableCollection<BadgeReference>
     {
+        
     }
     public class BadgeAuthority
     {

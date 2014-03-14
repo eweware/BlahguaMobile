@@ -55,10 +55,12 @@ namespace BlahguaMobile.BlahguaCore
 #if DEBUG
             usingQA = false; // false; // true;
 #endif
+            usingQA = true;
+
             if (usingQA)
             {
                 System.Console.WriteLine("Using QA Server");
-                apiClient = new RestClient("http://192.168.0.37:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
+                apiClient = new RestClient("http://qa.rest.blahgua.com:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
                 BaseShareURL = "http://qa.rest.blahgua.com:8080/";
                 imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
             }
@@ -295,7 +297,7 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
                
-        public void GetPublicChannels(ChannelList_callback callback)
+        public void GetPublicChannels(bool bIncludeHidden, ChannelList_callback callback)
         {
             RestRequest request = new RestRequest("groups/featured", Method.GET);
             apiClient.ExecuteAsync<ChannelList>(request, (response) =>
@@ -303,11 +305,13 @@ namespace BlahguaMobile.BlahguaCore
                 if (response.Data != null)
                 {
                     ChannelList newList = new ChannelList();
+
                     foreach (Channel curChan in response.Data)
                     {
-                        if (curChan.R > 0)
+                        if (bIncludeHidden || (curChan.R > 0))
                             newList.Add(curChan);
                     }
+
 
                     newList.Sort((obj1, obj2) =>
                     {

@@ -8,8 +8,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480" 
-    d:DataContext="{d:DesignData /SampleData/BlahguaAPIObjectSampleData.xaml}">
+    d:DesignHeight="480" d:DesignWidth="480" >
     
     <UserControl.Resources>
         <DataTemplate x:Name="BadgeItemTemplate">

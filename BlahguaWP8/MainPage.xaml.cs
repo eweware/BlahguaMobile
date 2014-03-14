@@ -22,7 +22,7 @@ namespace BlahguaMobile.Winphone
 {
     public partial class MainPage : PhoneApplicationPage
     {
-         Inbox   blahList;
+        Inbox   blahList;
         DispatcherTimer scrollTimer = new DispatcherTimer();
         int inboxCounter = 0;
 
@@ -98,7 +98,7 @@ namespace BlahguaMobile.Winphone
             };
             loadTimer.Start();
 
-            BlahguaAPIObject.Current.Initialize(DoServiceInited); 
+            BlahguaAPIObject.Current.Initialize(null, DoServiceInited); 
 
             
         }
@@ -280,20 +280,26 @@ namespace BlahguaMobile.Winphone
 
         private double InsertAd(double curTop)
         {
-            // insert an add
-            AdControl theAd = new AdControl();
-            theAd.IsAutoCollapseEnabled = false;
-            theAd.IsAutoRefreshEnabled = true;
-            theAd.AdUnitId = "Image480_80";
-            theAd.ApplicationId = "test_client";
-            theAd.IsEnabled = true;
-            theAd.Width = 480;
-            theAd.Height = 80;
-            Canvas.SetLeft(theAd, 0);
-            Canvas.SetTop(theAd, curTop);
-            BlahContainer.Children.Add(theAd);
+            if (false) // true
+            {
+                // insert an add
+                AdControl theAd = new AdControl();
+                theAd.IsAutoCollapseEnabled = false;
+                theAd.IsAutoRefreshEnabled = true;
+                theAd.AdUnitId = "Image480_80";
+                theAd.ApplicationId = "test_client";
+                theAd.IsEnabled = true;
+                theAd.Width = 480;
+                theAd.Height = 80;
+                Canvas.SetLeft(theAd, 0);
+                Canvas.SetTop(theAd, curTop);
+                BlahContainer.Children.Add(theAd);
 
-            return curTop + 80;
+                return curTop + 80;
+            }
+            else
+                return curTop;
+            
         }
 
         private void ClearBlahs()
@@ -403,6 +409,8 @@ namespace BlahguaMobile.Winphone
 
         void BlahContainer_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            bool startScroll = true;
+
             if (e.OriginalSource != sender)
             {
                 FrameworkElement curEl = (FrameworkElement)e.OriginalSource;
@@ -418,11 +426,16 @@ namespace BlahguaMobile.Winphone
                 {
                     BlahRollItem curBlah = (BlahRollItem)curEl;
                     OpenBlahItem(curBlah);
+                    startScroll = false;
                 }
 
             }
-            if (!scrollTimer.IsEnabled)
-                scrollTimer.Start();
+            if (startScroll)
+            {
+                if (!scrollTimer.IsEnabled)
+                    scrollTimer.Start();
+            }
+
         }
 
         void OpenBlahItem(BlahRollItem curBlah)
@@ -549,7 +562,7 @@ namespace BlahguaMobile.Winphone
         {
             WelcomeMessage.Visibility = Visibility.Visible;
             WelcomeMessage.Opacity = 1;
-            WelcomeTextBox.Text = "Your blah has been created!  Now look for it in the stream.  The more people like it, the more other people will see it!";
+            WelcomeTextBox.Text = "Your post has been created. Look for it in the stream, and track its performance in your profile stats!";
             UserStatsBox.Visibility = Visibility.Collapsed;
             NewMessageBox.Visibility = Visibility.Collapsed;
 

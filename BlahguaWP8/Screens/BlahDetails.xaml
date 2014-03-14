@@ -11,7 +11,6 @@
     xmlns:local="clr-namespace:BlahguaMobile.Winphone" 
     x:Class="BlahguaMobile.Winphone.BlahDetails"
     toolkit:TiltEffect.IsTiltEnabled="True"
-    d:DataContext="{d:DesignData ../SampleData/BlahguaAPIObjectSampleData.xaml}"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
@@ -163,13 +162,16 @@
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding G}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="12 0 0 0" FontSize="16"/>
             </Grid>
         </DataTemplate>
-        
 
+        <DataTemplate x:Name="BadgeItemTemplate">
+            <local:BadgeElement Foreground="{StaticResource BrushBlahguaWhite}" ></local:BadgeElement>
+        </DataTemplate>
 
 
         <DataTemplate x:Name="CommentTemplate">
             <local:CommentItem x:Name="CommentRenderer" />    
         </DataTemplate>
+        
         
         </phone:PhoneApplicationPage.Resources>
 
@@ -193,6 +195,8 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding CurrentBlah.UserName}" FontFamily="Segoe WP Semibold" FontSize="24" />
                                     <TextBlock Text="{Binding CurrentBlah.DescriptionString}" FontSize="16" />
+                                    <ItemsControl x:Name="BadgeListArea" ItemsSource="{Binding CurrentBlah.Badges, Mode=OneWay}"
+                                    ItemTemplate="{StaticResource BadgeItemTemplate}"/>
                                     <TextBlock Text="{Binding CurrentBlah.ElapsedTimeString}" FontSize="16" FontStyle="Italic" />
                                 </StackPanel>
                             </StackPanel>

@@ -173,6 +173,7 @@ namespace BlahguaMobile.Winphone
         {
             if (curComment != null)
             {
+                App.BlahIdToOpen = curComment.B;
                 BlahguaAPIObject.Current.SetCurrentBlahFromId(curComment.B, OpenFullBlah);
             }    
         }
@@ -196,7 +197,7 @@ namespace BlahguaMobile.Winphone
 
         private void HandleSignOut(object target, EventArgs theArgs)
         {
-            BlahguaAPIObject.Current.SignOut((theStr) =>
+            BlahguaAPIObject.Current.SignOut(null, (theStr) =>
                 {
 
                     NavigationService.GoBack();

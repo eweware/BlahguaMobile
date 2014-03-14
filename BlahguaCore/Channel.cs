@@ -11,7 +11,6 @@ namespace BlahguaMobile.BlahguaCore
         public string D { get; set; }
         public int F { get; set; }
         public string G { get; set; }
-        public int I { get; set; }
         public int L { get; set; }
         public string M { get; set; }
         public string N { get; set; }
@@ -73,6 +72,11 @@ namespace BlahguaMobile.BlahguaCore
         public string ChannelName(string channelId)
         {
             return this.Where(i => i._id == channelId).FirstOrDefault().N;
+        }
+
+        public Channel ChannelFromName(string channelName)
+        {
+            return this.Where(i => i.N == channelName).FirstOrDefault();
         }
 
     }

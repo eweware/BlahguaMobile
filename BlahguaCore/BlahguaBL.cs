@@ -335,16 +335,22 @@ namespace BlahguaMobile.BlahguaCore
             // construct a call manually to the badge authority
             GetBadgeForUser(authorityId, (newHTML) =>
                 {
-                    string tkv = GetTicket(newHTML);
-                    badgeEndpoint = GetEndPoint(newHTML);
+                    if (newHTML.StartsWith("error"))
+                    {
+                        callback("");
+                    }
+                    else
+                    {
+                        string tkv = GetTicket(newHTML);
+                        badgeEndpoint = GetEndPoint(newHTML);
 
-                    RestClient apiClient;
-                    apiClient = new RestClient(badgeEndpoint);
-                    string query = "?tk=" + tkv + "&e=" + emailAddr;
-                    RestRequest request = new RestRequest("/badges/credentials" + query, Method.POST);
-                    request.AddHeader("Accept", "*/*");
+                        RestClient apiClient;
+                        apiClient = new RestClient(badgeEndpoint);
+                        string query = "?tk=" + tkv + "&e=" + emailAddr;
+                        RestRequest request = new RestRequest("/badges/credentials" + query, Method.POST);
+                        request.AddHeader("Accept", "*/*");
 
-                    apiClient.ExecuteAsync(request, (response) =>
+                        apiClient.ExecuteAsync(request, (response) =>
                         {
                             string step2HTML = response.Content;
                             int theLoc = step2HTML.IndexOf("Request Domain");
@@ -358,7 +364,9 @@ namespace BlahguaMobile.BlahguaCore
                                 callback(tk2);
                             }
                         }
-                    );
+                        );
+                    }
+                    
 
                 }
             );
@@ -406,7 +414,7 @@ namespace BlahguaMobile.BlahguaCore
         }
 
 
-        public void Initialize(BlahguaInit_callback callBack)
+        public void Initialize(string defaultChannel, BlahguaInit_callback callBack)
         {
             LoadSettings();
             if (!inited)
@@ -435,15 +443,15 @@ namespace BlahguaMobile.BlahguaCore
                                                 callBack(true);
                                             }
                                             else
-                                                CompletePublicSignin(callBack);
+                                                CompletePublicSignin(defaultChannel, callBack);
                                         }
                                     );
                                 }
                                 else
-                                    CompletePublicSignin(callBack);
+                                    CompletePublicSignin(defaultChannel, callBack);
                             }
                             else
-                                CompletePublicSignin(callBack);
+                                CompletePublicSignin(defaultChannel, callBack);
 
                         });
                     }
@@ -459,12 +467,27 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
-        private void CompletePublicSignin(BlahguaInit_callback callback)
+        private void CompletePublicSignin(string defaultChannel, BlahguaInit_callback callback)
         {
-            BlahguaRest.GetPublicChannels((chanList) =>
+            bool bIncludeHidden = false;
+
+            if (defaultChannel != null)
+                bIncludeHidden = true;
+
+            BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
                            {
                                curChannelList = chanList;
-                               CurrentChannel = curChannelList[0];
+
+                               if (defaultChannel == null)
+                                CurrentChannel = curChannelList[0];
+                               else
+                               {
+                                   Channel curChan = curChannelList.ChannelFromName(defaultChannel);
+                                   if (curChan != null)
+                                       CurrentChannel = curChan;
+                                   else
+                                       CurrentChannel = curChannelList[0];
+                               }
                                inited = true;
                                callback(true);
                            });
@@ -783,7 +806,10 @@ namespace BlahguaMobile.BlahguaCore
                         theBlah.T = UnprocessText(theBlah.T);
                         theBlah.F = UnprocessText(theBlah.F);
                         currentBlah = theBlah;
-                        callback(theBlah);
+                        theBlah.AwaitBadgeData((didIt) =>
+                            {
+                                callback(theBlah);
+                            });
                     });
                 }
                 else
@@ -1143,13 +1169,17 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
-        public void SignOut(BlahguaInit_callback callBack)
+        public void SignOut(string returnChannel, BlahguaInit_callback callBack)
         {
             BlahguaRest.SignOut((resultStr) =>
                 {
                     CurrentUser = null;
                     CurrentUserDescription = null;
-                    CompletePublicSignin(callBack);
+                    ClearAutoLogin();
+                    UserName = "";
+                    UserPassword = "";
+                    UserPassword2 = "";
+                    CompletePublicSignin(returnChannel, callBack);
                 }
             );
         }
@@ -1223,7 +1253,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     if ((chanList == null) || (chanList.Count == 0))
                     {
-                        BlahguaRest.GetPublicChannels((userChanList) =>
+                        BlahguaRest.GetPublicChannels(true, (userChanList) =>
                             {
                                 AddChannelsToUser(userChanList, callback);
                             }
@@ -1337,6 +1367,36 @@ namespace BlahguaMobile.BlahguaCore
                     callback(resultStr);
                 }
            );
+        }
+
+        public void EnsureUserHasChannel(string channelName, bool_callback callback)
+        {
+            Channel theChan = curChannelList.ChannelFromName(channelName);
+
+            if (theChan == null)
+            {
+                BlahguaRest.GetPublicChannels(true, (chanList) =>
+                    {
+                        bool didIt = false;
+
+                        theChan = chanList.ChannelFromName(channelName);
+                        if (theChan != null)
+                        {
+                            BlahguaRest.AddUserToChannel(theChan._id, (didItStr) =>
+                                {
+                                    callback(true);
+                                }
+                            );
+                        }
+                        else
+                        {
+                            callback(false);
+                        }
+                    }
+                );
+            }
+            else
+                callback(true);
         }
 
 

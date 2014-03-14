@@ -91,10 +91,10 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Column="0">
                             <TextBlock Text="open post" FontSize="20" Foreground="Blue" TextAlignment="Center" Margin="3"/>
-                            <Image Width="25" Source="/Images/Icons/black_promote.png" Margin="8 0 0 0"/>
-                            <TextBlock Text="{Binding UpVoteCount}" Foreground="{StaticResource BrushBlahguaBlack}"  />
-                            <Image Width="25" Source="/Images/Icons/black_demote.png"  Margin="8 0 0 0"/>
-                            <TextBlock Text="{Binding DownVoteCount}" Foreground="{StaticResource BrushBlahguaBlack}" />
+                            <Image Width="25" Source="/Images/Icons/white_promote.png" Margin="8 0 0 0"/>
+                            <TextBlock Text="{Binding UpVoteCount}" Foreground="{StaticResource BrushBlahguaWhite}"  />
+                            <Image Width="25" Source="/Images/Icons/white_demote.png"  Margin="8 0 0 0"/>
+                            <TextBlock Text="{Binding DownVoteCount}" Foreground="{StaticResource BrushBlahguaWhite}" />
                         </StackPanel>
                         <TextBlock Foreground="{StaticResource BrushBlahguaWhite}" Grid.Column="1" Text="{Binding ElapsedTimeString}" FontSize="16" FontStyle="Italic" HorizontalAlignment="Right" />
                     </Grid>
@@ -124,17 +124,17 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Column="0">
-                            <Border Background="#80FFFFFF" BorderThickness="1" CornerRadius="8" >
+                            <Border Background="{Binding TypeBrush}" BorderThickness="1" CornerRadius="8" >
                                 <TextBlock Text="{Binding TypeName}"   FontSize="16" Width="90" TextAlignment="Center" Margin="3" Foreground="{StaticResource BrushBlahguaBlack}"/>
                             </Border>
-                            <Image Width="25" Source="/Images/Icons/black_promote.png" Margin="12 0 0 0"/>
-                            <TextBlock FontSize="16" VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaBlack}" Text="{Binding P}" />
-                            <Image Width="25" Source="/Images/Icons/black_demote.png"  Margin="12 0 0 0"/>
-                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaBlack}" Text="{Binding D}" />
-                            <TextBlock   Margin="12 0 2 0" Text="&#xf06e;" Foreground="Black"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome" VerticalAlignment="Center" FontSize="24"  />
-                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaBlack}" Text="{Binding ConversionString}" />
-                            <TextBlock   Margin="12 0 2 0" Text="&#xf086;" Foreground="Black"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome" VerticalAlignment="Center" FontSize="24"  />
-                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaBlack}" Text="{Binding C}" />
+                            <Image Width="25" Source="/Images/Icons/white_promote.png" Margin="12 0 0 0"/>
+                            <TextBlock FontSize="16" VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="{Binding P}" />
+                            <Image Width="25" Source="/Images/Icons/white_demote.png"  Margin="12 0 0 0"/>
+                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="{Binding D}" />
+                            <TextBlock   Margin="12 0 2 0" Text="&#xf06e;" Foreground="{StaticResource BrushBlahguaWhite}"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome" VerticalAlignment="Center" FontSize="24"  />
+                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="{Binding ConversionString}" />
+                            <TextBlock   Margin="12 0 2 0" Text="&#xf086;" Foreground="{StaticResource BrushBlahguaWhite}"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome" VerticalAlignment="Center" FontSize="24"  />
+                            <TextBlock FontSize="16"  VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="{Binding C}" />
                         </StackPanel>
                     </Grid>
                     <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="{Binding ElapsedTimeString}" Foreground="{StaticResource BrushBlahguaWhite}" FontSize="16" FontStyle="Italic" />

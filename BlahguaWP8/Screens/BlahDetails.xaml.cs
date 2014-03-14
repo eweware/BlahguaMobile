@@ -273,8 +273,14 @@ namespace BlahguaMobile.Winphone
         void SetBlahBackground()
         {
             Brush newBrush;
+            string typeName = "says";
 
-            switch (BlahguaAPIObject.Current.CurrentInboxBlah.TypeName)
+            if (BlahguaAPIObject.Current.CurrentBlah != null)
+                typeName = BlahguaAPIObject.Current.CurrentBlah.TypeName;
+            else if (BlahguaAPIObject.Current.CurrentInboxBlah != null)
+                typeName = BlahguaAPIObject.Current.CurrentInboxBlah.TypeName;
+
+            switch (typeName)
             {
                 case "leaks":
                     newBrush = (Brush)App.Current.Resources["BaseBrushLeaks"];
@@ -427,7 +433,10 @@ namespace BlahguaMobile.Winphone
         private void HandleAddComment(object target, EventArgs theArgs)
         {
             if (BlahguaAPIObject.Current.CreateCommentRecord == null)
+            {
                 BlahguaAPIObject.Current.CreateCommentRecord = new CommentCreateRecord();
+                BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
+            }
 
             if (currentPage == "summary")
             {
@@ -948,6 +957,7 @@ namespace BlahguaMobile.Winphone
                 if (curItem != null)
                     curItem.Background = new SolidColorBrush(Color.FromArgb(128,0,0,0));
             }
+
             UpdateCommentButtons();
         }
 
@@ -1002,17 +1012,19 @@ namespace BlahguaMobile.Winphone
         {
             BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
                 {
+
                     BlahLoadingBox.Visibility = Visibility.Collapsed;
-                    
-                    if (BlahguaAPIObject.Current.CurrentInboxBlah.ImageURL == null)
-                    {
-                        ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
-                        BackgroundImage.Source = defaultSrc;
-                        BackgroundImage2.Source = defaultSrc;
-                    }
+
                     this.DataContext = BlahguaAPIObject.Current;
                     if (BlahguaAPIObject.Current.CurrentBlah != null)
                     {
+                        if (theBlah.ImageURL == null)
+                        {
+                            ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
+                            BackgroundImage.Source = defaultSrc;
+                            BackgroundImage2.Source = defaultSrc;
+                        }
+
                         BlahSummaryArea.Visibility = Visibility.Visible;
                         UpdateButtonsForPage();
                         switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)

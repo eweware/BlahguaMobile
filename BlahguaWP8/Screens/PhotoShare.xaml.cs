@@ -32,7 +32,7 @@ namespace BlahguaMobile.Winphone
 
         private void InitService()
         {
-            BlahguaAPIObject.Current.Initialize(DoServiceInited);
+            BlahguaAPIObject.Current.Initialize(null, DoServiceInited);
 
 
         }

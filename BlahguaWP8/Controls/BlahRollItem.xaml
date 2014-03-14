@@ -16,7 +16,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Padding="0,0,0,0"  BorderThickness="0, 0, 0,0" BorderBrush="Red" Background="{StaticResource BrushBlahguaWhite}">
+        <Border Padding="0,0,0,0"  BorderThickness="0" BorderBrush="Red" Background="{StaticResource BrushBlahguaWhite}">
             <Grid>
 
                 <Image x:Name="BlahImage" Stretch="UniformToFill"/>
@@ -31,7 +31,11 @@
         </Border>
 
         <Image x:Name="BadgeIcon" Source="/Images/badge_standalone_30x31.png" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-        <Image x:Name="NewBlahIcon" Source="/Images/newblah.png" Width="24" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+            <Image x:Name="NewBlahIcon" Source="/Images/newblah.png" Width="24" Height="24" />
+            <Ellipse x:Name="ActiveIcon" Width="16" Height="16" Margin="4" Fill="#8000FF00" />
+
+        </StackPanel>
 
 
     </Grid>

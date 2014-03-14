@@ -24,6 +24,8 @@ namespace BlahguaMobile.BlahguaCore
         public double S { get; set; }
         public int displaySize { get; set; }
 
+        public bool RR { get; set; }
+
         public InboxBlah()
         {
         }
@@ -113,6 +115,8 @@ namespace BlahguaMobile.BlahguaCore
 
     public class Inbox : List<InboxBlah>
     {
+        static private Random _random = new Random();
+
         public InboxBlah PopBlah(int blahSize)
         {
             foreach (InboxBlah curBlah in this)
@@ -157,6 +161,17 @@ namespace BlahguaMobile.BlahguaCore
 
         private void Shuffle()
         {
+            var random = _random;
+            for (int i = this.Count; i > 1; i--)
+            {
+                // Pick random element to swap.
+                int j = random.Next(i); // 0 <= j <= i-1
+                // Swap.
+                InboxBlah tmp = this[j];
+                this[j] = this[i - 1];
+                this[i - 1] = tmp;
+            }
+
         }
 
         private void EnsureInboxSize()
@@ -997,6 +1012,7 @@ namespace BlahguaMobile.BlahguaCore
         public CommentList Comments { get; set; }
         private PollItemList _predictionItems;
         private PollItemList _expPredictionItems;
+        private BadgeList _badgeList = null;
 
 
 
@@ -1037,6 +1053,37 @@ namespace BlahguaMobile.BlahguaCore
                 return theRate.ToString("p2");
             }
         }
+
+#if WP8
+        public System.Windows.Media.Brush TypeBrush
+        {
+            get
+            {
+                System.Windows.Media.Brush newBrush = null;
+
+                switch (this.TypeName)
+                {
+                    case "leaks":
+                        newBrush = (System.Windows.Media.Brush)BlahguaMobile.Winphone.App.Current.Resources["HighlightBrushLeaks"];
+                        break;
+                    case "polls":
+                        newBrush = (System.Windows.Media.Brush)BlahguaMobile.Winphone.App.Current.Resources["HighlightBrushPolls"];
+                        break;
+                    case "asks":
+                        newBrush = (System.Windows.Media.Brush)BlahguaMobile.Winphone.App.Current.Resources["HighlightBrushAsks"];
+                        break;
+                    case "predicts":
+                        newBrush = (System.Windows.Media.Brush)BlahguaMobile.Winphone.App.Current.Resources["HighlightBrushPredicts"];
+                        break;
+                    default:
+                        newBrush = (System.Windows.Media.Brush)BlahguaMobile.Winphone.App.Current.Resources["HighlightBrushSays"];
+                        break;
+                }
+
+                return newBrush;
+            }
+        }
+#endif
 
         public string ImpressionString
         {
@@ -1207,6 +1254,64 @@ namespace BlahguaMobile.BlahguaCore
                     return null;
             }
 
+        }
+
+        public BadgeList Badges
+        {
+            get
+            {
+                return _badgeList;
+            }
+            set
+            {
+                if ((value == null) || (value.Count == 0))
+                {
+                    B = null;
+                }
+                else
+                {
+                    B = new List<string>();
+                    foreach (BadgeReference curBadge in value)
+                    {
+                        B.Add(curBadge.ID);
+                    }
+                }
+            }
+        }
+
+        public void AwaitBadgeData(bool_callback callback)
+        {
+            if (B == null)
+            {
+                callback(true);
+            }
+            else
+            {
+                _badgeList = new BadgeList();
+                List<string> idList = new List<string>(B);
+                FetchBadgeSerially(idList, callback);
+
+            }
+        }
+
+
+        protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
+        {
+                BadgeReference newBadge = new BadgeReference();
+                newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
+                    {
+                        if (didIt)
+                        {
+                            _badgeList.Add(newBadge);
+
+                        }
+                        badgeIdList.RemoveAt(0);
+                        if (badgeIdList.Count > 0)
+                            FetchBadgeSerially(badgeIdList, callback);
+                        else
+                            callback(true);
+                    }
+            );
         }
 
         public string TypeName

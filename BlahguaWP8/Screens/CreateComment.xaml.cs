@@ -186,6 +186,7 @@ namespace BlahguaMobile.Winphone
 
         private void DoCreateClick(object sender, EventArgs e)
         {
+            CreateBtn.IsEnabled = false;
             CommentTextField.IsEnabled = false;
             BlahguaAPIObject.Current.CreateCommentRecord.T = CommentTextField.Text;
             SelectedBadgesList.Focus();

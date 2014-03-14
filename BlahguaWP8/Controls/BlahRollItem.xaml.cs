@@ -52,6 +52,15 @@ namespace BlahguaMobile.Winphone
 
             if (diff.TotalHours > 30)
                 NewBlahIcon.Visibility = Visibility.Collapsed;
+            else
+                NewBlahIcon.Visibility = Visibility.Visible;
+
+            if (theBlah.RR)
+                ActiveIcon.Visibility = Visibility.Visible;
+            else
+                ActiveIcon.Visibility = Visibility.Collapsed;
+
+
 
             TextArea.Text = BlahData.T;
         }
