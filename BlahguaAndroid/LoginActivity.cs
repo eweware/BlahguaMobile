@@ -8,38 +8,64 @@ using Android.OS;
 using Android.Util;
 using Android.Content.PM;
 using Android.Support.V4.Widget;
+using BlahguaMobile.BlahguaCore;
 
-namespace BlahguaMobile.Android
+namespace BlahguaMobile.AndroidClient
 {
 	[Activity]
 	public class LoginActivity : Activity
 	{
+        private static LoginActivity instance;
+        EditText login, password, passwordConfirm;
+        ProgressBar progress;
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
+
+            instance = this;
 
             RequestWindowFeature(WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
             SetContentView(Resource.Layout.LoginScreen);
-            EditText password_confirm = FindViewById<EditText>(Resource.Id.password_confirm);
-            password_confirm.Visibility = ViewStates.Gone;
 
-            Button button = FindViewById<Button>(Resource.Id.btn_cancel);
-            button.Click += delegate
+            progress = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            login = FindViewById<EditText>(Resource.Id.login);
+            password = FindViewById<EditText>(Resource.Id.password);
+            passwordConfirm = FindViewById<EditText>(Resource.Id.password_confirm);
+            CheckBox check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
+            Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
+            Button buttonDone = FindViewById<Button>(Resource.Id.btn_done);
+
+            passwordConfirm.Visibility = ViewStates.Gone;
+            progress.Visibility = ViewStates.Invisible;
+
+            buttonCancel.Click += delegate
             {
                 Finish();
             };
-            CheckBox check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
-            check_create_acc.CheckedChange += delegate
+            buttonDone.Click += delegate
             {
                 if (check_create_acc.Checked)
                 {
-                    password_confirm.Visibility = ViewStates.Visible;
+                    DoCreateAccount();
                 }
                 else
                 {
-                    password_confirm.Visibility = ViewStates.Gone;
+                    DoSignIn();
+                }
+            };
+
+            check_create_acc.CheckedChange += delegate
+            {
+                createNewAccount = check_create_acc.Checked;
+                if (check_create_acc.Checked)
+                {
+                    passwordConfirm.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    passwordConfirm.Visibility = ViewStates.Gone;
                 }
             };
 
@@ -63,6 +89,111 @@ namespace BlahguaMobile.Android
             };
 		}
 
+
+
+
+        // imported
+        bool createNewAccount = false;
+
+        private void DoSignIn()
+        {
+            if (BlahguaAPIObject.Current.UserName != login.Text)
+                BlahguaAPIObject.Current.UserName = login.Text;
+
+            if (BlahguaAPIObject.Current.UserPassword != password.Text)
+                BlahguaAPIObject.Current.UserPassword = password.Text;
+
+            progress.Visibility = ViewStates.Visible;
+            BlahguaAPIObject.Current.SignIn(BlahguaAPIObject.Current.UserName,
+                BlahguaAPIObject.Current.UserPassword,
+                BlahguaAPIObject.Current.AutoLogin,
+                (errMsg) =>
+                {
+                    if (errMsg == null)
+                        HandleUserSignIn();
+                    else
+                    {
+                        //App.analytics.PostSessionError("signinfailed-" + errMsg);
+                        RunOnUiThread(() =>
+                        {
+                            progress.Visibility = ViewStates.Invisible;
+                            Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
+                        });
+                        //MessageBox.Show("could not register: " + errMsg);
+                    }
+                }
+            );
+        }
+
+        private void HandleUserSignIn()
+        {
+            RunOnUiThread(() =>
+            {
+                progress.Visibility = ViewStates.Invisible;
+                Finish();
+            });
+            //NavigationService.GoBack();
+        }
+
+        private void DoCreateAccount()
+        {
+            if (login.Text.Length == 0)
+            {
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "Enter username", ToastLength.Short).Show();
+                });
+                return;
+            }
+            if (password.Text.Length == 0)
+            {
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "Enter password", ToastLength.Short).Show();
+                });
+                return;
+            }
+            if (BlahguaAPIObject.Current.UserName != login.Text)
+                BlahguaAPIObject.Current.UserName = login.Text;
+
+            if (BlahguaAPIObject.Current.UserPassword != password.Text)
+                BlahguaAPIObject.Current.UserPassword = password.Text;
+
+            if (BlahguaAPIObject.Current.UserPassword2 != passwordConfirm.Text)
+                BlahguaAPIObject.Current.UserPassword2 = passwordConfirm.Text;
+
+
+            if (BlahguaAPIObject.Current.UserPassword != BlahguaAPIObject.Current.UserPassword2)
+            {
+                RunOnUiThread(() => {
+                    Toast.MakeText(this, "Passwords must match", ToastLength.Short).Show();
+                    //MessageBox.Show("Passwords must match");
+                });
+            }
+            else
+            {
+                progress.Visibility = ViewStates.Visible;
+                BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
+                {
+                    if (errMsg == null)
+                    {
+                        //App.analytics.PostRegisterUser();
+                        HandleUserSignIn();
+                    }
+                    else
+                    {
+                        //App.analytics.PostSessionError("registerfailed-" + errMsg);
+                        RunOnUiThread(() =>
+                        {
+                            progress.Visibility = ViewStates.Invisible;
+                            Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
+                            //MessageBox.Show("could not register: " + errMsg);
+                        });
+                    }
+                }
+                );
+            }
+        }
 	}
 }
 

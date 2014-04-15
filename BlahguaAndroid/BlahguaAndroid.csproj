@@ -8,7 +8,7 @@
     <ProjectGuid>{BE0D4993-B841-42DA-9006-B3729A7A3C5E}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>BlahguaMobile.Android</RootNamespace>
+    <RootNamespace>BlahguaMobile.AndroidClient</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>
@@ -50,9 +50,12 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Android.Support.v4" />
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="RestSharp.MonoDroid">
       <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+    </Reference>
+    <Reference Include="SlidingMenuSharp">
+      <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
@@ -61,6 +64,9 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
@@ -106,10 +112,21 @@
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
+    <Compile Include="BlahRollItem.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleListFragment.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\LRUCache.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReference.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReferenceHashTable.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageCache.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewCallback.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -121,6 +138,7 @@
     <AndroidResource Include="Resources\layout\MainFragment.axml" />
     <AndroidResource Include="Resources\layout\MainMenu.axml" />
     <AndroidResource Include="Resources\layout\LoginScreen.axml" />
+    <AndroidResource Include="Resources\layout\ControlBlahRollItem.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -166,6 +184,25 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\edit.9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\menu_frame.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\menu_frame_two.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\row.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\list.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>
