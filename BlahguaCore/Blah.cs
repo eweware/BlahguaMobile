@@ -131,7 +131,7 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
-        private void ComputeSizes()
+        private void ComputeSizesOld()
         {
             int numLarge = 4;
             int numMedium = 16;
@@ -156,6 +156,40 @@ namespace BlahguaMobile.BlahguaCore
             while (i < this.Count)
             {
                 this[i++].displaySize = 3;
+            }
+        }
+
+        private void ComputeSizes()
+        {
+            int numLarge = 4;
+            int numMediumLarge = 8;
+            int numMedium = 12;
+
+            this.Sort((obj1, obj2) =>
+            {
+                return obj1.S.CompareTo(obj2.S);
+            });
+
+
+            int i = 0;
+            while (i < numLarge)
+            {
+                this[i++].displaySize = 1;
+            }
+
+            while (i < (numMediumLarge + numLarge))
+            {
+                this[i++].displaySize = 2;
+            }
+
+            while (i < (numMediumLarge + numMedium + numLarge))
+            {
+                this[i++].displaySize = 3;
+            }
+
+            while (i < this.Count)
+            {
+                this[i++].displaySize = 4;
             }
         }
 

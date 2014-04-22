@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="BlahRollItem.cs" />
+    <Compile Include="ViewPostActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -139,6 +140,7 @@
     <AndroidResource Include="Resources\layout\MainMenu.axml" />
     <AndroidResource Include="Resources\layout\LoginScreen.axml" />
     <AndroidResource Include="Resources\layout\ControlBlahRollItem.axml" />
+    <AndroidResource Include="Resources\layout\activity_viewpost.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -203,6 +205,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\img_avatar_sample.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_back.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_back_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_back_normal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

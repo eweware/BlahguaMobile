@@ -45,7 +45,6 @@ namespace BlahguaMobile.Winphone
         private CollectionViewSource commentDataView;
         string defaultImg;
 
-
         public BlahDetails()
         {
             commentsLoaded = false;

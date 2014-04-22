@@ -32,7 +32,9 @@ namespace BlahguaMobile.AndroidClient
         int screenMargin = 0;//24;
         int blahMargin = 0;//12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
-        int[] rowSequence = new int[] { 4, 32, 31, 4, 1, 33, 4, 2, 4, 32, 1, 4, 31, 32, 33, 31, 4, 33, 1, 31, 4, 32, 33, 1, 4, 2 };
+        //int[] rowSequence = new int[] { 4, 32, 31, 4, 1, 33, 4, 2, 4, 32, 1, 4, 31, 32, 33, 31, 4, 33, 1, 31, 4, 32, 33, 1, 4, 2 };
+
+        private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
 
 		int count = 1;
 		int count2 = 1;
@@ -84,17 +86,17 @@ namespace BlahguaMobile.AndroidClient
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
             SlidingMenu.Mode = MenuMode.LeftRight;
-            if (null == bundle)
-            {
-                var t = SupportFragmentManager.BeginTransaction();
-                Frag = new SampleListFragment();
-                t.Replace(Resource.Id.menu_frame, Frag);
-                t.Commit();
-            }
-            else
-                Frag =
-                    (ListFragment)
-                    SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
+            //if (null == bundle)
+            //{
+            //    var t = SupportFragmentManager.BeginTransaction();
+            //    Frag = new SampleListFragment();
+            //    t.Replace(Resource.Id.menu_frame, Frag);
+            //    t.Commit();
+            //}
+            //else
+            //    Frag =
+            //        (ListFragment)
+            //        SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
         }
 
         void StartTimers()
@@ -220,11 +222,17 @@ namespace BlahguaMobile.AndroidClient
             int screenWidth = Resources.DisplayMetrics.WidthPixels - screenMargin * 2;
 
             double curTop = screenMargin;
-            smallBlahSize = screenWidth / 4 - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
+            smallBlahSize = screenWidth / 3 - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
             mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
-            largeBlahSize = mediumBlahSize + mediumBlahSize + blahMargin;
+            largeBlahSize = smallBlahSize + smallBlahSize + smallBlahSize + blahMargin;
 
-            foreach (int rowType in rowSequence)
+            //foreach (int rowType in rowSequence)
+            //{
+            //    curTop = InsertRow(rowType, curTop);
+            //    curTop += blahMargin;
+            //}
+
+            foreach (char rowType in sequence)
             {
                 curTop = InsertRow(rowType, curTop);
                 curTop += blahMargin;
@@ -305,28 +313,28 @@ namespace BlahguaMobile.AndroidClient
 
         #region InsertRows
 
-        private double InsertRow(int rowType, double topLoc)
+        private double InsertRow(char rowType, double topLoc)
         {
             double newTop = topLoc;
             switch (rowType)
-            {
-                case 1:
-                    newTop = InsertRowType1(topLoc);
+            {//ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA
+                case 'A':
+                    newTop = InsertRowTypeA(topLoc);
                     break;
-                case 2:
-                    newTop = InsertRowType2(topLoc);
+                case 'B':
+                    newTop = InsertRowTypeB(topLoc);
                     break;
-                case 31:
-                    newTop = InsertRowType31(topLoc);
+                case 'C':
+                    newTop = InsertRowTypeC(topLoc);
                     break;
-                case 32:
-                    newTop = InsertRowType32(topLoc);
+                case 'D':
+                    newTop = InsertRowTypeD(topLoc);
                     break;
-                case 33:
-                    newTop = InsertRowType33(topLoc);
+                case 'E':
+                    newTop = InsertRowTypeE(topLoc);
                     break;
-                case 4:
-                    newTop = InsertRowType4(topLoc);
+                case 'F':
+                    newTop = InsertRowTypeF(topLoc);
                     break;
             }
 
@@ -435,19 +443,94 @@ namespace BlahguaMobile.AndroidClient
         }
 
 
-        private double InsertRowType4(double topLoc)
+        private double InsertRowTypeA(double topLoc)
         {
             double newTop = topLoc;
             double curLeft = screenMargin;
             InboxBlah nextBlah;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
-
-                nextBlah = blahList.PopBlah(3);
+                nextBlah = blahList.PopBlah(4);
                 InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
                 curLeft += smallBlahSize + blahMargin;
             }
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeB(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(2);
+            curLeft += smallBlahSize + blahMargin;
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
+
+            newTop += mediumBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeC(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(2);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
+            curLeft += mediumBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
+
+            newTop += mediumBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeD(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            curLeft += smallBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(3);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
+
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeE(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(3);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            curLeft += mediumBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
+
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeF(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(1);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, largeBlahSize);
+
             newTop += smallBlahSize;
 
             return newTop;
@@ -486,6 +569,10 @@ namespace BlahguaMobile.AndroidClient
             }
             ///////
 
+            control.Click += delegate
+            {
+                StartActivity(typeof(ViewPostActivity));
+            };
 
             RunOnUiThread(() =>
             {

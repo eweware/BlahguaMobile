@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlahguaAndroid", "BlahguaAndroid\BlahguaAndroid.csproj", "{BE0D4993-B841-42DA-9006-B3729A7A3C5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlahguaIOS", "BlahguaIOS\BlahguaIOS.csproj", "{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}"
