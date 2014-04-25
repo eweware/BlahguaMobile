@@ -205,14 +205,14 @@ namespace BlahguaMobile.AndroidClient
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040007
-			public const int BlahContainer = 2130968583;
+			// aapt resource value: 0x7f040017
+			public const int BlahContainer = 2130968599;
 			
 			// aapt resource value: 0x7f040006
 			public const int BlahScroller = 2130968582;
 			
-			// aapt resource value: 0x7f04001c
-			public const int avatar = 2130968604;
+			// aapt resource value: 0x7f04001d
+			public const int avatar = 2130968605;
 			
 			// aapt resource value: 0x7f040013
 			public const int btn_about = 2130968595;
@@ -244,23 +244,23 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040010
 			public const int check_yes = 2130968592;
 			
-			// aapt resource value: 0x7f040019
-			public const int content_frame = 2130968601;
+			// aapt resource value: 0x7f04001a
+			public const int content_frame = 2130968602;
 			
-			// aapt resource value: 0x7f040017
-			public const int drawer_layout = 2130968599;
+			// aapt resource value: 0x7f040018
+			public const int drawer_layout = 2130968600;
 			
 			// aapt resource value: 0x7f040003
 			public const int fullscreen = 2130968579;
 			
-			// aapt resource value: 0x7f040008
-			public const int image = 2130968584;
+			// aapt resource value: 0x7f040007
+			public const int image = 2130968583;
 			
 			// aapt resource value: 0x7f040000
 			public const int left = 2130968576;
 			
-			// aapt resource value: 0x7f040018
-			public const int left_drawer = 2130968600;
+			// aapt resource value: 0x7f040019
+			public const int left_drawer = 2130968601;
 			
 			// aapt resource value: 0x7f04000d
 			public const int login = 2130968589;
@@ -268,11 +268,11 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040002
 			public const int margin = 2130968578;
 			
-			// aapt resource value: 0x7f04001a
-			public const int menu_frame = 2130968602;
-			
 			// aapt resource value: 0x7f04001b
-			public const int menu_frame_two = 2130968603;
+			public const int menu_frame = 2130968603;
+			
+			// aapt resource value: 0x7f04001c
+			public const int menu_frame_two = 2130968604;
 			
 			// aapt resource value: 0x7f04000e
 			public const int password = 2130968590;
@@ -286,17 +286,20 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040001
 			public const int right = 2130968577;
 			
-			// aapt resource value: 0x7f04001d
-			public const int row_icon = 2130968605;
-			
 			// aapt resource value: 0x7f04001e
-			public const int row_title = 2130968606;
+			public const int row_icon = 2130968606;
+			
+			// aapt resource value: 0x7f04001f
+			public const int row_title = 2130968607;
 			
 			// aapt resource value: 0x7f040004
 			public const int selected_view = 2130968580;
 			
-			// aapt resource value: 0x7f04001f
-			public const int slidingmenumain = 2130968607;
+			// aapt resource value: 0x7f040020
+			public const int slidingmenumain = 2130968608;
+			
+			// aapt resource value: 0x7f040008
+			public const int text = 2130968584;
 			
 			// aapt resource value: 0x7f040009
 			public const int title = 2130968585;

@@ -341,108 +341,6 @@ namespace BlahguaMobile.AndroidClient
             return newTop;
         }
 
-        private double InsertRowType1(double topLoc)
-        {
-            double newTop = topLoc;
-            InboxBlah nextBlah = blahList.PopBlah(1);
-            InsertElementForBlah(nextBlah, screenMargin, topLoc, largeBlahSize, mediumBlahSize);
-            newTop += mediumBlahSize;
-
-
-            return newTop;
-        }
-
-        private double InsertRowType2(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType31(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType32(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-
-
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType33(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-
-            newTop += mediumBlahSize;
-            return newTop;
-        }
-
-
         private double InsertRowTypeA(double topLoc)
         {
             double newTop = topLoc;
@@ -514,10 +412,10 @@ namespace BlahguaMobile.AndroidClient
             double newTop = topLoc;
             double curLeft = screenMargin;
             InboxBlah nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
             curLeft += mediumBlahSize + blahMargin;
             nextBlah = blahList.PopBlah(4);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
 
             newTop += smallBlahSize;
 
@@ -529,9 +427,9 @@ namespace BlahguaMobile.AndroidClient
             double newTop = topLoc;
             double curLeft = screenMargin;
             InboxBlah nextBlah = blahList.PopBlah(1);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, largeBlahSize);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, largeBlahSize, mediumBlahSize);
 
-            newTop += smallBlahSize;
+            newTop += mediumBlahSize;
 
             return newTop;
         }
@@ -571,6 +469,7 @@ namespace BlahguaMobile.AndroidClient
 
             control.Click += delegate
             {
+                App.BlahIdToOpen = theBlah.I;
                 StartActivity(typeof(ViewPostActivity));
             };
 

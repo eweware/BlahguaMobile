@@ -111,6 +111,7 @@
     <Compile Include="..\BlahguaCore\Utilities.cs">
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
+    <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="BlahRollItem.cs" />
     <Compile Include="ViewPostActivity.cs" />

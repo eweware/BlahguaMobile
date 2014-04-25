@@ -25,11 +25,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/BlahScroller">
-        <RelativeLayout
+        <LinearLayout
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/BlahContainer" />
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#000" />
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -787,6 +787,8 @@ namespace BlahguaMobile.BlahguaCore
                 Blah newBlah = null;
 
                 DataContractJsonSerializer des = new DataContractJsonSerializer(typeof (Blah));
+                response.ContentLength = response.Content.Length;
+                response.ContentEncoding = null;
   
                 var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                 object theObj = des.ReadObject(stream);

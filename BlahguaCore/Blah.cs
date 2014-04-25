@@ -979,10 +979,10 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string _id { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime c { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime u { get; set; }
 
         [DataMember]
@@ -997,7 +997,7 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public List<int> J { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime E { get; set; }
 
         [DataMember(Name = "1")]

@@ -30,6 +30,13 @@ namespace BlahguaMobile.AndroidClient
             RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_viewpost);
 
+            dialog = new ProgressDialog(this);
+            dialog.SetMessage("Please wait...");
+            dialog.SetCancelable(false);
+
+            textView = FindViewById<TextView>(Resource.Id.text);
+            image = FindViewById<ImageView>(Resource.Id.image);
+
             Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
             btn_back.Click += delegate
             {
@@ -37,10 +44,60 @@ namespace BlahguaMobile.AndroidClient
 			};
         }
 
-
+        private ImageView image;
+        private TextView textView;
+        private ProgressDialog dialog;
         protected override void OnStart()
         {
             base.OnStart();
+
+            dialog.Show();
+            BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
+            {
+
+                dialog.Hide();
+
+                //this.DataContext = BlahguaAPIObject.Current;
+                if (BlahguaAPIObject.Current.CurrentBlah != null)
+                {
+                    if (theBlah.ImageURL != null)
+                    {
+                        //ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
+                        //BackgroundImage.Source = defaultSrc;
+                        //BackgroundImage2.Source = defaultSrc;
+
+
+                        RunOnUiThread(() =>
+                        {
+                            image.SetUrlDrawable(theBlah.ImageURL);
+                            //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
+                        });
+                    }
+
+                    RunOnUiThread(() =>
+                    {
+                        textView.SetText(theBlah.F, TextView.BufferType.Normal);
+                    });
+
+                    //BlahSummaryArea.Visibility = Visibility.Visible;
+                    //UpdateButtonsForPage();
+                    //switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+                    //{
+                    //    case "polls":
+                    //        HandlePollInit();
+                    //        break;
+                    //    case "predicts":
+                    //        HandlePredictInit();
+                    //        break;
+                    //}
+                }
+                else
+                {
+                    Toast.MakeText(this, "unable to load blah.  Sorry!", ToastLength.Long).Show();
+                    //App.analytics.PostSessionError("loadblahfailed");
+                    Finish();
+                }
+            } );
         }
     }
 }
