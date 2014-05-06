@@ -11,45 +11,17 @@
       android:gravity="bottom"
       android:background="#15b568"
       android:textColor="#FFF"
-      android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
+      android:paddingLeft="20dp"
+      android:paddingTop="5dp"
+      android:paddingBottom="5dp"
+      android:textAppearance="@android:style/TextAppearance.Medium"
       android:text="@string/sidemenu_channels"/>
-  <Button
+  <ListView
+    android:id="@+id/listChannels"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_ch_public"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_ch_tech"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_ch_entertainment"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_ch_feedback"
-    android:gravity="left" />
+    android:background="#00000000" />
+
 
 
   <TextView
@@ -59,51 +31,14 @@
     android:background="#15b568"
     android:text="@string/sidemenu_view"
     android:textColor="#FFF"
-    android:padding="5dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:textAppearance="@android:style/TextAppearance.Medium" />
-  <Button
+
+  <ListView
+    android:id="@+id/listViews"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_v_newest"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_v_oldest"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_v_most_popular"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_v_most_promoted"
-    android:gravity="left" />
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:textColor="#FFF"
-    android:padding="5dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:text="@string/sidemenu_v_most_demoted"
-    android:gravity="left" />
+    android:background="#00000000" />
 </LinearLayout>

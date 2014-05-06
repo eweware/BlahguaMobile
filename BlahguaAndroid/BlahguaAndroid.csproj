@@ -114,12 +114,15 @@
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="BlahRollItem.cs" />
-    <Compile Include="ViewPostActivity.cs" />
-    <Compile Include="LoginActivity.cs" />
-    <Compile Include="MainActivity.cs" />
+    <Compile Include="Screens\ViewPostActivity.cs" />
+    <Compile Include="Screens\LoginActivity.cs" />
+    <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleListFragment.cs" />
+    <Compile Include="Screens\SampleListFragment.cs" />
+    <Compile Include="Screens\ViewPostCommentsFragment.cs" />
+    <Compile Include="Screens\ViewPostStatsFragment.cs" />
+    <Compile Include="Screens\ViewPostSummaryFragment.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
@@ -142,6 +145,9 @@
     <AndroidResource Include="Resources\layout\LoginScreen.axml" />
     <AndroidResource Include="Resources\layout\ControlBlahRollItem.axml" />
     <AndroidResource Include="Resources\layout\activity_viewpost.axml" />
+    <AndroidResource Include="Resources\layout\fragment_viewpost_summary.axml" />
+    <AndroidResource Include="Resources\layout\fragment_viewpost_comments.axml" />
+    <AndroidResource Include="Resources\layout\fragment_viewpost_stats.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -218,6 +224,70 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\btn_back_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_comments_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_comments_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_stats_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_stats_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_summary_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_summary_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_comments.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_demote.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_promote.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_stats.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_summary.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\check_mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\check_list.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\check_list.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\check_no_mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_newpost.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

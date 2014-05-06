@@ -1,53 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.OS;
-using Android.Util;
-using Android.Content.PM;
-using Android.Support.V4.Widget;
-using BlahguaMobile.BlahguaCore;
-using System.Timers;
-using System.ComponentModel;
 using Android.Support.V4.App;
-using Android.Graphics.Drawables;
-using System;
+using BlahguaMobile.BlahguaCore;
+
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
-using SlidingMenuSharp.App;
-using SlidingMenuSharp;
 
-namespace BlahguaMobile.AndroidClient
+namespace BlahguaMobile.AndroidClient.Screens
 {
-    [Activity]
-    public class ViewPostActivity : FragmentActivity
+    class ViewPostSummaryFragment : Fragment
     {
+        private readonly string TAG = "ViewPostSummaryFragment";
 
-		protected override void OnCreate (Bundle bundle)
-		{
-            base.OnCreate(bundle);
-
-            RequestWindowFeature(WindowFeatures.NoTitle);
-			SetContentView (Resource.Layout.activity_viewpost);
-
-            dialog = new ProgressDialog(this);
-            dialog.SetMessage("Please wait...");
-            dialog.SetCancelable(false);
-
-            textView = FindViewById<TextView>(Resource.Id.text);
-            image = FindViewById<ImageView>(Resource.Id.image);
-
-            Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
-            btn_back.Click += delegate
-            {
-                Finish();
-			};
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
         }
+
+        private Activity parent = null;
 
         private ImageView image;
         private TextView textView;
         private ProgressDialog dialog;
-        protected override void OnStart()
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            parent = (Activity)inflater.Context;
+            View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_summary, null);
+            //if (container == null)
+            //{
+            //    Log.Debug(TAG, "Dialer Fragment is in a view without container");
+            //    return null;
+            //}
+
+            TextView text = fragment.FindViewById<TextView>(Resource.Id.text);
+            //do some stuff like assigning event handlers, etc.
+
+            dialog = new ProgressDialog(parent);
+            dialog.SetMessage("Please wait...");
+            dialog.SetCancelable(false);
+
+            textView = fragment.FindViewById<TextView>(Resource.Id.text);
+            image = fragment.FindViewById<ImageView>(Resource.Id.image);
+
+            return fragment;// base.OnCreateView(inflater, container, savedInstanceState);
+        }
+
+        public override void OnStart()
         {
             base.OnStart();
 
@@ -60,21 +66,21 @@ namespace BlahguaMobile.AndroidClient
                 //this.DataContext = BlahguaAPIObject.Current;
                 if (BlahguaAPIObject.Current.CurrentBlah != null)
                 {
-                    if (theBlah.ImageURL != null)
+                    if (theBlah.ImageURL != null && image != null)
                     {
                         //ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
                         //BackgroundImage.Source = defaultSrc;
                         //BackgroundImage2.Source = defaultSrc;
 
 
-                        RunOnUiThread(() =>
+                        parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
                             //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
                         });
                     }
 
-                    RunOnUiThread(() =>
+                    parent.RunOnUiThread(() =>
                     {
                         textView.SetText(theBlah.F, TextView.BufferType.Normal);
                     });
@@ -93,13 +99,11 @@ namespace BlahguaMobile.AndroidClient
                 }
                 else
                 {
-                    Toast.MakeText(this, "unable to load blah.  Sorry!", ToastLength.Long).Show();
+                    Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
                     //App.analytics.PostSessionError("loadblahfailed");
-                    Finish();
+                    // Finish();
                 }
-            } );
+            });
         }
     }
 }
-
-

@@ -27,25 +27,21 @@ namespace BlahguaMobile.AndroidClient
         Timer scrollTimer = new Timer();
         int inboxCounter = 0;
 
-        int FramesPerSecond = 240;
+        int FramesPerSecond = 60;
 
         int screenMargin = 0;//24;
         int blahMargin = 0;//12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
-        //int[] rowSequence = new int[] { 4, 32, 31, 4, 1, 33, 4, 2, 4, 32, 1, 4, 31, 32, 33, 31, 4, 33, 1, 31, 4, 32, 33, 1, 4, 2 };
 
         private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
-
-		int count = 1;
-		int count2 = 1;
 
         private RelativeLayout BlahContainer = null;
         private ScrollView BlahScroller = null;
 
         protected ListFragment Frag;
-
-        private DrawerLayout m_Drawer;
-        private ListView m_DrawerList;
+        private Button btn_login, btn_newpost;
+        private ImageView avatarBar, avatar;
+        private LinearLayout registered_layout;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -69,13 +65,19 @@ namespace BlahguaMobile.AndroidClient
                 SlidingMenu.ShowMenu(true);
 			};
 
-            Button btn_login = FindViewById<Button>(Resource.Id.btn_login);
+            registered_layout = FindViewById<LinearLayout>(Resource.Id.registered_layout);
+            btn_newpost = FindViewById<Button>(Resource.Id.btn_newpost);
+            avatarBar = FindViewById<ImageView>(Resource.Id.avatar);
+            btn_login = FindViewById<Button>(Resource.Id.btn_login);
             btn_login.Click += delegate
             {
 				//button.Text = string.Format ("{0} clicks!", count2++);
                 StartActivity(typeof(LoginActivity));
 			};
 
+
+            scrollTimer.Interval = 1000 / FramesPerSecond;
+            scrollTimer.Elapsed += ScrollBlahRoll;
 
             ////// SLIDING MENU
 
@@ -86,6 +88,38 @@ namespace BlahguaMobile.AndroidClient
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
             SlidingMenu.Mode = MenuMode.LeftRight;
+
+            View leftMenu = SlidingMenu.GetMenu();
+            View rightMenu = SlidingMenu.GetSecondaryMenu();
+
+            avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
+
+            String[] channels = new String[] {
+                                GetString(Resource.String.sidemenu_ch_public),
+                                GetString(Resource.String.sidemenu_ch_tech),
+                                GetString(Resource.String.sidemenu_ch_entertainment),
+                                GetString(Resource.String.sidemenu_ch_feedback) };
+            String[] views = new String[] {
+                                GetString(Resource.String.sidemenu_v_newest),
+                                GetString(Resource.String.sidemenu_v_oldest),
+                                GetString(Resource.String.sidemenu_v_most_popular),
+                                GetString(Resource.String.sidemenu_v_most_promoted),
+                                GetString(Resource.String.sidemenu_v_most_demoted) };
+
+            ListView listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
+            listChannels.ChoiceMode = ChoiceMode.Single;
+            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.check_list, channels);
+            listChannels.SetItemChecked(0, true);
+            
+            ListView listViews = leftMenu.FindViewById<ListView>(Resource.Id.listViews);
+            listViews.ChoiceMode = ChoiceMode.Single;
+            listViews.Adapter = new ArrayAdapter(this, Resource.Layout.check_list, views);
+            listViews.SetItemChecked(0, true);
+
+            listChannels.ItemClick += list_Click;
+            listViews.ItemClick += list_Click;
+
+
             //if (null == bundle)
             //{
             //    var t = SupportFragmentManager.BeginTransaction();
@@ -97,6 +131,11 @@ namespace BlahguaMobile.AndroidClient
             //    Frag =
             //        (ListFragment)
             //        SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
+        }
+
+        private void list_Click(object sender, EventArgs e)
+        {
+            OnChannelChanged();
         }
 
         void StartTimers()
@@ -119,21 +158,40 @@ namespace BlahguaMobile.AndroidClient
             double curOffset = BlahScroller.ScrollY;
             curOffset += 1.0;
             BlahScroller.ScrollTo(0, (int)curOffset);
-            //DetectScrollAtEnd();
 
+            DetectScrollAtEnd();
+
+        }
+
+        bool AtScrollEnd = false;
+        void DetectScrollAtEnd()
+        {
+            int bottom = BlahScroller.GetChildAt(BlahScroller.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
+            if (BlahScroller.ScrollY == bottom)
+            {
+                if (!AtScrollEnd)
+                {
+                    AtScrollEnd = true;
+                    FetchNextBlahList();
+                }
+            }
+            
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-
-            scrollTimer.Interval = (TimeSpan.TicksPerSecond / FramesPerSecond) / 1000;
-            scrollTimer.Elapsed += ScrollBlahRoll;
-
+            
             BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
             InitService();
 
             StartTimers();
+            
+            //BlahguaAPIObject.Current.GetUserProfile((profile) =>
+            //{
+            //    int x = 0;
+            //    x++;
+            //});
         }
         void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -155,7 +213,6 @@ namespace BlahguaMobile.AndroidClient
 
 
         }
-
 
         #region Init
         private void InitService()
@@ -193,12 +250,18 @@ namespace BlahguaMobile.AndroidClient
                     //UserInfoBtn.Visibility = Visibility.Visible;
                     //NewBlahBtn.Visibility = Visibility.Visible;
                     //SignInBtn.Visibility = Visibility.Collapsed;
+                    btn_login.Visibility = ViewStates.Gone;
+                    registered_layout.Visibility = ViewStates.Visible;
+                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
                 }
                 else
                 {
                     //UserInfoBtn.Visibility = Visibility.Collapsed;
                     //NewBlahBtn.Visibility = Visibility.Collapsed;
                     //SignInBtn.Visibility = Visibility.Visible;
+                    btn_login.Visibility = ViewStates.Visible;
+                    registered_layout.Visibility = ViewStates.Gone;
                 }
                 //this.DataContext = BlahguaAPIObject.Current;
                 BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
@@ -244,7 +307,7 @@ namespace BlahguaMobile.AndroidClient
 
 
             //BlahContainer.Height = curTop + screenMargin;
-            inboxCounter++;
+            inboxCounter = 1;//++;
         }
 
         private void FetchInitialBlahList(bool secondTry = false)
@@ -300,6 +363,74 @@ namespace BlahguaMobile.AndroidClient
                 StartTimers();
             });
         }
+        private void FetchNextBlahList()
+        {
+            RunOnUiThread(() =>
+            {
+                Toast.MakeText(this, "loading...", ToastLength.Short).Show();
+            });
+            //LoadingMessageBox.Text = "loading...";
+            loadTimer.Stop();
+            loadTimer.Interval = 100000;// TimeSpan.FromSeconds(10);
+            loadTimer.Elapsed += (theObj, theArgs) =>
+            {
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
+                });
+                //LoadingMessageBox.Text = "still loading...";
+            };
+            loadTimer.Start();
+            BlahguaAPIObject.Current.GetInbox((newBlahList) =>
+            {
+                loadTimer.Stop();
+                if (newBlahList != null)
+                {
+                    blahList = newBlahList;
+                    blahList.PrepareBlahs();
+                    InsertAdditionalBlahs();
+                    AtScrollEnd = false;
+                    inboxCounter++;
+                    if (inboxCounter >= 5)
+                    {
+                        //UIElement curItem;
+                        double bottom = 0;
+                        // remove some blahs...
+                        //for (int i = 0; i < 101; i++)
+                        //{
+                        //    curItem = BlahContainer.Children[0];
+                        //    if (curItem is BlahRollItem)
+                        //    {
+                        //        BlahRollItem curBlah = (BlahRollItem)curItem;
+                        //        AddImpression(curBlah.BlahData.I);
+                        //    }
+
+                        //    BlahContainer.Children.Remove(curItem);
+                        //}
+                        RunOnUiThread(() =>
+                        {
+                            BlahContainer.RemoveAllViews();
+                        });
+
+                        bottom = BlahContainer.Height;
+                        //bottom = Canvas.GetTop(BlahContainer.Children[0]);
+
+                        // now shift everything up
+                        //foreach (UIElement theBlah in BlahContainer.Children)
+                        //{
+                        //    Canvas.SetTop(theBlah, Canvas.GetTop(theBlah) - bottom);
+                        //}
+                        //BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
+                        //BlahContainer.Height -= bottom;
+                        //maxScroll -= (int)bottom;
+                        inboxCounter--;
+                    }
+
+                }
+                //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+
+            });
+        }
 
         private void ClearBlahs()
         {
@@ -312,6 +443,21 @@ namespace BlahguaMobile.AndroidClient
         }
 
         #region InsertRows
+
+        private void InsertAdditionalBlahs()
+        {
+            double curTop = BlahScroller.ScrollY;
+
+            foreach (char rowType in sequence)
+            {
+                curTop = InsertRow(rowType, curTop);
+                curTop += blahMargin;
+            }
+
+            //curTop = InsertAd(curTop);
+
+            //BlahContainer.Height = curTop + blahMargin;
+        }
 
         private double InsertRow(char rowType, double topLoc)
         {
@@ -469,14 +615,22 @@ namespace BlahguaMobile.AndroidClient
 
             control.Click += delegate
             {
-                App.BlahIdToOpen = theBlah.I;
-                StartActivity(typeof(ViewPostActivity));
+                OpenBlahItem(theBlah);
             };
 
             RunOnUiThread(() =>
             {
                 BlahContainer.AddView(control);
             });
+
+        }
+
+        void OpenBlahItem(InboxBlah curBlah)
+        {
+            StopTimers();
+            BlahguaAPIObject.Current.CurrentInboxBlah = curBlah;
+            App.BlahIdToOpen = curBlah.I;
+            StartActivity(typeof(ViewPostActivity));
 
         }
 

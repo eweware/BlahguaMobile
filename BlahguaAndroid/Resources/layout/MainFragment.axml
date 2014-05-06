@@ -32,6 +32,26 @@
             android:textColor="@drawable/color_white_button_text"
             android:padding="10dp"
             android:text="Log In" />
+        <LinearLayout
+            android:id="@+id/registered_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#777"
+                android:scaleType="fitXY" />
+            <Button
+                android:id="@+id/btn_newpost"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:background="@drawable/btn_newpost" />
+        </LinearLayout>
     </FrameLayout>
     <ScrollView
         android:minWidth="25px"
