@@ -27,7 +27,7 @@ namespace BlahguaMobile.AndroidClient
             RequestWindowFeature(WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.LoginScreen);
+            SetContentView(Resource.Layout.activity_login);
 
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             login = FindViewById<EditText>(Resource.Id.login);

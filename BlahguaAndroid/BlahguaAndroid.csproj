@@ -113,13 +113,11 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
-    <Compile Include="BlahRollItem.cs" />
     <Compile Include="Screens\ViewPostActivity.cs" />
     <Compile Include="Screens\LoginActivity.cs" />
     <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\SampleListFragment.cs" />
     <Compile Include="Screens\ViewPostCommentsFragment.cs" />
     <Compile Include="Screens\ViewPostStatsFragment.cs" />
     <Compile Include="Screens\ViewPostSummaryFragment.cs" />
@@ -137,22 +135,17 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\layout\Signin.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\MainFragment.axml" />
-    <AndroidResource Include="Resources\layout\MainMenu.axml" />
-    <AndroidResource Include="Resources\layout\LoginScreen.axml" />
-    <AndroidResource Include="Resources\layout\ControlBlahRollItem.axml" />
+    <AndroidResource Include="Resources\layout\activity_login.axml" />
+    <AndroidResource Include="Resources\layout\uiitem_blah.axml" />
     <AndroidResource Include="Resources\layout\activity_viewpost.axml" />
     <AndroidResource Include="Resources\layout\fragment_viewpost_summary.axml" />
     <AndroidResource Include="Resources\layout\fragment_viewpost_comments.axml" />
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.axml" />
+    <AndroidResource Include="Resources\layout\activity_main.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
-    <AndroidResource Include="Resources\layout\MainScreen.axml" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="barchart">
@@ -195,20 +188,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\edit.9.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\menu_frame.xml" />
+    <AndroidResource Include="Resources\layout\sidemenu_sorting.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\menu_frame_two.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\row.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\list.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
+    <AndroidResource Include="Resources\layout\sidemenu_profile.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
@@ -279,7 +262,7 @@
     <AndroidResource Include="Resources\drawable\check_list.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\check_list.xml">
+    <AndroidResource Include="Resources\layout\listitem_check.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

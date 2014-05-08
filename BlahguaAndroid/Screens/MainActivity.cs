@@ -50,7 +50,7 @@ namespace BlahguaMobile.AndroidClient
             RequestWindowFeature(WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.MainScreen);
+			SetContentView (Resource.Layout.activity_main);
 
             BlahContainer = FindViewById<RelativeLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
@@ -81,8 +81,8 @@ namespace BlahguaMobile.AndroidClient
 
             ////// SLIDING MENU
 
-            SetBehindContentView(Resource.Layout.menu_frame);
-            SlidingMenu.SetSecondaryMenu(Resource.Layout.menu_frame_two);
+            SetBehindContentView(Resource.Layout.sidemenu_sorting);
+            SlidingMenu.SetSecondaryMenu(Resource.Layout.sidemenu_profile);
             SlidingMenu.ShadowWidthRes = Resource.Dimension.shadow_width;
             SlidingMenu.BehindOffsetRes = Resource.Dimension.slidingmenu_offset;
             SlidingMenu.FadeDegree = 0.25f;
@@ -108,12 +108,12 @@ namespace BlahguaMobile.AndroidClient
 
             ListView listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
             listChannels.ChoiceMode = ChoiceMode.Single;
-            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.check_list, channels);
+            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, channels);
             listChannels.SetItemChecked(0, true);
             
             ListView listViews = leftMenu.FindViewById<ListView>(Resource.Id.listViews);
             listViews.ChoiceMode = ChoiceMode.Single;
-            listViews.Adapter = new ArrayAdapter(this, Resource.Layout.check_list, views);
+            listViews.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, views);
             listViews.SetItemChecked(0, true);
 
             listChannels.ItemClick += list_Click;
@@ -586,7 +586,7 @@ namespace BlahguaMobile.AndroidClient
             layoutParams.SetMargins((int)xLoc, (int)yLoc, 0, 0);
             // TODO visual interpretatuion of a blah
 
-            var control = LayoutInflater.Inflate(Resource.Layout.ControlBlahRollItem, null);
+            var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
             
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
