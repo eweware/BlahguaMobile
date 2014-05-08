@@ -1,4 +1,3 @@
-using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
@@ -6,20 +5,20 @@ using Android.Widget;
 using Android.OS;
 using Android.Util;
 using Android.Content.PM;
-using Android.Support.V4.Widget;
 using BlahguaMobile.BlahguaCore;
 using System.Timers;
 using System.ComponentModel;
-using Android.Support.V4.App;
 using Android.Graphics.Drawables;
 using System;
 using SlidingMenuSharp.App;
 using SlidingMenuSharp;
+using BlahguaMobile.AndroidClient.Screens;
+using Android.App;
 
 namespace BlahguaMobile.AndroidClient
 {
     [Activity]
-    public class ViewPostActivity : FragmentActivity
+    public class ViewPostActivity : Activity
     {
 
 		protected override void OnCreate (Bundle bundle)
@@ -40,6 +39,27 @@ namespace BlahguaMobile.AndroidClient
             Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
             Button btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
             Button btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
+
+            btn_comments.Click += btn_comments_Click;
+            btn_summary.Click += btn_summary_Click;
+
+            btn_summary_Click(null, null);
+        }
+
+        private void btn_summary_Click(object sender, EventArgs e)
+        {
+            var summary = ViewPostSummaryFragment.NewInstance();
+            var fragmentTransaction = FragmentManager.BeginTransaction();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, summary);
+            fragmentTransaction.Commit();
+        }
+
+        private void btn_comments_Click(object sender, EventArgs e)
+        {
+            var comments = ViewPostCommentsFragment.NewInstance();
+            var fragmentTransaction = FragmentManager.BeginTransaction();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, comments);
+            fragmentTransaction.Commit();
         }
 
         protected override void OnStart()

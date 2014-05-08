@@ -19,35 +19,34 @@
             android:textColor="#FFF"
             android:text=" Back" />
     </FrameLayout>
-<!--
+
     <FrameLayout
         android:id="@+id/content_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-  </FrameLayout>-->
-    <fragment
-        android:id="@+id/content_fragment"
-        android:name="BlahguaMobile.AndroidClient.Screens.ViewPostSummaryFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    </FrameLayout>
+  
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#15b568"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="8dp">
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
         <Button
             android:id="@+id/btn_promote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="19dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_promote" />
+        <View
+            android:layout_width="8dp"
+            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_demote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="19dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_demote" />
         <View
             android:layout_width="0dp"
@@ -55,18 +54,24 @@
             android:layout_weight="1" />
         <Button
             android:id="@+id/btn_summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_summary" />
+        <View
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_comments" />
+        <View
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_stats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_stats" />
     </LinearLayout>
 </LinearLayout>

@@ -9,19 +9,22 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Support.V4.App;
+using BlahguaMobile.BlahguaCore;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
     class ViewPostCommentsFragment : Fragment
     {
-        private readonly string TAG = "ViewPostCommentsFragment";
-
-        public override void OnCreate(Bundle savedInstanceState)
+        public static ViewPostCommentsFragment NewInstance()
         {
-            base.OnCreate(savedInstanceState);
+            return new ViewPostCommentsFragment { Arguments = new Bundle() };
         }
 
+        private readonly string TAG = "ViewPostCommentsFragment";
+
+        ListView list;
+        LinearLayout no_comments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
@@ -31,10 +34,31 @@ namespace BlahguaMobile.AndroidClient.Screens
             //    return null;
             //}
 
-            TextView text = fragment.FindViewById<TextView>(Resource.Id.text);
-            //do some stuff like assigning event handlers, etc.
+            list = fragment.FindViewById<ListView>(Resource.Id.list);
+            no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
 
-            return fragment;// base.OnCreateView(inflater, container, savedInstanceState);
+            LoadComments();
+
+            return fragment;
+        }
+
+        private void LoadComments()
+        {
+            BlahguaAPIObject.Current.LoadBlahComments((theList) =>
+            {
+                if (theList.Count > 0)
+                {
+                    no_comments.Visibility = ViewStates.Gone;
+                    list.Visibility = ViewStates.Visible;
+                    list.Adapter = new CommentsAdapter(Activity, theList);
+                }
+                else
+                {
+                    no_comments.Visibility = ViewStates.Visible;
+                    list.Visibility = ViewStates.Gone;
+                    list.Adapter = null;
+                }
+            });
         }
     }
 }

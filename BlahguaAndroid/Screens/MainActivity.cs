@@ -10,7 +10,6 @@ using Android.Support.V4.Widget;
 using BlahguaMobile.BlahguaCore;
 using System.Timers;
 using System.ComponentModel;
-using Android.Support.V4.App;
 using Android.Graphics.Drawables;
 using System;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;

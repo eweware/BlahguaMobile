@@ -241,10 +241,13 @@ namespace BlahguaMobile.AndroidClient
 			public const int edit = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int Icon = 2130837536;
+			public const int ico_comment_gray = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int img_avatar_sample = 2130837537;
+			public const int Icon = 2130837537;
+			
+			// aapt resource value: 0x7f020022
+			public const int img_avatar_sample = 2130837538;
 			
 			static Drawable()
 			{
@@ -264,6 +267,12 @@ namespace BlahguaMobile.AndroidClient
 			
 			// aapt resource value: 0x7f040015
 			public const int BlahScroller = 2130968597;
+			
+			// aapt resource value: 0x7f040021
+			public const int author = 2130968609;
+			
+			// aapt resource value: 0x7f040024
+			public const int author_avatar = 2130968612;
 			
 			// aapt resource value: 0x7f040013
 			public const int avatar = 2130968595;
@@ -319,20 +328,26 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040018
 			public const int content_fragment = 2130968600;
 			
+			// aapt resource value: 0x7f040027
+			public const int downvoted = 2130968615;
+			
 			// aapt resource value: 0x7f040003
 			public const int fullscreen = 2130968579;
 			
-			// aapt resource value: 0x7f04001f
-			public const int image = 2130968607;
+			// aapt resource value: 0x7f040023
+			public const int image = 2130968611;
 			
 			// aapt resource value: 0x7f040000
 			public const int left = 2130968576;
 			
-			// aapt resource value: 0x7f040022
-			public const int listChannels = 2130968610;
+			// aapt resource value: 0x7f04001e
+			public const int list = 2130968606;
 			
-			// aapt resource value: 0x7f040023
-			public const int listViews = 2130968611;
+			// aapt resource value: 0x7f04002a
+			public const int listChannels = 2130968618;
+			
+			// aapt resource value: 0x7f04002b
+			public const int listViews = 2130968619;
 			
 			// aapt resource value: 0x7f040008
 			public const int login = 2130968584;
@@ -340,11 +355,14 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040002
 			public const int margin = 2130968578;
 			
-			// aapt resource value: 0x7f040021
-			public const int menu_frame = 2130968609;
+			// aapt resource value: 0x7f040029
+			public const int menu_frame = 2130968617;
 			
-			// aapt resource value: 0x7f040020
-			public const int menu_frame_two = 2130968608;
+			// aapt resource value: 0x7f040028
+			public const int menu_frame_two = 2130968616;
+			
+			// aapt resource value: 0x7f04001f
+			public const int no_comments = 2130968607;
 			
 			// aapt resource value: 0x7f040009
 			public const int password = 2130968585;
@@ -364,14 +382,20 @@ namespace BlahguaMobile.AndroidClient
 			// aapt resource value: 0x7f040004
 			public const int selected_view = 2130968580;
 			
-			// aapt resource value: 0x7f040024
-			public const int slidingmenumain = 2130968612;
+			// aapt resource value: 0x7f04002c
+			public const int slidingmenumain = 2130968620;
 			
-			// aapt resource value: 0x7f04001e
-			public const int text = 2130968606;
+			// aapt resource value: 0x7f040020
+			public const int text = 2130968608;
 			
 			// aapt resource value: 0x7f040025
-			public const int title = 2130968613;
+			public const int time_ago = 2130968613;
+			
+			// aapt resource value: 0x7f040022
+			public const int title = 2130968610;
+			
+			// aapt resource value: 0x7f040026
+			public const int upvoted = 2130968614;
 			
 			static Id()
 			{
@@ -424,16 +448,19 @@ namespace BlahguaMobile.AndroidClient
 			public const int listitem_check = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int sidemenu_profile = 2130903047;
+			public const int listitem_comment = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int sidemenu_sorting = 2130903048;
+			public const int sidemenu_profile = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int slidingmenumain = 2130903049;
+			public const int sidemenu_sorting = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int uiitem_blah = 2130903050;
+			public const int slidingmenumain = 2130903050;
+			
+			// aapt resource value: 0x7f03000b
+			public const int uiitem_blah = 2130903051;
 			
 			static Layout()
 			{

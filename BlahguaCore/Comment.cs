@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace BlahguaMobile.BlahguaCore
 {
@@ -138,27 +139,44 @@ namespace BlahguaMobile.BlahguaCore
 
     }
 
-
+    [DataContract]
     public class Comment : INotifyPropertyChanged
     {
+        [DataMember]
         public string _id { get; set; }
+        [DataMember]
         public string B { get; set; }
+        [DataMember]
         public string T { get; set; }
+        [DataMember]
         public string A { get; set; }
+        [DataMember]
         public double S { get; set; }
         public DateTime c { get; set; }
+        [DataMember]
         public List<string> BD { get; set; }
+        [DataMember]
         public string CID { get; set; }
+        [DataMember]
         public bool XX { get; set; }
+        [DataMember]
         public int U { get; set; }
+        [DataMember]
         public int D { get; set; }
+        [DataMember]
         public DemographicRecord _d { get; set; }
         public DateTime u { get; set; }
+        [DataMember]
         public List<string> M { get; set; }
+        [DataMember]
         public CommentList subComments = null;
+        [DataMember]
         public string K { get; set; }
+        [DataMember]
         public string d { get; set; }
+        [DataMember]
         public List<string> _m { get; set; }
+        [DataMember]
         public int uv { get; set; }
         private int _indentLevel;
 
@@ -304,7 +322,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return Utilities.ElapsedDateString(c);
+                return Utilities.ElapsedDateString(new DateTime());//c);
             }
         }
 

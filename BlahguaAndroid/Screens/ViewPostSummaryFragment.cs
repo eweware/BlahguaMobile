@@ -9,7 +9,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Support.V4.App;
 using BlahguaMobile.BlahguaCore;
 
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
@@ -18,6 +17,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     class ViewPostSummaryFragment : Fragment
     {
+        public static ViewPostSummaryFragment NewInstance()
+        {
+            return new ViewPostSummaryFragment { Arguments = new Bundle() };
+        }
+
         private readonly string TAG = "ViewPostSummaryFragment";
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -28,7 +32,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private Activity parent = null;
 
         private ImageView image;
-        private TextView textView;
+        private TextView titleView, textView;
         private ProgressDialog dialog;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -48,6 +52,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             dialog.SetCancelable(false);
 
             textView = fragment.FindViewById<TextView>(Resource.Id.text);
+            titleView = fragment.FindViewById<TextView>(Resource.Id.title);
             image = fragment.FindViewById<ImageView>(Resource.Id.image);
 
             return fragment;// base.OnCreateView(inflater, container, savedInstanceState);
@@ -82,6 +87,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     parent.RunOnUiThread(() =>
                     {
+                        titleView.SetText(theBlah.T, TextView.BufferType.Normal);
                         textView.SetText(theBlah.F, TextView.BufferType.Normal);
                     });
 
