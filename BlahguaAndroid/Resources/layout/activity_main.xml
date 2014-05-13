@@ -53,6 +53,12 @@
                 android:background="@drawable/btn_newpost" />
         </LinearLayout>
     </FrameLayout>
+    <include
+        layout="@layout/include_create_post"
+        android:id="@+id/create_post_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
     <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"

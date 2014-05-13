@@ -65,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
+            android:textColor="#3C3C3C"
             android:hint="Email address - or - username" />
         <EditText
             android:id="@+id/password"
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
             android:inputType="textPassword"
+            android:textColor="#3C3C3C"
             android:hint="Password" />
         <EditText
             android:id="@+id/password_confirm"
@@ -79,6 +81,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
             android:inputType="textPassword"
+            android:textColor="#3C3C3C"
             android:hint="Confirm password" />
         <LinearLayout
             android:layout_width="match_parent"

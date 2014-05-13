@@ -15,6 +15,7 @@ using System;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using SlidingMenuSharp.App;
 using SlidingMenuSharp;
+using Android.Animation;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -81,17 +82,13 @@ namespace BlahguaMobile.AndroidClient
             ////// SLIDING MENU
 
             SetBehindContentView(Resource.Layout.sidemenu_sorting);
-            SlidingMenu.SetSecondaryMenu(Resource.Layout.sidemenu_profile);
             SlidingMenu.ShadowWidthRes = Resource.Dimension.shadow_width;
             SlidingMenu.BehindOffsetRes = Resource.Dimension.slidingmenu_offset;
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
-            SlidingMenu.Mode = MenuMode.LeftRight;
+            SlidingMenu.Mode = MenuMode.Left;
 
             View leftMenu = SlidingMenu.GetMenu();
-            View rightMenu = SlidingMenu.GetSecondaryMenu();
-
-            avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
 
             String[] channels = new String[] {
                                 GetString(Resource.String.sidemenu_ch_public),
@@ -130,10 +127,254 @@ namespace BlahguaMobile.AndroidClient
             //    Frag =
             //        (ListFragment)
             //        SupportFragmentManager.FindFragmentById(Resource.Id.menu_frame);
+            create_post_block = FindViewById<View>(Resource.Id.create_post_block);
+            btn_newpost.Click += (sender, args) => {
+                triggerCreateBlock();
+            };
+            Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
+            btn_select_image.Click += (sender, args) =>
+            {
+                var imageIntent = new Intent();
+                imageIntent.SetType("image/*");
+                imageIntent.SetAction(Intent.ActionGetContent);
+                StartActivityForResult(
+                    Intent.CreateChooser(imageIntent, "Select image"), 0);
+            };
+            Button btn_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_done.Click += (sender, args) =>
+            {
+                if (DoCreateClick())
+                {
+                    triggerCreateBlock();
+                }
+            };
+            newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
+            newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
+        }
+        View create_post_block;
+        EditText newPostTitle, newPostText;
+        /////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////
+        public void triggerCreateBlock()
+        {
+            if (create_post_block.Visibility.Equals(ViewStates.Gone))
+            {
+                //set Visible
+                create_post_block.Visibility = ViewStates.Visible;
+                int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+                int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+                create_post_block.Measure(widthSpec, heightSpec);
+
+                if (BlahguaAPIObject.Current.CreateRecord == null)
+                    BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
+
+                ValueAnimator mAnimator = slideAnimator(create_post_block, 0, create_post_block.MeasuredHeight, false);
+                mAnimator.Start();
+            }
+            else
+            {
+                //collapse();
+                int finalHeight = create_post_block.Height;
+
+                ValueAnimator mAnimator = slideAnimator(create_post_block, finalHeight, 0, false);
+                mAnimator.Start();
+                mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
+                {
+                    create_post_block.Visibility = ViewStates.Gone;
+                };
+
+            }
+        }
+
+        private ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
+        {
+            ValueAnimator animator = ValueAnimator.OfInt(start, end);
+            //ValueAnimator animator2 = ValueAnimator.OfInt(start, end);
+            //  animator.AddUpdateListener (new ValueAnimator.IAnimatorUpdateListener{
+            animator.Update +=
+                (object sender, ValueAnimator.AnimatorUpdateEventArgs e) =>
+                {
+                    //  int newValue = (int)
+                    //e.Animation.AnimatedValue; // Apply this new value to the object being animated.
+                    //  myObj.SomeIntegerValue = newValue; 
+                    var value = (int)animator.AnimatedValue;
+                    ViewGroup.LayoutParams layoutParams = layout.LayoutParameters;
+                    if (animatingWidth)
+                        layoutParams.Width = value;
+                    else
+                        layoutParams.Height = value;
+                    layout.LayoutParameters = layoutParams;
+
+                };
+
+
+            //      });
+            return animator;
+        }
+
+
+        private bool DoCreateClick()
+        {
+            //SelectedBadgesList.Focus();
+            BlahguaAPIObject.Current.CreateRecord.T = newPostTitle.Text;
+            BlahguaAPIObject.Current.CreateRecord.F = newPostText.Text;
+            string valStr = IsBlahValid();
+            if (valStr == "")
+            {
+                BlahguaAPIObject.Current.CreateBlah(OnCreateBlahOK);
+                return true;
+            }
+            else
+            {
+                Toast.MakeText(this, valStr, ToastLength.Short).Show();
+                return false;
+            }
+        }
+        private void OnCreateBlahOK(Blah newBlah)
+        {
+            if (newBlah != null)
+            {
+                BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
+                //App.analytics.PostCreateBlah(newBlah.Y);
+
+                Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+                triggerCreateBlock();
+                //NavigationService.GoBack();
+            }
+            else
+            {
+                Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                //MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.");
+                //App.analytics.PostFormatError("blah create failed");
+
+            }
+        }
+
+        private string IsBlahValid()
+        {
+            BlahCreateRecord curBlah = BlahguaAPIObject.Current.CreateRecord;
+
+            bool hasImage = ((curBlah.M != null) && (curBlah.M.Count > 0));
+
+            if (curBlah.T == null)
+            {
+                if (!hasImage)
+                    return "Headline is too short for a post with no image (< 3 characters)";
+            }
+            else
+            {
+                if ((curBlah.T.Length < 3) && (!hasImage))
+                    return "Headline is too short for a post with no image (< 3 characters)";
+
+                if (curBlah.T.Length > 64)
+                    return "Headline is too long (> 64 characters)";
+            }
+
+            if ((curBlah.F != null) && (curBlah.F.Length > 2000))
+                return "Body text is too long (> 2000 characters)";
+
+            // type restrictions
+            switch (curBlah.BlahType.N)
+            {
+                case "leaks":
+                    if ((curBlah.B == null) || (curBlah.B.Count == 0))
+                        return "Leaks must be badged.";
+                    break;
+
+                case "asks":
+                    if (curBlah.T.IndexOf("?") == -1)
+                        return "Asks must contain a question mark.";
+                    break;
+
+                case "polls":
+                    if ((curBlah.I == null) || (curBlah.I.Count < 2))
+                        return "Polls require at least two chouices.";
+
+                    foreach (PollItem curItem in curBlah.I)
+                    {
+                        if ((curItem.G == null) || (curItem.G.Length == 0))
+                            return "Each poll response requires a title.";
+                    }
+                    break;
+
+                case "predicts":
+                    if ((curBlah.ExpirationDate == null) || (curBlah.ExpirationDate <= DateTime.Now.AddDays(1)))
+                        return "Predictions must be at least a day in the future.";
+
+                    break;
+            }
+
+
+            return "";
+        }
+        /////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////
+
+
+        bool secondaryMenuInitiated = false;
+        private void initSecondaryMenu()
+        {
+            if (!secondaryMenuInitiated)
+            {
+                secondaryMenuInitiated = true;
+            }
+            else
+            {
+                return;
+            }
+            SlidingMenu.Mode = MenuMode.LeftRight;
+            SlidingMenu.SetSecondaryMenu(Resource.Layout.sidemenu_profile);
+            View rightMenu = SlidingMenu.GetSecondaryMenu();
+
+            avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
+
+            //View demog = rightMenu.FindViewById<View>(Resource.Id.menu_demographics);
+            //demog.Click += (sender, args) =>
+            //{
+            //    var intent = new Intent(this, typeof(UserProfileActivity));
+            //    intent.PutExtra("Page", 2);
+            //    StartActivity(intent);
+            //};
+            //View prof = rightMenu.FindViewById<View>(Resource.Id.menu_profile);
+            //prof.Click += (sender, args) =>
+            //{
+            //    var intent = new Intent(this, typeof(UserProfileActivity));
+            //    intent.PutExtra("Page", 1);
+            //    StartActivity(intent);
+            //};
+
+            String[] profile = new String[] {
+                                GetString(Resource.String.profilemenu_profile),
+                                GetString(Resource.String.profilemenu_badges),
+                                GetString(Resource.String.profilemenu_demographics),
+                                GetString(Resource.String.profilemenu_history),
+                                GetString(Resource.String.profilemenu_stats) };
+            ListView listProfileMenu = rightMenu.FindViewById<ListView>(Resource.Id.listProfileMenu);
+            listProfileMenu.ChoiceMode = ChoiceMode.None;
+            listProfileMenu.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_profile, profile);
+            listProfileMenu.ItemClick += (sender, args) => {
+                SlidingMenu.Toggle();
+                if (args.Position == 0) // Profile
+                {
+                    var intent = new Intent(this, typeof(UserProfileActivity));
+                    intent.PutExtra("Page", 1);
+                    StartActivity(intent);
+                }
+                else if (args.Position == 1) // Badges
+                {
+                }
+                else if (args.Position == 2) // Demographics
+                {
+                    var intent = new Intent(this, typeof(UserProfileActivity));
+                    intent.PutExtra("Page", 2);
+                    StartActivity(intent);
+                }
+            };
         }
 
         private void list_Click(object sender, EventArgs e)
         {
+            SlidingMenu.Toggle();
             OnChannelChanged();
         }
 
@@ -243,25 +484,30 @@ namespace BlahguaMobile.AndroidClient
             loadTimer.Stop();
             if (didIt)
             {
-                if (BlahguaAPIObject.Current.CurrentUser != null)
+                RunOnUiThread(() =>
                 {
-                    //App.analytics.PostAutoLogin();
-                    //UserInfoBtn.Visibility = Visibility.Visible;
-                    //NewBlahBtn.Visibility = Visibility.Visible;
-                    //SignInBtn.Visibility = Visibility.Collapsed;
-                    btn_login.Visibility = ViewStates.Gone;
-                    registered_layout.Visibility = ViewStates.Visible;
-                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                }
-                else
-                {
-                    //UserInfoBtn.Visibility = Visibility.Collapsed;
-                    //NewBlahBtn.Visibility = Visibility.Collapsed;
-                    //SignInBtn.Visibility = Visibility.Visible;
-                    btn_login.Visibility = ViewStates.Visible;
-                    registered_layout.Visibility = ViewStates.Gone;
-                }
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
+                    {
+                        //App.analytics.PostAutoLogin();
+                        //UserInfoBtn.Visibility = Visibility.Visible;
+                        //NewBlahBtn.Visibility = Visibility.Visible;
+                        //SignInBtn.Visibility = Visibility.Collapsed;
+                        initSecondaryMenu();
+
+                        btn_login.Visibility = ViewStates.Gone;
+                        registered_layout.Visibility = ViewStates.Visible;
+                        avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                        avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                    }
+                    else
+                    {
+                        //UserInfoBtn.Visibility = Visibility.Collapsed;
+                        //NewBlahBtn.Visibility = Visibility.Collapsed;
+                        //SignInBtn.Visibility = Visibility.Visible;
+                        btn_login.Visibility = ViewStates.Visible;
+                        registered_layout.Visibility = ViewStates.Gone;
+                    }
+                });
                 //this.DataContext = BlahguaAPIObject.Current;
                 BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                 {

@@ -25,4 +25,19 @@
   <string name="profilemenu_history">History</string>
   <string name="profilemenu_stats">Stats</string>
   <string name="profilemenu_logout">Logout</string>
+
+
+  <string name="select_prompt">Select</string>
+  <string-array name="gender_array">
+    <item>Male</item>
+    <item>Female</item>
+    <item>None</item>
+  </string-array>
+  <string-array name="ethnicity_array">
+    <item>American</item>
+    <item>German</item>
+    <item>Ukrainian</item>
+    <item>Russian</item>
+    <item>Polish</item>
+  </string-array>
 </resources>

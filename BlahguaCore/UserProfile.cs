@@ -73,7 +73,7 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string _id { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime c { get; set; }
 
         [DataMember]

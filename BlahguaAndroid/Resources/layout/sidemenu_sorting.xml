@@ -20,6 +20,7 @@
     android:id="@+id/listChannels"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+      android:listSelector="@drawable/list_item_selector"
     android:background="#00000000" />
 
 
@@ -40,5 +41,6 @@
     android:id="@+id/listViews"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+      android:listSelector="@drawable/list_item_selector"
     android:background="#00000000" />
 </LinearLayout>

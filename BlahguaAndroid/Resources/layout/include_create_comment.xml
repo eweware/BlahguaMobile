@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_create_comment">
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="vertical"
+      android:padding="10dp">
+      <EditText
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:textColor="#3C3C3C"
+        android:hint="Type comments"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:minLines="5"
+        android:gravity="top|left"
+        android:background="@null"
+        android:paddingBottom="3dp"/>
+      
+    </LinearLayout>
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="2px"
+      android:background="#E4E4E4" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:gravity="center_vertical"
+      android:orientation="horizontal">
+
+      <Button
+          android:id="@+id/btn_image"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="match_parent"
+          android:background="@null"
+          android:textColor="#3C3C3C"
+          android:textSize="14sp"
+          android:text="Select image" />
+
+      <View
+        android:layout_width="2px"
+        android:layout_height="match_parent"
+        android:background="#E4E4E4" />
+    
+      <Button
+          android:id="@+id/btn_signature"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="match_parent"
+          android:background="@null"
+          android:textColor="#3C3C3C"
+          android:textSize="14sp"
+          android:text="Select signature"/>
+    </LinearLayout>
+  </LinearLayout>
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_green"
+        android:textColor="#FFF"
+        android:text="DONE"/>
+</LinearLayout>

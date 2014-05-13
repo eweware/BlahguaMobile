@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:drawable="@drawable/selected_not_state"/>
+
+  <item
+    android:state_pressed="true"
+    android:drawable="@drawable/selected_state"
+    android:color="#15b568"/>
+
+</selector>

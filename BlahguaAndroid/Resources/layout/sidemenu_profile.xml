@@ -12,8 +12,8 @@
     android:orientation="vertical">
     <ImageView
       android:id="@+id/avatar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_width="180dp"
+      android:layout_height="180dp"
       android:scaleType="fitCenter"
       android:padding="3dp"
       android:layout_gravity="center_horizontal"
@@ -24,7 +24,9 @@
       android:gravity="center"
       android:textColor="#FFF"
       android:text="jjoodesign"/>
+    <!--
     <TextView
+      android:id="@+id/menu_profile"
       android:layout_width="match_parent"
       android:layout_height="40dp"
       android:gravity="bottom"
@@ -43,6 +45,7 @@
       android:text="@string/profilemenu_badges"
       android:gravity="left" />
     <Button
+      android:id="@+id/menu_demographics"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="#00000000"
@@ -69,12 +72,20 @@
       android:textAppearance="@android:style/TextAppearance.Medium"
       android:text="@string/profilemenu_stats"
       android:gravity="left" />
+      -->
+
+    <ListView
+      android:id="@+id/listProfileMenu"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:listSelector="@drawable/list_item_selector" />
   </LinearLayout>
   <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#00000000"
     android:textColor="#3C3C3C"
+    android:layout_marginLeft="5dp"
     android:padding="5dp"
     android:textAppearance="@android:style/TextAppearance.Medium"
     android:text="@string/profilemenu_logout"

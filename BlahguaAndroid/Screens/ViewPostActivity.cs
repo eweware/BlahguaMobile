@@ -20,6 +20,11 @@ namespace BlahguaMobile.AndroidClient
     [Activity]
     public class ViewPostActivity : Activity
     {
+        private Button btn_right;
+        private TextView title;
+
+        private ViewPostCommentsFragment commentsFragment;
+        private ViewPostSummaryFragment summaryFragment;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -34,6 +39,14 @@ namespace BlahguaMobile.AndroidClient
                 Finish();
 			};
 
+            title = FindViewById<TextView>(Resource.Id.title);
+            btn_right = FindViewById<Button>(Resource.Id.btn_right);
+
+            btn_right.Click += btn_right_Click;
+
+            title.Visibility = ViewStates.Gone;
+            btn_right.Visibility = ViewStates.Gone;
+
             Button btn_promote = FindViewById<Button>(Resource.Id.btn_promote);
             Button btn_demote = FindViewById<Button>(Resource.Id.btn_demote);
             Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
@@ -46,19 +59,38 @@ namespace BlahguaMobile.AndroidClient
             btn_summary_Click(null, null);
         }
 
+        private void btn_right_Click(object sender, EventArgs e)
+        {
+            if (commentsFragment != null) // that means it is active
+            {
+                commentsFragment.triggerCreateBlock();
+            }
+        }
+
         private void btn_summary_Click(object sender, EventArgs e)
         {
-            var summary = ViewPostSummaryFragment.NewInstance();
+            title.Visibility = ViewStates.Gone;
+            btn_right.Visibility = ViewStates.Gone;
+
+            commentsFragment = null;
+
+            summaryFragment = ViewPostSummaryFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
-            fragmentTransaction.Replace(Resource.Id.content_fragment, summary);
+            fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
             fragmentTransaction.Commit();
         }
 
         private void btn_comments_Click(object sender, EventArgs e)
         {
-            var comments = ViewPostCommentsFragment.NewInstance();
+            title.Visibility = ViewStates.Visible;
+            btn_right.Visibility = ViewStates.Visible;
+            btn_right.Text = "Write";
+
+            summaryFragment = null;
+
+            commentsFragment = ViewPostCommentsFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
-            fragmentTransaction.Replace(Resource.Id.content_fragment, comments);
+            fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
             fragmentTransaction.Commit();
         }
 

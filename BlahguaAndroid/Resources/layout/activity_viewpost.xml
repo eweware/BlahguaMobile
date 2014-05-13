@@ -9,15 +9,34 @@
         android:layout_height="40dp"
         android:background="#15b568"
         android:paddingLeft="6dp">
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="left"
-            android:drawableLeft="@drawable/btn_back"
-            android:background="@null"
-            android:textColor="#FFF"
-            android:text=" Back" />
+      <Button
+          android:id="@+id/btn_back"
+          android:layout_width="wrap_content"
+          android:layout_height="40dp"
+          android:layout_gravity="left"
+          android:drawableLeft="@drawable/btn_back"
+          android:background="@null"
+          android:textColor="#FFF"
+          android:text=" Back" />
+      <TextView
+          android:id="@+id/title"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:layout_gravity="center"
+          android:background="@null"
+          android:textColor="#FFF"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          android:text="Comments" />
+      <Button
+          android:id="@+id/btn_right"
+          android:layout_width="wrap_content"
+          android:layout_height="40dp"
+          android:layout_gravity="right"
+          android:background="@null"
+          android:textColor="#FFF"
+          android:text="Write" />
     </FrameLayout>
 
     <FrameLayout

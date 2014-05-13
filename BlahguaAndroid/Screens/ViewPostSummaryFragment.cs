@@ -65,8 +65,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             dialog.Show();
             BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
             {
-
-                dialog.Hide();
+                parent.RunOnUiThread(() =>
+                {
+                    dialog.Hide();
+                });
 
                 //this.DataContext = BlahguaAPIObject.Current;
                 if (BlahguaAPIObject.Current.CurrentBlah != null)
