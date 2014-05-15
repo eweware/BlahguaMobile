@@ -76,7 +76,7 @@ namespace BlahguaMobile.BlahguaCore
         //[DataMember]
         public DateTime c { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime u { get; set; }
 
         public static ProfileSchema Schema {get; set; }

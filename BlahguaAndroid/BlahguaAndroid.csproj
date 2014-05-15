@@ -112,8 +112,14 @@
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
+    <Compile Include="HelpingClasses\GestureListener.cs" />
+    <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="Screens\HistoryCommentsFragment.cs" />
+    <Compile Include="Screens\HistoryPostsFragment.cs" />
+    <Compile Include="Screens\HistoryActivity.cs" />
     <Compile Include="Screens\UserProfileDemographicsFragment.cs" />
     <Compile Include="Screens\UserProfileProfileFragment.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
@@ -353,6 +359,31 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\include_create_comment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_history.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_history_comments.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_history_posts.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_history_blah.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_history_comment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -29,15 +29,30 @@
 
   <string name="select_prompt">Select</string>
   <string-array name="gender_array">
+    <item>Unspecified</item>
     <item>Male</item>
     <item>Female</item>
-    <item>None</item>
   </string-array>
   <string-array name="ethnicity_array">
-    <item>American</item>
-    <item>German</item>
-    <item>Ukrainian</item>
-    <item>Russian</item>
-    <item>Polish</item>
+    <item>Unspecified</item>
+    <item>Asian</item>
+    <item>Black</item>
+    <item>Hispanic</item>
+    <item>White</item>
+    <item>Other</item>
+  </string-array>
+  <string-array name="country_array">
+    <item>Unspecified</item>
+    <item>Australia</item>
+    <item>Brazil</item>
+    <item>Canada</item>
+    <item>China (PRC)</item>
+    <item>Japan</item>
+    <item>Singapore</item>
+    <item>South Korea</item>
+    <item>Taiwan</item>
+    <item>Thailand</item>
+    <item>United Kingdom</item>
+    <item>United States</item>
   </string-array>
 </resources>

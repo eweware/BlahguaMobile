@@ -369,6 +369,35 @@ namespace BlahguaMobile.AndroidClient
                     intent.PutExtra("Page", 2);
                     StartActivity(intent);
                 }
+                else if (args.Position == 3) // History
+                {
+                    var intent = new Intent(this, typeof(HistoryActivity));
+                    StartActivity(intent);
+                }
+            };
+
+            (rightMenu.FindViewById<Button>(Resource.Id.btn_logout)).Click += (sender, args) =>
+            {
+                ProgressDialog dialog = new ProgressDialog(this);
+                dialog.SetMessage("Signing out...");
+                dialog.SetCancelable(false);
+                dialog.Show();
+
+                SlidingMenu.Toggle();
+                BlahguaAPIObject.Current.SignOut(null, (theStr) =>
+                {
+                    RunOnUiThread(() =>
+                    {
+                        btn_login.Visibility = ViewStates.Visible;
+                        registered_layout.Visibility = ViewStates.Gone;
+
+                        SlidingMenu.Mode = MenuMode.LeftRight;
+                        OnChannelChanged();
+                        dialog.Cancel();
+                    });
+                    //NavigationService.GoBack();
+                }
+                );
             };
         }
 

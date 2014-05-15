@@ -15,18 +15,18 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
-    class CommentsAdapter : BaseAdapter
+    class PostsAdapter : BaseAdapter
     {
         Activity _activity;
-        CommentList _list;
+        BlahList _list;
 
-        public CommentsAdapter(Activity activity, CommentList list)
+        public PostsAdapter(Activity activity, BlahList list)
         {
             _activity = activity;
             _list = list;
         }
 
-        public void setComments(CommentList list)
+        public void setEntries(BlahList list)
         {
             _list = list;
         }
@@ -52,25 +52,25 @@ namespace BlahguaMobile.AndroidClient.Adapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView ?? _activity.LayoutInflater.Inflate(
-                Resource.Layout.listitem_history_comment, parent, false);
+                Resource.Layout.listitem_history_blah, parent, false);
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
-            var author = view.FindViewById<TextView>(Resource.Id.author);
+            //var author = view.FindViewById<TextView>(Resource.Id.author);
             var author_avatar = view.FindViewById<ImageView>(Resource.Id.author_avatar);
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
 
-            Comment c = _list[position];
-            if (String.IsNullOrEmpty(c.ImageURL))
+            Blah b = _list[position];
+            if (String.IsNullOrEmpty(b.ImageURL))
             {
-                image.SetUrlDrawable(c.ImageURL);
+                image.SetUrlDrawable(b.ImageURL);
             }
 
-            text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
+            text.SetText(b.T, Android.Widget.TextView.BufferType.Normal);
 
-            upvoted.SetText(c.UpVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
-            downvoted.SetText(c.DownVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
+            upvoted.SetText(b.uv.ToString(), Android.Widget.TextView.BufferType.Normal);
+            downvoted.SetText(b.uv.ToString(), Android.Widget.TextView.BufferType.Normal);
 
             return view;
         }

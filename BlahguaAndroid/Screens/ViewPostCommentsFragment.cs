@@ -63,37 +63,38 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void LoadComments()
         {
-            CommentList comList = new CommentList();
-            comList.Add(new Comment() { _id = "d13cf41v", T = "Test comment 1", A = "author1", DownVoteCount = 0, UpVoteCount = 1 });
-            comList.Add(new Comment() { _id = "dd1233fd", T = "Hello how are you doing?", A = "anthony", DownVoteCount = 10, UpVoteCount = 321 });
-            comList.Add(new Comment() { _id = "df2dfh2d", T = "Great news! I want more!!!", A = "roger", DownVoteCount = 12, UpVoteCount = 7 });
-            comList.Add(new Comment() { _id = "dghsedr3", T = "Stability issues founded! Restart olease!", A = "ben", DownVoteCount = 555, UpVoteCount = 444 });
+            //CommentList comList = new CommentList();
+            //comList.Add(new Comment() { _id = "d13cf41v", T = "Test comment 1", A = "author1", DownVoteCount = 0, UpVoteCount = 1 });
+            //comList.Add(new Comment() { _id = "dd1233fd", T = "Hello how are you doing?", A = "anthony", DownVoteCount = 10, UpVoteCount = 321 });
+            //comList.Add(new Comment() { _id = "df2dfh2d", T = "Great news! I want more!!!", A = "roger", DownVoteCount = 12, UpVoteCount = 7 });
+            //comList.Add(new Comment() { _id = "dghsedr3", T = "Stability issues founded! Restart olease!", A = "ben", DownVoteCount = 555, UpVoteCount = 444 });
 
-            comments_total_count.Text = "There are " + comList.Count + " comments";
-            no_comments.Visibility = ViewStates.Gone;
-            list.Visibility = ViewStates.Visible;
-            list.Adapter = new CommentsAdapter(Activity, comList);
-            list.ItemClick += list_ItemClick;
-            //BlahguaAPIObject.Current.LoadBlahComments((theList) =>
-            //{
-            //    Activity.RunOnUiThread(() =>
-            //    {
-            //        if (theList.Count > 0)
-            //        {
-            //            comments_total_count.Text = "There are " + theList.Count + " comments";
-            //            no_comments.Visibility = ViewStates.Gone;
-            //            list.Visibility = ViewStates.Visible;
-            //            list.Adapter = new CommentsAdapter(Activity, theList);
-            //        }
-            //        else
-            //        {
-            //            comments_total_count.Text = "There is no comments";
-            //            no_comments.Visibility = ViewStates.Visible;
-            //            list.Visibility = ViewStates.Gone;
-            //            list.Adapter = null;
-            //        }
-            //    });
-            //});
+            //comments_total_count.Text = "There are " + comList.Count + " comments";
+            //no_comments.Visibility = ViewStates.Gone;
+            //list.Visibility = ViewStates.Visible;
+            //list.Adapter = new CommentsAdapter(Activity, comList);
+            //list.ItemClick += list_ItemClick;
+            BlahguaAPIObject.Current.LoadBlahComments((theList) =>
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    if (theList.Count > 0)
+                    {
+                        comments_total_count.Text = "There are " + theList.Count + " comments";
+                        no_comments.Visibility = ViewStates.Gone;
+                        list.Visibility = ViewStates.Visible;
+                        list.Adapter = new CommentsAdapter(Activity, theList);
+                        list.ItemClick += list_ItemClick;
+                    }
+                    else
+                    {
+                        comments_total_count.Text = "There is no comments";
+                        no_comments.Visibility = ViewStates.Visible;
+                        list.Visibility = ViewStates.Gone;
+                        list.Adapter = null;
+                    }
+                });
+            });
         }
 
         void list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

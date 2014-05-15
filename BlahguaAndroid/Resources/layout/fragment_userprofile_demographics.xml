@@ -36,6 +36,7 @@
           android:layout_weight="1"
           android:background="@drawable/btn_green"
           android:gravity="center"
+          android:textColor="#3C3C3C"
           android:prompt="@string/select_prompt" />
 
       <CheckBox
@@ -82,6 +83,8 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:hint="mm/dd/yyyy"
+          android:inputType="date"
+          android:textColor="#3C3C3C"
           android:background="@drawable/edit_gray"
           />
 
@@ -128,6 +131,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="center"
+          android:textColor="#3C3C3C"
           android:background="@drawable/btn_green"
           android:prompt="@string/select_prompt" />
 
@@ -174,6 +178,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:hint="Type here"
+          android:textColor="#3C3C3C"
           android:background="@drawable/edit_gray" />
 
       <CheckBox
@@ -219,6 +224,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:hint="Type here"
+          android:textColor="#3C3C3C"
           android:background="@drawable/edit_gray" />
 
       <CheckBox
@@ -264,6 +270,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:hint="Type here"
+          android:textColor="#3C3C3C"
           android:background="@drawable/edit_gray" />
 
       <CheckBox
@@ -280,6 +287,53 @@
           android:drawablePadding="5dp" />
     </LinearLayout>
   </LinearLayout>
+
+    <!-- Country -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFF"
+      android:orientation="vertical">
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Country"
+        android:textColor="#3C3C3C"
+        android:textStyle="bold"
+        android:textSize="14sp"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_demographics_dark"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <Spinner
+          android:id="@+id/country"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:background="@drawable/btn_green"
+          android:prompt="@string/select_prompt"
+          android:textColor="#3C3C3C" />
+
+        <CheckBox
+            android:id="@+id/check_public_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Public"
+            android:textColor="#3C3C3C"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:button="@null"
+            android:drawableLeft="@drawable/checkbox"
+            android:drawablePadding="5dp" />
+      </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
 </ScrollView>

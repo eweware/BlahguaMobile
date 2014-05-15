@@ -9,6 +9,7 @@ using Android.Util;
 using Android.Content.PM;
 using Android.Support.V4.Widget;
 using BlahguaMobile.BlahguaCore;
+using Android.Views.InputMethods;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -46,6 +47,10 @@ namespace BlahguaMobile.AndroidClient
             };
             buttonDone.Click += delegate
             {
+                InputMethodManager imm = (InputMethodManager)GetSystemService(
+                        Context.InputMethodService);
+                imm.HideSoftInputFromWindow(passwordConfirm.WindowToken, 0);
+
                 if (check_create_acc.Checked)
                 {
                     DoCreateAccount();
@@ -87,8 +92,13 @@ namespace BlahguaMobile.AndroidClient
                     check_yes.Checked = false;
                 }
             };
+
+            dialog = new ProgressDialog(this);
+            dialog.SetMessage("Signing in...");
+            dialog.SetCancelable(false);
 		}
 
+        ProgressDialog dialog;
 
 
 
@@ -104,11 +114,13 @@ namespace BlahguaMobile.AndroidClient
                 BlahguaAPIObject.Current.UserPassword = password.Text;
 
             progress.Visibility = ViewStates.Visible;
+            dialog.Show();
             BlahguaAPIObject.Current.SignIn(BlahguaAPIObject.Current.UserName,
                 BlahguaAPIObject.Current.UserPassword,
                 BlahguaAPIObject.Current.AutoLogin,
                 (errMsg) =>
                 {
+                    dialog.Hide();
                     if (errMsg == null)
                         HandleUserSignIn();
                     else
@@ -173,8 +185,10 @@ namespace BlahguaMobile.AndroidClient
             else
             {
                 progress.Visibility = ViewStates.Visible;
+                dialog.Show();
                 BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
                 {
+                    dialog.Hide();
                     if (errMsg == null)
                     {
                         //App.analytics.PostRegisterUser();

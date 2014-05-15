@@ -90,14 +90,25 @@ namespace BlahguaMobile.BlahguaCore
             apiClient.ExecuteAsync(request, (response) =>
             {
                 CommentList commentList = null;
+                try
+                {
+                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
+                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    object theObj = des.ReadObject(stream);
+                    stream.Close();
 
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
-
-                if (theObj != null)
-                    commentList = (CommentList)theObj;
+                    if (theObj != null)
+                        commentList = (CommentList)theObj;
+                }
+                catch (SerializationException exp)
+                {
+                    commentList = new CommentList();
+                    // serialization failed - make some BS comments
+                    commentList.Add(new Comment() { _id = "d13cf41v", T = "Test comment 1", A = "author1", DownVoteCount = 0, UpVoteCount = 1 });
+                    commentList.Add(new Comment() { _id = "dd1233fd", T = "serialization failed", A = "anthony", DownVoteCount = 10, UpVoteCount = 321 });
+                    commentList.Add(new Comment() { _id = "df2dfh2d", T = "Great news! I want more!!!", A = "roger", DownVoteCount = 12, UpVoteCount = 7 });
+                    commentList.Add(new Comment() { _id = "dghsedr3", T = "Stability issues founded! Restart olease!", A = "ben", DownVoteCount = 555, UpVoteCount = 444 });
+                }
 
                 callback(commentList);
             });
@@ -254,14 +265,25 @@ namespace BlahguaMobile.BlahguaCore
             apiClient.ExecuteAsync(request, (response) =>
             {
                 CommentList commentList = null;
+                try
+                {
+                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
+                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    object theObj = des.ReadObject(stream);
+                    stream.Close();
 
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
-
-                if (theObj != null)
-                    commentList = (CommentList)theObj;
+                    if (theObj != null)
+                        commentList = (CommentList)theObj;
+                }
+                catch (SerializationException exp)
+                {
+                    commentList = new CommentList();
+                    // serialization failed - make some BS comments
+                    commentList.Add(new Comment() { _id = "d13cf41v", T = "Test comment 1", A = "author1", DownVoteCount = 0, UpVoteCount = 1 });
+                    commentList.Add(new Comment() { _id = "dd1233fd", T = "serialization failed", A = "anthony", DownVoteCount = 10, UpVoteCount = 321 });
+                    commentList.Add(new Comment() { _id = "df2dfh2d", T = "Great news! I want more!!!", A = "roger", DownVoteCount = 12, UpVoteCount = 7 });
+                    commentList.Add(new Comment() { _id = "dghsedr3", T = "Stability issues founded! Restart olease!", A = "ben", DownVoteCount = 555, UpVoteCount = 444 });
+                }
 
                 callback(commentList);
             });
@@ -273,13 +295,44 @@ namespace BlahguaMobile.BlahguaCore
             apiClient.ExecuteAsync(request, (response) =>
             {
                 BlahList blahList = null;
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(BlahList));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
+                try
+                {
+                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(BlahList));
+                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    object theObj = des.ReadObject(stream);
+                    stream.Close();
 
-                if (theObj != null)
-                    blahList = (BlahList)theObj;
+                    if (theObj != null)
+                        blahList = (BlahList)theObj;
+                }
+                catch (SerializationException exp)
+                {
+                    blahList = new BlahList();
+
+                    // serialization failed - make some blahs
+                    blahList.Add(new Blah() {
+                        _id = "53729624e4b0fd27f5081645",
+                        A = "534b100ce4b08567a93329b5",
+                        E = new DateTime(2014, 05, 13),
+                        F = "test",
+                        G = "522ccb78e4b0a35dadfcf740",
+                        T = "dimadima",
+                        XX = true,
+                        Y = "522ccb79e4b0a35dadfcf743",
+                        c = new DateTime(2014, 05, 13, 22, 1, 8)
+                    });
+                    blahList.Add(new Blah() {
+                        _id = "53729624e4b0fd27f5081646",
+                        A = "534b100ce4b08567a93329b5",
+                        E = new DateTime(2014, 05, 14),
+                        F = "There is no other truth",
+                        G = "522ccb78e4b0a35dadfcf740",
+                        T = "In God we trust, in Devil we invest",
+                        XX = true,
+                        Y = "522ccb79e4b0a35dadfcf743",
+                        c = new DateTime(2014, 05, 14, 18, 55, 11)
+                    });
+                }
 
                 callback(blahList);
             });
