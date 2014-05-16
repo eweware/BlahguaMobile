@@ -117,20 +117,22 @@
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
-    <Compile Include="Screens\HistoryCommentsFragment.cs" />
-    <Compile Include="Screens\HistoryPostsFragment.cs" />
+    <Compile Include="Screens\MainActivity.BlahCreate.cs" />
+    <Compile Include="Screens\Fragment\HistoryCommentsFragment.cs" />
+    <Compile Include="Screens\Fragment\HistoryPostsFragment.cs" />
     <Compile Include="Screens\HistoryActivity.cs" />
-    <Compile Include="Screens\UserProfileDemographicsFragment.cs" />
-    <Compile Include="Screens\UserProfileProfileFragment.cs" />
+    <Compile Include="Screens\Fragment\UserProfileDemographicsFragment.cs" />
+    <Compile Include="Screens\Fragment\UserProfileProfileFragment.cs" />
+    <Compile Include="Screens\MainActivity.BlahList.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
     <Compile Include="Screens\ViewPostActivity.cs" />
     <Compile Include="Screens\LoginActivity.cs" />
     <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\ViewPostCommentsFragment.cs" />
-    <Compile Include="Screens\ViewPostStatsFragment.cs" />
-    <Compile Include="Screens\ViewPostSummaryFragment.cs" />
+    <Compile Include="Screens\Fragment\ViewPostCommentsFragment.cs" />
+    <Compile Include="Screens\Fragment\ViewPostStatsFragment.cs" />
+    <Compile Include="Screens\Fragment\ViewPostSummaryFragment.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
@@ -386,6 +388,9 @@
     <AndroidResource Include="Resources\layout\listitem_history_comment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

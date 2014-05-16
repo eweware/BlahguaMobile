@@ -17,6 +17,13 @@
   <string name="sidemenu_v_most_popular">Most Popular</string>
   <string name="sidemenu_v_most_promoted">Most Promoted</string>
   <string name="sidemenu_v_most_demoted">Most Demoted</string>
+
+  <string name="sidemenu_blahcreate_title">Type of post</string>
+  <string name="sidemenu_blahcreate_asks">Asks</string>
+  <string name="sidemenu_blahcreate_leaks">Leaks</string>
+  <string name="sidemenu_blahcreate_polls">Polls</string>
+  <string name="sidemenu_blahcreate_predicts">Predicts</string>
+  <string name="sidemenu_blahcreate_says">Says</string>
   
   <!-- PROFILE MENU -->
   <string name="profilemenu_profile">Profile</string>

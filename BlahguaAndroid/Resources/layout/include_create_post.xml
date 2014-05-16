@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:textColor="#3C3C3C"
         android:textStyle="bold"
+        android:textSize="14sp"
         android:hint="TYPE HEADLINE (64)"
         android:inputType="textMultiLine"
         android:padding="10dp"
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:minHeight="80dp"
         android:textColor="#3C3C3C"
+        android:textSize="13sp"
         android:hint="Type body text"
         android:inputType="textMultiLine"
         android:padding="10dp"
@@ -79,6 +81,147 @@
             android:textSize="14sp"
             android:text="Select signature"/>
       </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/additionalfields_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginBottom="5dp"
+      android:background="@drawable/bg_create_comment">
+      <EditText
+        android:id="@+id/prediction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type prediction expiration date (mm/dd/yyyy)"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #1"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #2"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #3"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #4"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #5"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #6"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #7"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #8"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #9"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <EditText
+        android:id="@+id/poll10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:hint="Type poll option #10"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:background="@null"
+        android:layout_marginBottom="3dp"/>
+      <Button
+        android:id="@+id/btn_add_poll_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:textStyle="bold"
+        android:textColor="#3C3C3C"
+        android:textSize="13sp"
+        android:paddingLeft="10dp"
+        android:gravity="left|center_vertical"
+        android:text="+ Add more options" />
     </LinearLayout>
     <Button
         android:id="@+id/btn_done"
