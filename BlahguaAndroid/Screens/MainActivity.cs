@@ -333,6 +333,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                     var intent = new Intent(this, typeof(HistoryActivity));
                     StartActivity(intent);
                 }
+                else if (args.Position == 4) // Stats
+                {
+                    var intent = new Intent(this, typeof(UserProfileActivity));
+                    intent.PutExtra("Page", 4);
+                    StartActivity(intent);
+                }
             };
 
             (rightMenu.FindViewById<Button>(Resource.Id.btn_logout)).Click += (sender, args) =>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#EAEAEA"
     android:orientation="vertical">
-    <TextView
+    <!--<TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="#D9DADA"
@@ -13,17 +13,14 @@
       android:paddingTop="10dp"
       android:textColor="#000"
       android:textStyle="bold"
-      android:text="Audience responce"/>
+      android:text="Statistics"/> -->
     <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="#D9DADA"
-      android:paddingLeft="10dp"
-      android:paddingRight="10dp"
-      android:paddingBottom="10dp"
-      android:paddingTop="10dp"
+      android:padding="10dp"
       android:textColor="#000"
-      android:text="Key statistical data for this post. The blahgua score is an overall rating computed by assigning different weights to different data metrics."/>
+      android:text="Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics."/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,50 +29,6 @@
         android:layout_height="match_parent"
         android:padding="5dp"
         android:orientation="vertical">
-        <!-- CONVERSION -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="Conversion Ratio:"/>
-          <TextView
-              android:id="@+id/conversion"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="0.0"/>
-        </LinearLayout>
-        <!-- IMPRESSION -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="Impressions:"/>
-          <TextView
-              android:id="@+id/impression"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="0.0"/>
-        </LinearLayout>
         <!-- SCORE -->
         <LinearLayout
           android:layout_width="match_parent"
@@ -88,7 +41,7 @@
               android:layout_weight="1"
               android:textColor="#000"
               android:textStyle="bold"
-              android:text="Blahgua score:"/>
+              android:text="User score:"/>
           <TextView
               android:id="@+id/score"
               android:layout_width="0dp"
@@ -98,6 +51,88 @@
               android:textStyle="bold"
               android:text="0.0"/>
         </LinearLayout>
+
+        <!-- USERVIEWS -->
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="5dp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="User Views count:"/>
+          <TextView
+              android:id="@+id/userviews"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="0"/>
+        </LinearLayout>
+        <!-- USEROPENS -->
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="5dp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="User Opens count:"/>
+          <TextView
+              android:id="@+id/useropens"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="0"/>
+        </LinearLayout>
+        <!-- USERCREATES -->
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="5dp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="User Creates count:"/>
+          <TextView
+              android:id="@+id/usercreates"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="0"/>
+        </LinearLayout>
+        <!-- USERCOMMENTS -->
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="5dp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="User Comments count:"/>
+          <TextView
+              android:id="@+id/usercomments"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:textColor="#000"
+              android:text="0"/>
+        </LinearLayout>
+        
         <!-- VIEWS -->
         <LinearLayout
           android:layout_width="match_parent"
@@ -152,46 +187,6 @@
               android:text="Comments count:"/>
           <TextView
               android:id="@+id/comments"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
-        <!-- PROMOTES -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Promotes:"/>
-          <TextView
-              android:id="@+id/promotes"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
-        <!-- DEMOTES -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Demotes:"/>
-          <TextView
-              android:id="@+id/demotes"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_weight="1"

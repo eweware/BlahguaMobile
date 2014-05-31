@@ -26,6 +26,7 @@ namespace BlahguaMobile.AndroidClient
         private UserProfileProfileFragment profileFragment;
         private UserProfileDemographicsFragment demographicsFragment;
         private UserProfileBadgesFragment badgesFragment;
+        private UserProfileStatsFragment statsFragment;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -56,6 +57,7 @@ namespace BlahguaMobile.AndroidClient
                     {
                         profileFragment = null;
                         demographicsFragment = null;
+                        statsFragment = null;
 
                         title.Text = "Badges";
                         btn_right.Visibility = ViewStates.Visible;
@@ -71,6 +73,7 @@ namespace BlahguaMobile.AndroidClient
                     {
                         badgesFragment = null;
                         profileFragment = null;
+                        statsFragment = null;
 
                         title.Text = "Demographics";
                         btn_right.Visibility = ViewStates.Gone;
@@ -81,10 +84,26 @@ namespace BlahguaMobile.AndroidClient
                         fragmentTransaction.Commit();
                     }
                     break;
+                case 4:
+                    {
+                        badgesFragment = null;
+                        profileFragment = null;
+                        demographicsFragment = null;
+
+                        title.Text = "Statistics";
+                        btn_right.Visibility = ViewStates.Gone;
+
+                        statsFragment = UserProfileStatsFragment.NewInstance();
+                        var fragmentTransaction = FragmentManager.BeginTransaction();
+                        fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
+                        fragmentTransaction.Commit();
+                    }
+                    break;
                 default:
                     {
                         badgesFragment = null;
                         demographicsFragment = null;
+                        statsFragment = null;
 
                         profileFragment = UserProfileProfileFragment.NewInstance();
                         var fragmentTransaction = FragmentManager.BeginTransaction();

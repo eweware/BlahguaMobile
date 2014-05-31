@@ -25,6 +25,7 @@ namespace BlahguaMobile.AndroidClient
 
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment;
+        private ViewPostStatsFragment statsFragment;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -55,6 +56,7 @@ namespace BlahguaMobile.AndroidClient
 
             btn_comments.Click += btn_comments_Click;
             btn_summary.Click += btn_summary_Click;
+            btn_stats.Click += btn_stats_Click;
 
             btn_summary_Click(null, null);
         }
@@ -67,12 +69,27 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
+        private void btn_stats_Click(object sender, EventArgs e)
+        {
+            title.Visibility = ViewStates.Gone;
+            btn_right.Visibility = ViewStates.Gone;
+
+            summaryFragment = null;
+            commentsFragment = null;
+
+            statsFragment = ViewPostStatsFragment.NewInstance();
+            var fragmentTransaction = FragmentManager.BeginTransaction();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
+            fragmentTransaction.Commit();
+        }
+
         private void btn_summary_Click(object sender, EventArgs e)
         {
             title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
             commentsFragment = null;
+            statsFragment = null;
 
             summaryFragment = ViewPostSummaryFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
@@ -87,6 +104,7 @@ namespace BlahguaMobile.AndroidClient
             btn_right.Text = "Write";
 
             summaryFragment = null;
+            statsFragment = null;
 
             commentsFragment = ViewPostCommentsFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
