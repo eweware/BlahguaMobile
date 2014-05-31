@@ -117,6 +117,7 @@
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="Screens\Fragment\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\MainActivity.BlahCreate.cs" />
     <Compile Include="Screens\Fragment\HistoryCommentsFragment.cs" />
     <Compile Include="Screens\Fragment\HistoryPostsFragment.cs" />
@@ -158,6 +159,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml" />
     <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\uiitem_badge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -391,6 +395,22 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_userprofile_badges.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\include_new_badge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_badges_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\border.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

@@ -72,7 +72,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return "/Images/badge_standalone_30x31.png";
+                return "https://s3-us-west-2.amazonaws.com/beta.blahgua.com/img/Small_BadgeTransparent.png";
             }
         }
 
