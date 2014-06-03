@@ -105,6 +105,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         author.Text = theBlah.UserName;
                         authorAvatar.SetUrlDrawable(theBlah.UserImage);
+                        if (theBlah.Badges != null)
+                        {
+                            foreach (BadgeReference b in theBlah.Badges)
+                            {
+                                var view = Activity.LayoutInflater.Inflate(
+                                                     Resource.Layout.uiitem_badge_small, authorBadgesArea, false);
+                                var badgeImage = view.FindViewById<ImageView>(Resource.Id.image);
+                                badgeImage.SetUrlDrawable(b.BadgeImage);
+                            }
+                        }
                     });
 
                     //BlahSummaryArea.Visibility = Visibility.Visible;

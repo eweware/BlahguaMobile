@@ -73,21 +73,26 @@ namespace BlahguaMobile.AndroidClient.Screens
             initSlidingMenu();
 
             initCreateBlahUi();
+
+            BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
+            InitService();
         }
-        void StartTimers()
+
+        private void StartTimers()
         {
             //targetBlah = null;
             scrollTimer.Start();
             //MaybeAnimateElement();
         }
 
-        void StopTimers()
+        private void StopTimers()
         {
             scrollTimer.Stop();
             //AnimateTextFadeIn.Stop();
             //AnimateTextFadeOut.Stop();
             //targetBlah = null;
         }
+
         private void ScrollBlahRoll(object sender, EventArgs e)
         {
 
@@ -96,11 +101,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahScroller.ScrollTo(0, (int)curOffset);
 
             DetectScrollAtEnd();
-
         }
 
         bool AtScrollEnd = false;
-        void DetectScrollAtEnd()
+        private void DetectScrollAtEnd()
         {
             int bottom = BlahScroller.GetChildAt(BlahScroller.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
             if (BlahScroller.ScrollY == bottom)
@@ -114,20 +118,16 @@ namespace BlahguaMobile.AndroidClient.Screens
             
         }
 
-        protected override void OnStart()
+        protected override void OnResume()
         {
-            base.OnStart();
-            
-            BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
-            InitService();
-
+            base.OnResume();
             StartTimers();
-            
-            //BlahguaAPIObject.Current.GetUserProfile((profile) =>
-            //{
-            //    int x = 0;
-            //    x++;
-            //});
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            StopTimers();
         }
 
         private void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)

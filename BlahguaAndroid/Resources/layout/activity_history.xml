@@ -59,13 +59,5 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/btn_comments" />
-        <View
-            android:layout_width="12dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn_stats"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/btn_stats" />
     </LinearLayout>
 </LinearLayout>
