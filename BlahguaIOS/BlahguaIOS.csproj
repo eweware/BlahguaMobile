@@ -214,26 +214,24 @@
     <Compile Include="BGTextField.designer.cs">
       <DependentUpon>BGTextField.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGProfileViewController.cs" />
-    <Compile Include="BGProfileViewController.designer.cs">
+    <Compile Include="View Controllers\BGProfileViewController.cs" />
+    <Compile Include="View Controllers\BGProfileViewController.designer.cs">
       <DependentUpon>BGProfileViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="restsharp">
-      <Version>104.1.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="flyoutnavigation">
       <InstallationInProgress>True</InstallationInProgress>
       <Version>1.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+    <XamarinComponentReference Include="restsharp">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>104.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
@@ -245,6 +243,9 @@
     <Reference Include="FlyoutNavigation">
       <HintPath>..\Components\flyoutnavigation-1.3\lib\ios\FlyoutNavigation.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
@@ -252,6 +253,7 @@
     <Folder Include="Constants\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\" />
+    <Folder Include="View Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
