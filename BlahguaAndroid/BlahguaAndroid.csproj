@@ -112,6 +112,7 @@
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
@@ -150,7 +151,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\layout\activity_login.xml" />
-    <AndroidResource Include="Resources\layout\uiitem_blah.axml" />
+    <AndroidResource Include="Resources\layout\uiitem_blah.xml" />
     <AndroidResource Include="Resources\layout\activity_viewpost.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -415,6 +416,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_userprofile_stats.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_profile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

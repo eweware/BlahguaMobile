@@ -15,12 +15,12 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
-    class CommentsAdapter : BaseAdapter
+    class HistoryCommentsAdapter : BaseAdapter
     {
         Activity _activity;
         CommentList _list;
 
-        public CommentsAdapter(Activity activity, CommentList list)
+        public HistoryCommentsAdapter(Activity activity, CommentList list)
         {
             _activity = activity;
             _list = list;
@@ -52,7 +52,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView ?? _activity.LayoutInflater.Inflate(
-                                 Resource.Layout.listitem_comment, parent, false);
+                Resource.Layout.listitem_history_comment, parent, false);
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var author = view.FindViewById<TextView>(Resource.Id.author);

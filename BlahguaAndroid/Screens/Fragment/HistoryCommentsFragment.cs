@@ -85,7 +85,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             return _gestureDetector.OnTouchEvent(ev);
         }
 
-        CommentsAdapter adapter;
+        HistoryCommentsAdapter adapter;
         private void LoadUserComments()
         {
             BlahguaAPIObject.Current.LoadUserComments((theComments) =>
@@ -97,7 +97,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
                         no_comments.Visibility = ViewStates.Gone;
                         list.Visibility = ViewStates.Visible;
-                        adapter = new CommentsAdapter(Activity, theComments);
+                        adapter = new HistoryCommentsAdapter(Activity, theComments);
                         list.Adapter = adapter;
                     }
                     else
