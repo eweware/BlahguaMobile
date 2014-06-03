@@ -313,11 +313,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (args.Position == 0) // Profile
                 {
                     var intent = new Intent(this, typeof(UserProfileActivity));
-                    intent.PutExtra("Page", 1);
+                    intent.PutExtra("Page", 0);
                     StartActivity(intent);
                 }
                 else if (args.Position == 1) // Badges
                 {
+                    var intent = new Intent(this, typeof(UserProfileActivity));
+                    intent.PutExtra("Page", 1);
+                    StartActivity(intent);
                 }
                 else if (args.Position == 2) // Demographics
                 {
@@ -328,6 +331,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                 else if (args.Position == 3) // History
                 {
                     var intent = new Intent(this, typeof(HistoryActivity));
+                    StartActivity(intent);
+                }
+                else if (args.Position == 4) // Stats
+                {
+                    var intent = new Intent(this, typeof(UserProfileActivity));
+                    intent.PutExtra("Page", 4);
                     StartActivity(intent);
                 }
             };

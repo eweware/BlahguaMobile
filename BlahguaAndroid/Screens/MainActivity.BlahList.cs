@@ -74,9 +74,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
                 else
                 {
-                    //MessageBox.Show("Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.");
-                    //LoadingBox.Visibility = Visibility.Collapsed;
-                    //ConnectFailure.Visibility = Visibility.Visible;
+                    RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(this, "Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.", ToastLength.Long).Show();
+                        //MessageBox.Show("Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.");
+                        //LoadingBox.Visibility = Visibility.Collapsed;
+                        //ConnectFailure.Visibility = Visibility.Visible;
+                    });
                 }
 
                 StartTimers();
@@ -333,10 +337,32 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
 
+                var type_mark = control.FindViewById<FrameLayout>(Resource.Id.type_mark);
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
                     //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
+                    switch (theBlah.TypeName)
+                    {
+                        case "says":
+                            type_mark.SetBackgroundColor(
+                                new Android.Graphics.Color(207, 196, 182));
+                            break;
+                        case "asks":
+                            type_mark.SetBackgroundColor(
+                                new Android.Graphics.Color(255, 194, 84));
+                            break;
+                        case "leaks":
+                            type_mark.SetBackgroundColor(
+                                new Android.Graphics.Color(56, 76, 120));
+                            break;
+                        case "polls":
+                            type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
+                            break;
+                        case "predicts":
+                            type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
+                            break;
+                    }
                 });
             }
             ///////

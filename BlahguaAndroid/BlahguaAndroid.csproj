@@ -112,11 +112,14 @@
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="Screens\Fragment\UserProfileStatsFragment.cs" />
+    <Compile Include="Screens\Fragment\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\MainActivity.BlahCreate.cs" />
     <Compile Include="Screens\Fragment\HistoryCommentsFragment.cs" />
     <Compile Include="Screens\Fragment\HistoryPostsFragment.cs" />
@@ -148,7 +151,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\layout\activity_login.xml" />
-    <AndroidResource Include="Resources\layout\uiitem_blah.axml" />
+    <AndroidResource Include="Resources\layout\uiitem_blah.xml" />
     <AndroidResource Include="Resources\layout\activity_viewpost.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -158,6 +161,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml" />
     <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\uiitem_badge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -391,6 +397,34 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_userprofile_badges.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\include_new_badge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_badges_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\border.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_userprofile_stats.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_profile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

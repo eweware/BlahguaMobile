@@ -32,7 +32,10 @@
   <string name="profilemenu_history">History</string>
   <string name="profilemenu_stats">Stats</string>
   <string name="profilemenu_logout">Logout</string>
-
+  
+  
+  <string name="new_badge_title">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
+  <string name="new_badge_edit_email">Type email address</string>
 
   <string name="select_prompt">Select</string>
   <string-array name="gender_array">

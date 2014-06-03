@@ -55,6 +55,17 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
         <Button
+          android:id="@+id/btn_login"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:background="@null"
+          android:textSize="14sp"
+          android:textColor="@drawable/color_white_button_text"
+          android:padding="10dp"
+          android:text="Sign In"
+          android:visibility="gone"/>
+        <Button
             android:id="@+id/btn_promote"
             android:layout_width="19dp"
             android:layout_height="25dp"
