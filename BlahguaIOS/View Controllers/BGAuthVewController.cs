@@ -158,10 +158,7 @@ namespace BlahguaMobile.IOS
 
 		private void AuthenticationResultCallback(string result)
 		{
-			InvokeOnMainThread (delegate {
-				UIAlertView alert = new UIAlertView ("Result", result, null, "OK");
-				alert.Show ();
-			});
+			NavigationController.PushViewController()
 		}
 
 		private UIImage GetModeBackgroundImage()

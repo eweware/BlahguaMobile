@@ -185,7 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\input%402x.png" />
-    <BundleResource Include="Resources\rememberMeRadiobutton_un%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
     <BundleResource Include="Resources\signinBckg-4%402x.png" />
     <BundleResource Include="Resources\signinBckg-5%402x.png" />
@@ -205,5 +204,15 @@
     <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-own-target-headers.hmap" />
     <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-project-headers.hmap" />
     <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS.hmap" />
+    <BundleResource Include="Resources\profileImageSelectLogo%402x.png" />
+    <BundleResource Include="Resources\profileInfoBack%402x.png" />
+    <BundleResource Include="Resources\darkGrayBack%402x.png" />
+    <BundleResource Include="Resources\grayBack%402x.png" />
+    <BundleResource Include="Resources\greenBack%402x.png" />
+    <BundleResource Include="Resources\blahsChannelCheck%402x.png" />
+    <BundleResource Include="Resources\newBlahImage%402x.png" />
+    <BundleResource Include="Resources\leftMenuButton%402x.png" />
+    <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
+    <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
   </ItemGroup>
 </Project>

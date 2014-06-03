@@ -33,6 +33,14 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
+		public UIStoryboard MainStoryboard
+		{
+			get
+			{
+				return UIStoryboard.FromName ("Balhgua_iPhone", null);
+			}
+		}
+
 		#endregion
 
 
