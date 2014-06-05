@@ -127,8 +127,6 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Constants\AppearanceConstants.cs" />
-    <Compile Include="Helpers\AppearanceHelper.cs" />
     <Compile Include="Constants\DeviceType.cs" />
     <Compile Include="View Controllers\BGProfileViewController.cs" />
     <Compile Include="View Controllers\BGProfileViewController.designer.cs">
@@ -142,15 +140,16 @@
     <Compile Include="Views\BGTextField.designer.cs">
       <DependentUpon>BGTextField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BGAppearanceHelper.cs" />
+    <Compile Include="Constants\BGAppearanceConstants.cs" />
+    <Compile Include="Helpers\UIImageHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="flyoutnavigation">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>1.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>104.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
@@ -172,7 +171,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\" />
     <Folder Include="Resources\" />
     <Folder Include="Constants\" />
     <Folder Include="Helpers\" />
@@ -191,19 +189,9 @@
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
     <BundleResource Include="Resources\signupRadioButtonUn%402x.png" />
     <BundleResource Include="Resources\navigationBar%402x.png" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-all-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-generated-files.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-own-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-project-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS.hmap" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-all-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-generated-files.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-own-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-project-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS.hmap" />
     <BundleResource Include="Resources\profileImageSelectLogo%402x.png" />
     <BundleResource Include="Resources\profileInfoBack%402x.png" />
     <BundleResource Include="Resources\darkGrayBack%402x.png" />
