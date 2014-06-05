@@ -10,6 +10,7 @@ using Android.Content.PM;
 using Android.Support.V4.Widget;
 using BlahguaMobile.BlahguaCore;
 using Android.Views.InputMethods;
+using Android.Preferences;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -17,8 +18,15 @@ namespace BlahguaMobile.AndroidClient
 	public class LoginActivity : Activity
 	{
         private static LoginActivity instance;
-        EditText login, password, passwordConfirm;
-        ProgressBar progress;
+
+        private EditText login, password, passwordConfirm;
+        private ProgressBar progress;
+
+        private CheckBox check_remember_me;
+        private ProgressDialog dialog;
+
+        private bool createNewAccount = false;
+
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
@@ -76,34 +84,12 @@ namespace BlahguaMobile.AndroidClient
 
             // yes and no checkboxes
 
-            CheckBox check_yes = FindViewById<CheckBox>(Resource.Id.check_yes);
-            CheckBox check_no = FindViewById<CheckBox>(Resource.Id.check_no);
-            check_yes.CheckedChange += delegate
-            {
-                if (check_yes.Checked)
-                {
-                    check_no.Checked = false;
-                }
-            };
-            check_no.CheckedChange += delegate
-            {
-                if (check_no.Checked)
-                {
-                    check_yes.Checked = false;
-                }
-            };
+            check_remember_me = FindViewById<CheckBox>(Resource.Id.check_remember_me);
 
             dialog = new ProgressDialog(this);
             dialog.SetMessage("Signing in...");
             dialog.SetCancelable(false);
 		}
-
-        ProgressDialog dialog;
-
-
-
-        // imported
-        bool createNewAccount = false;
 
         private void DoSignIn()
         {
@@ -112,6 +98,8 @@ namespace BlahguaMobile.AndroidClient
 
             if (BlahguaAPIObject.Current.UserPassword != password.Text)
                 BlahguaAPIObject.Current.UserPassword = password.Text;
+
+            BlahguaAPIObject.Current.AutoLogin = check_remember_me.Checked;
 
             progress.Visibility = ViewStates.Visible;
             dialog.Show();
@@ -131,7 +119,6 @@ namespace BlahguaMobile.AndroidClient
                             progress.Visibility = ViewStates.Invisible;
                             Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
                         });
-                        //MessageBox.Show("could not register: " + errMsg);
                     }
                 }
             );
@@ -139,12 +126,20 @@ namespace BlahguaMobile.AndroidClient
 
         private void HandleUserSignIn()
         {
+            // remember or not?
+            if (check_remember_me.Checked)
+            {
+                ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+                _sharedPref.Edit().PutString("username", BlahguaAPIObject.Current.UserName).Commit();
+                _sharedPref.Edit().PutString("password", BlahguaAPIObject.Current.UserPassword).Commit();
+            }
+
+            // do the rest
             RunOnUiThread(() =>
             {
                 progress.Visibility = ViewStates.Invisible;
                 Finish();
             });
-            //NavigationService.GoBack();
         }
 
         private void DoCreateAccount()
@@ -174,12 +169,12 @@ namespace BlahguaMobile.AndroidClient
             if (BlahguaAPIObject.Current.UserPassword2 != passwordConfirm.Text)
                 BlahguaAPIObject.Current.UserPassword2 = passwordConfirm.Text;
 
+            BlahguaAPIObject.Current.AutoLogin = check_remember_me.Checked;
 
             if (BlahguaAPIObject.Current.UserPassword != BlahguaAPIObject.Current.UserPassword2)
             {
                 RunOnUiThread(() => {
                     Toast.MakeText(this, "Passwords must match", ToastLength.Short).Show();
-                    //MessageBox.Show("Passwords must match");
                 });
             }
             else
@@ -201,7 +196,6 @@ namespace BlahguaMobile.AndroidClient
                         {
                             progress.Visibility = ViewStates.Invisible;
                             Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
-                            //MessageBox.Show("could not register: " + errMsg);
                         });
                     }
                 }

@@ -145,6 +145,9 @@ namespace BlahguaMobile.BlahguaCore
 
         private BlahguaAPIObject()
         {
+            UserName = "";
+            UserPassword = "";
+
             BlahguaRest = new BlahguaRESTservice();
             NewBlahToInsert = null;
             signinTimer = new Timer(timer_callback, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
@@ -198,8 +201,8 @@ namespace BlahguaMobile.BlahguaCore
         SavedUserInfo GetSavedUserInfo()
         {
             SavedUserInfo theInfo = new SavedUserInfo();
-            theInfo.UserName = (string)SafeLoadSetting("username", "");
-            theInfo.Password = (string)SafeLoadSetting("password", "");
+            theInfo.UserName = (string)SafeLoadSetting("username", UserName);
+            theInfo.Password = (string)SafeLoadSetting("password", UserPassword);
             return theInfo;
         }
 
