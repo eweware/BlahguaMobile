@@ -197,6 +197,15 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			if(segue.Identifier == "fromLoginToProfile")
+			{
+				((BGProfileViewController)segue.DestinationViewController).IsEditMode = true;
+			}
+			base.PrepareForSegue (segue, sender);
+		}
+
 		#endregion
 	}
 }

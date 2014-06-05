@@ -29,6 +29,12 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
+		#region Properties
+
+		public bool IsEditMode { get; set; }
+
+		#endregion
+
 		public BGProfileViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -58,30 +64,44 @@ namespace BlahguaMobile.IOS
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 
 			profileView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile("profileInfoBack.png"));
-			selectImage.TouchUpInside += (object sender, EventArgs e) => {
-				UIActionSheet sheet;
-				if(!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
-					sheet = new UIActionSheet (chooseFromText, null, cancelText, null, new string[] {
-						fromCameraText,
-						fromGalleryText,
-						deleteCurrentPhotoText
-					});
-				else
-					sheet = new UIActionSheet(chooseFromText, null, cancelText, null, new string[] {
-						fromCameraText, fromGalleryText
-					});
-				sheet.ShowInView(View);
-				sheet.Clicked += FileChooseActionSheetClicked;
-			};
 
 			nicknameTextField.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 			nicknameTextField.SetNeedsDisplay ();
 
-			nicknameTextField.ReturnKeyType = UIReturnKeyType.Done;
-			nicknameTextField.ShouldReturn = delegate {
-				nicknameTextField.ResignFirstResponder();
-				return true;
-			};
+
+			if(!IsEditMode)
+			{
+				nicknameTextField.Enabled = false;
+				selectImage.Hidden = true;
+			}
+			else
+			{
+				nicknameTextField.ReturnKeyType = UIReturnKeyType.Done;
+				nicknameTextField.ShouldReturn = delegate {
+					BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
+					nicknameTextField.ResignFirstResponder();
+					return true;
+				};
+					
+				nicknameTextField.Enabled = true;
+				selectImage.Hidden = false;
+				selectImage.TouchUpInside += (object sender, EventArgs e) => {
+					UIActionSheet sheet;
+					if(!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
+						sheet = new UIActionSheet (chooseFromText, null, cancelText, null, new string[] {
+							fromCameraText,
+							fromGalleryText,
+							deleteCurrentPhotoText
+						});
+					else
+						sheet = new UIActionSheet(chooseFromText, null, cancelText, null, new string[] {
+							fromCameraText, fromGalleryText
+						});
+					sheet.ShowInView(View);
+					sheet.Clicked += FileChooseActionSheetClicked;
+				};
+			}
+
 
 			var url = "";//BlahguaAPIObject.Current.CurrentUser.UserImage;
 			if(!String.IsNullOrEmpty(url))
