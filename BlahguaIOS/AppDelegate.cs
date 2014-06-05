@@ -12,7 +12,7 @@ namespace BlahguaMobile.IOS
     {
 		#region Fields
 
-		private DeviceType type;
+
 
 		#endregion
 
@@ -20,16 +20,13 @@ namespace BlahguaMobile.IOS
 
 		public override UIWindow Window { get; set; }
 
-		public DeviceType DeviceType 
+
+
+		public UIStoryboard MainStoryboard
 		{
 			get
 			{
-				if(type == DeviceType.Undefined)
-				{
-					GetDeviceType();
-				}
-
-				return type;
+				return UIStoryboard.FromName ("Balhgua_iPhone", null);
 			}
 		}
 
@@ -40,49 +37,25 @@ namespace BlahguaMobile.IOS
         {
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White, 
 																					 TextShadowColor = UIColor.Clear, 
-																					 Font = UIFont.FromName(AppearanceConstants.BoldFontName, 18) });
+																					 Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
 			UINavigationBar.Appearance.TintColor = UIColor.White;
 			UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
 
 
+			UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide);
 			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
+			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
 
             return true;
         }
 
 		#region Methods
 
-		private void GetDeviceType ()
+		private void InitCallback(bool isOk)
 		{
-			float height = Window.Bounds.Height;
-
-			switch((int)height)
+			if(!isOk)
 			{
-			case 480:
-				{
-					type = DeviceType.iPhone4;
-					break;
-				}
-			case 568:
-				{
-					type = DeviceType.iPhone5;
-					break;
-				}
-			case 1024:
-				{
-					type = DeviceType.iPad;
-					break;
-				}
-			case 2048:
-				{
-					type = DeviceType.iPadRetina;
-					break;
-				}
-			default:
-				{
-					type = DeviceType.iPhone4;
-					break;
-				}
+				BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
 			}
 		}
 

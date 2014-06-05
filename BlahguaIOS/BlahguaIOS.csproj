@@ -127,113 +127,34 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BGAuthVewController.cs" />
-    <Compile Include="BGAuthVewController.designer.cs">
-      <DependentUpon>BGAuthVewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Constants\AppearanceConstants.cs" />
-    <Compile Include="Helpers\AppearanceHelper.cs" />
     <Compile Include="Constants\DeviceType.cs" />
-    <Compile Include="Views\BadgeProfileView.cs" />
-    <Compile Include="Views\BadgeProfileView.designer.cs">
-      <DependentUpon>BadgeProfileView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BadgesViewController.cs" />
-    <Compile Include="Views\BadgesViewController.designer.cs">
-      <DependentUpon>BadgesViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BadgeView.cs" />
-    <Compile Include="Views\BadgeView.designer.cs">
-      <DependentUpon>BadgeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BlahDetails.cs" />
-    <Compile Include="Views\BlahDetails.designer.cs">
-      <DependentUpon>BlahDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BlahRoll.cs" />
-    <Compile Include="Views\BlahRoll.designer.cs">
-      <DependentUpon>BlahRoll.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CreatePollPostView.cs" />
-    <Compile Include="Views\CreatePollPostView.designer.cs">
-      <DependentUpon>CreatePollPostView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CreatePostView.cs" />
-    <Compile Include="Views\CreatePostView.designer.cs">
-      <DependentUpon>CreatePostView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CreatePredictPostView.cs" />
-    <Compile Include="Views\CreatePredictPostView.designer.cs">
-      <DependentUpon>CreatePredictPostView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoginViewController.cs" />
-    <Compile Include="Views\LoginViewController.designer.cs">
-      <DependentUpon>LoginViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PostCommentsCell.cs" />
-    <Compile Include="Views\PostCommentsCell.designer.cs">
-      <DependentUpon>PostCommentsCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PostCommentsViewController.cs" />
-    <Compile Include="Views\PostCommentsViewController.designer.cs">
-      <DependentUpon>PostCommentsViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PostViewController.cs" />
-    <Compile Include="Views\PostViewController.designer.cs">
-      <DependentUpon>PostViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Profile.cs" />
-    <Compile Include="Views\Profile.designer.cs">
-      <DependentUpon>Profile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SignIn.cs" />
-    <Compile Include="Views\SignIn.designer.cs">
-      <DependentUpon>SignIn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StatisticViewController.cs" />
-    <Compile Include="Views\StatisticViewController.designer.cs">
-      <DependentUpon>StatisticViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StreamRollPostView.cs" />
-    <Compile Include="Views\StreamRollPostView.designer.cs">
-      <DependentUpon>StreamRollPostView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StreamRollViewController.cs" />
-    <Compile Include="Views\StreamRollViewController.designer.cs">
-      <DependentUpon>StreamRollViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserProfileEdit.cs" />
-    <Compile Include="Views\UserProfileEdit.designer.cs">
-      <DependentUpon>UserProfileEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserProfileViewController.cs" />
-    <Compile Include="Views\UserProfileViewController.designer.cs">
-      <DependentUpon>UserProfileViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BGTextField.cs" />
-    <Compile Include="BGTextField.designer.cs">
-      <DependentUpon>BGTextField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BGProfileViewController.cs" />
-    <Compile Include="BGProfileViewController.designer.cs">
+    <Compile Include="View Controllers\BGProfileViewController.cs" />
+    <Compile Include="View Controllers\BGProfileViewController.designer.cs">
       <DependentUpon>BGProfileViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="View Controllers\BGAuthVewController.cs" />
+    <Compile Include="View Controllers\BGAuthVewController.designer.cs">
+      <DependentUpon>BGAuthVewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGTextField.cs" />
+    <Compile Include="Views\BGTextField.designer.cs">
+      <DependentUpon>BGTextField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BGAppearanceHelper.cs" />
+    <Compile Include="Constants\BGAppearanceConstants.cs" />
+    <Compile Include="Helpers\UIImageHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <XamarinComponentReference Include="flyoutnavigation">
+      <Version>1.3</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>104.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="flyoutnavigation">
-      <InstallationInProgress>True</InstallationInProgress>
-      <Version>1.3</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
@@ -245,58 +166,41 @@
     <Reference Include="FlyoutNavigation">
       <HintPath>..\Components\flyoutnavigation-1.3\lib\ios\FlyoutNavigation.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\" />
     <Folder Include="Resources\" />
     <Folder Include="Constants\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\" />
+    <Folder Include="View Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
-    <InterfaceDefinition Include="Views\BadgeProfileView.xib" />
-    <InterfaceDefinition Include="Views\BadgesViewController.xib" />
-    <InterfaceDefinition Include="Views\BadgeView.xib" />
-    <InterfaceDefinition Include="Views\BlahDetails.xib" />
-    <InterfaceDefinition Include="Views\BlahRoll.xib" />
-    <InterfaceDefinition Include="Views\CreatePollPostView.xib" />
-    <InterfaceDefinition Include="Views\CreatePostView.xib" />
-    <InterfaceDefinition Include="Views\CreatePredictPostView.xib" />
-    <InterfaceDefinition Include="Views\LoginViewController.xib" />
-    <InterfaceDefinition Include="Views\PostCommentsCell.xib" />
-    <InterfaceDefinition Include="Views\PostCommentsViewController.xib" />
-    <InterfaceDefinition Include="Views\PostViewController.xib" />
-    <InterfaceDefinition Include="Views\Profile.xib" />
-    <InterfaceDefinition Include="Views\SignIn.xib" />
-    <InterfaceDefinition Include="Views\StatisticViewController.xib" />
-    <InterfaceDefinition Include="Views\StreamRollPostView.xib" />
-    <InterfaceDefinition Include="Views\StreamRollViewController.xib" />
-    <InterfaceDefinition Include="Views\UserProfileEdit.xib" />
-    <InterfaceDefinition Include="Views\UserProfileViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\input%402x.png" />
-    <BundleResource Include="Resources\rememberMeRadiobutton_un%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
     <BundleResource Include="Resources\signinBckg-4%402x.png" />
     <BundleResource Include="Resources\signinBckg-5%402x.png" />
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
     <BundleResource Include="Resources\signupRadioButtonUn%402x.png" />
     <BundleResource Include="Resources\navigationBar%402x.png" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-all-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-generated-files.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-own-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS-project-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphoneos\BlahguaIOS.build\BlahguaIOS.hmap" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-all-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-generated-files.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-own-target-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS-project-headers.hmap" />
-    <BundleResource Include="Resources\Build\Intermediates\BlahguaIOS.build\MonoTouch-iphonesimulator\BlahguaIOS.build\BlahguaIOS.hmap" />
+    <BundleResource Include="Resources\profileImageSelectLogo%402x.png" />
+    <BundleResource Include="Resources\profileInfoBack%402x.png" />
+    <BundleResource Include="Resources\darkGrayBack%402x.png" />
+    <BundleResource Include="Resources\grayBack%402x.png" />
+    <BundleResource Include="Resources\greenBack%402x.png" />
+    <BundleResource Include="Resources\blahsChannelCheck%402x.png" />
+    <BundleResource Include="Resources\newBlahImage%402x.png" />
+    <BundleResource Include="Resources\leftMenuButton%402x.png" />
+    <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
+    <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
   </ItemGroup>
 </Project>

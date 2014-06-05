@@ -2,7 +2,7 @@
 
 namespace BlahguaMobile.IOS
 {
-	public static class AppearanceConstants
+	public static class BGAppearanceConstants
 	{
 		public static string FontName = "HelveticaNeue-Light";
 		public static string MediumFontName = "HelveticaNeue-Medium";

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="16">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A238x" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="16">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -17,15 +17,15 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                                <rect key="frame" x="10" y="92" width="18" height="18"/>
+                                <rect key="frame" x="10" y="78" width="18" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
-                                <state key="normal" title="" image="rememberMeRadiobutton_un.png">
+                                <state key="normal" title="" backgroundImage="signupRadioButtonUn.png">
                                     <color key="titleColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Create Account" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                                <rect key="frame" x="35" y="90" width="124" height="21"/>
+                                <rect key="frame" x="36" y="76" width="124" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="15"/>
@@ -33,26 +33,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email address - or - username" minimumFontSize="15" background="input.png" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="BGTextField">
-                                <rect key="frame" x="10" y="128" width="300" height="37"/>
+                                <rect key="frame" x="10" y="105" width="300" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" background="input.png" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="BGTextField">
-                                <rect key="frame" x="10" y="173" width="300" height="37"/>
+                                <rect key="frame" x="10" y="150" width="300" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" clearsOnBeginEditing="YES" minimumFontSize="17" background="input.png" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="BGTextField">
-                                <rect key="frame" x="10" y="218" width="300" height="37"/>
+                                <rect key="frame" x="10" y="195" width="300" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Remember me?" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="12">
-                                <rect key="frame" x="20" y="263" width="74" height="21"/>
+                                <rect key="frame" x="20" y="240" width="74" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="9"/>
@@ -60,7 +60,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Yes" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dzD-xx-lJt">
-                                <rect key="frame" x="124" y="263" width="17" height="21"/>
+                                <rect key="frame" x="124" y="240" width="17" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -69,7 +69,7 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="No" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="QC5-Su-vlJ">
-                                <rect key="frame" x="182" y="263" width="17" height="21"/>
+                                <rect key="frame" x="182" y="240" width="17" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -78,9 +78,9 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                                <rect key="frame" x="102" y="267" width="14" height="14"/>
+                                <rect key="frame" x="102" y="244" width="14" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="rememberMeRadiobutton.png" backgroundImage="rememberMeRadiobutton_un.png">
+                                <state key="normal" image="rememberMeRadioButton.png" backgroundImage="rememberMeRadioButton_un.png">
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -88,25 +88,28 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqx-37-y0d">
-                                <rect key="frame" x="160" y="267" width="14" height="14"/>
+                                <rect key="frame" x="160" y="244" width="14" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="rememberMeRadiobutton_un.png">
+                                <state key="normal" backgroundImage="rememberMeRadioButton_un.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="RememberMeAction:" destination="1" eventType="touchUpInside" id="33"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38">
                                 <rect key="frame" x="24" y="525" width="49" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49" id="59"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                                 <state key="normal" title="HELP">
                                     <color key="titleColor" red="0.14509803921568629" green="0.70588235294117652" blue="0.41960784313725491" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.14509803921568629" green="0.70588235294117652" blue="0.41960784313725491" alpha="0.49803921568627452" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40">
                                 <rect key="frame" x="89" y="525" width="63" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
@@ -118,8 +121,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="38" firstAttribute="bottom" secondItem="4" secondAttribute="top" constant="-10" id="41"/>
-                            <constraint firstItem="40" firstAttribute="bottom" secondItem="4" secondAttribute="top" constant="-10" id="42"/>
+                            <constraint firstItem="38" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="24" id="57"/>
+                            <constraint firstAttribute="bottom" secondItem="38" secondAttribute="bottom" constant="10" id="58"/>
+                            <constraint firstItem="40" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="89" id="60"/>
+                            <constraint firstAttribute="bottom" secondItem="40" secondAttribute="bottom" constant="10" id="61"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="27"/>
@@ -136,11 +141,12 @@
                         <outlet property="rememberMeYesButton" destination="13" id="name-outlet-13"/>
                         <outlet property="usernameOrEmail" destination="9" id="name-outlet-9"/>
                         <outlet property="yesLabel" destination="dzD-xx-lJt" id="name-outlet-dzD-xx-lJt"/>
+                        <segue destination="44" kind="push" identifier="fromLoginToProfile" id="5oQ-rS-0pJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="250" y="-289"/>
+            <point key="canvasLocation" x="-149" y="-268"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="15">
@@ -151,17 +157,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="44" kind="relationship" relationship="rootViewController" id="51"/>
+                        <segue destination="1" kind="relationship" relationship="rootViewController" id="55"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="20" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-589" y="-283"/>
         </scene>
-        <!--Profile View Controller - Title-->
+        <!--Profile View Controller - Profile-->
         <scene sceneID="43">
             <objects>
-                <viewController restorationIdentifier="BGProfileViewController" storyboardIdentifier="BGProfileViewController" id="44" customClass="BGProfileViewController" sceneMemberID="viewController">
+                <viewController restorationIdentifier="BGProfileViewController" storyboardIdentifier="BGProfileViewController" modalTransitionStyle="flipHorizontal" id="44" customClass="BGProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="46"/>
                         <viewControllerLayoutGuide type="bottom" id="47"/>
@@ -169,22 +175,51 @@
                     <view key="view" contentMode="scaleToFill" id="45">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65">
+                                <rect key="frame" x="7" y="73" width="306" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66">
+                                        <rect key="frame" x="108" y="92" width="104" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="" backgroundImage="profileImageSelectLogo.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TYPE NICKNAME" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67">
+                                        <rect key="frame" x="11" y="186" width="294" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="50"/>
+                    <navigationItem key="navigationItem" title="Profile" id="50"/>
                     <connections>
-                        <segue destination="1" kind="push" id="XHi-1X-MUe"/>
+                        <outlet property="nicknameTextField" destination="67" id="name-outlet-67"/>
+                        <outlet property="profileView" destination="65" id="name-outlet-65"/>
+                        <outlet property="selectImage" destination="66" id="name-outlet-66"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-143" y="-287"/>
+            <point key="canvasLocation" x="256" y="-272"/>
         </scene>
     </scenes>
     <resources>
         <image name="input.png" width="299" height="36"/>
-        <image name="rememberMeRadiobutton.png" width="28" height="28"/>
-        <image name="rememberMeRadiobutton_un.png" width="14" height="14"/>
+        <image name="profileImageSelectLogo.png" width="104" height="20"/>
+        <image name="rememberMeRadioButton.png" width="14" height="14"/>
+        <image name="rememberMeRadioButton_un.png" width="14" height="14"/>
+        <image name="signupRadioButtonUn.png" width="18" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

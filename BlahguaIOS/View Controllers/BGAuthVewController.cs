@@ -35,7 +35,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = AppearanceHelper.GetColorForBackground ("signinBckg.png");
+			View.BackgroundColor = BGAppearanceHelper.GetColorForBackground ("signinBckg.png");
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
 			NavigationItem.RightBarButtonItem.Enabled = true;
@@ -76,8 +76,14 @@ namespace BlahguaMobile.IOS
 				else
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
+					password.ReturnKeyType = UIReturnKeyType.Done;
 					password.AllEditingEvents -= PasswordEditingHandler;
 					confirmPassword.AllEditingEvents -= PasswordEditingHandler;
+
+					password.ShouldReturn = delegate {
+						SignIn();
+						return true;
+					};
 				}
 				SetMode(signUp);
 			};
@@ -88,7 +94,7 @@ namespace BlahguaMobile.IOS
 			password.SecureTextEntry = true;
 			confirmPassword.SecureTextEntry = true;
 
-			RectangleF viewRectangleF = ((AppDelegate)UIApplication.SharedApplication.Delegate).DeviceType == DeviceType.iPhone4 ?
+			RectangleF viewRectangleF = BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ?
 				new RectangleF (0, 517, 320, 51) : new RectangleF (0, 429, 320, 51);
 			UIView bottomView = new UIView (viewRectangleF);
 			bottomView.BackgroundColor = UIColor.White;
@@ -158,10 +164,10 @@ namespace BlahguaMobile.IOS
 
 		private void AuthenticationResultCallback(string result)
 		{
-			InvokeOnMainThread (delegate {
-				UIAlertView alert = new UIAlertView ("Result", result, null, "OK");
-				alert.Show ();
-			});
+			if (result == null)
+			{
+				InvokeOnMainThread (() => PerformSegue ("fromLoginToProfile", this));
+			}
 		}
 
 		private UIImage GetModeBackgroundImage()
@@ -182,13 +188,22 @@ namespace BlahguaMobile.IOS
 			if(rememberMe)
 			{
 				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
-				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButtonUn.png"), UIControlState.Normal);
+				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
 			}
 			else
 			{
-				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButtonUn.png"), UIControlState.Normal);
+				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
 				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
 			}
+		}
+
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			if(segue.Identifier == "fromLoginToProfile")
+			{
+				((BGProfileViewController)segue.DestinationViewController).IsEditMode = true;
+			}
+			base.PrepareForSegue (segue, sender);
 		}
 
 		#endregion
