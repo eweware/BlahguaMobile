@@ -42,7 +42,6 @@ namespace BlahguaMobile.AndroidClient
 
             Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
             Button btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
-            Button btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
 
             btn_comments.Click += btn_comments_Click;
             btn_summary.Click += btn_summary_Click;

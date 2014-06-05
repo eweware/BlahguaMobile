@@ -57,9 +57,10 @@ namespace BlahguaMobile.AndroidClient
             };
             btn_promote = FindViewById<Button>(Resource.Id.btn_promote);
             btn_demote = FindViewById<Button>(Resource.Id.btn_demote);
-            Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
-            Button btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
-            Button btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
+
+            btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
+            btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
+            btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
 
             btn_promote.Click += HandlePromoteBlah;
             btn_demote.Click += HandleDemoteBlah;
@@ -70,7 +71,7 @@ namespace BlahguaMobile.AndroidClient
 
             btn_summary_Click(null, null);
         }
-
+        Button btn_summary, btn_comments, btn_stats;
         private void initUserUi()
         {
             if (BlahguaAPIObject.Current.CurrentUser != null)
@@ -82,7 +83,7 @@ namespace BlahguaMobile.AndroidClient
             }
             else
             {
-                btn_right.Visibility = ViewStates.Gone;
+                //btn_right.Visibility = ViewStates.Gone;
 
                 btn_promote.Visibility = ViewStates.Gone;
                 btn_demote.Visibility = ViewStates.Gone;
@@ -102,12 +103,28 @@ namespace BlahguaMobile.AndroidClient
         {
             if (commentsFragment != null) // that means it is active
             {
-                commentsFragment.triggerCreateBlock();
+                if (BlahguaAPIObject.Current.CurrentUser != null)
+                {
+                    commentsFragment.triggerCreateBlock();
+                }
+                else
+                {
+                    StartActivity(typeof(LoginActivity));
+                }
             }
         }
 
+        #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
+            // disable stats button
+            if (statsFragment != null)
+                return;
+            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats_pressed);
+            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary);
+            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
+
+            // do the rest
             title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
@@ -122,6 +139,14 @@ namespace BlahguaMobile.AndroidClient
 
         private void btn_summary_Click(object sender, EventArgs e)
         {
+            // disable summary button
+            if (summaryFragment != null)
+                return;
+            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats);
+            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary_pressed);
+            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
+
+            // do the rest
             title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
@@ -136,12 +161,20 @@ namespace BlahguaMobile.AndroidClient
 
         private void btn_comments_Click(object sender, EventArgs e)
         {
+            // disable comments button
+            if (commentsFragment != null)
+                return;
+            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats);
+            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary);
+            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
+
+            // do the rest
             title.Visibility = ViewStates.Visible;
-            if (BlahguaAPIObject.Current.CurrentUser != null)
-            {
+            //if (BlahguaAPIObject.Current.CurrentUser != null)
+            //{
                 btn_right.Visibility = ViewStates.Visible;
                 btn_right.Text = "Write";
-            }
+            //}
 
             summaryFragment = null;
             statsFragment = null;
@@ -151,7 +184,7 @@ namespace BlahguaMobile.AndroidClient
             fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
             fragmentTransaction.Commit();
         }
-
+        #endregion
 
         #region Handles
 

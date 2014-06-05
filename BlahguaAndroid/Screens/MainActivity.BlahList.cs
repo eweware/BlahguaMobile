@@ -3,6 +3,7 @@ using Android.Widget;
 
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using System;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -326,6 +327,23 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             title.Text = theBlah.T;
 
+            if (width == smallBlahSize && height == smallBlahSize)
+            {
+                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
+            }
+            else if (width == mediumBlahSize && height == smallBlahSize)
+            {
+                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
+            }
+            else if (width == mediumBlahSize && height == mediumBlahSize)
+            {
+                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 24);
+            }
+            else if (width == largeBlahSize && height == mediumBlahSize)
+            {
+                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
+            }
+
             ///////
 
             if (theBlah.M != null)
@@ -336,8 +354,9 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-
-                var type_mark = control.FindViewById<FrameLayout>(Resource.Id.type_mark);
+                
+                var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
+                var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
@@ -362,6 +381,15 @@ namespace BlahguaMobile.AndroidClient.Screens
                         case "predicts":
                             type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
                             break;
+                    }
+
+                    if (!String.IsNullOrEmpty(theBlah.B))
+                    {
+                        badges_mark.Visibility = ViewStates.Visible;
+                    }
+                    else
+                    {
+                        badges_mark.Visibility = ViewStates.Gone;
                     }
                 });
             }
