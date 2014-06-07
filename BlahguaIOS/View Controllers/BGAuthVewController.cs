@@ -48,6 +48,11 @@ namespace BlahguaMobile.IOS
 				password.BecomeFirstResponder();
 				return false;
 			};
+			password.ShouldReturn = delegate {
+				SignIn();
+				password.ResignFirstResponder();
+				return true;
+			};
 
 			SetMode (signUp);
 

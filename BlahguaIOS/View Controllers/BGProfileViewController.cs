@@ -103,21 +103,23 @@ namespace BlahguaMobile.IOS
 			}
 
 
-			var url = "";//BlahguaAPIObject.Current.CurrentUser.UserImage;
+			var url = BlahguaAPIObject.Current.CurrentUser.UserImage;
 			if(!String.IsNullOrEmpty(url))
 			{
 				selectImage.Hidden = true;
 				UIImage profileImage = UIImageHelper.ImageFromUrl(url);
 				var imageSize = profileImage.Size;
-				float aspectRatio = imageSize.Width / imageSize.Height;
-				float viewHeight = 177.0f;
-				float viewWidth = viewHeight * aspectRatio;
+				float viewHeight = 128.0f;
+				float viewWidth = 128.0f;
 				float viewXCoord = (profileView.Frame.Width - viewWidth) / 2;
+				float viewYCoord = 24.0f;
 
 				UIImageView profileImageView = new UIImageView (profileImage);
-				profileImageView.Frame = new RectangleF (viewXCoord, 0, viewWidth, viewHeight);
+				profileImageView.Frame = new RectangleF (viewXCoord, viewYCoord, viewWidth, viewHeight);
 
-				profileView.AddSubview (profileView);
+
+				//profileImageView.AddSubview ();
+				profileView.AddSubview (profileImageView);
 			}
 			else
 			{

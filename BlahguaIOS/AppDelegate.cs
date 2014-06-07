@@ -4,6 +4,7 @@ using System.Linq;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.SlideMenu;
 
 namespace BlahguaMobile.IOS
 {
@@ -12,6 +13,8 @@ namespace BlahguaMobile.IOS
     {
 		#region Fields
 
+		private BGLeftMenuTableViewController menu;
+		private SlideMenuController slideMenu;
 
 
 		#endregion
@@ -20,13 +23,36 @@ namespace BlahguaMobile.IOS
 
 		public override UIWindow Window { get; set; }
 
+		public SlideMenuController SlideMenu
+		{
+			get
+			{
+				if (slideMenu == null)
+				{
+					slideMenu = new SlideMenuController(Menu, new UIViewController());
+				}
+				return slideMenu;
+			}
+		}
+
+		public BGLeftMenuTableViewController Menu
+		{
+			get
+			{
+				if(menu == null)
+				{
+					menu = (BGLeftMenuTableViewController)MainStoryboard.InstantiateViewController("BGLeftMenuTableViewController");
+				}
+				return menu;
+			}
+		}
 
 
 		public UIStoryboard MainStoryboard
 		{
 			get
 			{
-				return UIStoryboard.FromName ("Balhgua_iPhone", null);
+				return UIStoryboard.FromName ("Blahgua_iPhone", null);
 			}
 		}
 
@@ -35,11 +61,7 @@ namespace BlahguaMobile.IOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White, 
-																					 TextShadowColor = UIColor.Clear, 
-																					 Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
-			UINavigationBar.Appearance.TintColor = UIColor.White;
-			UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
+
 
 
 			UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide);
@@ -56,6 +78,32 @@ namespace BlahguaMobile.IOS
 			if(!isOk)
 			{
 				BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
+			}
+			else
+			{
+				InvokeOnMainThread (() => {
+					UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White, 
+						TextShadowColor = UIColor.Clear, 
+						Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
+					UINavigationBar.Appearance.TintColor = UIColor.White;
+					UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
+
+					var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");
+
+					if (SlideMenu.ContentViewController != null && c.GetType() == SlideMenu.ContentViewController.GetType())
+					{
+						SlideMenu.ShowContentViewControllerAnimated(true, null, false);
+					} 
+					else
+					{
+						SlideMenu.SetContentViewControllerAnimated(c as UIViewController, true);
+						if (Window.RootViewController != SlideMenu) {
+							UIView.Transition(this.Window.RootViewController.View, this.SlideMenu.View, 0.5, UIViewAnimationOptions.TransitionFlipFromRight, delegate {
+								Window.RootViewController = SlideMenu;
+							}); 
+						}
+					}
+				});
 			}
 		}
 

@@ -143,12 +143,31 @@
     <Compile Include="Helpers\BGAppearanceHelper.cs" />
     <Compile Include="Constants\BGAppearanceConstants.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
+    <Compile Include="View Controllers\BGRollViewController.cs" />
+    <Compile Include="View Controllers\BGRollViewController.designer.cs">
+      <DependentUpon>BGRollViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SlideMenuController.cs" />
+    <Compile Include="Controls\Extensions.cs" />
+    <Compile Include="Controls\SlideMenuGesturesState.cs" />
+    <Compile Include="Controls\BGMenuTableHeaderView.cs" />
+    <Compile Include="Controls\BGMenuTableHeaderView.designer.cs">
+      <DependentUpon>BGMenuTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BGMenuTableCellView.cs" />
+    <Compile Include="Controls\BGMenuTableCellView.designer.cs">
+      <DependentUpon>BGMenuTableCellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BGLeftMenuTableViewController.cs" />
+    <Compile Include="Controls\BGLeftMenuTableViewController.designer.cs">
+      <DependentUpon>BGLeftMenuTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGMainNavigationController.cs" />
+    <Compile Include="View Controllers\BGMainNavigationController.designer.cs">
+      <DependentUpon>BGMainNavigationController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="flyoutnavigation">
-      <Version>1.3</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>104.1.0</Version>
       <Visible>False</Visible>
@@ -163,12 +182,10 @@
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="FlyoutNavigation">
-      <HintPath>..\Components\flyoutnavigation-1.3\lib\ios\FlyoutNavigation.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp.MonoTouch">
       <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -176,6 +193,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Views\" />
     <Folder Include="View Controllers\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
