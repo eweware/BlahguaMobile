@@ -111,6 +111,7 @@
     <Compile Include="..\BlahguaCore\Utilities.cs">
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
+    <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
     <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
@@ -160,7 +161,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml" />
-    <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\activity_main.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\uiitem_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>

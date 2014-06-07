@@ -4,11 +4,14 @@
     android:layout_height="128dp"
     android:padding="1dp"
     android:background="#EAEAEA">
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#FFF" />
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF"
         android:scaleType="fitXY" />
     <TextView
         android:id="@+id/title"

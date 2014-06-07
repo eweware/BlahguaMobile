@@ -88,40 +88,16 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:orientation="horizontal">
-            <TextView
+            <CheckBox
+                android:id="@+id/check_remember_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
                 android:text="Remember me?"
                 android:textColor="#000"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-            <View
-                android:layout_width="15dp"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/check_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes"
-                android:textColor="#000"
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:button="@null"
-                android:drawableLeft="@drawable/checkbox"
-                android:drawablePadding="5dp" />
-            <View
-                android:layout_width="7dp"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/check_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No"
-                android:textColor="#000"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:button="@null"
+                android:checked="true"
                 android:drawableLeft="@drawable/checkbox"
                 android:drawablePadding="5dp" />
         </LinearLayout>

@@ -13,6 +13,7 @@ using SlidingMenuSharp.App;
 
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using Android.Preferences;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -40,6 +41,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView avatarBar, avatar;
         private LinearLayout registered_layout;
 
+        private ProgressBar progress_actionbar;
+
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
@@ -65,7 +68,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				//button.Text = string.Format ("{0} clicks!", count2++);
                 StartActivity(typeof(LoginActivity));
 			};
-
+            progress_actionbar = FindViewById<ProgressBar>(Resource.Id.progress_actionbar);
 
             scrollTimer.Interval = 1000 / FramesPerSecond;
             scrollTimer.Elapsed += ScrollBlahRoll;
@@ -122,6 +125,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             base.OnResume();
             StartTimers();
+            initLayouts();
         }
 
         protected override void OnPause()
@@ -155,11 +159,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         #region Init
         private void InitService()
         {
-            RunOnUiThread(() =>
-            {
-                Toast.MakeText(this, "looking for server...", ToastLength.Short).Show();
-                //LoadingMessageBox.Text = "looking for server...";
-            });
+            progress_actionbar.Visibility = ViewStates.Visible;
+            btn_login.Visibility = ViewStates.Gone;
+
+            Toast.MakeText(this, "looking for server...", ToastLength.Short).Show();
 
             loadTimer.Stop();
             loadTimer.Interval = 10000;
@@ -168,43 +171,58 @@ namespace BlahguaMobile.AndroidClient.Screens
                 RunOnUiThread(() =>
                 {
                     Toast.MakeText(this, "still looking...", ToastLength.Short).Show();
-                    //LoadingMessageBox.Text = "still looking...";
                 });
             };
             loadTimer.Enabled = true;
+
+            ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+            BlahguaAPIObject.Current.UserName = _sharedPref.GetString("username", "");
+            BlahguaAPIObject.Current.UserPassword = _sharedPref.GetString("password", "");
 
             BlahguaAPIObject.Current.Initialize(null, DoServiceInited);
 
         }
 
+        private void initLayouts()
+        {
+            if (progress_actionbar.Visibility == ViewStates.Gone)
+            {
+                if (BlahguaAPIObject.Current.CurrentUser != null)
+                {
+                    //App.analytics.PostAutoLogin();
+                    //UserInfoBtn.Visibility = Visibility.Visible;
+                    //NewBlahBtn.Visibility = Visibility.Visible;
+                    //SignInBtn.Visibility = Visibility.Collapsed;
+                    initSecondaryMenu();
+
+                    btn_login.Visibility = ViewStates.Gone;
+                    registered_layout.Visibility = ViewStates.Visible;
+                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                }
+                else
+                {
+                    //UserInfoBtn.Visibility = Visibility.Collapsed;
+                    //NewBlahBtn.Visibility = Visibility.Collapsed;
+                    //SignInBtn.Visibility = Visibility.Visible;
+                    btn_login.Visibility = ViewStates.Visible;
+                    registered_layout.Visibility = ViewStates.Gone;
+                }
+            }
+        }
+
         private void DoServiceInited(bool didIt)
         {
+            RunOnUiThread(() =>
+            {
+                progress_actionbar.Visibility = ViewStates.Gone;
+            });
             loadTimer.Stop();
             if (didIt)
             {
                 RunOnUiThread(() =>
                 {
-                    if (BlahguaAPIObject.Current.CurrentUser != null)
-                    {
-                        //App.analytics.PostAutoLogin();
-                        //UserInfoBtn.Visibility = Visibility.Visible;
-                        //NewBlahBtn.Visibility = Visibility.Visible;
-                        //SignInBtn.Visibility = Visibility.Collapsed;
-                        initSecondaryMenu();
-
-                        btn_login.Visibility = ViewStates.Gone;
-                        registered_layout.Visibility = ViewStates.Visible;
-                        avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                        avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                    }
-                    else
-                    {
-                        //UserInfoBtn.Visibility = Visibility.Collapsed;
-                        //NewBlahBtn.Visibility = Visibility.Collapsed;
-                        //SignInBtn.Visibility = Visibility.Visible;
-                        btn_login.Visibility = ViewStates.Visible;
-                        registered_layout.Visibility = ViewStates.Gone;
-                    }
+                    initLayouts();
                 });
                 //this.DataContext = BlahguaAPIObject.Current;
                 BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>

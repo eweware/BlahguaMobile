@@ -4,6 +4,8 @@ using Android.Widget;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using System;
+using Android.Views.Animations;
+using Android.Animation;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -348,9 +350,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             if (theBlah.M != null)
             {
-                title.Visibility = ViewStates.Invisible;
+                //title.Visibility = ViewStates.Invisible;
 
                 ImageView image = control.FindViewById<ImageView>(Resource.Id.image);
+                image.Visibility = ViewStates.Invisible;
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
@@ -360,6 +363,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
+
+                    //crossfade(title, image, null);
                     //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
                     switch (theBlah.TypeName)
                     {
@@ -404,7 +409,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 BlahContainer.AddView(control);
             });
-
         }
         #endregion
     }
