@@ -108,6 +108,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 //LoadingMessageBox.Text = "still loading...";
             };
             loadTimer.Start();
+            StopTimers();
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
             {
                 loadTimer.Stop();
@@ -152,8 +153,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //maxScroll -= (int)bottom;
                         inboxCounter--;
                     }
-
                 }
+                StartTimers();
                 //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
@@ -181,7 +182,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         #region InsertRows
         private void InsertAdditionalBlahs()
         {
-            double curTop = BlahScroller.ScrollY;
+            double curTop = BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
 
             foreach (char rowType in sequence)
             {

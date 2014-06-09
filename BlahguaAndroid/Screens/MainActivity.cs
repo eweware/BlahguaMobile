@@ -240,6 +240,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
+                Toast.MakeText(this, "server connection failure", ToastLength.Short).Show();
                 //LoadingBox.Visibility = Visibility.Collapsed;
                 //ConnectFailure.Visibility = Visibility.Visible;
             }
@@ -398,9 +399,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void listChannel_Click(object sender, EventArgs e)
         {
-            int checkedId = (int)listChannels.GetCheckItemIds()[0];
-            BlahguaAPIObject.Current.CurrentChannel =
-                BlahguaAPIObject.Current.CurrentChannelList[checkedId];
+            if (BlahguaAPIObject.Current.CurrentChannelList != null)
+            {
+                int checkedId = (int)listChannels.GetCheckItemIds()[0];
+                BlahguaAPIObject.Current.CurrentChannel =
+                    BlahguaAPIObject.Current.CurrentChannelList[checkedId];
+            }
 
             SlidingMenu.Toggle();
         }
