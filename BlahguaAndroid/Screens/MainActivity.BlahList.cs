@@ -121,36 +121,46 @@ namespace BlahguaMobile.AndroidClient.Screens
                     inboxCounter++;
                     if (inboxCounter >= 5)
                     {
-                        //UIElement curItem;
-                        double bottom = 0;
-                        // remove some blahs...
-                        //for (int i = 0; i < 101; i++)
-                        //{
-                        //    curItem = BlahContainer.Children[0];
-                        //    if (curItem is BlahRollItem)
-                        //    {
-                        //        BlahRollItem curBlah = (BlahRollItem)curItem;
-                        //        AddImpression(curBlah.BlahData.I);
-                        //    }
-
-                        //    BlahContainer.Children.Remove(curItem);
-                        //}
                         RunOnUiThread(() =>
                         {
-                            BlahContainer.RemoveAllViews();
+                            // plan
+                            // 1. remove first 100 views
+                            View curItem;
+                            for (int i = 0; i < 100; i++)
+                            {
+                                //curItem = BlahContainer.GetChildAt(0);
+                                //if (curItem.Tag.ToString() ==  BlahTag)
+                                //{
+                                //    BlahRollItem curBlah = (BlahRollItem)curItem;
+                                //    AddImpression(curBlah.BlahData.I);
+                                //}
+
+                                BlahContainer.RemoveViewAt(0);
+                            }
+                            // 2. shift other views up
+                            RelativeLayout.LayoutParams firstLp = (RelativeLayout.LayoutParams)BlahContainer.GetChildAt(0).LayoutParameters;
+                            int bottom = firstLp.TopMargin;
+
+                            // now shift everything up
+                            for (int i = 0; i < BlahContainer.ChildCount; i++)
+                            {
+                                curItem = BlahContainer.GetChildAt(i);
+                                if (curItem.Tag.ToString() == BlahTag)
+                                {
+                                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)curItem.LayoutParameters;
+                                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(lp.Width, lp.Height);
+                                    layoutParams.SetMargins(lp.LeftMargin, lp.TopMargin - bottom, 0, 0);
+                                    curItem.LayoutParameters = layoutParams;
+                                    //curItem.SetY(curItem.Top - bottom);
+                                }
+                            }
+                            //BlahScroller.RequestLayout();
+                            BlahScroller.ScrollTo(0, BlahScroller.ScrollY - bottom);
+
+                            //BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
+                            //BlahContainer.Height -= bottom;
+                            //maxScroll -= (int)bottom;
                         });
-
-                        bottom = BlahContainer.Height;
-                        //bottom = Canvas.GetTop(BlahContainer.Children[0]);
-
-                        // now shift everything up
-                        //foreach (UIElement theBlah in BlahContainer.Children)
-                        //{
-                        //    Canvas.SetTop(theBlah, Canvas.GetTop(theBlah) - bottom);
-                        //}
-                        //BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
-                        //BlahContainer.Height -= bottom;
-                        //maxScroll -= (int)bottom;
                         inboxCounter--;
                     }
                 }
@@ -316,6 +326,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             return newTop;
         }
 
+        private readonly string BlahTag = "ItIsABlah";
         private void InsertElementForBlah(InboxBlah theBlah, double xLoc, double yLoc, double width, double height)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)width, (int)height);
@@ -323,6 +334,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             // TODO visual interpretatuion of a blah
 
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
+            control.Tag = BlahTag;
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));

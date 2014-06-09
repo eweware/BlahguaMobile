@@ -103,9 +103,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         private void ScrollBlahRoll(object sender, EventArgs e)
         {
 
-            double curOffset = BlahScroller.ScrollY;
-            curOffset += 1.0;
-            BlahScroller.ScrollTo(0, (int)curOffset);
+            int curOffset = BlahScroller.ScrollY;
+            curOffset += 1;
+            BlahScroller.ScrollTo(0, curOffset);
 
             DetectScrollAtEnd();
         }
