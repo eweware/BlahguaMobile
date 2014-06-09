@@ -14,6 +14,7 @@ using SlidingMenuSharp.App;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Preferences;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -33,8 +34,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
 
-        private RelativeLayout BlahContainer = null;
+        private LinearLayout BlahContainerLayout = null;
         private ScrollView BlahScroller = null;
+        private BlahFrameLayout CurrentBlahContainer = null;
 
         protected ListFragment Frag;
         private Button btn_login, btn_newpost;
@@ -54,7 +56,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.activity_main);
 
-            BlahContainer = FindViewById<RelativeLayout>(Resource.Id.BlahContainer);
+            BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
 			//AddBlahs();
 
@@ -240,7 +242,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                Toast.MakeText(this, "server connection failure", ToastLength.Short).Show();
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "server connection failure", ToastLength.Short).Show();
+                });
                 //LoadingBox.Visibility = Visibility.Collapsed;
                 //ConnectFailure.Visibility = Visibility.Visible;
             }

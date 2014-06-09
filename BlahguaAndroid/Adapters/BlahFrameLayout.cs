@@ -17,6 +17,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
     class BlahFrameLayout : RelativeLayout
     {
+
+        public BlahFrameLayout(Context context)
+            : base(context)
+        {
+            this.SetWillNotDraw(false);
+            r = new Random((int)DateTime.Now.Ticks);
+        }
         public BlahFrameLayout(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
@@ -33,9 +40,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
             {
                 View blah = GetChildAt(i);
                 Rect scrollBounds = new Rect();
-                if (Parent is ScrollView)
+                if (Parent.Parent is ScrollView)
                 {
-                    (Parent as ScrollView).GetHitRect(scrollBounds);
+                    (Parent.Parent as ScrollView).GetHitRect(scrollBounds);
                     if (blah.GetLocalVisibleRect(scrollBounds))
                     {
                         var title = blah.FindViewById<TextView>(Resource.Id.title);

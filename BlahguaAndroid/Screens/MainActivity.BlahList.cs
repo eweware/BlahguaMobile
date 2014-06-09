@@ -6,13 +6,24 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using System;
 using Android.Views.Animations;
 using Android.Animation;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
     public partial class MainActivity
     {
+        private readonly int BlahSetsAmountToRemove = 5;
+        int blahsToAdd = 0;
         private void RenderInitialBlahs()
         {
+            CurrentBlahContainer = new BlahFrameLayout(this);
+            FrameLayout.LayoutParams layoutparams =
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent);
+            CurrentBlahContainer.LayoutParameters = layoutparams;
+
+            blahsToAdd = 100;
+
             int screenWidth = Resources.DisplayMetrics.WidthPixels - screenMargin * 2;
 
             double curTop = screenMargin;
@@ -90,6 +101,20 @@ namespace BlahguaMobile.AndroidClient.Screens
             });
         }
 
+        private void FinishedLoadingCurrentBlahContainer()
+        {
+            BlahContainerLayout.AddView(CurrentBlahContainer);
+            if (inboxCounter >= BlahSetsAmountToRemove)
+            {
+                int heightToShift = BlahContainerLayout.GetChildAt(0).MeasuredHeight;
+                BlahContainerLayout.RemoveViewAt(0);
+                BlahScroller.ScrollTo(0, BlahScroller.ScrollY - heightToShift);
+
+                inboxCounter--;
+            }
+            StartTimers();
+        }
+
         private void FetchNextBlahList()
         {
             RunOnUiThread(() =>
@@ -119,52 +144,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     InsertAdditionalBlahs();
                     AtScrollEnd = false;
                     inboxCounter++;
-                    if (inboxCounter >= 5)
-                    {
-                        RunOnUiThread(() =>
-                        {
-                            // plan
-                            // 1. remove first 100 views
-                            View curItem;
-                            for (int i = 0; i < 100; i++)
-                            {
-                                //curItem = BlahContainer.GetChildAt(0);
-                                //if (curItem.Tag.ToString() ==  BlahTag)
-                                //{
-                                //    BlahRollItem curBlah = (BlahRollItem)curItem;
-                                //    AddImpression(curBlah.BlahData.I);
-                                //}
-
-                                BlahContainer.RemoveViewAt(0);
-                            }
-                            // 2. shift other views up
-                            RelativeLayout.LayoutParams firstLp = (RelativeLayout.LayoutParams)BlahContainer.GetChildAt(0).LayoutParameters;
-                            int bottom = firstLp.TopMargin;
-
-                            // now shift everything up
-                            for (int i = 0; i < BlahContainer.ChildCount; i++)
-                            {
-                                curItem = BlahContainer.GetChildAt(i);
-                                if (curItem.Tag.ToString() == BlahTag)
-                                {
-                                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)curItem.LayoutParameters;
-                                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(lp.Width, lp.Height);
-                                    layoutParams.SetMargins(lp.LeftMargin, lp.TopMargin - bottom, 0, 0);
-                                    curItem.LayoutParameters = layoutParams;
-                                    //curItem.SetY(curItem.Top - bottom);
-                                }
-                            }
-                            //BlahScroller.RequestLayout();
-                            BlahScroller.ScrollTo(0, BlahScroller.ScrollY - bottom);
-
-                            //BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
-                            //BlahContainer.Height -= bottom;
-                            //maxScroll -= (int)bottom;
-                        });
-                        inboxCounter--;
-                    }
                 }
-                StartTimers();
                 //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
@@ -175,7 +155,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             RunOnUiThread(() =>
             {
                 inboxCounter = 0;
-                BlahContainer.RemoveAllViews();
+                BlahContainerLayout.RemoveAllViews();
                 BlahScroller.ScrollTo(0, 0);
             });
         }
@@ -192,7 +172,15 @@ namespace BlahguaMobile.AndroidClient.Screens
         #region InsertRows
         private void InsertAdditionalBlahs()
         {
-            double curTop = BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
+            CurrentBlahContainer = new BlahFrameLayout(this);
+            FrameLayout.LayoutParams layoutparams =
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent);
+            CurrentBlahContainer.LayoutParameters = layoutparams;
+
+            blahsToAdd = 100;
+
+            double curTop = 0;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
 
             foreach (char rowType in sequence)
             {
@@ -326,7 +314,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return newTop;
         }
 
-        private readonly string BlahTag = "ItIsABlah";
         private void InsertElementForBlah(InboxBlah theBlah, double xLoc, double yLoc, double width, double height)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)width, (int)height);
@@ -334,7 +321,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             // TODO visual interpretatuion of a blah
 
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
-            control.Tag = BlahTag;
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
@@ -432,7 +418,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             RunOnUiThread(() =>
             {
-                BlahContainer.AddView(control);
+                CurrentBlahContainer.AddView(control);
+                blahsToAdd--;
+
+                if (blahsToAdd == 0)
+                {
+                    FinishedLoadingCurrentBlahContainer();
+                }
             });
         }
         #endregion
