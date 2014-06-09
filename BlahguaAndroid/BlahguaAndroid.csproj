@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\VotesAdapter.cs" />
     <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
@@ -436,6 +437,17 @@
     <AndroidResource Include="Resources\layout\uiitem_badge_small.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_poll.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_hot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

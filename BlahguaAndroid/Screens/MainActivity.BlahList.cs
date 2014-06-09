@@ -357,9 +357,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-                
+
                 var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
                 var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
+                var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
+                var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
@@ -388,14 +390,24 @@ namespace BlahguaMobile.AndroidClient.Screens
                             break;
                     }
 
-                    if (!String.IsNullOrEmpty(theBlah.B))
-                    {
-                        badges_mark.Visibility = ViewStates.Visible;
-                    }
+                    // icons
+                    double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
+                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                    ).TotalMilliseconds;
+                    if (currentUtc - theBlah.c < 86400000)
+                        new_mark.Visibility = ViewStates.Visible;
                     else
-                    {
+                        new_mark.Visibility = ViewStates.Gone;
+
+                    if (theBlah.RR)
+                        hot_mark.Visibility = ViewStates.Visible;
+                    else
+                        hot_mark.Visibility = ViewStates.Gone;
+
+                    if (!String.IsNullOrEmpty(theBlah.B))
+                        badges_mark.Visibility = ViewStates.Visible;
+                    else
                         badges_mark.Visibility = ViewStates.Gone;
-                    }
                 });
             }
             ///////

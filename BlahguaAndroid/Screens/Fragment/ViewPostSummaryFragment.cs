@@ -12,6 +12,8 @@ using Android.Widget;
 using BlahguaMobile.BlahguaCore;
 
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using BlahguaMobile.AndroidClient.Adapters;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -37,6 +39,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private LinearLayout authorBadgesArea;
 
         // predicts layout
+        private ListView predictsVotes;
         private TextView predictsDatebox;
         private TextView predictsElapsedtime;
         private LinearLayout predictsLayout;
@@ -58,6 +61,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
             authorBadgesArea = fragment.FindViewById<LinearLayout>(Resource.Id.badges_block);
 
+            predictsVotes = fragment.FindViewById<ListView>(Resource.Id.predicts_votes);
             predictsDatebox = fragment.FindViewById<TextView>(Resource.Id.predicts_datebox);
             predictsElapsedtime = fragment.FindViewById<TextView>(Resource.Id.predicts_elapsedtime);
             predictsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.predicts_layout);
@@ -176,6 +180,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
+                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, true);
                         predictsDatebox.Text = "happening by " + curBlah.E.ToShortDateString();
                         predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
@@ -189,6 +194,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //PredictDateBox.Text = "should have happened on " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
+                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, true);
                         predictsDatebox.Text = "should have happened on " + curBlah.E.ToShortDateString();
                         predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
@@ -196,6 +202,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //AlreadyHappenedItems.Visibility = Visibility.Collapsed;
                         //AlreadyHappenedItems.ItemsSource = curBlah.ExpPredictionItems;
                     }
+
+                    HistoryUiHelper.setListViewHeightBasedOnChildren(predictsVotes);
                 });
 
                 //((Storyboard)Resources["ShowPredictionAnimation"]).Begin();

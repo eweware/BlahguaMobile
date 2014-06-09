@@ -15,6 +15,7 @@
             android:layout_gravity="left"
             android:background="@drawable/btn_menu" />
         <TextView
+            android:id="@+id/main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
