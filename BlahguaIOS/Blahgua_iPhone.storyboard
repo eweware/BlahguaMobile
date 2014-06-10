@@ -157,7 +157,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="muK-fE-ezv" kind="relationship" relationship="rootViewController" id="fRK-6l-H0T"/>
+                        <segue destination="E2d-ol-J7A" kind="relationship" relationship="rootViewController" id="fxJ-Ti-n70"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="20" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -215,28 +215,6 @@
             </objects>
             <point key="canvasLocation" x="-413" y="456"/>
         </scene>
-        <!--Roll View Controller - Roll-->
-        <scene sceneID="ww8-27-pUS">
-            <objects>
-                <viewController storyboardIdentifier="BGRollViewController" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="muK-fE-ezv" customClass="BGRollViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tJD-Jw-WdW"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZCR-OG-c1F"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5kU-ey-mvK">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Roll" id="09q-Lt-9fQ"/>
-                    <connections>
-                        <segue destination="1" kind="push" id="d0c-EU-dYA"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WrC-X3-c8U" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-15" y="-283"/>
-        </scene>
         <!--Left Menu Table View Controller-->
         <scene sceneID="n88-4i-w1j">
             <objects>
@@ -257,7 +235,7 @@
                                         <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Header" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yV8-MJ-Ey8">
                                             <rect key="frame" x="44" y="31" width="104" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -279,9 +257,13 @@
                                         <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yU3-La-vv1">
                                             <rect key="frame" x="44" y="11" width="104" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView hidden="YES" appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="blahsChannelCheck.png" translatesAutoresizingMaskIntoConstraints="NO" id="RKa-T4-5KO">
+                                            <rect key="frame" x="28" y="18" width="10" height="8"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
@@ -289,6 +271,7 @@
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="label" destination="yU3-La-vv1" id="N9z-fW-TxI"/>
+                                    <outlet property="selectedImage" destination="RKa-T4-5KO" id="tAT-sT-rkc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -305,6 +288,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Zs-RX-UvI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="62" y="567"/>
+        </scene>
+        <!--Roll View Controller - Roll-->
+        <scene sceneID="3ha-s3-LLH">
+            <objects>
+                <collectionViewController storyboardIdentifier="BGRollViewController" autoresizesArchivedViewToFullSize="NO" title="Roll" useStoryboardIdentifierAsRestorationIdentifier="YES" id="E2d-ol-J7A" customClass="BGRollViewController" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" keyboardDismissMode="onDrag" dataMode="prototypes" id="qjp-PA-Ho5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewLayout key="collectionViewLayout" id="lem-hm-fpl" customClass="BGRollViewLayout"/>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="center" reuseIdentifier="TinyCell" id="XFs-cf-Xwf">
+                                <rect key="frame" x="107" y="64" width="106" height="106"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <size key="customSize" width="106" height="106"/>
+                            </collectionViewCell>
+                            <collectionViewCell appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SmallCell" id="0oj-S1-f3D">
+                                <rect key="frame" x="54" y="180" width="212" height="106"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="212" height="106"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <size key="customSize" width="212" height="106"/>
+                            </collectionViewCell>
+                            <collectionViewCell appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LargeCell" id="Gf2-5M-2Rf">
+                                <rect key="frame" x="1" y="296" width="318" height="212"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="318" height="212"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <size key="customSize" width="318" height="212"/>
+                            </collectionViewCell>
+                            <collectionViewCell appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediumCell" id="2kc-vS-MEF">
+                                <rect key="frame" x="54" y="518" width="212" height="212"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="212" height="212"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <size key="customSize" width="212" height="212"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="E2d-ol-J7A" id="DgG-wV-sbo"/>
+                            <outlet property="delegate" destination="E2d-ol-J7A" id="C7G-I9-dmU"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Roll" id="WvV-aF-vc4"/>
+                    <connections>
+                        <segue destination="1" kind="push" id="5CP-DJ-zHp"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0b6-CC-nEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="98" y="-283"/>
         </scene>
         <!--Profile View Controller - Profile-->
         <scene sceneID="43">
@@ -357,6 +404,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="blahsChannelCheck.png" width="9" height="8"/>
         <image name="input.png" width="299" height="36"/>
         <image name="profileImageSelectLogo.png" width="104" height="20"/>
         <image name="rememberMeRadioButton.png" width="14" height="14"/>

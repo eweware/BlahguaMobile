@@ -14,12 +14,20 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		MonoTouch.UIKit.UILabel label { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView selectedImage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (label != null) {
 				label.Dispose ();
 				label = null;
+			}
+
+			if (selectedImage != null) {
+				selectedImage.Dispose ();
+				selectedImage = null;
 			}
 		}
 	}

@@ -863,8 +863,6 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
-       
-
         public void GetChannelTypes(ChannelTypeList_callback callback)
         {
             RestRequest request = new RestRequest("groupTypes", Method.GET);
@@ -893,10 +891,6 @@ namespace BlahguaMobile.BlahguaCore
             {
                 callback(response.Data);
             });
-
         }
-
-      
-
     }
 }

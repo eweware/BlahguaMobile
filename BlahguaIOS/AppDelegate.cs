@@ -87,6 +87,7 @@ namespace BlahguaMobile.IOS
 						Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
 					UINavigationBar.Appearance.TintColor = UIColor.White;
 					UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
+					UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 					var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");
 

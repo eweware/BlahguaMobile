@@ -9,6 +9,12 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGMenuTableCellView : UITableViewCell
 	{
+		#region Fields
+
+		#endregion
+
+		#region Properties
+
 		public string Text
 		{
 			get
@@ -21,15 +27,31 @@ namespace BlahguaMobile.IOS
 				{
 					label.AttributedText = new NSAttributedString(
 						value, 
-						UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), 
+						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14), 
 						UIColor.White
 					);
 				}
 			}
 		}
 
+		#endregion
+
 		public BGMenuTableCellView (IntPtr handle) : base (handle)
 		{
 		}
+
+		#region Methods
+
+		public void SelectRow()
+		{
+			selectedImage.Hidden = false;
+		}
+
+		public void DeselectRow()
+		{
+			selectedImage.Hidden = true;
+		}
+
+		#endregion
 	}
 }

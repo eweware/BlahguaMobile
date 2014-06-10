@@ -147,25 +147,30 @@
     <Compile Include="View Controllers\BGRollViewController.designer.cs">
       <DependentUpon>BGRollViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SlideMenuController.cs" />
-    <Compile Include="Controls\Extensions.cs" />
-    <Compile Include="Controls\SlideMenuGesturesState.cs" />
-    <Compile Include="Controls\BGMenuTableHeaderView.cs" />
-    <Compile Include="Controls\BGMenuTableHeaderView.designer.cs">
-      <DependentUpon>BGMenuTableHeaderView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BGMenuTableCellView.cs" />
-    <Compile Include="Controls\BGMenuTableCellView.designer.cs">
-      <DependentUpon>BGMenuTableCellView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BGLeftMenuTableViewController.cs" />
-    <Compile Include="Controls\BGLeftMenuTableViewController.designer.cs">
-      <DependentUpon>BGLeftMenuTableViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="View Controllers\BGMainNavigationController.cs" />
     <Compile Include="View Controllers\BGMainNavigationController.designer.cs">
       <DependentUpon>BGMainNavigationController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SlidingMenu\BGMenuTableCellView.cs" />
+    <Compile Include="Controls\SlidingMenu\BGMenuTableCellView.designer.cs">
+      <DependentUpon>BGMenuTableCellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
+    <Compile Include="Controls\SlidingMenu\SlideMenuGesturesState.cs" />
+    <Compile Include="Controls\SlidingMenu\Extensions.cs" />
+    <Compile Include="Controls\SlidingMenu\BGMenuTableHeaderView.cs" />
+    <Compile Include="Controls\SlidingMenu\BGMenuTableHeaderView.designer.cs">
+      <DependentUpon>BGMenuTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SlidingMenu\BGSlidingMenuTableSource.cs" />
+    <Compile Include="View Controllers\BGLeftMenuTableViewController.cs" />
+    <Compile Include="View Controllers\BGLeftMenuTableViewController.designer.cs">
+      <DependentUpon>BGLeftMenuTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RollViewCollection\BGRollViewLayout.cs" />
+    <Compile Include="Controls\RollViewCollection\BGRollViewDataSource.cs" />
+    <Compile Include="Controls\RollViewCollection\BGRollViewCellsSizeManager.cs" />
+    <Compile Include="Constants\BGBlahCellSizesConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="restsharp">
@@ -194,6 +199,8 @@
     <Folder Include="Views\" />
     <Folder Include="View Controllers\" />
     <Folder Include="Controls\" />
+    <Folder Include="Controls\SlidingMenu\" />
+    <Folder Include="Controls\RollViewCollection\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
