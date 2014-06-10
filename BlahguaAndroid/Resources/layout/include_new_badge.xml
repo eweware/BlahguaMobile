@@ -17,6 +17,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:textColor="#3C3C3C"
+      android:textCursorDrawable="@null"
       android:hint="@string/new_badge_edit_email"
       android:background="@drawable/edit"
       android:inputType="textEmailAddress"

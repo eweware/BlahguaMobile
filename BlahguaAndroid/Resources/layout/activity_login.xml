@@ -65,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
+            android:textCursorDrawable="@null"
             android:textColor="#3C3C3C"
             android:hint="Username" />
         <EditText
@@ -73,6 +74,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
             android:inputType="textPassword"
+            android:textCursorDrawable="@null"
             android:textColor="#3C3C3C"
             android:hint="Password" />
         <EditText
@@ -81,6 +83,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit"
             android:inputType="textPassword"
+            android:textCursorDrawable="@null"
             android:textColor="#3C3C3C"
             android:hint="Confirm password" />
         <LinearLayout

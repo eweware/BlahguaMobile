@@ -65,6 +65,9 @@
     <Reference Include="RestSharp.MonoDroid">
       <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
@@ -106,7 +109,9 @@
     <Compile Include="..\BlahguaCore\Utilities.cs">
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
+    <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\VotesAdapter.cs" />
     <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
@@ -155,7 +160,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml" />
-    <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\activity_main.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\uiitem_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -171,6 +178,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>104.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Version>3.9.60.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -428,6 +439,17 @@
     <AndroidResource Include="Resources\layout\uiitem_badge_small.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_poll.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_hot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ico_new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

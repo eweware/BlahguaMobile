@@ -25,8 +25,8 @@ namespace BlahguaMobile.Winphone
         Inbox   blahList;
         DispatcherTimer scrollTimer = new DispatcherTimer();
         int inboxCounter = 0;
+        private readonly String rowSequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
 
-        int[] rowSequence = new int[]{4,32,31,4,1,33,4,2,4,32,1,4,31,32,33,31,4,33,1,31,4,32,33,1,4,2};
         int screenMargin = 24;
         int blahMargin = 12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
@@ -259,11 +259,11 @@ namespace BlahguaMobile.Winphone
         private void RenderInitialBlahs()
         {
             double curTop = screenMargin;
-            smallBlahSize = 99; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
-            mediumBlahSize = 210;// smallBlahSize + smallBlahSize + blahMargin;
+            smallBlahSize = (480 - ((screenMargin * 2) + (blahMargin * 2))) / 3;
+            mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
             largeBlahSize = 432; // mediumBlahSize + mediumBlahSize + blahMargin;
 
-            foreach (int rowType in rowSequence)
+            foreach (char rowType in rowSequence)
             {
                 curTop = InsertRow(rowType, curTop);
                 curTop += blahMargin;
@@ -312,7 +312,7 @@ namespace BlahguaMobile.Winphone
         private void InsertAdditionalBlahs()
         {
             double curTop = BlahContainer.Height;
-            foreach (int rowType in rowSequence)
+            foreach (char rowType in rowSequence)
             {
                 curTop = InsertRow(rowType, curTop);
                 curTop += blahMargin;
@@ -776,7 +776,129 @@ namespace BlahguaMobile.Winphone
             return null;
         }
 
-        private double InsertRow(int rowType, double topLoc)
+        private double InsertRow(char rowType, double topLoc)
+        {
+            double newTop = topLoc;
+            switch (rowType)
+            {//ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA
+                case 'A':
+                    newTop = InsertRowTypeA(topLoc);
+                    break;
+                case 'B':
+                    newTop = InsertRowTypeB(topLoc);
+                    break;
+                case 'C':
+                    newTop = InsertRowTypeC(topLoc);
+                    break;
+                case 'D':
+                    newTop = InsertRowTypeD(topLoc);
+                    break;
+                case 'E':
+                    newTop = InsertRowTypeE(topLoc);
+                    break;
+                case 'F':
+                    newTop = InsertRowTypeF(topLoc);
+                    break;
+            }
+
+            return newTop;
+        }
+
+        private double InsertRowTypeA(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah;
+
+            for (int i = 0; i < 3; i++)
+            {
+                nextBlah = blahList.PopBlah(4);
+                InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+                curLeft += smallBlahSize + blahMargin;
+            }
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeB(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(2);
+            curLeft += smallBlahSize + blahMargin;
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
+
+            newTop += mediumBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeC(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(2);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
+            curLeft += mediumBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
+
+            newTop += mediumBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeD(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+            curLeft += smallBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(3);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
+
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeE(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(3);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, smallBlahSize);
+            curLeft += mediumBlahSize + blahMargin;
+            nextBlah = blahList.PopBlah(4);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
+
+            newTop += smallBlahSize;
+
+            return newTop;
+        }
+
+        private double InsertRowTypeF(double topLoc)
+        {
+            double newTop = topLoc;
+            double curLeft = screenMargin;
+            InboxBlah nextBlah = blahList.PopBlah(1);
+            InsertElementForBlah(nextBlah, curLeft, topLoc, largeBlahSize, mediumBlahSize);
+
+            newTop += mediumBlahSize;
+
+            return newTop;
+        }
+
+        /*
+        private double InsertRow(char rowType, double topLoc)
         {
             double newTop = topLoc;
             switch (rowType)
@@ -923,6 +1045,7 @@ namespace BlahguaMobile.Winphone
 
             return newTop;
         }
+        */
 
         private void DoSignIn(object sender, RoutedEventArgs e)
         {

@@ -25,18 +25,19 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private readonly string TAG = "ViewPostCommentsFragment";
 
-        TextView comments_total_count;
-        ListView list;
-        LinearLayout no_comments, create_comment_block;
+        private TextView comments_total_count;
+        private ListView list;
+        private LinearLayout no_comments, create_comment_block;
+
+        private Button btn_done;
+        private EditText text;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
-            //if (container == null)
-            //{
-            //    Log.Debug(TAG, "Dialer Fragment is in a view without container");
-            //    return null;
-            //}
+
             create_comment_block = fragment.FindViewById<LinearLayout>(Resource.Id.create_comment_block);
+            text = create_comment_block.FindViewById<EditText>(Resource.Id.text);
             Button btn_select_image = create_comment_block.FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) => {
                 var imageIntent = new Intent();
@@ -45,11 +46,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select image"), 0);
             };
-            Button btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
-            btn_done.Click += (sender, args) =>
-            {
-                triggerCreateBlock();
-            };
+            btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_done.Click += btn_done_Click;
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
@@ -59,6 +57,65 @@ namespace BlahguaMobile.AndroidClient.Screens
             LoadComments();
 
             return fragment;
+        }
+
+        private void btn_done_Click(object sender, EventArgs e)
+        {
+            btn_done.Enabled = false;
+            text.Enabled = false;
+            var comment = BlahguaAPIObject.Current.CreateCommentRecord;
+            comment.T = text.Text;
+            //SelectedBadgesList.Focus();
+            BlahguaAPIObject.Current.CreateComment(OnCreateCommentOK);
+        }
+
+        public void PrepareNewComment()
+        {
+            if (BlahguaAPIObject.Current.CreateCommentRecord == null)
+            {
+                BlahguaAPIObject.Current.CreateCommentRecord = new CommentCreateRecord();
+                BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
+            }
+
+            //if (currentPage == "summary")
+            //{
+            //    BlahguaAPIObject.Current.CreateCommentRecord.CID = null;
+            //    NavigationService.Navigate(new Uri("/Screens/CreateComment.xaml", UriKind.Relative));
+            //}
+            //else
+            //{
+            //    // on the comment page
+            //    Comment curComment = (Comment)AllCommentList.SelectedItem;
+            //    if (curComment != null)
+            //        BlahguaAPIObject.Current.CreateCommentRecord.CID = curComment._id;
+            //    else
+            //        BlahguaAPIObject.Current.CreateCommentRecord.CID = null;
+
+            //    NavigationService.Navigate(new Uri("/Screens/CreateComment.xaml", UriKind.Relative));
+            //}
+        }
+
+        private void OnCreateCommentOK(Comment newComment)
+        {
+            if (newComment != null)
+            {
+                //App.analytics.PostCreateComment();
+                // might want to resort the comments...
+                //NavigationService.GoBack();
+                Activity.RunOnUiThread(() =>
+                {
+                    triggerCreateBlock();
+                    LoadComments();
+                });
+            }
+            else
+            {
+                //App.analytics.PostSessionError("commentcreatefailed");
+                // handle create comment failed
+                Toast.MakeText(Activity, "Your comment was not created.  Please try again or come back another time.", ToastLength.Short).Show();
+                btn_done.Enabled = true;
+            }
+
         }
 
         private void LoadComments()
@@ -97,7 +154,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             });
         }
 
-        void list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        #region CreateCommentUI
+        private void list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             View item = e.View;
             LinearLayout layout = item.FindViewById<LinearLayout>(Resource.Id.votes);
@@ -148,6 +206,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (create_comment_block.Visibility.Equals(ViewStates.Gone))
             {
+                PrepareNewComment();
+
                 //set Visible
                 create_comment_block.Visibility = ViewStates.Visible;
                 int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
@@ -197,5 +257,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             //      });
             return animator;
         }
+        #endregion
     }
 }
