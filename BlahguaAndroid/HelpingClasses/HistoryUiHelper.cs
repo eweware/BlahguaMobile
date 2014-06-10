@@ -15,6 +15,25 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 {
     class HistoryUiHelper
     {
+        public static void setListViewHeightBasedOnChildren(ListView listView) {
+            IListAdapter listAdapter = listView.Adapter; 
+            if (listAdapter == null) {
+                // pre-condition
+                return;
+            }
+
+            int totalHeight = 0;
+            for (int i = 0; i < listAdapter.Count; i++) {
+                View listItem = listAdapter.GetView(i, null, listView);
+                listItem.Measure(0, 0);
+                totalHeight += listItem.MeasuredHeight;
+            }
+
+            ViewGroup.LayoutParams prms = listView.LayoutParameters;
+            prms.Height = totalHeight + (listView.DividerHeight * (listAdapter.Count - 1));
+            listView.LayoutParameters = prms;
+            listView.RequestLayout();
+        }    
 
         public static View getViewByPosition(int position, ListView listView)
         {

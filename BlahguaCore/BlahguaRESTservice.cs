@@ -8,7 +8,7 @@ using System.Text;
 using RestSharp;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-
+using ServiceStack.Text;
 
 namespace BlahguaMobile.BlahguaCore
 {
@@ -92,13 +92,7 @@ namespace BlahguaMobile.BlahguaCore
                 CommentList commentList = null;
                 try
                 {
-                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
-                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    object theObj = des.ReadObject(stream);
-                    stream.Close();
-
-                    if (theObj != null)
-                        commentList = (CommentList)theObj;
+						commentList = response.Content.FromJson<CommentList>();
                 }
                 catch (SerializationException exp)
                 {
@@ -267,13 +261,7 @@ namespace BlahguaMobile.BlahguaCore
                 CommentList commentList = null;
                 try
                 {
-                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
-                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    object theObj = des.ReadObject(stream);
-                    stream.Close();
-
-                    if (theObj != null)
-                        commentList = (CommentList)theObj;
+					commentList = response.Content.FromJson<CommentList>();
                 }
                 catch (SerializationException exp)
                 {
@@ -297,6 +285,8 @@ namespace BlahguaMobile.BlahguaCore
                 BlahList blahList = null;
                 try
                 {
+					BlahList altList = response.Content.FromJson<BlahList>();
+
                     DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(BlahList));
                     var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                     object theObj = des.ReadObject(stream);
@@ -313,24 +303,24 @@ namespace BlahguaMobile.BlahguaCore
                     blahList.Add(new Blah() {
                         _id = "53729624e4b0fd27f5081645",
                         A = "534b100ce4b08567a93329b5",
-                        E = new DateTime(2014, 05, 13),
+							E = new DateTime(2014, 05, 13).ToString(),
                         F = "test",
                         G = "522ccb78e4b0a35dadfcf740",
                         T = "dimadima",
                         XX = true,
                         Y = "522ccb79e4b0a35dadfcf743",
-                        c = new DateTime(2014, 05, 13, 22, 1, 8)
+							c = new DateTime(2014, 05, 13, 22, 1, 8).ToString()
                     });
                     blahList.Add(new Blah() {
                         _id = "53729624e4b0fd27f5081646",
                         A = "534b100ce4b08567a93329b5",
-                        E = new DateTime(2014, 05, 14),
+							E = new DateTime(2014, 05, 14).ToString(),
                         F = "There is no other truth",
                         G = "522ccb78e4b0a35dadfcf740",
                         T = "In God we trust, in Devil we invest",
                         XX = true,
                         Y = "522ccb79e4b0a35dadfcf743",
-                        c = new DateTime(2014, 05, 14, 18, 55, 11)
+							c = new DateTime(2014, 05, 14, 18, 55, 11).ToString()
                     });
                 }
 

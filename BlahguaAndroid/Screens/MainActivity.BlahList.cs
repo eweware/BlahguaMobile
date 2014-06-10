@@ -6,13 +6,24 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using System;
 using Android.Views.Animations;
 using Android.Animation;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
     public partial class MainActivity
     {
+        private readonly int BlahSetsAmountToRemove = 5;
+        int blahsToAdd = 0;
         private void RenderInitialBlahs()
         {
+            CurrentBlahContainer = new BlahFrameLayout(this);
+            FrameLayout.LayoutParams layoutparams =
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent);
+            CurrentBlahContainer.LayoutParameters = layoutparams;
+
+            blahsToAdd = 100;
+
             int screenWidth = Resources.DisplayMetrics.WidthPixels - screenMargin * 2;
 
             double curTop = screenMargin;
@@ -90,6 +101,20 @@ namespace BlahguaMobile.AndroidClient.Screens
             });
         }
 
+        private void FinishedLoadingCurrentBlahContainer()
+        {
+            BlahContainerLayout.AddView(CurrentBlahContainer);
+            if (inboxCounter >= BlahSetsAmountToRemove)
+            {
+                int heightToShift = BlahContainerLayout.GetChildAt(0).MeasuredHeight;
+                BlahContainerLayout.RemoveViewAt(0);
+                BlahScroller.ScrollTo(0, BlahScroller.ScrollY - heightToShift);
+
+                inboxCounter--;
+            }
+            StartTimers();
+        }
+
         private void FetchNextBlahList()
         {
             RunOnUiThread(() =>
@@ -108,6 +133,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 //LoadingMessageBox.Text = "still loading...";
             };
             loadTimer.Start();
+            StopTimers();
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
             {
                 loadTimer.Stop();
@@ -118,41 +144,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                     InsertAdditionalBlahs();
                     AtScrollEnd = false;
                     inboxCounter++;
-                    if (inboxCounter >= 5)
-                    {
-                        //UIElement curItem;
-                        double bottom = 0;
-                        // remove some blahs...
-                        //for (int i = 0; i < 101; i++)
-                        //{
-                        //    curItem = BlahContainer.Children[0];
-                        //    if (curItem is BlahRollItem)
-                        //    {
-                        //        BlahRollItem curBlah = (BlahRollItem)curItem;
-                        //        AddImpression(curBlah.BlahData.I);
-                        //    }
-
-                        //    BlahContainer.Children.Remove(curItem);
-                        //}
-                        RunOnUiThread(() =>
-                        {
-                            BlahContainer.RemoveAllViews();
-                        });
-
-                        bottom = BlahContainer.Height;
-                        //bottom = Canvas.GetTop(BlahContainer.Children[0]);
-
-                        // now shift everything up
-                        //foreach (UIElement theBlah in BlahContainer.Children)
-                        //{
-                        //    Canvas.SetTop(theBlah, Canvas.GetTop(theBlah) - bottom);
-                        //}
-                        //BlahScroller.ScrollToVerticalOffset(BlahScroller.VerticalOffset - bottom);
-                        //BlahContainer.Height -= bottom;
-                        //maxScroll -= (int)bottom;
-                        inboxCounter--;
-                    }
-
                 }
                 //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
@@ -164,7 +155,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             RunOnUiThread(() =>
             {
                 inboxCounter = 0;
-                BlahContainer.RemoveAllViews();
+                BlahContainerLayout.RemoveAllViews();
                 BlahScroller.ScrollTo(0, 0);
             });
         }
@@ -181,7 +172,15 @@ namespace BlahguaMobile.AndroidClient.Screens
         #region InsertRows
         private void InsertAdditionalBlahs()
         {
-            double curTop = BlahScroller.ScrollY;
+            CurrentBlahContainer = new BlahFrameLayout(this);
+            FrameLayout.LayoutParams layoutparams =
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.WrapContent);
+            CurrentBlahContainer.LayoutParameters = layoutparams;
+
+            blahsToAdd = 100;
+
+            double curTop = 0;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
 
             foreach (char rowType in sequence)
             {
@@ -357,9 +356,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-                
+
                 var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
                 var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
+                var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
+                var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
@@ -388,14 +389,24 @@ namespace BlahguaMobile.AndroidClient.Screens
                             break;
                     }
 
-                    if (!String.IsNullOrEmpty(theBlah.B))
-                    {
-                        badges_mark.Visibility = ViewStates.Visible;
-                    }
+                    // icons
+                    double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
+                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                    ).TotalMilliseconds;
+                    if (currentUtc - theBlah.c < 86400000)
+                        new_mark.Visibility = ViewStates.Visible;
                     else
-                    {
+                        new_mark.Visibility = ViewStates.Gone;
+
+                    if (theBlah.RR)
+                        hot_mark.Visibility = ViewStates.Visible;
+                    else
+                        hot_mark.Visibility = ViewStates.Gone;
+
+                    if (!String.IsNullOrEmpty(theBlah.B))
+                        badges_mark.Visibility = ViewStates.Visible;
+                    else
                         badges_mark.Visibility = ViewStates.Gone;
-                    }
                 });
             }
             ///////
@@ -407,7 +418,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             RunOnUiThread(() =>
             {
-                BlahContainer.AddView(control);
+                CurrentBlahContainer.AddView(control);
+                blahsToAdd--;
+
+                if (blahsToAdd == 0)
+                {
+                    FinishedLoadingCurrentBlahContainer();
+                }
             });
         }
         #endregion
