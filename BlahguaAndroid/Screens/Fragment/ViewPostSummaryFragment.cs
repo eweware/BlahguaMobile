@@ -174,15 +174,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 parent.RunOnUiThread(() =>
                 {
-                    if (curBlah.E > DateTime.Now)
+							if (curBlah.ExpireDate > DateTime.Now)
                     {
                         // still has time
                         //PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
                         predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, true);
-                        predictsDatebox.Text = "happening by " + curBlah.E.ToShortDateString();
-                        predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+								predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
+								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
                         //WillHappenItems.Visibility = Visibility.Visible;
                         //AlreadyHappenedItems.Visibility = Visibility.Collapsed;
@@ -195,8 +195,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
                         predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, true);
-                        predictsDatebox.Text = "should have happened on " + curBlah.E.ToShortDateString();
-                        predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+								predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
+								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
                         //WillHappenItems.Visibility = Visibility.Visible;
                         //AlreadyHappenedItems.Visibility = Visibility.Collapsed;

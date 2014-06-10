@@ -18,12 +18,30 @@ namespace BlahguaMobile.BlahguaCore
         public string X { get; set; } // expiration date (jscript ticks)
         public string Y { get; set; }  // badge type
         public string _id { get; set; } // badge ID
-        public DateTime c { get; set; } // created
-        public DateTime u { get; set; }  // updated
+		public string c { get; set; }
+		private DateTime _createDate = DateTime.MinValue;
+		public string u { get; set; }
+		private DateTime _updateDate = DateTime.MinValue;
 
         public BadgeRecord()
         {
         }
+
+		public DateTime CreationDate {
+			get {
+				if (_createDate == DateTime.MinValue)
+					_createDate = DateTime.Parse (c);
+				return _createDate;
+			}
+		}
+
+		public DateTime UpdateDate {
+			get {
+				if (_updateDate == DateTime.MinValue)
+					_updateDate = DateTime.Parse (u);
+				return _updateDate;
+			}
+		}
 
         public DateTime ExpirationDate
         {
@@ -84,7 +102,7 @@ namespace BlahguaMobile.BlahguaCore
                     if (theBadge != null)
                     {
                         BadgeName = theBadge.N;
-                        CreationDate = theBadge.c;
+						CreationDate = theBadge.CreationDate;
                         ExpirationDate = theBadge.ExpirationDate;
                         AuthorityDisplayName = theBadge.D;
                         AuthorityEndpoint = theBadge.A;
@@ -103,7 +121,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     ID = theId;
                     BadgeName = theBadge.N;
-                    CreationDate = theBadge.c;
+					CreationDate = theBadge.CreationDate;
                     ExpirationDate = theBadge.ExpirationDate;
                     AuthorityDisplayName = theBadge.D;
                     AuthorityEndpoint = theBadge.A;
@@ -125,7 +143,7 @@ namespace BlahguaMobile.BlahguaCore
     public class BadgeAuthority
     {
         public string _id { get; set; }
-        public DateTime c { get; set; }
+		public string c { get; set; }
         public string N { get; set; } // the name
         public string T { get; set; } // types of badges
         public string D { get; set; }  // description

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="servicestacktext">
+  <name>ServiceStack.Text</name>
+  <publisher>Xamarin Inc.</publisher>
+  <publisher-url>https://github.com/mono/ServiceStack.Text</publisher-url>
+  <src-url>https://github.com/mono/ServiceStack.Text</src-url>
+  <version>3.9.60.0</version>
+  <summary>.NET's fastest JSON, JSV and CSV Text Serializers</summary>
+  <samples>
+    <sample id="ServiceStackTextSampleAndroid">
+      <name>Android Sample</name>
+      <summary>Android Sample</summary>
+    </sample>
+    <sample id="ServiceStackTextSampleiOS">
+      <name>iOS Sample</name>
+      <summary>iOS Sample</summary>
+    </sample>
+  </samples>
+</component>

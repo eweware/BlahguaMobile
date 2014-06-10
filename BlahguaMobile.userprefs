@@ -1,34 +1,51 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaIOS/Screens/BlahRoll.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs">
     <Files>
-      <File FileName="BlahguaAndroid/MainActivity.cs" Line="10" Column="24" />
-      <File FileName="BlahguaIOS/AppDelegate.cs" Line="14" Column="1" />
+      <File FileName="BlahguaIOS/AppDelegate.cs" Line="1" Column="1" />
       <File FileName="BlahguaIOS/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Main.cs" Line="16" Column="13" />
-      <File FileName="BlahguaIOS/MyViewController.cs" Line="19" Column="10" />
+      <File FileName="BlahguaIOS/Main.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS/MyViewController.cs" Line="1" Column="1" />
       <File FileName="BlahguaIOS/Screens/BlahRoll.cs" Line="47" Column="9" />
-      <File FileName="BlahguaIOS/Screens/SignIn.cs" Line="12" Column="22" />
-      <File FileName="BlahguaIOS/Screens/BlahDetails.cs" Line="12" Column="32" />
-      <File FileName="BlahguaIOS/Screens/Profile.cs" Line="12" Column="27" />
+      <File FileName="BlahguaIOS/Screens/SignIn.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS/Screens/BlahDetails.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS/Screens/Profile.cs" Line="1" Column="1" />
       <File FileName="BlahguaIOS/Screens/BlahRoll.designer.cs" Line="1" Column="1" />
+      <File FileName="BlahguaCore/Comment.cs" Line="216" Column="1" />
+      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="328" Column="16" />
+      <File FileName="BlahguaCore/Channel.cs" Line="1" Column="1" />
+      <File FileName="BlahguaCore/Badge.cs" Line="124" Column="6" />
+      <File FileName="BlahguaCore/Blah.cs" Line="1269" Column="52" />
+      <File FileName="BlahguaCore/User.cs" Line="84" Column="3" />
+      <File FileName="BlahguaCore/UserProfile.cs" Line="81" Column="32" />
+      <File FileName="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs" Line="199" Column="88" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="BlahguaIOS" expanded="True">
-            <Node name="Properties" expanded="True" />
-            <Node name="Resources" expanded="True" />
+          <Node name="BlahguaAndroid" expanded="True">
+            <Node name="BlahguaCore" expanded="True" />
             <Node name="Screens" expanded="True">
-              <Node name="BlahRoll.cs" selected="True" />
+              <Node name="Fragment" expanded="True">
+                <Node name="ViewPostSummaryFragment.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>jsonObj</Value>
+          <Value>someResult</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Volumes/DataDrive/Code/GitHub/BlahguaMobile/BlahguaCore/BlahguaRESTservice.cs" line="300" column="47" />
+      <Breakpoint file="/Volumes/DataDrive/Code/GitHub/BlahguaMobile/BlahguaCore/BlahguaRESTservice.cs" line="288" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.BlahguaAndroid AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
