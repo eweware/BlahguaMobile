@@ -181,7 +181,6 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>3.9.60.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>

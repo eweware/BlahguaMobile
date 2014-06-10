@@ -286,14 +286,16 @@ namespace BlahguaMobile.BlahguaCore
                 try
                 {
 					BlahList altList = response.Content.FromJson<BlahList>();
+                    /*
+                    JsonArrayObjects aObjs = JsonArrayObjects.Parse(response.Content);
+                    foreach (string theKey in aObjs[0].Keys)
+                    {
+                        System.Diagnostics.Debug.WriteLine(theKey);
+                    }
+                    */
 
-                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(BlahList));
-                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    object theObj = des.ReadObject(stream);
-                    stream.Close();
-
-                    if (theObj != null)
-                        blahList = (BlahList)theObj;
+                    if (altList != null)
+                        blahList = altList;
                 }
                 catch (SerializationException exp)
                 {
