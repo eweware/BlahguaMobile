@@ -52,6 +52,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+lib/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -1716,3 +1717,6 @@ pip-log.txt
 /BlahguaAndroid/obj/Debug/res/drawable/icon.png
 /BlahguaAndroid/obj/Debug/res/values/strings.xml
 /BlahguaAndroid/Resources/Resource.designer.cs
+BlahguaMobile_Report.htm
+*.apk
+

@@ -15,6 +15,7 @@
             android:layout_gravity="left"
             android:background="@drawable/btn_menu" />
         <TextView
+            android:id="@+id/main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -68,16 +69,16 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
     <ScrollView
-        android:minWidth="25px"
-        android:minHeight="25px"
+      android:id="@+id/BlahScroller"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <LinearLayout
+        android:id="@+id/BlahContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/BlahScroller">
-        <RelativeLayout
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/BlahContainer" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+      <!--<BlahguaMobile.AndroidClient.Adapters.BlahFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
     </ScrollView>
 </LinearLayout>

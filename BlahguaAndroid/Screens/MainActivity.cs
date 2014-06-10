@@ -14,6 +14,7 @@ using SlidingMenuSharp.App;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Preferences;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -33,8 +34,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
 
-        private RelativeLayout BlahContainer = null;
+        private LinearLayout BlahContainerLayout = null;
         private ScrollView BlahScroller = null;
+        private BlahFrameLayout CurrentBlahContainer = null;
 
         protected ListFragment Frag;
         private Button btn_login, btn_newpost;
@@ -42,6 +44,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private LinearLayout registered_layout;
 
         private ProgressBar progress_actionbar;
+
+        private TextView main_title;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -52,12 +56,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.activity_main);
 
-            BlahContainer = FindViewById<RelativeLayout>(Resource.Id.BlahContainer);
+            BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
 			//AddBlahs();
 
 			// Get our button from the layout resource,
 			// and attach an event to it
+
+            main_title = FindViewById<TextView>(Resource.Id.main_title);
 
             registered_layout = FindViewById<LinearLayout>(Resource.Id.registered_layout);
             btn_newpost = FindViewById<Button>(Resource.Id.btn_newpost);
@@ -99,9 +105,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         private void ScrollBlahRoll(object sender, EventArgs e)
         {
 
-            double curOffset = BlahScroller.ScrollY;
-            curOffset += 1.0;
-            BlahScroller.ScrollTo(0, (int)curOffset);
+            int curOffset = BlahScroller.ScrollY;
+            curOffset += 1;
+            BlahScroller.ScrollTo(0, curOffset);
 
             DetectScrollAtEnd();
         }
@@ -153,7 +159,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             FetchInitialBlahList();
             //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
-
+            RunOnUiThread(() => {
+                main_title.Text = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+            });
         }
 
         #region Init
@@ -180,7 +188,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.UserPassword = _sharedPref.GetString("password", "");
 
             BlahguaAPIObject.Current.Initialize(null, DoServiceInited);
-
         }
 
         private void initLayouts()
@@ -235,6 +242,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "server connection failure", ToastLength.Short).Show();
+                });
                 //LoadingBox.Visibility = Visibility.Collapsed;
                 //ConnectFailure.Visibility = Visibility.Visible;
             }
@@ -270,21 +281,22 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 GetString(Resource.String.sidemenu_v_most_promoted),
                                 GetString(Resource.String.sidemenu_v_most_demoted) };
 
-            ListView listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
+            listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
             listChannels.ChoiceMode = ChoiceMode.Single;
             listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, channels);
             listChannels.SetItemChecked(0, true);
 
-            ListView listViews = leftMenu.FindViewById<ListView>(Resource.Id.listViews);
+            listViews = leftMenu.FindViewById<ListView>(Resource.Id.listViews);
             listViews.ChoiceMode = ChoiceMode.Single;
             listViews.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, views);
             listViews.SetItemChecked(0, true);
 
-            listChannels.ItemClick += list_Click;
+            listChannels.ItemClick += listChannel_Click;
             listViews.ItemClick += list_Click;
         }
+        private ListView listChannels, listViews;
 
-        bool secondaryMenuInitiated = false;
+        private bool secondaryMenuInitiated = false;
         private void initSecondaryMenu()
         {
             if (!secondaryMenuInitiated)
@@ -388,6 +400,18 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             SlidingMenu.Toggle();
             OnChannelChanged();
+        }
+
+        private void listChannel_Click(object sender, EventArgs e)
+        {
+            if (BlahguaAPIObject.Current.CurrentChannelList != null)
+            {
+                int checkedId = (int)listChannels.GetCheckItemIds()[0];
+                BlahguaAPIObject.Current.CurrentChannel =
+                    BlahguaAPIObject.Current.CurrentChannelList[checkedId];
+            }
+
+            SlidingMenu.Toggle();
         }
         #endregion
 

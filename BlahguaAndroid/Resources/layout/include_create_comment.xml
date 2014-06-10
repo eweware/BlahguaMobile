@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="80dp"
+        android:textCursorDrawable="@null"
         android:textColor="#3C3C3C"
         android:hint="Type comments"
         android:inputType="textMultiLine"
