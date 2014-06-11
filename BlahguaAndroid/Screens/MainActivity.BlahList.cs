@@ -351,7 +351,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
             }
 
-            ///////
+            /////// image loading ///////
 
             if (theBlah.M != null)
             {
@@ -362,61 +362,62 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-
+                RunOnUiThread(() =>
+                {
+                    image.Tag = imageURL;
+                    //image.SetUrlDrawable(imageURL);
+                    image.SetScaleType(ImageView.ScaleType.FitStart);
+                });
+            }
+            ///////
+            RunOnUiThread(() =>
+            {
                 var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
                 var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
                 var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
                 var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
-                RunOnUiThread(() =>
+
+                switch (theBlah.TypeName)
                 {
-                    image.SetUrlDrawable(imageURL);
-						image.SetScaleType(ImageView.ScaleType.FitStart);
+                    case "says":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(207, 196, 182));
+                        break;
+                    case "asks":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(255, 194, 84));
+                        break;
+                    case "leaks":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(56, 76, 120));
+                        break;
+                    case "polls":
+                        type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
+                        break;
+                    case "predicts":
+                        type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
+                        break;
+                }
 
-                    //crossfade(title, image, null);
-                    //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
-                    switch (theBlah.TypeName)
-                    {
-                        case "says":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(207, 196, 182));
-                            break;
-                        case "asks":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(255, 194, 84));
-                            break;
-                        case "leaks":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(56, 76, 120));
-                            break;
-                        case "polls":
-                            type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
-                            break;
-                        case "predicts":
-                            type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
-                            break;
-                    }
+                // icons
+                double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
+                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                ).TotalMilliseconds;
+                if (currentUtc - theBlah.c < 86400000)
+                    new_mark.Visibility = ViewStates.Visible;
+                else
+                    new_mark.Visibility = ViewStates.Gone;
 
-                    // icons
-                    double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
-                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                                    ).TotalMilliseconds;
-                    if (currentUtc - theBlah.c < 86400000)
-                        new_mark.Visibility = ViewStates.Visible;
-                    else
-                        new_mark.Visibility = ViewStates.Gone;
+                if (theBlah.RR)
+                    hot_mark.Visibility = ViewStates.Visible;
+                else
+                    hot_mark.Visibility = ViewStates.Gone;
 
-                    if (theBlah.RR)
-                        hot_mark.Visibility = ViewStates.Visible;
-                    else
-                        hot_mark.Visibility = ViewStates.Gone;
-
-                    if (!String.IsNullOrEmpty(theBlah.B))
-                        badges_mark.Visibility = ViewStates.Visible;
-                    else
-                        badges_mark.Visibility = ViewStates.Gone;
-                });
-            }
-            ///////
+                if (!String.IsNullOrEmpty(theBlah.B))
+                    badges_mark.Visibility = ViewStates.Visible;
+                else
+                    badges_mark.Visibility = ViewStates.Gone;
+            });
 
             control.Click += delegate
             {

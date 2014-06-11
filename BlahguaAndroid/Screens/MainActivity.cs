@@ -189,6 +189,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.Initialize(null, DoServiceInited);
         }
 
+        bool firstInit = true;
         private void initLayouts()
         {
             if (progress_actionbar.Visibility == ViewStates.Gone)
@@ -205,6 +206,24 @@ namespace BlahguaMobile.AndroidClient.Screens
                     registered_layout.Visibility = ViewStates.Visible;
                     avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
                     avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+
+                    if (firstInit)
+                    {
+                        EventHandler avatarClick = (sender, args) =>
+                        {
+                            var intent = new Intent(this, typeof(UserProfileActivity));
+                            intent.PutExtra("Page", 0);
+                            StartActivity(intent);
+                        };
+                        EventHandler menuToggleClick = (sender, args) =>
+                        {
+                            SlidingMenu.Toggle();
+                        };
+                        avatar.Click += avatarClick;
+                        avatar.Click += menuToggleClick;
+                        avatarBar.Click += avatarClick;
+                        firstInit = false;
+                    }
                 }
                 else
                 {
