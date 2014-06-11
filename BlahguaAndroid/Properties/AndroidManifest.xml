@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".03" package="com.eweware.BlahguaMobile.AndroidClient" android:installLocation="auto" android:versionCode="3">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".04" package="com.eweware.BlahguaMobile.AndroidClient" android:installLocation="auto" android:versionCode="4">
 	<uses-sdk />
 	<application android:label="blahgua beta" android:icon="@drawable/Icon">
 	</application>

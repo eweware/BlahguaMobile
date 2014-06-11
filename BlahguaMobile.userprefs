@@ -2,12 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
   <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaCore/User.cs">
     <Files>
-      <File FileName="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs" Line="96" Column="68" />
-      <File FileName="BlahguaCore/Blah.cs" Line="1304" Column="90" />
+      <File FileName="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs" Line="1" Column="1" />
+      <File FileName="BlahguaCore/Blah.cs" Line="1" Column="1" />
       <File FileName="BlahguaCore/User.cs" Line="215" Column="16" />
-      <File FileName="BlahguaCore/BlahguaBL.cs" Line="748" Column="47" />
-      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="92" Column="48" />
-      <File FileName="BlahguaCore/Comment.cs" Line="272" Column="90" />
+      <File FileName="BlahguaCore/BlahguaBL.cs" Line="1" Column="1" />
+      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="1" Column="1" />
+      <File FileName="BlahguaCore/Comment.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

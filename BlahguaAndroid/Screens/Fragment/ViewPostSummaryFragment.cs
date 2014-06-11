@@ -86,16 +86,15 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     if (theBlah.ImageURL != null && image != null)
                     {
-                        //ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
-                        //BackgroundImage.Source = defaultSrc;
-                        //BackgroundImage2.Source = defaultSrc;
-
-
+							image.Visibility = ViewStates.Visible;
                         parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
                         });
                     }
+						else {
+							image.Visibility = ViewStates.Gone;
+						}
 
                     parent.RunOnUiThread(() =>
                     {

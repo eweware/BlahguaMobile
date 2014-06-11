@@ -327,7 +327,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
 			if (blahRollFont == null)
-				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
             control.LayoutParameters = layoutParams;

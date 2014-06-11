@@ -57,8 +57,7 @@
                 android:scaleType="fitStart"
                 android:adjustViewBounds="true"
                 android:layout_height="wrap_content"
-                android:minWidth="500dp"
-                android:minHeight="32dp" />
+                android:visibility="gone" />
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
