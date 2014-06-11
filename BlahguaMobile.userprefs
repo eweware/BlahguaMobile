@@ -1,24 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaCore/User.cs">
     <Files>
-      <File FileName="BlahguaIOS/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Main.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/MyViewController.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Screens/BlahRoll.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Screens/SignIn.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Screens/BlahDetails.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Screens/Profile.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Screens/BlahRoll.designer.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/Comment.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/Channel.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/Badge.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/Blah.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/User.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/UserProfile.cs" Line="1" Column="1" />
-      <File FileName="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs" Line="199" Column="88" />
+      <File FileName="BlahguaAndroid/Screens/Fragment/ViewPostSummaryFragment.cs" Line="96" Column="68" />
+      <File FileName="BlahguaCore/Blah.cs" Line="1304" Column="90" />
+      <File FileName="BlahguaCore/User.cs" Line="215" Column="16" />
+      <File FileName="BlahguaCore/BlahguaBL.cs" Line="748" Column="47" />
+      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="92" Column="48" />
+      <File FileName="BlahguaCore/Comment.cs" Line="272" Column="90" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -28,5 +17,5 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.BlahguaAndroid AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.BlahguaAndroid AndroidDeviceId-Debug="0467ad8243839436" MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Release="0467ad8243839436" />
 </Properties>
