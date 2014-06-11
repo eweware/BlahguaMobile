@@ -29,6 +29,12 @@ namespace BlahguaMobile.IOS
 				{
 					var channel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
 					cell.Text = channel.ChannelName;
+					if(indexPath.Row == 0)
+					{
+						BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = channel;
+						cell.SelectRow ();
+						tableView.SelectRow (indexPath, true, UITableViewScrollPosition.None);
+					}
 				}
 				else
 				{
@@ -40,6 +46,8 @@ namespace BlahguaMobile.IOS
 			{
 				var type = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes.ElementAt(indexPath.Row);
 				cell.Text = type.N;
+//				BlahguaCore.BlahguaAPIObject.Current.CurrentBlah.ChannelName = BlahguaCore.BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+//				BlahguaCore.BlahguaAPIObject.Current.Cu ;
 			}
 			return cell;
 		}
@@ -110,7 +118,9 @@ namespace BlahguaMobile.IOS
 					tableView.DeselectRow (currentSectionSelection, false);
 				}
 			}
+			BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
 			cell.SelectRow ();
+			BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
 			if(type == BGLeftMenuType.Channels)
 			{
 				if(indexPath.Section == 0)

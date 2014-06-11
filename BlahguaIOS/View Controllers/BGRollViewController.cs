@@ -3,6 +3,8 @@
 using System;
 using System.ComponentModel;
 
+using BlahguaMobile.BlahguaCore;
+
 using MonoTouch.SlideMenu;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -14,6 +16,7 @@ namespace BlahguaMobile.IOS
 		#region Fields
 
 		private SlideMenuController leftSlidingPanel;
+		private BGRollViewCellsSizeManager manager;
 
 		#endregion
 
@@ -30,7 +33,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
 
 			leftSlidingPanel = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 
@@ -48,14 +51,24 @@ namespace BlahguaMobile.IOS
 			{
 				if(e.PropertyName == "CurrentChannel")
 				{
-					CollectionView.ReloadData();
+					CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
+					((BGRollViewDataSource)CollectionView.DataSource).DataSource.Clear();
+					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 				}
 			};
+
+			manager = new BGRollViewCellsSizeManager ();
+			BlahguaAPIObject.Current.GetInbox (InitialInboxLoadingCompleted);
 		}
 
 		#endregion
 
 		#region Methods
+
+		public void RefreshData()
+		{
+			BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
+		}
 
 		private void MenuButtonClicked(object sender, EventArgs args)
 		{
@@ -66,7 +79,25 @@ namespace BlahguaMobile.IOS
 		{
 
 		}
+
+		private void InitialInboxLoadingCompleted (Inbox theList)
+		{
+			InvokeOnMainThread (() => {
+				CollectionView.DataSource = new BGRollViewDataSource (manager, this);
+				CollectionView.CollectionViewLayout = new BGRollViewLayout (manager, this);
+				CollectionView.Delegate = new BGRollViewLayoutDelegate (manager);
+				InboxLoadingCompleted (theList);
+			});
+		}
 			
+		private void InboxLoadingCompleted(Inbox inbox)
+		{
+			InvokeOnMainThread (() => {
+				inbox.PrepareBlahs ();
+				((BGRollViewDataSource)CollectionView.DataSource).InboxBlahs.AddRange(inbox);
+				CollectionView.ReloadData ();
+			});
+		}
 
 		#endregion
 	}

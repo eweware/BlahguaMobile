@@ -1,4 +1,11 @@
 ﻿using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+
+using MonoTouch.Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -16,8 +23,6 @@ namespace BlahguaMobile.IOS
 	{
 		#region Fields
 
-		private int currentRowNumber;
-		private BlahRowType currentRowType;
 		private BlahRowType[] rowTypes = new BlahRowType[] { 
 			BlahRowType.A,
 			BlahRowType.B,
@@ -61,28 +66,276 @@ namespace BlahguaMobile.IOS
 			BlahRowType.A 
 		};
 
+		private Dictionary<BlahRowType, int> cellsPerRowType = new Dictionary<BlahRowType, int>() { 
+			{BlahRowType.A, 3},
+			{BlahRowType.B, 3},
+			{BlahRowType.C, 3},
+			{BlahRowType.D, 2},
+			{BlahRowType.E, 2},
+			{BlahRowType.F, 1}
+		};
+
+		private Dictionary<BlahRowType, float> rowHeightPerType = new Dictionary<BlahRowType, float>{
+			{BlahRowType.A, 106.0f},
+			{BlahRowType.B, 213.0f},
+			{BlahRowType.C, 213.0f},
+			{BlahRowType.D, 106.0f},
+			{BlahRowType.E, 106.0f},
+			{BlahRowType.F, 212.0f}
+		};
 		#endregion
 
 		#region Properties
 
-		public BlahRowType CurrentItemType
+
+		#endregion
+
+		#region Constructors
+
+		public BGRollViewCellsSizeManager()
 		{
-			get
-			{
-				return currentRowType;
-			}
 		}
 
 		#endregion
 
-		#region Methods
+		#region Public Methods
 
-		public string[] GetNextRowSizes()
+		public string GetCellSize(NSIndexPath indexPath)
 		{
-			currentRowNumber++;
-			int rowIndex = currentRowNumber % rowTypes.Length;
-			currentRowType = rowTypes [rowIndex];
-			switch(currentRowType)
+			int itemsCount = 0;
+			int index = 0;
+			var rowType = GetRowType (indexPath, out itemsCount, out index);
+			string sizeName = GetSizes (rowType)[indexPath.Item - itemsCount];
+			return sizeName;
+		}
+
+		public string GetCellSize(int cellIndex, BlahRowType rowType)
+		{
+			return GetSizes (rowType) [cellIndex];
+		}
+
+		public SizeF GetCellSizeF(string sizeName)
+		{
+			return GetSizeFFromString(sizeName);
+		}
+
+		public SizeF GetSizeFFromString(string name)
+		{
+			if(name == BGBlahCellSizesConstants.TinyReusableId)
+			{
+				return BGBlahCellSizesConstants.TinyCellSize;
+			} 
+			else if(name == BGBlahCellSizesConstants.SmallReusableId)
+			{
+				return BGBlahCellSizesConstants.SmallCellSize;
+			} else if(name == BGBlahCellSizesConstants.MediumReusableId)
+			{
+				return BGBlahCellSizesConstants.MediumCellSize;
+			}
+			return BGBlahCellSizesConstants.LargeCellSize;
+		}
+
+		public RectangleF GetFrameForItem(NSIndexPath path)
+		{
+			int index = 0;
+			int itemsCount = 0;
+			BlahRowType rowType = GetRowType (path, out itemsCount, out index);
+			float yRowStart = 0;
+			for (int i = 0; i < index; i++) 
+			{
+				yRowStart += rowHeightPerType [rowTypes[i % rowTypes.Length]];
+				yRowStart += BGBlahCellSizesConstants.Spacing; // spacing between rows
+			}
+			int cellIndex = path.Item - itemsCount;
+			float cellXCoord = GetXCoordForCellInRow (rowType, cellIndex);
+			float cellYCoord = GetYCoorForCellInRow (rowType, cellIndex, yRowStart);
+			string sizeName = GetCellSize (cellIndex, rowType);
+
+			return new RectangleF (new PointF (cellXCoord, cellYCoord), GetCellSizeF (sizeName));
+		}
+
+		public NSIndexPath[] GetIndexPathForRect(RectangleF rect)
+		{
+			List<NSIndexPath> paths = new List<NSIndexPath> ();
+			float y = rect.Y < 0.0f ? 0.0f : rect.Y;
+			int rowIndex = 0;
+			int itemIndex = 0;
+			for(float i = 0; i < y + rect.Height; )
+			{
+				int index = rowIndex % rowTypes.Length;
+				string[] sizeForRow = GetSizes (rowTypes [index]);
+				if(i >= y - 213.0f)
+				{
+
+
+					foreach(var cell in sizeForRow)
+					{
+						paths.Add (NSIndexPath.FromItemSection (itemIndex++, 0));
+					}
+				}
+				else
+				{
+					itemIndex += sizeForRow.Length;
+				}
+					
+				i = i + rowHeightPerType [rowTypes [index]] + BGBlahCellSizesConstants.Spacing;
+				rowIndex++;
+			}
+
+			return paths.ToArray();
+		}
+
+		#endregion
+
+		#region Private Methods
+
+		private BlahRowType GetRowType(NSIndexPath path, out int itemsCount, out int index)
+		{
+			int itemIndex = path.Item + 1;
+			bool isFound = false;
+			index = 0;
+			itemsCount = 0;
+			BlahRowType rowType = BlahRowType.A;
+			while(!isFound)
+			{
+				if(itemIndex >= itemsCount)
+				{
+					rowType = rowTypes [index % rowTypes.Length];
+					int cellsInRow = cellsPerRowType [rowType];
+					if(itemIndex <= itemsCount + cellsInRow)
+					{
+						isFound = true;
+					}
+					else
+					{
+						itemsCount += cellsInRow;
+						index += 1;
+					}
+				}
+			}
+			return rowType;
+		}
+
+		private float GetYCoorForCellInRow(BlahRowType type, int cellIndex, float rowStartYCoord)
+		{
+			switch(type)
+			{
+			case BlahRowType.B:
+				{
+					if(cellIndex == 0)
+					{
+						return rowStartYCoord;
+					} else if(cellIndex == 1)
+					{
+						return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.Spacing + rowStartYCoord;
+					}
+					else
+					{
+						return rowStartYCoord;
+					}
+				}
+			case BlahRowType.C:
+				{
+					if(cellIndex == 0)
+					{
+						return rowStartYCoord;
+					} else if(cellIndex == 1)
+					{
+						return rowStartYCoord;
+					}
+					else
+					{
+						return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.Spacing + rowStartYCoord;
+					}
+				}
+			case BlahRowType.A:
+			case BlahRowType.D:
+			case BlahRowType.E:
+			case BlahRowType.F:
+			default:
+				{
+					return rowStartYCoord;
+				}
+			}
+		}
+
+		private float GetXCoordForCellInRow(BlahRowType type, int cellIndex)
+		{
+			switch(type)
+			{
+			case BlahRowType.A:
+				{
+					if(cellIndex == 0)
+					{
+						return 0.0f;
+					} else if(cellIndex == 1)
+					{
+						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+					else
+					{
+						return (BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing) * 2;
+					}
+				}
+			case BlahRowType.B:
+				{
+					if(cellIndex == 0)
+					{
+						return 0.0f;
+					} else if(cellIndex == 1)
+					{
+						return 0.0f;
+					}
+					else
+					{
+						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+				}
+			case BlahRowType.C:
+				{
+					if(cellIndex == 0)
+					{
+						return 0.0f;
+					} else if(cellIndex == 1)
+					{
+						return BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+					else
+					{
+						return BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+				}
+			case BlahRowType.D:
+				{
+					if(cellIndex == 0)
+					{
+						return 0.0f;
+					} 
+					else
+					{
+						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+				}
+			case BlahRowType.E:
+				{
+					if(cellIndex == 0)
+					{
+						return 0.0f;
+					} 
+					else
+					{
+						return BGBlahCellSizesConstants.SmallCellSize.Width + BGBlahCellSizesConstants.Spacing;
+					}
+				}
+			case BlahRowType.F:
+			default:
+				return 0.0f;
+			}
+		}
+
+		private string[] GetSizes(BlahRowType type)
+		{
+			switch(type)
 			{
 			case BlahRowType.A:
 				{
@@ -91,7 +344,6 @@ namespace BlahguaMobile.IOS
 						BGBlahCellSizesConstants.TinyReusableId,
 						BGBlahCellSizesConstants.TinyReusableId
 					};
-					break;
 				}
 			case BlahRowType.B:
 				{
@@ -100,7 +352,6 @@ namespace BlahguaMobile.IOS
 						BGBlahCellSizesConstants.TinyReusableId,
 						BGBlahCellSizesConstants.MediumReusableId
 					};
-					break;
 				}
 			case BlahRowType.C:
 				{
@@ -109,7 +360,6 @@ namespace BlahguaMobile.IOS
 						BGBlahCellSizesConstants.TinyReusableId,
 						BGBlahCellSizesConstants.TinyReusableId
 					};
-					break;
 				}
 			case BlahRowType.D:
 				{
@@ -117,7 +367,6 @@ namespace BlahguaMobile.IOS
 						BGBlahCellSizesConstants.TinyReusableId,
 						BGBlahCellSizesConstants.SmallReusableId
 					};
-					break;
 				}
 			case BlahRowType.E:
 				{
@@ -125,17 +374,16 @@ namespace BlahguaMobile.IOS
 						BGBlahCellSizesConstants.SmallReusableId,
 						BGBlahCellSizesConstants.TinyReusableId
 					};
-					break;
 				}
 			case BlahRowType.F:
-				{
-					return new string[] {
-						BGBlahCellSizesConstants.LargeReusableId
-					};
-					break;
-				}
+			default:
+				return new string[] {
+					BGBlahCellSizesConstants.LargeReusableId
+				};
 			}
 		}
+			
+
 
 		#endregion
 	}
