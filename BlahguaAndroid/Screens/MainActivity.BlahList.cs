@@ -6,6 +6,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using System;
 using Android.Views.Animations;
 using Android.Animation;
+using Android.Graphics;
 using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
@@ -14,6 +15,8 @@ namespace BlahguaMobile.AndroidClient.Screens
     {
         private readonly int BlahSetsAmountToRemove = 5;
         int blahsToAdd = 0;
+		private Typeface blahRollFont = null;
+
         private void RenderInitialBlahs()
         {
             CurrentBlahContainer = new BlahFrameLayout(this);
@@ -27,9 +30,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             int screenWidth = Resources.DisplayMetrics.WidthPixels - screenMargin * 2;
 
             double curTop = screenMargin;
-            smallBlahSize = screenWidth / 3 - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
-            mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
-            largeBlahSize = smallBlahSize + smallBlahSize + smallBlahSize + blahMargin;
+			smallBlahSize = (screenWidth - (blahMargin * 2)) / 3;// - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
+			mediumBlahSize = (smallBlahSize * 2) + blahMargin;
+			largeBlahSize = (smallBlahSize * 3) + (blahMargin * 2);
 
             foreach (char rowType in sequence)
             {
@@ -323,6 +326,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
+			if (blahRollFont == null)
+				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+			title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
             control.LayoutParameters = layoutParams;
 
@@ -364,6 +370,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
+						image.SetScaleType(ImageView.ScaleType.FitStart);
 
                     //crossfade(title, image, null);
                     //image.SetImageURI(Android.Net.Uri.Parse(imageURL));

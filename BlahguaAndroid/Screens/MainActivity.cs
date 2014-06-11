@@ -28,8 +28,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         int FramesPerSecond = 60;
 
-        int screenMargin = 0;//24;
-        int blahMargin = 0;//12;
+		int screenMargin = 24;
+		int blahMargin = 12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
 
         private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
@@ -58,7 +58,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
-			//AddBlahs();
 
 			// Get our button from the layout resource,
 			// and attach an event to it

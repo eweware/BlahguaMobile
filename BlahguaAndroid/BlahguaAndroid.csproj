@@ -16,10 +16,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
-    <JavaMaximumHeapSize />
-    <JavaOptions />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +31,12 @@
     <AndroidLinkSkip>
     </AndroidLinkSkip>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidStoreUncompressedFileExtensions>
+    </AndroidStoreUncompressedFileExtensions>
+    <JavaMaximumHeapSize>
+    </JavaMaximumHeapSize>
+    <JavaOptions>
+    </JavaOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -43,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
@@ -166,6 +170,9 @@
     <AndroidResource Include="Resources\layout\uiitem_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\tallimage.jpg" />
+    <AndroidResource Include="Resources\drawable-xhdpi\wideimage.jpg" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tiny.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -452,4 +459,33 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ico_new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-BoldItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Book.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-BookItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-LightItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-MedItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Medium.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-BoldItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Book.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-BookItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-LightItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Medium.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-MediumItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-BoldItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Heavy.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-HeavyItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Italic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-LightItalic.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\fonts\" />
+  </ItemGroup>
 </Project>

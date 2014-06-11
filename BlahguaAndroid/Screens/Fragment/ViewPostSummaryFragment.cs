@@ -55,7 +55,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             textView = fragment.FindViewById<TextView>(Resource.Id.text);
             titleView = fragment.FindViewById<TextView>(Resource.Id.title);
-            image = fragment.FindViewById<ImageView>(Resource.Id.image);
+			image = fragment.FindViewById<ImageView>(Resource.Id.blah_image);
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
@@ -94,7 +94,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                         parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
-                            //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
                         });
                     }
 
