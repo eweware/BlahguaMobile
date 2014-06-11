@@ -46,7 +46,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-            c = otherBlah.c.ToJavaScriptMilliseconds();
+			c = long.Parse(otherBlah.c);
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
@@ -412,7 +412,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "/Images/unknown-user.png";    
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";    
                 }
                 else
                 {
@@ -979,11 +979,13 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string _id { get; set; }
 
-        //[DataMember]
-        public DateTime c { get; set; }
+		[DataMember]
+		public string c { get; set; }
+		private DateTime _createDate = DateTime.MinValue;
 
-        //[DataMember]
-        public DateTime u { get; set; }
+		[DataMember]
+		public string u { get; set; }
+		private DateTime _updateDate = DateTime.MinValue;
 
         [DataMember]
         public List<string> B { get; set; }
@@ -997,8 +999,10 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public List<int> J { get; set; }
 
-        //[DataMember]
-        public DateTime E { get; set; }
+		[DataMember]
+		public string E { get; set; }
+		private DateTime _expireDate = DateTime.MinValue;
+
 
         [DataMember(Name = "1")]
         public int _1 { get; set; }
@@ -1071,9 +1075,35 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return E < DateTime.Now;
+				return ExpireDate < DateTime.Now;
             }
         }
+
+		public DateTime CreationDate {
+			get {
+				if (_createDate == DateTime.MinValue)
+					_createDate = DateTime.Parse (c);
+				return _createDate;
+			}
+		}
+
+		public DateTime UpdateDate {
+			get {
+				if (_updateDate == DateTime.MinValue)
+					_updateDate = DateTime.Parse (u);
+				return _updateDate;
+			}
+		}
+
+		public DateTime ExpireDate {
+			get {
+				if (_expireDate == DateTime.MinValue)
+					_expireDate = DateTime.Parse (E);
+				return _expireDate;
+			}
+		}
+
+
 
         public string ConversionString
         {
@@ -1236,7 +1266,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return Utilities.ElapsedDateString(c);
+				return Utilities.ElapsedDateString(CreationDate);
             }
         }
 
@@ -1271,7 +1301,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((!XX) && (Description != null) && (Description.m != null))
                     return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
                 else
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 

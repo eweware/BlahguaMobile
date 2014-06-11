@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Graphics;
 using Android.Animation;
 using Android.Util;
+using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -47,11 +48,18 @@ namespace BlahguaMobile.AndroidClient.Adapters
                     {
                         var title = blah.FindViewById<TextView>(Resource.Id.title);
                         var image = blah.FindViewById<ImageView>(Resource.Id.image);
+                        if (image.Tag != null)
+                        {
+                            string imageUrl = image.Tag.ToString();
+                            image.SetUrlDrawable(imageUrl);
+                            image.Tag = null;
+                        }
+
                         // do animation
                         if (blah.Tag == null && image.Drawable != null)
                         {
                             blah.Tag = true;
-                            crossfade(image, title, blah, r.Next(5000), null);
+                            crossfade(image, title, blah, r.Next(3000), null);
                         }
                     }
                     else

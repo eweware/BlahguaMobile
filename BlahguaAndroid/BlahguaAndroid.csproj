@@ -3,16 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BE0D4993-B841-42DA-9006-B3729A7A3C5E}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>BlahguaMobile.AndroidClient</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>
-    </AndroidUseLatestPlatformSdk>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -20,10 +16,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
-    <JavaMaximumHeapSize />
-    <JavaOptions />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,10 +28,15 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkSkip />
+    <AndroidLinkSkip>
+    </AndroidLinkSkip>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidStoreUncompressedFileExtensions>
+    </AndroidStoreUncompressedFileExtensions>
+    <JavaMaximumHeapSize>
+    </JavaMaximumHeapSize>
+    <JavaOptions>
+    </JavaOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -48,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
@@ -69,6 +68,9 @@
     </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +170,9 @@
     <AndroidResource Include="Resources\layout\uiitem_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\tallimage.jpg" />
+    <AndroidResource Include="Resources\drawable-xhdpi\wideimage.jpg" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tiny.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -180,6 +185,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>104.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Version>3.9.60.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -450,4 +459,33 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ico_new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-BoldItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Book.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-BookItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-LightItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-MedItal.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRnd-Medium.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-BoldItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Book.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-BookItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-LightItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-Medium.otf" />
+    <AndroidAsset Include="Assets\fonts\GothamRounded-MediumItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Bold.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-BoldItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Heavy.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-HeavyItalic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Italic.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-Light.otf" />
+    <AndroidAsset Include="Assets\fonts\Merriweather-LightItalic.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\fonts\" />
+  </ItemGroup>
 </Project>

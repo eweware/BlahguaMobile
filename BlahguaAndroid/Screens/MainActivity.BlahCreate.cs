@@ -218,6 +218,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 mAnimator.Start();
 
                 initBlahCreationSlidingMenu();
+
+                StopTimers();
             }
             else
             {
@@ -236,6 +238,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     SlidingMenu.Mode = MenuMode.LeftRight;
                 }
+
+                StartTimers();
             }
         }
 

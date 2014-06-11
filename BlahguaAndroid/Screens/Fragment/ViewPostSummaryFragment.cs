@@ -55,7 +55,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             textView = fragment.FindViewById<TextView>(Resource.Id.text);
             titleView = fragment.FindViewById<TextView>(Resource.Id.title);
-            image = fragment.FindViewById<ImageView>(Resource.Id.image);
+			image = fragment.FindViewById<ImageView>(Resource.Id.blah_image);
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
@@ -94,7 +94,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                         parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
-                            //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
                         });
                     }
 
@@ -123,19 +122,31 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     //BlahSummaryArea.Visibility = Visibility.Visible;
                     //UpdateButtonsForPage();
-                    parent.RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(Activity, "This is " + BlahguaAPIObject.Current.CurrentBlah.TypeName, ToastLength.Short).Show();
-                    });
+                    string toastMessage = String.Empty;
                     switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
                     {
                         case "polls":
+                            toastMessage = "This is a Poll";
                             HandlePollInit();
                             break;
                         case "predicts":
+                            toastMessage = "This is a Prediction";
                             HandlePredictInit();
                             break;
+                        case "says":
+                            toastMessage = "This is a Says";
+                            break;
+                        case "asks":
+                            toastMessage = "This is an Asks";
+                            break;
+                        case "leaks":
+                            toastMessage = "This is a Leak";
+                            break;
                     }
+                    parent.RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(Activity, toastMessage, ToastLength.Short).Show();
+                    });
                 }
                 else
                 {
@@ -174,15 +185,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 parent.RunOnUiThread(() =>
                 {
-                    if (curBlah.E > DateTime.Now)
+							if (curBlah.ExpireDate > DateTime.Now)
                     {
                         // still has time
                         //PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
                         predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, true);
-                        predictsDatebox.Text = "happening by " + curBlah.E.ToShortDateString();
-                        predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+								predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
+								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
                         //WillHappenItems.Visibility = Visibility.Visible;
                         //AlreadyHappenedItems.Visibility = Visibility.Collapsed;
@@ -195,8 +206,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
 
                         predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, true);
-                        predictsDatebox.Text = "should have happened on " + curBlah.E.ToShortDateString();
-                        predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+								predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
+								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
                         //WillHappenItems.Visibility = Visibility.Visible;
                         //AlreadyHappenedItems.Visibility = Visibility.Collapsed;

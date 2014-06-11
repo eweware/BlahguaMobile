@@ -81,8 +81,11 @@ namespace BlahguaMobile.BlahguaCore
         public double S { get; set; }
         public double K { get; set; }
         public string _id { get; set; }
-        public DateTime c { get; set; }
-        public DateTime u { get; set; }
+
+		public string c { get; set; }
+		private DateTime _createDate = DateTime.MinValue;
+		public string u { get; set; }
+		private DateTime _updateDate = DateTime.MinValue;
 
         private CommentList _commentHistory;
         private BlahList _postHistory;
@@ -203,7 +206,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (M != null)
                     return BlahguaAPIObject.Current.GetImageURL(M[0], "A");
                 else
-                    return "Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 

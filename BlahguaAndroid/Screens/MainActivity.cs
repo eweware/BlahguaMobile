@@ -28,8 +28,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         int FramesPerSecond = 60;
 
-        int screenMargin = 0;//24;
-        int blahMargin = 0;//12;
+		int screenMargin = 24;
+		int blahMargin = 12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
 
         private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
@@ -58,7 +58,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
-			//AddBlahs();
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -190,6 +189,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.Initialize(null, DoServiceInited);
         }
 
+        bool firstInit = true;
         private void initLayouts()
         {
             if (progress_actionbar.Visibility == ViewStates.Gone)
@@ -206,6 +206,24 @@ namespace BlahguaMobile.AndroidClient.Screens
                     registered_layout.Visibility = ViewStates.Visible;
                     avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
                     avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+
+                    if (firstInit)
+                    {
+                        EventHandler avatarClick = (sender, args) =>
+                        {
+                            var intent = new Intent(this, typeof(UserProfileActivity));
+                            intent.PutExtra("Page", 0);
+                            StartActivity(intent);
+                        };
+                        EventHandler menuToggleClick = (sender, args) =>
+                        {
+                            SlidingMenu.Toggle();
+                        };
+                        avatar.Click += avatarClick;
+                        avatar.Click += menuToggleClick;
+                        avatarBar.Click += avatarClick;
+                        firstInit = false;
+                    }
                 }
                 else
                 {

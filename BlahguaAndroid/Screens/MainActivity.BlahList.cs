@@ -6,6 +6,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using System;
 using Android.Views.Animations;
 using Android.Animation;
+using Android.Graphics;
 using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
@@ -14,6 +15,8 @@ namespace BlahguaMobile.AndroidClient.Screens
     {
         private readonly int BlahSetsAmountToRemove = 5;
         int blahsToAdd = 0;
+		private Typeface blahRollFont = null;
+
         private void RenderInitialBlahs()
         {
             CurrentBlahContainer = new BlahFrameLayout(this);
@@ -27,9 +30,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             int screenWidth = Resources.DisplayMetrics.WidthPixels - screenMargin * 2;
 
             double curTop = screenMargin;
-            smallBlahSize = screenWidth / 3 - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
-            mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
-            largeBlahSize = smallBlahSize + smallBlahSize + smallBlahSize + blahMargin;
+			smallBlahSize = (screenWidth - (blahMargin * 2)) / 3;// - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
+			mediumBlahSize = (smallBlahSize * 2) + blahMargin;
+			largeBlahSize = (smallBlahSize * 3) + (blahMargin * 2);
 
             foreach (char rowType in sequence)
             {
@@ -323,6 +326,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
+			if (blahRollFont == null)
+				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+			title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
             //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
             control.LayoutParameters = layoutParams;
 
@@ -345,7 +351,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
             }
 
-            ///////
+            /////// image loading ///////
 
             if (theBlah.M != null)
             {
@@ -356,60 +362,62 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-
+                RunOnUiThread(() =>
+                {
+                    image.Tag = imageURL;
+                    //image.SetUrlDrawable(imageURL);
+                    image.SetScaleType(ImageView.ScaleType.FitStart);
+                });
+            }
+            ///////
+            RunOnUiThread(() =>
+            {
                 var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
                 var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
                 var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
                 var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
-                RunOnUiThread(() =>
+
+                switch (theBlah.TypeName)
                 {
-                    image.SetUrlDrawable(imageURL);
+                    case "says":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(207, 196, 182));
+                        break;
+                    case "asks":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(255, 194, 84));
+                        break;
+                    case "leaks":
+                        type_mark.SetBackgroundColor(
+                            new Android.Graphics.Color(56, 76, 120));
+                        break;
+                    case "polls":
+                        type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
+                        break;
+                    case "predicts":
+                        type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
+                        break;
+                }
 
-                    //crossfade(title, image, null);
-                    //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
-                    switch (theBlah.TypeName)
-                    {
-                        case "says":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(207, 196, 182));
-                            break;
-                        case "asks":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(255, 194, 84));
-                            break;
-                        case "leaks":
-                            type_mark.SetBackgroundColor(
-                                new Android.Graphics.Color(56, 76, 120));
-                            break;
-                        case "polls":
-                            type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
-                            break;
-                        case "predicts":
-                            type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
-                            break;
-                    }
+                // icons
+                double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
+                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                ).TotalMilliseconds;
+                if (currentUtc - theBlah.c < 86400000)
+                    new_mark.Visibility = ViewStates.Visible;
+                else
+                    new_mark.Visibility = ViewStates.Gone;
 
-                    // icons
-                    double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
-                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                                    ).TotalMilliseconds;
-                    if (currentUtc - theBlah.c < 86400000)
-                        new_mark.Visibility = ViewStates.Visible;
-                    else
-                        new_mark.Visibility = ViewStates.Gone;
+                if (theBlah.RR)
+                    hot_mark.Visibility = ViewStates.Visible;
+                else
+                    hot_mark.Visibility = ViewStates.Gone;
 
-                    if (theBlah.RR)
-                        hot_mark.Visibility = ViewStates.Visible;
-                    else
-                        hot_mark.Visibility = ViewStates.Gone;
-
-                    if (!String.IsNullOrEmpty(theBlah.B))
-                        badges_mark.Visibility = ViewStates.Visible;
-                    else
-                        badges_mark.Visibility = ViewStates.Gone;
-                });
-            }
-            ///////
+                if (!String.IsNullOrEmpty(theBlah.B))
+                    badges_mark.Visibility = ViewStates.Visible;
+                else
+                    badges_mark.Visibility = ViewStates.Gone;
+            });
 
             control.Click += delegate
             {

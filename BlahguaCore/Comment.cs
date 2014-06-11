@@ -76,7 +76,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
                 }
                 else
                 {
@@ -138,45 +138,47 @@ namespace BlahguaMobile.BlahguaCore
         }
 
     }
-
-    [DataContract]
+		
     public class Comment : INotifyPropertyChanged
     {
-        [DataMember]
+
         public string _id { get; set; }
-        [DataMember]
+
         public string B { get; set; }
-        [DataMember]
+
         public string T { get; set; }
-        [DataMember]
+   
         public string A { get; set; }
-        [DataMember]
+
         public double S { get; set; }
-        public DateTime c { get; set; }
-        [DataMember]
+		public string c { get; set; }
+		private DateTime _createDate = DateTime.MinValue;
+		public string u { get; set; }
+		private DateTime _updateDate = DateTime.MinValue;
+ 
         public List<string> BD { get; set; }
-        [DataMember]
+ 
         public string CID { get; set; }
-        [DataMember]
+
         public bool XX { get; set; }
-        [DataMember]
+
         public int U { get; set; }
-        [DataMember]
+
         public int D { get; set; }
-        [DataMember]
+
         public DemographicRecord _d { get; set; }
-        public DateTime u { get; set; }
-        [DataMember]
+
+
         public List<string> M { get; set; }
-        [DataMember]
+
         public CommentList subComments = null;
-        [DataMember]
+
         public string K { get; set; }
-        [DataMember]
+
         public string d { get; set; }
-        [DataMember]
+
         public List<string> _m { get; set; }
-        [DataMember]
+
         public int uv { get; set; }
         private int _indentLevel;
 
@@ -210,6 +212,23 @@ namespace BlahguaMobile.BlahguaCore
             uv = 0;
             _indentLevel = 0;
         }
+
+		public DateTime CreationDate {
+			get {
+				if (_createDate == DateTime.MinValue)
+					_createDate = DateTime.Parse (c);
+				return _createDate;
+			}
+		}
+
+		public DateTime UpdateDate {
+			get {
+				if (_updateDate == DateTime.MinValue)
+					_updateDate = DateTime.Parse (u);
+				return _updateDate;
+			}
+		}
+
 
         public double IndentWidth
         {
@@ -250,7 +269,7 @@ namespace BlahguaMobile.BlahguaCore
                     return BlahguaAPIObject.Current.GetImageURL(_m[0], "A");
                 }
                 else
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 
