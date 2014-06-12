@@ -31,7 +31,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="3dp"
-            android:background="@drawable/ico_badges" />
+            android:background="@drawable/badge_icon" />
         <View
             android:id="@+id/hot_mark"
             android:layout_width="20dp"
@@ -55,12 +55,12 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="3dp"
-            android:background="@drawable/ico_hot" />
+            android:background="@drawable/pen_bw" />
         <View
             android:id="@+id/type_mark"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="3dp"
-            android:background="@drawable/ico_new" />
+            android:background="@drawable/say_icon" />
     </LinearLayout>
 </FrameLayout>

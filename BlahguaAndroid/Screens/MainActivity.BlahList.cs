@@ -376,26 +376,24 @@ namespace BlahguaMobile.AndroidClient.Screens
                 var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
                 var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
                 var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
+                var user_mark = control.FindViewById<View>(Resource.Id.user_mark);
 
                 switch (theBlah.TypeName)
                 {
                     case "says":
-                        type_mark.SetBackgroundColor(
-                            new Android.Graphics.Color(207, 196, 182));
+                        type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
                         break;
                     case "asks":
-                        type_mark.SetBackgroundColor(
-                            new Android.Graphics.Color(255, 194, 84));
+                        type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
                         break;
                     case "leaks":
-                        type_mark.SetBackgroundColor(
-                            new Android.Graphics.Color(56, 76, 120));
+                        type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
                         break;
                     case "polls":
-                        type_mark.SetBackgroundColor(Android.Graphics.Color.Red);
+                         type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
                         break;
                     case "predicts":
-                        type_mark.SetBackgroundColor(Android.Graphics.Color.Purple);
+                         type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
                         break;
                 }
 
@@ -417,6 +415,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                     badges_mark.Visibility = ViewStates.Visible;
                 else
                     badges_mark.Visibility = ViewStates.Gone;
+
+                if ((BlahguaAPIObject.Current.CurrentUser != null) &&
+                    (BlahguaAPIObject.Current.CurrentUser._id == theBlah.A))
+                    user_mark.Visibility = ViewStates.Visible;
+                else
+                    user_mark.Visibility = ViewStates.Gone;
             });
 
             control.Click += delegate
