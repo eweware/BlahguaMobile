@@ -1366,10 +1366,18 @@ namespace BlahguaMobile.BlahguaCore
                     {
                         if (didIt)
                         {
-                            _badgeList.Add(newBadge);
+                            if (_badgeList.Contains(newBadge))
+                            {
+                                System.Diagnostics.Debug.WriteLine("Duplicate call!");
+                                return;
+                            }
 
+                            _badgeList.Add(newBadge);
                         }
-                        badgeIdList.RemoveAt(0);
+
+                        if (badgeIdList.Count > 0)
+                            badgeIdList.RemoveAt(0);
+
                         if (badgeIdList.Count > 0)
                             FetchBadgeSerially(badgeIdList, callback);
                         else

@@ -78,7 +78,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             scrollTimer.Interval = 1000 / FramesPerSecond;
             scrollTimer.Elapsed += ScrollBlahRoll;
 
-            initSlidingMenu();
+            initSlidingMenu();    // move this until after the service is inited
 
             initCreateBlahUi();
 
@@ -194,6 +194,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (progress_actionbar.Visibility == ViewStates.Gone)
             {
+                populateChannelMenu();
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     //App.analytics.PostAutoLogin();
@@ -285,34 +286,32 @@ namespace BlahguaMobile.AndroidClient.Screens
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
             SlidingMenu.Mode = MenuMode.Left;
 
+            
+        }
+
+        private void populateChannelMenu()
+        {
             View leftMenu = SlidingMenu.GetMenu();
 
-            String[] channels = new String[] {
-                                GetString(Resource.String.sidemenu_ch_public),
-                                GetString(Resource.String.sidemenu_ch_tech),
-                                GetString(Resource.String.sidemenu_ch_entertainment),
-                                GetString(Resource.String.sidemenu_ch_feedback) };
-            String[] views = new String[] {
-                                GetString(Resource.String.sidemenu_v_newest),
-                                GetString(Resource.String.sidemenu_v_oldest),
-                                GetString(Resource.String.sidemenu_v_most_popular),
-                                GetString(Resource.String.sidemenu_v_most_promoted),
-                                GetString(Resource.String.sidemenu_v_most_demoted) };
+            String[] channels = new String[BlahguaAPIObject.Current.CurrentChannelList.Count];
+            int channelIndex = 0;
+
+            foreach (Channel curChannel in BlahguaAPIObject.Current.CurrentChannelList)
+            {
+                channels[channelIndex++] = curChannel.ChannelName;
+            }
 
             listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
             listChannels.ChoiceMode = ChoiceMode.Single;
             listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, channels);
             listChannels.SetItemChecked(0, true);
 
-            listViews = leftMenu.FindViewById<ListView>(Resource.Id.listViews);
-            listViews.ChoiceMode = ChoiceMode.Single;
-            listViews.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, views);
-            listViews.SetItemChecked(0, true);
 
             listChannels.ItemClick += listChannel_Click;
-            listViews.ItemClick += list_Click;
         }
-        private ListView listChannels, listViews;
+
+
+        private ListView listChannels;
 
         private bool secondaryMenuInitiated = false;
         private void initSecondaryMenu()
