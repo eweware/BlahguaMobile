@@ -36,6 +36,7 @@ namespace BlahguaMobile.IOS
 			base.ViewDidLoad ();
 
 			View.BackgroundColor = BGAppearanceHelper.GetColorForBackground ("signinBckg.png");
+
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
 			NavigationItem.RightBarButtonItem.Enabled = true;

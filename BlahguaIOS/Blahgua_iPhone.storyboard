@@ -350,7 +350,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Roll" id="WvV-aF-vc4"/>
                     <connections>
-                        <segue destination="1" kind="modal" identifier="fromRollToLogin" modalTransitionStyle="flipHorizontal" id="5CP-DJ-zHp"/>
+                        <segue destination="1" kind="push" identifier="fromRollToLogin" id="5CP-DJ-zHp"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0b6-CC-nEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
