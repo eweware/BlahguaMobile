@@ -20,6 +20,18 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
+		#region Properties
+
+		private int ElementsCount
+		{
+			get
+			{
+				return ((BGRollViewDataSource)viewController.CollectionView.DataSource).GetItemsCount (viewController.CollectionView, 0);
+			}
+		}
+
+		#endregion
+
 		#region Constructors
 
 		public BGRollViewLayout (BGRollViewCellsSizeManager manager, BGRollViewController viewController) : base()
@@ -30,18 +42,29 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
-		#region UICollectionViewFlowLayout Overriden Methods
+		#region UICollectionViewFlowLayout Overriden Methods and Properties
+
+		public override SizeF CollectionViewContentSize 
+		{
+			get 
+			{
+				return manager.GetContentViewSize(ElementsCount);
+			}
+		}
 
 		public override UICollectionViewLayoutAttributes[] LayoutAttributesForElementsInRect (RectangleF rect)
 		{
 			List<UICollectionViewLayoutAttributes> attributes = new List<UICollectionViewLayoutAttributes> ();
-			int itemsCount = ((BGRollViewDataSource)viewController.CollectionView.DataSource).GetItemsCount (viewController.CollectionView, 0);
+			int itemsCount = ElementsCount;
 			if(itemsCount != 0)
 			{
 				var indexPathes = manager.GetIndexPathForRect (rect);
 
 				foreach(var indexPath in indexPathes)
 				{
+					if (indexPath.Item == itemsCount - 99)
+						viewController.RefreshData ();
+
 					if(indexPath.Item < itemsCount)
 						attributes.Add (LayoutAttributesForItem (indexPath));
 				}
@@ -61,6 +84,7 @@ namespace BlahguaMobile.IOS
 		#endregion
 
 		#region Methods
+
 
 
 		#endregion

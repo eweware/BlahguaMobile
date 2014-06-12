@@ -154,6 +154,21 @@ namespace BlahguaMobile.IOS
 			return new RectangleF (new PointF (cellXCoord, cellYCoord), GetCellSizeF (sizeName));
 		}
 
+		public SizeF GetContentViewSize(int elementsCount)
+		{
+			int rowIndex = 0;
+			float height = 0;
+			for(int i = 0; i < elementsCount;)
+			{
+				BlahRowType row = rowTypes [rowIndex % 40];
+				i += cellsPerRowType [row];
+				height += rowHeightPerType [row];
+				height += BGBlahCellSizesConstants.Spacing;
+				rowIndex++;
+			}
+			return new SizeF (320.0f, height);
+		}
+
 		public NSIndexPath[] GetIndexPathForRect(RectangleF rect)
 		{
 			List<NSIndexPath> paths = new List<NSIndexPath> ();
@@ -166,10 +181,9 @@ namespace BlahguaMobile.IOS
 				string[] sizeForRow = GetSizes (rowTypes [index]);
 				if(i >= y - 213.0f)
 				{
-
-
 					foreach(var cell in sizeForRow)
 					{
+
 						paths.Add (NSIndexPath.FromItemSection (itemIndex++, 0));
 					}
 				}
