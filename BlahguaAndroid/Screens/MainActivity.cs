@@ -15,6 +15,7 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Preferences;
 using BlahguaMobile.AndroidClient.Adapters;
+using System.IO.IsolatedStorage;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -46,6 +47,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressBar progress_actionbar;
 
         private TextView main_title;
+
+        public static GoogleAnalytics analytics = null;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -83,7 +86,33 @@ namespace BlahguaMobile.AndroidClient.Screens
             initCreateBlahUi();
 
             BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
+            InitAnalytics();
             InitService();
+        }
+
+        private void InitAnalytics()
+        {
+            string uniqueId;
+
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("uniqueId"))
+                uniqueId = settings["uniqueId"].ToString();
+            else
+            {
+                uniqueId = Guid.NewGuid().ToString();
+                settings.Add("uniqueId", uniqueId);
+                settings.Save();
+
+            }
+
+            string maker = Build.Manufacturer;
+            string model = Build.Model;
+            string version = ApplicationContext.PackageManager.GetPackageInfo(ApplicationContext.PackageName, 0).VersionName;
+            string platform = "ANDROID";
+            string userAgent = "Mozilla/5.0 (Lonux; Android; Mobile) ";
+
+            analytics = new GoogleAnalytics(userAgent, maker, model, version, platform, uniqueId);
+            analytics.StartSession();
         }
 
         private void StartTimers()

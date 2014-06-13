@@ -566,4 +566,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\pen_bw.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+  </ItemGroup>
 </Project>
