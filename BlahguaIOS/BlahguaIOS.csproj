@@ -197,11 +197,11 @@
     <Reference Include="monotouch" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="MonoTouch.Dialog-1" />
-    <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Text.MonoTouch">
       <HintPath>..\Components\servicestacktext-3.9.60.0\lib\ios\ServiceStack.Text.MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-104.1.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
