@@ -48,6 +48,8 @@ namespace BlahguaMobile.IOS
 					TableView.ReloadData();
 				}
 			};
+
+			TableView.TableFooterView = new UIView ();
 		}
 
 		public override void ViewWillAppear (bool animated)

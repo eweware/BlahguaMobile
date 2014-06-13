@@ -6,11 +6,12 @@ using System.Drawing;
 using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
+using MonoTouch.Dialog.Utilities;
 using MonoTouch.UIKit;
 
 namespace BlahguaMobile.IOS
 {
-	partial class BGProfileViewController : UIViewController
+	partial class BGProfileViewController : UIViewController, IImageUpdated
 	{
 
 		#region Fields
@@ -85,21 +86,7 @@ namespace BlahguaMobile.IOS
 					
 				nicknameTextField.Enabled = true;
 				selectImage.Hidden = false;
-				selectImage.TouchUpInside += (object sender, EventArgs e) => {
-					UIActionSheet sheet;
-					if(!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
-						sheet = new UIActionSheet (chooseFromText, null, cancelText, null, new string[] {
-							fromCameraText,
-							fromGalleryText,
-							deleteCurrentPhotoText
-						});
-					else
-						sheet = new UIActionSheet(chooseFromText, null, cancelText, null, new string[] {
-							fromCameraText, fromGalleryText
-						});
-					sheet.ShowInView(View);
-					sheet.Clicked += FileChooseActionSheetClicked;
-				};
+				selectImage.TouchUpInside += ActionForImage;
 			}
 
 
@@ -108,18 +95,16 @@ namespace BlahguaMobile.IOS
 			{
 				selectImage.Hidden = true;
 				UIImage profileImage = UIImageHelper.ImageFromUrl(url);
-				var imageSize = profileImage.Size;
-				float viewHeight = 128.0f;
-				float viewWidth = 128.0f;
-				float viewXCoord = (profileView.Frame.Width - viewWidth) / 2;
-				float viewYCoord = 24.0f;
 
 				UIImageView profileImageView = new UIImageView (profileImage);
-				profileImageView.Frame = new RectangleF (viewXCoord, viewYCoord, viewWidth, viewHeight);
+				profileImageView.Frame = new RectangleF (89, 24, 128, 128);
 
+				var button = new UIButton (profileImageView.Frame);
+				button.TouchUpInside += ActionForImage;
 
-				//profileImageView.AddSubview ();
-				profileView.AddSubview (profileImageView);
+				profileView.Add (profileImageView);
+
+				profileView.SendSubviewToBack (profileImageView);
 			}
 			else
 			{
@@ -147,6 +132,7 @@ namespace BlahguaMobile.IOS
 		private void DoneHandler(object sender, EventArgs args)
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
+			NavigationController.PopToRootViewController (true);
 		}
 
 		private void CancelHandler(object sender, EventArgs args)
@@ -157,6 +143,23 @@ namespace BlahguaMobile.IOS
 		private void NicknameUpdateCallback(string result)
 		{
 			Console.WriteLine (result);
+		}
+
+		private void ActionForImage(object sender, EventArgs e)
+		{
+			UIActionSheet sheet;
+			if(!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
+				sheet = new UIActionSheet (chooseFromText, null, cancelText, null, new string[] {
+					fromCameraText,
+					fromGalleryText,
+					deleteCurrentPhotoText
+				});
+			else
+				sheet = new UIActionSheet(chooseFromText, null, cancelText, null, new string[] {
+					fromCameraText, fromGalleryText
+				});
+			sheet.ShowInView(View);
+			sheet.Clicked += FileChooseActionSheetClicked;
 		}
 
 		private void FileChooseActionSheetClicked(object sender, UIButtonEventArgs eventArgs)
@@ -224,6 +227,15 @@ namespace BlahguaMobile.IOS
 						profileView.Frame.Height);
 				}
 			}
+		}
+
+		#endregion
+
+		#region IImageUpdated implementation
+
+		public void UpdatedImage (Uri uri)
+		{
+			throw new NotImplementedException ();
 		}
 
 		#endregion

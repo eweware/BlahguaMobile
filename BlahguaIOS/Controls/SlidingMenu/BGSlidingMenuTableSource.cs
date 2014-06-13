@@ -23,29 +23,26 @@ namespace BlahguaMobile.IOS
 		{
 			BGMenuTableCellView cell = (BGMenuTableCellView)tableView.DequeueReusableCell ("SimpleRow");
 
-			if(tableView.NumberOfSections() == 2)
+			if(type == BGLeftMenuType.Channels)
 			{
-				if(indexPath.Section == 0)
+				var channel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
+				cell.Text = channel.ChannelName;
+				if(BlahguaCore.BlahguaAPIObject.Current.CurrentChannel == null || 
+					channel._id == BlahguaCore.BlahguaAPIObject.Current.CurrentChannel._id)
 				{
-					var channel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
-					cell.Text = channel.ChannelName;
-					if(indexPath.Row == 0)
-					{
-						BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = channel;
-						cell.SelectRow ();
-						tableView.SelectRow (indexPath, true, UITableViewScrollPosition.None);
-					}
+					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = channel;
+					cell.SelectRow ();
+					tableView.SelectRow (indexPath, true, UITableViewScrollPosition.None);
 				}
 				else
 				{
-					var type = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelTypeList.ElementAt (indexPath.Row);
-					cell.Text = type.N;
+					cell.DeselectRow ();
 				}
 			}
 			else
 			{
-				var type = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes.ElementAt(indexPath.Row);
-				cell.Text = type.N;
+				var blahType = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes.ElementAt(indexPath.Row);
+				cell.Text = blahType.N;
 //				BlahguaCore.BlahguaAPIObject.Current.CurrentBlah.ChannelName = BlahguaCore.BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 //				BlahguaCore.BlahguaAPIObject.Current.Cu ;
 			}
@@ -54,15 +51,9 @@ namespace BlahguaMobile.IOS
 
 		public override int RowsInSection (UITableView tableView, int section)
 		{
-			if(tableView.NumberOfSections() == 2)
+			if(type == BGLeftMenuType.Channels)
 			{
-				if(section == 0)
-				{
-					return BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.Count;
-				} else
-				{
-					return BlahguaCore.BlahguaAPIObject.Current.CurrentChannelTypeList.Count;
-				}
+				return BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.Count;
 			}
 			else
 			{
@@ -72,28 +63,15 @@ namespace BlahguaMobile.IOS
 
 		public override int NumberOfSections (UITableView tableView)
 		{
-			if(type != BGLeftMenuType.BlahType)
-			{
-				return 2;
-			}
-			else
-			{
-				return 1;
-			}
+			return 1;
 		}
 
 		public override UIView GetViewForHeader (UITableView tableView, int section)
 		{
 			BGMenuTableHeaderView headerCell = (BGMenuTableHeaderView)tableView.DequeueReusableCell ("HeaderCell");
-			if (tableView.NumberOfSections() == 2)
+			if (type == BGLeftMenuType.Channels)
 			{
-				if (section == 0)
-				{
-					headerCell.Header = "Channels";
-				} else if (section == 1)
-				{
-					headerCell.Header = "View";
-				} 
+				headerCell.Header = "Channels";
 			}
 			else
 			{
@@ -107,51 +85,24 @@ namespace BlahguaMobile.IOS
 			var cell = (BGMenuTableCellView)tableView.CellAt (indexPath);
 			if(!cell.Selected)
 			{
-				var selectedCellsPaths = tableView.IndexPathsForSelectedRows;
-				var currentSectionSelection = selectedCellsPaths == null ? null : 
-					selectedCellsPaths.FirstOrDefault (scp => scp.Section == indexPath.Section && 
-															  scp.Row != indexPath.Row);
-				if(currentSectionSelection != null)
-				{
-					var currentSelectedCell = (BGMenuTableCellView)tableView.CellAt (currentSectionSelection);
-					currentSelectedCell.DeselectRow ();
-					tableView.DeselectRow (currentSectionSelection, false);
-				}
-			}
-			BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
-			cell.SelectRow ();
-			BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
-			if(type == BGLeftMenuType.Channels)
-			{
-				if(indexPath.Section == 0)
+				cell.SelectRow ();
+				if(type == BGLeftMenuType.Channels)
 				{
 					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
+
 				}
 				else
 				{
-					//BlahguaCore.BlahguaAPIObject.Current.CurrentChannel.ChannelTypeId = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row).ChannelTypeId;
+					///BlahguaCore.BlahguaAPIObject.Current.Curr*/
 				}
-			}
-			else
-			{
-				///BlahguaCore.BlahguaAPIObject.Current.Curr*/
 			}
 			return indexPath;
 		}
 
 		public override NSIndexPath WillDeselectRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			var selectedCellsPaths = tableView.IndexPathsForSelectedRows;
-			var currentSectionSelection = selectedCellsPaths == null ? null : 
-				selectedCellsPaths.Where (scp => scp.Section == indexPath.Section);
-			if (currentSectionSelection != null && 
-				currentSectionSelection.Count() == 1 && 
-				currentSectionSelection.First().Section == indexPath.Section && 
-				currentSectionSelection.First().Row == indexPath.Row)
-			{
-				tableView.SelectRow (indexPath, false, UITableViewScrollPosition.None);
-			}
-			return null;
+			((BGMenuTableCellView)tableView.CellAt (indexPath)).DeselectRow ();
+			return indexPath;
 		}
 	}
 }
