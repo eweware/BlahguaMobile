@@ -122,6 +122,8 @@
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="HelpingClasses\ImageLoader.cs" />
+    <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="Screens\Fragment\UserProfileStatsFragment.cs" />
     <Compile Include="Screens\Fragment\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\MainActivity.BlahCreate.cs" />

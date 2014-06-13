@@ -17,6 +17,7 @@
             android:textSize="14sp"
             android:textColor="@drawable/color_white_button_text"
             android:padding="10dp"
+            android:visibility="gone"
             android:text="Cancel" />
         <TextView
             android:layout_width="wrap_content"

@@ -14,6 +14,8 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.AndroidClient.Adapters;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics.Drawables;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -86,11 +88,22 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     if (theBlah.ImageURL != null && image != null)
                     {
-						image.Visibility = ViewStates.Visible;
-                        parent.RunOnUiThread(() =>
-                        {
-                            image.SetUrlDrawable(theBlah.ImageURL);
-                        });
+						//image.Visibility = ViewStates.Visible;
+                        //parent.RunOnUiThread(() =>
+                        //{
+                        //    image.SetUrlDrawable(theBlah.ImageURL);
+                        //});
+
+                        ImageLoader.Instance.DownloadAsync(theBlah.ImageURL,
+                            image, (b) =>
+                            {
+                                parent.RunOnUiThread(() =>
+                                {
+                                    image.Visibility = ViewStates.Visible;
+                                    image.SetImageBitmap(b);
+                                });
+                                return true;
+                            });
                     }
 					else 
                     {

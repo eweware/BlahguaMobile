@@ -17,6 +17,7 @@
           android:drawableLeft="@drawable/btn_back"
           android:background="@null"
           android:textColor="#FFF"
+          android:visibility="gone"
           android:text=" Back" />
       <TextView
           android:id="@+id/title"

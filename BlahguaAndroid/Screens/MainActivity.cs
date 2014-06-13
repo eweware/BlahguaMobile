@@ -83,6 +83,16 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             initSlidingMenu();    // move this until after the service is inited
 
+            SlidingMenu.Opened += (sender, args) =>
+            {
+                StopTimers();
+            };
+            SlidingMenu.Closed += (sender, args) =>
+            {
+                if(create_post_block.Visibility != ViewStates.Visible)
+                    StartTimers();
+            };
+
             initCreateBlahUi();
 
             BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
@@ -234,8 +244,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     btn_login.Visibility = ViewStates.Gone;
                     registered_layout.Visibility = ViewStates.Visible;
-                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
+                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
 
                     if (firstInit)
                     {
@@ -314,8 +324,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
             SlidingMenu.Mode = MenuMode.Left;
+        }
 
-            
+        void SlidingMenu_Opened(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void populateChannelMenu()
