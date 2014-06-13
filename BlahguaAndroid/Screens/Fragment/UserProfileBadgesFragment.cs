@@ -222,8 +222,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                             Toast.MakeText(Activity, "The authority currently has no badges for that email address.  Please try again in the future.", ToastLength.Short).Show();
                             edit.Enabled = true;
                             btn_done.Visibility = ViewStates.Visible;
-                            //App.analytics.PostRequestBadge(badgeId);
-                            //App.analytics.PostBadgeNoEmail(emailAddr);
+                            MainActivity.analytics.PostRequestBadge(badgeId);
+                            MainActivity.analytics.PostBadgeNoEmail(emailAddr);
                         }
                         else
                         {
@@ -235,7 +235,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             edit.Hint = "Type confirm code";
                             edit.Enabled = true;
                             btn_done.Visibility = ViewStates.Visible;
-                            //App.analytics.PostRequestBadge(badgeId);
+                            MainActivity.analytics.PostRequestBadge(badgeId);
                         }
                     });
                 }
@@ -265,13 +265,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                         edit.Enabled = true;
                         btn_done.Visibility = ViewStates.Visible;
                     });
-                    //App.analytics.PostBadgeValidateFailed();
+                    MainActivity.analytics.PostBadgeValidateFailed();
                 }
                 else
                 {
                     // success
 
-                    //App.analytics.PostGotBadge();
+                    MainActivity.analytics.PostGotBadge();
                     BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
                     {
                         Activity.RunOnUiThread(() =>

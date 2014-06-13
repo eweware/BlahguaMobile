@@ -390,7 +390,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (newBlah != null)
             {
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
-                //App.analytics.PostCreateBlah(newBlah.Y);
+                MainActivity.analytics.PostCreateBlah(newBlah.Y);
 
                 Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
                 triggerCreateBlock();
@@ -400,7 +400,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 //MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.");
-                //App.analytics.PostFormatError("blah create failed");
+                MainActivity.analytics.PostFormatError("blah create failed");
 
             }
         }

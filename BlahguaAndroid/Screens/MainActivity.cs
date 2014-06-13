@@ -226,7 +226,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 populateChannelMenu();
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    //App.analytics.PostAutoLogin();
+                    MainActivity.analytics.PostAutoLogin();
                     //UserInfoBtn.Visibility = Visibility.Visible;
                     //NewBlahBtn.Visibility = Visibility.Visible;
                     //SignInBtn.Visibility = Visibility.Collapsed;

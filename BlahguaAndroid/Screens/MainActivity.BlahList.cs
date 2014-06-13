@@ -148,7 +148,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     AtScrollEnd = false;
                     inboxCounter++;
                 }
-                //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+                MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
         }

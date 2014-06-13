@@ -70,6 +70,7 @@ namespace BlahguaMobile.AndroidClient
             btn_stats.Click += btn_stats_Click;
 
             btn_summary_Click(null, null);
+            MainActivity.analytics.PostPageView("/blah");
         }
         Button btn_summary, btn_comments, btn_stats;
         private void initUserUi()
@@ -195,7 +196,7 @@ namespace BlahguaMobile.AndroidClient
                 BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
                 {
                     UpdateSummaryButtons();
-                    //App.analytics.PostBlahVote(1);
+                    MainActivity.analytics.PostBlahVote(1);
                 });
             //}
             //else
@@ -221,7 +222,7 @@ namespace BlahguaMobile.AndroidClient
                 BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
                 {
                     UpdateSummaryButtons();
-                    //App.analytics.PostBlahVote(-1);
+                    MainActivity.analytics.PostBlahVote(-1);
                 });
             //}
             //else
