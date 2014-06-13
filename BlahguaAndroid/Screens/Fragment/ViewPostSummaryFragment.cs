@@ -86,15 +86,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     if (theBlah.ImageURL != null && image != null)
                     {
-							image.Visibility = ViewStates.Visible;
+						image.Visibility = ViewStates.Visible;
                         parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
                         });
                     }
-						else {
-							image.Visibility = ViewStates.Gone;
-						}
+					else 
+                    {
+						image.Visibility = ViewStates.Gone;
+					}
 
                     parent.RunOnUiThread(() =>
                     {
