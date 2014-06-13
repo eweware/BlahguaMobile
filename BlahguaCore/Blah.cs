@@ -412,7 +412,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "/Images/unknown-user.png";    
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";    
                 }
                 else
                 {
@@ -1301,7 +1301,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((!XX) && (Description != null) && (Description.m != null))
                     return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
                 else
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 
@@ -1366,10 +1366,18 @@ namespace BlahguaMobile.BlahguaCore
                     {
                         if (didIt)
                         {
-                            _badgeList.Add(newBadge);
+                            if (_badgeList.Contains(newBadge))
+                            {
+                                System.Diagnostics.Debug.WriteLine("Duplicate call!");
+                                return;
+                            }
 
+                            _badgeList.Add(newBadge);
                         }
-                        badgeIdList.RemoveAt(0);
+
+                        if (badgeIdList.Count > 0)
+                            badgeIdList.RemoveAt(0);
+
                         if (badgeIdList.Count > 0)
                             FetchBadgeSerially(badgeIdList, callback);
                         else

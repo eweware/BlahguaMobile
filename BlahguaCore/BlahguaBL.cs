@@ -424,17 +424,21 @@ namespace BlahguaMobile.BlahguaCore
             {
                 BlahguaRest.GetChannelTypes((cTypeList) =>
                 {
+                    System.Diagnostics.Debug.WriteLine("Loaded Channels");
                     if (cTypeList != null)
                     {
+                        System.Diagnostics.Debug.WriteLine("Channels OK");
                         curChannelTypes = cTypeList;
 
                         BlahguaRest.GetBlahTypes((bTypeList) =>
                         {
+                            System.Diagnostics.Debug.WriteLine("Loaded Blah Types");
                             blahTypeList = bTypeList;
                             blahTypeList.Remove(blahTypeList.First(i => i.N == "ad"));
 
                             if (AutoLogin)
                             {
+                                System.Diagnostics.Debug.WriteLine("Doing auto login");
                                 SavedUserInfo info = GetSavedUserInfo();
                                 if (info.UserName != "")
                                 {

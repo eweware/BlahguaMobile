@@ -113,7 +113,7 @@ namespace BlahguaMobile.AndroidClient
                         HandleUserSignIn();
                     else
                     {
-                        //App.analytics.PostSessionError("signinfailed-" + errMsg);
+                        //MainActivity.analytics.PostSessionError("signinfailed-" + errMsg);
                         RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;
@@ -186,12 +186,12 @@ namespace BlahguaMobile.AndroidClient
                     dialog.Hide();
                     if (errMsg == null)
                     {
-                        //App.analytics.PostRegisterUser();
+                        //MainActivity.analytics.PostRegisterUser();
                         HandleUserSignIn();
                     }
                     else
                     {
-                        //App.analytics.PostSessionError("registerfailed-" + errMsg);
+                        //MainActivity.analytics.PostSessionError("registerfailed-" + errMsg);
                         RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;

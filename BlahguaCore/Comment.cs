@@ -76,7 +76,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
                 }
                 else
                 {
@@ -269,7 +269,7 @@ namespace BlahguaMobile.BlahguaCore
                     return BlahguaAPIObject.Current.GetImageURL(_m[0], "A");
                 }
                 else
-                    return "/Images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 

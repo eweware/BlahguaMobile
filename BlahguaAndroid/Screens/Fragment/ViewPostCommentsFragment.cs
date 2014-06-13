@@ -99,7 +99,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (newComment != null)
             {
-                //App.analytics.PostCreateComment();
+                MainActivity.analytics.PostCreateComment();
                 // might want to resort the comments...
                 //NavigationService.GoBack();
                 Activity.RunOnUiThread(() =>
@@ -110,7 +110,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                //App.analytics.PostSessionError("commentcreatefailed");
+                MainActivity.analytics.PostSessionError("commentcreatefailed");
                 // handle create comment failed
                 Toast.MakeText(Activity, "Your comment was not created.  Please try again or come back another time.", ToastLength.Short).Show();
                 btn_done.Enabled = true;

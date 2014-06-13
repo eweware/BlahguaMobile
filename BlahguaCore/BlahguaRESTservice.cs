@@ -113,25 +113,7 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("users/whatsnew", Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-                WhatsNewInfo newInfo = null;
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(WhatsNewInfo));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = null;
-                try
-                {
-                    theObj = des.ReadObject(stream);
-                }
-                catch (SerializationException exp)
-                {
-                    // probably have a TomCat error here..
-                }
-
-                stream.Close();
-
-                if (theObj != null)
-                {
-                    newInfo = (WhatsNewInfo)theObj;
-                }
+					WhatsNewInfo newInfo = response.Content.FromJson<WhatsNewInfo>();
 
                 theCallback(newInfo);
             });
@@ -149,15 +131,8 @@ namespace BlahguaMobile.BlahguaCore
 
             apiClient.ExecuteAsync(request, (response) =>
             {
-                UserInfoObject infoObj = null;
+					UserInfoObject infoObj = response.Content.FromJson<UserInfoObject>();
 
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(UserInfoObject));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
-
-                if (theObj != null)
-                    infoObj = (UserInfoObject)theObj;
 
                 callback(infoObj);
             });
@@ -235,14 +210,8 @@ namespace BlahguaMobile.BlahguaCore
 
             apiClient.ExecuteAsync(request, (response) =>
             {
-                Blah theBlah = null;
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(Blah));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
+                Blah theBlah = response.Content.FromJson<Blah>();
 
-                if (theObj != null)
-                    theBlah = (Blah)theObj;
 
                 callback(theBlah);
             });
@@ -386,14 +355,7 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("users/profile/info", Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-                UserProfile profile = null;
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(UserProfile));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
-
-                if (theObj != null)
-                    profile = (UserProfile)theObj;
+					UserProfile profile = response.Content.FromJson<UserProfile>();
 
                 callback(profile);
             });
@@ -548,13 +510,8 @@ namespace BlahguaMobile.BlahguaCore
                 Blah newBlah = null;
                 if (response.StatusCode == HttpStatusCode.Created)
                 {
-                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(Blah));
-                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    object theObj = des.ReadObject(stream);
-                    stream.Close();
+						newBlah = response.Content.FromJson<Blah>();
 
-                    if (theObj != null)
-                        newBlah = (Blah)theObj;
                 }
 
                 callback(newBlah);
@@ -829,18 +786,7 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("blahs/" + blahId, Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-                Blah newBlah = null;
-
-                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof (Blah));
-                response.ContentLength = response.Content.Length;
-                response.ContentEncoding = null;
-  
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                object theObj = des.ReadObject(stream);
-                stream.Close();
-
-                if (theObj != null)
-                    newBlah = (Blah)theObj;
+					Blah newBlah = response.Content.FromJson<Blah>();
 
                 callback(newBlah);
             });

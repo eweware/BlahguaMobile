@@ -70,14 +70,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                         progress.Visibility = ViewStates.Gone;
                         if ((photoString != null) && (photoString.Length > 0))
                         {
-                            //App.analytics.PostUploadUserImage();
+                            MainActivity.analytics.PostUploadUserImage();
                             avatar.SetUrlDrawable(photoString);
                         }
                         else
                         {
                             btn_avatar.Visibility = ViewStates.Visible;
                             Toast.MakeText(Activity, "Uploading failed", ToastLength.Short).Show();
-                            //App.analytics.PostSessionError("userimageuploadfailed");
+                            MainActivity.analytics.PostSessionError("userimageuploadfailed");
                         }
                     });
                 }

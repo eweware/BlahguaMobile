@@ -82,7 +82,7 @@ namespace BlahguaMobile.BlahguaCore
             set
             {
                 badgeId = value;
-                UpdateBadge();
+                //UpdateBadge();
             }
         }
 

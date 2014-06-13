@@ -55,7 +55,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             textView = fragment.FindViewById<TextView>(Resource.Id.text);
             titleView = fragment.FindViewById<TextView>(Resource.Id.title);
-            image = fragment.FindViewById<ImageView>(Resource.Id.image);
+			image = fragment.FindViewById<ImageView>(Resource.Id.blah_image);
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
@@ -86,17 +86,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     if (theBlah.ImageURL != null && image != null)
                     {
-                        //ImageSource defaultSrc = new BitmapImage(new Uri(defaultImg, UriKind.Relative));
-                        //BackgroundImage.Source = defaultSrc;
-                        //BackgroundImage2.Source = defaultSrc;
-
-
+						image.Visibility = ViewStates.Visible;
                         parent.RunOnUiThread(() =>
                         {
                             image.SetUrlDrawable(theBlah.ImageURL);
-                            //image.SetImageURI(Android.Net.Uri.Parse(imageURL));
                         });
                     }
+					else 
+                    {
+						image.Visibility = ViewStates.Gone;
+					}
 
                     parent.RunOnUiThread(() =>
                     {
@@ -123,24 +122,36 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     //BlahSummaryArea.Visibility = Visibility.Visible;
                     //UpdateButtonsForPage();
-                    parent.RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(Activity, "This is " + BlahguaAPIObject.Current.CurrentBlah.TypeName, ToastLength.Short).Show();
-                    });
+                    string toastMessage = String.Empty;
                     switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
                     {
                         case "polls":
+                            toastMessage = "This is a Poll";
                             HandlePollInit();
                             break;
                         case "predicts":
+                            toastMessage = "This is a Prediction";
                             HandlePredictInit();
                             break;
+                        case "says":
+                            toastMessage = "This is a Says";
+                            break;
+                        case "asks":
+                            toastMessage = "This is an Asks";
+                            break;
+                        case "leaks":
+                            toastMessage = "This is a Leak";
+                            break;
                     }
+                    parent.RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(Activity, toastMessage, ToastLength.Short).Show();
+                    });
                 }
                 else
                 {
                     Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
-                    //App.analytics.PostSessionError("loadblahfailed");
+                    MainActivity.analytics.PostSessionError("loadblahfailed");
                     // Finish();
                 }
             });
