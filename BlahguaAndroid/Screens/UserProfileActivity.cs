@@ -76,7 +76,8 @@ namespace BlahguaMobile.AndroidClient
                         statsFragment = null;
 
                         title.Text = "Demographics";
-                        btn_right.Visibility = ViewStates.Gone;
+                        btn_right.Visibility = ViewStates.Visible;
+                        btn_right.Text = "Done";
 
                         demographicsFragment = UserProfileDemographicsFragment.NewInstance();
                         var fragmentTransaction = FragmentManager.BeginTransaction();
@@ -124,6 +125,11 @@ namespace BlahguaMobile.AndroidClient
             if (badgesFragment != null)
             {
                 badgesFragment.triggerNewBlock();
+            }
+            if (demographicsFragment != null) // that means it is active
+            {
+                Finish();
+                //commentsFragment.triggerCreateBlock();
             }
         }
     }

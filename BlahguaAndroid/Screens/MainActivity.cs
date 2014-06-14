@@ -19,7 +19,7 @@ using System.IO.IsolatedStorage;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (MainLauncher = true)]
+	[Activity]
     public partial class MainActivity : SlidingFragmentActivity
     {
         Inbox blahList;
@@ -233,7 +233,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (progress_actionbar.Visibility == ViewStates.Gone)
             {
-                populateChannelMenu();
+                if(create_post_block.Visibility == ViewStates.Gone)
+                    populateChannelMenu();
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     MainActivity.analytics.PostAutoLogin();

@@ -124,6 +124,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 currentType = MyBlahType.Says;
                 setAsksCreateBlahType();
             }
+            triggerExpand();
         }
 
         private void setAsksCreateBlahType()
@@ -202,24 +203,40 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
         ///////// init
 
+        int lastCreateBlockHeight = 0;
+        private void triggerExpand()
+        {
+            //set Visible
+            create_post_block.Visibility = ViewStates.Visible;
+            int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+            int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+            create_post_block.Measure(widthSpec, heightSpec);
+
+            if (create_post_block.MeasuredHeight < Resources.DisplayMetrics.HeightPixels)
+            {
+                ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, create_post_block.MeasuredHeight, false);
+                lastCreateBlockHeight = create_post_block.MeasuredHeight;
+                mAnimator.Start();
+            }
+            else
+            {
+                ViewGroup.LayoutParams layoutParams = create_post_block.LayoutParameters;
+                layoutParams.Height = ViewGroup.LayoutParams.MatchParent;
+                create_post_block.LayoutParameters = layoutParams;
+            }
+
+            StopTimers();
+        }
+
         public void triggerCreateBlock()
         {
             if (create_post_block.Visibility.Equals(ViewStates.Gone))
             {
-                //set Visible
-                create_post_block.Visibility = ViewStates.Visible;
-                int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                create_post_block.Measure(widthSpec, heightSpec);
-
                 BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
 
-                ValueAnimator mAnimator = slideAnimator(create_post_block, 0, create_post_block.MeasuredHeight, false);
-                mAnimator.Start();
+                triggerExpand();
 
                 initBlahCreationSlidingMenu();
-
-                StopTimers();
             }
             else
             {
@@ -239,7 +256,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                     SlidingMenu.Mode = MenuMode.LeftRight;
                 }
 
+                lastCreateBlockHeight = 0;
                 StartTimers();
+
+                populateChannelMenu();
             }
         }
 
@@ -277,6 +297,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 MaybeEnableAddPollBtns();
                 BlahguaAPIObject.Current.CreateRecord.I.Add(new PollItem("choice " + (count + 1)));
+                triggerExpand();
             }
         }
 
