@@ -22,6 +22,7 @@ namespace BlahguaMobile.AndroidClient.Screens
     {
         ProgressBar progress;
         ImageView avatar;
+        EditText nickname;
         Button btn_avatar;
         public static UserProfileProfileFragment NewInstance()
         {
@@ -39,6 +40,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             //    return null;
             //}
             avatar = fragment.FindViewById<ImageView>(Resource.Id.avatar);
+            nickname = fragment.FindViewById<EditText>(Resource.Id.text);
+            nickname.TextChanged += nickname_TextChanged;
             progress = fragment.FindViewById<ProgressBar>(Resource.Id.progressBar1);
             progress.Visibility = ViewStates.Gone;
 
@@ -52,7 +55,45 @@ namespace BlahguaMobile.AndroidClient.Screens
                     Intent.CreateChooser(imageIntent, "Select photo"), 0);
             };
 
+            initUi();
             return fragment;
+        }
+
+        private void nickname_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (BlahguaAPIObject.Current.CurrentUser.Profile != null)
+            {
+                string newVal = nickname.Text;
+                if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.City)
+                {
+                    BlahguaAPIObject.Current.CurrentUser.Profile.Nickname = newVal;
+                    UpdateProfile();
+                }
+            }
+        }
+
+        void UpdateProfile()
+        {
+            // the profile has changed, save and reload the description...
+            BlahguaAPIObject.Current.UpdateUserProfile((theString) =>
+            {
+                BlahguaAPIObject.Current.GetUserDescription((theDesc) =>
+                {
+                    // to do - see if we need to rebind or...
+                }
+                );
+            }
+            );
+        }
+
+        private void initUi()
+        {
+            nickname.Text = BlahguaAPIObject.Current.CurrentUser.Profile.Nickname;
+            if (!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
+            {
+                btn_avatar.Visibility = ViewStates.Gone;
+                avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
+            }
         }
 
         public override void OnActivityResult(int requestCode, Result resultCode, Intent data)

@@ -246,23 +246,21 @@ namespace BlahguaMobile.AndroidClient.Screens
                     btn_login.Visibility = ViewStates.Gone;
                     registered_layout.Visibility = ViewStates.Visible;
                     avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
-                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
+                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
 
                     if (firstInit)
                     {
-                        EventHandler avatarClick = (sender, args) =>
+                        avatar.Click += (sender, args) =>
                         {
                             var intent = new Intent(this, typeof(UserProfileActivity));
                             intent.PutExtra("Page", 0);
                             StartActivity(intent);
-                        };
-                        EventHandler menuToggleClick = (sender, args) =>
-                        {
                             SlidingMenu.Toggle();
                         };
-                        avatar.Click += avatarClick;
-                        avatar.Click += menuToggleClick;
-                        avatarBar.Click += avatarClick;
+                        avatarBar.Click += (sender, args) =>
+                        {
+                            SlidingMenu.ShowSecondaryMenu();
+                        };
                         firstInit = false;
                     }
                 }
