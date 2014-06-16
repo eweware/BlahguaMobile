@@ -20,16 +20,19 @@ namespace BlahguaMobile.AndroidClient.Adapters
     {
         Activity _activity;
         PollItemList _list;
+        EventHandler<CompoundButton.CheckedChangeEventArgs> _onCheckHandler;
 
         bool _isVotable = false;
 
-        public VotesAdapter(Activity activity, PollItemList list, bool isVotable)
+        public VotesAdapter(Activity activity, PollItemList list, bool isVotable, EventHandler<CompoundButton.CheckedChangeEventArgs> onCheckHandler)
         {
             _activity = activity;
             _list = list;
             _isVotable = isVotable;
+            _onCheckHandler = onCheckHandler;
         }
 
+        public PollItemList List { get { return _list; } }
 
         public override int Count
         {
@@ -50,6 +53,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+            bool isNewView = convertView == null;
             var view = convertView ?? _activity.LayoutInflater.Inflate(
                                  Resource.Layout.listitem_poll, parent, false);
             var check = view.FindViewById<CheckBox>(Resource.Id.check);
@@ -58,10 +62,26 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var vote_text = view.FindViewById<TextView>(Resource.Id.vote_text);
 
             PollItem p = _list[position];
-
-            if(!_isVotable) {
+            if (BlahguaAPIObject.Current.CurrentUser == null)
+            {
                 check.Visibility = ViewStates.Gone;
             }
+            else
+            {
+                if (p.IsUserVote)
+                {
+                    check.Checked = true;
+                }
+                if (!_isVotable)
+                {
+                    check.Enabled = false;
+                }
+            }
+
+            if(isNewView)
+                check.CheckedChange += _onCheckHandler;
+
+            check.Tag = position;
 
             percent_string.Text = p.VotePercent;
             int height = (int) TypedValue.ApplyDimension(ComplexUnitType.Dip, 20, _activity.Resources.DisplayMetrics);

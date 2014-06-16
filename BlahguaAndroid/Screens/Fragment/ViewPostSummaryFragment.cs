@@ -201,16 +201,15 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.GetUserPredictionVote((theVote) =>
             {
                 Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-
                 parent.RunOnUiThread(() =>
                 {
-							if (curBlah.ExpireDate > DateTime.Now)
+                    if (curBlah.ExpireDate > DateTime.Now)
                     {
                         // still has time
                         //PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
-
-                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, true);
+                        bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.D);
+                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, !isVoted, predictsTap);
 								predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
 								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
@@ -223,8 +222,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         // expired
                         //PredictDateBox.Text = "should have happened on " + curBlah.E.ToShortDateString();
                         //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
-
-                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, true);
+                        bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.Z);
+                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, !isVoted, predictsTap);
 								predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
 								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
 
@@ -240,6 +239,52 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             );
         }
+        #endregion
+
+        #region PollsTap
+        bool predictsTapped = false;
+        private void predictsTap(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            if (predictsTapped)
+                return;
+            VotesAdapter adapter = (VotesAdapter)predictsVotes.Adapter;
+            int pos = (int)((CheckBox)sender).Tag;
+            PollItem newVote = adapter.List[pos];
+            predictsTapped = true;
+            BlahguaAPIObject.Current.SetPredictionVote(newVote, (resultStr) =>
+            {
+                predictsTapped = newVote != null;
+                HandlePredictInit();
+                //adapter.NotifyDataSetChanged();
+                //if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
+                //{
+                //    AlreadyHappenedItems.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems;
+                //    AlreadyHappenedItems.ItemTemplate = (DataTemplate)Resources["PredictVotedTemplate"];
+                //}
+                //else
+                //{
+                //    WillHappenItems.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.PredictionItems;
+                //    WillHappenItems.ItemTemplate = (DataTemplate)Resources["PredictVotedTemplate"];
+                //}
+
+            }
+            );
+        }
+
+        private void PollVote_Tap(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            VotesAdapter adapter = (VotesAdapter)predictsVotes.Adapter;
+            int pos = (int)((CheckBox)sender).Tag;
+            PollItem newVote = adapter.List[pos];
+
+            BlahguaAPIObject.Current.SetPollVote(newVote, (resultStr) =>
+            {
+                adapter.NotifyDataSetChanged();
+                //PollItemList.ItemTemplate = (DataTemplate)Resources["PollVotedTemplate"];
+            }
+            );
+        }
+
         #endregion
     }
 }
