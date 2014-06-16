@@ -58,6 +58,12 @@ namespace BlahguaMobile.AndroidClient.Screens
             textView = fragment.FindViewById<TextView>(Resource.Id.text);
             titleView = fragment.FindViewById<TextView>(Resource.Id.title);
 			image = fragment.FindViewById<ImageView>(Resource.Id.blah_image);
+            image.Click += (sender, args) => {
+
+                var intent = new Intent(Activity, typeof(ImageViewActivity));
+                intent.PutExtra("image", BlahguaAPIObject.Current.CurrentBlah.ImageURL);
+                StartActivity(intent);
+            };
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);

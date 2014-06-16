@@ -19,15 +19,22 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 
         private WebClient webClient;
 
+        public static string GetLocalFilepath(string url)
+        {
+            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            string localFilename = url.Replace(":", "_").Replace("\\", "_").Replace("/", "_");
+            string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+
+            return localPath;
+        }
+
         public async void DownloadAsync(string imageUrl, ImageView view, Func<Bitmap, bool> result)
         {
             webClient = new WebClient();
             var url = new Uri(imageUrl);
             byte[] bytes = null;
 
-            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            string localFilename = imageUrl.Replace(":", "_").Replace("\\", "_").Replace("/", "_");
-            string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+            string localPath = GetLocalFilepath(imageUrl);
             Java.IO.File file = new Java.IO.File(localPath);
             if (!file.Exists())
             {
@@ -65,7 +72,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             options.InJustDecodeBounds = false;
 
             Bitmap bitmap = await BitmapFactory.DecodeFileAsync(localPath, options);
-
+            
             // done! applying to imageView
             //view.SetImageBitmap(bitmap);
             result(bitmap);

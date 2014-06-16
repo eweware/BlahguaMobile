@@ -125,6 +125,7 @@
     <Compile Include="HelpingClasses\ImageLoader.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
+    <Compile Include="Screens\ImageViewActivity.cs" />
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Screens\Fragment\UserProfileStatsFragment.cs" />
     <Compile Include="Screens\Fragment\UserProfileBadgesFragment.cs" />
@@ -585,5 +586,10 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_imageview.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
 </Project>
