@@ -128,7 +128,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="27"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="Mode" destination="7" id="name-outlet-7"/>
                         <outlet property="aboutButton" destination="40" id="name-outlet-40"/>
@@ -152,7 +152,7 @@
         <scene sceneID="15">
             <objects>
                 <navigationController storyboardIdentifier="BGMainNavigationController" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="16" customClass="BGMainNavigationController" sceneMemberID="viewController">
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="19">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
@@ -210,6 +210,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="sDW-Xe-VUj"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAz-7S-hI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -353,6 +354,8 @@
                         <segue destination="1" kind="push" identifier="fromRollToLogin" id="5CP-DJ-zHp"/>
                         <segue destination="44" kind="push" identifier="fromRollToProfile" id="hr5-eJ-fAn"/>
                     </connections>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0b6-CC-nEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -402,6 +405,7 @@
                         <outlet property="profileView" destination="65" id="name-outlet-65"/>
                         <outlet property="selectImage" destination="66" id="name-outlet-66"/>
                     </connections>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -409,12 +413,35 @@
         </scene>
     </scenes>
     <resources>
-        <image name="blahsChannelCheck.png" width="9" height="8"/>
-        <image name="input.png" width="299" height="36"/>
-        <image name="profileImageSelectLogo.png" width="104" height="20"/>
-        <image name="rememberMeRadioButton.png" width="14" height="14"/>
-        <image name="rememberMeRadioButton_un.png" width="14" height="14"/>
-        <image name="signupRadioButtonUn.png" width="18" height="18"/>
+        <image name="blahsChannelCheck.png" width="19" height="16"/>
+        <image name="input.png" width="599" height="73"/>
+        <image name="profileImageSelectLogo.png" width="208" height="41"/>
+        <image name="rememberMeRadioButton.png" width="28" height="28"/>
+        <image name="rememberMeRadioButton_un.png" width="28" height="28"/>
+        <image name="signupRadioButtonUn.png" width="36" height="36"/>
+        <image name="signinBckg-4.png" width="640" height="960"/>
+        <image name="signinBckg-5.png" width="640" height="1136"/>
+        <image name="signupRadioButton.png" width="36" height="36"/>
+        <image name="navigationBar.png" width="640" height="128"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="profileInfoBack.png" width="611" height="431"/>
+        <image name="darkGrayBack.png" width="13" height="14"/>
+        <image name="grayBack.png" width="10" height="10"/>
+        <image name="greenBack.png" width="9" height="12"/>
+        <image name="newBlahImage.png" width="45" height="45"/>
+        <image name="leftMenuButton.png" width="49" height="39"/>
+        <image name="leftMenuButtonPressed.png" width="48" height="39"/>
+        <image name="newblah.png" width="133" height="133"/>
+        <image name="ask_icon.png" width="32" height="32"/>
+        <image name="badge_icon.png" width="32" height="32"/>
+        <image name="leak_icon.png" width="32" height="32"/>
+        <image name="poll_icon.png" width="32" height="32"/>
+        <image name="predict_icon.png" width="32" height="32"/>
+        <image name="say_icon.png" width="32" height="32"/>
+        <image name="pen_bw.png" width="32" height="32"/>
+        <image name="ico_hot.png" width="28" height="28"/>
+        <image name="ico_new.png" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -78,7 +78,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Developer: David Vronay (WFXD25AJXF)</CodesignKey>
+    <CodesignProvision>0C499EE3-E813-4FAF-939B-B760D0B246A5</CodesignProvision>
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
@@ -178,12 +184,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="restsharp">
-      <Version>104.1.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
       <Version>3.9.60.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="restsharp">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>104.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -239,5 +246,20 @@
     <BundleResource Include="Resources\leftMenuButton%402x.png" />
     <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
+    <BundleResource Include="Resources\newblah.png" />
+    <BundleResource Include="Resources\ask_icon.png" />
+    <BundleResource Include="Resources\badge_icon.png" />
+    <BundleResource Include="Resources\leak_icon.png" />
+    <BundleResource Include="Resources\poll_icon.png" />
+    <BundleResource Include="Resources\predict_icon.png" />
+    <BundleResource Include="Resources\say_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\pen_bw.png" />
+    <BundleResource Include="Resources\ico_hot.png" />
+    <BundleResource Include="Resources\ico_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
   </ItemGroup>
 </Project>

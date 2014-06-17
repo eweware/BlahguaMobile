@@ -64,8 +64,8 @@ namespace BlahguaMobile.IOS
 
 
 
-			UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide);
-			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
+			UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
+			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
 			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
 
             return true;
