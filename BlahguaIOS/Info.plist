@@ -25,8 +25,6 @@
 	</array>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
-	<key>CFBundleDisplayName</key>
-	<string>blahgua</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
@@ -64,6 +62,35 @@
 		<string>Icon-Small-50@2x</string>
 		<string>Icon-Small-40</string>
 		<string>Icon-Small-40@2x</string>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>heard</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fonts/GothamRnd-Bold.otf</string>
+		<string>fonts/GothamRnd-BoldItal.otf</string>
+		<string>fonts/GothamRnd-Book.otf</string>
+		<string>fonts/GothamRnd-BookItal.otf</string>
+		<string>fonts/GothamRnd-Light.otf</string>
+		<string>fonts/GothamRnd-LightItal.otf</string>
+		<string>fonts/GothamRnd-MedItal.otf</string>
+		<string>fonts/GothamRnd-Medium.otf</string>
+		<string>fonts/GothamRounded-Bold.otf</string>
+		<string>fonts/GothamRounded-BoldItalic.otf</string>
+		<string>fonts/GothamRounded-Book.otf</string>
+		<string>fonts/GothamRounded-BookItalic.otf</string>
+		<string>fonts/GothamRounded-Light.otf</string>
+		<string>fonts/GothamRounded-LightItalic.otf</string>
+		<string>fonts/GothamRounded-Medium.otf</string>
+		<string>fonts/GothamRounded-MediumItalic.otf</string>
+		<string>fonts/Merriweather.otf</string>
+		<string>fonts/Merriweather-Bold.otf</string>
+		<string>fonts/Merriweather-BoldItalic.otf</string>
+		<string>fonts/Merriweather-Heavy.otf</string>
+		<string>fonts/Merriweather-HeavyItalic.otf</string>
+		<string>fonts/Merriweather-Italic.otf</string>
+		<string>fonts/Merriweather-Light.otf</string>
+		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
 </dict>
 </plist>

@@ -65,11 +65,31 @@ namespace BlahguaMobile.IOS
 				label.Frame = new RectangleF(new PointF(8, 7), new SizeF(size.Width - 24.0f, size.Height - 33.0f));
 				label.ContentMode = UIViewContentMode.TopLeft;
 				label.TextAlignment = UITextAlignment.Left;
-				UIFont font = reusableId == BGBlahCellSizesConstants.TinyReusableId ? 
-					UIFont.FromName (BGAppearanceConstants.FontName, 7.0f) : UIFont.FromName (BGAppearanceConstants.FontName, 14.0f);
-				label.Hidden = false;
+				string fontName = BGAppearanceConstants.FontName;
+				float fontSize = 10;
+
+				switch (reusableId)
+				{
+					case BGBlahCellSizesConstants.TinyReusableId:
+						fontSize = 14f;
+						break;
+					case BGBlahCellSizesConstants.SmallReusableId:
+						fontSize = 18f;
+						break;
+					case BGBlahCellSizesConstants.MediumReusableId:
+						fontSize = 24;
+						break;
+					case BGBlahCellSizesConstants.LargeReusableId:
+						fontSize = 32f;
+						break;
+				}
+
+
+
+				UIFont font = UIFont.FromName(fontName, fontSize);
 				label.AttributedText = new NSAttributedString (blah.T, font, UIColor.Black);
 				label.SizeToFit ();
+				textView.Hidden = false;
 			} else
 				textView.Hidden = true;
 

@@ -62,7 +62,14 @@ namespace BlahguaMobile.IOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 
-
+            foreach (string curString in UIFont.FamilyNames)
+            {
+                    System.Console.WriteLine("Family: " + curString);
+                foreach (string curFont in UIFont.FontNamesForFamilyName(curString))
+                {
+                            System.Console.WriteLine("   Font: " + curFont);
+                }
+            }
 
 			UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
 			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
