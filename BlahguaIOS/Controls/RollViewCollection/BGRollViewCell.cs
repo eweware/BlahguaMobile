@@ -16,7 +16,7 @@ namespace BlahguaMobile.IOS
 		private InboxBlah blah;
 		private UIImageView imageView;
 		private UILabel label;
-		private UIView textView;
+		public  UIView textView;
 		private NSIndexPath path;
 
 		public InboxBlah Blah 
