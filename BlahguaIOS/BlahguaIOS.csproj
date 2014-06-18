@@ -70,6 +70,12 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <BuildIpa>True</BuildIpa>
+    <CodesignProvision>5ACB1700-F6F2-4DBF-81B2-65659EBABB8B</CodesignProvision>
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -78,8 +84,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <CodesignKey>iPhone Developer: David Vronay (WFXD25AJXF)</CodesignKey>
-    <CodesignProvision>0C499EE3-E813-4FAF-939B-B760D0B246A5</CodesignProvision>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>ACF83847-2EC6-4FA9-9036-EF64F1ACC9C6</CodesignProvision>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchI18n>
@@ -183,6 +189,7 @@
     <Compile Include="Controls\RollViewCollection\BGRollViewCell.designer.cs">
       <DependentUpon>BGRollViewCell.cs</DependentUpon>
     </Compile>
+    <None Include="RELEASE-NOTES.txt" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -190,7 +197,6 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>104.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
