@@ -140,7 +140,10 @@ namespace BlahguaMobile.IOS
 		{
 			if(BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null)
 			{
- 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+                    NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+                NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+                 
+
 			}
 			else
 			{

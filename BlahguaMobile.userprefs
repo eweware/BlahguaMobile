@@ -1,29 +1,12 @@
 ﻿<Properties GitUserInfo="UsingMD">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaIOS/Controls/RollViewCollection/BGRollViewCell.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppStore|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaIOS/View Controllers/BGRollViewController.cs">
     <Files>
-      <File FileName="BlahguaCore/Blah.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/User.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/BlahguaBL.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/BlahguaRESTservice.cs" Line="1" Column="1" />
-      <File FileName="BlahguaCore/Comment.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/View Controllers/BGRollViewController.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Controls/RollViewCollection/BGRollViewLayout.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Controls/RollViewCollection/BGRollViewCell.cs" Line="83" Column="34" />
+      <File FileName="BlahguaIOS/View Controllers/BGRollViewController.cs" Line="144" Column="95" />
+      <File FileName="BlahguaIOS/View Controllers/BGMainNavigationController.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS/Constants/BGAppearanceConstants.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="BlahguaIOS" expanded="True" selected="True">
-            <Node name="ComponentReferenceFolder" expanded="True" />
-            <Node name="Controls" expanded="True">
-              <Node name="RollViewCollection" expanded="True" />
-            </Node>
-            <Node name="View Controllers" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -32,4 +15,8 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.BlahguaIOS>
+    <IPhoneTestFlightSettings_27CAppStore ApiToken="2fcbf6673d162b1d920c3a5c2ee49cfc_MTkxNzA5NDIwMTQtMDYtMTYgMTc6MjQ6MDcuNTE0Mjk5" TeamToken="f60fb5991e9cbe88c2581e8c41111365_Mzk0NDc5MjAxNC0wNi0xNiAxNzoyNjoxOC4xNzA4ODU" ReleaseNotes="changed the titlebar color" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="eweware alpha" UploadDSYMs="False" />
+    <IPhoneTestFlightSettings_27CAd-Hoc ApiToken="2fcbf6673d162b1d920c3a5c2ee49cfc_MTkxNzA5NDIwMTQtMDYtMTYgMTc6MjQ6MDcuNTE0Mjk5" TeamToken="f60fb5991e9cbe88c2581e8c41111365_Mzk0NDc5MjAxNC0wNi0xNiAxNzoyNjoxOC4xNzA4ODU" ReleaseNotes="changed the titlebar color" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="eweware alpha" UploadDSYMs="False" />
+  </MonoDevelop.Ide.ItemProperties.BlahguaIOS>
 </Properties>

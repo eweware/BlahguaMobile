@@ -61,19 +61,10 @@ namespace BlahguaMobile.IOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-
-            foreach (string curString in UIFont.FamilyNames)
-            {
-                    System.Console.WriteLine("Family: " + curString);
-                foreach (string curFont in UIFont.FontNamesForFamilyName(curString))
-                {
-                            System.Console.WriteLine("   Font: " + curFont);
-                }
-            }
-
 			UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
 			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
 			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
+            this.Window.TintColor = BGAppearanceConstants.TealGreen;
 
             return true;
         }
@@ -88,12 +79,18 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				InvokeOnMainThread (() => {
-					UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White, 
-						TextShadowColor = UIColor.Clear, 
-						Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
-					UINavigationBar.Appearance.TintColor = UIColor.White;
-					UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
+				InvokeOnMainThread (() => 
+                        {
+                            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes 
+                                { 
+                                    TextColor = BGAppearanceConstants.TealGreen, 
+        						    TextShadowColor = UIColor.Clear, 
+        						    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) 
+                                });
+                            UINavigationBar.Appearance.BarTintColor = BGAppearanceConstants.DarkBrown;
+                            UINavigationBar.Appearance.TintColor = BGAppearanceConstants.DarkBrown;
+                            UINavigationBar.Appearance.BackgroundColor = BGAppearanceConstants.DarkBrown;
+                            //UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
 					UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 					var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");

@@ -24,15 +24,13 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>6.0</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.1</string>
+	<string>0.0.0.10</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1</string>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -92,5 +90,7 @@
 		<string>fonts/Merriweather-Light.otf</string>
 		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>10</string>
 </dict>
 </plist>
