@@ -13,7 +13,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     public partial class MainActivity
     {
-        private readonly int BlahSetsAmountToRemove = 5;
+        private readonly int BlahSetsAmountToRemove = 3;
         int blahsToAdd = 0;
 		private Typeface blahRollFont = null;
 
@@ -107,7 +107,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private void FinishedLoadingCurrentBlahContainer()
         {
             BlahContainerLayout.AddView(CurrentBlahContainer);
-            if (inboxCounter >= BlahSetsAmountToRemove)
+            if (inboxCounter > BlahSetsAmountToRemove)
             {
                 int heightToShift = BlahContainerLayout.GetChildAt(0).MeasuredHeight;
                 BlahContainerLayout.RemoveViewAt(0);

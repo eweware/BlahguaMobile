@@ -18,57 +18,74 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
     class BlahFrameLayout : RelativeLayout
     {
+        private Handler handler;
 
         public BlahFrameLayout(Context context)
             : base(context)
         {
             this.SetWillNotDraw(false);
             r = new Random((int)DateTime.Now.Ticks);
+            handler = new Handler(Looper.MainLooper);
         }
         public BlahFrameLayout(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
             this.SetWillNotDraw(false);
             r = new Random((int)DateTime.Now.Ticks);
+            handler = new Handler();
         }
 
+        private void postHandler()
+        {
+            if (Parent != null)
+            {
+                for (int i = 0; i < ChildCount; i++)
+                {
+                    View blah = GetChildAt(i);
+                    Rect scrollBounds = new Rect();
+                    if (Parent.Parent is ScrollView)
+                    {
+                        (Parent.Parent as ScrollView).GetHitRect(scrollBounds);
+                        if (blah.GetLocalVisibleRect(scrollBounds))
+                        {
+                            var title = blah.FindViewById<TextView>(Resource.Id.title);
+                            var image = blah.FindViewById<ImageView>(Resource.Id.image);
+                            if (image.Tag != null)
+                            {
+                                string imageUrl = image.Tag.ToString();
+                                image.SetUrlDrawable(imageUrl);
+                                image.Tag = null;
+                            }
+
+                            // do animation
+                            if (blah.Tag == null && image.Drawable != null)
+                            {
+                                blah.Tag = true;
+                                crossfade(image, title, blah, r.Next(3000), null);
+                            }
+                        }
+                        else
+                        {
+                            // stop animation
+                            if (blah.Tag != null)
+                                blah.Tag = false;
+                        }
+                    }
+                }
+            }
+            handler.PostDelayed(postHandler, 1000);
+        }
+
+        bool handlerPosted = false;
         static Random r;
         protected override void OnDraw(Android.Graphics.Canvas canvas)
         {
             base.OnDraw(canvas);
 
-            for (int i = 0; i < ChildCount; i++)
+            if (!handlerPosted)
             {
-                View blah = GetChildAt(i);
-                Rect scrollBounds = new Rect();
-                if (Parent.Parent is ScrollView)
-                {
-                    (Parent.Parent as ScrollView).GetHitRect(scrollBounds);
-                    if (blah.GetLocalVisibleRect(scrollBounds))
-                    {
-                        var title = blah.FindViewById<TextView>(Resource.Id.title);
-                        var image = blah.FindViewById<ImageView>(Resource.Id.image);
-                        if (image.Tag != null)
-                        {
-                            string imageUrl = image.Tag.ToString();
-                            image.SetUrlDrawable(imageUrl);
-                            image.Tag = null;
-                        }
-
-                        // do animation
-                        if (blah.Tag == null && image.Drawable != null)
-                        {
-                            blah.Tag = true;
-                            crossfade(image, title, blah, r.Next(3000), null);
-                        }
-                    }
-                    else
-                    {
-                        // stop animation
-                        if (blah.Tag != null)
-                            blah.Tag = false;
-                    }
-                }
+                postHandler();
+                handlerPosted = true;
             }
         }
 

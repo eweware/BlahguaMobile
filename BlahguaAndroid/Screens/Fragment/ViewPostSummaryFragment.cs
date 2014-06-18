@@ -46,6 +46,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView predictsElapsedtime;
         private LinearLayout predictsLayout;
 
+        // predicts layout
+        private ListView pollsVotes;
+        private LinearLayout pollsLayout;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             parent = (Activity)inflater.Context;
@@ -73,6 +77,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             predictsDatebox = fragment.FindViewById<TextView>(Resource.Id.predicts_datebox);
             predictsElapsedtime = fragment.FindViewById<TextView>(Resource.Id.predicts_elapsedtime);
             predictsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.predicts_layout);
+
+            pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
+            pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
             return fragment;
         }
@@ -181,13 +188,20 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void HandlePollInit()
         {
+            parent.RunOnUiThread(() =>
+            {
+                pollsLayout.Visibility = ViewStates.Visible;
+            });
             BlahguaAPIObject.Current.GetUserPollVote((theVote) =>
             {
-                if ((theVote != null) && (theVote.W > -1))
+                Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+                bool isVoted = ((theVote != null) && (theVote.W > -1));
+                parent.RunOnUiThread(() =>
                 {
-                    //PollItemList.ItemTemplate = (DataTemplate)Resources["PollVotedTemplate"];
-                }
-                //((Storyboard)Resources["ShowPollAnimation"]).Begin();
+                    pollsVotes.Adapter = new VotesAdapter(Activity, curBlah.I, !isVoted, pollsTap);
+                    //((Storyboard)Resources["ShowPollAnimation"]).Begin();
+                    HistoryUiHelper.setListViewHeightBasedOnChildren(pollsVotes);
+                });
             }
             );
         }
@@ -255,32 +269,23 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 predictsTapped = newVote != null;
                 HandlePredictInit();
-                //adapter.NotifyDataSetChanged();
-                //if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-                //{
-                //    AlreadyHappenedItems.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems;
-                //    AlreadyHappenedItems.ItemTemplate = (DataTemplate)Resources["PredictVotedTemplate"];
-                //}
-                //else
-                //{
-                //    WillHappenItems.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.PredictionItems;
-                //    WillHappenItems.ItemTemplate = (DataTemplate)Resources["PredictVotedTemplate"];
-                //}
-
             }
             );
         }
 
-        private void PollVote_Tap(object sender, CompoundButton.CheckedChangeEventArgs e)
+        bool pollsTapped = false;
+        private void pollsTap(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
-            VotesAdapter adapter = (VotesAdapter)predictsVotes.Adapter;
+            if (pollsTapped)
+                return;
+            VotesAdapter adapter = (VotesAdapter)pollsVotes.Adapter;
             int pos = (int)((CheckBox)sender).Tag;
             PollItem newVote = adapter.List[pos];
-
+            pollsTapped = true;
             BlahguaAPIObject.Current.SetPollVote(newVote, (resultStr) =>
             {
-                adapter.NotifyDataSetChanged();
-                //PollItemList.ItemTemplate = (DataTemplate)Resources["PollVotedTemplate"];
+                pollsTapped = newVote != null;
+                HandlePollInit();
             }
             );
         }

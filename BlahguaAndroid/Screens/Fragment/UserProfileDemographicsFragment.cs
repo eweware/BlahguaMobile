@@ -290,7 +290,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 SetSpinner(spinnerEthnicity, ethnicities, theProfile.Race);
                 SetSpinner(spinnerCountry, countries, theProfile.Country);
                 //IncomeList.SelectedItem = theProfile.Income;
-                dob.Text = theProfile.DOB.ToString();
+                if (theProfile.DOB != null)
+                {
+                    dob.Text = theProfile.DOB.Value.ToString("MM/dd/yyyy");
+                }
                 city.Text = theProfile.City;
                 state.Text = theProfile.State;
                 post_code.Text = theProfile.Zipcode;

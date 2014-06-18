@@ -153,7 +153,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         bool AtScrollEnd = false;
         private void DetectScrollAtEnd()
         {
-            int bottom = BlahScroller.GetChildAt(BlahScroller.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
+            int bottom = BlahContainerLayout.GetChildAt(BlahContainerLayout.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
             if (BlahScroller.ScrollY == bottom)
             {
                 if (!AtScrollEnd)

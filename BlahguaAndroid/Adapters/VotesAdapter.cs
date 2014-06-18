@@ -22,6 +22,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
         PollItemList _list;
         EventHandler<CompoundButton.CheckedChangeEventArgs> _onCheckHandler;
 
+        int screenWidth;
         bool _isVotable = false;
 
         public VotesAdapter(Activity activity, PollItemList list, bool isVotable, EventHandler<CompoundButton.CheckedChangeEventArgs> onCheckHandler)
@@ -30,6 +31,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             _list = list;
             _isVotable = isVotable;
             _onCheckHandler = onCheckHandler;
+
+            screenWidth = activity.Resources.DisplayMetrics.WidthPixels;
         }
 
         public PollItemList List { get { return _list; } }
@@ -78,14 +81,16 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 }
             }
 
-            if(isNewView)
+            if (isNewView && _onCheckHandler != null)
                 check.CheckedChange += _onCheckHandler;
 
             check.Tag = position;
 
+            int fullWidth = screenWidth - 60;
+            int percentWidth = (int)((p.Votes * 1.0f / p.TotalVotes) * fullWidth);
             percent_string.Text = p.VotePercent;
             int height = (int) TypedValue.ApplyDimension(ComplexUnitType.Dip, 20, _activity.Resources.DisplayMetrics);
-            percent_bar.LayoutParameters = new FrameLayout.LayoutParams((int)p.ComputedWidth * 10, height);
+            percent_bar.LayoutParameters = new FrameLayout.LayoutParams(percentWidth, height);
 
             vote_text.Text = p.G;
 
