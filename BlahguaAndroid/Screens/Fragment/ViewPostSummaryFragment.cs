@@ -154,6 +154,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                         }
                     });
 
+                    switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+                    {
+                        case "polls":
+                            HandlePollInit();
+                            break;
+                        case "predicts":
+                            HandlePredictInit();
+                            break;
+                    }
+
                 }
                 else
                 {
