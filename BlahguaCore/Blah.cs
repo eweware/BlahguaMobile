@@ -79,6 +79,11 @@ namespace BlahguaMobile.BlahguaCore
 
                     case 2:
                         return "B";
+
+
+                    case 3:
+                        return "B";
+     
      
                     default:
                         return "A";
@@ -94,7 +99,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (M != null)
                 {
                     string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], ImageSize);
                 }
                 else
                     return null;

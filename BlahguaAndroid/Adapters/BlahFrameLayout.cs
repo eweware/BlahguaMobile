@@ -24,74 +24,151 @@ namespace BlahguaMobile.AndroidClient.Adapters
             : base(context)
         {
             this.SetWillNotDraw(false);
-            r = new Random((int)DateTime.Now.Ticks);
             handler = new Handler(Looper.MainLooper);
         }
         public BlahFrameLayout(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
             this.SetWillNotDraw(false);
-            r = new Random((int)DateTime.Now.Ticks);
             handler = new Handler();
         }
 
         private void postHandler()
         {
+            
             if (Parent != null)
             {
                 for (int i = 0; i < ChildCount; i++)
                 {
                     View blah = GetChildAt(i);
+                    
                     Rect scrollBounds = new Rect();
                     if (Parent.Parent is ScrollView)
                     {
+                        var title = blah.FindViewById<LinearLayout>(Resource.Id.textLayout);
+                        var image = blah.FindViewById<ImageView>(Resource.Id.image);
                         (Parent.Parent as ScrollView).GetHitRect(scrollBounds);
                         if (blah.GetLocalVisibleRect(scrollBounds))
                         {
-                            var title = blah.FindViewById<TextView>(Resource.Id.title);
-                            var image = blah.FindViewById<ImageView>(Resource.Id.image);
-                            if (image.Tag != null)
+                            if ((image.Tag != null) && (title.Tag == null))
                             {
-                                string imageUrl = image.Tag.ToString();
-                                image.SetUrlDrawable(imageUrl);
-                                image.Tag = null;
-                            }
-
-                            // do animation
-                            if (blah.Tag == null && image.Drawable != null)
-                            {
-                                blah.Tag = true;
-                                crossfade(image, title, blah, r.Next(3000), null);
+                                fadein(title, null);
                             }
                         }
                         else
                         {
                             // stop animation
-                            if (blah.Tag != null)
-                                blah.Tag = false;
+                            if ((image.Tag != null) && (title.Tag != null))
+                            {
+                                Animator animation = (Animator)title.Tag;
+                                animation.Cancel();
+                            }
+
                         }
                     }
                 }
+
             }
-            handler.PostDelayed(postHandler, 1000);
+           handler.PostDelayed(postHandler, 2000);
         }
 
         bool handlerPosted = false;
-        static Random r;
+
         protected override void OnDraw(Android.Graphics.Canvas canvas)
         {
             base.OnDraw(canvas);
 
             if (!handlerPosted)
             {
-                postHandler();
+                //postHandler();
                 handlerPosted = true;
             }
         }
 
         //////////////////////
 
-        private static long fadeDuration = 3000;
+        private static long fadeDuration = 2000;
+        private static Random rnd = new Random();
+
+        private static void fadeout(View v1, FadeListener listener)
+        {
+            //v1.Alpha = 0.9f;
+            v1.Visibility = ViewStates.Visible;
+
+            
+            if (listener == null)
+            {
+                listener = new FadeListener();
+                listener.v1 = v1;
+            }
+            long startDelay = 2000 + rnd.Next(1000);
+            v1.Animate().SetStartDelay(startDelay)
+                .Alpha(0.0f)
+                .SetDuration(fadeDuration)
+                .SetListener(listener);
+        }
+
+        private static void fadein(View v1, FadeListener listener)
+        {
+            //v1.Alpha = 0.0f;
+            v1.Visibility = ViewStates.Visible;
+
+
+            if (listener == null)
+            {
+                listener = new FadeListener();
+                listener.v1 = v1;
+            }
+            long startDelay = 2000 + rnd.Next(1000);
+            v1.Animate().SetStartDelay(startDelay)
+                .Alpha(0.9f)
+                .SetDuration(fadeDuration)
+                .SetListener(listener);
+        }
+
+
+        class FadeListener : Java.Lang.Object, Android.Animation.Animator.IAnimatorListener
+        {
+            bool flag;
+            public View v1;
+
+            public void OnAnimationCancel(Animator animation)
+            {
+                v1.Tag = null;
+                //v1.Alpha = 0.0f;
+            }
+
+            public void OnAnimationEnd(Animator animation)
+            {
+                if (v1.Tag != null)
+                {
+                    if (flag)
+                    {
+                        //v1.Visibility = ViewStates.Gone;
+                        fadein(v1, this);
+                    }
+                    else
+                    {
+                        //v2.Visibility = ViewStates.Gone;
+                        fadeout(v1, this);
+                    }
+                    flag = !flag;
+                }
+
+            }
+
+            public void OnAnimationRepeat(Animator animation)
+            {
+            }
+
+            public void OnAnimationStart(Animator animation)
+            {
+                v1.Tag = animation;
+            }
+        }
+
+
+
         private static void crossfade(View v1, View v2, View rootView, long startDelay, CrossfadeListener listener)
         {
 
@@ -143,12 +220,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
                     if (flag)
                     {
                         //v1.Visibility = ViewStates.Gone;
-                        crossfade(v1, v2, rootView, r.Next(5000), this);
+                        crossfade(v1, v2, rootView, 2000, this);
                     }
                     else
                     {
                         //v2.Visibility = ViewStates.Gone;
-                        crossfade(v2, v1, rootView, r.Next(5000), this);
+                        crossfade(v2, v1, rootView, 2000, this);
                     }
                     flag = !flag;
                 }

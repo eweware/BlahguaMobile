@@ -84,6 +84,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             return fragment;
         }
 
+
+        public override void OnPause()
+        {
+            dialog.Dismiss();
+            base.OnPause();
+        }
+
+
         public override void OnStart()
         {
             base.OnStart();
@@ -146,33 +154,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                         }
                     });
 
-                    //BlahSummaryArea.Visibility = Visibility.Visible;
-                    //UpdateButtonsForPage();
-                    string toastMessage = String.Empty;
-                    switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
-                    {
-                        case "polls":
-                            toastMessage = "This is a Poll";
-                            HandlePollInit();
-                            break;
-                        case "predicts":
-                            toastMessage = "This is a Prediction";
-                            HandlePredictInit();
-                            break;
-                        case "says":
-                            toastMessage = "This is a Says";
-                            break;
-                        case "asks":
-                            toastMessage = "This is an Asks";
-                            break;
-                        case "leaks":
-                            toastMessage = "This is a Leak";
-                            break;
-                    }
-                    parent.RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(Activity, toastMessage, ToastLength.Short).Show();
-                    });
                 }
                 else
                 {

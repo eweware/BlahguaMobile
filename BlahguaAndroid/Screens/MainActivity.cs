@@ -16,6 +16,9 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Preferences;
 using BlahguaMobile.AndroidClient.Adapters;
 using System.IO.IsolatedStorage;
+using Android.Graphics;
+using Android.Animation;
+using System.Collections.Generic;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -25,6 +28,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         Inbox blahList;
         Timer loadTimer = new Timer();
         Timer scrollTimer = new Timer();
+        Timer BlahAnimateTimer = new Timer();
         int inboxCounter = 0;
 
         int FramesPerSecond = 60;
@@ -49,6 +53,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView main_title;
 
         public static GoogleAnalytics analytics = null;
+
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -80,6 +85,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             scrollTimer.Interval = 1000 / FramesPerSecond;
             scrollTimer.Elapsed += ScrollBlahRoll;
+
+            BlahAnimateTimer.Interval = 1000;
+            BlahAnimateTimer.Elapsed += BlahAnimateTimer_Elapsed;
 
             initSlidingMenu();    // move this until after the service is inited
 
@@ -129,8 +137,84 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             //targetBlah = null;
             scrollTimer.Start();
-            //MaybeAnimateElement();
+             BlahAnimateTimer.Start();
         }
+
+        private static long fadeDuration = 2000;
+        private static Random rnd = new Random();
+        private View lastAnimatedBlah;
+
+        private void MaybeAnimateElement()
+        {
+            View targetView = null;
+            Rect scrollBounds = new Rect();
+            
+            List<View> targetList = new List<View>();
+            bool isDone = false;
+
+            for (int curContainer = 0; curContainer < BlahContainerLayout.ChildCount; curContainer++)
+            {
+                BlahScroller.GetHitRect(scrollBounds);
+                BlahFrameLayout curContainerView = BlahContainerLayout.GetChildAt(curContainer) as BlahFrameLayout;
+                bool isVisible = curContainerView.GetLocalVisibleRect(scrollBounds);
+
+                for (int curBlahCount = 0; curBlahCount < curContainerView.ChildCount; curBlahCount++)
+                {
+
+                    View curBlahView = curContainerView.GetChildAt(curBlahCount);
+                    var image = curBlahView.FindViewById<ImageView>(Resource.Id.image);
+                    if ((curBlahView != lastAnimatedBlah) && (image.Tag != null))
+                    {
+                        // it wants animation
+                        BlahScroller.GetHitRect(scrollBounds);
+                        if (curBlahView.GetLocalVisibleRect(scrollBounds))
+                        {
+                            targetList.Add(curBlahView);
+                        }
+                        else
+                        {
+                            if (targetList.Count > 0)
+                            {
+                                isDone = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (isDone)
+                    break;
+            }
+
+            if (targetList.Count > 0)
+                targetView = targetList[rnd.Next(targetList.Count)];
+
+            if (targetView != null)
+            {
+                lastAnimatedBlah = targetView;
+                var title = targetView.FindViewById<LinearLayout>(Resource.Id.textLayout);
+                float targetAlpha = 0f;
+                if (title.Alpha == 0f)
+                    targetAlpha = 0.9f;
+
+
+                title.Animate().Alpha(targetAlpha).SetDuration(fadeDuration);
+                
+            }
+
+        }
+
+        void BlahAnimateTimer_Elapsed(object sender, EventArgs e)
+        {
+            //BlahAnimateTimer.Stop();
+            MaybeAnimateElement();
+        }
+
+        private void OnAnimationEnd(object sender, EventArgs e)
+        {
+            MaybeAnimateElement();
+        }
+
 
         private void StopTimers()
         {
@@ -476,6 +560,35 @@ namespace BlahguaMobile.AndroidClient.Screens
         #endregion
 
     }
+
+    class ToggleFadeListener : Java.Lang.Object, Android.Animation.Animator.IAnimatorListener
+    {
+        public EventHandler EndHandler = null;
+
+        public void OnAnimationEnd(Animator animation)
+        {
+
+            if (EndHandler != null)
+                EndHandler(this, new EventArgs());
+
+        }
+
+        public void OnAnimationRepeat(Animator animation)
+        {
+        }
+
+        public void OnAnimationCancel(Animator animation)
+        {
+        }
+
+
+        public void OnAnimationStart(Animator animation)
+        {
+           
+        }
+    }
+
+
 }
 
 

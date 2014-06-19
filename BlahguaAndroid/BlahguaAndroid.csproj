@@ -592,4 +592,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\texture_01.png" />
+  </ItemGroup>
 </Project>
