@@ -250,29 +250,23 @@ namespace BlahguaMobile.AndroidClient
 
             if (BlahguaAPIObject.Current.CurrentUser != null)
             {
-                if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id)
-                {
-                    btn_promote.Enabled = false;
-                    btn_demote.Enabled = false;
-                }
-                else if (curBlah.uv == 0)
-                {
-                    btn_promote.Enabled = true;
-                    btn_demote.Enabled = true;
-                }
-                else
-                {
-                    btn_promote.Enabled = false;
-                    btn_demote.Enabled = false;
-                    if (curBlah.uv == 1)
-                    {
-                        btn_promote.SetBackgroundResource(Resource.Drawable.btn_promote_active);
-                    }
-                    else
-                    {
-                        btn_promote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
-                    }
-                }
+				RunOnUiThread (() => {
+					if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id) {
+						btn_promote.Enabled = false;
+						btn_demote.Enabled = false;
+					} else if (curBlah.uv == 0) {
+						btn_promote.Enabled = true;
+						btn_demote.Enabled = true;
+					} else {
+						btn_promote.Enabled = false;
+						btn_demote.Enabled = false;
+						if (curBlah.uv == 1) {
+							btn_promote.SetBackgroundResource (Resource.Drawable.btn_promote_active);
+						} else {
+							btn_promote.SetBackgroundResource (Resource.Drawable.btn_demote_active);
+						}
+					}
+				});
             }
         }
     }
