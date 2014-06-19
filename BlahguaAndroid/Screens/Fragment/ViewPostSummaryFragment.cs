@@ -204,44 +204,30 @@ namespace BlahguaMobile.AndroidClient.Screens
                 predictsLayout.Visibility = ViewStates.Visible;
             });
             BlahguaAPIObject.Current.GetUserPredictionVote((theVote) =>
-            {
-                Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                parent.RunOnUiThread(() =>
                 {
-                    if (curBlah.ExpireDate > DateTime.Now)
+                    Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+                    parent.RunOnUiThread(() =>
                     {
-                        // still has time
-                        //PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
-                        //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
-                        bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.D);
-                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, !isVoted, predictsTap);
-								predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
-								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
+                        if (curBlah.ExpireDate > DateTime.Now)
+                        {
+                            // still has time
+                            bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.D);
+                            predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, !isVoted, predictsTap);
+								    predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
+								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
+                        }
+                        else
+                        {
+                            // expired
+                            bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.Z);
+                            predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, !isVoted, predictsTap);
+								    predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
+								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
+                        }
 
-                        //WillHappenItems.Visibility = Visibility.Visible;
-                        //AlreadyHappenedItems.Visibility = Visibility.Collapsed;
-                        //WillHappenItems.ItemsSource = curBlah.PredictionItems;
-                    }
-                    else
-                    {
-                        // expired
-                        //PredictDateBox.Text = "should have happened on " + curBlah.E.ToShortDateString();
-                        //PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
-                        bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.Z);
-                        predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, !isVoted, predictsTap);
-								predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
-								predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
-
-                        //WillHappenItems.Visibility = Visibility.Visible;
-                        //AlreadyHappenedItems.Visibility = Visibility.Collapsed;
-                        //AlreadyHappenedItems.ItemsSource = curBlah.ExpPredictionItems;
-                    }
-
-                    HistoryUiHelper.setListViewHeightBasedOnChildren(predictsVotes);
-                });
-
-                //((Storyboard)Resources["ShowPredictionAnimation"]).Begin();
-            }
+                        HistoryUiHelper.setListViewHeightBasedOnChildren(predictsVotes);
+                    });
+                }
             );
         }
         #endregion

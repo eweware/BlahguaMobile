@@ -327,6 +327,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
+            control.LayoutParameters = layoutParams;
+
             if (String.IsNullOrEmpty(theBlah.T))
                 control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Invisible;
             else
@@ -335,8 +337,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (blahRollFont == null)
 				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			    title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
-
-                control.LayoutParameters = layoutParams;
 
                 title.Text = theBlah.T;
 
