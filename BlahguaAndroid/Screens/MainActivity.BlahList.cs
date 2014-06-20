@@ -179,11 +179,12 @@ namespace BlahguaMobile.AndroidClient.Screens
             FrameLayout.LayoutParams layoutparams =
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                     ViewGroup.LayoutParams.WrapContent);
+	
             CurrentBlahContainer.LayoutParameters = layoutparams;
 
             blahsToAdd = 100;
 
-            double curTop = 0;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
+			double curTop = blahMargin;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
 
             foreach (char rowType in sequence)
             {
