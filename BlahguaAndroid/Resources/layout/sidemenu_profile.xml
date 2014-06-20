@@ -30,7 +30,7 @@
       android:layout_width="match_parent"
       android:layout_height="40dp"
       android:gravity="bottom"
-      android:background="#15b568"
+      android:background="#60BFA4"
       android:textColor="#FFF"
       android:padding="5dp"
       android:textAppearance="@android:style/TextAppearance.Medium"

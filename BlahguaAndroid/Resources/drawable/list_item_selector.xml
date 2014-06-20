@@ -7,6 +7,6 @@
   <item
     android:state_pressed="true"
     android:drawable="@drawable/selected_state"
-    android:color="#15b568"/>
+    android:color="#60BFA4"/>
 
 </selector>

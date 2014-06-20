@@ -7,7 +7,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#15b568"
+        android:background="#60BFA4"
         android:paddingLeft="6dp">
       <Button
           android:id="@+id/btn_back"

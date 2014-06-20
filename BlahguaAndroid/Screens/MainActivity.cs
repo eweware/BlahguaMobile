@@ -53,6 +53,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView main_title;
 
         public static GoogleAnalytics analytics = null;
+        private static Typeface titleFont = null;
 
 
 		protected override void OnCreate (Bundle bundle)
@@ -66,6 +67,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
+            TextView mainTitle = FindViewById<TextView>(Resource.Id.main_title);
+            if (titleFont == null)
+                titleFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+            mainTitle.SetTypeface(titleFont, TypefaceStyle.Normal);
+            FindViewById<TextView>(Resource.Id.btn_login).SetTypeface(titleFont, TypefaceStyle.Normal);
 
 			// Get our button from the layout resource,
 			// and attach an event to it
