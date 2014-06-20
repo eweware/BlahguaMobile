@@ -8,15 +8,100 @@ using Android.Animation;
 
 using BlahguaMobile.BlahguaCore;
 using SlidingMenuSharp;
+using System.IO;
+using Android.Database;
+using System.Collections.Generic;
+using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity
+    public partial class MainActivity : IUrlImageViewCallback
     {
+        private readonly int SELECTIMAGE_REQUEST = 777;
         private View create_post_block, additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
         private Button btnAddOption;
+
+        private FrameLayout imageCreateBlahLayout;
+        private ImageView imageCreateBlah;
+        private ProgressBar progressBarImageLoading;
+
+        private string GetPathToImage(Android.Net.Uri uri)
+        {
+            string path = null;
+            // The projection contains the columns we want to return in our query.
+            string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
+            using (ICursor cursor = ManagedQuery(uri, projection, null, null, null))
+            {
+                if (cursor != null)
+                {
+                    int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+                    cursor.MoveToFirst();
+                    path = cursor.GetString(columnIndex);
+                }
+            }
+            return path;
+        }
+
+        protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+        {
+            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            {
+                progressBarImageLoading.Visibility = ViewStates.Visible;
+                imageCreateBlahLayout.Visibility = ViewStates.Visible;
+                imageCreateBlah.SetImageDrawable(null);
+                Android.Net.Uri uri = data.Data;
+                string imgPath = GetPathToImage(uri);
+                //string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName);
+                System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
+                BlahguaAPIObject.Current.UploadPhoto(fileStream, Path.GetFileName(imgPath), (photoString) =>
+                    {
+                        RunOnUiThread(() =>
+                        {
+                            if ((photoString != null) && (photoString.Length > 0))
+                            {
+                                //    newImage.Tag = photoString;
+                                string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
+                                //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
+                                //    ImagesPanel.Children.Remove(newBar);
+                                imageCreateBlah.SetUrlDrawable(photoURL, this);
+                                BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
+                                BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
+                                //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
+                                //    App.analytics.PostUploadBlahImage();
+                            }
+                            else
+                            {
+                                progressBarImageLoading.Visibility = ViewStates.Gone;
+                                ClearImages();
+                                //App.analytics.PostSessionError("blahimageuploadfailed");
+                            }
+                        });
+                    }
+                );
+            }
+            base.OnActivityResult(requestCode, resultCode, data);
+        }
+
+        public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
+        {
+            if (imageCreateBlah == imageView)
+            {
+                RunOnUiThread(() =>
+                {
+                    progressBarImageLoading.Visibility = ViewStates.Gone;
+                });
+            }
+        }
+
+        private void ClearImages()
+        {
+            BlahguaAPIObject.Current.CreateRecord.M = null;
+            imageCreateBlah.SetImageDrawable(null);
+            imageCreateBlahLayout.Visibility = ViewStates.Gone;
+        }
+
         ///////// init
         private void initCreateBlahUi()
         {
@@ -33,7 +118,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
                 StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select image"), 0);
+                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
             };
             Button btn_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += (sender, args) =>
@@ -45,6 +130,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
             newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
             newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
+
+            imageCreateBlah = create_post_block.FindViewById<ImageView>(Resource.Id.createblah_image);
+            imageCreateBlahLayout = create_post_block.FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
+            progressBarImageLoading = create_post_block.FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
+            progressBarImageLoading.Visibility = ViewStates.Gone;
 
             editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
             editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
@@ -413,13 +503,19 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
                 MainActivity.analytics.PostCreateBlah(newBlah.Y);
 
-                Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
-                triggerCreateBlock();
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+                    triggerCreateBlock();
+                });
                 //NavigationService.GoBack();
             }
             else
             {
-                Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                RunOnUiThread(() =>
+                {
+                    Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                });
                 //MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.");
                 MainActivity.analytics.PostFormatError("blah create failed");
 

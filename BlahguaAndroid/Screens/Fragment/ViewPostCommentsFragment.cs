@@ -13,11 +13,15 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
+using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using Android.Database;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class ViewPostCommentsFragment : Fragment
+    class ViewPostCommentsFragment : Fragment, IUrlImageViewCallback
     {
+        private readonly int SELECTIMAGE_REQUEST = 777;
+
         public static ViewPostCommentsFragment NewInstance()
         {
             return new ViewPostCommentsFragment { Arguments = new Bundle() };
@@ -32,6 +36,88 @@ namespace BlahguaMobile.AndroidClient.Screens
         private Button btn_done;
         private EditText text;
 
+        #region ImageUpload
+
+        private FrameLayout imageCreateCommentLayout;
+        private ImageView imageCreateComment;
+        private ProgressBar progressBarImageLoading;
+
+        private string GetPathToImage(Android.Net.Uri uri)
+        {
+            string path = null;
+            // The projection contains the columns we want to return in our query.
+            string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
+            using (ICursor cursor = Activity.ManagedQuery(uri, projection, null, null, null))
+            {
+                if (cursor != null)
+                {
+                    int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+                    cursor.MoveToFirst();
+                    path = cursor.GetString(columnIndex);
+                }
+            }
+            return path;
+        }
+
+        public override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+        {
+            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            {
+                progressBarImageLoading.Visibility = ViewStates.Visible;
+                imageCreateCommentLayout.Visibility = ViewStates.Visible;
+                imageCreateComment.SetImageDrawable(null);
+                Android.Net.Uri uri = data.Data;
+                string imgPath = GetPathToImage(uri);
+                //string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName);
+                System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
+                BlahguaAPIObject.Current.UploadPhoto(fileStream, System.IO.Path.GetFileName(imgPath), (photoString) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        if ((photoString != null) && (photoString.Length > 0))
+                        {
+                            //    newImage.Tag = photoString;
+                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
+                            //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
+                            //    ImagesPanel.Children.Remove(newBar);
+                            imageCreateComment.SetUrlDrawable(photoURL, this);
+                            BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
+                            BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
+                            //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
+                            //    App.analytics.PostUploadBlahImage();
+                        }
+                        else
+                        {
+                            progressBarImageLoading.Visibility = ViewStates.Gone;
+                            ClearImages();
+                            //App.analytics.PostSessionError("blahimageuploadfailed");
+                        }
+                    });
+                }
+                );
+            }
+            base.OnActivityResult(requestCode, resultCode, data);
+        }
+
+        public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
+        {
+            if (imageCreateComment == imageView)
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    progressBarImageLoading.Visibility = ViewStates.Gone;
+                });
+            }
+        }
+
+        private void ClearImages()
+        {
+            BlahguaAPIObject.Current.CreateRecord.M = null;
+            imageCreateComment.SetImageDrawable(null);
+            imageCreateCommentLayout.Visibility = ViewStates.Gone;
+        }
+        #endregion
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
@@ -44,10 +130,15 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
                 StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select image"), 0);
+                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
             };
             btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += btn_done_Click;
+
+            imageCreateComment = create_comment_block.FindViewById<ImageView>(Resource.Id.createcomment_image);
+            imageCreateCommentLayout = create_comment_block.FindViewById<FrameLayout>(Resource.Id.createcomment_image_layout);
+            progressBarImageLoading = create_comment_block.FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
+            progressBarImageLoading.Visibility = ViewStates.Gone;
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
