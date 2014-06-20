@@ -50,6 +50,8 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			BlahguaAPIObject.Current.SetCurrentBlahFromId("-1", (blahId) => {});
+
 
 			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
 
@@ -124,7 +126,7 @@ namespace BlahguaMobile.IOS
 			InvokeOnMainThread (() => {
 				CollectionView.DataSource = new BGRollViewDataSource (manager, this);
 				CollectionView.CollectionViewLayout = new BGRollViewLayout (manager, this);
-				CollectionView.Delegate = new BGRollViewLayoutDelegate (manager);
+				CollectionView.Delegate = new BGRollViewLayoutDelegate (manager, this);
 				InboxLoadingCompleted (theList);
 			});
 		}
@@ -149,7 +151,7 @@ namespace BlahguaMobile.IOS
 				profile = new UIButton (new RectangleF (20, 0, 44, 44));
 				profile.SetImage (GetProfileImage(), UIControlState.Normal);
 				newBlah = new UIButton (new RectangleF (64, 0, 44, 44));
-				newBlah.BackgroundColor = UIColor.FromRGB (229, 203, 45);
+				newBlah.SetBackgroundImage (UIImage.FromFile ("new_post_tap.png"), UIControlState.Normal);
 				newBlah.SetImage (UIImage.FromFile ("newBlahImage.png"), UIControlState.Normal);
 				profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
 

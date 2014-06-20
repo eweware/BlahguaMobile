@@ -176,6 +176,42 @@
     <Compile Include="Controls\RollViewCollection\BGRollViewCell.designer.cs">
       <DependentUpon>BGRollViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\BGPollTableViewCell.cs" />
+    <Compile Include="Views\BGPollTableViewCell.designer.cs">
+      <DependentUpon>BGPollTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGPollTableHeaderView.cs" />
+    <Compile Include="Views\BGPollTableHeaderView.designer.cs">
+      <DependentUpon>BGPollTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBlahViewController.cs" />
+    <Compile Include="View Controllers\BGBlahViewController.designer.cs">
+      <DependentUpon>BGBlahViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGCommentsViewController.cs" />
+    <Compile Include="View Controllers\BGCommentsViewController.designer.cs">
+      <DependentUpon>BGCommentsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGCommentTableCell.cs" />
+    <Compile Include="Views\BGCommentTableCell.designer.cs">
+      <DependentUpon>BGCommentTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGStatsTableCell.cs" />
+    <Compile Include="Views\BGStatsTableCell.designer.cs">
+      <DependentUpon>BGStatsTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGStatsTableViewController.cs" />
+    <Compile Include="View Controllers\BGStatsTableViewController.designer.cs">
+      <DependentUpon>BGStatsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGNewCommentViewController.cs" />
+    <Compile Include="View Controllers\BGNewCommentViewController.designer.cs">
+      <DependentUpon>BGNewCommentViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGNewPostViewController.cs" />
+    <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
+      <DependentUpon>BGNewPostViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="restsharp">
@@ -217,9 +253,11 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
+    <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
+    <InterfaceDefinition Include="Views\BGNewPostView.xib" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\input%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
     <BundleResource Include="Resources\signinBckg-4%402x.png" />
     <BundleResource Include="Resources\signinBckg-5%402x.png" />
@@ -239,5 +277,37 @@
     <BundleResource Include="Resources\leftMenuButton%402x.png" />
     <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
+    <BundleResource Include="Resources\arrow_down_dark%402x.png" />
+    <BundleResource Include="Resources\arrow_down%402x.png" />
+    <BundleResource Include="Resources\arrow_up_dark%402x.png" />
+    <BundleResource Include="Resources\arrow_up%402x.png" />
+    <BundleResource Include="Resources\comments_dark%402x.png" />
+    <BundleResource Include="Resources\comments%402x.png" />
+    <BundleResource Include="Resources\stats_dark%402x.png" />
+    <BundleResource Include="Resources\stats%402x.png" />
+    <BundleResource Include="Resources\summary_dark%402x.png" />
+    <BundleResource Include="Resources\summary%402x.png" />
+    <BundleResource Include="Resources\badges%402x.png" />
+    <BundleResource Include="Resources\hot%402x.png" />
+    <BundleResource Include="Resources\no_coments%402x.png" />
+    <BundleResource Include="Resources\signature_ico%402x.png" />
+    <BundleResource Include="Resources\arrow_blue%402x.png" />
+    <BundleResource Include="Resources\arrow_gray%402x.png" />
+    <BundleResource Include="Resources\arrow_green%402x.png" />
+    <BundleResource Include="Resources\arrow_red%402x.png" />
+    <BundleResource Include="Resources\arrow_yellow%402x.png" />
+    <BundleResource Include="Resources\input_field_bottom%402x.png" />
+    <BundleResource Include="Resources\input_field_middle%402x.png" />
+    <BundleResource Include="Resources\input_field_top%402x.png" />
+    <BundleResource Include="Resources\new_post_tap%402x.png" />
+    <BundleResource Include="Resources\recent%402x.png" />
+    <BundleResource Include="Resources\image_select%402x.png" />
+    <BundleResource Include="Resources\new_comment%402x.png" />
+    <BundleResource Include="Resources\dropdown_arrow%402x.png" />
+    <BundleResource Include="Resources\input_back%402x.png" />
+    <BundleResource Include="Resources\long_button%402x.png" />
+    <BundleResource Include="Resources\short_button_gray%402x.png" />
+    <BundleResource Include="Resources\short_button%402x.png" />
+    <BundleResource Include="Resources\new_post%402x.png" />
   </ItemGroup>
 </Project>

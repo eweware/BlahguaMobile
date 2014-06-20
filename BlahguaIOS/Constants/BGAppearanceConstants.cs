@@ -17,6 +17,8 @@ namespace BlahguaMobile.IOS
 		public static readonly RectangleF OpenedRightViewContainerFrame = new RectangleF(0, 0, 320, UIScreen.MainScreen.Bounds.Height);
 
 		public static readonly RectangleF RightViewFrame = new RectangleF(163, 64, 157, UIScreen.MainScreen.Bounds.Height - 64);
+
+		public static readonly RectangleF PollCellRect = new RectangleF(0, 0, 320, 64);
 	}
 }
 

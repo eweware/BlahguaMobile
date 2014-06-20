@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Drawing;
+
+using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
@@ -11,6 +15,7 @@ namespace BlahguaMobile.IOS
 		#region Fields
 
 		private BGRollViewCellsSizeManager manager;
+		private BGRollViewController viewController;
 
 		#endregion
 
@@ -22,9 +27,10 @@ namespace BlahguaMobile.IOS
 
 		#region Constructors
 
-		public BGRollViewLayoutDelegate (BGRollViewCellsSizeManager manager) : base()
+		public BGRollViewLayoutDelegate (BGRollViewCellsSizeManager manager, BGRollViewController viewController) : base()
 		{
 			this.manager = manager;
+			this.viewController = viewController;
 		}
 
 		#endregion
@@ -53,13 +59,18 @@ namespace BlahguaMobile.IOS
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)
 		{
-			Console.WriteLine (indexPath.Row);
+			var inboxBlah = ((BGRollViewDataSource)viewController.CollectionView.DataSource).DataSource.ElementAt (indexPath.Item);
+
+			BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
+				InvokeOnMainThread(() => {
+					viewController.PerformSegue("fromRollToBlah", viewController);
+				});
+			});
 		}
 
 		#endregion
 
 		#region Methods
-
 
 		#endregion
 	}
