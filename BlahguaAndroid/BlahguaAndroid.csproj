@@ -651,4 +651,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_predict.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_createpost.png" />
+  </ItemGroup>
 </Project>

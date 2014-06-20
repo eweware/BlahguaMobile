@@ -44,7 +44,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private BlahFrameLayout CurrentBlahContainer = null;
 
         protected ListFragment Frag;
-        private Button btn_login, btn_newpost;
+        private Button btn_login;
+        private ImageView btn_newpost;
         private ImageView avatarBar, avatar;
         private LinearLayout registered_layout;
 
@@ -79,7 +80,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             main_title = FindViewById<TextView>(Resource.Id.main_title);
 
             registered_layout = FindViewById<LinearLayout>(Resource.Id.registered_layout);
-            btn_newpost = FindViewById<Button>(Resource.Id.btn_newpost);
+            btn_newpost = FindViewById<ImageView>(Resource.Id.btn_newpost);
             avatarBar = FindViewById<ImageView>(Resource.Id.avatar);
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
             btn_login.Click += delegate

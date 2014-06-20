@@ -50,12 +50,13 @@
             android:layout_gravity="right"
             android:orientation="horizontal"
             android:visibility="gone">
-            <Button
-                android:id="@+id/btn_newpost"
+          <ImageView
+              android:id="@+id/btn_newpost"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:background="@drawable/btn_newpost" />
+              android:background="#60BFA4"
+                android:src="@drawable/icon_createpost" />
             <ImageView
                 android:id="@+id/avatar"
                 android:layout_width="40dp"
