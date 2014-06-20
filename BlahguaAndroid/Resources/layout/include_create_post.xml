@@ -30,23 +30,45 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="#E4E4E4" />
-
-      <EditText
-        android:id="@+id/text"
+      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="80dp"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type body text"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:lines="5"
-        android:minLines="5"
-        android:gravity="top|left"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
+        android:orientation="horizontal">
+
+        <FrameLayout
+          android:id="@+id/createblah_image_layout"
+          android:layout_width="90dp"
+          android:layout_height="90dp"
+          android:visibility="gone">
+          <ImageView
+            android:id="@+id/createblah_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+          <ProgressBar
+            android:id="@+id/progress_image_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        </FrameLayout>
+
+        <EditText
+          android:id="@+id/text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:minHeight="80dp"
+          android:textColor="#3C3C3C"
+          android:textCursorDrawable="@null"
+          android:textSize="13sp"
+          android:hint="Type body text"
+          android:inputType="textMultiLine"
+          android:padding="10dp"
+          android:lines="5"
+          android:minLines="5"
+          android:gravity="top|left"
+          android:background="@null"
+          android:layout_marginBottom="3dp"/>
+      </LinearLayout>
 
       <View
         android:layout_width="match_parent"

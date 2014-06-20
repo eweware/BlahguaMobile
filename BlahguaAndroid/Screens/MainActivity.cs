@@ -259,7 +259,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         protected override void OnResume()
         {
             base.OnResume();
-            StartTimers();
+            if (create_post_block.Visibility != ViewStates.Visible)
+                StartTimers();
             initLayouts();
         }
 
