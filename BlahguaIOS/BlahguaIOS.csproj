@@ -263,12 +263,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="restsharp">
-      <Version>104.1.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
       <Version>3.9.60.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="restsharp">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>104.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
