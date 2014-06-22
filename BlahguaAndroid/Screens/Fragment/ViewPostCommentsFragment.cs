@@ -15,6 +15,7 @@ using Android.Animation;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Database;
+using Android.Graphics.Drawables;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -132,6 +133,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
             };
+            Button btn_signature = create_comment_block.FindViewById<Button>(Resource.Id.btn_signature);
+            btn_signature.Click += (sender, args) =>
+            {
+                initiateSignaturePopUp();
+            };
             btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += btn_done_Click;
 
@@ -149,6 +155,56 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             return fragment;
         }
+
+        #region Signature
+        private PopupWindow signaturePopup;
+        /*
+         * Function to set up the pop-up window which acts as drop-down list
+         * */
+        private void initiateSignaturePopUp()
+        {
+            LayoutInflater inflater = (LayoutInflater)Activity.GetSystemService(Context.LayoutInflaterService);
+
+            //get the pop-up window i.e.  drop-down layout
+            LinearLayout layout = (LinearLayout)inflater.Inflate(Resource.Layout.popup_signature, (ViewGroup)Activity.FindViewById(Resource.Id.popUpView));
+
+            //get the view to which drop-down layout is to be anchored
+            Button layout1 = (Button)Activity.FindViewById(Resource.Id.btn_signature);
+
+            signaturePopup = new PopupWindow(layout, (int)(Resources.DisplayMetrics.Density * 200), ViewGroup.LayoutParams.WrapContent, true);
+
+            //Pop-up window background cannot be null if we want the pop-up to listen touch events outside its window
+            signaturePopup.SetBackgroundDrawable(new BitmapDrawable());
+            signaturePopup.Touchable = true;
+
+            //let pop-up be informed about touch events outside its window. This  should be done before setting the content of pop-up
+            signaturePopup.OutsideTouchable = true;
+            signaturePopup.Height = ViewGroup.LayoutParams.WrapContent;
+
+            //dismiss the pop-up i.e. drop-down when touched anywhere outside the pop-up
+            //pw.setTouchInterceptor(new OnTouchListener() {
+
+            //    public bool onTouch(View v, MotionEvent ev) {
+            //        // TODO Auto-generated method stub
+            //        if (ev.Action == MotionEventActions.Outside) {
+            //            pw.Dismiss();
+            //            return true;    				
+            //        }
+            //        return false;
+            //    }
+            //});
+
+            //provide the source layout for drop-down
+            signaturePopup.ContentView = layout;
+
+            //anchor the drop-down to bottom-left corner of 'layout1'
+            signaturePopup.ShowAsDropDown(layout1);
+
+            //populate the drop-down list
+            ListView list = (ListView)layout.FindViewById(Resource.Id.dropDownList);
+            list.Adapter = new CreateCommentSignatureAdapter(Activity, BlahguaAPIObject.Current.CurrentUser.Badges);
+        }
+        #endregion
 
         private void btn_done_Click(object sender, EventArgs e)
         {

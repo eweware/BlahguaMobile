@@ -12,11 +12,19 @@ using System.IO;
 using Android.Database;
 using System.Collections.Generic;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using Java.Util;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
     public partial class MainActivity : IUrlImageViewCallback
     {
+        enum MyBlahType
+        {
+            Asks, Leaks, Polls, Predicts, Says
+        }
+
+        private MyBlahType currentType = MyBlahType.Asks;
+
         private readonly int SELECTIMAGE_REQUEST = 777;
         private View create_post_block, additionalfields_layout;
         private EditText newPostTitle, newPostText;
@@ -124,6 +132,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
             };
+            Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
+            btn_signature.Click += (sender, args) => {
+                initiateSignaturePopUp();
+            };
             Button btn_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += (sender, args) =>
             {
@@ -176,11 +188,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             listChannels.ItemClick += listChannels_ItemClick;
         }
 
-        enum MyBlahType
-        {
-            Asks, Leaks, Polls, Predicts, Says
-        }
-        MyBlahType currentType = MyBlahType.Asks;
         private void listChannels_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             if (e.Position == 0) // asks
@@ -237,6 +244,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             editPoll10.Visibility = ViewStates.Gone;
             btnAddOption.Visibility = ViewStates.Gone;
         }
+
         private void setPollCreateBlahType()
         {
             int count = BlahguaAPIObject.Current.CreateRecord.I.Count;
@@ -279,6 +287,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 editPoll10.Visibility = ViewStates.Gone;
             btnAddOption.Visibility = ViewStates.Visible;
         }
+
         private void setPredictCreateBlahType()
         {
             additionalfields_layout.Visibility = ViewStates.Visible;
@@ -297,7 +306,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
         ///////// init
 
-        int lastCreateBlockHeight = 0;
+        private int lastCreateBlockHeight = 0;
         private void triggerExpand()
         {
             //set Visible
@@ -334,7 +343,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                //collapse();
+                //collapse
                 int finalHeight = create_post_block.Height;
 
                 ValueAnimator mAnimator = slideAnimator(create_post_block, finalHeight, 0, false);
@@ -361,13 +370,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             ValueAnimator animator = ValueAnimator.OfInt(start, end);
             //ValueAnimator animator2 = ValueAnimator.OfInt(start, end);
-            //  animator.AddUpdateListener (new ValueAnimator.IAnimatorUpdateListener{
+            //animator.AddUpdateListener (new ValueAnimator.IAnimatorUpdateListener{
             animator.Update +=
                 (object sender, ValueAnimator.AnimatorUpdateEventArgs e) =>
                 {
-                    //  int newValue = (int)
+                    //int newValue = (int)
                     //e.Animation.AnimatedValue; // Apply this new value to the object being animated.
-                    //  myObj.SomeIntegerValue = newValue; 
+                    //myObj.SomeIntegerValue = newValue; 
                     var value = (int)animator.AnimatedValue;
                     ViewGroup.LayoutParams layoutParams = layout.LayoutParameters;
                     if (animatingWidth)
@@ -377,9 +386,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     layout.LayoutParameters = layoutParams;
 
                 };
-
-
-            //      });
+            //});
             return animator;
         }
 
@@ -500,6 +507,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 return false;
             }
         }
+
         private void OnCreateBlahOK(Blah newBlah)
         {
             if (newBlah != null)
@@ -520,9 +528,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 });
-                //MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.");
                 MainActivity.analytics.PostFormatError("blah create failed");
-
             }
         }
 
@@ -579,7 +585,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     break;
             }
-
 
             return "";
         }

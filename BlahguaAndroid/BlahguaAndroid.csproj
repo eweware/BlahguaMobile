@@ -115,6 +115,8 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\CreateCommentSignatureAdapter.cs" />
+    <Compile Include="Adapters\CreateBlahSignatureAdapter.cs" />
     <Compile Include="Adapters\VotesAdapter.cs" />
     <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="HelpingClasses\ImageLoader.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
+    <Compile Include="Screens\MainActivity.Signature.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Screens\Fragment\UserProfileStatsFragment.cs" />
@@ -653,5 +656,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_createpost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\popup_signature.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\popup_signature_row.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
 </Project>
