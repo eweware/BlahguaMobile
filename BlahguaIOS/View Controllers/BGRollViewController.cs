@@ -342,7 +342,9 @@ namespace BlahguaMobile.IOS
 
 		private void DemographicsButtonClicked (object sender, EventArgs e)
 		{
-			Console.WriteLine ("Demographics button clicked");
+			BlahguaAPIObject.Current.GetUserProfile ((profile) => {
+				InvokeOnMainThread (() => PerformSegue ("fromRollToDemographics", this));
+			});
 		}
 
 		private void HistoryButtonClicked(object sender, EventArgs args)

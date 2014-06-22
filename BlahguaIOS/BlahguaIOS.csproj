@@ -237,13 +237,29 @@
     <Compile Include="Views\BGBadgeCell.designer.cs">
       <DependentUpon>BGBadgeCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGBadgeCollectionViewController.cs" />
-    <Compile Include="BGBadgeCollectionViewController.designer.cs">
+    <Compile Include="BGDemographicsViewController.cs" />
+    <Compile Include="BGDemographicsViewController.designer.cs">
+      <DependentUpon>BGDemographicsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBadgeAddViewController.cs" />
+    <Compile Include="View Controllers\BGBadgeAddViewController.designer.cs">
+      <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBadgeCollectionViewController.cs" />
+    <Compile Include="View Controllers\BGBadgeCollectionViewController.designer.cs">
       <DependentUpon>BGBadgeCollectionViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGBadgeAddViewController.cs" />
-    <Compile Include="BGBadgeAddViewController.designer.cs">
-      <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
+    <Compile Include="BGDemographicsDropDownCell.cs" />
+    <Compile Include="BGDemographicsDropDownCell.designer.cs">
+      <DependentUpon>BGDemographicsDropDownCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BGDemographicsInputCell.cs" />
+    <Compile Include="BGDemographicsInputCell.designer.cs">
+      <DependentUpon>BGDemographicsInputCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BGItemsSelectionTableViewCotroller.cs" />
+    <Compile Include="BGItemsSelectionTableViewCotroller.designer.cs">
+      <DependentUpon>BGItemsSelectionTableViewCotroller.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +355,7 @@
     <BundleResource Include="Resources\input_back%402x.png" />
     <BundleResource Include="Resources\long_button%402x.png" />
     <BundleResource Include="Resources\short_button_gray%402x.png" />
-    <BundleResource Include="Resources\short_button%402x.png" />
     <BundleResource Include="Resources\new_post%402x.png" />
+    <BundleResource Include="Resources\short_button%402x.png" />
   </ItemGroup>
 </Project>
