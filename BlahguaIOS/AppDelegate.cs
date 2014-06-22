@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using BlahguaMobile.BlahguaCore;
+
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.SlideMenu;
@@ -56,14 +58,17 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
+		public Blah CurrentBlah 
+		{
+			get;
+			set;
+		}
+
 		#endregion
 
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-
-
-
 			UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide);
 			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
 			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);

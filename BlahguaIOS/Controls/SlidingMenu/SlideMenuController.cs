@@ -451,7 +451,7 @@ namespace MonoTouch.SlideMenu
         public void SetGesturesState(bool enabled)
         {
             undoStack.Push(new SlideMenuGesturesState(PanGesture.Enabled, TapGesture.Enabled));
-            PanGesture.Enabled = TapGesture.Enabled = enabled;
+			PanGesture.Enabled = enabled;// TapGesture.Enabled = enabled;
         }
 
 
@@ -461,7 +461,7 @@ namespace MonoTouch.SlideMenu
             {
                 var stateObj = undoStack.Pop();
                 PanGesture.Enabled = stateObj.PanGestureEnabled;
-                TapGesture.Enabled = stateObj.TapGestureEnabled;
+				//TapGesture.Enabled = stateObj.TapGestureEnabled;
             }
             else
             {

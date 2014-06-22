@@ -21,7 +21,7 @@ namespace BlahguaMobile.IOS
 		{
 			get
 			{
-				return BlahguaAPIObject.Current.CurrentBlah;
+				return ((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah;
 			}
 		}
 
@@ -41,6 +41,26 @@ namespace BlahguaMobile.IOS
 				source.Add ("Promotes: ", CurrentBlah.P.ToString ());
 				source.Add ("Demotes: ", CurrentBlah.D.ToString ());
 				source.Add ("Comments: ", CurrentBlah.C.ToString ());
+			}
+			else if(BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
+			{
+				var userInfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
+				int userViews, opens, creates, comments, views;
+				userViews = opens = creates = comments = views = 0;
+
+				for(int i = 0; i < userInfo.DayCount; i++)
+				{
+					userViews += userInfo.UserViews (i);
+					opens += userInfo.Opens (i);
+					creates += userInfo.UserCreates (i);
+					comments += userInfo.UserComments (i);
+					views += userInfo.Views (i);
+				}
+				source.Add ("Openes: ", opens.ToString());
+				source.Add ("Viewes: ", views.ToString());
+				source.Add ("Creates: ", creates.ToString ());
+				source.Add ("User Views: ", userViews.ToString ());
+				source.Add ("Comments: ", comments.ToString ());
 			}
 			TableView.Source = new BGStatsTableSource (source);
 		}

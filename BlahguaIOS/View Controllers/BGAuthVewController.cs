@@ -45,15 +45,20 @@ namespace BlahguaMobile.IOS
 				NavigationController.PopViewControllerAnimated(true);
 			};
 
+			usernameOrEmail.Background = UIImage.FromFile ("input_back.png");
 			usernameOrEmail.ShouldReturn = delegate {
 				password.BecomeFirstResponder();
 				return false;
 			};
+
+			password.Background = UIImage.FromFile ("input_back.png");
 			password.ShouldReturn = delegate {
 				SignIn();
 				password.ResignFirstResponder();
 				return true;
 			};
+
+			confirmPassword.Background = UIImage.FromFile ("input_back.png");
 
 			SetMode (signUp);
 
@@ -70,6 +75,7 @@ namespace BlahguaMobile.IOS
 					};
 
 					confirmPassword.AllEditingEvents += PasswordEditingHandler;
+
 					confirmPassword.ShouldReturn = delegate {
 						if(password.Text == confirmPassword.Text)
 						{

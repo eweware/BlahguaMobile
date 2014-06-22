@@ -38,6 +38,10 @@ namespace BlahguaMobile.IOS
 
 		public UIViewController parentViewController;
 
+		private bool isWriteMode { get; set; }
+
+		private BGNewCommentViewController newCommentViewController;
+
 		#endregion
 
 		#region Properties
@@ -89,6 +93,8 @@ namespace BlahguaMobile.IOS
 			SetUpContentView ();
 
 			SetUpToolbar ();
+
+
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -106,8 +112,8 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpNavigationBar()
 		{
-			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
-			});
+			if(BlahguaAPIObject.Current.CurrentUser != null)
+				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
 
 			NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
 				if(CurrentComment != null)
@@ -329,10 +335,48 @@ namespace BlahguaMobile.IOS
 		public void CommentsLoaded(CommentList comments)
 		{
 			InvokeOnMainThread(() => {
+				CurrentBlah.Comments.CollectionChanged += (sender, e) => contentView.ReloadData();
 				SetUpHeaderView();
 				contentView.ReloadData ();
 			});
 		}
+
+		private void WriteCommentAction(object sender, EventArgs e)
+		{
+			UIView.BeginAnimations (null);
+			UIView.SetAnimationDuration (0.5f);
+			float newYCoordDiff = 0f;
+			if(isWriteMode)
+			{
+				if(newCommentViewController != null)
+				{
+					newCommentViewController.Done ();
+					newCommentViewController.View.RemoveFromSuperview ();
+					newYCoordDiff = -246f;
+					isWriteMode = false;
+				}
+			}
+			else
+			{
+				if(newCommentViewController == null)
+				{
+					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
+						.InstantiateViewController ("BGNewCommentViewController");
+					newCommentViewController.ParentViewController = this;
+				}
+				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 64), newCommentViewController.View.Frame.Size);
+				View.AddSubview (newCommentViewController.View);
+				newYCoordDiff += 246f;
+				isWriteMode = true;
+			}
+			foreach(var subView in View.Subviews)
+			{
+				if(subView != newCommentViewController.View)
+					subView.Frame = new RectangleF (new PointF (subView.Frame.X, subView.Frame.Y + newYCoordDiff), subView.Frame.Size);
+			}
+			UIView.CommitAnimations ();
+		}
+
 
 		#endregion
 

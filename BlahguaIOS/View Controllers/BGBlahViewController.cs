@@ -362,7 +362,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetAuthorName()
 		{
-			string authorName = BlahguaAPIObject.Current.CurrentBlah.XX ? "Anonymous" : BlahguaAPIObject.Current.CurrentBlah.A;
+			string authorName = BlahguaAPIObject.Current.CurrentBlah.XX ? "Anonymous" : BlahguaAPIObject.Current.CurrentBlah.Description.K;
 			author.AttributedText = new NSAttributedString (authorName, 
 				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
 				UIColor.Black);

@@ -63,6 +63,7 @@ namespace BlahguaMobile.IOS
 
 			BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
 				InvokeOnMainThread(() => {
+					((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
 					viewController.PerformSegue("fromRollToBlah", viewController);
 				});
 			});

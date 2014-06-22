@@ -36,9 +36,14 @@ namespace BlahguaMobile.IOS
 		private UIButton logoutButton;
 		private bool isOpened = false;
 
+		private bool isNewPostMode;
+
 		#endregion
 
 		#region Properties
+
+		private BGNewPostViewController newPostViewController;
+
 		#endregion
 
 		public BGRollViewController (IntPtr handle) : base (handle)
@@ -92,6 +97,14 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewWillAppear (animated);
 			PrepareRightBarButton ();
+			((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = null;
+			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (true);
+		}
+
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (false);
+			base.PrepareForSegue (segue, sender);
 		}
 
 		#endregion
@@ -154,6 +167,7 @@ namespace BlahguaMobile.IOS
 				newBlah.SetBackgroundImage (UIImage.FromFile ("new_post_tap.png"), UIControlState.Normal);
 				newBlah.SetImage (UIImage.FromFile ("newBlahImage.png"), UIControlState.Normal);
 				profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
+				newBlah.TouchUpInside += NewBlah;
 
 				UIView view = new UIView (new RectangleF (0, 0, 108, 44));
 				view.AddSubviews (new UIView[] { profile, newBlah });
@@ -161,6 +175,35 @@ namespace BlahguaMobile.IOS
 
 				NavigationItem.RightBarButtonItem = rightBarButton;
 			}
+		}
+
+		private void NewBlah (object sender, EventArgs e)
+		{
+			UIView.BeginAnimations (null);
+			UIView.SetAnimationDuration (0.5f);
+			if(isNewPostMode)
+			{
+				CollectionView.Hidden = false;
+				isNewPostMode = false;
+				newPostViewController.View.RemoveFromSuperview ();
+				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
+			}
+			else
+			{
+				if(newPostViewController == null)
+				{
+					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
+						.MainStoryboard
+						.InstantiateViewController ("BGNewPostViewController");
+				}
+				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
+				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
+				isNewPostMode = true;
+				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.BlahType);
+				CollectionView.Hidden = true;
+				View.AddSubview (newPostViewController.View);
+			}
+			UIView.CommitAnimations ();
 		}
 
 		private void PrepareRigthMenu()
@@ -294,7 +337,7 @@ namespace BlahguaMobile.IOS
 
 		private void BadgesButtonClicked(object sender, EventArgs args)
 		{
-			Console.WriteLine ("Badges button clicked");
+			PerformSegue ("fromRollToBadges", this);
 		}
 
 		private void DemographicsButtonClicked (object sender, EventArgs e)
@@ -304,12 +347,16 @@ namespace BlahguaMobile.IOS
 
 		private void HistoryButtonClicked(object sender, EventArgs args)
 		{
-			Console.WriteLine ("History button clicked");
+			PerformSegue ("fromRollToHistory", this);
 		}
 
 		private void StatsButtonClicked(object sender, EventArgs args)
 		{
-			Console.WriteLine ("Status button clicked");
+			BlahguaAPIObject.Current.LoadUserStatsInfo ((userInfo) => {
+				InvokeOnMainThread (() => {
+					PerformSegue ("fromRollToStats", this);
+				});
+			});
 		}
 
 		private void LogoutButtonClicked(object sender, EventArgs args)

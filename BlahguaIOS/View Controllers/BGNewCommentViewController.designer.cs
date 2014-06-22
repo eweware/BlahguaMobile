@@ -29,6 +29,16 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (back != null) {
+				back.Dispose ();
+				back = null;
+			}
+
+			if (done != null) {
+				done.Dispose ();
+				done = null;
+			}
+
 			if (input != null) {
 				input.Dispose ();
 				input = null;
@@ -42,16 +52,6 @@ namespace BlahguaMobile.IOS
 			if (selectSignature != null) {
 				selectSignature.Dispose ();
 				selectSignature = null;
-			}
-
-			if (done != null) {
-				done.Dispose ();
-				done = null;
-			}
-
-			if (back != null) {
-				back.Dispose ();
-				back = null;
 			}
 		}
 	}

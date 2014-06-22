@@ -22,6 +22,9 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
@@ -32,14 +35,24 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (titleInput != null) {
-				titleInput.Dispose ();
-				titleInput = null;
+			if (back != null) {
+				back.Dispose ();
+				back = null;
 			}
 
 			if (bodyInput != null) {
 				bodyInput.Dispose ();
 				bodyInput = null;
+			}
+
+			if (done != null) {
+				done.Dispose ();
+				done = null;
+			}
+
+			if (pollItemsTableView != null) {
+				pollItemsTableView.Dispose ();
+				pollItemsTableView = null;
 			}
 
 			if (selectImageButton != null) {
@@ -52,14 +65,9 @@ namespace BlahguaMobile.IOS
 				selectSignature = null;
 			}
 
-			if (done != null) {
-				done.Dispose ();
-				done = null;
-			}
-
-			if (back != null) {
-				back.Dispose ();
-				back = null;
+			if (titleInput != null) {
+				titleInput.Dispose ();
+				titleInput = null;
 			}
 		}
 	}

@@ -212,6 +212,39 @@
     <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
       <DependentUpon>BGNewPostViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\BGNewPostPollItemCell.cs" />
+    <Compile Include="Views\BGNewPostPollItemCell.designer.cs">
+      <DependentUpon>BGNewPostPollItemCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGHistoryDetailCell.cs" />
+    <Compile Include="Views\BGHistoryDetailCell.designer.cs">
+      <DependentUpon>BGHistoryDetailCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGHistoryTableCell.cs" />
+    <Compile Include="Views\BGHistoryTableCell.designer.cs">
+      <DependentUpon>BGHistoryTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryDetailViewController.cs" />
+    <Compile Include="View Controllers\BGHistoryDetailViewController.designer.cs">
+      <DependentUpon>BGHistoryDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryViewController.cs" />
+    <Compile Include="View Controllers\BGHistoryViewController.designer.cs">
+      <DependentUpon>BGHistoryViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryTableSource.cs" />
+    <Compile Include="Views\BGBadgeCell.cs" />
+    <Compile Include="Views\BGBadgeCell.designer.cs">
+      <DependentUpon>BGBadgeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BGBadgeCollectionViewController.cs" />
+    <Compile Include="BGBadgeCollectionViewController.designer.cs">
+      <DependentUpon>BGBadgeCollectionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BGBadgeAddViewController.cs" />
+    <Compile Include="BGBadgeAddViewController.designer.cs">
+      <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="restsharp">
@@ -255,7 +288,6 @@
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
-    <InterfaceDefinition Include="Views\BGNewPostView.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
