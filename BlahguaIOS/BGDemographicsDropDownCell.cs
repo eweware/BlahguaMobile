@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
 
 			ContentView.BackgroundColor = UIColor.FromRGB (248, 248, 248);
 
-			ddButton.SetAttributedTitle (new NSAttributedString ("Select", UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.Black), UIControlState.Normal);
+			ddButton.SetAttributedTitle (new NSAttributedString ("Select", UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.White), UIControlState.Normal);
 			ddButton.SetBackgroundImage (UIImage.FromFile ("short_button.png"), UIControlState.Normal);
 			publicLabel.AttributedText = new NSAttributedString ("", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
@@ -48,6 +48,7 @@ namespace BlahguaMobile.IOS
 				isPublic = !isPublic;
 				viewController.SetPermission(index, isPublic);
 				publicLabel.AttributedText = new NSAttributedString (isPublic ? "Public" : "Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+				isPublicButton.SetImage(UIImage.FromFile(isPublic ? "signupRadioButton.png" : "signupRadioButtonUn.png"), UIControlState.Normal);
 			};
 			ddButton.TouchUpInside += (sender, e) => {
 				viewController.PushSelectingTable(index);

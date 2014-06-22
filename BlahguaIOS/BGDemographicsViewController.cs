@@ -2,6 +2,7 @@
 
 using System;
 using System.Text;
+using System.Globalization;
 using System.Drawing;
 
 using BlahguaMobile.BlahguaCore;
@@ -31,6 +32,7 @@ namespace BlahguaMobile.IOS
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Done, (s, e) => {
 				BlahguaAPIObject.Current.UpdateUserProfile((result) => {
 					Console.WriteLine(result);
+					InvokeOnMainThread(() => NavigationController.PopViewControllerAnimated(true));
 				});
 			});
 		}
@@ -70,6 +72,7 @@ namespace BlahguaMobile.IOS
 				}
 				index = 0;
 			}
+			base.PrepareForSegue (segue, sender);
 		}
 
 		public void SetValue(int index, string value)
@@ -83,7 +86,7 @@ namespace BlahguaMobile.IOS
 				}
 			case 1:
 				{
-					BlahguaAPIObject.Current.CurrentUser.Profile.DOB = DateTime.Parse (value);
+					BlahguaAPIObject.Current.CurrentUser.Profile.DOB = DateTime.Parse (value, new DateTimeFormatInfo() { FullDateTimePattern = "mm/dd/yyyy"});
 					break;
 				}
 			case 2:
@@ -127,43 +130,42 @@ namespace BlahguaMobile.IOS
 			case 0:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Gender;
-					break;
 				}
 			case 1:
 				{
-					return ((DateTime)BlahguaAPIObject.Current.CurrentUser.Profile.DOB).ToString ("mm/dd/yyyy");
-					break;
+					if(BlahguaAPIObject.Current.CurrentUser.Profile.DOB != null)
+					{
+						return ((DateTime)BlahguaAPIObject.Current.CurrentUser.Profile.DOB).ToString ("mm/dd/yyyy");
+					}
+					else 
+					{
+						return String.Empty;
+					}
 				}
 			case 2:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Race;
-					break;
 				}
 			case 3:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.City;
-					break;
 				}
 			case 4:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.State;
-					break;
 				}
 			case 5:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Zipcode;
-					break;
 				}
 			case 6:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
-					break;
 				}
 			case 7:
 			default:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
-					break;
 				}
 			}
 		}
