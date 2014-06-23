@@ -36,9 +36,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressDialog dialog;
 
         // author block
-        private TextView author;
-        private ImageView authorAvatar;
-        private LinearLayout authorBadgesArea;
+        private TextView author, timeago;
+        private TextView authorDescription;
+        private ImageView authorAvatar, badgesIcon;
+        private ListView authorBadgesArea;
 
         // predicts layout
         private ListView predictsVotes;
@@ -70,8 +71,18 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
+            timeago = fragment.FindViewById<TextView>(Resource.Id.timeago);
+            authorDescription = fragment.FindViewById<TextView>(Resource.Id.author_description);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
-            authorBadgesArea = fragment.FindViewById<LinearLayout>(Resource.Id.badges_block);
+            badgesIcon = fragment.FindViewById<ImageView>(Resource.Id.badges_icon);
+            authorBadgesArea = fragment.FindViewById<ListView>(Resource.Id.badges_block);
+            badgesIcon.Click += (sender, args) =>
+            {
+                if (authorBadgesArea.Visibility == ViewStates.Visible)
+                    authorBadgesArea.Visibility = ViewStates.Gone;
+                else
+                    authorBadgesArea.Visibility = ViewStates.Visible;
+            };
 
             predictsVotes = fragment.FindViewById<ListView>(Resource.Id.predicts_votes);
             predictsDatebox = fragment.FindViewById<TextView>(Resource.Id.predicts_datebox);
@@ -105,7 +116,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 });
 
                 //this.DataContext = BlahguaAPIObject.Current;
-                if (BlahguaAPIObject.Current.CurrentBlah != null)
+                if (theBlah != null)
                 {
                     if (theBlah.ImageURL != null && image != null)
                     {
@@ -141,16 +152,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                     parent.RunOnUiThread(() =>
                     {
                         author.Text = theBlah.UserName;
+                        timeago.Text = StringHelper.ConstructTimeAgo(theBlah.UpdateDate);
+                        authorDescription.Text = theBlah.Description.d;
                         authorAvatar.SetUrlDrawable(theBlah.UserImage);
                         if (theBlah.Badges != null)
                         {
-                            foreach (BadgeReference b in theBlah.Badges)
-                            {
-                                var view = Activity.LayoutInflater.Inflate(
-                                                     Resource.Layout.uiitem_badge_small, authorBadgesArea, false);
-                                var badgeImage = view.FindViewById<ImageView>(Resource.Id.image);
-                                badgeImage.SetUrlDrawable(b.BadgeImage);
-                            }
+                            badgesIcon.Visibility = ViewStates.Visible;
+                            authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
                         }
                     });
 

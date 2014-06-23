@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\ViewPostBadgesAdapter.cs" />
     <Compile Include="Adapters\CreateCommentSignatureAdapter.cs" />
     <Compile Include="Adapters\CreateBlahSignatureAdapter.cs" />
     <Compile Include="Adapters\VotesAdapter.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
     <Compile Include="HelpingClasses\ImageLoader.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
+    <Compile Include="HelpingClasses\StringHelper.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
     <Compile Include="Screens\MainActivity.Signature.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
@@ -461,11 +463,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ico_badges.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\uiitem_badge_small.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_poll.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -663,7 +660,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\popup_signature_row.xml">
+    <AndroidResource Include="Resources\layout\listitem_popup_signature.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_viewpost_summary_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

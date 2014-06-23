@@ -52,7 +52,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 	    public override View GetView(int position, View convertView, ViewGroup parent) {
 
 		    if (convertView == null) {
-			    convertView = mInflater.Inflate(Resource.Layout.popup_signature_row, null);
+                convertView = mInflater.Inflate(Resource.Layout.listitem_popup_signature, null);
 			    holder = new ViewHolder();
 			    holder.tv = convertView.FindViewById<TextView>(Resource.Id.text);
                 holder.chkbox = convertView.FindViewById<CheckBox>(Resource.Id.check);
