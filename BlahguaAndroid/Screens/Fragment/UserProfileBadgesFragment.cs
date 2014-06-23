@@ -48,17 +48,33 @@ namespace BlahguaMobile.AndroidClient.Screens
             list_container = fragment.FindViewById<ScrollView>(Resource.Id.list_container);
 
             new_block = fragment.FindViewById<LinearLayout>(Resource.Id.new_badge);
-            btn_done = new_block.FindViewById<Button>(Resource.Id.btn_done);
-            edit = new_block.FindViewById<EditText>(Resource.Id.edit);
-            progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 
+            btn_done = new_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_done.Enabled = false;
             btn_done.Click += btn_done_Click;
+
+            edit = new_block.FindViewById<EditText>(Resource.Id.edit);
+            edit.TextChanged += edit_TextChanged;
+
+            progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 
             initDimensions();
 
             UpdateBadgeArea();
 
             return fragment;
+        }
+
+        private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (edit.Text.Length == 0)
+            {
+                btn_done.Enabled = false;
+            }
+            else
+            {
+                btn_done.Enabled = true;
+            }
         }
 
 

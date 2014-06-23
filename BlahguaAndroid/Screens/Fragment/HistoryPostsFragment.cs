@@ -18,7 +18,7 @@ using Android.Animation;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class HistoryPostsFragment : Fragment, Android.Views.View.IOnTouchListener
+    class HistoryPostsFragment : Fragment
     {
         public static HistoryPostsFragment NewInstance()
         {
@@ -27,37 +27,22 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private readonly string TAG = "HistoryPostsFragment";
 
-        private GestureDetector _gestureDetector;
-        private GestureListener _gestureListener;
-
-        private ImageView image;
-        private TextView titleView, posts_total_count;
+        private TextView posts_total_count;
 
         private ListView list;
         private LinearLayout no_entries;
+
+        HistoryActivity activity;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _gestureListener = new GestureListener();
-            _gestureListener.SwipeLeftEvent += GestureLeft;
-            _gestureListener.SwipeRightEvent += GestureRight;
-            _gestureDetector = new GestureDetector(Activity, _gestureListener);
 
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
-            //if (container == null)
-            //{
-            //    Log.Debug(TAG, "Dialer Fragment is in a view without container");
-            //    return null;
-            //}
-
-            TextView text = fragment.FindViewById<TextView>(Resource.Id.text);
-            //do some stuff like assigning event handlers, etc.
-
 
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;
-            list.SetOnTouchListener(this);
+            //list.SetOnTouchListener(Activity);
             no_entries = fragment.FindViewById<LinearLayout>(Resource.Id.no_entries);
             no_entries.Visibility = ViewStates.Visible;
 
@@ -66,9 +51,15 @@ namespace BlahguaMobile.AndroidClient.Screens
             return fragment;
         }
 
-        void GestureLeft(MotionEvent first, MotionEvent second)
+        public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY());
+            activity = (HistoryActivity)Activity;
+            base.OnActivityCreated(savedInstanceState);
+        }
+
+        public void GestureLeft(MotionEvent first, MotionEvent second)
+        {
+            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
             if (adapter != null)
             {
                 View listItem = HistoryUiHelper.getViewByPosition(position, list);
@@ -77,20 +68,15 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        void GestureRight(MotionEvent first, MotionEvent second)
+        public void GestureRight(MotionEvent first, MotionEvent second)
         {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY());
+            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
             if (adapter != null)
             {
                 View listItem = HistoryUiHelper.getViewByPosition(position, list);
                 HistoryUiHelper.manageSwipe(listItem, true, false);
                 //listItem.FindViewById<TextView>(Resource.Id.text).SetText("You swipe right on the " + position, Android.Widget.TextView.BufferType.Normal);
             }
-        }
-
-        public bool OnTouch(View v, MotionEvent ev)
-        {
-            return _gestureDetector.OnTouchEvent(ev);
         }
 
         /////////////////

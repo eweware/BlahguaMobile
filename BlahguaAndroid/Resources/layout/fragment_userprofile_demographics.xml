@@ -2,338 +2,339 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#FFF">
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-    android:orientation="vertical">
-  <!-- DEMOGRAPHICS -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="Gender"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <Spinner
-          android:id="@+id/gender"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:background="@drawable/btn_green"
-          android:gravity="center"
-          android:textColor="#3C3C3C"
-          android:prompt="@string/select_prompt" />
-
-      <CheckBox
-          android:id="@+id/check_public_gender"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-  <!-- DOB -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="Date of Birth"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <EditText
-          android:id="@+id/dob"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:hint="mm/dd/yyyy"
-          android:inputType="date"
-          android:textColor="#3C3C3C"
-          android:background="@drawable/edit_gray"
-          />
-
-      <CheckBox
-          android:id="@+id/check_public_dob"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-  <!-- Ethnicity -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="Ethnicity"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <Spinner
-          android:id="@+id/ethnicity"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center"
-          android:textColor="#3C3C3C"
-          android:background="@drawable/btn_green"
-          android:prompt="@string/select_prompt" />
-
-      <CheckBox
-          android:id="@+id/check_public_ethnicity"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-  <!-- CITY -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="City"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <EditText
-          android:id="@+id/city"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:hint="Type here"
-          android:textColor="#3C3C3C"
-          android:background="@drawable/edit_gray" />
-
-      <CheckBox
-          android:id="@+id/check_public_city"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-  <!-- CITY -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="State"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <EditText
-          android:id="@+id/state"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:hint="Type here"
-          android:textColor="#3C3C3C"
-          android:background="@drawable/edit_gray" />
-
-      <CheckBox
-          android:id="@+id/check_public_state"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-  <!-- CITY -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:orientation="vertical">
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="5dp"
-      android:text="Post code"
-      android:textColor="#3C3C3C"
-      android:textStyle="bold"
-      android:textSize="14sp"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_demographics_dark"
-      android:padding="5dp"
-      android:orientation="horizontal">
-
-      <EditText
-          android:id="@+id/post_code"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:hint="Type here"
-          android:textColor="#3C3C3C"
-          android:background="@drawable/edit_gray" />
-
-      <CheckBox
-          android:id="@+id/check_public_post_code"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:text="Public"
-          android:textColor="#3C3C3C"
-          android:textStyle="bold"
-          android:textSize="12sp"
-          android:button="@null"
-          android:drawableLeft="@drawable/checkbox"
-          android:drawablePadding="5dp" />
-    </LinearLayout>
-  </LinearLayout>
-
-    <!-- Country -->
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="#FFF"
       android:orientation="vertical">
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Country"
-        android:textColor="#3C3C3C"
-        android:textStyle="bold"
-        android:textSize="14sp"/>
-
+      <!-- DEMOGRAPHICS -->
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_demographics_dark"
-        android:padding="5dp"
-        android:orientation="horizontal">
-
-        <Spinner
-          android:id="@+id/country"
-          android:layout_width="0dp"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center"
-          android:background="@drawable/btn_green"
-          android:prompt="@string/select_prompt"
-          android:textColor="#3C3C3C" />
+          android:padding="5dp"
+          android:text="Gender"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
 
-        <CheckBox
-            android:id="@+id/check_public_country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Public"
-            android:textColor="#3C3C3C"
-            android:textStyle="bold"
-            android:textSize="12sp"
-            android:button="@null"
-            android:drawableLeft="@drawable/checkbox"
-            android:drawablePadding="5dp" />
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <Spinner
+              android:id="@+id/gender"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@drawable/btn_green"
+              android:gravity="center"
+              android:textColor="#3C3C3C"
+              android:prompt="@string/select_prompt" />
+
+          <CheckBox
+              android:id="@+id/check_public_gender"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
       </LinearLayout>
-    </LinearLayout>
 
-</LinearLayout>
+      <!-- DOB -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="Date of Birth"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <EditText
+              android:id="@+id/dob"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:hint="mm/dd/yyyy"
+              android:inputType="date"
+              android:textColor="#3C3C3C"
+              android:background="@drawable/edit_gray"
+              />
+
+          <CheckBox
+              android:id="@+id/check_public_dob"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <!-- Ethnicity -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="Ethnicity"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <Spinner
+              android:id="@+id/ethnicity"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center"
+              android:textColor="#3C3C3C"
+              android:background="@drawable/btn_green"
+              android:prompt="@string/select_prompt" />
+
+          <CheckBox
+              android:id="@+id/check_public_ethnicity"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <!-- CITY -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="City"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <EditText
+              android:id="@+id/city"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:hint="Type here"
+              android:textColor="#3C3C3C"
+              android:background="@drawable/edit_gray" />
+
+          <CheckBox
+              android:id="@+id/check_public_city"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <!-- CITY -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="State"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <EditText
+              android:id="@+id/state"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:hint="Type here"
+              android:textColor="#3C3C3C"
+              android:background="@drawable/edit_gray" />
+
+          <CheckBox
+              android:id="@+id/check_public_state"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <!-- CITY -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="Post code"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <EditText
+              android:id="@+id/post_code"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:hint="Type here"
+              android:textColor="#3C3C3C"
+              android:background="@drawable/edit_gray" />
+
+          <CheckBox
+              android:id="@+id/check_public_post_code"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <!-- Country -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:text="Country"
+          android:textColor="#3C3C3C"
+          android:textStyle="bold"
+          android:textSize="14sp"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_demographics_dark"
+          android:padding="5dp"
+          android:orientation="horizontal">
+
+          <Spinner
+            android:id="@+id/country"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/btn_green"
+            android:prompt="@string/select_prompt"
+            android:textColor="#3C3C3C" />
+
+          <CheckBox
+              android:id="@+id/check_public_country"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:text="Public"
+              android:textColor="#3C3C3C"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:button="@null"
+              android:drawableLeft="@drawable/checkbox"
+              android:drawablePadding="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+  </LinearLayout>
 </ScrollView>

@@ -30,6 +30,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
         private Button btnAddOption;
+        private Button btn_create_done;
 
         private FrameLayout imageCreateBlahLayout;
         private ImageView imageCreateBlah;
@@ -136,15 +137,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             btn_signature.Click += (sender, args) => {
                 initiateSignaturePopUp();
             };
-            Button btn_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
-            btn_done.Click += (sender, args) =>
+            btn_create_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_create_done.Click += (sender, args) =>
             {
                 if (DoCreateClick())
                 {
                     triggerCreateBlock();
                 }
             };
+            btn_create_done.Enabled = false;
             newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
+            newPostTitle.TextChanged += editCreate_TextChanged;
             newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
 
             imageCreateBlah = create_post_block.FindViewById<ImageView>(Resource.Id.createblah_image);
@@ -153,8 +156,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressBarImageLoading.Visibility = ViewStates.Gone;
 
             editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
+            editPrediction.TextChanged += editCreate_TextChanged;
             editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
+            editPoll1.TextChanged += editCreate_TextChanged;
             editPoll2 = create_post_block.FindViewById<EditText>(Resource.Id.poll2);
+            editPoll2.TextChanged += editCreate_TextChanged;
             editPoll3 = create_post_block.FindViewById<EditText>(Resource.Id.poll3);
             editPoll4 = create_post_block.FindViewById<EditText>(Resource.Id.poll4);
             editPoll5 = create_post_block.FindViewById<EditText>(Resource.Id.poll5);
@@ -167,6 +173,26 @@ namespace BlahguaMobile.AndroidClient.Screens
             btnAddOption.Click += DoAddPollChoice;
 
             setAsksCreateBlahType();
+        }
+
+        void editCreate_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (newPostTitle.Visibility == ViewStates.Visible && newPostTitle.Text.Length == 0)
+            {
+                btn_create_done.Enabled = false;
+            }
+            else if (editPrediction.Visibility == ViewStates.Visible && editPrediction.Text.Length == 0)
+            {
+                btn_create_done.Enabled = false;
+            }
+            else if (editPoll1.Visibility == ViewStates.Visible && (editPoll1.Text.Length == 0 || editPoll2.Text.Length == 0))
+            {
+                btn_create_done.Enabled = false;
+            }
+            else
+            {
+                btn_create_done.Enabled = true;
+            }
         }
 
         private void initBlahCreationSlidingMenu()
@@ -351,6 +377,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
                 {
                     create_post_block.Visibility = ViewStates.Gone;
+                    
+                    editPrediction.Text = newPostTitle.Text = newPostText.Text =
+                    editPoll1.Text = editPoll2.Text = editPoll3.Text = editPoll4.Text =
+                    editPoll5.Text = editPoll6.Text = editPoll7.Text = editPoll8.Text =
+                    editPoll9.Text = editPoll10.Text = "";
                 };
 
                 initSlidingMenu();

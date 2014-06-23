@@ -262,7 +262,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_green"
-        android:textColor="#FFF"
+        android:textColor="@drawable/btn_colored_text"
         android:text="DONE"/>
   </LinearLayout>
 </ScrollView>

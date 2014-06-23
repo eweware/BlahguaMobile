@@ -21,8 +21,9 @@ namespace BlahguaMobile.AndroidClient
 
         private EditText login, password, passwordConfirm;
         private ProgressBar progress;
+        private Button buttonDone;
 
-        private CheckBox check_remember_me;
+        private CheckBox check_create_acc, check_remember_me;
         private ProgressDialog dialog;
 
         private bool createNewAccount = false;
@@ -42,9 +43,14 @@ namespace BlahguaMobile.AndroidClient
             login = FindViewById<EditText>(Resource.Id.login);
             password = FindViewById<EditText>(Resource.Id.password);
             passwordConfirm = FindViewById<EditText>(Resource.Id.password_confirm);
-            CheckBox check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
+            login.TextChanged += edit_TextChanged;
+            password.TextChanged += edit_TextChanged;
+            passwordConfirm.TextChanged += edit_TextChanged;
+
+            check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
             Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
-            Button buttonDone = FindViewById<Button>(Resource.Id.btn_done);
+            buttonDone = FindViewById<Button>(Resource.Id.btn_done);
+            buttonDone.Enabled = false;
 
             passwordConfirm.Visibility = ViewStates.Gone;
             progress.Visibility = ViewStates.Invisible;
@@ -75,6 +81,8 @@ namespace BlahguaMobile.AndroidClient
                 if (check_create_acc.Checked)
                 {
                     passwordConfirm.Visibility = ViewStates.Visible;
+                    passwordConfirm.Text = "";
+                    buttonDone.Enabled = false;
                 }
                 else
                 {
@@ -90,6 +98,18 @@ namespace BlahguaMobile.AndroidClient
             dialog.SetMessage("Signing in...");
             dialog.SetCancelable(false);
 		}
+
+        private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (login.Text.Length == 0 || password.Text.Length == 0 || (check_create_acc.Checked && passwordConfirm.Text.Length == 0))
+            {
+                buttonDone.Enabled = false;
+            }
+            else
+            {
+                buttonDone.Enabled = true;
+            }
+        }
 
         private void DoSignIn()
         {
@@ -127,7 +147,7 @@ namespace BlahguaMobile.AndroidClient
         private void HandleUserSignIn()
         {
             // remember or not?
-            if (check_remember_me.Checked)
+            if (BlahguaAPIObject.Current.AutoLogin)
             {
                 ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
                 _sharedPref.Edit().PutString("username", BlahguaAPIObject.Current.UserName).Commit();

@@ -125,6 +125,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             create_comment_block = fragment.FindViewById<LinearLayout>(Resource.Id.create_comment_block);
             text = create_comment_block.FindViewById<EditText>(Resource.Id.text);
+            text.TextChanged += edit_TextChanged;
             Button btn_select_image = create_comment_block.FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) => {
                 var imageIntent = new Intent();
@@ -154,6 +155,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             LoadComments();
 
             return fragment;
+        }
+
+        private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (text.Text.Length == 0)
+            {
+                btn_done.Enabled = false;
+            }
         }
 
         #region Signature

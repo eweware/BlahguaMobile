@@ -115,6 +115,18 @@ namespace BlahguaMobile.AndroidClient.Screens
             InitService();
         }
 
+        public override void OnBackPressed()
+        {
+            if (create_post_block.Visibility.Equals(ViewStates.Visible))
+            {
+                triggerCreateBlock();
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
+        }
+
         private void InitAnalytics()
         {
             string uniqueId;
@@ -417,11 +429,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             SlidingMenu.Mode = MenuMode.Left;
         }
 
-        void SlidingMenu_Opened(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void populateChannelMenu()
         {
             View leftMenu = SlidingMenu.GetMenu();
@@ -462,22 +469,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             View rightMenu = SlidingMenu.GetSecondaryMenu();
 
             avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
-
-            //View demog = rightMenu.FindViewById<View>(Resource.Id.menu_demographics);
-            //demog.Click += (sender, args) =>
-            //{
-            //    var intent = new Intent(this, typeof(UserProfileActivity));
-            //    intent.PutExtra("Page", 2);
-            //    StartActivity(intent);
-            //};
-            //View prof = rightMenu.FindViewById<View>(Resource.Id.menu_profile);
-            //prof.Click += (sender, args) =>
-            //{
-            //    var intent = new Intent(this, typeof(UserProfileActivity));
-            //    intent.PutExtra("Page", 1);
-            //    StartActivity(intent);
-            //};
-
+            
             String[] profile = new String[] {
                                 GetString(Resource.String.profilemenu_profile),
                                 GetString(Resource.String.profilemenu_badges),
@@ -531,15 +523,23 @@ namespace BlahguaMobile.AndroidClient.Screens
                 SlidingMenu.Toggle();
                 BlahguaAPIObject.Current.SignOut(null, (theStr) =>
                 {
-                    RunOnUiThread(() =>
+                    if (theStr)
                     {
-                        btn_login.Visibility = ViewStates.Visible;
-                        registered_layout.Visibility = ViewStates.Gone;
+                        RunOnUiThread(() =>
+                        {
+                            btn_login.Visibility = ViewStates.Visible;
+                            registered_layout.Visibility = ViewStates.Gone;
 
-                        SlidingMenu.Mode = MenuMode.LeftRight;
-                        OnChannelChanged();
-                        dialog.Cancel();
-                    });
+                            ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+                            _sharedPref.Edit().Remove("username").Commit();
+                            _sharedPref.Edit().Remove("password").Commit();
+
+                            SlidingMenu.Mode = MenuMode.LeftRight;
+                            OnChannelChanged();
+                            dialog.Cancel();
+                        });
+                    }
+
                     //NavigationService.GoBack();
                 }
                 );

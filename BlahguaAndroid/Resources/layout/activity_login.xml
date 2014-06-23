@@ -35,7 +35,7 @@
             android:layout_gravity="right"
             android:background="@null"
             android:textSize="14sp"
-            android:textColor="@drawable/color_white_button_text"
+            android:textColor="@drawable/btn_colored_text"
             android:padding="10dp"
             android:text="Done" />
     </FrameLayout>
