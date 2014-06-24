@@ -45,12 +45,13 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Pavel Sipaila (X2548GX5V7)</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
+    <CodesignProvision>963691E6-01E0-44CD-BCFF-F181BB1167D2</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -237,10 +238,6 @@
     <Compile Include="Views\BGBadgeCell.designer.cs">
       <DependentUpon>BGBadgeCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGDemographicsViewController.cs" />
-    <Compile Include="BGDemographicsViewController.designer.cs">
-      <DependentUpon>BGDemographicsViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="View Controllers\BGBadgeAddViewController.cs" />
     <Compile Include="View Controllers\BGBadgeAddViewController.designer.cs">
       <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
@@ -249,16 +246,20 @@
     <Compile Include="View Controllers\BGBadgeCollectionViewController.designer.cs">
       <DependentUpon>BGBadgeCollectionViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGDemographicsDropDownCell.cs" />
-    <Compile Include="BGDemographicsDropDownCell.designer.cs">
+    <Compile Include="Views\BGDemographicsDropDownCell.cs" />
+    <Compile Include="Views\BGDemographicsDropDownCell.designer.cs">
       <DependentUpon>BGDemographicsDropDownCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGDemographicsInputCell.cs" />
-    <Compile Include="BGDemographicsInputCell.designer.cs">
+    <Compile Include="Views\BGDemographicsInputCell.cs" />
+    <Compile Include="Views\BGDemographicsInputCell.designer.cs">
       <DependentUpon>BGDemographicsInputCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="BGItemsSelectionTableViewCotroller.cs" />
-    <Compile Include="BGItemsSelectionTableViewCotroller.designer.cs">
+    <Compile Include="View Controllers\BGDemographicsViewController.cs" />
+    <Compile Include="View Controllers\BGDemographicsViewController.designer.cs">
+      <DependentUpon>BGDemographicsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGItemsSelectionTableViewCotroller.cs" />
+    <Compile Include="View Controllers\BGItemsSelectionTableViewCotroller.designer.cs">
       <DependentUpon>BGItemsSelectionTableViewCotroller.cs</DependentUpon>
     </Compile>
   </ItemGroup>
