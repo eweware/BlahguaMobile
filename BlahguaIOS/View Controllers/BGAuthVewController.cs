@@ -45,12 +45,31 @@ namespace BlahguaMobile.IOS
 				NavigationController.PopViewControllerAnimated(true);
 			};
 
+			var placeholderAttrs = new UIStringAttributes {
+				Font = UIFont.FromName (BGAppearanceConstants.FontName, 15),
+				ForegroundColor = UIColor.Black
+			};
+			var textAttrs = new UIStringAttributes {
+				Font = UIFont.FromName (BGAppearanceConstants.MediumFontName, 15),
+				ForegroundColor = UIColor.Black
+			};
+
+			usernameOrEmail.AttributedPlaceholder = new NSAttributedString (
+				"Username", 
+				placeholderAttrs
+			);
+			usernameOrEmail.AttributedText = new NSAttributedString ("", textAttrs);
 			usernameOrEmail.Background = UIImage.FromFile ("input_back.png");
 			usernameOrEmail.ShouldReturn = delegate {
 				password.BecomeFirstResponder();
 				return false;
 			};
 
+			password.AttributedPlaceholder = new NSAttributedString (
+				"Password", 
+				placeholderAttrs
+			);
+			password.AttributedText = new NSAttributedString ("", textAttrs);
 			password.Background = UIImage.FromFile ("input_back.png");
 			password.ShouldReturn = delegate {
 				SignIn();
@@ -58,6 +77,11 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
+			confirmPassword.AttributedPlaceholder = new NSAttributedString (
+				"Confirm Password", 
+				placeholderAttrs
+			);
+			confirmPassword.AttributedText = new NSAttributedString ("", textAttrs);
 			confirmPassword.Background = UIImage.FromFile ("input_back.png");
 
 			SetMode (signUp);
