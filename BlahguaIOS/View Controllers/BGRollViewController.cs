@@ -163,19 +163,22 @@ namespace BlahguaMobile.IOS
 			{
 				if (rightViewContainer == null)
 					PrepareRigthMenu ();
-				profile = new UIButton (new RectangleF (20, 0, 44, 44));
+				profile = new UIButton (new RectangleF (44, 0, 44, 44));
 				profile.SetImage (GetProfileImage(), UIControlState.Normal);
-				newBlah = new UIButton (new RectangleF (64, 0, 44, 44));
+				newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
 				newBlah.SetBackgroundImage (UIImage.FromFile ("new_post_tap.png"), UIControlState.Normal);
 				newBlah.SetImage (UIImage.FromFile ("newBlahImage.png"), UIControlState.Normal);
 				profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
 				newBlah.TouchUpInside += NewBlah;
 
-				UIView view = new UIView (new RectangleF (0, 0, 108, 44));
+				var negativeSpacer = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
+				negativeSpacer.Width = -20f;
+
+				UIView view = new UIView (new RectangleF (0, 0, 88, 44));
 				view.AddSubviews (new UIView[] { profile, newBlah });
 				var rightBarButton = new UIBarButtonItem (view);
 
-				NavigationItem.RightBarButtonItem = rightBarButton;
+				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
 			}
 		}
 
