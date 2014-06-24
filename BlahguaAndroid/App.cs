@@ -15,5 +15,8 @@ namespace BlahguaMobile.AndroidClient
     class App
     {
         public static string BlahIdToOpen;
+
+        public static readonly string EmailHelp = "info@goheard.com";
+        public static readonly string WebsiteAbout = "http://www.goheard.com/";
     }
 }

@@ -179,6 +179,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                     MainActivity.analytics.PostSessionError("loadblahfailed");
                     // Finish();
                 }
+
+                ((ViewPostActivity)Activity).UpdateSummaryButtons();
             });
         }
 

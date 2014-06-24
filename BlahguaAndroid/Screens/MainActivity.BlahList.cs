@@ -371,7 +371,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 RunOnUiThread(() =>
                 {
                     image.SetUrlDrawable(imageURL);
-                    //image.SetScaleType(ImageView.ScaleType.FitStart);
                     if (!String.IsNullOrEmpty(theBlah.T))
                     {
                         image.Tag = true;   // animate this

@@ -97,6 +97,20 @@ namespace BlahguaMobile.AndroidClient
             dialog = new ProgressDialog(this);
             dialog.SetMessage("Signing in...");
             dialog.SetCancelable(false);
+
+            Button btn_help = FindViewById<Button>(Resource.Id.btn_help);
+            btn_help.Click += (sender, args) =>
+            {
+                Intent emailIntent = new Intent(Intent.ActionSendto,
+                    Android.Net.Uri.FromParts("mailto", App.EmailHelp, null));
+                emailIntent.PutExtra(Intent.ExtraSubject, "Help Me");
+                StartActivity(Intent.CreateChooser(emailIntent, "Send email..."));
+            };
+            Button btn_about = FindViewById<Button>(Resource.Id.btn_about);
+            btn_about.Click += (sender, args) =>
+            {
+                StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse(App.WebsiteAbout)));
+            };
 		}
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)

@@ -28,6 +28,7 @@ namespace BlahguaMobile.AndroidClient
         private ViewPostStatsFragment statsFragment;
 
         private Button btn_promote, btn_demote, btn_login;
+        private Button btn_summary, btn_comments, btn_stats;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -72,7 +73,7 @@ namespace BlahguaMobile.AndroidClient
             btn_summary_Click(null, null);
             MainActivity.analytics.PostPageView("/blah");
         }
-        Button btn_summary, btn_comments, btn_stats;
+
         private void initUserUi()
         {
             if (BlahguaAPIObject.Current.CurrentUser != null)
@@ -242,7 +243,7 @@ namespace BlahguaMobile.AndroidClient
         }
         #endregion
 
-        void UpdateSummaryButtons()
+        public void UpdateSummaryButtons()
         {
             //btn_promote.IconUri = new Uri("/Images/Icons/white_promote.png", UriKind.Relative);
             //btn_demote.IconUri = new Uri("/Images/Icons/white_demote.png", UriKind.Relative);
@@ -263,7 +264,7 @@ namespace BlahguaMobile.AndroidClient
 						if (curBlah.uv == 1) {
 							btn_promote.SetBackgroundResource (Resource.Drawable.btn_promote_active);
 						} else {
-							btn_promote.SetBackgroundResource (Resource.Drawable.btn_demote_active);
+                            btn_demote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
 						}
 					}
 				});

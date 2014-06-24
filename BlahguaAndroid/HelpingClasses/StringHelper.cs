@@ -18,22 +18,22 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         {
             string result = "some time ago";
             TimeSpan span = DateTime.Now - time;
-            if (span.Days > 30)
+            if (span.TotalDays > 30)
             {
                 // month
                 result = span.Days / 30 + " month ago";
             }
-            else if (span.Hours > 23)
+            else if (span.TotalHours > 23)
             {
                 // days
                 result = span.Days + " days ago";
             }
-            else if (span.Minutes > 59)
+            else if (span.TotalMinutes > 59)
             {
                 // hours
                 result = span.Hours + " hours ago";
             }
-            else if (span.Seconds > 59)
+            else if (span.TotalSeconds > 59)
             {
                 // minutes
                 result = span.Minutes + " minutes ago";

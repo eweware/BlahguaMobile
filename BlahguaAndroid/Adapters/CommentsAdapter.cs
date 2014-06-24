@@ -12,6 +12,7 @@ using Android.Widget;
 using BlahguaMobile.BlahguaCore;
 
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -62,15 +63,18 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
 
             Comment c = _list[position];
-            if (String.IsNullOrEmpty(c.ImageURL))
+            if (!String.IsNullOrEmpty(c.ImageURL))
             {
                 image.SetUrlDrawable(c.ImageURL);
             }
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
+            author.Text = c.AuthorName;
+            author_avatar.SetUrlDrawable(c.AuthorImage);
+            time_ago.Text = StringHelper.ConstructTimeAgo(c.u == null ? c.CreationDate : c.UpdateDate);
 
-            upvoted.SetText(c.UpVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
-            downvoted.SetText(c.DownVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
+            upvoted.Text = c.UpVoteCount.ToString();
+            downvoted.Text = c.DownVoteCount.ToString();
 
             return view;
         }

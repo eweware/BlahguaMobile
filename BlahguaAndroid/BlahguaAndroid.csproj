@@ -675,4 +675,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\btn_green_inactive.9.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_inactive.png" />
+  </ItemGroup>
 </Project>
