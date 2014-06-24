@@ -55,7 +55,8 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			BlahguaAPIObject.Current.SetCurrentBlahFromId("-1", (blahId) => {});
+
+			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
 
 			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
@@ -70,6 +71,7 @@ namespace BlahguaMobile.IOS
 				{
 					CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 					InvokeOnMainThread(() => {
+						Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 						var dataSource = ((BGRollViewDataSource)CollectionView.DataSource);
 						dataSource.DataSource.Clear();
 						CollectionView.ReloadData();
