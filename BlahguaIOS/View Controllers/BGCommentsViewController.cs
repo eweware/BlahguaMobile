@@ -350,11 +350,12 @@ namespace BlahguaMobile.IOS
 			{
 				if(newCommentViewController != null)
 				{
-					newCommentViewController.Done ();
 					newCommentViewController.View.RemoveFromSuperview ();
 					newYCoordDiff = -246f;
 					isWriteMode = false;
 				}
+				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
+
 			}
 			else
 			{
@@ -365,6 +366,7 @@ namespace BlahguaMobile.IOS
 					newCommentViewController.ParentViewController = this;
 				}
 				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 64), newCommentViewController.View.Frame.Size);
+				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
 				View.AddSubview (newCommentViewController.View);
 				newYCoordDiff += 246f;
 				isWriteMode = true;
@@ -377,6 +379,10 @@ namespace BlahguaMobile.IOS
 			UIView.CommitAnimations ();
 		}
 
+		public void SwitchNewCommentMode()
+		{
+			WriteCommentAction (null, null);
+		}
 
 		#endregion
 

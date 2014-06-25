@@ -117,6 +117,25 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
+			done.SetBackgroundImage (UIImage.FromFile ("long_button.png"), UIControlState.Normal);
+			done.SetBackgroundImage (UIImage.FromFile ("long_button_gray.png"), UIControlState.Disabled);
+			done.SetAttributedTitle (new NSAttributedString (
+				"Done", 
+				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
+				BGAppearanceConstants.buttonTitleInactiveColor), UIControlState.Disabled);
+
+			done.SetAttributedTitle (new NSAttributedString (
+				"Done", 
+				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
+				UIColor.White), UIControlState.Normal);
+			if(!String.IsNullOrEmpty(titleInput.Text))
+			{
+				done.Enabled = true;
+			}
+			else
+			{
+				done.Enabled = false;
+			}
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
 			};

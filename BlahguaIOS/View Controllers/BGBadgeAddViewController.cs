@@ -12,6 +12,7 @@ namespace BlahguaMobile.IOS
 	public partial class BGBadgeAddViewController : UIViewController
 	{
 		private string ticketString;
+		private bool isEmail;
 
 		public BGBadgeAddViewController (IntPtr handle) : base (handle)
 		{
@@ -29,7 +30,7 @@ namespace BlahguaMobile.IOS
 
 			emailTextField.AttributedPlaceholder = new NSAttributedString(
 				"Type email address", UIFont.FromName(BGAppearanceConstants.FontName, 17), 
-				UIColor.Black
+				UIColor.LightGray
 			);
 
 			emailTextField.AttributedText = new NSAttributedString(
@@ -37,9 +38,23 @@ namespace BlahguaMobile.IOS
 				UIFont.FromName(BGAppearanceConstants.FontName, 17), 
 				UIColor.Black
 			);
+			emailTextField.AllEditingEvents += (object sender, EventArgs e) => {
+				if(!String.IsNullOrEmpty(emailTextField.Text))
+				{
+					doneButton.Enabled = true;
+				}
+				else
+				{
+					doneButton.Enabled = false;
+				}
+			};
 
+			doneButton.Enabled = false;
+			doneButton.SetBackgroundImage (UIImage.FromFile ("long_button.png"), UIControlState.Normal);
+			doneButton.SetBackgroundImage (UIImage.FromFile ("long_button_gray.png"), UIControlState.Disabled);
 			doneButton.SetAttributedTitle(new NSAttributedString("Done", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 			doneButton.TouchUpInside += (object sender, EventArgs e) => {
+				emailTextField.ResignFirstResponder();
 				BlahguaAPIObject.Current.GetBadgeAuthorities((authorities) =>{
 					InvokeOnMainThread(() => {
 						string authId = authorities[0]._id;
@@ -54,30 +69,31 @@ namespace BlahguaMobile.IOS
 								else
 								{
 									ticketString = ticket;
-
-										emailTextField.Text = String.Empty;
-										emailTextField.Placeholder = "Type validation code";
-										doneButton.TouchUpInside += (object s, EventArgs ev) => {
-											BlahguaAPIObject.Current.VerifyEmailBadge(emailTextField.Text, ticketString, (result) => {
-												InvokeOnMainThread(() =>{
-													if(result == String.Empty)
-													{
-														UIAlertView alert = new UIAlertView("", "That validation code was not valid.  Please retry your badging attempt.", null, "OK");
-														alert.Show();
-													}
-													else
-													{
-														NavigationController.PopViewControllerAnimated(true);
-													}
-												});
+									doneButton.Enabled = false;
+									emailTextField.Text = String.Empty;
+									emailTextField.Placeholder = "Type validation code";
+									doneButton.TouchUpInside += (object s, EventArgs ev) => {
+										BlahguaAPIObject.Current.VerifyEmailBadge(emailTextField.Text, ticketString, (result) => {
+											InvokeOnMainThread(() =>{
+												if(result == String.Empty)
+												{
+													UIAlertView alert = new UIAlertView("", "That validation code was not valid.  Please retry your badging attempt.", null, "OK");
+													alert.Show();
+												}
+												else
+												{
+													NavigationController.PopViewControllerAnimated(true);
+												}
 											});
-										};
+										});
+									};
 								}
 							});
 						});
 					});
 				});
 			};
+
 		}
 	}
 }

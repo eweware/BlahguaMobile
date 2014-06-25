@@ -262,6 +262,7 @@
     <Compile Include="View Controllers\BGItemsSelectionTableViewCotroller.designer.cs">
       <DependentUpon>BGItemsSelectionTableViewCotroller.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BGUIColorExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -358,5 +359,6 @@
     <BundleResource Include="Resources\short_button_gray%402x.png" />
     <BundleResource Include="Resources\new_post%402x.png" />
     <BundleResource Include="Resources\short_button%402x.png" />
+    <BundleResource Include="Resources\long_button_gray%402x.png" />
   </ItemGroup>
 </Project>

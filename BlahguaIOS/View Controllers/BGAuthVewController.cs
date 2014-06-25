@@ -7,6 +7,8 @@ using MonoTouch.UIKit;
 
 using BlahguaMobile.BlahguaCore;
 
+using BlahguaMobile.IOS;
+
 namespace BlahguaMobile.IOS
 {
 	partial class BGAuthVewController : UIViewController
@@ -16,6 +18,8 @@ namespace BlahguaMobile.IOS
 
 		private bool rememberMe = true;
 		private bool signUp = false;
+
+		private UIButton doneButton;
 
 		#endregion
 
@@ -38,8 +42,8 @@ namespace BlahguaMobile.IOS
 			View.BackgroundColor = BGAppearanceHelper.GetColorForBackground ("signinBckg.png");
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
+			NavigationItem.RightBarButtonItem.Enabled = false;
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
-			NavigationItem.RightBarButtonItem.Enabled = true;
 
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
@@ -47,7 +51,7 @@ namespace BlahguaMobile.IOS
 
 			var placeholderAttrs = new UIStringAttributes {
 				Font = UIFont.FromName (BGAppearanceConstants.FontName, 15),
-				ForegroundColor = UIColor.Black
+				ForegroundColor = UIColor.LightGray
 			};
 			var textAttrs = new UIStringAttributes {
 				Font = UIFont.FromName (BGAppearanceConstants.MediumFontName, 15),
@@ -64,6 +68,8 @@ namespace BlahguaMobile.IOS
 				password.BecomeFirstResponder();
 				return false;
 			};
+			usernameOrEmail.AllEditingEvents += InputsEditingHandler;
+			usernameOrEmail.ReturnKeyType = UIReturnKeyType.Next;
 
 			password.AttributedPlaceholder = new NSAttributedString (
 				"Password", 
@@ -72,10 +78,9 @@ namespace BlahguaMobile.IOS
 			password.AttributedText = new NSAttributedString ("", textAttrs);
 			password.Background = UIImage.FromFile ("input_back.png");
 			password.ShouldReturn = delegate {
-				SignIn();
-				password.ResignFirstResponder();
 				return true;
 			};
+			password.AllEditingEvents += InputsEditingHandler;
 
 			confirmPassword.AttributedPlaceholder = new NSAttributedString (
 				"Confirm Password", 
@@ -83,6 +88,7 @@ namespace BlahguaMobile.IOS
 			);
 			confirmPassword.AttributedText = new NSAttributedString ("", textAttrs);
 			confirmPassword.Background = UIImage.FromFile ("input_back.png");
+			confirmPassword.AllEditingEvents += InputsEditingHandler;
 
 			SetMode (signUp);
 
@@ -91,33 +97,26 @@ namespace BlahguaMobile.IOS
 				Mode.SetImage(GetModeBackgroundImage(), UIControlState.Normal);
 				if(signUp)
 				{
-					password.AllEditingEvents += PasswordEditingHandler;
+
 					password.ReturnKeyType = UIReturnKeyType.Next;
 					password.ShouldReturn = delegate {
 						confirmPassword.BecomeFirstResponder();
 						return false;
 					};
 
-					confirmPassword.AllEditingEvents += PasswordEditingHandler;
+					confirmPassword.AllEditingEvents += InputsEditingHandler;
 
 					confirmPassword.ShouldReturn = delegate {
-						if(password.Text == confirmPassword.Text)
-						{
-							SignUp();
-						}
 						return true;
 					};
-
+					confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
 				}
 				else
 				{
-					NavigationItem.RightBarButtonItem.Enabled = true;
-					password.ReturnKeyType = UIReturnKeyType.Done;
-					password.AllEditingEvents -= PasswordEditingHandler;
-					confirmPassword.AllEditingEvents -= PasswordEditingHandler;
+
+					password.ReturnKeyType = UIReturnKeyType.Default;
 
 					password.ShouldReturn = delegate {
-						SignIn();
 						return true;
 					};
 				}
@@ -125,7 +124,7 @@ namespace BlahguaMobile.IOS
 			};
 
 			usernameOrEmail.ReturnKeyType = UIReturnKeyType.Next;
-			password.ReturnKeyType = UIReturnKeyType.Done;
+			password.ReturnKeyType = UIReturnKeyType.Default;
 
 			password.SecureTextEntry = true;
 			confirmPassword.SecureTextEntry = true;
@@ -134,9 +133,6 @@ namespace BlahguaMobile.IOS
 				new RectangleF (0, 517, 320, 51) : new RectangleF (0, 429, 320, 51);
 			UIView bottomView = new UIView (viewRectangleF);
 			bottomView.BackgroundColor = UIColor.White;
-
-
-
 		}
 
 		public override bool PrefersStatusBarHidden()
@@ -158,6 +154,7 @@ namespace BlahguaMobile.IOS
 			{
 				SignIn ();
 			}
+			NavigationItem.RightBarButtonItem.Enabled = false;
 		}
 
 		private void CancelHandler(object sender, EventArgs args)
@@ -175,16 +172,32 @@ namespace BlahguaMobile.IOS
 			BlahguaAPIObject.Current.Register (usernameOrEmail.Text, password.Text, rememberMe, AuthenticationResultCallback);
 		}
 
-		private void PasswordEditingHandler(object sender, EventArgs e) {
-			if(password.Text != confirmPassword.Text || password.Text == String.Empty || password.Text == String.Empty)
+		private void InputsEditingHandler(object sender, EventArgs e) {
+			if(signUp)
 			{
-				NavigationItem.RightBarButtonItem.Enabled = false;
-				confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
+				if(password.Text != confirmPassword.Text || 
+				   String.IsNullOrEmpty(password.Text) || 
+				   String.IsNullOrEmpty(confirmPassword.Text) || 
+				   String.IsNullOrEmpty(usernameOrEmail.Text))
+				{
+					NavigationItem.RightBarButtonItem.Enabled = false;
+				}
+				else
+				{
+					NavigationItem.RightBarButtonItem.Enabled = true;
+				}
 			}
 			else
 			{
-				NavigationItem.RightBarButtonItem.Enabled = true;
-				confirmPassword.ReturnKeyType = UIReturnKeyType.Done;
+				if(String.IsNullOrEmpty(password.Text) || 
+					String.IsNullOrEmpty(usernameOrEmail.Text))
+				{
+					NavigationItem.RightBarButtonItem.Enabled = false;
+				}
+				else
+				{
+					NavigationItem.RightBarButtonItem.Enabled = true;
+				}
 			}
 		}
 
@@ -202,7 +215,11 @@ namespace BlahguaMobile.IOS
 		{
 			if (result == null)
 			{
-				InvokeOnMainThread (() => PerformSegue ("fromLoginToProfile", this));
+				InvokeOnMainThread (() => NavigationController.PopViewControllerAnimated(true));
+			}
+			else
+			{
+				InvokeOnMainThread (() => NavigationItem.RightBarButtonItem.Enabled = true );
 			}
 		}
 

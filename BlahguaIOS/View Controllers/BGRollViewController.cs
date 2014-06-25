@@ -157,7 +157,7 @@ namespace BlahguaMobile.IOS
 		{
 			if(BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null)
 			{
- 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+				NavigationItem.RightBarButtonItems = new UIBarButtonItem[] { new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) };
 			}
 			else
 			{
@@ -172,7 +172,7 @@ namespace BlahguaMobile.IOS
 				newBlah.TouchUpInside += NewBlah;
 
 				var negativeSpacer = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
-				negativeSpacer.Width = -20f;
+				negativeSpacer.Width = -15f;
 
 				UIView view = new UIView (new RectangleF (0, 0, 88, 44));
 				view.AddSubviews (new UIView[] { profile, newBlah });
@@ -368,7 +368,7 @@ namespace BlahguaMobile.IOS
 
 		private void LogoutButtonClicked(object sender, EventArgs args)
 		{
-			BlahguaAPIObject.Current.SignOut (BlahguaAPIObject.Current.CurrentChannelList [0].ChannelName, SignoutCompleted);
+			BlahguaAPIObject.Current.SignOut (null, SignoutCompleted);
 
 		}
 
@@ -386,7 +386,7 @@ namespace BlahguaMobile.IOS
 		private void ToggleRightMenu()
 		{
 			UIView.BeginAnimations (null);
-			UIView.SetAnimationDuration (1.0f);
+			UIView.SetAnimationDuration (0.3f);
 			if(isOpened)
 			{
 				rightViewContainer.Frame = BGAppearanceConstants.InitialRightViewContainerFrame;

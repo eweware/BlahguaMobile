@@ -22,10 +22,6 @@ namespace BlahguaMobile.IOS
 
 		private bool isProfileSignature;
 
-		private NSObject keyboardShowObserver;
-		private NSObject keyboardHideObserver;
-
-		private bool keyboardHidden;
 
 		public BGCommentsViewController ParentViewController { get; set; }
 
@@ -61,23 +57,39 @@ namespace BlahguaMobile.IOS
 			selectImageButton.SetImage (UIImage.FromFile ("image_select.png"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
-			input.ReturnKeyType = UIReturnKeyType.Done;
-
+			input.ReturnKeyType = UIReturnKeyType.Default;
 			input.ShouldReturn = delegate {
-				if (!String.IsNullOrEmpty (input.Text)) {
-					Done();
-				}
 				return true;
 			};
 
+			input.AllEditingEvents += (object sender, EventArgs e) => {
+				if(String.IsNullOrEmpty(input.Text))
+					done.Enabled = false;
+				else
+					done.Enabled = true;
+			};
+
+			done.SetBackgroundImage (UIImage.FromFile ("long_button.png"), UIControlState.Normal);
+			done.SetBackgroundImage (UIImage.FromFile ("long_button_gray.png"), UIControlState.Disabled);
+			done.SetAttributedTitle (new NSAttributedString (
+				"Done", 
+				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
+				BGAppearanceConstants.buttonTitleInactiveColor), UIControlState.Disabled);
+
+			done.SetAttributedTitle (new NSAttributedString (
+				"Done", 
+				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
+				UIColor.White), UIControlState.Normal);
+			if(!String.IsNullOrEmpty(input.Text))
+			{
+				done.Enabled = true;
+			}
+			else
+			{
+				done.Enabled = false;
+			}
 			done.TouchUpInside += (object sender, EventArgs e) => {
-				if(!String.IsNullOrEmpty(input.Text))
-				{
-					NewComment.Text = input.Text;
-					NewComment.UseProfile = isProfileSignature;
-					NewComment.Badges = BlahguaAPIObject.Current.CurrentUser.Badges;
-					Done();
-				}
+				Done();
 			};
 		}
 
@@ -175,6 +187,7 @@ namespace BlahguaMobile.IOS
 
 		private void CommentCreated(Comment newComment)
 		{
+			InvokeOnMainThread(() => ParentViewController.SwitchNewCommentMode ());
 			Console.WriteLine ("Comment pushed");
 		}
 

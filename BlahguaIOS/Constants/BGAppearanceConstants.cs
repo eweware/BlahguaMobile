@@ -19,6 +19,10 @@ namespace BlahguaMobile.IOS
 		public static readonly RectangleF RightViewFrame = new RectangleF(163, 64, 157, UIScreen.MainScreen.Bounds.Height - 64);
 
 		public static readonly RectangleF PollCellRect = new RectangleF(0, 0, 320, 64);
+
+
+		public static readonly UIColor buttonTitleInactiveColor = UIColor.FromRGB(248, 248, 248);
+		public static readonly UIColor buttonBackInactiveColor = UIColor.FromRGB(188, 188, 188);
 	}
 }
 
