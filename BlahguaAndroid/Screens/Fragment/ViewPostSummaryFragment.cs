@@ -152,7 +152,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                     parent.RunOnUiThread(() =>
                     {
                         author.Text = theBlah.UserName;
-                        timeago.Text = StringHelper.ConstructTimeAgo(theBlah.UpdateDate);
+                        if (!(theBlah.u == null && theBlah.c == null))
+                        {
+                            timeago.Text = StringHelper.ConstructTimeAgo(theBlah.u == null ? theBlah.CreationDate : theBlah.UpdateDate);
+                        }
                         authorDescription.Text = theBlah.Description.d;
                         authorAvatar.SetUrlDrawable(theBlah.UserImage);
                         if (theBlah.Badges != null)

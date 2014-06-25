@@ -81,7 +81,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         /////////////////
         PostsAdapter adapter;
-        private void LoadUserPosts()
+        public void LoadUserPosts()
         {
             BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
                 {
@@ -93,7 +93,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         {
                             list.Visibility = ViewStates.Visible;
                             no_entries.Visibility = ViewStates.Gone;
-                            adapter = new PostsAdapter(Activity, theBlahs);
+                            adapter = new PostsAdapter(this, theBlahs);
                             list.Adapter = adapter;
                         }
                         else
