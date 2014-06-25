@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
         <TextView
           android:layout_width="wrap_content"
@@ -180,6 +181,7 @@
               android:layout_weight="1"
               android:hint="Type here"
               android:textColor="#3C3C3C"
+              android:singleLine="true"
               android:background="@drawable/edit_gray" />
 
           <CheckBox
@@ -226,6 +228,7 @@
               android:layout_weight="1"
               android:hint="Type here"
               android:textColor="#3C3C3C"
+              android:singleLine="true"
               android:background="@drawable/edit_gray" />
 
           <CheckBox
@@ -272,6 +275,7 @@
               android:layout_weight="1"
               android:hint="Type here"
               android:textColor="#3C3C3C"
+              android:singleLine="true"
               android:background="@drawable/edit_gray" />
 
           <CheckBox
