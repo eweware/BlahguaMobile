@@ -32,7 +32,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ListView list;
         private LinearLayout no_entries;
 
-        HistoryActivity activity;
+        private HistoryActivity activity;
+
+        private PostsAdapter adapter;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
 
@@ -64,7 +67,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 View listItem = HistoryUiHelper.getViewByPosition(position, list);
                 HistoryUiHelper.manageSwipe(listItem, false, true);
-                //listItem.FindViewById<TextView>(Resource.Id.text).SetText("You swipe left on the " + position, Android.Widget.TextView.BufferType.Normal);
             }
         }
 
@@ -75,12 +77,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 View listItem = HistoryUiHelper.getViewByPosition(position, list);
                 HistoryUiHelper.manageSwipe(listItem, true, false);
-                //listItem.FindViewById<TextView>(Resource.Id.text).SetText("You swipe right on the " + position, Android.Widget.TextView.BufferType.Normal);
             }
         }
 
-        /////////////////
-        PostsAdapter adapter;
         public void LoadUserPosts()
         {
             BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
@@ -103,15 +102,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                             list.Adapter = adapter = null;
                         }
                     });
-                    //list.ItemClick += list_ItemClick;
-
-                    //blahDataView = new CollectionViewSource();
-                    //blahDataView.Source = theBlahs.Where(blah => blah.S > 0);
-                    //postsLoaded = true;
-                    //SortAndFilterBlahs();
-                    //UserPostList.ItemsSource = blahDataView.View;
-                    //NoPostsBox.Visibility = Visibility.Collapsed;
-                } );
+                }
+            );
         }
     }
 }

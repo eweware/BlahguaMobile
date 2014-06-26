@@ -21,15 +21,15 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
     class PostsAdapter : BaseAdapter
     {
-
-        EventHandler openHandler = (sender, args) =>
+        private EventHandler openHandler = (sender, args) =>
         {
             var btn = (Button)sender;
             string id = (string)btn.Tag;
             App.BlahIdToOpen = id;
             btn.Context.StartActivity(typeof(ViewPostActivity));
         };
-        EventHandler deleteHandler = (sender, args) =>
+
+        private EventHandler deleteHandler = (sender, args) =>
         {
             var btn = (Button)sender;
             string id = (string)btn.Tag;
@@ -42,9 +42,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
             });
         };
 
-        static HistoryPostsFragment _fragment;
-        Activity _activity;
-        BlahList _list;
+        private static HistoryPostsFragment _fragment;
+        private Activity _activity;
+        private BlahList _list;
 
         public PostsAdapter(HistoryPostsFragment fragment, BlahList list)
         {

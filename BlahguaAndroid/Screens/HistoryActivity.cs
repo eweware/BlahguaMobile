@@ -93,6 +93,12 @@ namespace BlahguaMobile.AndroidClient
             var fragmentTransaction = FragmentManager.BeginTransaction();
             fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
             fragmentTransaction.Commit();
+
+            _gestureListener.SwipeLeftEvent -= commentsFragment.GestureLeft;
+            _gestureListener.SwipeRightEvent -= commentsFragment.GestureRight;
+
+            _gestureListener.SwipeLeftEvent += commentsFragment.GestureLeft;
+            _gestureListener.SwipeRightEvent += commentsFragment.GestureRight;
         }
     }
 }

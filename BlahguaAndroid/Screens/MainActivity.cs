@@ -534,8 +534,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                             _sharedPref.Edit().Remove("username").Commit();
                             _sharedPref.Edit().Remove("password").Commit();
 
-                            SlidingMenu.Mode = MenuMode.LeftRight;
-                            OnChannelChanged();
+                            SlidingMenu.Mode = MenuMode.Left;
+                            secondaryMenuInitiated = false;
+                            populateChannelMenu();
+                            //OnChannelChanged();
                             dialog.Cancel();
                         });
                     }
