@@ -14,7 +14,7 @@ using Android.Preferences;
 
 namespace BlahguaMobile.AndroidClient
 {
-	[Activity]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
 	public class LoginActivity : Activity
 	{
         private static LoginActivity instance;

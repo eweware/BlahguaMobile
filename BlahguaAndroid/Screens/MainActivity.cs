@@ -19,10 +19,11 @@ using System.IO.IsolatedStorage;
 using Android.Graphics;
 using Android.Animation;
 using System.Collections.Generic;
+using Android.Content.PM;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
     public partial class MainActivity : SlidingFragmentActivity
     {
         Inbox blahList;
@@ -156,7 +157,17 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             //targetBlah = null;
             scrollTimer.Start();
-             BlahAnimateTimer.Start();
+            BlahAnimateTimer.Start();
+        }
+
+
+        private void StopTimers()
+        {
+            scrollTimer.Stop();
+            BlahAnimateTimer.Stop();
+            //AnimateTextFadeIn.Stop();
+            //AnimateTextFadeOut.Stop();
+            //targetBlah = null;
         }
 
         private static long fadeDuration = 2000;
@@ -232,15 +243,6 @@ namespace BlahguaMobile.AndroidClient.Screens
         private void OnAnimationEnd(object sender, EventArgs e)
         {
             MaybeAnimateElement();
-        }
-
-
-        private void StopTimers()
-        {
-            scrollTimer.Stop();
-            //AnimateTextFadeIn.Stop();
-            //AnimateTextFadeOut.Stop();
-            //targetBlah = null;
         }
 
         private void ScrollBlahRoll(object sender, EventArgs e)

@@ -17,7 +17,7 @@ using Android.App;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(MainLauncher = true)]
+    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : Activity
     {
 

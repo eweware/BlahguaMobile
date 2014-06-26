@@ -16,7 +16,7 @@ using Java.Util;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity : IUrlImageViewCallback
+    public partial class MainActivity : IUrlImageViewCallback, View.IOnTouchListener
     {
         enum MyBlahType
         {
@@ -84,7 +84,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 }
                                 else
                                 {
-                                    progressBarImageLoading.Visibility = ViewStates.Gone;
                                     ClearImages();
                                     //App.analytics.PostSessionError("blahimageuploadfailed");
                                 }
@@ -109,14 +108,30 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void ClearImages()
         {
+            progressBarImageLoading.Visibility = ViewStates.Gone;
             BlahguaAPIObject.Current.CreateRecord.M = null;
             imageCreateBlah.SetImageDrawable(null);
             imageCreateBlahLayout.Visibility = ViewStates.Gone;
         }
 
+        public bool OnTouch(View v, MotionEvent ev)
+        {
+            if (ev.Action == MotionEventActions.Up)
+            {
+                if (create_post_block.Visibility == ViewStates.Visible)
+                {
+                    triggerCreateBlock();
+                }
+            }
+            return true;
+        }
+
         ///////// init
         private void initCreateBlahUi()
         {
+            blayGrayed = FindViewById<View>(Resource.Id.BlahGrayed);
+            blayGrayed.Visibility = ViewStates.Gone;
+            blayGrayed.SetOnTouchListener(this);
             additionalfields_layout = FindViewById<View>(Resource.Id.additionalfields_layout);
             create_post_block = FindViewById<View>(Resource.Id.create_post_block);
             btn_newpost.Click += (sender, args) =>
@@ -357,11 +372,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             StopTimers();
         }
 
+        View blayGrayed;
         public void triggerCreateBlock()
         {
             if (create_post_block.Visibility.Equals(ViewStates.Gone))
             {
+                blayGrayed.Visibility = ViewStates.Visible;
                 BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
+                // reset fields state
+                newPostTitle.Text = "";
+                newPostText.Text = "";
+                ClearImages();
 
                 triggerExpand();
 
@@ -370,6 +391,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 //collapse
+                blayGrayed.Visibility = ViewStates.Gone;
                 int finalHeight = create_post_block.Height;
 
                 ValueAnimator mAnimator = slideAnimator(create_post_block, finalHeight, 0, false);

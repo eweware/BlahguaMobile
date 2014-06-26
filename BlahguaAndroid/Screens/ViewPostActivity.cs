@@ -17,7 +17,7 @@ using Android.App;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
     public class ViewPostActivity : Activity
     {
         private Button btn_right;
@@ -127,7 +127,8 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Visibility = ViewStates.Gone;
+            title.Text = "Statistics";
+            title.Visibility = ViewStates.Visible;
             btn_right.Visibility = ViewStates.Gone;
 
             summaryFragment = null;
@@ -149,7 +150,8 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Visibility = ViewStates.Gone;
+            title.Text = "Summary";
+            title.Visibility = ViewStates.Visible;
             btn_right.Visibility = ViewStates.Gone;
 
             commentsFragment = null;
@@ -171,6 +173,7 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
 
             // do the rest
+            title.Text = "Comments";
             title.Visibility = ViewStates.Visible;
             //if (BlahguaAPIObject.Current.CurrentUser != null)
             //{

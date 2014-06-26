@@ -12,10 +12,11 @@ using Android.Widget;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Provider;
 using BlahguaMobile.BlahguaCore;
+using Android.Content.PM;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    [Activity]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
     class ImageViewActivity : Activity
     {
         TouchImageView imageView;

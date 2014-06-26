@@ -17,7 +17,7 @@ using Android.App;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(WindowSoftInputMode=SoftInput.AdjustPan)]
+    [Activity(WindowSoftInputMode=SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
     public class UserProfileActivity : Activity
     {
         private Button btn_right;

@@ -18,7 +18,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
     public class HistoryActivity : Activity
     {
         private TextView title;
