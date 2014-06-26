@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.MessageUI;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -19,12 +20,13 @@ namespace BlahguaMobile.IOS
 		private bool rememberMe = true;
 		private bool signUp = false;
 
-		private UIButton doneButton;
+		private MFMailComposeViewController mailComposer;
 
 		#endregion
 
 		public BGAuthVewController (IntPtr handle) : base (handle)
 		{
+
 		}
 
 		#region View Controller Overridden Methods
@@ -39,7 +41,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = BGAppearanceHelper.GetColorForBackground ("signinBckg.png");
+			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
@@ -129,10 +131,38 @@ namespace BlahguaMobile.IOS
 			password.SecureTextEntry = true;
 			confirmPassword.SecureTextEntry = true;
 
-			RectangleF viewRectangleF = BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ?
+			helpButton.Enabled = true;
+			helpButton.TouchUpInside += (object sender, EventArgs e) => {
+				if(MFMailComposeViewController.CanSendMail)
+				{
+					mailComposer = new MFMailComposeViewController();
+					mailComposer.SetToRecipients(new string[] { "info@goheard.com" });
+					mailComposer.Finished += (s, ev) => {
+						ev.Controller.DismissViewController(true, null);
+					};
+					PresentViewController(mailComposer, true, null);
+				}
+				else
+				{
+					var alert = new UIAlertView("Inforamtion", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
+					alert.Show();
+				}
+			};
+			aboutButton.Enabled = true;
+			aboutButton.TouchUpInside += (object sender, EventArgs e) => {
+				var url = NSUrl.FromString("http://www.goheard.com/"); 
+				if(UIApplication.SharedApplication.CanOpenUrl(url))
+				{
+					UIApplication.SharedApplication.OpenUrl(url);
+				}
+			};
+
+			RectangleF viewRectangleF = BGAppearanceHelper.DeviceType == DeviceType.iPhone5 ?
 				new RectangleF (0, 517, 320, 51) : new RectangleF (0, 429, 320, 51);
 			UIView bottomView = new UIView (viewRectangleF);
 			bottomView.BackgroundColor = UIColor.White;
+			View.AddSubview (bottomView);
+			View.SendSubviewToBack (bottomView);
 		}
 
 		public override bool PrefersStatusBarHidden()

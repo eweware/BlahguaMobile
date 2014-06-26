@@ -51,7 +51,7 @@
     <MtouchArch>ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>963691E6-01E0-44CD-BCFF-F181BB1167D2</CodesignProvision>
+    <CodesignProvision>CE6DE7BA-3AAB-45BE-BFC3-3D361D24DC1C</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
