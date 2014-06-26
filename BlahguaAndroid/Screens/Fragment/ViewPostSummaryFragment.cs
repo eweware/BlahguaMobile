@@ -161,6 +161,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         if (theBlah.Badges != null)
                         {
                             badgesIcon.Visibility = ViewStates.Visible;
+                            authorBadgesArea.Visibility = ViewStates.Visible;
                             authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
                         }
                     });
