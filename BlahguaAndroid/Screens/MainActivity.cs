@@ -20,6 +20,7 @@ using Android.Graphics;
 using Android.Animation;
 using System.Collections.Generic;
 using Android.Content.PM;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -48,6 +49,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private Button btn_login;
         private ImageView btn_newpost;
         private ImageView avatarBar, avatar;
+        private TextView userName;
         private LinearLayout registered_layout;
 
         private ProgressBar progress_actionbar;
@@ -350,9 +352,25 @@ namespace BlahguaMobile.AndroidClient.Screens
                     initSecondaryMenu();
 
                     btn_login.Visibility = ViewStates.Gone;
+                    if (registered_layout.Visibility == ViewStates.Gone)
+                    {
+                        // probably it user was not signed in previously
+                        if (BlahguaAPIObject.Current.CurrentUser != null)
+                        {
+                            //this.DataContext = BlahguaAPIObject.Current;
+                            BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                            {
+                                if ((whatsNew != null) && (whatsNew.message != ""))
+                                {
+                                    ShowNewsFloater(whatsNew);
+                                }
+                            });
+                        }
+                    }
                     registered_layout.Visibility = ViewStates.Visible;
                     avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
                     avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
+                    userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
                     if (firstInit)
                     {
@@ -394,14 +412,17 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     initLayouts();
                 });
-                //this.DataContext = BlahguaAPIObject.Current;
-                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    if ((whatsNew != null) && (whatsNew.message != ""))
+                    //this.DataContext = BlahguaAPIObject.Current;
+                    BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
-                        //ShowNewsFloater(whatsNew);
-                    }
-                });
+                        if ((whatsNew != null) && (whatsNew.message != ""))
+                        {
+                            ShowNewsFloater(whatsNew);
+                        }
+                    });
+                }
             }
             else
             {
@@ -412,6 +433,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 //LoadingBox.Visibility = Visibility.Collapsed;
                 //ConnectFailure.Visibility = Visibility.Visible;
             }
+        }
+        private void ShowNewsFloater(WhatsNewInfo newInfo)
+        {
+            var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
+            new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
         }
 
         #region SlidingMenu
@@ -471,6 +497,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             View rightMenu = SlidingMenu.GetSecondaryMenu();
 
             avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
+            userName = rightMenu.FindViewById<TextView>(Resource.Id.user_name);
             
             String[] profile = new String[] {
                                 GetString(Resource.String.profilemenu_profile),
@@ -585,19 +612,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
-        public void OnAnimationRepeat(Animator animation)
-        {
-        }
+        public void OnAnimationRepeat(Animator animation) { }
 
-        public void OnAnimationCancel(Animator animation)
-        {
-        }
+        public void OnAnimationCancel(Animator animation) { }
 
-
-        public void OnAnimationStart(Animator animation)
-        {
-           
-        }
+        public void OnAnimationStart(Animator animation) { }
     }
 
 

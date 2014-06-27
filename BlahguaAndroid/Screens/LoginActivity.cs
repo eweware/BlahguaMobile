@@ -11,6 +11,7 @@ using Android.Support.V4.Widget;
 using BlahguaMobile.BlahguaCore;
 using Android.Views.InputMethods;
 using Android.Preferences;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient
 {

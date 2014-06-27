@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="#1FBBD1"
-            android:text="ultradad" />
+            android:text="" />
         <ListView
             android:id="@+id/listProfileMenu"
             android:layout_width="match_parent"
