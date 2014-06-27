@@ -188,10 +188,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             btnAddOption.Click += DoAddPollChoice;
 
             setAsksCreateBlahType();
-            newPostTitle.Hint = "HEADLINE: Asks are open-ended questions. Must include a '?'";
         }
 
-        void editCreate_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        private void editCreate_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             if (newPostTitle.Visibility == ViewStates.Visible && newPostTitle.Text.Length == 0)
             {
@@ -237,7 +236,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
                     BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "asks");
                 currentType = MyBlahType.Asks;
-                newPostTitle.Hint = "HEADLINE: Asks are open-ended questions. Must include a '?'";
                 setAsksCreateBlahType();
             }
             else if (e.Position == 1) // leaks
@@ -245,7 +243,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
                     BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "leaks");
                 currentType = MyBlahType.Leaks;
-                newPostTitle.Hint = "HEADLINE: Leaks require that a badge to be attached.";
                 setAsksCreateBlahType();
             }
             else if (e.Position == 2) // polls
@@ -253,7 +250,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
                     BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "polls");
                 currentType = MyBlahType.Polls;
-                newPostTitle.Hint = "HEADLINE: Polls allow users to vote on pre-defined responses.";
                 setPollCreateBlahType();
             }
             else if (e.Position == 3) // predicts
@@ -261,7 +257,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
                     BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "predicts");
                 currentType = MyBlahType.Predicts;
-                newPostTitle.Hint = "HEADLINE: Predictions detail outcomes expected to occur.";
                 setPredictCreateBlahType();
             }
             else if (e.Position == 4) // says
@@ -269,10 +264,31 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
                     BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says");
                 currentType = MyBlahType.Says;
-                newPostTitle.Hint = "HEADLINE: Says are general posts, no requirements.";
                 setAsksCreateBlahType();
             }
             triggerExpand();
+        }
+
+        private void setTitleHint()
+        {
+            switch (currentType)
+            {
+                case MyBlahType.Asks:
+                    newPostTitle.Hint = "HEADLINE: Asks are open-ended questions. Must include a '?'";
+                    break;
+                case MyBlahType.Leaks:
+                    newPostTitle.Hint = "HEADLINE: Leaks require that a badge to be attached.";
+                    break;
+                case MyBlahType.Polls:
+                    newPostTitle.Hint = "HEADLINE: Polls allow users to vote on pre-defined responses.";
+                    break;
+                case MyBlahType.Predicts:
+                    newPostTitle.Hint = "HEADLINE: Predictions detail outcomes expected to occur.";
+                    break;
+                case MyBlahType.Says:
+                    newPostTitle.Hint = "HEADLINE: Says are general posts, no requirements.";
+                    break;
+            }
         }
 
         private void setAsksCreateBlahType()
@@ -374,6 +390,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 layoutParams.Height = ViewGroup.LayoutParams.MatchParent;
                 create_post_block.LayoutParameters = layoutParams;
             }
+
+            setTitleHint();
 
             StopTimers();
         }
