@@ -1,268 +1,386 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp">
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="5dp"
-      android:orientation="vertical"
-      android:background="@drawable/bg_create_comment">
-      <EditText
-        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textCursorDrawable="@null"
-        android:textColor="#3C3C3C"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:hint="TYPE HEADLINE (64)"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#E4E4E4" />
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <FrameLayout
-          android:id="@+id/createblah_image_layout"
-          android:layout_width="90dp"
-          android:layout_height="90dp"
-          android:visibility="gone">
-          <ImageView
-            android:id="@+id/createblah_image"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-          <ProgressBar
-            android:id="@+id/progress_image_loading"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        </FrameLayout>
-
-        <EditText
-          android:id="@+id/text"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:minHeight="80dp"
-          android:textColor="#3C3C3C"
-          android:textCursorDrawable="@null"
-          android:textSize="13sp"
-          android:hint="Type body text"
-          android:inputType="textMultiLine"
-          android:padding="10dp"
-          android:lines="5"
-          android:minLines="5"
-          android:gravity="top|left"
-          android:background="@null"
-          android:layout_marginBottom="3dp"/>
-      </LinearLayout>
-
-      <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#E4E4E4" />
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_create_comment">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/btn_speechact_say"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_speechact_say_teal"
+                        android:adjustViewBounds="false" />
+                    <TextView
+                        android:id="@+id/text_speechact_say"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Say"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="#60BFA4"
+                        android:background="@android:color/transparent"
+                        android:textSize="9sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/btn_speechact_predict"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_speechact_predict"
+                        android:adjustViewBounds="false" />
+                    <TextView
+                        android:id="@+id/text_speechact_predict"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Predict"
+                        android:layout_gravity="center"
+                        android:textColor="#3F2B2F"
+                        android:gravity="center"
+                        android:background="@android:color/transparent"
+                        android:textSize="9sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/btn_speechact_poll"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_speechact_poll"
+                        android:adjustViewBounds="false" />
+                    <TextView
+                        android:id="@+id/text_speechact_poll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Poll"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#3F2B2F"
+                        android:background="@android:color/transparent"
+                        android:textSize="9sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/btn_speechact_ask"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_speechact_ask"
+                        android:adjustViewBounds="false" />
+                    <TextView
+                        android:id="@+id/text_speechact_ask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ask"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#3F2B2F"
+                        android:background="@android:color/transparent"
+                        android:textSize="9sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/btn_speechact_leak"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_speechact_leak"
+                        android:adjustViewBounds="false" />
+                    <TextView
+                        android:id="@+id/text_speechact_leak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Leak"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="#3F2B2F"
+                        android:background="@android:color/transparent"
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#E4E4E4" />
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@null"
+                android:textColor="#3C3C3C"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:hint="TYPE HEADLINE (64)"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#E4E4E4" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:id="@+id/createblah_image_layout"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/createblah_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop" />
+                    <ProgressBar
+                        android:id="@+id/progress_image_loading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+                <EditText
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    android:textColor="#3C3C3C"
+                    android:textCursorDrawable="@null"
+                    android:textSize="13sp"
+                    android:hint="Type body text"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:lines="5"
+                    android:minLines="5"
+                    android:gravity="top|left"
+                    android:background="@null"
+                    android:layout_marginBottom="3dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#E4E4E4" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_image"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textColor="#3C3C3C"
+                    android:textSize="14sp"
+                    android:text="Select image" />
+                <View
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="#E4E4E4" />
+                <Button
+                    android:id="@+id/btn_signature"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textColor="#3C3C3C"
+                    android:textSize="14sp"
+                    android:text="Select signature" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/additionalfields_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/bg_create_comment">
+            <EditText
+                android:id="@+id/prediction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textSize="13sp"
+                android:hint="Type prediction expiration date (mm/dd/yyyy)"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #1"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #2"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #3"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #4"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #5"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #6"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #7"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #8"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #9"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <EditText
+                android:id="@+id/poll10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp"
+                android:hint="Type poll option #10"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:background="@null"
+                android:layout_marginBottom="3dp" />
+            <Button
+                android:id="@+id/btn_add_poll_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textStyle="bold"
+                android:textColor="#3C3C3C"
+                android:textSize="13sp"
+                android:paddingLeft="10dp"
+                android:gravity="left|center_vertical"
+                android:text="+ Add more options" />
+        </LinearLayout>
         <Button
-            android:id="@+id/btn_image"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:textColor="#3C3C3C"
-            android:textSize="14sp"
-            android:text="Select image" />
-
-        <View
-          android:layout_width="2px"
-          android:layout_height="match_parent"
-          android:background="#E4E4E4" />
-
-        <Button
-            android:id="@+id/btn_signature"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:textColor="#3C3C3C"
-            android:textSize="14sp"
-            android:text="Select signature"/>
-      </LinearLayout>
+            android:id="@+id/btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_green"
+            android:textColor="@drawable/btn_colored_text"
+            android:text="DONE" />
     </LinearLayout>
-
-    <LinearLayout
-      android:id="@+id/additionalfields_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:layout_marginBottom="5dp"
-      android:background="@drawable/bg_create_comment">
-      <EditText
-        android:id="@+id/prediction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textSize="13sp"
-        android:hint="Type prediction expiration date (mm/dd/yyyy)"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #1"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #2"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #3"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #4"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #5"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #6"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #7"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #8"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #9"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <EditText
-        android:id="@+id/poll10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textCursorDrawable="@null"
-        android:textSize="13sp"
-        android:hint="Type poll option #10"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:background="@null"
-        android:layout_marginBottom="3dp"/>
-      <Button
-        android:id="@+id/btn_add_poll_option"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:textStyle="bold"
-        android:textColor="#3C3C3C"
-        android:textSize="13sp"
-        android:paddingLeft="10dp"
-        android:gravity="left|center_vertical"
-        android:text="+ Add more options" />
-    </LinearLayout>
-    <Button
-        android:id="@+id/btn_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_green"
-        android:textColor="@drawable/btn_colored_text"
-        android:text="DONE"/>
-  </LinearLayout>
 </ScrollView>

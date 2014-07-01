@@ -73,7 +73,6 @@ namespace BlahguaMobile.BlahguaCore
             }
 
             apiClient.CookieContainer = new CookieContainer();
-           
         }
 
 
@@ -268,31 +267,7 @@ namespace BlahguaMobile.BlahguaCore
                 }
                 catch (SerializationException exp)
                 {
-                    blahList = new BlahList();
-
-                    // serialization failed - make some blahs
-                    blahList.Add(new Blah() {
-                        _id = "53729624e4b0fd27f5081645",
-                        A = "534b100ce4b08567a93329b5",
-							E = new DateTime(2014, 05, 13).ToString(),
-                        F = "test",
-                        G = "522ccb78e4b0a35dadfcf740",
-                        T = "dimadima",
-                        XX = true,
-                        Y = "522ccb79e4b0a35dadfcf743",
-							c = new DateTime(2014, 05, 13, 22, 1, 8).ToString()
-                    });
-                    blahList.Add(new Blah() {
-                        _id = "53729624e4b0fd27f5081646",
-                        A = "534b100ce4b08567a93329b5",
-							E = new DateTime(2014, 05, 14).ToString(),
-                        F = "There is no other truth",
-                        G = "522ccb78e4b0a35dadfcf740",
-                        T = "In God we trust, in Devil we invest",
-                        XX = true,
-                        Y = "522ccb79e4b0a35dadfcf743",
-							c = new DateTime(2014, 05, 14, 18, 55, 11).ToString()
-                    });
+                    
                 }
 
                 callback(blahList);
@@ -786,7 +761,9 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("blahs/" + blahId, Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-					Blah newBlah = response.Content.FromJson<Blah>();
+                string resStr = response.Content;
+                resStr = resStr.Replace("\"c\":", "\"cdate\":");
+					Blah newBlah = resStr.FromJson<Blah>();
 
                 callback(newBlah);
             });

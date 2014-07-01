@@ -23,7 +23,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             Asks, Leaks, Polls, Predicts, Says
         }
 
-        private MyBlahType currentType = MyBlahType.Asks;
+        private MyBlahType currentType = MyBlahType.Says;
 
         private readonly int SELECTIMAGE_REQUEST = 777;
         private View create_post_block, additionalfields_layout;
@@ -34,7 +34,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private FrameLayout imageCreateBlahLayout;
         private ImageView imageCreateBlah;
+        private ImageView imageSay, imagePredict, imagePoll, imageAsk, imageLeak;
         private ProgressBar progressBarImageLoading;
+        private ImageView currentSpeechAct;
 
         private string GetPathToImage(Android.Net.Uri uri)
         {
@@ -129,6 +131,20 @@ namespace BlahguaMobile.AndroidClient.Screens
         ///////// init
         private void initCreateBlahUi()
         {
+            // speech act btns
+            imageSay = FindViewById<View>(Resource.Id.btn_speechact_say) as ImageView;
+            imagePredict = FindViewById<View>(Resource.Id.btn_speechact_predict) as ImageView;
+            imagePoll = FindViewById<View>(Resource.Id.btn_speechact_poll) as ImageView;
+            imageAsk = FindViewById<View>(Resource.Id.btn_speechact_ask) as ImageView;
+            imageLeak = FindViewById<View>(Resource.Id.btn_speechact_leak) as ImageView;
+
+            imageSay.Click += SpeechActBtn_Click;
+            imagePredict.Click += SpeechActBtn_Click;
+            imagePoll.Click += SpeechActBtn_Click;
+            imageAsk.Click += SpeechActBtn_Click;
+            imageLeak.Click += SpeechActBtn_Click;
+            currentSpeechAct = imageSay;
+
             blayGrayed = FindViewById<View>(Resource.Id.BlahGrayed);
             blayGrayed.Visibility = ViewStates.Gone;
             blayGrayed.SetOnTouchListener(this);
@@ -188,6 +204,108 @@ namespace BlahguaMobile.AndroidClient.Screens
             btnAddOption.Click += DoAddPollChoice;
 
             setAsksCreateBlahType();
+        }
+
+        void SpeechActBtn_Click(object sender, EventArgs e)
+        {
+            ImageView   newBtn = sender as ImageView;
+
+            if (newBtn != currentSpeechAct)
+            {
+                DisableSpeechActBtn(currentSpeechAct);
+                EnableSpeechActBtn(newBtn);
+                currentSpeechAct = newBtn;
+                setTitleHint();
+            }
+        }
+
+        private void DisableSpeechActBtn(ImageView someBtn)
+        {
+            if (someBtn == imageSay)
+            {
+                TextView    theText = FindViewById(Resource.Id.text_speechact_say) as TextView;
+                imageSay.SetImageResource(Resource.Drawable.icon_speechact_say);
+                theText.SetTextColor(new Android.Graphics.Color(63,43,47));
+            }
+            else if (someBtn == imagePredict)
+            {
+                TextView    theText = FindViewById(Resource.Id.text_speechact_predict) as TextView;
+                imagePredict.SetImageResource(Resource.Drawable.icon_speechact_predict);
+                theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
+            }
+            else if (someBtn == imagePoll)
+            {
+                TextView    theText = FindViewById(Resource.Id.text_speechact_poll) as TextView;
+                imagePoll.SetImageResource(Resource.Drawable.icon_speechact_poll);
+                theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
+            }
+            else if (someBtn == imageAsk)
+            {
+                TextView    theText = FindViewById(Resource.Id.text_speechact_ask) as TextView;
+                imageAsk.SetImageResource(Resource.Drawable.icon_speechact_ask);
+                theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
+            }
+            else if (someBtn == imageLeak)
+            {
+                TextView    theText = FindViewById(Resource.Id.text_speechact_leak) as TextView;
+                imageLeak.SetImageResource(Resource.Drawable.icon_speechact_leak);
+                theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
+            }
+            
+        }
+
+        private void EnableSpeechActBtn(ImageView someBtn)
+        {
+            if (someBtn == imageSay)
+            {
+                TextView theText = FindViewById(Resource.Id.text_speechact_say) as TextView;
+                imageSay.SetImageResource(Resource.Drawable.icon_speechact_say_teal);
+                theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
+                BlahguaAPIObject.Current.CreateRecord.BlahType =
+                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says");
+                currentType = MyBlahType.Says;
+                setAsksCreateBlahType();
+            }
+            else if (someBtn == imagePredict)
+            {
+                TextView theText = FindViewById(Resource.Id.text_speechact_predict) as TextView;
+                imagePredict.SetImageResource(Resource.Drawable.icon_speechact_predict_teal);
+                theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
+                BlahguaAPIObject.Current.CreateRecord.BlahType =
+                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "predicts");
+                currentType = MyBlahType.Predicts;
+                setPredictCreateBlahType();
+            }
+            else if (someBtn == imagePoll)
+            {
+                TextView theText = FindViewById(Resource.Id.text_speechact_poll) as TextView;
+                imagePoll.SetImageResource(Resource.Drawable.icon_speechact_poll_teal);
+                theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
+                BlahguaAPIObject.Current.CreateRecord.BlahType =
+                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "polls");
+                currentType = MyBlahType.Polls;
+                setPollCreateBlahType();
+            }
+            else if (someBtn == imageAsk)
+            {
+                TextView theText = FindViewById(Resource.Id.text_speechact_ask) as TextView;
+                imageAsk.SetImageResource(Resource.Drawable.icon_speechact_ask_teal);
+                theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
+                BlahguaAPIObject.Current.CreateRecord.BlahType =
+                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "asks");
+                currentType = MyBlahType.Asks;
+                setAsksCreateBlahType();
+            }
+            else if (someBtn == imageLeak)
+            {
+                TextView theText = FindViewById(Resource.Id.text_speechact_leak) as TextView;
+                imageLeak.SetImageResource(Resource.Drawable.icon_speechact_leak_teal);
+                theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
+                BlahguaAPIObject.Current.CreateRecord.BlahType =
+                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "leaks");
+                currentType = MyBlahType.Leaks;
+                setAsksCreateBlahType();
+            }
         }
 
         private void editCreate_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
@@ -376,9 +494,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             create_post_block.Visibility = ViewStates.Visible;
             int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
             int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+            ViewGroup.LayoutParams layoutParams = create_post_block.LayoutParameters;
+            layoutParams.Height = ViewGroup.LayoutParams.WrapContent ;
+            create_post_block.LayoutParameters = layoutParams;
             create_post_block.Measure(widthSpec, heightSpec);
+            int newHeight = create_post_block.MeasuredHeight + 32;
 
-            if (create_post_block.MeasuredHeight < Resources.DisplayMetrics.HeightPixels)
+            if (newHeight < Resources.DisplayMetrics.HeightPixels)
             {
                 ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, create_post_block.MeasuredHeight, false);
                 lastCreateBlockHeight = create_post_block.MeasuredHeight;
@@ -386,7 +508,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                ViewGroup.LayoutParams layoutParams = create_post_block.LayoutParameters;
                 layoutParams.Height = ViewGroup.LayoutParams.MatchParent;
                 create_post_block.LayoutParameters = layoutParams;
             }
@@ -410,7 +531,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 triggerExpand();
 
-                initBlahCreationSlidingMenu();
+                //initBlahCreationSlidingMenu();
             }
             else
             {

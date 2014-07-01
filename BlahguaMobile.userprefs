@@ -1,11 +1,11 @@
 ﻿<Properties GitUserInfo="UsingMD">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppStore|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaIOS/View Controllers/BGRollViewController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BlahguaIOS\View Controllers\BGRollViewController.cs">
     <Files>
-      <File FileName="BlahguaIOS/View Controllers/BGRollViewController.cs" Line="144" Column="95" />
-      <File FileName="BlahguaIOS/View Controllers/BGMainNavigationController.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="BlahguaIOS/Constants/BGAppearanceConstants.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS\View Controllers\BGRollViewController.cs" Line="144" Column="95" />
+      <File FileName="BlahguaIOS\View Controllers\BGMainNavigationController.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS\AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="BlahguaIOS\Constants\BGAppearanceConstants.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

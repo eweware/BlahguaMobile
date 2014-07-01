@@ -97,9 +97,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
             text.Text = b.T;
             author.Text = b.UserName;
             author_avatar.SetUrlDrawable(b.UserImage);
-            if (!(b.u == null && b.c == null))
+            if (!(b.u == null && b.cdate == null))
             {
-                time_ago.Text = StringHelper.ConstructTimeAgo(b.u == null ? b.CreationDate : b.UpdateDate);
+                time_ago.Text = StringHelper.ConstructTimeAgo(b.CreationDate);
             }
 
             upvoted.Text = b.uv.ToString();

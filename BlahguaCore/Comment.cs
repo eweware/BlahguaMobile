@@ -91,7 +91,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "An anonymous person";
+                    return "An unidentified person";
                 }
                 else
                 {
@@ -319,7 +319,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((XX == false) && (d != null))
                     return d;
                 else
-                    return "An anonymous user";
+                    return "An unidentified user";
             }
         }
 

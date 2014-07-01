@@ -71,7 +71,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
             author.Text = c.AuthorName;
             author_avatar.SetUrlDrawable(c.AuthorImage);
-            time_ago.Text = StringHelper.ConstructTimeAgo(c.u == null ? c.CreationDate : c.UpdateDate);
+            time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);
 
             upvoted.Text = c.UpVoteCount.ToString();
             downvoted.Text = c.DownVoteCount.ToString();
