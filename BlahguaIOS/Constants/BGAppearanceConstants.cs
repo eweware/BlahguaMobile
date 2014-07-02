@@ -8,9 +8,9 @@ namespace BlahguaMobile.IOS
 {
 	public static class BGAppearanceConstants
 	{
-		public static readonly string FontName = "HelveticaNeue-Light";
-		public static readonly string MediumFontName = "HelveticaNeue-Medium";
-		public static readonly string BoldFontName = "HelveticaNeue-CondensedBold";
+        public static readonly string FontName = "GothamRounded-Book";
+        public static readonly string MediumFontName = "GothamRounded-Book";
+        public static readonly string BoldFontName = "GothamRounded-Book";
 
 
 		public static readonly RectangleF InitialRightViewContainerFrame = new RectangleF(320, 0, 320, UIScreen.MainScreen.Bounds.Height);
@@ -23,6 +23,8 @@ namespace BlahguaMobile.IOS
 
 		public static readonly UIColor buttonTitleInactiveColor = UIColor.FromRGB(248, 248, 248);
 		public static readonly UIColor buttonBackInactiveColor = UIColor.FromRGB(188, 188, 188);
+        public static readonly UIColor DarkBrown = UIColor.FromRGB(63, 43, 47);
+        public static readonly UIColor TealGreen = UIColor.FromRGB(96, 191, 164);
 	}
 }
 

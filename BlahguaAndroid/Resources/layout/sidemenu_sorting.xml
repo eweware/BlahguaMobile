@@ -3,13 +3,13 @@
     android:id="@+id/menu_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3C3C3C"
+    android:background="#3F2B2F"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="bottom"
-        android:background="#15b568"
+        android:background="#1FBBD1"
         android:textColor="#FFF"
         android:paddingLeft="20dp"
         android:paddingTop="5dp"
@@ -21,5 +21,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:listSelector="@drawable/list_item_selector"
-        android:background="#00000000" />
+        android:background="#3F2B2F" />
 </LinearLayout>

@@ -46,10 +46,13 @@ namespace BlahguaMobile.IOS
 			InboxBlah inboxBlah = dataSource [indexPath.Item];
 			var size = manager.GetCellSizeF (reusableId);
 			cell.SetCellProperties (inboxBlah, reusableId, size, indexPath);
+
+
 			if(indexPath.Item == dataSource.Count - 1 && dataSource.Count > 1000)
 			{
 				DeleteFirst350Items ();
 			}
+			cell.SetUpAnimation ();
 			return cell;
 		}
 

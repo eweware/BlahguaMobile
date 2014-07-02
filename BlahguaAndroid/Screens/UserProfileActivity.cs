@@ -17,7 +17,7 @@ using Android.App;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity]
+    [Activity(WindowSoftInputMode=SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
     public class UserProfileActivity : Activity
     {
         private Button btn_right;
@@ -76,7 +76,8 @@ namespace BlahguaMobile.AndroidClient
                         statsFragment = null;
 
                         title.Text = "Demographics";
-                        btn_right.Visibility = ViewStates.Gone;
+                        btn_right.Visibility = ViewStates.Visible;
+                        btn_right.Text = "Done";
 
                         demographicsFragment = UserProfileDemographicsFragment.NewInstance();
                         var fragmentTransaction = FragmentManager.BeginTransaction();
@@ -124,6 +125,11 @@ namespace BlahguaMobile.AndroidClient
             if (badgesFragment != null)
             {
                 badgesFragment.triggerNewBlock();
+            }
+            if (demographicsFragment != null) // that means it is active
+            {
+                Finish();
+                //commentsFragment.triggerCreateBlock();
             }
         }
     }

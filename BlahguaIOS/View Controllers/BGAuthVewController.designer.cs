@@ -16,51 +16,51 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton aboutButton { get; set; }
+		MonoTouch.UIKit.UIButton aboutButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		BGTextField confirmPassword { get; set; }
+		BlahguaMobile.IOS.BGTextField confirmPassword { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton helpButton { get; set; }
+		MonoTouch.UIKit.UIButton helpButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton Mode { get; set; }
+		MonoTouch.UIKit.UIButton Mode { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel noLabel { get; set; }
+		MonoTouch.UIKit.UILabel noLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		BGTextField password { get; set; }
+		BlahguaMobile.IOS.BGTextField password { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel rememberMeLabel { get; set; }
+		MonoTouch.UIKit.UILabel rememberMeLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton rememberMeNoButton { get; set; }
+		MonoTouch.UIKit.UIButton rememberMeNoButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton rememberMeYesButton { get; set; }
+		MonoTouch.UIKit.UIButton rememberMeYesButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		BGTextField usernameOrEmail { get; set; }
+		BlahguaMobile.IOS.BGTextField usernameOrEmail { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel yesLabel { get; set; }
+		MonoTouch.UIKit.UILabel yesLabel { get; set; }
 
 		[Action ("RememberMeAction:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void RememberMeAction (UIButton sender);
+		partial void RememberMeAction (MonoTouch.UIKit.UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{

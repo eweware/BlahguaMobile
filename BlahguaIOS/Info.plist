@@ -25,8 +25,6 @@
 	<string>0.0.0.13</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1</string>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -39,9 +37,54 @@
 			<string></string>
 		</dict>
 	</dict>
-	<key>CFBundleDisplayName</key>
-	<string>heard</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon</string>
+		<string>Icon@2x</string>
+		<string>Icon-60@2x</string>
+		<string>Icon-72</string>
+		<string>Icon-72@2x</string>
+		<string>Icon-76</string>
+		<string>Icon-76@2x</string>
+		<string>Icon-Small</string>
+		<string>Icon-Small@2x</string>
+		<string>Icon-Small-50</string>
+		<string>Icon-Small-50@2x</string>
+		<string>Icon-Small-40</string>
+		<string>Icon-Small-40@2x</string>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>heard</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fonts/GothamRnd-Bold.otf</string>
+		<string>fonts/GothamRnd-BoldItal.otf</string>
+		<string>fonts/GothamRnd-Book.otf</string>
+		<string>fonts/GothamRnd-BookItal.otf</string>
+		<string>fonts/GothamRnd-Light.otf</string>
+		<string>fonts/GothamRnd-LightItal.otf</string>
+		<string>fonts/GothamRnd-MedItal.otf</string>
+		<string>fonts/GothamRnd-Medium.otf</string>
+		<string>fonts/GothamRounded-Bold.otf</string>
+		<string>fonts/GothamRounded-BoldItalic.otf</string>
+		<string>fonts/GothamRounded-Book.otf</string>
+		<string>fonts/GothamRounded-BookItalic.otf</string>
+		<string>fonts/GothamRounded-Light.otf</string>
+		<string>fonts/GothamRounded-LightItalic.otf</string>
+		<string>fonts/GothamRounded-Medium.otf</string>
+		<string>fonts/GothamRounded-MediumItalic.otf</string>
+		<string>fonts/Merriweather.otf</string>
+		<string>fonts/Merriweather-Bold.otf</string>
+		<string>fonts/Merriweather-BoldItalic.otf</string>
+		<string>fonts/Merriweather-Heavy.otf</string>
+		<string>fonts/Merriweather-HeavyItalic.otf</string>
+		<string>fonts/Merriweather-Italic.otf</string>
+		<string>fonts/Merriweather-Light.otf</string>
+		<string>fonts/Merriweather-LightItalic.otf</string>
+	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>10</string>
 </dict>
 </plist>

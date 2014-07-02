@@ -6,6 +6,12 @@
     <ProjectGuid>{BE0D4993-B841-42DA-9006-B3729A7A3C5E}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
+    <RootNamespace>BlahguaMobile.AndroidClient</RootNamespace>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>BlahguaAndroid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
@@ -44,6 +50,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="RestSharp.MonoDroid">
+      <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+    </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
@@ -57,14 +66,11 @@
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp.MonoDroid">
-      <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,9 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\ViewPostBadgesAdapter.cs" />
+    <Compile Include="Adapters\CreateCommentSignatureAdapter.cs" />
+    <Compile Include="Adapters\CreateBlahSignatureAdapter.cs" />
     <Compile Include="Adapters\VotesAdapter.cs" />
     <Compile Include="Adapters\HistoryCommentsAdapter.cs" />
     <Compile Include="Adapters\PostsAdapter.cs" />
@@ -116,14 +125,22 @@
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
-    <Compile Include="Screens\Fragment\UserProfileStatsFragment.cs" />
-    <Compile Include="Screens\Fragment\UserProfileBadgesFragment.cs" />
+    <Compile Include="HelpingClasses\ImageLoader.cs" />
+    <Compile Include="HelpingClasses\ResizableImageView.cs" />
+    <Compile Include="HelpingClasses\StringHelper.cs" />
+    <Compile Include="HelpingClasses\TouchImageView.cs" />
+    <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
+    <Compile Include="Screens\MainActivity.Signature.cs" />
+    <Compile Include="Screens\ImageViewActivity.cs" />
+    <Compile Include="Screens\SplashActivity.cs" />
+    <Compile Include="Screens\Fragments\UserProfileStatsFragment.cs" />
+    <Compile Include="Screens\Fragments\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\MainActivity.BlahCreate.cs" />
-    <Compile Include="Screens\Fragment\HistoryCommentsFragment.cs" />
-    <Compile Include="Screens\Fragment\HistoryPostsFragment.cs" />
+    <Compile Include="Screens\Fragments\HistoryCommentsFragment.cs" />
+    <Compile Include="Screens\Fragments\HistoryPostsFragment.cs" />
     <Compile Include="Screens\HistoryActivity.cs" />
-    <Compile Include="Screens\Fragment\UserProfileDemographicsFragment.cs" />
-    <Compile Include="Screens\Fragment\UserProfileProfileFragment.cs" />
+    <Compile Include="Screens\Fragments\UserProfileDemographicsFragment.cs" />
+    <Compile Include="Screens\Fragments\UserProfileProfileFragment.cs" />
     <Compile Include="Screens\MainActivity.BlahList.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
     <Compile Include="Screens\ViewPostActivity.cs" />
@@ -131,9 +148,9 @@
     <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\Fragment\ViewPostCommentsFragment.cs" />
-    <Compile Include="Screens\Fragment\ViewPostStatsFragment.cs" />
-    <Compile Include="Screens\Fragment\ViewPostSummaryFragment.cs" />
+    <Compile Include="Screens\Fragments\ViewPostCommentsFragment.cs" />
+    <Compile Include="Screens\Fragments\ViewPostStatsFragment.cs" />
+    <Compile Include="Screens\Fragments\ViewPostSummaryFragment.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
@@ -148,12 +165,16 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\layout\activity_login.xml" />
+    <AndroidResource Include="Resources\layout\activity_login.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\uiitem_blah.xml" />
     <AndroidResource Include="Resources\layout\activity_viewpost.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_viewpost_summary.xml" />
+    <AndroidResource Include="Resources\layout\fragment_viewpost_summary.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_viewpost_comments.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -211,7 +232,9 @@
     <AndroidResource Include="Resources\drawable\checkbox.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\color_green_button_text.xml" />
+    <AndroidResource Include="Resources\drawable\color_green_button_text.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\edit.9.png" />
@@ -220,7 +243,9 @@
     <AndroidResource Include="Resources\layout\sidemenu_sorting.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\sidemenu_profile.xml" />
+    <AndroidResource Include="Resources\layout\sidemenu_profile.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
@@ -403,7 +428,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml" />
+    <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_userprofile_badges.xml">
@@ -435,11 +462,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ico_badges.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\uiitem_badge_small.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_poll.xml">
@@ -565,5 +587,104 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_splash.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_imageview.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\texture_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\activity_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\new_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\user_badge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\hamburger_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\hamburger_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\hamburger_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_predict_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_say.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_say_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_ask.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_ask_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_leak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_leak_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_poll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_poll_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speechact_predict.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_createpost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\popup_signature.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_popup_signature.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_viewpost_summary_badge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\btn_colored_text.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_green_inactive.9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_demote_inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_promote_inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\dialog_whatsnew.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
 </Project>

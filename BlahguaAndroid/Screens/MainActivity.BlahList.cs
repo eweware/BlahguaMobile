@@ -13,7 +13,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     public partial class MainActivity
     {
-        private readonly int BlahSetsAmountToRemove = 5;
+        private readonly int BlahSetsAmountToRemove = 3;
         int blahsToAdd = 0;
 		private Typeface blahRollFont = null;
 
@@ -107,7 +107,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private void FinishedLoadingCurrentBlahContainer()
         {
             BlahContainerLayout.AddView(CurrentBlahContainer);
-            if (inboxCounter >= BlahSetsAmountToRemove)
+            if (inboxCounter > BlahSetsAmountToRemove)
             {
                 int heightToShift = BlahContainerLayout.GetChildAt(0).MeasuredHeight;
                 BlahContainerLayout.RemoveViewAt(0);
@@ -179,11 +179,12 @@ namespace BlahguaMobile.AndroidClient.Screens
             FrameLayout.LayoutParams layoutparams =
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                     ViewGroup.LayoutParams.WrapContent);
+	
             CurrentBlahContainer.LayoutParameters = layoutparams;
 
             blahsToAdd = 100;
 
-            double curTop = 0;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
+			double curTop = blahMargin;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
 
             foreach (char rowType in sequence)
             {
@@ -326,49 +327,60 @@ namespace BlahguaMobile.AndroidClient.Screens
             var control = LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
 
-			if (blahRollFont == null)
-				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
-			title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
-            //control.SetBackgroundColor(new global::Android.Graphics.Color(100, 100, 100));
             control.LayoutParameters = layoutParams;
 
-            title.Text = theBlah.T;
+            if (String.IsNullOrEmpty(theBlah.T))
+                control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Invisible;
+            else
+            {
+                control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible ;
+                if (blahRollFont == null)
+				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
+			    title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
 
-            if (width == smallBlahSize && height == smallBlahSize)
-            {
-                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
-            }
-            else if (width == mediumBlahSize && height == smallBlahSize)
-            {
-                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
-            }
-            else if (width == mediumBlahSize && height == mediumBlahSize)
-            {
-                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 24);
-            }
-            else if (width == largeBlahSize && height == mediumBlahSize)
-            {
-                title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
+                title.Text = theBlah.T;
+
+                if (width == smallBlahSize && height == smallBlahSize)
+                {
+                    title.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
+                }
+                else if (width == mediumBlahSize && height == smallBlahSize)
+                {
+                    title.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
+                }
+                else if (width == mediumBlahSize && height == mediumBlahSize)
+                {
+                    title.SetTextSize(Android.Util.ComplexUnitType.Sp, 24);
+                }
+                else if (width == largeBlahSize && height == mediumBlahSize)
+                {
+                    title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
+                }
             }
 
             /////// image loading ///////
-
+            ImageView image = control.FindViewById<ImageView>(Resource.Id.image);
+            image.Tag = null;
             if (theBlah.M != null)
             {
-                //title.Visibility = ViewStates.Invisible;
-
-                ImageView image = control.FindViewById<ImageView>(Resource.Id.image);
-                image.Visibility = ViewStates.Invisible;
+                image.Visibility = ViewStates.Visible;
                 string imageBase = theBlah.M[0];
                 string imageSize = theBlah.ImageSize;
                 string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
                 RunOnUiThread(() =>
                 {
-                    image.Tag = imageURL;
-                    //image.SetUrlDrawable(imageURL);
-                    image.SetScaleType(ImageView.ScaleType.FitStart);
+                    image.SetUrlDrawable(imageURL);
+                    if (!String.IsNullOrEmpty(theBlah.T))
+                    {
+                        image.Tag = true;   // animate this
+                        control.FindViewById<LinearLayout>(Resource.Id.textLayout).Alpha = 0.9f;
+                    }
                 });
             }
+            else
+                image.Visibility = ViewStates.Invisible;
+
+
             ///////
             RunOnUiThread(() =>
             {
@@ -431,6 +443,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             RunOnUiThread(() =>
             {
                 CurrentBlahContainer.AddView(control);
+
                 blahsToAdd--;
 
                 if (blahsToAdd == 0)

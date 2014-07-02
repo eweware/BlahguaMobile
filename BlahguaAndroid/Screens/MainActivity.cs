@@ -16,15 +16,21 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Preferences;
 using BlahguaMobile.AndroidClient.Adapters;
 using System.IO.IsolatedStorage;
+using Android.Graphics;
+using Android.Animation;
+using System.Collections.Generic;
+using Android.Content.PM;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (MainLauncher = true)]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
     public partial class MainActivity : SlidingFragmentActivity
     {
         Inbox blahList;
         Timer loadTimer = new Timer();
         Timer scrollTimer = new Timer();
+        Timer BlahAnimateTimer = new Timer();
         int inboxCounter = 0;
 
         int FramesPerSecond = 60;
@@ -40,8 +46,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private BlahFrameLayout CurrentBlahContainer = null;
 
         protected ListFragment Frag;
-        private Button btn_login, btn_newpost;
+        private Button btn_login;
+        private ImageView btn_newpost;
         private ImageView avatarBar, avatar;
+        private TextView userName;
         private LinearLayout registered_layout;
 
         private ProgressBar progress_actionbar;
@@ -49,6 +57,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView main_title;
 
         public static GoogleAnalytics analytics = null;
+        private static Typeface titleFont = null;
+
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -61,6 +71,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             BlahContainerLayout = FindViewById<LinearLayout>(Resource.Id.BlahContainer);
             BlahScroller = FindViewById<ScrollView>(Resource.Id.BlahScroller);
+            TextView mainTitle = FindViewById<TextView>(Resource.Id.main_title);
+            if (titleFont == null)
+                titleFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+            mainTitle.SetTypeface(titleFont, TypefaceStyle.Normal);
+            FindViewById<TextView>(Resource.Id.btn_login).SetTypeface(titleFont, TypefaceStyle.Normal);
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -68,7 +83,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             main_title = FindViewById<TextView>(Resource.Id.main_title);
 
             registered_layout = FindViewById<LinearLayout>(Resource.Id.registered_layout);
-            btn_newpost = FindViewById<Button>(Resource.Id.btn_newpost);
+            btn_newpost = FindViewById<ImageView>(Resource.Id.btn_newpost);
             avatarBar = FindViewById<ImageView>(Resource.Id.avatar);
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
             btn_login.Click += delegate
@@ -81,13 +96,38 @@ namespace BlahguaMobile.AndroidClient.Screens
             scrollTimer.Interval = 1000 / FramesPerSecond;
             scrollTimer.Elapsed += ScrollBlahRoll;
 
+            BlahAnimateTimer.Interval = 1000;
+            BlahAnimateTimer.Elapsed += BlahAnimateTimer_Elapsed;
+
             initSlidingMenu();    // move this until after the service is inited
+
+            SlidingMenu.Opened += (sender, args) =>
+            {
+                StopTimers();
+            };
+            SlidingMenu.Closed += (sender, args) =>
+            {
+                if(create_post_block.Visibility != ViewStates.Visible)
+                    StartTimers();
+            };
 
             initCreateBlahUi();
 
             BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
             InitAnalytics();
             InitService();
+        }
+
+        public override void OnBackPressed()
+        {
+            if (create_post_block.Visibility.Equals(ViewStates.Visible))
+            {
+                triggerCreateBlock();
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
         }
 
         private void InitAnalytics()
@@ -119,15 +159,92 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             //targetBlah = null;
             scrollTimer.Start();
-            //MaybeAnimateElement();
+            BlahAnimateTimer.Start();
         }
+
 
         private void StopTimers()
         {
             scrollTimer.Stop();
+            BlahAnimateTimer.Stop();
             //AnimateTextFadeIn.Stop();
             //AnimateTextFadeOut.Stop();
             //targetBlah = null;
+        }
+
+        private static long fadeDuration = 2000;
+        private static Random rnd = new Random();
+        private View lastAnimatedBlah;
+
+        private void MaybeAnimateElement()
+        {
+            View targetView = null;
+            Rect scrollBounds = new Rect();
+            
+            List<View> targetList = new List<View>();
+            bool isDone = false;
+
+            for (int curContainer = 0; curContainer < BlahContainerLayout.ChildCount; curContainer++)
+            {
+                BlahScroller.GetHitRect(scrollBounds);
+                BlahFrameLayout curContainerView = BlahContainerLayout.GetChildAt(curContainer) as BlahFrameLayout;
+                bool isVisible = curContainerView.GetLocalVisibleRect(scrollBounds);
+
+                for (int curBlahCount = 0; curBlahCount < curContainerView.ChildCount; curBlahCount++)
+                {
+
+                    View curBlahView = curContainerView.GetChildAt(curBlahCount);
+                    var image = curBlahView.FindViewById<ImageView>(Resource.Id.image);
+                    if ((curBlahView != lastAnimatedBlah) && (image.Tag != null))
+                    {
+                        // it wants animation
+                        BlahScroller.GetHitRect(scrollBounds);
+                        if (curBlahView.GetLocalVisibleRect(scrollBounds))
+                        {
+                            targetList.Add(curBlahView);
+                        }
+                        else
+                        {
+                            if (targetList.Count > 0)
+                            {
+                                isDone = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (isDone)
+                    break;
+            }
+
+            if (targetList.Count > 0)
+                targetView = targetList[rnd.Next(targetList.Count)];
+
+            if (targetView != null)
+            {
+                lastAnimatedBlah = targetView;
+                var title = targetView.FindViewById<LinearLayout>(Resource.Id.textLayout);
+                float targetAlpha = 0f;
+                if (title.Alpha == 0f)
+                    targetAlpha = 0.9f;
+
+
+                title.Animate().Alpha(targetAlpha).SetDuration(fadeDuration);
+                
+            }
+
+        }
+
+        void BlahAnimateTimer_Elapsed(object sender, EventArgs e)
+        {
+            //BlahAnimateTimer.Stop();
+            MaybeAnimateElement();
+        }
+
+        private void OnAnimationEnd(object sender, EventArgs e)
+        {
+            MaybeAnimateElement();
         }
 
         private void ScrollBlahRoll(object sender, EventArgs e)
@@ -143,7 +260,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         bool AtScrollEnd = false;
         private void DetectScrollAtEnd()
         {
-            int bottom = BlahScroller.GetChildAt(BlahScroller.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
+            int bottom = BlahContainerLayout.GetChildAt(BlahContainerLayout.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
             if (BlahScroller.ScrollY == bottom)
             {
                 if (!AtScrollEnd)
@@ -158,7 +275,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         protected override void OnResume()
         {
             base.OnResume();
-            StartTimers();
+            if (create_post_block.Visibility != ViewStates.Visible)
+                StartTimers();
             initLayouts();
         }
 
@@ -223,7 +341,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (progress_actionbar.Visibility == ViewStates.Gone)
             {
-                populateChannelMenu();
+                if(create_post_block.Visibility == ViewStates.Gone)
+                    populateChannelMenu();
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     MainActivity.analytics.PostAutoLogin();
@@ -233,25 +352,39 @@ namespace BlahguaMobile.AndroidClient.Screens
                     initSecondaryMenu();
 
                     btn_login.Visibility = ViewStates.Gone;
+                    if (registered_layout.Visibility == ViewStates.Gone)
+                    {
+                        // probably it user was not signed in previously
+                        if (BlahguaAPIObject.Current.CurrentUser != null)
+                        {
+                            //this.DataContext = BlahguaAPIObject.Current;
+                            BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                            {
+                                if ((whatsNew != null) && (whatsNew.message != ""))
+                                {
+                                    ShowNewsFloater(whatsNew);
+                                }
+                            });
+                        }
+                    }
                     registered_layout.Visibility = ViewStates.Visible;
-                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
-                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage);
+                    avatarBar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatarBar.Drawable);
+                    avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
+                    userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
                     if (firstInit)
                     {
-                        EventHandler avatarClick = (sender, args) =>
+                        avatar.Click += (sender, args) =>
                         {
                             var intent = new Intent(this, typeof(UserProfileActivity));
                             intent.PutExtra("Page", 0);
                             StartActivity(intent);
-                        };
-                        EventHandler menuToggleClick = (sender, args) =>
-                        {
                             SlidingMenu.Toggle();
                         };
-                        avatar.Click += avatarClick;
-                        avatar.Click += menuToggleClick;
-                        avatarBar.Click += avatarClick;
+                        avatarBar.Click += (sender, args) =>
+                        {
+                            SlidingMenu.ShowSecondaryMenu();
+                        };
                         firstInit = false;
                     }
                 }
@@ -279,14 +412,17 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     initLayouts();
                 });
-                //this.DataContext = BlahguaAPIObject.Current;
-                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    if ((whatsNew != null) && (whatsNew.message != ""))
+                    //this.DataContext = BlahguaAPIObject.Current;
+                    BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
-                        //ShowNewsFloater(whatsNew);
-                    }
-                });
+                        if ((whatsNew != null) && (whatsNew.message != ""))
+                        {
+                            ShowNewsFloater(whatsNew);
+                        }
+                    });
+                }
             }
             else
             {
@@ -297,6 +433,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 //LoadingBox.Visibility = Visibility.Collapsed;
                 //ConnectFailure.Visibility = Visibility.Visible;
             }
+        }
+        private void ShowNewsFloater(WhatsNewInfo newInfo)
+        {
+            var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
+            new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
         }
 
         #region SlidingMenu
@@ -314,8 +455,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             SlidingMenu.FadeDegree = 0.25f;
             SlidingMenu.TouchModeAbove = TouchMode.Fullscreen;
             SlidingMenu.Mode = MenuMode.Left;
-
-            
         }
 
         private void populateChannelMenu()
@@ -358,22 +497,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             View rightMenu = SlidingMenu.GetSecondaryMenu();
 
             avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
-
-            //View demog = rightMenu.FindViewById<View>(Resource.Id.menu_demographics);
-            //demog.Click += (sender, args) =>
-            //{
-            //    var intent = new Intent(this, typeof(UserProfileActivity));
-            //    intent.PutExtra("Page", 2);
-            //    StartActivity(intent);
-            //};
-            //View prof = rightMenu.FindViewById<View>(Resource.Id.menu_profile);
-            //prof.Click += (sender, args) =>
-            //{
-            //    var intent = new Intent(this, typeof(UserProfileActivity));
-            //    intent.PutExtra("Page", 1);
-            //    StartActivity(intent);
-            //};
-
+            userName = rightMenu.FindViewById<TextView>(Resource.Id.user_name);
+            
             String[] profile = new String[] {
                                 GetString(Resource.String.profilemenu_profile),
                                 GetString(Resource.String.profilemenu_badges),
@@ -427,15 +552,25 @@ namespace BlahguaMobile.AndroidClient.Screens
                 SlidingMenu.Toggle();
                 BlahguaAPIObject.Current.SignOut(null, (theStr) =>
                 {
-                    RunOnUiThread(() =>
+                    if (theStr)
                     {
-                        btn_login.Visibility = ViewStates.Visible;
-                        registered_layout.Visibility = ViewStates.Gone;
+                        RunOnUiThread(() =>
+                        {
+                            btn_login.Visibility = ViewStates.Visible;
+                            registered_layout.Visibility = ViewStates.Gone;
 
-                        SlidingMenu.Mode = MenuMode.LeftRight;
-                        OnChannelChanged();
-                        dialog.Cancel();
-                    });
+                            ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+                            _sharedPref.Edit().Remove("username").Commit();
+                            _sharedPref.Edit().Remove("password").Commit();
+
+                            SlidingMenu.Mode = MenuMode.Left;
+                            secondaryMenuInitiated = false;
+                            populateChannelMenu();
+                            //OnChannelChanged();
+                            dialog.Cancel();
+                        });
+                    }
+
                     //NavigationService.GoBack();
                 }
                 );
@@ -464,6 +599,27 @@ namespace BlahguaMobile.AndroidClient.Screens
         #endregion
 
     }
+
+    class ToggleFadeListener : Java.Lang.Object, Android.Animation.Animator.IAnimatorListener
+    {
+        public EventHandler EndHandler = null;
+
+        public void OnAnimationEnd(Animator animation)
+        {
+
+            if (EndHandler != null)
+                EndHandler(this, new EventArgs());
+
+        }
+
+        public void OnAnimationRepeat(Animator animation) { }
+
+        public void OnAnimationCancel(Animator animation) { }
+
+        public void OnAnimationStart(Animator animation) { }
+    }
+
+
 }
 
 

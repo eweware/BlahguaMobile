@@ -5,200 +5,200 @@
     android:background="#EAEAEA"
     android:orientation="vertical">
     <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="#D9DADA"
-      android:paddingLeft="10dp"
-      android:paddingRight="10dp"
-      android:paddingTop="10dp"
-      android:textColor="#000"
-      android:textStyle="bold"
-      android:text="Audience responce"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D9DADA"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:text="Audience response" />
     <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="#D9DADA"
-      android:paddingLeft="10dp"
-      android:paddingRight="10dp"
-      android:paddingBottom="10dp"
-      android:paddingTop="10dp"
-      android:textColor="#000"
-      android:text="Key statistical data for this post. The blahgua score is an overall rating computed by assigning different weights to different data metrics."/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D9DADA"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#000"
+        android:text="Key statistical data for this post. The heard score is an overall rating computed by assigning different weights to different data metrics." />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:orientation="vertical">
-        <!-- CONVERSION -->
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="Conversion Ratio:"/>
-          <TextView
-              android:id="@+id/conversion"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="0.0"/>
-        </LinearLayout>
-        <!-- IMPRESSION -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="Impressions:"/>
-          <TextView
-              android:id="@+id/impression"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="0.0"/>
-        </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:orientation="vertical">
         <!-- SCORE -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="Blahgua score:"/>
-          <TextView
-              android:id="@+id/score"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:textStyle="bold"
-              android:text="0.0"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="heard score:"
+                    android:id="@+id/textView2" />
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="0.0" />
+            </LinearLayout>
+        <!-- CONVERSION -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Conversion Ratio:" />
+                <TextView
+                    android:id="@+id/conversion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="0.0" />
+            </LinearLayout>
+        <!-- IMPRESSION -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Impressions:" />
+                <TextView
+                    android:id="@+id/impression"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="0.0" />
+            </LinearLayout>
         <!-- VIEWS -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Views count:"/>
-          <TextView
-              android:id="@+id/views"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Views count:" />
+                <TextView
+                    android:id="@+id/views"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="0" />
+            </LinearLayout>
         <!-- OPENS -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Opens count:"/>
-          <TextView
-              android:id="@+id/opens"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Opens count:" />
+                <TextView
+                    android:id="@+id/opens"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="0" />
+            </LinearLayout>
         <!-- COMMENTS -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Comments count:"/>
-          <TextView
-              android:id="@+id/comments"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Comments count:" />
+                <TextView
+                    android:id="@+id/comments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="0" />
+            </LinearLayout>
         <!-- PROMOTES -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Promotes:"/>
-          <TextView
-              android:id="@+id/promotes"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Promotes:" />
+                <TextView
+                    android:id="@+id/promotes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="0" />
+            </LinearLayout>
         <!-- DEMOTES -->
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="5dp"
-          android:orientation="horizontal">
-          <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="Demotes:"/>
-          <TextView
-              android:id="@+id/demotes"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textColor="#000"
-              android:text="0"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Demotes:" />
+                <TextView
+                    android:id="@+id/demotes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="0" />
+            </LinearLayout>
         </LinearLayout>
-        
-      </LinearLayout>
     </ScrollView>
 </LinearLayout>

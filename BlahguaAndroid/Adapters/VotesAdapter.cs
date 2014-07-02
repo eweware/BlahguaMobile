@@ -20,16 +20,22 @@ namespace BlahguaMobile.AndroidClient.Adapters
     {
         Activity _activity;
         PollItemList _list;
+        EventHandler<CompoundButton.CheckedChangeEventArgs> _onCheckHandler;
 
+        int screenWidth;
         bool _isVotable = false;
 
-        public VotesAdapter(Activity activity, PollItemList list, bool isVotable)
+        public VotesAdapter(Activity activity, PollItemList list, bool isVotable, EventHandler<CompoundButton.CheckedChangeEventArgs> onCheckHandler)
         {
             _activity = activity;
             _list = list;
             _isVotable = isVotable;
+            _onCheckHandler = onCheckHandler;
+
+            screenWidth = activity.Resources.DisplayMetrics.WidthPixels;
         }
 
+        public PollItemList List { get { return _list; } }
 
         public override int Count
         {
@@ -50,6 +56,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+            bool isNewView = convertView == null;
             var view = convertView ?? _activity.LayoutInflater.Inflate(
                                  Resource.Layout.listitem_poll, parent, false);
             var check = view.FindViewById<CheckBox>(Resource.Id.check);
@@ -58,14 +65,32 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var vote_text = view.FindViewById<TextView>(Resource.Id.vote_text);
 
             PollItem p = _list[position];
-
-            if(!_isVotable) {
+            if (BlahguaAPIObject.Current.CurrentUser == null)
+            {
                 check.Visibility = ViewStates.Gone;
             }
+            else
+            {
+                if (p.IsUserVote)
+                {
+                    check.Checked = true;
+                }
+                if (!_isVotable)
+                {
+                    check.Enabled = false;
+                }
+            }
 
+            if (isNewView && _onCheckHandler != null)
+                check.CheckedChange += _onCheckHandler;
+
+            check.Tag = position;
+
+            int fullWidth = screenWidth - 60;
+            int percentWidth = (int)((p.Votes * 1.0f / p.TotalVotes) * fullWidth);
             percent_string.Text = p.VotePercent;
             int height = (int) TypedValue.ApplyDimension(ComplexUnitType.Dip, 20, _activity.Resources.DisplayMetrics);
-            percent_bar.LayoutParameters = new FrameLayout.LayoutParams((int)p.ComputedWidth * 10, height);
+            percent_bar.LayoutParameters = new FrameLayout.LayoutParams(percentWidth, height);
 
             vote_text.Text = p.G;
 

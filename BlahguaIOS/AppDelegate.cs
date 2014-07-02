@@ -70,11 +70,13 @@ namespace BlahguaMobile.IOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 			UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
-			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
 			Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage (
 				UIImage.FromFile (BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
 					"Default.png" : "Default-568h.png"));            
-			return true;
+			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
+            this.Window.TintColor = BGAppearanceConstants.TealGreen;
+
+            return true;
         }
 
 		#region Methods
@@ -87,12 +89,18 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				InvokeOnMainThread (() => {
-					UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White, 
-						TextShadowColor = UIColor.Clear, 
-						Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) });
-					UINavigationBar.Appearance.TintColor = UIColor.White;
-					UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
+				InvokeOnMainThread (() => 
+                        {
+                            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes 
+                                { 
+                                    TextColor = BGAppearanceConstants.TealGreen, 
+        						    TextShadowColor = UIColor.Clear, 
+        						    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) 
+                                });
+                            UINavigationBar.Appearance.BarTintColor = BGAppearanceConstants.DarkBrown;
+							UINavigationBar.Appearance.TintColor = BGAppearanceConstants.TealGreen;
+                            UINavigationBar.Appearance.BackgroundColor = BGAppearanceConstants.DarkBrown;
+                            //UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
 					UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 					var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");

@@ -155,7 +155,7 @@ namespace BlahguaMobile.IOS
 			}
 
 			blahTimespan.AttributedText = new NSAttributedString (
-				CurrentBlah.c ?? "", 
+				CurrentBlah.ElapsedTimeString ?? "", 
 				UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), 
 				UIColor.Black
 			);

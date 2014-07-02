@@ -261,10 +261,11 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 			var downloaderTask = new AnonymousAsyncTask<string, string, BitmapDrawable>((p) => 
 			{
 				try
-				{
+                {
+                    startedCounter++;
+                    Android.Util.Log.Debug(LOGTAG, "Started: " + startedCounter);
 					var client = new System.Net.WebClient();
 					var data = client.DownloadData(url);
-
 					System.IO.File.WriteAllBytes(filename, data);
 
 					return LoadDrawableFromFile(context, filename);
@@ -279,7 +280,8 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 			}, (bd) => 
 			{
 				try
-				{
+                {
+                    startedCounter--;
 					var usableResult = bd;
 					if (usableResult == null)
 						usableResult = (BitmapDrawable)defaultDrawable;
@@ -316,6 +318,8 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 
 			downloaderTask.Execute(new Java.Lang.Object[]{});
 		}
+
+        static int startedCounter = 0;
 	}
 }
 

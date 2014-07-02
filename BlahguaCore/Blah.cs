@@ -46,7 +46,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-			c = long.Parse(otherBlah.c);
+			c = long.Parse(otherBlah.cdate);
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
@@ -79,6 +79,11 @@ namespace BlahguaMobile.BlahguaCore
 
                     case 2:
                         return "B";
+
+
+                    case 3:
+                        return "B";
+     
      
                     default:
                         return "A";
@@ -94,7 +99,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (M != null)
                 {
                     string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
+                    return BlahguaAPIObject.Current.GetImageURL(M[0], ImageSize);
                 }
                 else
                     return null;
@@ -442,7 +447,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-                    return "An anonymous person";
+                    return "An unidentified person";
                 }
                 else
                 {
@@ -979,8 +984,8 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string _id { get; set; }
 
-		[DataMember]
-		public string c { get; set; }
+        [DataMember]
+		public string cdate { get; set; }
 		private DateTime _createDate = DateTime.MinValue;
 
 		[DataMember]
@@ -1082,7 +1087,10 @@ namespace BlahguaMobile.BlahguaCore
 		public DateTime CreationDate {
 			get {
 				if (_createDate == DateTime.MinValue)
-					_createDate = DateTime.Parse (c);
+                {
+                    if (cdate != null)
+                        _createDate = DateTime.Parse(cdate);
+                }
 				return _createDate;
 			}
 		}
@@ -1290,7 +1298,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((!XX) && (Description != null) && (Description.d != null))
                     return Description.d;
                 else
-                    return "An anonymous user";
+                    return "An unidentified user";
             }
         }
 

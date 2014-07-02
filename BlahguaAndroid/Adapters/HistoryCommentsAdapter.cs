@@ -12,17 +12,42 @@ using Android.Widget;
 using BlahguaMobile.BlahguaCore;
 
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using BlahguaMobile.AndroidClient.Screens;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
     class HistoryCommentsAdapter : BaseAdapter
     {
+        private EventHandler openHandler = (sender, args) =>
+        {
+            var btn = (Button)sender;
+            string id = (string)btn.Tag;
+            App.BlahIdToOpen = id;
+            btn.Context.StartActivity(typeof(ViewPostActivity));
+        };
+
+        private EventHandler deleteHandler = (sender, args) =>
+        {
+            var btn = (Button)sender;
+            string id = (string)btn.Tag;
+            //BlahguaAPIObject.Current.Delete(id, (theString) =>
+            //{
+            //    if (theString == "ok")
+            //    {
+            //        _fragment.LoadUserComments();
+            //    }
+            //});
+        };
+
+        private static HistoryCommentsFragment _fragment;
         Activity _activity;
         CommentList _list;
 
-        public HistoryCommentsAdapter(Activity activity, CommentList list)
+        public HistoryCommentsAdapter(HistoryCommentsFragment fragment, CommentList list)
         {
-            _activity = activity;
+            _activity = fragment.Activity;
+            _fragment = fragment;
             _list = list;
         }
 
@@ -68,9 +93,20 @@ namespace BlahguaMobile.AndroidClient.Adapters
             }
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
+            author.Text = c.AuthorName;
+            author_avatar.SetUrlDrawable(c.AuthorImage);
+            if (!(c.u == null && c.c == null))
+            {
+                time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);
+            }
 
-            upvoted.SetText(c.UpVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
-            downvoted.SetText(c.DownVoteCount.ToString(), Android.Widget.TextView.BufferType.Normal);
+            upvoted.Text = c.UpVoteCount.ToString();
+            downvoted.Text = c.DownVoteCount.ToString();
+
+            var btnOpenPost = view.FindViewById<Button>(Resource.Id.btn_open);
+            btnOpenPost.Tag = c.B;
+            btnOpenPost.Click -= openHandler;
+            btnOpenPost.Click += openHandler;
 
             return view;
         }
