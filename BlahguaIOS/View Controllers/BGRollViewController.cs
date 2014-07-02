@@ -22,7 +22,7 @@ namespace BlahguaMobile.IOS
 		private UIButton profile;
 		private UIButton newBlah;
 
-
+		public bool NaturalScrollInProgress = false;
 
 		private UIView rightViewContainer;
 		private UIView rightView;
@@ -101,10 +101,18 @@ namespace BlahguaMobile.IOS
 			PrepareRightBarButton ();
 			((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = null;
 			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (true);
+			SetSrollingAvailability (true);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
+
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
+			SetSrollingAvailability (false);
 			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (false);
 			base.PrepareForSegue (segue, sender);
 		}
@@ -112,6 +120,19 @@ namespace BlahguaMobile.IOS
 		#endregion
 
 		#region Methods
+
+		public void AutoScroll()
+		{
+			UIView.Animate(0.05, 0, 
+				UIViewAnimationOptions.CurveLinear | 
+				UIViewAnimationOptions.AllowUserInteraction | 
+				UIViewAnimationOptions.AllowAnimatedContent,
+				() => { 
+					if(!NaturalScrollInProgress)
+						CollectionView.ContentOffset = new PointF(0, CollectionView.ContentOffset.Y + 1);
+				}, AutoScroll);
+		}
+			
 
 		public void RefreshData()
 		{
@@ -123,6 +144,10 @@ namespace BlahguaMobile.IOS
 			((BGRollViewDataSource)CollectionView.DataSource).DeleteFirst350Items ();
 		}
 
+		private void SetSrollingAvailability(bool enabled)
+		{
+			NaturalScrollInProgress = !enabled;
+		}
 
 		private void MenuButtonClicked(object sender, EventArgs args)
 		{
@@ -191,15 +216,18 @@ namespace BlahguaMobile.IOS
 				CollectionView.Hidden = false;
 				isNewPostMode = false;
 				newPostViewController.View.RemoveFromSuperview ();
+				SetSrollingAvailability (true);
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
 			}
 			else
 			{
+				SetSrollingAvailability (false);
 				if(newPostViewController == null)
 				{
 					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
 						.MainStoryboard
 						.InstantiateViewController ("BGNewPostViewController");
+					newPostViewController.ParentViewController = this;
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
@@ -389,11 +417,13 @@ namespace BlahguaMobile.IOS
 			UIView.SetAnimationDuration (0.3f);
 			if(isOpened)
 			{
+				SetSrollingAvailability (true);
 				rightViewContainer.Frame = BGAppearanceConstants.InitialRightViewContainerFrame;
 				isOpened = false;
 			}
 			else
 			{
+				SetSrollingAvailability (false);
 				rightViewContainer.Frame = BGAppearanceConstants.OpenedRightViewContainerFrame;
 				View.BringSubviewToFront (rightViewContainer);
 				isOpened = true;

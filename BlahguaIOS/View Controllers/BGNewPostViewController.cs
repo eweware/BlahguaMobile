@@ -67,7 +67,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public BGCommentsViewController ParentViewController { get; set; }
+		public BGRollViewController ParentViewController { get; set; }
 
 		private BlahCreateRecord NewPost 
 		{
@@ -234,7 +234,7 @@ namespace BlahguaMobile.IOS
 			filePicker.Canceled += (sender1, eventArguments) => {
 
 				filePicker.DismissViewController(true, 
-					() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+					() => {});
 			};
 			if (eventArgs.ButtonIndex == 1) {
 				filePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
@@ -255,7 +255,7 @@ namespace BlahguaMobile.IOS
 			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
 			BlahguaAPIObject.Current.UploadPhoto (image.AsPNG ().AsStream (), imageName, ImageUploaded);
 			((BGImagePickerController) sender).DismissViewController(true, 
-				() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+				() => {});
 		}
 
 		private void ChooseSignature (object sender, EventArgs e)

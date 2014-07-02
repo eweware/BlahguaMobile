@@ -16,7 +16,22 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UILabel author { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView badgeImage { get; set; }
+		MonoTouch.UIKit.UIButton badgeImage { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITableView badgesTableView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextView blahBodyView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView blahImage { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel blahTimespan { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel blahTitle { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIToolbar bottomToolbar { get; set; }
@@ -40,6 +55,9 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel userDescription { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIImageView userImage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -54,34 +72,34 @@ namespace BlahguaMobile.IOS
 				badgeImage = null;
 			}
 
+			if (badgesTableView != null) {
+				badgesTableView.Dispose ();
+				badgesTableView = null;
+			}
+
+			if (blahBodyView != null) {
+				blahBodyView.Dispose ();
+				blahBodyView = null;
+			}
+
+			if (blahImage != null) {
+				blahImage.Dispose ();
+				blahImage = null;
+			}
+
+			if (blahTimespan != null) {
+				blahTimespan.Dispose ();
+				blahTimespan = null;
+			}
+
+			if (blahTitle != null) {
+				blahTitle.Dispose ();
+				blahTitle = null;
+			}
+
 			if (bottomToolbar != null) {
 				bottomToolbar.Dispose ();
 				bottomToolbar = null;
-			}
-
-			if (contentView != null) {
-				contentView.Dispose ();
-				contentView = null;
-			}
-
-			if (userImage != null) {
-				userImage.Dispose ();
-				userImage = null;
-			}
-
-			if (upVote != null) {
-				upVote.Dispose ();
-				upVote = null;
-			}
-
-			if (downVote != null) {
-				downVote.Dispose ();
-				downVote = null;
-			}
-
-			if (summaryView != null) {
-				summaryView.Dispose ();
-				summaryView = null;
 			}
 
 			if (commentsView != null) {
@@ -89,9 +107,39 @@ namespace BlahguaMobile.IOS
 				commentsView = null;
 			}
 
+			if (contentView != null) {
+				contentView.Dispose ();
+				contentView = null;
+			}
+
+			if (downVote != null) {
+				downVote.Dispose ();
+				downVote = null;
+			}
+
 			if (statsView != null) {
 				statsView.Dispose ();
 				statsView = null;
+			}
+
+			if (summaryView != null) {
+				summaryView.Dispose ();
+				summaryView = null;
+			}
+
+			if (upVote != null) {
+				upVote.Dispose ();
+				upVote = null;
+			}
+
+			if (userDescription != null) {
+				userDescription.Dispose ();
+				userDescription = null;
+			}
+
+			if (userImage != null) {
+				userImage.Dispose ();
+				userImage = null;
 			}
 		}
 	}

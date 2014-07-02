@@ -69,6 +69,26 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
+		public override void DecelerationEnded (UIScrollView scrollView)
+		{
+			viewController.NaturalScrollInProgress = false;
+		}
+
+		public override void ScrollAnimationEnded (UIScrollView scrollView)
+		{
+			viewController.NaturalScrollInProgress = false;
+		}
+
+		public override void DraggingStarted (UIScrollView scrollView)
+		{
+			viewController.NaturalScrollInProgress = true;
+		}
+
+		public override void DraggingEnded (UIScrollView scrollView, bool willDecelerate)
+		{
+			viewController.NaturalScrollInProgress = false;
+		}
+
 		#endregion
 
 		#region Methods

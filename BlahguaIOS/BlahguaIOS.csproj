@@ -263,6 +263,10 @@
       <DependentUpon>BGItemsSelectionTableViewCotroller.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BGUIColorExtension.cs" />
+    <Compile Include="BGBlahBadgeCell.cs" />
+    <Compile Include="BGBlahBadgeCell.designer.cs">
+      <DependentUpon>BGBlahBadgeCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">

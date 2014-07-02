@@ -28,9 +28,8 @@ namespace BlahguaMobile.IOS
 		private float iphone5ContentViewHeight = 427f;
 		private SizeF toolbarViewSize = new SizeF(320f, 44f);
 
-		private UILabel blahTitle;
-		private UIImageView blahImage;
-		private UITextView blahBodyView;
+		private bool badgesShown = false;
+
 		private UITableView tableView;
 
 		private UITableView itemsTable;
@@ -112,18 +111,11 @@ namespace BlahguaMobile.IOS
 		private void SetUpBaseLayout()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
-			contentView.RemoveFromSuperview ();
 			contentView.BackgroundColor = UIColor.White;
 			contentView.ScrollEnabled = true;
-			contentView.TranslatesAutoresizingMaskIntoConstraints = true;
-			bottomToolbar.RemoveFromSuperview ();
 			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
 
 
-			var contentViewSize = new SizeF(defaultWidthOfContent, BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
-				iphone4ContentViewHeight : iphone5ContentViewHeight);
-
-			contentView.Frame = new RectangleF (new PointF(0, defaultContentViewStartYCoor), contentViewSize);
 			contentView.ClipsToBounds = true;
 			contentView.ContentOffset = new PointF(0,0);
 			contentView.BackgroundColor = UIColor.White;
@@ -142,21 +134,45 @@ namespace BlahguaMobile.IOS
 				new ImageUpdateDelegate (userImage));
 
 			SetAuthorName ();
+			SetAuthorDescription ();
 
+			//badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
-			author.SizeToFit ();
-			badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
-
-			badgeImageUpdateDelegate = new ImageUpdateDelegate (badgeImage);
+			badgeImage.SetImage (UIImage.FromFile ("badges.png"), UIControlState.Normal);
+			badgeImage.TouchUpInside += (sender, e) => {
+				AdjustBadgesTableView();
+			};
+			badgesTableView.Source = new BGBlahBadgesTableSource ();
 			if(CurrentBlah.B != null && CurrentBlah.B.Any())
 			{
-				var imageUri = new Uri (CurrentBlah.B.First ());
-				badgeImage.Image = ImageLoader.DefaultRequestImage(imageUri, badgeImageUpdateDelegate);
+				badgeImage.Hidden = false;
+				badgesTableView.Hidden = true;
+
 			}
 			else
 			{
-				badgeImage.RemoveFromSuperview ();
+				badgeImage.Hidden = true;
 			}
+
+			blahTimespan.AttributedText = new NSAttributedString (
+				CurrentBlah.c ?? "", 
+				UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), 
+				UIColor.Black
+			);
+		}
+
+		private void AdjustBadgesTableView()
+		{
+			if(badgesShown)
+			{
+				badgesTableView.Hidden = true;
+			}
+			else
+			{
+				badgesTableView.Hidden = false;
+			}
+			badgesShown = !badgesShown;
+			badgesTableView.ReloadData();
 		}
 
 		private void SetUpContentView()
@@ -165,38 +181,40 @@ namespace BlahguaMobile.IOS
 			SizeF sizeForTitle = new SizeF(defaultWidthOfContent - textInsetDefaultValue * 2, 0f);
 			if(!String.IsNullOrEmpty(CurrentBlah.T))
 			{
+				blahTitle.Hidden = false;
 				var blahTitleAttributes = new UIStringAttributes {
 					Font = UIFont.FromName (BGAppearanceConstants.BoldFontName, 21), 
 					ForegroundColor = UIColor.Black,
 
 				};
 
-				blahTitle = new UILabel (new RectangleF(new PointF(textInsetDefaultValue, textInsetDefaultValue), sizeForTitle));
+				//blahTitle = new UILabel (new RectangleF(new PointF(textInsetDefaultValue, textInsetDefaultValue), sizeForTitle));
 				blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
 				blahTitle.Lines = 0;
 
 
 				blahTitle.AttributedText = new NSAttributedString (CurrentBlah.T, blahTitleAttributes);
-				contentView.AddSubview (blahTitle);
+				//contentView.AddSubview (blahTitle);
 
 				blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
-				blahTitle.SizeToFit ();
-				currentYCoord += blahTitle.Frame.Bottom + textInsetDefaultValue;
+			}
+			else
+			{
+				blahTitle.Hidden = true;
 			}
 
 
 			if(CurrentBlah.ImageURL != null)
 			{
-				blahImage = new UIImageView (new RectangleF(0, 0, defaultWidthOfContent, 184f));
-
+				blahImage.Hidden = false;
 				blahImage.Image = ImageLoader.DefaultRequestImage(
 					new Uri(CurrentBlah.ImageURL), 
 					new ImageUpdateDelegate (blahImage)
 				);
-
-				contentView.Add (blahImage);
-
-				currentYCoord += blahImage.Frame.Height;
+			}
+			else
+			{
+				blahImage.Hidden = true;
 			}
 
 			if(!String.IsNullOrEmpty(CurrentBlah.F))
@@ -206,22 +224,18 @@ namespace BlahguaMobile.IOS
 					ForegroundColor = UIColor.Black,
 				};
 
-				blahBodyView = new UITextView();
+				blahBodyView.Hidden = false;
 				blahBodyView.AttributedText = new NSAttributedString (CurrentBlah.F, blahBodyAttributes);
 				blahBodyView.TextAlignment = UITextAlignment.Left;
 				blahBodyView.ScrollEnabled = false;
 				blahBodyView.Editable = false;
 				blahBodyView.ContentInset = new UIEdgeInsets (textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-				contentView.AddSubview (blahBodyView);
 
-
-				var textViewSize = blahBodyView.Frame;
-				SizeF newSize = blahBodyView.SizeThatFits (new SizeF (defaultWidthOfContent - textInsetDefaultValue * 2, 565));
-				textViewSize.Size = new SizeF(defaultWidthOfContent, newSize.Height + textInsetDefaultValue);
-				textViewSize.Location = new PointF (0, currentYCoord);
-				blahBodyView.Frame = textViewSize;
-
-				currentYCoord += blahBodyView.Frame.Height;
+			}
+			else
+			{
+				blahBodyView.Hidden = true;
+				blahBodyView.Text = "";
 			}
 
 			if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
@@ -243,17 +257,34 @@ namespace BlahguaMobile.IOS
 				}
 
 				tableView.ReloadData ();
-				tableView.Frame = new RectangleF(0, currentYCoord, defaultWidthOfContent, tableView.Source.RowsInSection (tableView, 0) * 64.0f);
-				currentYCoord += tableView.Frame.Height;
+				tableView.TranslatesAutoresizingMaskIntoConstraints = false;
+
 				contentView.AddSubview (tableView);
+
+				var positionY = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
+				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+
+				contentView.AddConstraints (new NSLayoutConstraint[] { positionY, positionXLeft, positionXRight });
+
+				var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
+				var height = NSLayoutConstraint.Create(
+					tableView, 
+					NSLayoutAttribute.Height, 
+					NSLayoutRelation.Equal, 
+					null, 
+					NSLayoutAttribute.NoAttribute, 
+					1, 
+					tableView.NumberOfRowsInSection(0) * 64.0f
+				);
+
+				tableView.AddConstraints(new NSLayoutConstraint[] {width, height});
 			}
-
-
-			contentView.ContentSize = new SizeF (defaultWidthOfContent, currentYCoord);
 		}
 
 		private void SetUpToolbar()
 		{
+			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
 			bottomToolbar.TintColor = UIColor.Clear;
 			SetUpVotesButtons ();
 			SetUpModesButtons ();
@@ -362,9 +393,14 @@ namespace BlahguaMobile.IOS
 
 		private void SetAuthorName()
 		{
-			string authorName = BlahguaAPIObject.Current.CurrentBlah.XX ? "Anonymous" : BlahguaAPIObject.Current.CurrentBlah.Description.K;
-			author.AttributedText = new NSAttributedString (authorName, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
+			author.AttributedText = new NSAttributedString (CurrentBlah.UserName, 
+				UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
+				UIColor.Black);
+		}
+
+		private void SetAuthorDescription()
+		{
+			userDescription.AttributedText = new NSAttributedString (CurrentBlah.DescriptionString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
 				UIColor.Black);
 		}
 
@@ -429,6 +465,8 @@ namespace BlahguaMobile.IOS
 				}
 				else
 				{
+					if (!BlahguaAPIObject.Current.CurrentBlah.IsPredictInited)
+						BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote (null);
 					if(BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
 					{
 						pollItem = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems [indexPath.Row];
@@ -560,6 +598,36 @@ namespace BlahguaMobile.IOS
 					BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote (upv);
 				}
 			}
+		}
+
+		private class BGBlahBadgesTableSource : UITableViewSource
+		{
+			#region implemented abstract members of UITableViewSource
+
+			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
+			{
+				var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell ("cell");
+				cell.SetUp (
+					BlahguaAPIObject.Current.CurrentBlah.Badges [indexPath.Row].BadgeName, 
+					BlahguaAPIObject.Current.CurrentBlah.Badges [indexPath.Row].BadgeImage
+				);
+				return cell;
+			}
+
+			public override int RowsInSection (UITableView tableview, int section)
+			{
+				return BlahguaAPIObject.Current.CurrentBlah.B == null || !BlahguaAPIObject.Current.CurrentBlah.B.Any() ? 
+					0 : BlahguaAPIObject.Current.CurrentBlah.B.Count;
+			}
+
+			public override int NumberOfSections (UITableView tableView)
+			{
+				return 1;
+			}
+
+			#endregion
+
+
 		}
 	}
 

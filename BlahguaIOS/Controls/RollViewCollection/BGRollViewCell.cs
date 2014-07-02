@@ -46,16 +46,61 @@ namespace BlahguaMobile.IOS
 			if(!String.IsNullOrEmpty(blah.ImageURL))
 			{
 				imageView.Frame = new RectangleF (new PointF (0, 0), size);
-				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), this);
+				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), new ImageUpdateDelegate(imageView));
 				imageView.Hidden = false;
 			}
 			else
+			{
+				imageView.Hidden = true;
+			}
+
+			if(!String.IsNullOrEmpty(blah.T))
 			{
 				label.Frame = new RectangleF(new PointF(8, 7), new SizeF(size.Width - 24.0f, size.Height - 33.0f));
 				UIFont font = reusableId == BGBlahCellSizesConstants.TinyReusableId ? 
 					UIFont.FromName (BGAppearanceConstants.FontName, 7.0f) : UIFont.FromName (BGAppearanceConstants.FontName, 14.0f);
 				label.Hidden = false;
 				label.AttributedText = new NSAttributedString (blah.T, font, UIColor.Black);
+			}
+			else
+			{
+				label.Hidden = true;
+			}
+
+			if ((!String.IsNullOrEmpty(blah.T)) && (!String.IsNullOrEmpty(blah.ImageURL)))
+			{
+				UIView.Animate(RandomInterval(path.Row), RandomInterval(path.Row), UIViewAnimationOptions.CurveEaseInOut | UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.Repeat | UIViewAnimationOptions.AllowUserInteraction, 
+					() => 
+					{
+						label.Alpha = 1;
+						imageView.Alpha = 0;
+					}, 
+					() => 
+					{
+						label.Alpha = 0;
+						imageView.Alpha = .9f; 
+					}
+				);
+
+			}
+		}
+
+		private int RandomInterval(int index)
+		{
+			int i = index % 5;
+			switch(i)
+			{
+			case 0:
+				return 2;
+			case 1: 
+				return 3;
+			case 2: 
+				return 5;
+			case 3: 
+				return 7;
+			default:
+			case 4: 
+				return 11;
 			}
 		}
 

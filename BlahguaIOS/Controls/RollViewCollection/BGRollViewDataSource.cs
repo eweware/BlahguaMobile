@@ -75,7 +75,7 @@ namespace BlahguaMobile.IOS
 				NSIndexPath[] paths = new NSIndexPath[100];
 				int count = dataSource.Count;
 
-				if( inb != null && inb.Count > 0 )
+				if(inb != null && inb.Count > 0)
 				{
 					for (int i = count, j = 0; i < count + 100; i++, j++) {
 						paths [j] = NSIndexPath.FromItemSection (i, 0);
@@ -91,6 +91,8 @@ namespace BlahguaMobile.IOS
 				{
 					viewController.DeleteFirst200Items ();
 				}
+				if(dataSource.Count <= 100)
+					viewController.AutoScroll();
 			});
 		}
 

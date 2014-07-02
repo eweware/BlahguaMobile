@@ -156,13 +156,6 @@ namespace BlahguaMobile.IOS
 					UIApplication.SharedApplication.OpenUrl(url);
 				}
 			};
-
-			RectangleF viewRectangleF = BGAppearanceHelper.DeviceType == DeviceType.iPhone5 ?
-				new RectangleF (0, 517, 320, 51) : new RectangleF (0, 429, 320, 51);
-			UIView bottomView = new UIView (viewRectangleF);
-			bottomView.BackgroundColor = UIColor.White;
-			View.AddSubview (bottomView);
-			View.SendSubviewToBack (bottomView);
 		}
 
 		public override bool PrefersStatusBarHidden()
