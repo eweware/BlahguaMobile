@@ -209,7 +209,9 @@ namespace BlahguaMobile.BlahguaCore
 
             apiClient.ExecuteAsync(request, (response) =>
             {
-                Blah theBlah = response.Content.FromJson<Blah>();
+				string resStr = response.Content;
+				resStr = resStr.Replace("\"c\":", "\"cdate\":");
+                Blah theBlah = resStr.FromJson<Blah>();
 
 
                 callback(theBlah);
@@ -253,7 +255,9 @@ namespace BlahguaMobile.BlahguaCore
                 BlahList blahList = null;
                 try
                 {
-					BlahList altList = response.Content.FromJson<BlahList>();
+					string resStr = response.Content;
+					resStr = resStr.Replace("\"c\":", "\"cdate\":");
+					BlahList altList = resStr.FromJson<BlahList>();
                     /*
                     JsonArrayObjects aObjs = JsonArrayObjects.Parse(response.Content);
                     foreach (string theKey in aObjs[0].Keys)
