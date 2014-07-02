@@ -530,6 +530,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 ClearImages();
 
                 triggerExpand();
+                SlidingMenu.Enabled = false;
 
                 //initBlahCreationSlidingMenu();
             }
@@ -736,7 +737,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             bool hasImage = ((curBlah.M != null) && (curBlah.M.Count > 0));
 
-            if (curBlah.T == null)
+            if (String.IsNullOrEmpty(curBlah.T))
             {
                 if (!hasImage)
                     return "Headline is too short for a post with no image (< 3 characters)";
@@ -763,7 +764,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 case "asks":
                     if (curBlah.T.IndexOf("?") == -1)
-                        return "Asks must contain a question mark.";
+                        return "Asks must contain a question.";
                     break;
 
                 case "polls":

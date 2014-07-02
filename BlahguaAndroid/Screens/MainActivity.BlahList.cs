@@ -320,7 +320,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void InsertElementForBlah(InboxBlah theBlah, double xLoc, double yLoc, double width, double height)
         {
-            Console.WriteLine("xLoc:" + xLoc.ToString() + ", yLoc:" + yLoc.ToString() + ", width:" + width.ToString() + ", height:" + height.ToString());
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)width, (int)height);
             layoutParams.SetMargins((int)xLoc, (int)yLoc, 0, 0);
             // TODO visual interpretatuion of a blah

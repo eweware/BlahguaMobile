@@ -1297,7 +1297,7 @@ namespace BlahguaMobile.BlahguaCore
                                             {
                                                 foreach (BadgeReference curBadge in CurrentUser.Badges)
                                                 {
-                                                    //curBadge.UpdateBadgeName();
+                                                    curBadge.UpdateBadge();
                                                 }
                                             }
 

@@ -92,7 +92,7 @@ namespace BlahguaMobile.BlahguaCore
         private UserInfoObject _info = null;
         private UserProfile _theProfile = null;
         private string _recoveryEmail = null;
-
+        private BadgeList _intBadgeList = null;
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -238,18 +238,18 @@ namespace BlahguaMobile.BlahguaCore
             get
             {
                 if (B == null)
-                {
                     return null;
-                }
+                else if (_intBadgeList != null)
+                    return _intBadgeList;
                 else
                 {
-                    BadgeList badges = new BadgeList();
+                    _intBadgeList = new BadgeList();
                     foreach (string badgeId in B)
                     {
-                        badges.Add(new BadgeReference(badgeId));
+                        _intBadgeList.Add(new BadgeReference(badgeId));
                     }
 
-                    return badges;
+                    return _intBadgeList;
                 }
             }
             set

@@ -64,14 +64,18 @@ namespace BlahguaMobile.AndroidClient.Adapters
             if (position == 0)
             {
                 // userprofile option
-                holder.tv.Text = "User Profile";
+                holder.tv.Text = "use profile";
                 holder.chkbox.Checked = !BlahguaAPIObject.Current.CreateRecord.XX;
             }
             else
             {
                 BadgeReference badge = (BadgeReference)mListItems[position - 1];
                 holder.tv.Text = badge.BadgeName;
-                holder.chkbox.Checked = BlahguaAPIObject.Current.CreateRecord.B.Contains(badge.ID);
+                if ((BlahguaAPIObject.Current.CreateRecord.B != null) &&
+                    BlahguaAPIObject.Current.CreateRecord.B.Contains(badge.ID))
+                    holder.chkbox.Checked = true;
+                else
+                    holder.chkbox.Checked = false;
             }
 
             holder.chkbox.Click += (sender, args) =>
