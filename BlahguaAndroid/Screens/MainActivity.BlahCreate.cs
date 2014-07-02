@@ -216,6 +216,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 EnableSpeechActBtn(newBtn);
                 currentSpeechAct = newBtn;
                 setTitleHint();
+
+                triggerExpand();
             }
         }
 
@@ -498,11 +500,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             layoutParams.Height = ViewGroup.LayoutParams.WrapContent ;
             create_post_block.LayoutParameters = layoutParams;
             create_post_block.Measure(widthSpec, heightSpec);
-            int newHeight = create_post_block.MeasuredHeight + 32;
+            int newHeight = create_post_block.MeasuredHeight;// +(create_post_block.Width > 800 ? 0 : 50);
 
             if (newHeight < Resources.DisplayMetrics.HeightPixels)
             {
-                ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, create_post_block.MeasuredHeight, false);
+                ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, newHeight, false);
                 lastCreateBlockHeight = create_post_block.MeasuredHeight;
                 mAnimator.Start();
             }
@@ -517,7 +519,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             StopTimers();
         }
 
-        View blayGrayed;
+        private View blayGrayed;
         public void triggerCreateBlock()
         {
             if (create_post_block.Visibility.Equals(ViewStates.Gone))
@@ -550,6 +552,9 @@ namespace BlahguaMobile.AndroidClient.Screens
                     editPoll1.Text = editPoll2.Text = editPoll3.Text = editPoll4.Text =
                     editPoll5.Text = editPoll6.Text = editPoll7.Text = editPoll8.Text =
                     editPoll9.Text = editPoll10.Text = "";
+                    editPoll3.Visibility = editPoll4.Visibility = editPoll5.Visibility = editPoll6.Visibility =
+                    editPoll7.Visibility = editPoll8.Visibility = editPoll9.Visibility = editPoll10.Visibility =
+                    ViewStates.Gone;
                 };
 
                 initSlidingMenu();
@@ -595,8 +600,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             if (count < 10)
             {
-                MaybeEnableAddPollBtns();
                 BlahguaAPIObject.Current.CreateRecord.I.Add(new PollItem("choice " + (count + 1)));
+                MaybeEnableAddPollBtns();
                 triggerExpand();
             }
         }
