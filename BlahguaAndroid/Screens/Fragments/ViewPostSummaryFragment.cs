@@ -220,7 +220,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.GetUserPollVote((theVote) =>
             {
                 Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                bool isVoted = ((theVote != null) && (theVote.W > -1));
+                bool isVoted = pollsTapped || ((theVote != null) && (theVote.W > -1));
                 parent.RunOnUiThread(() =>
                 {
                     pollsVotes.Adapter = new VotesAdapter(Activity, curBlah.I, !isVoted, pollsTap);
@@ -245,7 +245,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         if (curBlah.ExpireDate > DateTime.Now)
                         {
                             // still has time
-                            bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.D);
+                            bool isVoted = predictsTapped || (theVote != null && !String.IsNullOrEmpty(theVote.D));
                             predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, !isVoted, predictsTap);
 								    predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
 								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
@@ -253,7 +253,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         else
                         {
                             // expired
-                            bool isVoted = theVote != null && !String.IsNullOrEmpty(theVote.Z);
+                            bool isVoted = predictsTapped || (theVote != null && !String.IsNullOrEmpty(theVote.Z));
                             predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, !isVoted, predictsTap);
 								    predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
 								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
