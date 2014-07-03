@@ -13,6 +13,8 @@ using Android.Database;
 using System.Collections.Generic;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Java.Util;
+using Android.App;
+using Java.Text;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -188,6 +190,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
             editPrediction.TextChanged += editCreate_TextChanged;
+            editPrediction.Focusable = false;
+            setDatePicker(editPrediction);
+
             editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
             editPoll1.TextChanged += editCreate_TextChanged;
             editPoll2 = create_post_block.FindViewById<EditText>(Resource.Id.poll2);
@@ -524,6 +529,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (create_post_block.Visibility.Equals(ViewStates.Gone))
             {
+                SlidingMenu.TouchModeAbove = TouchMode.None;
                 blayGrayed.Visibility = ViewStates.Visible;
                 BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
                 // reset fields state
@@ -538,6 +544,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
+                SlidingMenu.TouchModeAbove = TouchMode.Margin;
                 //collapse
                 blayGrayed.Visibility = ViewStates.Gone;
                 int finalHeight = create_post_block.Height;
@@ -792,5 +799,35 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             return "";
         }
+
+
+        #region Prediction DatePickerCalendar
+        
+        Calendar myCalendar = Calendar.Instance;
+        private void setDatePicker(EditText edit)
+        {
+            edit.Click += (sender, args) =>
+            {
+                EventHandler<DatePickerDialog.DateSetEventArgs> handle = (s, arg) =>
+                {
+                    myCalendar.Set(Calendar.Year, arg.Year);
+                    myCalendar.Set(Calendar.Month, arg.MonthOfYear);
+                    myCalendar.Set(Calendar.DayOfMonth, arg.DayOfMonth);
+                    updateLabel(edit);
+                };
+                new DatePickerDialog(this, handle, myCalendar
+                        .Get(Calendar.Year), myCalendar.Get(Calendar.Month),
+                        myCalendar.Get(Calendar.DayOfMonth)).Show();
+            };
+        }
+
+        private void updateLabel(EditText edit)
+        {
+            String myFormat = "MM/dd/yy"; //In which you need put here
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.Us);
+
+            edit.Text = sdf.Format(myCalendar.Time);
+        }
+        #endregion
     }
 }
