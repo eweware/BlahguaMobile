@@ -179,7 +179,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
                 else
                 {
-                    Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
+                    Activity.RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
+                    });
                     MainActivity.analytics.PostSessionError("loadblahfailed");
                     // Finish();
                 }

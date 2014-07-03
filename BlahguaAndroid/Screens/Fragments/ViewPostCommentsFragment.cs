@@ -296,19 +296,22 @@ namespace BlahguaMobile.AndroidClient.Screens
                         comments_total_count.Text = "There are " + theList.Count + " comments";
                         no_comments.Visibility = ViewStates.Gone;
                         list.Visibility = ViewStates.Visible;
-                        list.Adapter = new CommentsAdapter(Activity, theList);
-                        list.ItemClick += list_ItemClick;
+                        adapter = new CommentsAdapter(Activity, theList);
+                        list.Adapter = adapter;
+                        //list.ItemClick += list_ItemClick;
                     }
                     else
                     {
-                        comments_total_count.Text = "There is no comments";
+                        comments_total_count.Text = "There are no comments";
                         no_comments.Visibility = ViewStates.Visible;
                         list.Visibility = ViewStates.Gone;
-                        list.Adapter = null;
+                        list.Adapter = adapter = null;
                     }
                 });
             });
         }
+
+        private static CommentsAdapter adapter;
 
         #region CreateCommentUI
         private void list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -328,20 +331,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                 ValueAnimator mAnimator = slideAnimator(layout, 0, layout.MeasuredWidth, true);
                 mAnimator.Start();
 
-                EventHandler ev = (s, args) =>
-                {
-                    //collapse();
-                    int finalWidth = layout.Width;
+                layout.Tag = e.Position;
+                btn_upvote.Tag = layout;
+                btn_downvote.Tag = layout;
 
-                    ValueAnimator Animator = slideAnimator(layout, finalWidth, 0, true);
-                    Animator.Start();
-                    Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                    {
-                        layout.Visibility = ViewStates.Gone;
-                    };//mLinearLayout.Visibility = ViewStates.Gone;
-                };
-                btn_upvote.Click += ev;
-                btn_downvote.Click += ev;
+                btn_upvote.Click -= evPromote;
+                btn_downvote.Click -= evDemote;
+                btn_upvote.Click += evPromote;
+                btn_downvote.Click += evDemote;
             }
             else
             {
@@ -356,6 +353,52 @@ namespace BlahguaMobile.AndroidClient.Screens
                 };//mLinearLayout.Visibility = ViewStates.Gone;
 
             }
+        }
+
+        private EventHandler evPromote = (s, args) =>
+        {
+            Button btn = (Button)s;
+            LinearLayout l = btn.Tag as LinearLayout;
+            int pos = (int)l.Tag;
+
+            Comment c = adapter.GetComment(pos);
+            BlahguaAPIObject.Current.SetCommentVote(c, 1, (newVote) =>
+            {
+                //UpdateVoteButtons();
+                MainActivity.analytics.PostCommentVote(1);
+            });
+
+            collapseComment(l);
+        };
+
+        private EventHandler evDemote = (s, args) =>
+        {
+            Button btn = (Button)s;
+            LinearLayout l = btn.Tag as LinearLayout;
+            int pos = (int)l.Tag;
+
+            Comment c = adapter.GetComment(pos);
+            BlahguaAPIObject.Current.SetCommentVote(c, -1, (newVote) =>
+            {
+                //UpdateVoteButtons();
+                MainActivity.analytics.PostCommentVote(-1);
+            });
+
+            collapseComment(l);
+        };
+
+        private static void collapseComment(LinearLayout l)
+        {
+
+            //collapse();
+            int finalWidth = l.Width;
+
+            ValueAnimator Animator = slideAnimator(l, finalWidth, 0, true);
+            Animator.Start();
+            Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
+            {
+                l.Visibility = ViewStates.Gone;
+            };//mLinearLayout.Visibility = ViewStates.Gone;
         }
 
         public void triggerCreateBlock()
@@ -388,7 +431,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        private ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
+        private static ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
         {
             ValueAnimator animator = ValueAnimator.OfInt(start, end);
             //ValueAnimator animator2 = ValueAnimator.OfInt(start, end);
@@ -409,9 +452,46 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 };
 
-
             //      });
             return animator;
+        }
+
+
+        public void UpdateVoteButtons()
+        {
+            //btn_promote.IconUri = new Uri("/Images/Icons/white_promote.png", UriKind.Relative);
+            //btn_demote.IconUri = new Uri("/Images/Icons/white_demote.png", UriKind.Relative);
+            //Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+
+            //if (BlahguaAPIObject.Current.CurrentUser != null)
+            //{
+            //    RunOnUiThread(() =>
+            //    {
+            //        if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id)
+            //        {
+            //            btn_promote.Enabled = false;
+            //            btn_demote.Enabled = false;
+            //        }
+            //        else if (curBlah.uv == 0)
+            //        {
+            //            btn_promote.Enabled = true;
+            //            btn_demote.Enabled = true;
+            //        }
+            //        else
+            //        {
+            //            btn_promote.Enabled = false;
+            //            btn_demote.Enabled = false;
+            //            if (curBlah.uv == 1)
+            //            {
+            //                btn_promote.SetBackgroundResource(Resource.Drawable.btn_promote_active);
+            //            }
+            //            else
+            //            {
+            //                btn_demote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
+            //            }
+            //        }
+            //    });
+            //}
         }
         #endregion
     }
