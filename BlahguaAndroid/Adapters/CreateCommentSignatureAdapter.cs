@@ -72,8 +72,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             {
                 BadgeReference badge = (BadgeReference)mListItems[position - 1];
                 holder.tv.Text = badge.BadgeName;
-                if ((BlahguaAPIObject.Current.CreateCommentRecord.B != null) &&
-                    BlahguaAPIObject.Current.CreateCommentRecord.B.Contains(badge.ID))
+                if ((BlahguaAPIObject.Current.CreateCommentRecord.BD != null) &&
+                    BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge.ID))
                     holder.chkbox.Checked = true;
                 else
                     holder.chkbox.Checked = false;
