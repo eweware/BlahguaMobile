@@ -434,10 +434,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 //ConnectFailure.Visibility = Visibility.Visible;
             }
         }
+        private DateTime whatsNewTimestamp = DateTime.MinValue;
         private void ShowNewsFloater(WhatsNewInfo newInfo)
         {
-            var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
-            new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
+            if (whatsNewTimestamp == DateTime.MinValue ||
+                DateTime.Now - whatsNewTimestamp > TimeSpan.FromSeconds(5))
+            {
+                whatsNewTimestamp = DateTime.Now;
+                var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
+                new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
+            }
         }
 
         #region SlidingMenu
