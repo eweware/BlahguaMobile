@@ -20,6 +20,14 @@ namespace BlahguaMobile.BlahguaCore
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public CommentCreateRecord()
+        {
+            XX = true;
+            B = null;
+            BD = null;
+            M = null;
+        }
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

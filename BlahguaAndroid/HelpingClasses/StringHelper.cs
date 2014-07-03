@@ -18,30 +18,39 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         {
             string result = "some time ago";
             TimeSpan span = DateTime.Now - time;
-            if (span.TotalDays > 30)
+            if (span.TotalDays > 360)
+            {
+                result = "a long time ago";
+            }
+            else if (span.TotalDays > 70)
             {
                 // month
-                result = span.Days / 30 + " month ago";
+                result = (int)(span.TotalDays / 30) + " months ago";
             }
-            else if (span.TotalHours > 23)
+            else if (span.TotalHours > 48)
             {
                 // days
-                result = span.Days + " days ago";
+                result = (int)(span.TotalDays) + " days ago";
             }
-            else if (span.TotalMinutes > 59)
+            else if (span.TotalMinutes > 120)
             {
                 // hours
-                result = span.Hours + " hours ago";
+                result = (int)(span.TotalHours) + " hours ago";
             }
-            else if (span.TotalSeconds > 59)
+            else if (span.TotalSeconds > 120)
             {
                 // minutes
-                result = span.Minutes + " minutes ago";
+                result = (int)(span.TotalMinutes) + " minutes ago";
+            }
+            else if (span.TotalSeconds > 15)
+            {
+                // minutes
+                result =(int)(span.TotalSeconds) + " seconds ago";
             }
             else
             {
                 // seconds
-                result = span.Seconds + " seconds ago";
+                result = "just now";
             }
 
             return result;

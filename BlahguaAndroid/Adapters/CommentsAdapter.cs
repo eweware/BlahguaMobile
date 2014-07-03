@@ -68,11 +68,20 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+            var badgeIcon = view.FindViewById<ImageView>(Resource.Id.comment_badged);
+            //LinearLayout authorDetailArea = view.FindViewById<LinearLayout>(Resource.Id.comment_author_details);
+            TextView authorDesc = view.FindViewById<TextView>(Resource.Id.comment_author_desc);
+            TextView authorBadge = view.FindViewById<TextView>(Resource.Id.comment_author_badge);
 
             Comment c = _list[position];
             if (!String.IsNullOrEmpty(c.ImageURL))
             {
                 image.SetUrlDrawable(c.ImageURL);
+                
+            }
+            else
+            {
+                image.Visibility = ViewStates.Gone;
             }
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
@@ -83,11 +92,25 @@ namespace BlahguaMobile.AndroidClient.Adapters
             upvoted.Text = c.UpVoteCount.ToString();
             downvoted.Text = c.DownVoteCount.ToString();
 
+
+            // description
+
+            authorDesc.Text = c.DescriptionString;
+            
+            // badges
+            if ((c.BD == null) || (c.BD.Count == 0))
+            {
+                badgeIcon.Visibility = ViewStates.Gone;
+                authorBadge.Text = "no badges";
+            }
+            else
+            {
+                badgeIcon.Visibility = ViewStates.Visible;
+                authorBadge.Text = c.BD.Count.ToString() + " badge(s)";
+            }
             view.Tag = position;
             view.Click -= view_Click;
-            view.Click += view_Click;
-
-            return view;
+            view.Click += view_Click;            return view;
         }
         
         void evPromoteClick(object sender, EventArgs e)
