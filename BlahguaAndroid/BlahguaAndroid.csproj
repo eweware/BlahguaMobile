@@ -199,8 +199,8 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <Version>104.1.0</Version>
       <Visible>False</Visible>
+      <Version>104.4.0</Version>
     </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
       <Version>3.9.60.0</Version>
