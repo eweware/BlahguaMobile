@@ -20,12 +20,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
     class CommentsAdapter : BaseAdapter
     {
+        ViewPostCommentsFragment _fragment;
         Activity _activity;
         CommentList _list;
 
-        public CommentsAdapter(Activity activity, CommentList list)
+        public CommentsAdapter(ViewPostCommentsFragment fragment, CommentList list)
         {
-            _activity = activity;
+            _fragment = fragment;
+            _activity = fragment.Activity;
             _list = list;
         }
 
@@ -109,8 +111,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 authorBadge.Text = c.BD.Count.ToString() + " badge(s)";
             }
             view.Tag = position;
-            view.Click -= view_Click;
-            view.Click += view_Click;            return view;
+
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+            {
+                view.Click -= view_Click;
+                view.Click += view_Click;
+            }
+            
+            return view;
         }
         
         void evPromoteClick(object sender, EventArgs e)
@@ -122,7 +130,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             Comment c = _list[pos];
             BlahguaAPIObject.Current.SetCommentVote(c, 1, (newVote) =>
             {
-                //UpdateVoteButtons();
+                _fragment.LoadComments();
+                UpdateVoteButtons(l, c);
                 MainActivity.analytics.PostCommentVote(1);
             });
 
@@ -138,7 +147,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             Comment c = _list[pos];
             BlahguaAPIObject.Current.SetCommentVote(c, -1, (newVote) =>
             {
-                //UpdateVoteButtons();
+                _fragment.LoadComments();
+                UpdateVoteButtons(l, c);
                 MainActivity.analytics.PostCommentVote(-1);
             });
 
@@ -184,6 +194,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 };//mLinearLayout.Visibility = ViewStates.Gone;
 
             }
+
+            int pos = (int)item.Tag;
+            UpdateVoteButtons(item, _list[pos]);
         }
 
         private static void collapseComment(LinearLayout l)
@@ -228,41 +241,38 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
 
 
-        public void UpdateVoteButtons()
+        public void UpdateVoteButtons(View item, Comment c)
         {
-            //btn_promote.IconUri = new Uri("/Images/Icons/white_promote.png", UriKind.Relative);
-            //btn_demote.IconUri = new Uri("/Images/Icons/white_demote.png", UriKind.Relative);
-            //Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+            LinearLayout layout = item.FindViewById<LinearLayout>(Resource.Id.votes);
+            Button btn_upvote = item.FindViewById<Button>(Resource.Id.btn_upvote);
+            Button btn_downvote = item.FindViewById<Button>(Resource.Id.btn_downvote);
 
-            //if (BlahguaAPIObject.Current.CurrentUser != null)
-            //{
-            //    RunOnUiThread(() =>
-            //    {
-            //        if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id)
-            //        {
-            //            btn_promote.Enabled = false;
-            //            btn_demote.Enabled = false;
-            //        }
-            //        else if (curBlah.uv == 0)
-            //        {
-            //            btn_promote.Enabled = true;
-            //            btn_demote.Enabled = true;
-            //        }
-            //        else
-            //        {
-            //            btn_promote.Enabled = false;
-            //            btn_demote.Enabled = false;
-            //            if (curBlah.uv == 1)
-            //            {
-            //                btn_promote.SetBackgroundResource(Resource.Drawable.btn_promote_active);
-            //            }
-            //            else
-            //            {
-            //                btn_demote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
-            //            }
-            //        }
-            //    });
-            //}
+            _activity.RunOnUiThread(() =>
+            {
+                if (c.A == BlahguaAPIObject.Current.CurrentUser._id)
+                {
+                    btn_upvote.Enabled = false;
+                    btn_downvote.Enabled = false;
+                }
+                else if (c.uv == 0)
+                {
+                    btn_upvote.Enabled = true;
+                    btn_downvote.Enabled = true;
+                }
+                else
+                {
+                    btn_upvote.Enabled = false;
+                    btn_downvote.Enabled = false;
+                    if (c.uv == 1)
+                    {
+                        btn_upvote.SetBackgroundResource(Resource.Drawable.btn_promote_active);
+                    }
+                    else
+                    {
+                        btn_downvote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
+                    }
+                }
+            });
         }
     }
 }
