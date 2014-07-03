@@ -75,6 +75,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
             TextView authorDesc = view.FindViewById<TextView>(Resource.Id.comment_author_desc);
             TextView authorBadge = view.FindViewById<TextView>(Resource.Id.comment_author_badge);
 
+            // set fonts
+            text.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
+            author.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Bold);
+            time_ago.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
+            authorDesc.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Italic);
+
             Comment c = _list[position];
             if (!String.IsNullOrEmpty(c.ImageURL))
             {
@@ -96,14 +102,17 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
 
             // description
-
-            authorDesc.Text = c.DescriptionString;
+            if (!c.XX)
+                authorDesc.Text = c.DescriptionString;
+            else
+                authorDesc.Text = "an unidentified person";
             
             // badges
             if ((c.BD == null) || (c.BD.Count == 0))
             {
                 badgeIcon.Visibility = ViewStates.Gone;
-                authorBadge.Text = "no badges";
+                //authorBadge.Text = "no badges";
+                authorBadge.Visibility = ViewStates.Gone;
             }
             else
             {

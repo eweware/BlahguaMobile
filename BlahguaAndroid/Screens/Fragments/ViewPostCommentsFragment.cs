@@ -148,6 +148,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressBarImageLoading.Visibility = ViewStates.Gone;
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
+            comments_total_count.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
@@ -297,7 +298,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     }
                     else
                     {
-                        comments_total_count.Text = "There are no comments yet.  Maybe you can add the first!";
+                        comments_total_count.Text = "No comments yet.  Add one now!";
                         no_comments.Visibility = ViewStates.Visible;
                         list.Visibility = ViewStates.Gone;
                         list.Adapter = adapter = null;

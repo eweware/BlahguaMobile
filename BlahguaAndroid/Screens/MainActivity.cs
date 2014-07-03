@@ -32,6 +32,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         Timer scrollTimer = new Timer();
         Timer BlahAnimateTimer = new Timer();
         int inboxCounter = 0;
+        public static Typeface gothamFont = null;
+        public static Typeface merriweatherFont = null;
 
         int FramesPerSecond = 60;
 
@@ -116,6 +118,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
             InitAnalytics();
             InitService();
+
+            // create the fonts
+            gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
+            merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+
         }
 
         public override void OnBackPressed()

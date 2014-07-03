@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9DADA"
+    android:background="#EAEAEA"
     android:orientation="vertical">
   <include
     layout="@layout/include_create_comment"
@@ -18,8 +18,8 @@
     android:textColor="#000"
     android:textSize="14sp"
     android:textStyle="bold"
-    android:background="#F3F3F3"
-    android:text="There are no comments" />
+    android:background="#D9DADA"
+    android:text="Checking for comments...." />
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"

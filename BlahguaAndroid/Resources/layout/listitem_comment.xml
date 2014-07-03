@@ -2,123 +2,135 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#3C3C3C"
-            android:autoLink="all"
-            android:paddingBottom="3dp" />
-        <BlahguaMobile.AndroidClient.HelpingClasses.ResizableImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:adjustViewBounds="true" />
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/author_avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="top|left"
+            android:background="#AAA" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="top|left"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#60BFA4"
+                    android:textStyle="bold"
+                    android:text="author" />
+                <ImageView
+                    android:id="@+id/comment_badged"
+                    android:src="@drawable/badge_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#AAA" />
+                <TextView
+                    android:id="@+id/time_ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3C3C3C"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="some time ago" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/upvoted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#60BFA4" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3C3C3C"
+                    android:text="/" />
+                <TextView
+                    android:id="@+id/downvoted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3C3C3C" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/comment_author_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/comment_author_desc"
+                    android:text="description"
+                    android:textStyle="italic"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3C3C3C" />
+                <TextView
+                    android:id="@+id/comment_author_badge"
+                    android:text="badges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3C3C3C" />
+            </LinearLayout>
             <TextView
-                android:id="@+id/author"
-                android:layout_width="wrap_content"
+                android:id="@+id/text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#3C3C3C"
-                android:textStyle="bold"
-                android:text="author" />
-            <ImageView
-                android:id="@+id/author_avatar"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_vertical"
-                android:background="#AAA" />
-            <ImageView
-                android:id="@+id/comment_badged"
-                android:src="@drawable/badge_icon"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_vertical"
-                android:background="#AAA" />
-            <TextView
-                android:id="@+id/time_ago"
-                android:layout_width="wrap_content"
+                android:autoLink="all"
+                android:paddingBottom="3dp" />
+            <BlahguaMobile.AndroidClient.HelpingClasses.ResizableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#3C3C3C"
-                android:textSize="10sp"
-                android:layout_gravity="center_vertical"
-                android:text="some time ago" />
+                android:padding="5dp"
+                android:adjustViewBounds="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/votes"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="#333"
+            android:padding="10dp"
+            android:visibility="gone">
+            <Button
+                android:id="@+id/btn_upvote"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_promote" />
             <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-            <TextView
-                android:id="@+id/upvoted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#60BFA4" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#3C3C3C"
-                android:text="/" />
-            <TextView
-                android:id="@+id/downvoted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#3C3C3C" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/comment_author_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/comment_author_desc"
-                android:text="description"
-                android:textStyle="italic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#3C3C3C" />
-            <TextView
-                android:id="@+id/comment_author_badge"
-                android:text="badges"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#3C3C3C" />
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_downvote"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_demote" />
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/votes"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="#333"
-        android:padding="10dp"
-        android:visibility="gone">
-        <Button
-            android:id="@+id/btn_upvote"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_promote" />
-        <View
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn_downvote"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_demote" />
-    </LinearLayout>
+<!-- this is a test -->
+    <View
+        android:background="#3F2B2F"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 </LinearLayout>
