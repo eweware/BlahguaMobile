@@ -90,7 +90,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return "https://s3-us-west-2.amazonaws.com/beta.blahgua.com/img/Small_BadgeTransparent.png";
+                return "https://s3-us-west-2.amazonaws.com/app.goheard.com/img/badge-icon.png";
             }
         }
 

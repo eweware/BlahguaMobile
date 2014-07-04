@@ -92,6 +92,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
             pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
+            textView.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            titleView.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            author.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            timeago.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            authorDescription.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            predictsElapsedtime.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+
             return fragment;
         }
 
@@ -156,8 +163,18 @@ namespace BlahguaMobile.AndroidClient.Screens
                         {
                             timeago.Text = StringHelper.ConstructTimeAgo(theBlah.CreationDate);
                         }
-                        authorDescription.Text = theBlah.Description.d;
+                        if (!theBlah.XX)
+                        {
+                            authorDescription.Text = theBlah.Description.d;
+
+                        }
+                        else
+                        {
+                            authorDescription.Text = "an unidentified person";
+                        }
+
                         authorAvatar.SetUrlDrawable(theBlah.UserImage);
+
                         if (theBlah.Badges != null)
                         {
                             badgesIcon.Visibility = ViewStates.Visible;

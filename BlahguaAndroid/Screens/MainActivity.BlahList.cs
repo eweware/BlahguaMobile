@@ -15,7 +15,7 @@ namespace BlahguaMobile.AndroidClient.Screens
     {
         private readonly int BlahSetsAmountToRemove = 3;
         int blahsToAdd = 0;
-		private Typeface blahRollFont = null;
+
 
         private void RenderInitialBlahs()
         {
@@ -334,9 +334,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible ;
-                if (blahRollFont == null)
-				blahRollFont = Typeface.CreateFromAsset (this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
-			    title.SetTypeface (blahRollFont, TypefaceStyle.Normal);
+			    title.SetTypeface (MainActivity.gothamFont, TypefaceStyle.Normal);
 
                 title.Text = theBlah.T;
 

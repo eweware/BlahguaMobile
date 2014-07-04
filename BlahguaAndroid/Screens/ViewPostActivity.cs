@@ -56,6 +56,7 @@ namespace BlahguaMobile.AndroidClient
 
             title = FindViewById<TextView>(Resource.Id.title);
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
+            title.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 
