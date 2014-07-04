@@ -48,7 +48,8 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
+			if(BlahguaAPIObject.Current.CreateCommentRecord == null)
+				BlahguaAPIObject.Current.CreateCommentRecord = new CommentCreateRecord();
 			var buttonsTextAttributes = new UIStringAttributes {
 				Font = UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),
 				ForegroundColor = UIColor.Black
@@ -56,7 +57,7 @@ namespace BlahguaMobile.IOS
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("Signature", buttonsTextAttributes), UIControlState.Normal);
             selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
-			selectSignature.TouchUpInside += ChooseSignature;
+			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("Select Image", buttonsTextAttributes), UIControlState.Normal);
             selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
@@ -98,13 +99,18 @@ namespace BlahguaMobile.IOS
 			};
 		}
 
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			base.PrepareForSegue (segue, sender);
+			if (segue.Identifier == "fromNewCommentToSignatures")
+				((BGSignaturesTableViewController)segue.DestinationViewController).ParentViewController = this;
+		}
+
 		public void Done()
 		{
 			if(!String.IsNullOrEmpty(input.Text))
 			{
 				NewComment.Text = input.Text;
-				NewComment.UseProfile = isProfileSignature;
-				NewComment.Badges = BlahguaAPIObject.Current.CurrentUser.Badges;
 				BlahguaAPIObject.Current.CreateComment (CommentCreated);
 			}
 		}

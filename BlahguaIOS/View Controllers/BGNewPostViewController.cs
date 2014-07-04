@@ -103,7 +103,7 @@ namespace BlahguaMobile.IOS
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
             selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
-			selectSignature.TouchUpInside += ChooseSignature;
+			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("  Select Image", buttonsTextAttributes), UIControlState.Normal);
             selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
@@ -186,14 +186,20 @@ namespace BlahguaMobile.IOS
 			};
 		}
 
+
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			base.PrepareForSegue (segue, sender);
+			if (segue.Identifier == "fromNewPostToSignatures")
+				((BGSignaturesTableViewController)segue.DestinationViewController).ParentViewController = this;
+		}
+
 		public void Done()
 		{
 			if(!String.IsNullOrEmpty(titleInput.Text))
 			{
 				NewPost.F = titleInput.Text;
 				NewPost.T = bodyInput.Text;
-				NewPost.UseProfile = isProfileSignature;
-				NewPost.Badges = BlahguaAPIObject.Current.CurrentUser.Badges;
 				DateTime expDate;
 				if (DateTime.TryParse (expirationDateInput.Text, out expDate))
 					NewPost.ExpirationDate = expDate;

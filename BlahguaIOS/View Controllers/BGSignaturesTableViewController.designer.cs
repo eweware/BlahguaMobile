@@ -12,6 +12,11 @@ namespace BlahguaMobile.IOS
 	[Register ("BGSignaturesTableViewController")]
 	partial class BGSignaturesTableViewController
 	{
+		[Action ("Done:")]
+		partial void Done (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("SelectAll:")]
+		partial void SelectAll (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

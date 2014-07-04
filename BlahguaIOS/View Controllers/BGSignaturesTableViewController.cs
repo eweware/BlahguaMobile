@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -13,6 +14,12 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGSignaturesTableViewController : UITableViewController
 	{
+		public UIViewController ParentViewController 
+		{
+			get;
+			set;
+		}
+
 		public BGSignaturesTableViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -21,12 +28,34 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 			TableView.TableFooterView = new UIView ();
-			TableView.Source = new BGSignaturesTableSource ();
+			TableView.Source = new BGSignaturesTableSource (this);
 		}
 
+		partial void Done (NSObject sender)
+		{
+			DismissViewController(true, null);
+		}
+
+		partial void SelectAll (NSObject sender)
+		{
+			int count = TableView.NumberOfRowsInSection(0);
+			for(int i = 0; i < count; i++)
+			{
+				var ip = NSIndexPath.FromRowSection(i, 0);
+				TableView.SelectRow(ip, true, UITableViewScrollPosition.None);
+				TableView.Source.RowSelected(TableView, ip);
+			}
+		}
 
 		public class BGSignaturesTableSource : UITableViewSource
 		{
+			private BGSignaturesTableViewController vc;
+
+			public BGSignaturesTableSource(BGSignaturesTableViewController vc) : base()
+			{
+				this.vc = vc;
+			}
+
 			#region implemented abstract members of UITableViewSource
 
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -41,6 +70,42 @@ namespace BlahguaMobile.IOS
 					if (BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Any ())
 						cell.SetUp (BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row + 1].BadgeName);
 				}
+
+				if(vc.ParentViewController is BGNewPostViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						if (BlahguaAPIObject.Current.CreateRecord.UseProfile)
+							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						else
+							cell.Accessory = UITableViewCellAccessory.None;
+					}
+					else
+					{
+						if (BlahguaAPIObject.Current.CreateRecord.B.Contains(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row + 1]))
+							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						else
+							cell.Accessory = UITableViewCellAccessory.None;
+					}
+				}
+				else if(vc.ParentViewController is BGNewCommentViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile)
+							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						else
+							cell.Accessory = UITableViewCellAccessory.None;
+					}
+					else
+					{
+						if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row + 1]))
+							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						else
+							cell.Accessory = UITableViewCellAccessory.None;
+					}
+				}
+
 				return cell;
 			}
 
@@ -69,6 +134,64 @@ namespace BlahguaMobile.IOS
 				{
 					return 28f;
 				}
+			}
+
+			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+			{
+				if(vc.ParentViewController is BGNewPostViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						BlahguaAPIObject.Current.CreateRecord.UseProfile = true;
+					}
+					else
+					{
+						if (BlahguaAPIObject.Current.CreateRecord.B == null)
+							BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
+						BlahguaAPIObject.Current.CreateRecord.B.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+					}
+				}
+				else if(vc.ParentViewController is BGNewCommentViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = true;
+					}
+					else
+					{
+						if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
+							BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
+						BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+					}
+				}
+				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.Checkmark;
+			}
+
+			public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
+			{
+				if(vc.ParentViewController is BGNewPostViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						BlahguaAPIObject.Current.CreateRecord.UseProfile = false;
+					}
+					else
+					{
+						BlahguaAPIObject.Current.CreateRecord.B.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+					}
+				}
+				else if(vc.ParentViewController is BGNewCommentViewController)
+				{
+					if(indexPath.Row == 0)
+					{
+						BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
+					}
+					else
+					{
+						BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+					}
+				}
+				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.None;
 			}
 
 			#endregion

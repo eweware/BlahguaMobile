@@ -15,7 +15,7 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGBlahViewController : UIViewController
+	public partial class BGBlahViewController : UIViewController, IImageUpdated
 	{
 		#region Fields
 
@@ -208,7 +208,7 @@ namespace BlahguaMobile.IOS
 			{
 				blahImage.Image = ImageLoader.DefaultRequestImage(
 					new Uri(CurrentBlah.ImageURL), 
-					new ImageUpdateDelegate (blahImage)
+					this
 				);
 			}
 			else
@@ -242,6 +242,10 @@ namespace BlahguaMobile.IOS
 				tableView = new UITableView ();
 				tableView.ScrollEnabled = false;
 				tableView.AllowsMultipleSelection = false;
+				if(BlahguaAPIObject.Current.CurrentUser == null)
+				{
+					tableView.AllowsSelection = false;
+				}
 				tableView.BackgroundColor = UIColor.Clear;
 				if(CurrentBlah.TypeName == "polls")
 				{
@@ -257,13 +261,6 @@ namespace BlahguaMobile.IOS
 				tableView.ReloadData ();
 				tableView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-				contentView.AddSubview (tableView);
-
-				var positionY = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
-				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
-				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
-
-				contentView.AddConstraints (new NSLayoutConstraint[] { positionY, positionXLeft, positionXRight });
 
 				var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
 				var height = NSLayoutConstraint.Create(
@@ -277,6 +274,16 @@ namespace BlahguaMobile.IOS
 				);
 
 				tableView.AddConstraints(new NSLayoutConstraint[] {width, height});
+
+				contentView.AddSubview (tableView);
+
+				var positionYTop = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+				var positionYBottom = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
+				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+
+				contentView.AddConstraints (new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
+
 			}
 
 		}
@@ -411,6 +418,16 @@ namespace BlahguaMobile.IOS
 		public void PredictionVoted(UserPredictionVote item)
 		{
 			InvokeOnMainThread(() => tableView.ReloadData ());
+		}
+
+		#endregion
+
+		#region IImageUpdated implementation
+
+		public void UpdatedImage (Uri uri)
+		{
+			blahImage.Image = ImageLoader.DefaultRequestImage (uri, this);
+
 		}
 
 		#endregion

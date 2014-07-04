@@ -231,6 +231,7 @@ namespace BlahguaMobile.IOS
 						.MainStoryboard
 						.InstantiateViewController ("BGNewPostViewController");
 					newPostViewController.ParentViewController = this;
+					this.AddChildViewController (newPostViewController);
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);

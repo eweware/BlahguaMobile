@@ -239,19 +239,37 @@
             </objects>
             <point key="canvasLocation" x="-589" y="456"/>
         </scene>
-        <!--Signatures Table View Controller-->
+        <!--Signatures Table View Controller - Signatures-->
         <scene sceneID="xDl-cA-OMy">
             <objects>
-                <tableViewController storyboardIdentifier="BGSignaturesTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LBJ-62-F4B" customClass="BGSignaturesTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="22" sectionFooterHeight="22" id="m5T-w7-S50">
+                <tableViewController storyboardIdentifier="BGSignaturesTableViewController" title="Signatures" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LBJ-62-F4B" customClass="BGSignaturesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="28" sectionHeaderHeight="22" sectionFooterHeight="22" id="m5T-w7-S50">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="0.0" maxY="0.0"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <navigationBar key="tableHeaderView" appearanceType="aqua" contentMode="scaleToFill" id="NjG-8G-V9g">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Signatures" id="Oi4-HX-9FM">
+                                    <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="Y5K-hC-f3w">
+                                        <connections>
+                                            <action selector="Done:" destination="LBJ-62-F4B" id="POw-c2-PGN"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem key="rightBarButtonItem" title="Select All" style="plain" id="YnB-Go-m4x">
+                                        <connections>
+                                            <action selector="SelectAll:" destination="LBJ-62-F4B" id="mHN-L4-y4u"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" restorationIdentifier="BGSignaturesCell" selectionStyle="none" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="28" id="M1u-zB-XOW" customClass="BGSignaturesCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="28"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M1u-zB-XOW" id="RaZ-ju-2yt">
                                     <rect key="frame" x="0.0" y="0.0" width="281" height="27"/>
@@ -468,7 +486,6 @@
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="B90-La-0xz" firstAttribute="leading" secondItem="Gpn-9b-ooF" secondAttribute="leading" id="3eB-ia-B4Y"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Sr-Gw-Fik" secondAttribute="bottom" id="9VG-70-jbW"/>
                                     <constraint firstItem="0Sr-Gw-Fik" firstAttribute="leading" secondItem="Gpn-9b-ooF" secondAttribute="leading" id="Afc-Md-45y"/>
                                     <constraint firstAttribute="trailing" secondItem="B90-La-0xz" secondAttribute="trailing" id="BT6-5F-hwG"/>
                                     <constraint firstAttribute="trailing" secondItem="0Sr-Gw-Fik" secondAttribute="trailing" id="Je4-2n-XS2"/>
@@ -1302,7 +1319,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewCommentToSignatures" modalTransitionStyle="partialCurl" id="FLS-jN-55E"/>
+                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewCommentToSignatures" modalTransitionStyle="crossDissolve" id="FLS-jN-55E"/>
                                 </connections>
                             </button>
                             <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gha-W4-iCk">
@@ -1346,6 +1363,7 @@
                         <outlet property="done" destination="4jk-bJ-3fH" id="Bug-Oy-sBh"/>
                         <outlet property="input" destination="gha-W4-iCk" id="XKf-yS-dUJ"/>
                         <outlet property="selectImageButton" destination="gF5-b9-Foz" id="hso-hg-RJs"/>
+                        <outlet property="selectSignature" destination="VW6-ee-W4N" id="yza-UD-3ER"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZH-zp-Kp5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1422,7 +1440,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewPostToSignatures" modalTransitionStyle="partialCurl" id="r5o-U4-GYW"/>
+                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewPostToSignatures" modalTransitionStyle="crossDissolve" id="r5o-U4-GYW"/>
                                 </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E49-sI-U6W">
@@ -1451,6 +1469,7 @@
                         <outlet property="done" destination="gb5-Z7-8LZ" id="ZI7-qy-iNq"/>
                         <outlet property="pollItemsTableView" destination="sNx-5o-7Kn" id="XU5-9e-Fj9"/>
                         <outlet property="selectImageButton" destination="E49-sI-U6W" id="2kF-9z-aGV"/>
+                        <outlet property="selectSignature" destination="XQN-y7-KaN" id="kOu-Uu-Hok"/>
                         <outlet property="titleInput" destination="anP-UV-pf3" id="kcV-Vs-JxA"/>
                     </connections>
                 </viewController>

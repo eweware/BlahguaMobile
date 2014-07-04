@@ -364,6 +364,7 @@ namespace BlahguaMobile.IOS
 					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
 						.InstantiateViewController ("BGNewCommentViewController");
 					newCommentViewController.ParentViewController = this;
+					AddChildViewController (newCommentViewController);
 				}
 				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
