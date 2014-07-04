@@ -37,6 +37,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private Button btn_done;
         private EditText text;
 
+        private CommentsAdapter adapter;
+
         #region ImageUpload
 
         private FrameLayout imageCreateCommentLayout;
@@ -159,10 +161,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            if (text.Text.Length == 0)
-            {
-                btn_done.Enabled = false;
-            }
+            btn_done.Enabled = (text.Text.Length == 0);
         }
 
         #region Signature
@@ -232,23 +231,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.CreateCommentRecord = new CommentCreateRecord();
                 BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
             }
-
-            //if (currentPage == "summary")
-            //{
-            //    BlahguaAPIObject.Current.CreateCommentRecord.CID = null;
-            //    NavigationService.Navigate(new Uri("/Screens/CreateComment.xaml", UriKind.Relative));
-            //}
-            //else
-            //{
-            //    // on the comment page
-            //    Comment curComment = (Comment)AllCommentList.SelectedItem;
-            //    if (curComment != null)
-            //        BlahguaAPIObject.Current.CreateCommentRecord.CID = curComment._id;
-            //    else
-            //        BlahguaAPIObject.Current.CreateCommentRecord.CID = null;
-
-            //    NavigationService.Navigate(new Uri("/Screens/CreateComment.xaml", UriKind.Relative));
-            //}
         }
 
         private void OnCreateCommentOK(Comment newComment)
@@ -270,6 +252,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 // handle create comment failed
                 Toast.MakeText(Activity, "Your comment was not created.  Please try again or come back another time.", ToastLength.Short).Show();
                 btn_done.Enabled = true;
+                text.Enabled = true;
             }
 
         }
@@ -306,95 +289,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             });
         }
 
-        private static CommentsAdapter adapter;
-
         #region CreateCommentUI
-        //private void list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        //{
-        //    View item = e.View;
-        //    LinearLayout layout = item.FindViewById<LinearLayout>(Resource.Id.votes);
-        //    Button btn_upvote = item.FindViewById<Button>(Resource.Id.btn_upvote);
-        //    Button btn_downvote = item.FindViewById<Button>(Resource.Id.btn_downvote);
-        //    if (layout != null && layout.Visibility.Equals(ViewStates.Gone))
-        //    {
-        //        //set Visible
-        //        layout.Visibility = ViewStates.Visible;
-        //        int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-        //        int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-        //        layout.Measure(widthSpec, heightSpec);
-
-        //        ValueAnimator mAnimator = slideAnimator(layout, 0, layout.MeasuredWidth, true);
-        //        mAnimator.Start();
-
-        //        layout.Tag = e.Position;
-        //        btn_upvote.Tag = layout;
-        //        btn_downvote.Tag = layout;
-
-        //        btn_upvote.Click -= evPromote;
-        //        btn_downvote.Click -= evDemote;
-        //        btn_upvote.Click += evPromote;
-        //        btn_downvote.Click += evDemote;
-        //    }
-        //    else
-        //    {
-        //        //collapse();
-        //        int finalWidth = layout.Width;
-
-        //        ValueAnimator mAnimator = slideAnimator(layout, finalWidth, 0, true);
-        //        mAnimator.Start();
-        //        mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-        //        {
-        //            layout.Visibility = ViewStates.Gone;
-        //        };//mLinearLayout.Visibility = ViewStates.Gone;
-
-        //    }
-        //}
-
-        //private EventHandler evPromote = (s, args) =>
-        //{
-        //    Button btn = (Button)s;
-        //    LinearLayout l = btn.Tag as LinearLayout;
-        //    int pos = (int)l.Tag;
-
-        //    Comment c = adapter.GetComment(pos);
-        //    BlahguaAPIObject.Current.SetCommentVote(c, 1, (newVote) =>
-        //    {
-        //        //UpdateVoteButtons();
-        //        MainActivity.analytics.PostCommentVote(1);
-        //    });
-
-        //    collapseComment(l);
-        //};
-
-        //private EventHandler evDemote = (s, args) =>
-        //{
-        //    Button btn = (Button)s;
-        //    LinearLayout l = btn.Tag as LinearLayout;
-        //    int pos = (int)l.Tag;
-
-        //    Comment c = adapter.GetComment(pos);
-        //    BlahguaAPIObject.Current.SetCommentVote(c, -1, (newVote) =>
-        //    {
-        //        //UpdateVoteButtons();
-        //        MainActivity.analytics.PostCommentVote(-1);
-        //    });
-
-        //    collapseComment(l);
-        //};
-
-        //private static void collapseComment(LinearLayout l)
-        //{
-
-        //    //collapse();
-        //    int finalWidth = l.Width;
-
-        //    ValueAnimator Animator = slideAnimator(l, finalWidth, 0, true);
-        //    Animator.Start();
-        //    Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-        //    {
-        //        l.Visibility = ViewStates.Gone;
-        //    };//mLinearLayout.Visibility = ViewStates.Gone;
-        //}
 
         public void triggerCreateBlock()
         {
@@ -404,6 +299,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 //set Visible
                 create_comment_block.Visibility = ViewStates.Visible;
+                text.Enabled = true;
                 int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
                 int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
                 create_comment_block.Measure(widthSpec, heightSpec);
@@ -421,6 +317,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
                 {
                     create_comment_block.Visibility = ViewStates.Gone;
+
+                    // reset views
+                    imageCreateCommentLayout.Visibility = ViewStates.Gone;
+                    text.Text = "";
                 };
 
             }
@@ -429,14 +329,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
         {
             ValueAnimator animator = ValueAnimator.OfInt(start, end);
-            //ValueAnimator animator2 = ValueAnimator.OfInt(start, end);
-            //  animator.AddUpdateListener (new ValueAnimator.IAnimatorUpdateListener{
+
             animator.Update +=
                 (object sender, ValueAnimator.AnimatorUpdateEventArgs e) =>
                 {
-                    //  int newValue = (int)
-                    //e.Animation.AnimatedValue; // Apply this new value to the object being animated.
-                    //  myObj.SomeIntegerValue = newValue; 
                     var value = (int)animator.AnimatedValue;
                     ViewGroup.LayoutParams layoutParams = layout.LayoutParameters;
                     if(animatingWidth)
@@ -446,8 +342,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                     layout.LayoutParameters = layoutParams;
 
                 };
-
-            //      });
             return animator;
         }
         #endregion

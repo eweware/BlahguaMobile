@@ -14,6 +14,7 @@ using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -30,12 +31,22 @@ namespace BlahguaMobile.AndroidClient
         private Button btn_promote, btn_demote, btn_login;
         private Button btn_summary, btn_comments, btn_stats;
 
+
+        private GestureDetector _gestureDetector;
+        private GestureListener _gestureListener;
+
+
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
 
             RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_viewpost);
+
+            _gestureListener = new GestureListener();
+            _gestureDetector = new GestureDetector(this, _gestureListener);
+            _gestureListener.SwipeLeftEvent += swipeLeftEvent;
+            _gestureListener.SwipeRightEvent += swipeRightEvent;
 
             Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
             btn_back.Click += delegate
@@ -72,6 +83,35 @@ namespace BlahguaMobile.AndroidClient
 
             btn_summary_Click(null, null);
             MainActivity.analytics.PostPageView("/blah");
+        }
+
+        void swipeLeftEvent(MotionEvent first, MotionEvent second)
+        {
+            if (summaryFragment != null)
+            {
+                btn_comments_Click(null, null);
+            }
+            else if (commentsFragment != null)
+            {
+                btn_stats_Click(null, null);
+            }
+        }
+        void swipeRightEvent(MotionEvent first, MotionEvent second)
+        {
+            if (commentsFragment != null)
+            {
+                btn_summary_Click(null, null);
+            }
+            else if (statsFragment != null)
+            {
+                btn_comments_Click(null, null);
+            }
+        }
+
+        public override bool DispatchTouchEvent(MotionEvent ev)
+        {
+            base.DispatchTouchEvent(ev);
+            return _gestureDetector.OnTouchEvent(ev);
         }
 
         private void initUserUi()
