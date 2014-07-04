@@ -44,8 +44,9 @@ namespace BlahguaMobile.IOS
 			{
 				postfix = iphone4Postfix;
 			}
-			string fileName = String.Format ("{0}{1}.{2}", nameParts [0], postfix, nameParts [nameParts.Length - 1]);
-			return UIImage.FromFile(fileName);
+			//string fileName = String.Format ("{0}{1}.{2}", nameParts [0], postfix, nameParts [nameParts.Length - 1]);
+            string fileName = String.Format ("{0}{1}", nameParts [0], postfix);
+			return UIImage.FromBundle(fileName);
 		}
 
 		public static UIColor GetColorForBackground(string backName)

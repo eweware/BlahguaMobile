@@ -59,11 +59,11 @@ namespace BlahguaMobile.IOS
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
 
-			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
 			leftSlidingPanel = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 
-			NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromFile("leftMenuButton.png"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
 
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
@@ -193,8 +193,8 @@ namespace BlahguaMobile.IOS
 				profile = new UIButton (new RectangleF (44, 0, 44, 44));
 				profile.SetImage (GetProfileImage(), UIControlState.Normal);
 				newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
-				newBlah.SetBackgroundImage (UIImage.FromFile ("new_post_tap.png"), UIControlState.Normal);
-				newBlah.SetImage (UIImage.FromFile ("newBlahImage.png"), UIControlState.Normal);
+				newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
+                newBlah.SetImage (UIImage.FromBundle ("newBlahImage"), UIControlState.Normal);
 				profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
 				newBlah.TouchUpInside += NewBlah;
 
@@ -247,7 +247,7 @@ namespace BlahguaMobile.IOS
 			rightViewContainer.BackgroundColor = UIColor.Clear;
 			rightViewContainer.AddGestureRecognizer (new UITapGestureRecognizer (() => ToggleRightMenu ()));
 			rightView = new UIView (BGAppearanceConstants.RightViewFrame);
-			rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("grayBack.png"));
+            rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			float yCoord = 0;
 
@@ -273,7 +273,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			profileButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            profileButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			profileButton.BackgroundColor = UIColor.White;
 			profileButton.TouchUpInside += ProfileButtonClicked;
 			profileButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -289,7 +289,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			badgesButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            badgesButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			badgesButton.BackgroundColor = UIColor.White;
 			badgesButton.TouchUpInside += BadgesButtonClicked;
 			badgesButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -305,7 +305,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			demographicsButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            demographicsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			demographicsButton.BackgroundColor = UIColor.White;
 			demographicsButton.TouchUpInside += DemographicsButtonClicked;
 			demographicsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -321,7 +321,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			historyButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            historyButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			historyButton.BackgroundColor = UIColor.White;
 			historyButton.TouchUpInside += HistoryButtonClicked;
 			historyButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -337,7 +337,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			statsButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            statsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			statsButton.BackgroundColor = UIColor.White;
 			statsButton.TouchUpInside += StatsButtonClicked;
 			statsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -353,7 +353,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-			logoutButton.SetBackgroundImage (UIImage.FromFile ("greenBack.png"), UIControlState.Selected);
+            logoutButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			logoutButton.BackgroundColor = UIColor.Clear;
 			logoutButton.TouchUpInside += LogoutButtonClicked;
 			logoutButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);

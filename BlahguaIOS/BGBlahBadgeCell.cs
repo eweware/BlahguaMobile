@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 			if (Uri.TryCreate (badgeImageUrl, UriKind.RelativeOrAbsolute, out uri))
 				badgeImage.Image = ImageLoader.DefaultRequestImage (uri, new ImageUpdateDelegate (badgeImage));
 			else
-				badgeImage.Image = UIImage.FromFile ("badges.png");
+                badgeImage.Image = UIImage.FromBundle ("badges");
 
 			this.badgeName.AttributedText = new NSAttributedString (
 				badgeName, 

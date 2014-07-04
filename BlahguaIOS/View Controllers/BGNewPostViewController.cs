@@ -46,7 +46,7 @@ namespace BlahguaMobile.IOS
 						UIColor.Black
 					);
 
-					expirationDateInput.Background = UIImage.FromFile ("input_back.png");
+                    expirationDateInput.Background = UIImage.FromBundle ("input_back");
 
 					expirationDateInput.ReturnKeyType = UIReturnKeyType.Default;
 					expirationDateInput.ShouldReturn = delegate {
@@ -95,14 +95,14 @@ namespace BlahguaMobile.IOS
 			};
 
 			((UIScrollView)View).ScrollEnabled = true;
-			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("grayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
-			selectSignature.SetImage (UIImage.FromFile ("signature_ico.png"), UIControlState.Normal);
+            selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
 			selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("  Select Image", buttonsTextAttributes), UIControlState.Normal);
-			selectImageButton.SetImage (UIImage.FromFile ("image_select.png"), UIControlState.Normal);
+            selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			titleInput.ReturnKeyType = UIReturnKeyType.Next;
@@ -117,8 +117,8 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
-			done.SetBackgroundImage (UIImage.FromFile ("long_button.png"), UIControlState.Normal);
-			done.SetBackgroundImage (UIImage.FromFile ("long_button_gray.png"), UIControlState.Disabled);
+            done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
+            done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			done.SetAttributedTitle (new NSAttributedString (
 				"Done", 
 				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
@@ -336,22 +336,22 @@ namespace BlahguaMobile.IOS
 			string backImageName = String.Empty;
 			if (indexPath.Row == 0)
 			{
-				backImageName = "input_field_top.png";
+				backImageName = "input_field_top";
 				cell.SetUpWithPollItem (BlahguaAPIObject.Current.CreateRecord.I [indexPath.Row]);
 			} 
 			else if(BlahguaAPIObject.Current.CreateRecord.I.Count  == indexPath.Row)
 			{
 				cell.SetUp();
-				backImageName = "input_field_bottom.png";
+				backImageName = "input_field_bottom";
 
 			}
 			else
 			{
-				backImageName = "input_field_middle.png";
+				backImageName = "input_field_middle";
 				cell.SetUpWithPollItem (BlahguaAPIObject.Current.CreateRecord.I [indexPath.Row]);
 			}
 			vc.AdjustTableViewSize ();
-			cell.BackgroundView = new UIImageView(UIImage.FromFile(backImageName));
+            cell.BackgroundView = new UIImageView(UIImage.FromBundle(backImageName));
 
 			return cell;
 		}

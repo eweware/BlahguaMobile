@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("grayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			TableView.BackgroundColor = UIColor.White;
 			TableView.Source = new BGHistoryDetailTableSource(this);

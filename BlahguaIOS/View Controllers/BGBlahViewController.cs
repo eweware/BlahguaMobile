@@ -83,7 +83,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			SetModeButtonsImages(UIImage.FromFile ("summary_dark.png"), UIImage.FromFile ("comments.png"), UIImage.FromFile ("stats.png"));
+            SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
 			if(ShouldMoveToStats)
 			{
 				ShouldMoveToStats = false;
@@ -110,7 +110,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpBaseLayout()
 		{
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 			contentView.BackgroundColor = UIColor.White;
 			contentView.ScrollEnabled = true;
 			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
@@ -122,8 +122,8 @@ namespace BlahguaMobile.IOS
 
 			var bottomToolbarLocation = new PointF (0, contentView.Frame.Bottom);
 			bottomToolbar.Frame = new RectangleF (bottomToolbarLocation, toolbarViewSize);
-			bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("greenBack.png"));
-			bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromFile ("greenBack.png"));
+            bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+            bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
 
 			View.AddSubviews (new UIView [] { contentView, bottomToolbar });
 		}
@@ -138,7 +138,7 @@ namespace BlahguaMobile.IOS
 
 			//badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
-			badgeImage.SetImage (UIImage.FromFile ("badges.png"), UIControlState.Normal);
+            badgeImage.SetImage (UIImage.FromBundle ("badges"), UIControlState.Normal);
 			badgeImage.TouchUpInside += (sender, e) => {
 				AdjustBadgesTableView();
 			};
@@ -298,7 +298,7 @@ namespace BlahguaMobile.IOS
 			upVoteButton.TouchUpInside += (object sender, EventArgs e) => {
 				if(CurrentBlah.uv != 1)
 				{
-					upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
 					BlahguaAPIObject.Current.SetBlahVote(1, (value) => {
 						Console.WriteLine(value);
 					});
@@ -310,7 +310,7 @@ namespace BlahguaMobile.IOS
 			downVoteButton.TouchUpInside += (object sender, EventArgs e) => {
 				if(CurrentBlah.uv != -1)
 				{
-					downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                    downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
 					BlahguaAPIObject.Current.SetBlahVote(-1, (value) => {
 						Console.WriteLine(value);
 					});
@@ -329,17 +329,17 @@ namespace BlahguaMobile.IOS
 			{
 			case 1:
 				{
-					SetVoteButtonsImages (UIImage.FromFile ("arrow_up_dark.png"), UIImage.FromFile ("arrow_down.png"));
+                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up_dark"), UIImage.FromBundle ("arrow_down"));
 					break;
 				}
 			case -1:
 				{
-					SetVoteButtonsImages (UIImage.FromFile ("arrow_up.png"), UIImage.FromFile ("arrow_down_dark.png"));
+                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up"), UIImage.FromBundle ("arrow_down_dark"));
 					break;
 				}
 			default:
 				{
-					SetVoteButtonsImages (UIImage.FromFile ("arrow_up.png"), UIImage.FromFile ("arrow_down.png"));
+                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up"), UIImage.FromBundle ("arrow_down"));
 					break;
 				}
 			}
@@ -359,26 +359,26 @@ namespace BlahguaMobile.IOS
 		{
 			summaryButton = new UIButton (UIButtonType.Custom);
 			summaryButton.Frame = new RectangleF (0, 0, 20, 16);
-			summaryButton.SetImage (UIImage.FromFile ("summary_dark.png"), UIControlState.Normal);
+            summaryButton.SetImage (UIImage.FromBundle ("summary_dark"), UIControlState.Normal);
 			summaryButton.TouchUpInside += (object sender, EventArgs e) => {
-				SetModeButtonsImages(UIImage.FromFile ("summary_dark.png"), UIImage.FromFile ("comments.png"), UIImage.FromFile ("stats.png"));
+                SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
 			};
 			summaryView.CustomView = summaryButton;
 
 			commentsButton = new UIButton (UIButtonType.Custom);
 			commentsButton.Frame = new RectangleF (0, 0, 22, 19);
-			commentsButton.SetImage (UIImage.FromFile ("comments.png"), UIControlState.Normal);
+            commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 			commentsButton.TouchUpInside += (object sender, EventArgs e) => {
-				SetModeButtonsImages(UIImage.FromFile ("summary.png"), UIImage.FromFile ("comments_dark.png"), UIImage.FromFile ("stats.png"));
+                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments_dark"), UIImage.FromBundle ("stats"));
 				PerformSegue("fromBlahViewToComments", this);
 			};
 			commentsView.CustomView = commentsButton;
 
 			statsButton = new UIButton (UIButtonType.Custom);
 			statsButton.Frame = new RectangleF (0, 0, 26, 17);
-			statsButton.SetImage (UIImage.FromFile ("stats.png"), UIControlState.Normal);
+            statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
-				SetModeButtonsImages(UIImage.FromFile ("summary.png"), UIImage.FromFile ("comments.png"), UIImage.FromFile ("stats_dark.png"));
+                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
 				PerformSegue("fromBlahViewToStats", this);
 			};
 			statsView.CustomView = statsButton;

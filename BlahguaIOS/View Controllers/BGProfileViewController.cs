@@ -59,12 +59,12 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidLoad ()
 		{
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 
-			profileView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile("profileInfoBack.png"));
+			profileView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("profileInfoBack"));
 
 			nicknameTextField.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 			nicknameTextField.SetNeedsDisplay ();

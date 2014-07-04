@@ -27,28 +27,28 @@ namespace BlahguaMobile.IOS
 			ContentView.BackgroundColor = UIColor.FromRGB (248, 248, 248);
 
 			ddButton.SetAttributedTitle (new NSAttributedString ("Select", UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.White), UIControlState.Normal);
-			ddButton.SetBackgroundImage (UIImage.FromFile ("short_button.png"), UIControlState.Normal);
+            ddButton.SetBackgroundImage (UIImage.FromBundle ("short_button"), UIControlState.Normal);
 			publicLabel.AttributedText = new NSAttributedString ("", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
-			isPublicButton.SetBackgroundImage(UIImage.FromFile("signupRadioButtonUn.png"), UIControlState.Normal);
+            isPublicButton.SetBackgroundImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 
 			if(viewController.GetPermission(index))
 			{
 				publicLabel.AttributedText = new NSAttributedString ("Public", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				isPublicButton.SetImage(UIImage.FromFile("signupRadioButton.png"), UIControlState.Normal);
+                isPublicButton.SetImage(UIImage.FromBundle("signupRadioButton"), UIControlState.Normal);
 				isPublic = true;
 			}
 			else
 			{
 				publicLabel.AttributedText = new NSAttributedString ("Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				isPublicButton.SetImage(UIImage.FromFile("signupRadioButtonUn.png"), UIControlState.Normal);
+                isPublicButton.SetImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 				isPublic = false;
 			}
 			isPublicButton.TouchUpInside += (object sender, EventArgs e) => {
 				isPublic = !isPublic;
 				viewController.SetPermission(index, isPublic);
 				publicLabel.AttributedText = new NSAttributedString (isPublic ? "Public" : "Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				isPublicButton.SetImage(UIImage.FromFile(isPublic ? "signupRadioButton.png" : "signupRadioButtonUn.png"), UIControlState.Normal);
+                isPublicButton.SetImage(UIImage.FromBundle(isPublic ? "signupRadioButton" : "signupRadioButtonUn"), UIControlState.Normal);
 			};
 			ddButton.TouchUpInside += (sender, e) => {
 				viewController.PushSelectingTable(index);
