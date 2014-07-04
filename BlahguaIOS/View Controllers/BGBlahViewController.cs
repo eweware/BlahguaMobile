@@ -83,6 +83,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
 			SetModeButtonsImages(UIImage.FromFile ("summary_dark.png"), UIImage.FromFile ("comments.png"), UIImage.FromFile ("stats.png"));
 			if(ShouldMoveToStats)
 			{
@@ -146,7 +147,7 @@ namespace BlahguaMobile.IOS
 			if(CurrentBlah.B != null && CurrentBlah.B.Any())
 			{
 				badgeImage.Hidden = false;
-				badgesTableView.Hidden = true;
+				badgesTableViewHeight.Constant = 0;
 
 			}
 			else
@@ -156,7 +157,7 @@ namespace BlahguaMobile.IOS
 
 			blahTimespan.AttributedText = new NSAttributedString (
 				CurrentBlah.ElapsedTimeString ?? "", 
-				UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), 
+				UIFont.FromName (BGAppearanceConstants.MediumFontName, 12), 
 				UIColor.Black
 			);
 		}
@@ -165,11 +166,12 @@ namespace BlahguaMobile.IOS
 		{
 			if(badgesShown)
 			{
-				badgesTableView.Hidden = true;
+				badgesTableViewHeight.Constant = 0;
 			}
 			else
 			{
-				badgesTableView.Hidden = false;
+				var count = badgesTableView.NumberOfRowsInSection (0);
+				badgesTableViewHeight.Constant = count <= 1 ? 28 : 56;
 			}
 			badgesShown = !badgesShown;
 			badgesTableView.ReloadData();
@@ -177,8 +179,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpContentView()
 		{
-			float currentYCoord = 0f;
-			SizeF sizeForTitle = new SizeF(defaultWidthOfContent - textInsetDefaultValue * 2, 0f);
+
 			if(!String.IsNullOrEmpty(CurrentBlah.T))
 			{
 				blahTitle.Hidden = false;
@@ -206,7 +207,6 @@ namespace BlahguaMobile.IOS
 
 			if(CurrentBlah.ImageURL != null)
 			{
-				blahImage.Hidden = false;
 				blahImage.Image = ImageLoader.DefaultRequestImage(
 					new Uri(CurrentBlah.ImageURL), 
 					new ImageUpdateDelegate (blahImage)
@@ -214,7 +214,7 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				blahImage.Hidden = true;
+				imageHeightViewHeight.Constant = 0;
 			}
 
 			if(!String.IsNullOrEmpty(CurrentBlah.F))
@@ -230,13 +230,12 @@ namespace BlahguaMobile.IOS
 				blahBodyView.ScrollEnabled = false;
 				blahBodyView.Editable = false;
 				blahBodyView.ContentInset = new UIEdgeInsets (textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-
 			}
 			else
 			{
-				blahBodyView.Hidden = true;
 				blahBodyView.Text = "";
 			}
+			bodyTextViewHeight.Constant = blahBodyView.ContentSize.Height;
 
 			if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
 			{
@@ -280,6 +279,7 @@ namespace BlahguaMobile.IOS
 
 				tableView.AddConstraints(new NSLayoutConstraint[] {width, height});
 			}
+
 		}
 
 		private void SetUpToolbar()

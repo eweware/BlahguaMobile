@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -22,6 +23,9 @@ namespace BlahguaMobile.IOS
 		const string deleteSignatare = "Delete Signature";
 
 		private float space = 8f;
+
+		private UIActivityIndicatorView progressIndicator;
+		private UIImage imageForUploading;
 
 		private bool isProfileSignature;
 
@@ -250,10 +254,23 @@ namespace BlahguaMobile.IOS
 
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
-			UIImage image = eventArgs.OriginalImage;
+			UIImage image = imageForUploading = eventArgs.OriginalImage;
 			DateTime now = DateTime.Now;
 			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
 			BlahguaAPIObject.Current.UploadPhoto (image.AsPNG ().AsStream (), imageName, ImageUploaded);
+			progressIndicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
+			progressIndicator.TranslatesAutoresizingMaskIntoConstraints = false;
+			var constraintWidth = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
+			var constraintHeight = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
+			progressIndicator.AddConstraints (new NSLayoutConstraint[] { constraintHeight, constraintWidth });
+			progressIndicator.HidesWhenStopped = true;
+			selectImageButton.Hidden = true;
+			View.AddSubview (progressIndicator);
+			View.BringSubviewToFront (progressIndicator);
+			var constraintX = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, selectImageButton, NSLayoutAttribute.CenterX, 1, 0);
+			var constraintY = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, selectImageButton, NSLayoutAttribute.CenterY, 1, 0);
+			View.AddConstraints (new NSLayoutConstraint[] { constraintX, constraintY });
+			progressIndicator.StartAnimating ();
 			((BGImagePickerController) sender).DismissViewController(true, 
 				() => {});
 		}
@@ -313,8 +330,17 @@ namespace BlahguaMobile.IOS
 
 		private void ImageUploaded(string s)
 		{
-			NewPost.M.Add (s);
-			Console.WriteLine (s);
+			InvokeOnMainThread (() => {
+				progressIndicator.StopAnimating ();
+				selectImageButton.Hidden = false;
+				selectImageButton.SetImage (imageForUploading, UIControlState.Normal);
+				selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
+				if(NewPost.M == null || NewPost.M.Count == 0)
+				{
+					NewPost.M = new List<string>();
+				}
+				NewPost.M.Add (s);
+			});
 		}
 	}
 

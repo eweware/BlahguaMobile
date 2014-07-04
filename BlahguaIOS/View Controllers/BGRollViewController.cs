@@ -23,6 +23,7 @@ namespace BlahguaMobile.IOS
 		private UIButton newBlah;
 
 		public bool NaturalScrollInProgress = false;
+		public bool IsAutoScrollingEnabled = false;
 
 		private UIView rightViewContainer;
 		private UIView rightView;
