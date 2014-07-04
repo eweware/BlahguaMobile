@@ -99,7 +99,7 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13">
                                 <rect key="frame" x="102" y="224" width="14" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -112,7 +112,7 @@
                                     <action selector="RememberMeAction:" destination="1" eventType="touchUpInside" id="34"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqx-37-y0d">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqx-37-y0d">
                                 <rect key="frame" x="160" y="224" width="14" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -238,6 +238,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mi9-VB-b84" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-589" y="456"/>
+        </scene>
+        <!--Signatures Table View Controller-->
+        <scene sceneID="xDl-cA-OMy">
+            <objects>
+                <tableViewController storyboardIdentifier="BGSignaturesTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LBJ-62-F4B" customClass="BGSignaturesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="22" sectionFooterHeight="22" id="m5T-w7-S50">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="0.0" maxY="0.0"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="BGSignaturesCell" selectionStyle="none" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="28" id="M1u-zB-XOW" customClass="BGSignaturesCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="28"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M1u-zB-XOW" id="RaZ-ju-2yt">
+                                    <rect key="frame" x="0.0" y="0.0" width="281" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ykQ-c5-b3Y">
+                                            <rect key="frame" x="20" y="3" width="42" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="261" id="Ntd-Xl-N1T"/>
+                                                <constraint firstAttribute="height" constant="21" id="cju-fO-z3w"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ykQ-c5-b3Y" firstAttribute="leading" secondItem="RaZ-ju-2yt" secondAttribute="leading" constant="20" id="D0S-vL-Kd1"/>
+                                        <constraint firstAttribute="centerY" secondItem="ykQ-c5-b3Y" secondAttribute="centerY" id="cw0-by-rDL"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="name" destination="ykQ-c5-b3Y" id="62s-HS-7rc"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LBJ-62-F4B" id="mAy-It-EGa"/>
+                            <outlet property="delegate" destination="LBJ-62-F4B" id="dnA-Zy-MFb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nhm-Qm-CTe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2997" y="-627"/>
         </scene>
         <!--Left Menu Table View Controller-->
         <scene sceneID="n88-4i-w1j">
@@ -1202,7 +1252,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ND4-Pz-pJJ"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="zX2-ao-EdR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="246"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jk-bJ-3fH">
@@ -1251,6 +1301,9 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewCommentToSignatures" modalTransitionStyle="partialCurl" id="FLS-jN-55E"/>
+                                </connections>
                             </button>
                             <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gha-W4-iCk">
                                 <rect key="frame" x="20" y="20" width="281" height="106"/>
@@ -1287,13 +1340,12 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="246"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="back" destination="i4b-H2-czJ" id="aoU-qo-tpf"/>
                         <outlet property="done" destination="4jk-bJ-3fH" id="Bug-Oy-sBh"/>
                         <outlet property="input" destination="gha-W4-iCk" id="XKf-yS-dUJ"/>
                         <outlet property="selectImageButton" destination="gF5-b9-Foz" id="hso-hg-RJs"/>
-                        <outlet property="selectSignature" destination="VW6-ee-W4N" id="tfv-X2-jrH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZH-zp-Kp5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1369,6 +1421,9 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="LBJ-62-F4B" kind="modal" identifier="fromNewPostToSignatures" modalTransitionStyle="partialCurl" id="r5o-U4-GYW"/>
+                                </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E49-sI-U6W">
                                 <rect key="frame" x="8" y="200" width="152" height="34"/>
@@ -1396,13 +1451,12 @@
                         <outlet property="done" destination="gb5-Z7-8LZ" id="ZI7-qy-iNq"/>
                         <outlet property="pollItemsTableView" destination="sNx-5o-7Kn" id="XU5-9e-Fj9"/>
                         <outlet property="selectImageButton" destination="E49-sI-U6W" id="2kF-9z-aGV"/>
-                        <outlet property="selectSignature" destination="XQN-y7-KaN" id="yW2-6o-eOr"/>
                         <outlet property="titleInput" destination="anP-UV-pf3" id="kcV-Vs-JxA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ssy-rg-yuD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2466" y="-577"/>
+            <point key="canvasLocation" x="2532" y="-254"/>
         </scene>
     </scenes>
     <resources>
@@ -1418,7 +1472,7 @@
         <image name="new_post.png" width="305" height="178"/>
         <image name="profileImageSelectLogo.png" width="104" height="20"/>
         <image name="rememberMeRadioButton.png" width="14" height="14"/>
-        <image name="rememberMeRadioButton_un.png" width="14" height="14"/>
+        <image name="rememberMeRadioButton_un.png" width="18" height="18"/>
         <image name="short_button.png" width="229" height="36"/>
         <image name="short_button_gray.png" width="229" height="36"/>
         <image name="signature_ico.png" width="15" height="9"/>
@@ -1433,7 +1487,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5oQ-rS-0pJ"/>
         <segue reference="O4L-uS-Faf"/>
+        <segue reference="5oQ-rS-0pJ"/>
+        <segue reference="FLS-jN-55E"/>
     </inferredMetricsTieBreakers>
 </document>
