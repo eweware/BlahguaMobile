@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Drawing;
 using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
@@ -78,7 +78,30 @@ namespace BlahguaMobile.IOS
 			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
             this.Window.TintColor = BGAppearanceConstants.TealGreen;
 
+            // set the sizes
+            SetBlahSizesForScreen();
+
             return true;
+        }
+
+        public void SetBlahSizesForScreen()
+        {
+            RectangleF screenRect = UIScreen.MainScreen.Bounds;
+            float screenWidth = screenRect.Width;
+            if (screenWidth > 512)
+            {
+                BGBlahCellSizesConstants.BlahGutter = ((screenWidth - 512) / 2);
+            }
+            float smallSize = (screenWidth - ((BGBlahCellSizesConstants.BlahGutter * 2f) + (BGBlahCellSizesConstants.BlahSpacing * 2))) / 3;
+            float mediumSize = (smallSize * 2) + BGBlahCellSizesConstants.BlahSpacing;
+            float largeSize = screenWidth - (BGBlahCellSizesConstants.BlahGutter * 2);
+            smallSize = (float)Math.Round(smallSize) ;
+            mediumSize = (float)Math.Round(mediumSize) ;
+            largeSize = (float)Math.Round(largeSize) ;
+            BGBlahCellSizesConstants.TinyCellSize = new SizeF(smallSize, smallSize);
+            BGBlahCellSizesConstants.SmallCellSize = new SizeF(mediumSize, smallSize);
+            BGBlahCellSizesConstants.MediumCellSize = new SizeF(mediumSize, mediumSize);
+            BGBlahCellSizesConstants.LargeCellSize = new SizeF(largeSize, mediumSize);
         }
 
 		#region Methods

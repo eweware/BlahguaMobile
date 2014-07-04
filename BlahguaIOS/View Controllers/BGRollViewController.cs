@@ -58,8 +58,8 @@ namespace BlahguaMobile.IOS
 
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
-
-			CollectionView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
+            this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
+            CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingPanel = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 

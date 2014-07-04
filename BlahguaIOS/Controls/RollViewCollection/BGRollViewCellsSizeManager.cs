@@ -75,14 +75,8 @@ namespace BlahguaMobile.IOS
 			{BlahRowType.F, 1}
 		};
 
-		private Dictionary<BlahRowType, float> rowHeightPerType = new Dictionary<BlahRowType, float>{
-			{BlahRowType.A, 106.0f},
-			{BlahRowType.B, 213.0f},
-			{BlahRowType.C, 213.0f},
-			{BlahRowType.D, 106.0f},
-			{BlahRowType.E, 106.0f},
-			{BlahRowType.F, 212.0f}
-		};
+        private Dictionary<BlahRowType, float> rowHeightPerType = new Dictionary<BlahRowType, float>();
+
 		#endregion
 
 		#region Properties
@@ -94,7 +88,19 @@ namespace BlahguaMobile.IOS
 
 		public BGRollViewCellsSizeManager()
 		{
+            InitializeRowHeights();
 		}
+
+        private void InitializeRowHeights()
+        {
+            rowHeightPerType.Add(BlahRowType.A, BGBlahCellSizesConstants.TinyCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.B, BGBlahCellSizesConstants.MediumCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.C, BGBlahCellSizesConstants.MediumCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.D, BGBlahCellSizesConstants.TinyCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.E, BGBlahCellSizesConstants.TinyCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.F, BGBlahCellSizesConstants.MediumCellSize.Height);
+           
+        }
 
 		#endregion
 
@@ -144,7 +150,7 @@ namespace BlahguaMobile.IOS
 			for (int i = 0; i < index; i++) 
 			{
 				yRowStart += rowHeightPerType [rowTypes[i % rowTypes.Length]];
-				yRowStart += BGBlahCellSizesConstants.Spacing; // spacing between rows
+				yRowStart += BGBlahCellSizesConstants.BlahSpacing; // spacing between rows
 			}
 			int cellIndex = path.Item - itemsCount;
 			float cellXCoord = GetXCoordForCellInRow (rowType, cellIndex);
@@ -163,7 +169,7 @@ namespace BlahguaMobile.IOS
 				BlahRowType row = rowTypes [rowIndex % 40];
 				i += cellsPerRowType [row];
 				height += rowHeightPerType [row];
-				height += BGBlahCellSizesConstants.Spacing;
+                height += BGBlahCellSizesConstants.BlahSpacing;
 				rowIndex++;
 			}
 			return new SizeF (320.0f, height);
@@ -192,7 +198,7 @@ namespace BlahguaMobile.IOS
 					itemIndex += sizeForRow.Length;
 				}
 					
-				i = i + rowHeightPerType [rowTypes [index]] + BGBlahCellSizesConstants.Spacing;
+                i = i + rowHeightPerType [rowTypes [index]] + BGBlahCellSizesConstants.BlahSpacing;
 				rowIndex++;
 			}
 
@@ -241,7 +247,7 @@ namespace BlahguaMobile.IOS
 						return rowStartYCoord;
 					} else if(cellIndex == 1)
 					{
-						return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.Spacing + rowStartYCoord;
+                            return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.BlahSpacing + rowStartYCoord;
 					}
 					else
 					{
@@ -259,7 +265,7 @@ namespace BlahguaMobile.IOS
 					}
 					else
 					{
-						return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.Spacing + rowStartYCoord;
+                            return BGBlahCellSizesConstants.TinyCellSize.Height + BGBlahCellSizesConstants.BlahSpacing + rowStartYCoord;
 					}
 				}
 			case BlahRowType.A:
@@ -275,75 +281,79 @@ namespace BlahguaMobile.IOS
 
 		private float GetXCoordForCellInRow(BlahRowType type, int cellIndex)
 		{
+            float newLeft = BGBlahCellSizesConstants.BlahGutter;
+            float colTwo = newLeft + (BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
+            float colThree = newLeft + (BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
+
 			switch(type)
 			{
 			case BlahRowType.A:
 				{
 					if(cellIndex == 0)
 					{
-						return 0.0f;
+                            return newLeft;
 					} else if(cellIndex == 1)
 					{
-						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colTwo;
 					}
 					else
 					{
-						return (BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing) * 2;
+                            return colThree;
 					}
 				}
 			case BlahRowType.B:
 				{
 					if(cellIndex == 0)
 					{
-						return 0.0f;
+                            return newLeft;
 					} else if(cellIndex == 1)
 					{
-						return 0.0f;
+                            return newLeft;
 					}
 					else
 					{
-						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colTwo;
 					}
 				}
 			case BlahRowType.C:
 				{
 					if(cellIndex == 0)
 					{
-						return 0.0f;
+                            return newLeft;
 					} else if(cellIndex == 1)
 					{
-						return BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colThree;
 					}
 					else
 					{
-						return BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colThree;
 					}
 				}
 			case BlahRowType.D:
 				{
 					if(cellIndex == 0)
 					{
-						return 0.0f;
+                            return newLeft;
 					} 
 					else
 					{
-						return BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colTwo;
 					}
 				}
 			case BlahRowType.E:
 				{
 					if(cellIndex == 0)
 					{
-						return 0.0f;
+                            return newLeft;
 					} 
 					else
 					{
-						return BGBlahCellSizesConstants.SmallCellSize.Width + BGBlahCellSizesConstants.Spacing;
+                            return colThree;
 					}
 				}
 			case BlahRowType.F:
 			default:
-				return 0.0f;
+                    return newLeft;
 			}
 		}
 

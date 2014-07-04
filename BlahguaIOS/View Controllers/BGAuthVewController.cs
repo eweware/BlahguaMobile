@@ -252,7 +252,7 @@ namespace BlahguaMobile.IOS
 		}
 			
 
-		partial void RememberMeAction (UIButton sender)
+		 void RememberMeAction (UIButton sender)
 		{
 			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
 			{
