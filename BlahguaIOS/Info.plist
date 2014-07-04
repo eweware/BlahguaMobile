@@ -18,11 +18,11 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>6.0</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>0.0.0.13</string>
+	<string>0.0.0.14</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>
@@ -85,6 +85,6 @@
 		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>10</string>
+	<string>1</string>
 </dict>
 </plist>

@@ -21,7 +21,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
 			infoTitle.AttributedText = new NSAttributedString("Badges add credibility to content by letting users attach verified facts about themselves (e.g. I work at Microsoft, I am in Chicago, etc.). Currently only email-based badges are issued.",
 				UIFont.FromName(BGAppearanceConstants.FontName, 17),
@@ -50,8 +50,8 @@ namespace BlahguaMobile.IOS
 			};
 
 			doneButton.Enabled = false;
-			doneButton.SetBackgroundImage (UIImage.FromFile ("long_button.png"), UIControlState.Normal);
-			doneButton.SetBackgroundImage (UIImage.FromFile ("long_button_gray.png"), UIControlState.Disabled);
+            doneButton.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
+            doneButton.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			doneButton.SetAttributedTitle(new NSAttributedString("Done", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 			doneButton.TouchUpInside += (object sender, EventArgs e) => {
 				emailTextField.ResignFirstResponder();

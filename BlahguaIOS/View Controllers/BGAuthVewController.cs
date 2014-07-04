@@ -41,7 +41,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("grayBack.png"));
+			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
@@ -65,7 +65,7 @@ namespace BlahguaMobile.IOS
 				placeholderAttrs
 			);
 			usernameOrEmail.AttributedText = new NSAttributedString ("", textAttrs);
-			usernameOrEmail.Background = UIImage.FromFile ("input_back.png");
+			usernameOrEmail.Background = UIImage.FromBundle ("input_back");
 			usernameOrEmail.ShouldReturn = delegate {
 				password.BecomeFirstResponder();
 				return false;
@@ -78,7 +78,7 @@ namespace BlahguaMobile.IOS
 				placeholderAttrs
 			);
 			password.AttributedText = new NSAttributedString ("", textAttrs);
-			password.Background = UIImage.FromFile ("input_back.png");
+			password.Background = UIImage.FromBundle ("input_back");
 			password.ShouldReturn = delegate {
 				return true;
 			};
@@ -89,7 +89,7 @@ namespace BlahguaMobile.IOS
 				placeholderAttrs
 			);
 			confirmPassword.AttributedText = new NSAttributedString ("", textAttrs);
-			confirmPassword.Background = UIImage.FromFile ("input_back.png");
+			confirmPassword.Background = UIImage.FromBundle ("input_back");
 			confirmPassword.AllEditingEvents += InputsEditingHandler;
 
 			SetMode (signUp);
@@ -248,11 +248,11 @@ namespace BlahguaMobile.IOS
 
 		private UIImage GetModeBackgroundImage()
 		{
-			return UIImage.FromFile (signUp ? "signupRadioButton.png" : "signupRadioButtonUn.png");
+			return UIImage.FromBundle (signUp ? "signupRadioButton" : "signupRadioButtonUn");
 		}
 			
 
-		partial void RememberMeAction (UIButton sender)
+		 void RememberMeAction (UIButton sender)
 		{
 			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
 			{
@@ -263,13 +263,13 @@ namespace BlahguaMobile.IOS
 
 			if(rememberMe)
 			{
-				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
-				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
+				rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
+                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
 			}
 			else
 			{
-				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
-				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
+                rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
+                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
 			}
 		}
 

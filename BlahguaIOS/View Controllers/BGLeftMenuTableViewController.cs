@@ -36,7 +36,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("darkGrayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("darkGrayBack"));
 			BlahguaCore.BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
 

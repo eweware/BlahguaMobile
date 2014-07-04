@@ -1,10 +1,12 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -35,48 +37,9 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel viewTitle { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (downVote != null) {
-				downVote.Dispose ();
-				downVote = null;
-			}
-
-			if (statsView != null) {
-				statsView.Dispose ();
-				statsView = null;
-			}
-
-			if (summaryView != null) {
-				summaryView.Dispose ();
-				summaryView = null;
-			}
-
-			if (upVote != null) {
-				upVote.Dispose ();
-				upVote = null;
-			}
-
-			if (bottomToolbar != null) {
-				bottomToolbar.Dispose ();
-				bottomToolbar = null;
-			}
-
-			if (commentsView != null) {
-				commentsView.Dispose ();
-				commentsView = null;
-			}
-
-			if (viewTitle != null) {
-				viewTitle.Dispose ();
-				viewTitle = null;
-			}
-
-			if (contentView != null) {
-				contentView.Dispose ();
-				contentView = null;
-			}
 		}
 	}
 }
