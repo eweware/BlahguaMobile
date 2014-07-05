@@ -554,7 +554,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
                 {
                     create_post_block.Visibility = ViewStates.Gone;
-                    
+
+                    // reset views
+                    if (imageSay != currentSpeechAct)
+                    {
+                        DisableSpeechActBtn(currentSpeechAct);
+                        EnableSpeechActBtn(imageSay);
+                        currentSpeechAct = imageSay;
+                        setTitleHint();
+                    }
+                    imageCreateBlahLayout.Visibility = ViewStates.Gone;
                     editPrediction.Text = newPostTitle.Text = newPostText.Text =
                     editPoll1.Text = editPoll2.Text = editPoll3.Text = editPoll4.Text =
                     editPoll5.Text = editPoll6.Text = editPoll7.Text = editPoll8.Text =
