@@ -34,6 +34,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView image;
         private TextView titleView, textView;
         private ProgressDialog dialog;
+        private ProgressBar progress_image;
 
         // author block
         private TextView author, timeago;
@@ -69,6 +70,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 intent.PutExtra("image", BlahguaAPIObject.Current.CurrentBlah.ImageURL);
                 StartActivity(intent);
             };
+
+            progress_image = fragment.FindViewById<ProgressBar>(Resource.Id.loader_image);
 
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             timeago = fragment.FindViewById<TextView>(Resource.Id.timeago);
@@ -133,11 +136,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                         //    image.SetUrlDrawable(theBlah.ImageURL);
                         //});
 
+                        parent.RunOnUiThread(() =>
+                        {
+                            progress_image.Visibility = ViewStates.Visible;
+                        });
                         ImageLoader.Instance.DownloadAsync(theBlah.ImageURL,
                             image, (b) =>
                             {
                                 parent.RunOnUiThread(() =>
                                 {
+                                    progress_image.Visibility = ViewStates.Gone;
                                     image.Visibility = ViewStates.Visible;
                                     image.SetImageBitmap(b);
                                 });

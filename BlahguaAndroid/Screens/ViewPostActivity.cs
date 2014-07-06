@@ -86,7 +86,7 @@ namespace BlahguaMobile.AndroidClient
             MainActivity.analytics.PostPageView("/blah");
         }
 
-        void swipeLeftEvent(MotionEvent first, MotionEvent second)
+        private void swipeLeftEvent(MotionEvent first, MotionEvent second)
         {
             if (summaryFragment != null)
             {
@@ -97,7 +97,7 @@ namespace BlahguaMobile.AndroidClient
                 btn_stats_Click(null, null);
             }
         }
-        void swipeRightEvent(MotionEvent first, MotionEvent second)
+        private void swipeRightEvent(MotionEvent first, MotionEvent second)
         {
             if (commentsFragment != null)
             {

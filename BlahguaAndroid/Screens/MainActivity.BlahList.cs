@@ -50,7 +50,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             RunOnUiThread(() =>
             {
-                Toast.MakeText(this, "loading...", ToastLength.Short).Show();
+                //Toast.MakeText(this, "loading...", ToastLength.Short).Show();
+                progress_main.Visibility = ViewStates.Visible;
             });
             //LoadingMessageBox.Text = "loading...";
             loadTimer.Stop();
@@ -59,7 +60,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
+                    //Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
                 });
                 //LoadingMessageBox.Text = "still loading...";
             };
@@ -83,9 +84,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     RunOnUiThread(() =>
                     {
-                        //MessageBox.Show("We had a problem loading.  Press OK and we will try it again.");
                         Toast.MakeText(this, "We had a problem loading. Retrying load...", ToastLength.Long).Show();
-                        //LoadingMessageBox.Text = "retrying load...";
                     });
                     FetchInitialBlahList(true);
                 }
@@ -93,10 +92,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     RunOnUiThread(() =>
                     {
-                        Toast.MakeText(this, "Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.", ToastLength.Long).Show();
-                        //MessageBox.Show("Well, thanks for trying.  Looks like there is a server issue.  Please go ahead and leave the app and try again later.");
-                        //LoadingBox.Visibility = Visibility.Collapsed;
-                        //ConnectFailure.Visibility = Visibility.Visible;
+                        Toast.MakeText(this, "Well, thanks for trying. Looks like there is a server issue.  Please go ahead and leave the app and try again later.", ToastLength.Long).Show();
                     });
                 }
 
@@ -106,6 +102,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void FinishedLoadingCurrentBlahContainer()
         {
+            progress_main.Visibility = ViewStates.Gone;
+
             BlahContainerLayout.AddView(CurrentBlahContainer);
             if (inboxCounter > BlahSetsAmountToRemove)
             {
