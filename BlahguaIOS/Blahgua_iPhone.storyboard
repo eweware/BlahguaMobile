@@ -1623,8 +1623,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="hr5-eJ-fAn"/>
+        <segue reference="gsA-8e-y45"/>
         <segue reference="FLS-jN-55E"/>
-        <segue reference="5oQ-rS-0pJ"/>
-        <segue reference="Ivn-F4-auv"/>
     </inferredMetricsTieBreakers>
 </document>

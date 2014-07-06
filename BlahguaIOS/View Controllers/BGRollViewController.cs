@@ -17,10 +17,15 @@ namespace BlahguaMobile.IOS
 	{
 		#region Fields
 
-		private SlideMenuController leftSlidingPanel;
+		private SlideMenuController leftSlidingMenu;
 		private BGRollViewCellsSizeManager manager;
 		private UIButton profile;
 		private UIButton newBlah;
+
+		public UIPanGestureRecognizer RightMenuPanRecognizer;
+		private PointF panStartPoint;
+		private float startingLayoutRight = 0;
+		private NSLayoutConstraint rightViewContainerXConstraint;
 
 		public bool NaturalScrollInProgress = false;
 		public bool IsAutoScrollingEnabled = false;
@@ -62,7 +67,7 @@ namespace BlahguaMobile.IOS
             this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
             CollectionView.BackgroundColor = UIColor.Clear;
 
-			leftSlidingPanel = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
+			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
 
@@ -99,9 +104,10 @@ namespace BlahguaMobile.IOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			PrepareRightBarButton ();
+			if(BlahguaAPIObject.Current.CurrentUser != null && NavigationItem.RightBarButtonItems < 2)
+				PrepareRightBarButton ();
 			((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = null;
-			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (true);
+			leftSlidingMenu.SetGesturesState (true);
 			SetSrollingAvailability (true);
 		}
 
@@ -152,7 +158,7 @@ namespace BlahguaMobile.IOS
 
 		private void MenuButtonClicked(object sender, EventArgs args)
 		{
-			leftSlidingPanel.ToggleMenuAnimated ();
+			leftSlidingMenu.ToggleMenuAnimated ();
 		}
 
 		private void LoginButtonClicked(object sender, EventArgs args)
@@ -363,8 +369,50 @@ namespace BlahguaMobile.IOS
 			rightView.Add (logoutButton);
 
 			rightViewContainer.Add (rightView);
+			rightViewContainer.TranslatesAutoresizingMaskIntoConstraints = false;
 			View.Add (rightViewContainer);
+			rightViewContainerXConstraint = NSLayoutConstraint.Create (
+				rightViewContainer, 
+				NSLayoutAttribute.Leading, 
+				NSLayoutRelation.Equal, 
+				View,
+                NSLayoutAttribute.Trailing, 
+				1, 
+				0);
+			var constraintTop = NSLayoutConstraint.Create (
+				rightViewContainer, 
+				NSLayoutAttribute.Top, 
+				NSLayoutRelation.Equal, 
+				View,
+				NSLayoutAttribute.Top, 
+				1, 
+				0);
+			var constraintBottom = NSLayoutConstraint.Create (
+				rightViewContainer, 
+				NSLayoutAttribute.Bottom, 
+				NSLayoutRelation.Equal, 
+				View,
+				NSLayoutAttribute.Bottom, 
+				1, 
+				0);
+			var constraintWidth = NSLayoutConstraint.Create (
+				rightViewContainer, 
+				NSLayoutAttribute.Width, 
+				NSLayoutRelation.Equal, 
+				null,
+				NSLayoutAttribute.NoAttribute, 
+				1, 
+				BGAppearanceConstants.RightViewFrame.Width);
+			View.AddConstraints (new NSLayoutConstraint[] {
+				rightViewContainerXConstraint, 
+				constraintBottom,
+				constraintTop
+			});
+			rightViewContainer.AddConstraint (constraintWidth);
 			View.BringSubviewToFront (rightViewContainer);
+			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
+			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
+			View.AddGestureRecognizer (RightMenuPanRecognizer);
 		}
 
 		private void ProfileButtonClicked(object sender, EventArgs args)
@@ -417,22 +465,147 @@ namespace BlahguaMobile.IOS
 
 		private void ToggleRightMenu()
 		{
-			UIView.BeginAnimations (null);
-			UIView.SetAnimationDuration (0.3f);
 			if(isOpened)
 			{
 				SetSrollingAvailability (true);
-				rightViewContainer.Frame = BGAppearanceConstants.InitialRightViewContainerFrame;
+				ResetToStartPosition (true);
 				isOpened = false;
 			}
 			else
 			{
 				SetSrollingAvailability (false);
-				rightViewContainer.Frame = BGAppearanceConstants.OpenedRightViewContainerFrame;
-				View.BringSubviewToFront (rightViewContainer);
+				SetFinalContainerViewPosition (true);
 				isOpened = true;
 			}
-			UIView.CommitAnimations ();
+		}
+
+		public void PanRightView(UIPanGestureRecognizer recognizer)
+		{
+			switch(recognizer.State)
+			{
+
+			case UIGestureRecognizerState.Began:
+				panStartPoint = recognizer.TranslationInView(rightViewContainer);
+				break;
+			case UIGestureRecognizerState.Changed:
+				PointF currentPoint = recognizer.TranslationInView (rightViewContainer);
+				float deltaX = currentPoint.X - panStartPoint.X;
+				bool panningLeft = false; 
+				if (currentPoint.X < panStartPoint.X) { 
+					panningLeft = true;
+				}
+
+				if (startingLayoutRight == 0) { 
+					if (!panningLeft) {
+						float constant = Math.Max (-deltaX, 0);
+						if (constant == 0) {
+							ResetToStartPosition (true);
+						} else { 
+							rightViewContainerXConstraint.Constant = -constant;
+						}
+					} else {
+						float constant = Math.Min (-deltaX, BGAppearanceConstants.RightViewFrame.Width);
+						if (constant == BGAppearanceConstants.RightViewFrame.Width) {
+							SetFinalContainerViewPosition (true);
+						} else {
+							rightViewContainerXConstraint.Constant = -constant;
+						}
+					}
+				} else {
+					float adjustment = startingLayoutRight - deltaX;
+					if (!panningLeft) {
+						float constant = Math.Max (adjustment, 0);
+						if (constant == 0) {
+							ResetToStartPosition (true);
+						} else {
+							rightViewContainerXConstraint.Constant = -constant;
+						}
+					} else {
+						float constant = Math.Min (adjustment, BGAppearanceConstants.RightViewFrame.Width);
+						if (constant == BGAppearanceConstants.RightViewFrame.Width) {
+							SetFinalContainerViewPosition (true);
+						} else {
+							rightViewContainerXConstraint.Constant = -constant;
+						}
+					}
+				}
+				break;
+			case UIGestureRecognizerState.Ended:
+				if (startingLayoutRight == 0) 
+				{
+					float position = BGAppearanceConstants.RightViewFrame.Width / 2 - 1;
+					if (rightViewContainer.Frame.X < position) 
+					{
+						SetFinalContainerViewPosition (true);
+					} else 
+					{
+						ResetToStartPosition (true);
+					}
+				} else 
+				{
+					float position = BGAppearanceConstants.RightViewFrame.Width / 2;
+					if (rightViewContainer.Frame.X < position) 
+					{
+						SetFinalContainerViewPosition (true);
+					} else 
+					{
+						ResetToStartPosition (true);
+					}
+				}
+				break;
+			case UIGestureRecognizerState.Cancelled:
+				if (startingLayoutRight == 0) {
+					ResetToStartPosition (true);
+				} else {
+					SetFinalContainerViewPosition (true);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		public void ResetToStartPosition(bool animated)
+		{
+			if (startingLayoutRight == 0 &&
+				rightViewContainer.Frame.X == 0) {
+				return;
+			}
+
+			rightViewContainerXConstraint.Constant = 0;
+
+			UpdateConstraintsIfNeeded(animated, () => {
+				leftSlidingMenu.SetGesturesState (true);
+				startingLayoutRight = rightViewContainerXConstraint.Constant;
+			});
+		}
+
+		public void SetFinalContainerViewPosition(bool animated)
+		{
+			if (startingLayoutRight == BGAppearanceConstants.RightViewFrame.Width &&
+				rightViewContainer.Frame.X == BGAppearanceConstants.RightViewFrame.Width) {
+				return;
+			}
+
+			rightViewContainerXConstraint.Constant = -320;
+
+			UpdateConstraintsIfNeeded(animated,() => {
+				leftSlidingMenu.SetGesturesState (false);
+				startingLayoutRight = -rightViewContainerXConstraint.Constant;
+			});
+		}
+
+		private void UpdateConstraintsIfNeeded(bool animated, NSAction completionHandler)
+		{
+			float duration = 0;
+			if(animated)
+			{
+				duration = 0.3f;
+			}
+
+			UIView.Animate (duration, () => {
+				View.LayoutIfNeeded();
+			}, completionHandler);
 		}
 
 		private UIImage GetProfileImage()

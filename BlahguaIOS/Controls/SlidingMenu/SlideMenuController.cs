@@ -542,7 +542,6 @@ namespace MonoTouch.SlideMenu
 							contentViewController.View.LayoutIfNeeded();
 						}
 					});
-
 				} 
 				else // open
 				{
@@ -568,6 +567,14 @@ namespace MonoTouch.SlideMenu
 				}
 	
 				contentViewControllerFrame = frame;
+			}
+			if(ContentViewController is BGMainNavigationController && 
+				((BGMainNavigationController)ContentViewController).ViewControllers[0] is BGRollViewController)
+			{
+				if(IsMenuOpen())
+					((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = false;
+				else
+					((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = true;
 			}
 		}
 
