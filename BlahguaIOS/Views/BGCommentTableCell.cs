@@ -232,5 +232,14 @@ namespace BlahguaMobile.IOS
 		{
 			return true;
 		}
+
+		public override bool ShouldReceiveTouch (UIGestureRecognizer recognizer, UITouch touch)
+		{
+//			if(touch.View is UIButton)
+//			{
+//				return false;
+//			}
+			return true;
+		}
 	}
 }

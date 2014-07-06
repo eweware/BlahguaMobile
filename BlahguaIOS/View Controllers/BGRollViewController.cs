@@ -71,6 +71,7 @@ namespace BlahguaMobile.IOS
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
 
+
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
 				if(e.PropertyName == "CurrentChannel")
@@ -104,8 +105,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			if(BlahguaAPIObject.Current.CurrentUser != null && NavigationItem.RightBarButtonItems < 2)
-				PrepareRightBarButton ();
+			PrepareRightBarButton ();
 			((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = null;
 			leftSlidingMenu.SetGesturesState (true);
 			SetSrollingAvailability (true);
@@ -189,30 +189,35 @@ namespace BlahguaMobile.IOS
 		{
 			if(BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null)
 			{
-
-        NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-        NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+				if(NavigationItem.RightBarButtonItems == null)
+				{
+				    NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+				    NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+				}
 			}
-			else
+			else 
 			{
-				if (rightViewContainer == null)
-					PrepareRigthMenu ();
-				profile = new UIButton (new RectangleF (44, 0, 44, 44));
-				profile.SetImage (GetProfileImage(), UIControlState.Normal);
-				newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
-				newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
-                newBlah.SetImage (UIImage.FromBundle ("newBlahImage"), UIControlState.Normal);
-				profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
-				newBlah.TouchUpInside += NewBlah;
+				if (NavigationItem.RightBarButtonItems.Length < 2) 
+				{
+					if (rightViewContainer == null)
+						PrepareRigthMenu ();
+					profile = new UIButton (new RectangleF (44, 0, 44, 44));
+					profile.SetImage (GetProfileImage (), UIControlState.Normal);
+					newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
+					newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
+					newBlah.SetImage (UIImage.FromBundle ("newBlahImage"), UIControlState.Normal);
+					profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu ();
+					newBlah.TouchUpInside += NewBlah;
 
-				var negativeSpacer = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
-				negativeSpacer.Width = -15f;
+					var negativeSpacer = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
+					negativeSpacer.Width = -15f;
 
-				UIView view = new UIView (new RectangleF (0, 0, 88, 44));
-				view.AddSubviews (new UIView[] { profile, newBlah });
-				var rightBarButton = new UIBarButtonItem (view);
+					UIView view = new UIView (new RectangleF (0, 0, 88, 44));
+					view.AddSubviews (new UIView[] { profile, newBlah });
+					var rightBarButton = new UIBarButtonItem (view);
 
-				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
+					NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
+				}
 			}
 		}
 
@@ -249,13 +254,19 @@ namespace BlahguaMobile.IOS
 			UIView.CommitAnimations ();
 		}
 
+		private void UpdateRightMenu()
+		{
+			profileImage.Image = GetProfileImage ();
+			SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
+		}
+
 		private void PrepareRigthMenu()
 		{
 			rightViewContainer = new UIView (BGAppearanceConstants.InitialRightViewContainerFrame);
 			rightViewContainer.BackgroundColor = UIColor.Clear;
 			rightViewContainer.AddGestureRecognizer (new UITapGestureRecognizer (() => ToggleRightMenu ()));
 			rightView = new UIView (BGAppearanceConstants.RightViewFrame);
-            rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+			rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			float yCoord = 0;
 
@@ -281,7 +292,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            profileButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			profileButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			profileButton.BackgroundColor = UIColor.White;
 			profileButton.TouchUpInside += ProfileButtonClicked;
 			profileButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -297,7 +308,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            badgesButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			badgesButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			badgesButton.BackgroundColor = UIColor.White;
 			badgesButton.TouchUpInside += BadgesButtonClicked;
 			badgesButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -313,7 +324,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            demographicsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			demographicsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			demographicsButton.BackgroundColor = UIColor.White;
 			demographicsButton.TouchUpInside += DemographicsButtonClicked;
 			demographicsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -329,7 +340,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            historyButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			historyButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			historyButton.BackgroundColor = UIColor.White;
 			historyButton.TouchUpInside += HistoryButtonClicked;
 			historyButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -345,7 +356,7 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            statsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			statsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			statsButton.BackgroundColor = UIColor.White;
 			statsButton.TouchUpInside += StatsButtonClicked;
 			statsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
@@ -361,58 +372,592 @@ namespace BlahguaMobile.IOS
 				UIControlState.Normal);
 			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
-            logoutButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+			logoutButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			logoutButton.BackgroundColor = UIColor.Clear;
 			logoutButton.TouchUpInside += LogoutButtonClicked;
 			logoutButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
 
 			rightView.Add (logoutButton);
 
-			rightViewContainer.Add (rightView);
 			rightViewContainer.TranslatesAutoresizingMaskIntoConstraints = false;
+			rightView.TranslatesAutoresizingMaskIntoConstraints = false;
+			rightViewContainer.Add (rightView);
+			rightViewContainer.SendSubviewToBack (rightView);
+
 			View.Add (rightViewContainer);
+			View.BringSubviewToFront (rightViewContainer);
+
 			rightViewContainerXConstraint = NSLayoutConstraint.Create (
-				rightViewContainer, 
-				NSLayoutAttribute.Leading, 
-				NSLayoutRelation.Equal, 
-				View,
-                NSLayoutAttribute.Trailing, 
-				1, 
-				0);
+								rightViewContainer, 
+								NSLayoutAttribute.Leading, 
+								NSLayoutRelation.Equal, 
+								View,
+				                NSLayoutAttribute.Trailing, 
+								1, 
+								0);
 			var constraintTop = NSLayoutConstraint.Create (
-				rightViewContainer, 
-				NSLayoutAttribute.Top, 
-				NSLayoutRelation.Equal, 
-				View,
-				NSLayoutAttribute.Top, 
-				1, 
-				0);
+				                        rightViewContainer, 
+				                        NSLayoutAttribute.Top, 
+				                        NSLayoutRelation.Equal, 
+				                        View,
+				                        NSLayoutAttribute.Top, 
+				                        1, 
+				                        0);
 			var constraintBottom = NSLayoutConstraint.Create (
-				rightViewContainer, 
-				NSLayoutAttribute.Bottom, 
-				NSLayoutRelation.Equal, 
-				View,
-				NSLayoutAttribute.Bottom, 
-				1, 
-				0);
+				                           rightViewContainer, 
+				                           NSLayoutAttribute.Bottom, 
+				                           NSLayoutRelation.Equal, 
+				                           View,
+				                           NSLayoutAttribute.Bottom, 
+				                           1, 
+				                           0);
 			var constraintWidth = NSLayoutConstraint.Create (
-				rightViewContainer, 
-				NSLayoutAttribute.Width, 
-				NSLayoutRelation.Equal, 
-				null,
-				NSLayoutAttribute.NoAttribute, 
-				1, 
-				BGAppearanceConstants.RightViewFrame.Width);
+				                          rightViewContainer, 
+				                          NSLayoutAttribute.Width, 
+				                          NSLayoutRelation.Equal, 
+				                          null,
+				                          NSLayoutAttribute.NoAttribute, 
+				                          1, 
+				                          BGAppearanceConstants.RightViewFrame.Width);
 			View.AddConstraints (new NSLayoutConstraint[] {
 				rightViewContainerXConstraint, 
 				constraintBottom,
 				constraintTop
 			});
 			rightViewContainer.AddConstraint (constraintWidth);
-			View.BringSubviewToFront (rightViewContainer);
+
+
 			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
 			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
 			View.AddGestureRecognizer (RightMenuPanRecognizer);
+
+//			rightViewContainer = new UIView (BGAppearanceConstants.InitialRightViewContainerFrame);
+//			rightViewContainer.BackgroundColor = UIColor.Clear;
+//			rightViewContainer.TranslatesAutoresizingMaskIntoConstraints = false;
+//
+//			View.Add (rightViewContainer);
+//			View.BringSubviewToFront (rightViewContainer);
+//
+//			var tapGestureRecognizer = new UITapGestureRecognizer (() => ToggleRightMenu ());
+//			tapGestureRecognizer.CancelsTouchesInView = false;
+//			tapGestureRecognizer.Delegate = new TapGestureRecognizerDelegate ();
+//			rightViewContainer.AddGestureRecognizer (tapGestureRecognizer);
+//			rightView = new UIView (BGAppearanceConstants.RightViewFrame);
+//            rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+//			rightView.UserInteractionEnabled = true;
+//
+//			rightView.TranslatesAutoresizingMaskIntoConstraints = false;
+//			rightViewContainer.Add (rightView);
+//			rightViewContainer.SendSubviewToBack (rightView);
+//
+//
+//			float yCoord = 44;
+//
+//			profileImage = new UIImageView();
+//			rightViewContainer.Add (profileImage);
+//			var constraintLeft = NSLayoutConstraint.Create (
+//                profileImage, 
+//                NSLayoutAttribute.Leading, 
+//                NSLayoutRelation.Equal, 
+//                rightViewContainer,
+//                NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			var constraintTop = NSLayoutConstraint.Create (
+//				profileImage, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			var constraintWidth = NSLayoutConstraint.Create (
+//				profileImage, 
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			var constraintHeight = NSLayoutConstraint.Create (
+//				profileImage, 
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//			yCoord += BGAppearanceConstants.RightViewFrame.Width;
+//
+//
+//			profileImage.TranslatesAutoresizingMaskIntoConstraints = false;
+//			profileImage.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			usernameLabel = new UILabel();
+//			rightViewContainer.Add (usernameLabel);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				usernameLabel,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				usernameLabel, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				usernameLabel,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				usernameLabel,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				20);
+//
+//
+//			usernameLabel.TextAlignment = UITextAlignment.Center;
+//			usernameLabel.BackgroundColor = UIColor.White;
+//			usernameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+//			usernameLabel.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//			yCoord += 21;
+//
+//
+//			profileButton = new UIButton();
+//			rightViewContainer.Add (profileButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				profileButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				profileButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				profileButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				profileButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				44);
+//
+//
+//			profileButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			profileButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            profileButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			profileButton.BackgroundColor = UIColor.White;
+//			profileButton.TouchUpInside += ProfileButtonClicked;
+//			profileButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			profileButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			profileButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			yCoord += 45.0f;
+//
+//			badgesButton = new UIButton();
+//			rightViewContainer.Add (badgesButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				badgesButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				badgesButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				badgesButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				badgesButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				32);
+//
+//
+//			badgesButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			badgesButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            badgesButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			badgesButton.BackgroundColor = UIColor.White;
+//			badgesButton.TouchUpInside += BadgesButtonClicked;
+//			badgesButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			badgesButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			badgesButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			yCoord += 33.0f;
+//
+//			demographicsButton = new UIButton();
+//			rightViewContainer.Add (demographicsButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				demographicsButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				demographicsButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				demographicsButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				demographicsButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				32);
+//
+//
+//
+//			demographicsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			demographicsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            demographicsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			demographicsButton.BackgroundColor = UIColor.White;
+//			demographicsButton.TouchUpInside += DemographicsButtonClicked;
+//			demographicsButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			demographicsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			demographicsButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			yCoord += 33.0f;
+//
+//			historyButton = new UIButton();
+//			rightViewContainer.Add (historyButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				historyButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				historyButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				historyButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				historyButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				44);
+//
+//
+//			historyButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			historyButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            historyButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			historyButton.BackgroundColor = UIColor.White;
+//			historyButton.TouchUpInside += HistoryButtonClicked;
+//			historyButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			historyButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			historyButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			yCoord += 45.0f;
+//
+//			statsButton = new UIButton();
+//			rightViewContainer.Add (statsButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				statsButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				statsButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				statsButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				statsButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				44);
+//
+//
+//
+//			statsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			statsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            statsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			statsButton.BackgroundColor = UIColor.White;
+//			statsButton.TouchUpInside += StatsButtonClicked;
+//			statsButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			statsButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			statsButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//
+//
+//			yCoord += 45.0f;
+//
+//			logoutButton = new UIButton();
+//			rightViewContainer.Add (logoutButton);
+//			constraintLeft = NSLayoutConstraint.Create (
+//				logoutButton,
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Leading, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Y);
+//			constraintTop = NSLayoutConstraint.Create (
+//				logoutButton, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				rightViewContainer,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				yCoord);
+//
+//			constraintWidth = NSLayoutConstraint.Create (
+//				logoutButton,
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//
+//			constraintHeight = NSLayoutConstraint.Create (
+//				logoutButton,
+//				NSLayoutAttribute.Height, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				44);
+//
+//
+//			logoutButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//			logoutButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+//			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+//				UIControlState.Normal);
+//			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+//				UIControlState.Selected);
+//            logoutButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
+//			logoutButton.BackgroundColor = UIColor.Clear;
+//			logoutButton.TouchUpInside += LogoutButtonClicked;
+//			logoutButton.TranslatesAutoresizingMaskIntoConstraints = false;
+//			logoutButton.ContentEdgeInsets = new UIEdgeInsets (0, 22, 0, 0);
+//
+//			logoutButton.AddConstraints (new NSLayoutConstraint[] {
+//				constraintLeft,
+//				constraintTop,
+//				constraintHeight,
+//				constraintWidth
+//			});
+//
+//			rightViewContainerXConstraint = NSLayoutConstraint.Create (
+//				rightViewContainer, 
+//				NSLayoutAttribute.Leading, 
+//				NSLayoutRelation.Equal, 
+//				View,
+//                NSLayoutAttribute.Trailing, 
+//				1, 
+//				0);
+//			constraintTop = NSLayoutConstraint.Create (
+//				rightViewContainer, 
+//				NSLayoutAttribute.Top, 
+//				NSLayoutRelation.Equal, 
+//				View,
+//				NSLayoutAttribute.Top, 
+//				1, 
+//				0);
+//			var constraintBottom = NSLayoutConstraint.Create (
+//				rightViewContainer, 
+//				NSLayoutAttribute.Bottom, 
+//				NSLayoutRelation.Equal, 
+//				View,
+//				NSLayoutAttribute.Bottom, 
+//				1, 
+//				0);
+//			constraintWidth = NSLayoutConstraint.Create (
+//				rightViewContainer, 
+//				NSLayoutAttribute.Width, 
+//				NSLayoutRelation.Equal, 
+//				null,
+//				NSLayoutAttribute.NoAttribute, 
+//				1, 
+//				BGAppearanceConstants.RightViewFrame.Width);
+//			View.AddConstraints (new NSLayoutConstraint[] {
+//				rightViewContainerXConstraint, 
+//				constraintBottom,
+//				constraintTop
+//			});
+//			rightViewContainer.AddConstraint (constraintWidth);
+//
+//			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
+//			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
+//			//View.AddGestureRecognizer (RightMenuPanRecognizer);
 		}
 
 		private void ProfileButtonClicked(object sender, EventArgs args)
@@ -458,6 +1003,7 @@ namespace BlahguaMobile.IOS
 			{
 				InvokeOnMainThread (() => {
 					ToggleRightMenu ();
+					View.RemoveGestureRecognizer(RightMenuPanRecognizer);
 					PrepareRightBarButton ();
 				});
 			}
@@ -575,6 +1121,7 @@ namespace BlahguaMobile.IOS
 			rightViewContainerXConstraint.Constant = 0;
 
 			UpdateConstraintsIfNeeded(animated, () => {
+				CollectionView.UserInteractionEnabled = true;
 				leftSlidingMenu.SetGesturesState (true);
 				startingLayoutRight = rightViewContainerXConstraint.Constant;
 			});
@@ -590,6 +1137,8 @@ namespace BlahguaMobile.IOS
 			rightViewContainerXConstraint.Constant = -320;
 
 			UpdateConstraintsIfNeeded(animated,() => {
+				CollectionView.UserInteractionEnabled = false;
+				View.BringSubviewToFront(rightViewContainer);
 				leftSlidingMenu.SetGesturesState (false);
 				startingLayoutRight = -rightViewContainerXConstraint.Constant;
 			});
@@ -633,5 +1182,22 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
+	}
+
+	public class TapGestureRecognizerDelegate : UIGestureRecognizerDelegate
+	{
+		public override bool ShouldRecognizeSimultaneously (UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
+		{
+			return true;
+		}
+
+		public override bool ShouldReceiveTouch (UIGestureRecognizer recognizer, UITouch touch)
+		{
+			if(touch.View is UIButton)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 }
