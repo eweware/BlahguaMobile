@@ -218,6 +218,12 @@ namespace BlahguaMobile.IOS
 		{
 			return voteView.Frame.Width;
 		}
+
+		public override void PrepareForReuse ()
+		{
+			base.PrepareForReuse ();
+			ResetToStartPosition (false);
+		}
 	}
 
 	public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
