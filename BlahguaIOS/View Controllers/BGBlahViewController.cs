@@ -89,6 +89,8 @@ namespace BlahguaMobile.IOS
 				ShouldMoveToStats = false;
 				PerformSegue ("fromBlahViewToStats", this);
 			}
+
+			contentView.ContentSize = new SizeF (320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -119,9 +121,7 @@ namespace BlahguaMobile.IOS
 			contentView.ClipsToBounds = true;
 			contentView.ContentOffset = new PointF(0,0);
 			contentView.BackgroundColor = UIColor.White;
-
-			var bottomToolbarLocation = new PointF (0, contentView.Frame.Bottom);
-			bottomToolbar.Frame = new RectangleF (bottomToolbarLocation, toolbarViewSize);
+		
             bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
             bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
 
@@ -187,14 +187,12 @@ namespace BlahguaMobile.IOS
 					ForegroundColor = UIColor.Black,
 
 				};
-
-				//blahTitle = new UILabel (new RectangleF(new PointF(textInsetDefaultValue, textInsetDefaultValue), sizeForTitle));
+					
 				blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
 				blahTitle.Lines = 0;
 
 
 				blahTitle.AttributedText = new NSAttributedString (CurrentBlah.T, blahTitleAttributes);
-				//contentView.AddSubview (blahTitle);
 
 				blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
 			}
@@ -283,9 +281,12 @@ namespace BlahguaMobile.IOS
 				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
 
 				contentView.AddConstraints (new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
-
 			}
-
+			else
+			{
+				var constraint = NSLayoutConstraint.Create (blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+				contentView.AddConstraint (constraint);
+			}
 		}
 
 		private void SetUpToolbar()
