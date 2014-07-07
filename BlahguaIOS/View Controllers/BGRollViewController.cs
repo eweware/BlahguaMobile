@@ -264,7 +264,9 @@ namespace BlahguaMobile.IOS
 		{
 			rightViewContainer = new UIView (BGAppearanceConstants.InitialRightViewContainerFrame);
 			rightViewContainer.BackgroundColor = UIColor.Clear;
-			rightViewContainer.AddGestureRecognizer (new UITapGestureRecognizer (() => ToggleRightMenu ()));
+			var tapGesture = new UITapGestureRecognizer (() => ToggleRightMenu ());
+			tapGesture.CancelsTouchesInView = false;
+			rightViewContainer.AddGestureRecognizer (tapGesture);
 			rightView = new UIView (BGAppearanceConstants.RightViewFrame);
 			rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
@@ -286,6 +288,7 @@ namespace BlahguaMobile.IOS
 			rightView.Add (usernameLabel);
 
 			profileButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			profileButton.UserInteractionEnabled = true;
 			profileButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			profileButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
@@ -302,6 +305,7 @@ namespace BlahguaMobile.IOS
 			yCoord += 45.0f;
 
 			badgesButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
+			badgesButton.UserInteractionEnabled = true;
 			badgesButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			badgesButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
@@ -318,6 +322,7 @@ namespace BlahguaMobile.IOS
 			yCoord += 33.0f;
 
 			demographicsButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
+			demographicsButton.UserInteractionEnabled = true;
 			demographicsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			demographicsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
@@ -334,6 +339,7 @@ namespace BlahguaMobile.IOS
 			yCoord += 33.0f;
 
 			historyButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			historyButton.UserInteractionEnabled = true;
 			historyButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			historyButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
@@ -350,6 +356,7 @@ namespace BlahguaMobile.IOS
 			yCoord += 45.0f;
 
 			statsButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			statsButton.UserInteractionEnabled = true;
 			statsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			statsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
@@ -366,6 +373,7 @@ namespace BlahguaMobile.IOS
 			yCoord += 45.0f;
 
 			logoutButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			logoutButton.UserInteractionEnabled = true;
 			logoutButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			logoutButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
@@ -379,6 +387,7 @@ namespace BlahguaMobile.IOS
 
 			rightView.Add (logoutButton);
 
+			rightView.UserInteractionEnabled = true;
 			rightViewContainer.TranslatesAutoresizingMaskIntoConstraints = false;
 			rightView.TranslatesAutoresizingMaskIntoConstraints = false;
 			rightViewContainer.Add (rightView);
@@ -428,6 +437,7 @@ namespace BlahguaMobile.IOS
 
 
 			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
+			RightMenuPanRecognizer.CancelsTouchesInView = false;
 			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
 			View.AddGestureRecognizer (RightMenuPanRecognizer);
 

@@ -572,10 +572,11 @@ namespace MonoTouch.SlideMenu
 			if(ContentViewController is BGMainNavigationController && 
 				((BGMainNavigationController)ContentViewController).ViewControllers[0] is BGRollViewController)
 			{
-				if(IsMenuOpen() && ((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer != null)
-					((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = false;
-				else
-					((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = true;
+				if(((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer != null)
+					if(IsMenuOpen())
+						((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = false;
+					else
+						((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = true;
 			}
 		}
 
