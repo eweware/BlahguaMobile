@@ -59,6 +59,16 @@ namespace BlahguaMobile.AndroidClient.Adapters
             return position;// _list[position]._id;
         }
 
+        private EventHandler imageClick = (sender, args) =>
+        {
+            View v = (View)sender;
+            string url = (string)v.Tag;
+
+            var intent = new Intent(v.Context, typeof(ImageViewActivity));
+            intent.PutExtra("image", url);
+            v.Context.StartActivity(intent);
+        };
+
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView ?? _activity.LayoutInflater.Inflate(
@@ -85,7 +95,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
             if (!String.IsNullOrEmpty(c.ImageURL))
             {
                 image.SetUrlDrawable(c.ImageURL);
-                
+                image.Tag = c.ImageURL;
+                image.Click -= imageClick;
+                image.Click += imageClick;
             }
             else
             {

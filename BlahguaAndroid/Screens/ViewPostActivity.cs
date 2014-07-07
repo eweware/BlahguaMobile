@@ -15,6 +15,7 @@ using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -25,7 +26,7 @@ namespace BlahguaMobile.AndroidClient
         private TextView title;
 
         private ViewPostCommentsFragment commentsFragment;
-        private ViewPostSummaryFragment summaryFragment;
+        private ViewPostSummaryFragment summaryFragment, summaryInitFragment;
         private ViewPostStatsFragment statsFragment;
 
         private Button btn_promote, btn_demote, btn_login;
@@ -56,7 +57,8 @@ namespace BlahguaMobile.AndroidClient
 
             title = FindViewById<TextView>(Resource.Id.title);
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
-            title.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
+            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 
@@ -64,6 +66,7 @@ namespace BlahguaMobile.AndroidClient
             btn_right.Visibility = ViewStates.Gone;
 
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
+            btn_login.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
             btn_login.Click += delegate
             {
                 StartActivity(typeof(LoginActivity));
@@ -198,7 +201,11 @@ namespace BlahguaMobile.AndroidClient
             commentsFragment = null;
             statsFragment = null;
 
-            summaryFragment = ViewPostSummaryFragment.NewInstance();
+            if (summaryInitFragment == null)
+            {
+                summaryInitFragment = ViewPostSummaryFragment.NewInstance();
+            }
+            summaryFragment = summaryInitFragment;
             var fragmentTransaction = FragmentManager.BeginTransaction();
             fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
             fragmentTransaction.Commit();

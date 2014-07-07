@@ -42,18 +42,18 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         private static HistoryCommentsFragment _fragment;
         Activity _activity;
-        CommentList _list;
+        List<Comment> _list;
 
         public HistoryCommentsAdapter(HistoryCommentsFragment fragment, CommentList list)
         {
             _activity = fragment.Activity;
             _fragment = fragment;
-            _list = list;
+            _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
         public void setComments(CommentList list)
         {
-            _list = list;
+            _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
 

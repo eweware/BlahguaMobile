@@ -12,6 +12,8 @@ using BlahguaMobile.BlahguaCore;
 using Android.Views.InputMethods;
 using Android.Preferences;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
+using BlahguaMobile.AndroidClient.Screens;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -39,6 +41,8 @@ namespace BlahguaMobile.AndroidClient
 
 			// Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_login);
+            TextView loginTitle = FindViewById<TextView>(Resource.Id.login_title);
+            loginTitle.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
 
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             login = FindViewById<EditText>(Resource.Id.login);
@@ -52,6 +56,8 @@ namespace BlahguaMobile.AndroidClient
             Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
             buttonDone = FindViewById<Button>(Resource.Id.btn_done);
             buttonDone.Enabled = false;
+            buttonDone.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            buttonCancel.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
 
             passwordConfirm.Visibility = ViewStates.Gone;
             progress.Visibility = ViewStates.Invisible;
@@ -112,6 +118,8 @@ namespace BlahguaMobile.AndroidClient
             {
                 StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse(App.WebsiteAbout)));
             };
+            btn_help.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            btn_about.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
 		}
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
@@ -152,7 +160,8 @@ namespace BlahguaMobile.AndroidClient
                         RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;
-                            Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
+                            //Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
+                            Toast.MakeText(this, "Invalid username or password.", ToastLength.Short).Show();
                         });
                     }
                 }

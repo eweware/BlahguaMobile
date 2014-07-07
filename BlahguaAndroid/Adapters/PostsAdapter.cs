@@ -44,18 +44,18 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         private static HistoryPostsFragment _fragment;
         private Activity _activity;
-        private BlahList _list;
+        private List<Blah> _list;
 
         public PostsAdapter(HistoryPostsFragment fragment, BlahList list)
         {
             _activity = fragment.Activity;
             _fragment = fragment;
-            _list = list;
+            _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
         public void setEntries(BlahList list)
         {
-            _list = list;
+            _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
 

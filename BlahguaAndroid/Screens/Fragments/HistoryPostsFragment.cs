@@ -86,21 +86,30 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        posts_total_count.Text = "Your Posts (" + theBlahs.Count + ")";
-
+                        string countMessage = "";
                         if (theBlahs.Count > 0)
                         {
                             list.Visibility = ViewStates.Visible;
                             no_entries.Visibility = ViewStates.Gone;
+                            foreach (Blah b in theBlahs.ToArray())
+                            {
+                                if (!b.XX || b.S <= 0)
+                                    theBlahs.Remove(b);
+                            }
                             adapter = new PostsAdapter(this, theBlahs);
                             list.Adapter = adapter;
+
+                            countMessage = "Your Posts (" + theBlahs.Count + ")";
                         }
                         else
                         {
                             list.Visibility = ViewStates.Gone;
                             no_entries.Visibility = ViewStates.Visible;
                             list.Adapter = adapter = null;
+
+                            countMessage = "No Posts yet";
                         }
+                        posts_total_count.Text = countMessage;
                     });
                 }
             );
