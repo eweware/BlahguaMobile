@@ -34,6 +34,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/self/profile");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_profile, null);
 
             EventHandler click = (sender, args) =>
@@ -139,36 +140,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        //////////////////////////////////////////////////
-
-        //private void ChangeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        //{
-        //    PhotoChooserTask photoChooserTask;
-        //    photoChooserTask = new PhotoChooserTask();
-        //    photoChooserTask.ShowCamera = true;
-        //    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-        //    photoChooserTask.Show();
-        //}
-
-        //void photoChooserTask_Completed(object sender, PhotoResult e)
-        //{
-        //    if (e.TaskResult == TaskResult.OK)
-        //    {
-        //        UploadImageProgress.Visibility = Visibility.Visible;
-        //        BlahguaAPIObject.Current.UploadUserImage(e.ChosenPhoto, e.OriginalFileName.Substring(e.OriginalFileName.LastIndexOf("\\") + 1), (photoString) =>
-        //        {
-        //            UploadImageProgress.Visibility = Visibility.Collapsed;
-        //            if ((photoString != null) && (photoString.Length > 0))
-        //            {
-        //                App.analytics.PostUploadUserImage();
-        //            }
-        //            else
-        //            {
-        //                App.analytics.PostSessionError("userimageuploadfailed");
-        //            }
-        //        }
-        //        );
-        //    }
-        //}
+        
     }
 }

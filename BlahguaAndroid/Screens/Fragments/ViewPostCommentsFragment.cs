@@ -87,13 +87,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                             BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
                             BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
                             //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                            //    App.analytics.PostUploadBlahImage();
+                            MainActivity.analytics.PostUploadBlahImage();
                         }
                         else
                         {
                             progressBarImageLoading.Visibility = ViewStates.Gone;
                             ClearImages();
-                            //App.analytics.PostSessionError("blahimageuploadfailed");
+                            MainActivity.analytics.PostSessionError("blahimageuploadfailed");
                         }
                     });
                 }
@@ -123,6 +123,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/blah/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
 
             create_comment_block = fragment.FindViewById<LinearLayout>(Resource.Id.create_comment_block);
@@ -143,6 +144,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
             btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += btn_done_Click;
+            btn_done.Enabled = false;
 
             imageCreateComment = create_comment_block.FindViewById<ImageView>(Resource.Id.createcomment_image);
             imageCreateCommentLayout = create_comment_block.FindViewById<FrameLayout>(Resource.Id.createcomment_image_layout);
@@ -162,7 +164,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            btn_done.Enabled = (text.Text.Length == 0);
+            btn_done.Enabled = (text.Text.Length > 1);
         }
 
         #region Signature

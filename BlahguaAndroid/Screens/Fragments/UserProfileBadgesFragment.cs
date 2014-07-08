@@ -37,12 +37,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/self/badges");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_badges, null);
-            //if (container == null)
-            //{
-            //    Log.Debug(TAG, "Dialer Fragment is in a view without container");
-            //    return null;
-            //}
+           
             list = fragment.FindViewById<LinearLayout>(Resource.Id.list);
             no_badges = fragment.FindViewById<LinearLayout>(Resource.Id.no_badges);
             list_container = fragment.FindViewById<ScrollView>(Resource.Id.list_container);

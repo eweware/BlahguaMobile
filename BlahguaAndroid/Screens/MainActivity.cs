@@ -313,7 +313,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             StopTimers();
             ClearBlahs();
             FetchInitialBlahList();
-            //App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+            MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             RunOnUiThread(() => {
                 main_title.Text = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
