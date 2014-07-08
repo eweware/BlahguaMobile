@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -45,7 +45,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Pavel Sipaila (X2548GX5V7)</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -60,6 +60,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <BuildIpa>true</BuildIpa>
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -70,12 +76,6 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>5ACB1700-F6F2-4DBF-81B2-65659EBABB8B</CodesignProvision>
-    <IpaPackageName>
-    </IpaPackageName>
-    <MtouchI18n>
-    </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -85,13 +85,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>ACF83847-2EC6-4FA9-9036-EF64F1ACC9C6</CodesignProvision>
-    <IpaPackageName>
-    </IpaPackageName>
-    <MtouchI18n>
-    </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
-    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
@@ -189,7 +182,104 @@
     <Compile Include="Controls\RollViewCollection\BGRollViewCell.designer.cs">
       <DependentUpon>BGRollViewCell.cs</DependentUpon>
     </Compile>
-    <None Include="RELEASE-NOTES.txt" />
+    <Compile Include="Views\BGPollTableViewCell.cs" />
+    <Compile Include="Views\BGPollTableViewCell.designer.cs">
+      <DependentUpon>BGPollTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGPollTableHeaderView.cs" />
+    <Compile Include="Views\BGPollTableHeaderView.designer.cs">
+      <DependentUpon>BGPollTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBlahViewController.cs" />
+    <Compile Include="View Controllers\BGBlahViewController.designer.cs">
+      <DependentUpon>BGBlahViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGCommentsViewController.cs" />
+    <Compile Include="View Controllers\BGCommentsViewController.designer.cs">
+      <DependentUpon>BGCommentsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGCommentTableCell.cs" />
+    <Compile Include="Views\BGCommentTableCell.designer.cs">
+      <DependentUpon>BGCommentTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGStatsTableCell.cs" />
+    <Compile Include="Views\BGStatsTableCell.designer.cs">
+      <DependentUpon>BGStatsTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGStatsTableViewController.cs" />
+    <Compile Include="View Controllers\BGStatsTableViewController.designer.cs">
+      <DependentUpon>BGStatsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGNewCommentViewController.cs" />
+    <Compile Include="View Controllers\BGNewCommentViewController.designer.cs">
+      <DependentUpon>BGNewCommentViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGNewPostViewController.cs" />
+    <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
+      <DependentUpon>BGNewPostViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGNewPostPollItemCell.cs" />
+    <Compile Include="Views\BGNewPostPollItemCell.designer.cs">
+      <DependentUpon>BGNewPostPollItemCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGHistoryDetailCell.cs" />
+    <Compile Include="Views\BGHistoryDetailCell.designer.cs">
+      <DependentUpon>BGHistoryDetailCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGHistoryTableCell.cs" />
+    <Compile Include="Views\BGHistoryTableCell.designer.cs">
+      <DependentUpon>BGHistoryTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryDetailViewController.cs" />
+    <Compile Include="View Controllers\BGHistoryDetailViewController.designer.cs">
+      <DependentUpon>BGHistoryDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryViewController.cs" />
+    <Compile Include="View Controllers\BGHistoryViewController.designer.cs">
+      <DependentUpon>BGHistoryViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGHistoryTableSource.cs" />
+    <Compile Include="Views\BGBadgeCell.cs" />
+    <Compile Include="Views\BGBadgeCell.designer.cs">
+      <DependentUpon>BGBadgeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBadgeAddViewController.cs" />
+    <Compile Include="View Controllers\BGBadgeAddViewController.designer.cs">
+      <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGBadgeCollectionViewController.cs" />
+    <Compile Include="View Controllers\BGBadgeCollectionViewController.designer.cs">
+      <DependentUpon>BGBadgeCollectionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGDemographicsDropDownCell.cs" />
+    <Compile Include="Views\BGDemographicsDropDownCell.designer.cs">
+      <DependentUpon>BGDemographicsDropDownCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGDemographicsInputCell.cs" />
+    <Compile Include="Views\BGDemographicsInputCell.designer.cs">
+      <DependentUpon>BGDemographicsInputCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGDemographicsViewController.cs" />
+    <Compile Include="View Controllers\BGDemographicsViewController.designer.cs">
+      <DependentUpon>BGDemographicsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGItemsSelectionTableViewCotroller.cs" />
+    <Compile Include="View Controllers\BGItemsSelectionTableViewCotroller.designer.cs">
+      <DependentUpon>BGItemsSelectionTableViewCotroller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BGUIColorExtension.cs" />
+    <Compile Include="Views\BGBlahBadgeCell.cs" />
+    <Compile Include="Views\BGBlahBadgeCell.designer.cs">
+      <DependentUpon>BGBlahBadgeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGSignaturesTableViewController.cs" />
+    <Compile Include="View Controllers\BGSignaturesTableViewController.designer.cs">
+      <DependentUpon>BGSignaturesTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGSignaturesCell.cs" />
+    <Compile Include="Views\BGSignaturesCell.designer.cs">
+      <DependentUpon>BGSignaturesCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -227,14 +317,14 @@
     <Folder Include="Controls\" />
     <Folder Include="Controls\SlidingMenu\" />
     <Folder Include="Controls\RollViewCollection\" />
-    <Folder Include="Resources\fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
+    <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\input%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
     <BundleResource Include="Resources\signinBckg-4%402x.png" />
     <BundleResource Include="Resources\signinBckg-5%402x.png" />
@@ -254,6 +344,39 @@
     <BundleResource Include="Resources\leftMenuButton%402x.png" />
     <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
     <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
+    <BundleResource Include="Resources\arrow_down_dark%402x.png" />
+    <BundleResource Include="Resources\arrow_down%402x.png" />
+    <BundleResource Include="Resources\arrow_up_dark%402x.png" />
+    <BundleResource Include="Resources\arrow_up%402x.png" />
+    <BundleResource Include="Resources\comments_dark%402x.png" />
+    <BundleResource Include="Resources\comments%402x.png" />
+    <BundleResource Include="Resources\stats_dark%402x.png" />
+    <BundleResource Include="Resources\stats%402x.png" />
+    <BundleResource Include="Resources\summary_dark%402x.png" />
+    <BundleResource Include="Resources\summary%402x.png" />
+    <BundleResource Include="Resources\badges%402x.png" />
+    <BundleResource Include="Resources\hot%402x.png" />
+    <BundleResource Include="Resources\no_coments%402x.png" />
+    <BundleResource Include="Resources\signature_ico%402x.png" />
+    <BundleResource Include="Resources\arrow_blue%402x.png" />
+    <BundleResource Include="Resources\arrow_gray%402x.png" />
+    <BundleResource Include="Resources\arrow_green%402x.png" />
+    <BundleResource Include="Resources\arrow_red%402x.png" />
+    <BundleResource Include="Resources\arrow_yellow%402x.png" />
+    <BundleResource Include="Resources\input_field_bottom%402x.png" />
+    <BundleResource Include="Resources\input_field_middle%402x.png" />
+    <BundleResource Include="Resources\input_field_top%402x.png" />
+    <BundleResource Include="Resources\new_post_tap%402x.png" />
+    <BundleResource Include="Resources\recent%402x.png" />
+    <BundleResource Include="Resources\image_select%402x.png" />
+    <BundleResource Include="Resources\new_comment%402x.png" />
+    <BundleResource Include="Resources\dropdown_arrow%402x.png" />
+    <BundleResource Include="Resources\input_back%402x.png" />
+    <BundleResource Include="Resources\long_button%402x.png" />
+    <BundleResource Include="Resources\short_button_gray%402x.png" />
+    <BundleResource Include="Resources\new_post%402x.png" />
+    <BundleResource Include="Resources\short_button%402x.png" />
+    <BundleResource Include="Resources\long_button_gray%402x.png" />
     <BundleResource Include="Resources\newblah.png" />
     <BundleResource Include="Resources\ask_icon.png" />
     <BundleResource Include="Resources\badge_icon.png" />
@@ -355,6 +478,7 @@
     <BundleResource Include="Resources\fonts\Merriweather.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
+    <BundleResource Include="Resources\texture_01.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

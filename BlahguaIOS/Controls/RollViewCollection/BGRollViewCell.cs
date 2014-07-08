@@ -8,16 +8,20 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.UIKit;
+using MonoTouch.CoreAnimation;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGRollViewCell : UICollectionViewCell, IImageUpdated
+	public partial class BGRollViewCell : UICollectionViewCell
 	{
 		private InboxBlah blah;
 		private UIImageView imageView;
 		private UILabel label;
 		public  UIView textView;
 		private NSIndexPath path;
+
+		private CAKeyFrameAnimation fadeInOutAnimation;
+		private CABasicAnimation fadeOutAnimation;
 
 		public InboxBlah Blah 
 		{
@@ -53,15 +57,19 @@ namespace BlahguaMobile.IOS
 		public void SetCellProperties(InboxBlah blah, string reusableId, SizeF size, NSIndexPath path)
 		{
 			this.blah = blah;
+			this.path = path;
 			if (!String.IsNullOrEmpty (blah.ImageURL)) {
 				imageView.Frame = new RectangleF (new PointF (0, 0), size);
-				imageView.Image = ImageLoader.DefaultRequestImage (new Uri (blah.ImageURL), this);
+				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), new ImageUpdateDelegate(imageView));
 				imageView.Hidden = false;
-			} else 
+			}
+			else
+			{
 				imageView.Hidden = true;
+			}
 
-
-			if (!String.IsNullOrEmpty (blah.T)) {
+			if(!String.IsNullOrEmpty(blah.T))
+			{
 				label.Frame = new RectangleF(new PointF(8, 7), new SizeF(size.Width - 24.0f, size.Height - 33.0f));
 				label.ContentMode = UIViewContentMode.TopLeft;
 				label.TextAlignment = UITextAlignment.Left;
@@ -90,7 +98,8 @@ namespace BlahguaMobile.IOS
 				label.AttributedText = new NSAttributedString (blah.T, font, UIColor.Black);
 				label.SizeToFit ();
 				textView.Hidden = false;
-			} else
+			} 
+			else
 				textView.Hidden = true;
 
 
@@ -168,23 +177,71 @@ namespace BlahguaMobile.IOS
 				ContentView.Add (newIcon);
 				curLeft += iconSize + iconOffset;
 			}
-
-
-
+			SetUpAnimation ();
 		}
 
-		#region IImageUpdated implementation
-
-		public void UpdatedImage (Uri uri)
+		public void SetUpAnimation()
 		{
-			if(blah.ImageURL != null) 
+			if (fadeInOutAnimation != null)
 			{
-				var image = ImageLoader.DefaultRequestImage (new Uri (blah.ImageURL), this);
-				imageView.Image = image == null ? new UIImage() : image;
+				if (String.IsNullOrEmpty(blah.ImageURL))
+				{
+					textView.Layer.RemoveAllAnimations ();
+					fadeInOutAnimation = null;
+					return;
+				}
+			} 
+			// if we have an image AND a string, we do the animation
+			if ((!String.IsNullOrEmpty(blah.T)) && (!String.IsNullOrEmpty(blah.ImageURL)))
+			{
+				InvokeAnimation ();
 			}
-			LayoutSubviews ();
 		}
 
-		#endregion
+		private void InvokeAnimation()
+		{
+			fadeInOutAnimation = (CAKeyFrameAnimation)CAKeyFrameAnimation.FromKeyPath ("opacity");
+			float animationDuration = (2 + RandomInterval (path.Item)) * 2;
+			fadeInOutAnimation.KeyTimes = new NSNumber[] { 
+				NSNumber.FromFloat(0f / animationDuration),
+				NSNumber.FromFloat(2f / animationDuration),
+				NSNumber.FromFloat((RandomInterval(path.Item) + 2f) / animationDuration),
+				NSNumber.FromFloat((RandomInterval(path.Item) + 4f) / animationDuration),
+				NSNumber.FromFloat(animationDuration / animationDuration),
+			};
+			fadeInOutAnimation.Values = new NSNumber[] {
+				NSNumber.FromFloat(0.9f),
+				NSNumber.FromFloat(0f),
+				NSNumber.FromFloat(0f),
+				NSNumber.FromFloat(0.9f),
+				NSNumber.FromFloat(0.9f),
+			};
+			fadeInOutAnimation.RepeatCount = 1e10f;
+			fadeInOutAnimation.Duration = animationDuration;
+			fadeInOutAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
+
+
+			textView.Layer.AddAnimation (fadeInOutAnimation, "fadeInOut");
+		}
+
+
+		private int RandomInterval(int index)
+		{
+			int i = index % 5;
+			switch(i)
+			{
+			case 0:
+				return 2;
+			case 1: 
+				return 3;
+			case 2: 
+				return 5;
+			case 3: 
+				return 7;
+			default:
+			case 4: 
+				return 11;
+			}
+		}
 	}
 }
