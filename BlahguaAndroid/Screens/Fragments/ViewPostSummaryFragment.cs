@@ -34,6 +34,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView image;
         private TextView titleView, textView;
         private ProgressDialog dialog;
+        private ProgressBar progress_image;
 
         // author block
         private TextView author, timeago;
@@ -70,6 +71,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivity(intent);
             };
 
+            progress_image = fragment.FindViewById<ProgressBar>(Resource.Id.loader_image);
+
             author = fragment.FindViewById<TextView>(Resource.Id.author);
             timeago = fragment.FindViewById<TextView>(Resource.Id.timeago);
             authorDescription = fragment.FindViewById<TextView>(Resource.Id.author_description);
@@ -99,6 +102,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             authorDescription.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             predictsElapsedtime.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
+            initBlahPost();
+
             return fragment;
         }
 
@@ -113,101 +118,114 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnStart()
         {
             base.OnStart();
+        }
 
-            dialog.Show();
-            BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
+        private Blah loadedBlah;
+        private void initBlahPost()
+        {
+            if (loadedBlah == null)
             {
-                parent.RunOnUiThread(() =>
+                dialog.Show();
+                BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
                 {
-                    dialog.Hide();
+                    loadedBlah = theBlah;
+                    parent.RunOnUiThread(() =>
+                    {
+                        dialog.Hide();
+                    });
+                    populateFragment();
                 });
+            }
+            else
+            {
+                populateFragment();
+            }
+        }
 
-                //this.DataContext = BlahguaAPIObject.Current;
-                if (theBlah != null)
+        private void populateFragment()
+        {
+            if (loadedBlah != null)
+            {
+                if (loadedBlah.ImageURL != null && image != null)
                 {
-                    if (theBlah.ImageURL != null && image != null)
+                    parent.RunOnUiThread(() =>
                     {
-						//image.Visibility = ViewStates.Visible;
-                        //parent.RunOnUiThread(() =>
-                        //{
-                        //    image.SetUrlDrawable(theBlah.ImageURL);
-                        //});
-
-                        ImageLoader.Instance.DownloadAsync(theBlah.ImageURL,
-                            image, (b) =>
+                        progress_image.Visibility = ViewStates.Visible;
+                    });
+                    ImageLoader.Instance.DownloadAsync(loadedBlah.ImageURL,
+                        image, (b) =>
+                        {
+                            parent.RunOnUiThread(() =>
                             {
-                                parent.RunOnUiThread(() =>
-                                {
-                                    image.Visibility = ViewStates.Visible;
-                                    image.SetImageBitmap(b);
-                                });
-                                return true;
+                                progress_image.Visibility = ViewStates.Gone;
+                                image.Visibility = ViewStates.Visible;
+                                image.SetImageBitmap(b);
                             });
-                    }
-					else 
-                    {
-						image.Visibility = ViewStates.Gone;
-					}
-
-                    parent.RunOnUiThread(() =>
-                    {
-                        titleView.SetText(theBlah.T, TextView.BufferType.Normal);
-                        textView.SetText(theBlah.F, TextView.BufferType.Normal);
-                    });
-
-                    // author
-                    parent.RunOnUiThread(() =>
-                    {
-                        author.Text = theBlah.UserName;
-                        if (!(theBlah.u == null && theBlah.cdate == null))
-                        {
-                            timeago.Text = StringHelper.ConstructTimeAgo(theBlah.CreationDate);
-                        }
-                        if (!theBlah.XX)
-                        {
-                            authorDescription.Text = theBlah.Description.d;
-
-                        }
-                        else
-                        {
-                            authorDescription.Text = "an unidentified person";
-                        }
-
-                        authorAvatar.SetUrlDrawable(theBlah.UserImage);
-
-                        if (theBlah.Badges != null)
-                        {
-                            badgesIcon.Visibility = ViewStates.Visible;
-                            authorBadgesArea.Visibility = ViewStates.Visible;
-                            authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
-                        }
-                    });
-
-                    switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
-                    {
-                        case "polls":
-                            HandlePollInit();
-                            break;
-                        case "predicts":
-                            HandlePredictInit();
-                            break;
-                    }
-
+                            return true;
+                        });
                 }
                 else
                 {
-                    Activity.RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
-                    });
-                    MainActivity.analytics.PostSessionError("loadblahfailed");
-                    // Finish();
+                    image.Visibility = ViewStates.Gone;
                 }
 
-                ((ViewPostActivity)Activity).UpdateSummaryButtons();
-            });
-        }
+                parent.RunOnUiThread(() =>
+                {
+                    titleView.SetText(loadedBlah.T, TextView.BufferType.Normal);
+                    textView.SetText(loadedBlah.F, TextView.BufferType.Normal);
+                });
 
+                // author
+                parent.RunOnUiThread(() =>
+                {
+                    author.Text = loadedBlah.UserName;
+                    if (!(loadedBlah.u == null && loadedBlah.cdate == null))
+                    {
+                        timeago.Text = StringHelper.ConstructTimeAgo(loadedBlah.CreationDate);
+                    }
+                    if (!loadedBlah.XX)
+                    {
+                        authorDescription.Text = loadedBlah.Description.d;
+
+                    }
+                    else
+                    {
+                        authorDescription.Text = "an unidentified person";
+                    }
+
+                    authorAvatar.SetUrlDrawable(loadedBlah.UserImage);
+
+                    if (loadedBlah.Badges != null)
+                    {
+                        badgesIcon.Visibility = ViewStates.Visible;
+                        authorBadgesArea.Visibility = ViewStates.Visible;
+                        authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
+                    }
+                });
+
+                switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+                {
+                    case "polls":
+                        HandlePollInit();
+                        break;
+                    case "predicts":
+                        HandlePredictInit();
+                        break;
+                }
+
+            }
+            else
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
+                });
+                MainActivity.analytics.PostSessionError("loadblahfailed");
+                // Finish();
+            }
+
+            ((ViewPostActivity)Activity).UpdateSummaryButtons();
+        }
 
         #region Handles
 

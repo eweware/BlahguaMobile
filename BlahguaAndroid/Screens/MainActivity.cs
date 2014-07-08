@@ -56,6 +56,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private ProgressBar progress_actionbar;
 
+        private ProgressBar progress_main;
+
         private TextView main_title;
 
         public static GoogleAnalytics analytics = null;
@@ -94,6 +96,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivity(typeof(LoginActivity));
 			};
             progress_actionbar = FindViewById<ProgressBar>(Resource.Id.progress_actionbar);
+            progress_main = FindViewById<ProgressBar>(Resource.Id.loader_main);
 
             scrollTimer.Interval = 1000 / FramesPerSecond;
             scrollTimer.Elapsed += ScrollBlahRoll;

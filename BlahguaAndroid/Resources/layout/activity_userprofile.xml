@@ -7,7 +7,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#60BFA4"
+        android:background="#3F2B2F"
         android:paddingLeft="6dp">
       <Button
           android:id="@+id/btn_back"
@@ -16,7 +16,8 @@
           android:layout_gravity="left"
           android:drawableLeft="@drawable/btn_back"
           android:background="@null"
-          android:textColor="#FFF"
+          android:textColor="#60BFA4"
+          android:textSize="14sp"
           android:visibility="gone"
           android:text=" Back" />
       <TextView
@@ -26,7 +27,7 @@
           android:gravity="center"
           android:layout_gravity="center"
           android:background="@null"
-          android:textColor="#FFF"
+          android:textColor="#60BFA4"
           android:textSize="18sp"
           android:textStyle="bold"
           android:text="Profile" />
@@ -36,7 +37,8 @@
           android:layout_height="40dp"
           android:layout_gravity="right"
           android:background="@null"
-          android:textColor="#FFF"
+          android:textColor="#60BFA4"
+          android:textSize="14sp"
           android:text="Done" />
     </FrameLayout>
 

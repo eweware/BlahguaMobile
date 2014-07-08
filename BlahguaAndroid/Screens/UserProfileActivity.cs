@@ -14,6 +14,7 @@ using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -43,6 +44,9 @@ namespace BlahguaMobile.AndroidClient
 
             title = FindViewById<TextView>(Resource.Id.title);
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
+
+            title.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
+            btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 

@@ -15,6 +15,7 @@ using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -30,6 +31,7 @@ namespace BlahguaMobile.AndroidClient
         private GestureListener _gestureListener;
 
         private FrameLayout contentFragment;
+        private static Typeface titleFont = null;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -38,16 +40,19 @@ namespace BlahguaMobile.AndroidClient
             RequestWindowFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.activity_history);
 
+            title = FindViewById<TextView>(Resource.Id.title);
+            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+
             _gestureListener = new GestureListener();
             _gestureDetector = new GestureDetector(this, _gestureListener);
 
             Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
+            btn_back.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
             btn_back.Click += delegate
             {
                 Finish();
 			};
 
-            title = FindViewById<TextView>(Resource.Id.title);
             contentFragment = FindViewById<FrameLayout>(Resource.Id.content_fragment);
 
             Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
