@@ -24,6 +24,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            MainActivity.analytics.PostPageView("/ImageViewer");
 
             RequestWindowFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.activity_imageview);

@@ -33,6 +33,7 @@ namespace BlahguaMobile.AndroidClient
 		{
             base.OnCreate(bundle);
 
+            MainActivity.analytics.PostPageView("/self");
             RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 

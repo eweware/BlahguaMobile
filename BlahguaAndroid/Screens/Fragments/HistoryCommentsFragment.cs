@@ -38,6 +38,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/self/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);

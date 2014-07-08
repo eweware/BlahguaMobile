@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">blahgua</string>
-	<string name="welcome">Welcome to blahgua</string>
+	<string name="app_name">Heard</string>
+	<string name="welcome">Welcome to Heard</string>
+  <string name="login_title">Sign in or Register</string>
 
   <!-- SIDE MENU-->
   <string name="sidemenu_channels">Channels</string>
-  <string name="sidemenu_ch_public">Public</string>
-  <string name="sidemenu_ch_tech">Tech</string>
-  <string name="sidemenu_ch_entertainment">Entertainment</string>
-  <string name="sidemenu_ch_feedback">Feedback</string>
-  
+
+
   <string name="sidemenu_view">View</string>
   <string name="sidemenu_v_newest">Newest</string>
   <string name="sidemenu_v_oldest">Oldest</string>

@@ -126,7 +126,6 @@
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
     <Compile Include="HelpingClasses\ImageLoader.cs" />
-    <Compile Include="HelpingClasses\ProgressView.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="HelpingClasses\StringHelper.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />

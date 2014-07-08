@@ -243,54 +243,22 @@ namespace BlahguaMobile.AndroidClient
 
         private void HandlePromoteBlah(object sender, EventArgs e)
         {
-            //if (currentPage == "summary")
-            //{
-                BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
-                {
-                    UpdateSummaryButtons();
-                    MainActivity.analytics.PostBlahVote(1);
-                });
-            //}
-            //else
-            //{
-            //    Comment curComment = (Comment)AllCommentList.SelectedItem;
-
-            //    if (curComment != null)
-            //    {
-            //        BlahguaAPIObject.Current.SetCommentVote(curComment, 1, (newVote) =>
-            //        {
-            //            UpdateCommentButtons();
-            //            App.analytics.PostCommentVote(1);
-            //        }
-            //        );
-            //    }
-            //}
+            BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
+            {
+                UpdateSummaryButtons();
+                MainActivity.analytics.PostBlahVote(1);
+            });
+            
         }
 
         private void HandleDemoteBlah(object sender, EventArgs e)
         {
-            //if (currentPage == "summary")
-            //{
-                BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
-                {
-                    UpdateSummaryButtons();
-                    MainActivity.analytics.PostBlahVote(-1);
-                });
-            //}
-            //else
-            //{
-            //    Comment curComment = (Comment)AllCommentList.SelectedItem;
-
-            //    if (curComment != null)
-            //    {
-            //        BlahguaAPIObject.Current.SetCommentVote(curComment, -1, (newVote) =>
-            //        {
-            //            UpdateCommentButtons();
-            //            App.analytics.PostCommentVote(-1);
-            //        }
-            //        );
-            //    }
-            //}
+            BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
+            {
+                UpdateSummaryButtons();
+                MainActivity.analytics.PostBlahVote(-1);
+            });
+            
         }
         #endregion
 

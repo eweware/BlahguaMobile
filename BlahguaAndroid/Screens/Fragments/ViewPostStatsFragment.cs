@@ -26,6 +26,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         TextView views, opens, comments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/blah/stats");
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_stats, null);
             views = fragment.FindViewById<TextView>(Resource.Id.views);
             opens = fragment.FindViewById<TextView>(Resource.Id.opens);

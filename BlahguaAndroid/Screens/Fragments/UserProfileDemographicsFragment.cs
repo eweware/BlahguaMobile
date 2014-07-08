@@ -31,6 +31,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            MainActivity.analytics.PostPageView("/self/demographics");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_demographics, null);
             //if (container == null)
             //{
