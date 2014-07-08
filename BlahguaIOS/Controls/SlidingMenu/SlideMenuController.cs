@@ -114,8 +114,8 @@ namespace MonoTouch.SlideMenu
 			View.AddSubview(contentViewController.View);
 			//SetShadowOnContentViewControllerView();
 
-			contentViewController.View.AddGestureRecognizer(TapGesture);
-			TapGesture.Enabled = false;
+//			contentViewController.View.AddGestureRecognizer(TapGesture);
+//			TapGesture.Enabled = false;
 
 			contentViewController.View.AddGestureRecognizer(PanGesture);
 			PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
@@ -260,7 +260,7 @@ namespace MonoTouch.SlideMenu
 				RectangleF frame = contentViewController.View.Frame;
 
 				// Remove old content view
-				contentViewController.View.RemoveGestureRecognizer(TapGesture);
+				//contentViewController.View.RemoveGestureRecognizer(TapGesture);
 				contentViewController.View.RemoveGestureRecognizer(PanGesture);
 				contentViewController.BeginAppearanceTransition(false, false);
 				contentViewController.View.RemoveFromSuperview();
@@ -275,7 +275,7 @@ namespace MonoTouch.SlideMenu
 				SetContentViewController(controller);
                 controller.View.Transform = tranfsorm;
 				contentViewController.View.Frame = frame;
-				contentViewController.View.AddGestureRecognizer(TapGesture);
+				//contentViewController.View.AddGestureRecognizer(TapGesture);
 				contentViewController.View.AddGestureRecognizer(PanGesture);
 				View.AddSubview(contentViewController.View);
 				contentViewController.EndAppearanceTransition();
@@ -292,7 +292,7 @@ namespace MonoTouch.SlideMenu
 
 
 			// Remove gestures
-			TapGesture.Enabled = false;
+			//TapGesture.Enabled = false;
 			PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
 
 			var duration = animated ? ANIMATION_DURATION : 0;
@@ -394,7 +394,7 @@ namespace MonoTouch.SlideMenu
 
 			}, (finished) => {
 
-				TapGesture.Enabled = true;
+				//TapGesture.Enabled = true;
 				PanGesture.Enabled = true;
 				
 				if (completion != null) {
@@ -439,7 +439,8 @@ namespace MonoTouch.SlideMenu
 			get {
 				if (_panGesture == null) {
 					_panGesture = new UIPanGestureRecognizer(PanGestureTriggered);
-					_panGesture.RequireGestureRecognizerToFail(TapGesture);
+					_panGesture.Delegate = new PanGestureRecognizerDelegate ();
+					//_panGesture.RequireGestureRecognizerToFail(TapGesture);
 				}
 				return _panGesture;
 			}
@@ -519,7 +520,7 @@ namespace MonoTouch.SlideMenu
 					}
 										
 					// Remove gestures
-					TapGesture.Enabled = false;
+					//TapGesture.Enabled = false;
 					PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
 										
 					frame.X = OffsetXWhenMenuIsClose();
@@ -542,7 +543,6 @@ namespace MonoTouch.SlideMenu
 							contentViewController.View.LayoutIfNeeded();
 						}
 					});
-
 				} 
 				else // open
 				{
@@ -560,7 +560,7 @@ namespace MonoTouch.SlideMenu
 						contentViewController.View.Frame = frame;
                         ScaleContentView();
 					}, (finished) => {
-						TapGesture.Enabled = true;
+						//TapGesture.Enabled = true;
 						if (!menuWasOpenAtPanBegin){
 							menuViewController.EndAppearanceTransition();
 						}
@@ -568,6 +568,15 @@ namespace MonoTouch.SlideMenu
 				}
 	
 				contentViewControllerFrame = frame;
+			}
+			if(ContentViewController is BGMainNavigationController && 
+				((BGMainNavigationController)ContentViewController).ViewControllers[0] is BGRollViewController)
+			{
+				if(((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer != null)
+					if(IsMenuOpen())
+						((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = false;
+					else
+						((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = true;
 			}
 		}
 

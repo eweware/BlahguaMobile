@@ -169,6 +169,9 @@ namespace BlahguaMobile.IOS
 
 		private void DoneHandler(object sender, EventArgs args)
 		{
+			usernameOrEmail.ResignFirstResponder ();
+			password.ResignFirstResponder ();
+			confirmPassword.ResignFirstResponder ();
 			if(signUp)
 			{
 				SignUp ();

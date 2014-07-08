@@ -52,7 +52,6 @@ namespace BlahguaMobile.IOS
 			{
 				DeleteFirst350Items ();
 			}
-			cell.SetUpAnimation ();
 			return cell;
 		}
 
@@ -95,7 +94,13 @@ namespace BlahguaMobile.IOS
 					viewController.DeleteFirst200Items ();
 				}
 				if(dataSource.Count <= 100)
-					viewController.AutoScroll();
+				{
+					if(!viewController.IsAutoScrollingEnabled)
+					{
+						viewController.IsAutoScrollingEnabled = true;
+						viewController.AutoScroll();
+					}
+				}
 			});
 		}
 

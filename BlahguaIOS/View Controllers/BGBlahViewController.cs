@@ -15,7 +15,7 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGBlahViewController : UIViewController
+	public partial class BGBlahViewController : UIViewController, IImageUpdated
 	{
 		#region Fields
 
@@ -89,6 +89,8 @@ namespace BlahguaMobile.IOS
 				ShouldMoveToStats = false;
 				PerformSegue ("fromBlahViewToStats", this);
 			}
+
+			contentView.ContentSize = new SizeF (320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -119,9 +121,7 @@ namespace BlahguaMobile.IOS
 			contentView.ClipsToBounds = true;
 			contentView.ContentOffset = new PointF(0,0);
 			contentView.BackgroundColor = UIColor.White;
-
-			var bottomToolbarLocation = new PointF (0, contentView.Frame.Bottom);
-			bottomToolbar.Frame = new RectangleF (bottomToolbarLocation, toolbarViewSize);
+		
             bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
             bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
 
@@ -146,7 +146,7 @@ namespace BlahguaMobile.IOS
 			if(CurrentBlah.B != null && CurrentBlah.B.Any())
 			{
 				badgeImage.Hidden = false;
-				badgesTableView.Hidden = true;
+				badgesTableViewHeight.Constant = 0;
 
 			}
 			else
@@ -156,7 +156,7 @@ namespace BlahguaMobile.IOS
 
 			blahTimespan.AttributedText = new NSAttributedString (
 				CurrentBlah.ElapsedTimeString ?? "", 
-				UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), 
+				UIFont.FromName (BGAppearanceConstants.MediumFontName, 12), 
 				UIColor.Black
 			);
 		}
@@ -165,11 +165,12 @@ namespace BlahguaMobile.IOS
 		{
 			if(badgesShown)
 			{
-				badgesTableView.Hidden = true;
+				badgesTableViewHeight.Constant = 0;
 			}
 			else
 			{
-				badgesTableView.Hidden = false;
+				var count = badgesTableView.NumberOfRowsInSection (0);
+				badgesTableViewHeight.Constant = count <= 1 ? 28 : 56;
 			}
 			badgesShown = !badgesShown;
 			badgesTableView.ReloadData();
@@ -177,8 +178,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpContentView()
 		{
-			float currentYCoord = 0f;
-			SizeF sizeForTitle = new SizeF(defaultWidthOfContent - textInsetDefaultValue * 2, 0f);
+
 			if(!String.IsNullOrEmpty(CurrentBlah.T))
 			{
 				blahTitle.Hidden = false;
@@ -187,14 +187,12 @@ namespace BlahguaMobile.IOS
 					ForegroundColor = UIColor.Black,
 
 				};
-
-				//blahTitle = new UILabel (new RectangleF(new PointF(textInsetDefaultValue, textInsetDefaultValue), sizeForTitle));
+					
 				blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
 				blahTitle.Lines = 0;
 
 
 				blahTitle.AttributedText = new NSAttributedString (CurrentBlah.T, blahTitleAttributes);
-				//contentView.AddSubview (blahTitle);
 
 				blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
 			}
@@ -206,15 +204,14 @@ namespace BlahguaMobile.IOS
 
 			if(CurrentBlah.ImageURL != null)
 			{
-				blahImage.Hidden = false;
 				blahImage.Image = ImageLoader.DefaultRequestImage(
 					new Uri(CurrentBlah.ImageURL), 
-					new ImageUpdateDelegate (blahImage)
+					this
 				);
 			}
 			else
 			{
-				blahImage.Hidden = true;
+				imageHeightViewHeight.Constant = 0;
 			}
 
 			if(!String.IsNullOrEmpty(CurrentBlah.F))
@@ -230,13 +227,12 @@ namespace BlahguaMobile.IOS
 				blahBodyView.ScrollEnabled = false;
 				blahBodyView.Editable = false;
 				blahBodyView.ContentInset = new UIEdgeInsets (textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-
 			}
 			else
 			{
-				blahBodyView.Hidden = true;
 				blahBodyView.Text = "";
 			}
+			bodyTextViewHeight.Constant = blahBodyView.ContentSize.Height;
 
 			if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
 			{
@@ -244,6 +240,10 @@ namespace BlahguaMobile.IOS
 				tableView = new UITableView ();
 				tableView.ScrollEnabled = false;
 				tableView.AllowsMultipleSelection = false;
+				if(BlahguaAPIObject.Current.CurrentUser == null)
+				{
+					tableView.AllowsSelection = false;
+				}
 				tableView.BackgroundColor = UIColor.Clear;
 				if(CurrentBlah.TypeName == "polls")
 				{
@@ -259,13 +259,6 @@ namespace BlahguaMobile.IOS
 				tableView.ReloadData ();
 				tableView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-				contentView.AddSubview (tableView);
-
-				var positionY = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
-				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
-				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
-
-				contentView.AddConstraints (new NSLayoutConstraint[] { positionY, positionXLeft, positionXRight });
 
 				var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
 				var height = NSLayoutConstraint.Create(
@@ -279,6 +272,20 @@ namespace BlahguaMobile.IOS
 				);
 
 				tableView.AddConstraints(new NSLayoutConstraint[] {width, height});
+
+				contentView.AddSubview (tableView);
+
+				var positionYTop = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+				var positionYBottom = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
+				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+
+				contentView.AddConstraints (new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
+			}
+			else
+			{
+				var constraint = NSLayoutConstraint.Create (blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+				contentView.AddConstraint (constraint);
 			}
 		}
 
@@ -412,6 +419,16 @@ namespace BlahguaMobile.IOS
 		public void PredictionVoted(UserPredictionVote item)
 		{
 			InvokeOnMainThread(() => tableView.ReloadData ());
+		}
+
+		#endregion
+
+		#region IImageUpdated implementation
+
+		public void UpdatedImage (Uri uri)
+		{
+			blahImage.Image = ImageLoader.DefaultRequestImage (uri, this);
+
 		}
 
 		#endregion

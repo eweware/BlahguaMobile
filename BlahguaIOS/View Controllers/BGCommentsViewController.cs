@@ -16,17 +16,6 @@ namespace BlahguaMobile.IOS
 	{
 		#region Fields
 
-		private ImageUpdateDelegate badgeImageUpdateDelegate;
-
-		private float textInsetDefaultValue = 11.0f;
-		private float defaultWidthOfContent = 320.0f;
-		private float defaultContentViewStartYCoor = 97.0f;
-		private float iphone4ContentViewHeight = 339f;
-		private float iphone5ContentViewHeight = 427f;
-		private SizeF toolbarViewSize = new SizeF(320f, 44f);
-
-		private UITableView itemsTable;
-
 		private UIButton upVoteButton;
 		private UIButton downVoteButton;
 
@@ -131,29 +120,16 @@ namespace BlahguaMobile.IOS
 		private void SetUpBaseLayout()
 		{
             View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
-			contentView.RemoveFromSuperview ();
 			contentView.BackgroundColor = UIColor.White;
 			contentView.ScrollEnabled = true;
-			contentView.TranslatesAutoresizingMaskIntoConstraints = true;
-			bottomToolbar.RemoveFromSuperview ();
-			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
 
-
-			var contentViewSize = new SizeF(defaultWidthOfContent, BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
-				iphone4ContentViewHeight : iphone5ContentViewHeight);
-
-			contentView.Frame = new RectangleF (new PointF(0, defaultContentViewStartYCoor), contentViewSize);
 			contentView.ClipsToBounds = true;
 			contentView.ContentOffset = new PointF(0,0);
 			contentView.BackgroundColor = UIColor.White;
 
-			var bottomToolbarLocation = new PointF (0, contentView.Frame.Bottom);
-			bottomToolbar.Frame = new RectangleF (bottomToolbarLocation, toolbarViewSize);
             bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
             bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
 
-
-			View.AddSubviews (new UIView [] { contentView, bottomToolbar });
 		}
 
 		private void SetUpHeaderView()
@@ -364,6 +340,7 @@ namespace BlahguaMobile.IOS
 					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
 						.InstantiateViewController ("BGNewCommentViewController");
 					newCommentViewController.ParentViewController = this;
+					AddChildViewController (newCommentViewController);
 				}
 				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
@@ -440,8 +417,13 @@ namespace BlahguaMobile.IOS
 				var cell = (BGCommentTableCell)tableView.DequeueReusableCell ("commentWithImage");
 				cell.SetUp (type == BGCommentsTableSourceType.Blah ? 
 					vc.CurrentBlah.Comments [indexPath.Row] : 
-					vc.CurrentComment.subComments [indexPath.Row]);		
-				return cell.ContentView.Frame.Height;
+					vc.CurrentComment.subComments [indexPath.Row]);	
+				cell.SetNeedsUpdateConstraints();
+				cell.UpdateConstraintsIfNeeded();
+				cell.Bounds = RectangleF.FromLTRB (0, 0, 320, 64);
+				cell.SetNeedsLayout();
+				cell.LayoutIfNeeded();
+				return cell.ContentView.SystemLayoutSizeFittingSize(UIView.UILayoutFittingCompressedSize).Height + 1;
 			}
 
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)

@@ -8,6 +8,7 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.UIKit;
+using MonoTouch.CoreAnimation;
 
 namespace BlahguaMobile.IOS
 {
@@ -18,6 +19,9 @@ namespace BlahguaMobile.IOS
 		private UILabel label;
 		public  UIView textView;
 		private NSIndexPath path;
+
+		private CAKeyFrameAnimation fadeInOutAnimation;
+		private CABasicAnimation fadeOutAnimation;
 
 		public InboxBlah Blah 
 		{
@@ -53,6 +57,7 @@ namespace BlahguaMobile.IOS
 		public void SetCellProperties(InboxBlah blah, string reusableId, SizeF size, NSIndexPath path)
 		{
 			this.blah = blah;
+			this.path = path;
 			if (!String.IsNullOrEmpty (blah.ImageURL)) {
 				imageView.Frame = new RectangleF (new PointF (0, 0), size);
 				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), new ImageUpdateDelegate(imageView));
@@ -172,26 +177,53 @@ namespace BlahguaMobile.IOS
 				ContentView.Add (newIcon);
 				curLeft += iconSize + iconOffset;
 			}
+			SetUpAnimation ();
 		}
 
 		public void SetUpAnimation()
 		{
+			if (fadeInOutAnimation != null)
+			{
+				if (String.IsNullOrEmpty(blah.ImageURL))
+				{
+					textView.Layer.RemoveAllAnimations ();
+					fadeInOutAnimation = null;
+					return;
+				}
+			} 
 			// if we have an image AND a string, we do the animation
 			if ((!String.IsNullOrEmpty(blah.T)) && (!String.IsNullOrEmpty(blah.ImageURL)))
 			{
-				UIView.Animate(2, 2, UIViewAnimationOptions.CurveEaseInOut | UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.Repeat | UIViewAnimationOptions.AllowUserInteraction, 
-					() => 
-					{
-						textView.Alpha = 0;
-					}, 
-					() => 
-					{
-						textView.Alpha = .9f; 
-					}
-				);
-
+				InvokeAnimation ();
 			}
 		}
+
+		private void InvokeAnimation()
+		{
+			fadeInOutAnimation = (CAKeyFrameAnimation)CAKeyFrameAnimation.FromKeyPath ("opacity");
+			float animationDuration = (2 + RandomInterval (path.Item)) * 2;
+			fadeInOutAnimation.KeyTimes = new NSNumber[] { 
+				NSNumber.FromFloat(0f / animationDuration),
+				NSNumber.FromFloat(2f / animationDuration),
+				NSNumber.FromFloat((RandomInterval(path.Item) + 2f) / animationDuration),
+				NSNumber.FromFloat((RandomInterval(path.Item) + 4f) / animationDuration),
+				NSNumber.FromFloat(animationDuration / animationDuration),
+			};
+			fadeInOutAnimation.Values = new NSNumber[] {
+				NSNumber.FromFloat(0.9f),
+				NSNumber.FromFloat(0f),
+				NSNumber.FromFloat(0f),
+				NSNumber.FromFloat(0.9f),
+				NSNumber.FromFloat(0.9f),
+			};
+			fadeInOutAnimation.RepeatCount = 1e10f;
+			fadeInOutAnimation.Duration = animationDuration;
+			fadeInOutAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
+
+
+			textView.Layer.AddAnimation (fadeInOutAnimation, "fadeInOut");
+		}
+
 
 		private int RandomInterval(int index)
 		{
