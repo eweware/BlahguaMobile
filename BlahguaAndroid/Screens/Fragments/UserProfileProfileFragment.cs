@@ -15,10 +15,11 @@ using Android.Animation;
 using Android.Graphics;
 using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileProfileFragment : Fragment
+    class UserProfileProfileFragment : Fragment, IUrlImageViewCallback
     {
         ProgressBar progress;
         ImageView avatar;
@@ -34,19 +35,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_profile, null);
-            //if (container == null)
-            //{
-            //    Log.Debug(TAG, "Dialer Fragment is in a view without container");
-            //    return null;
-            //}
-            avatar = fragment.FindViewById<ImageView>(Resource.Id.avatar);
-            nickname = fragment.FindViewById<EditText>(Resource.Id.text);
-            nickname.TextChanged += nickname_TextChanged;
-            progress = fragment.FindViewById<ProgressBar>(Resource.Id.progressBar1);
-            progress.Visibility = ViewStates.Gone;
 
-            btn_avatar = fragment.FindViewById<Button>(Resource.Id.btn_avatar);
-            btn_avatar.Click += (sender, args) =>
+            EventHandler click = (sender, args) =>
             {
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
@@ -54,6 +44,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select photo"), 0);
             };
+
+            avatar = fragment.FindViewById<ImageView>(Resource.Id.avatar);
+            nickname = fragment.FindViewById<EditText>(Resource.Id.text);
+            progress = fragment.FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            btn_avatar = fragment.FindViewById<Button>(Resource.Id.btn_avatar);
+
+            nickname.TextChanged += nickname_TextChanged;
+            progress.Visibility = ViewStates.Gone;
+            btn_avatar.Click += click;
+            avatar.Click += click;
 
             initUi();
             return fragment;
@@ -72,7 +72,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        void UpdateProfile()
+        private void UpdateProfile()
         {
             // the profile has changed, save and reload the description...
             BlahguaAPIObject.Current.UpdateUserProfile((theString) =>
@@ -103,16 +103,19 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;
-                System.IO.Stream inputStream = Activity.ContentResolver.OpenInputStream(data.Data);
-                BlahguaAPIObject.Current.UploadUserImage(inputStream, data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1), (photoString) =>
+                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
+                String fileName = StreamHelper.GetFileName(Activity, data.Data);
+                //String fileName = data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1);
+                avatar.SetUrlDrawable(null);
+                BlahguaAPIObject.Current.UploadUserImage(inputStream, fileName, (photoString) =>
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        progress.Visibility = ViewStates.Gone;
                         if ((photoString != null) && (photoString.Length > 0))
                         {
+                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
                             MainActivity.analytics.PostUploadUserImage();
-                            avatar.SetUrlDrawable(photoString);
+                            avatar.SetUrlDrawable(photoURL, this);
                         }
                         else
                         {
@@ -123,10 +126,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                     });
                 }
                 );
-
-                //var imageView =
-                //    FindViewById<ImageView>(Resource.Id.myImageView);
-                //imageView.SetImageURI(data.Data);
+            }
+        }
+        public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
+        {
+            if (avatar == imageView)
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    progress.Visibility = ViewStates.Gone;
+                });
             }
         }
 

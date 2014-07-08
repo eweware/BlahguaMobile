@@ -15,6 +15,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Java.Util;
 using Android.App;
 using Java.Text;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -40,24 +41,6 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
 
-        private string GetPathToImage(Android.Net.Uri uri)
-        {
-            string path = null;
-            // The projection contains the columns we want to return in our query.
-            string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
-            using (ICursor cursor = ManagedQuery(uri, projection, null, null, null))
-            {
-                if (cursor != null)
-                {
-                    cursor.MoveToFirst();
-                    int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
-                    FieldType theType = cursor.GetType(columnIndex);
-                    path = cursor.GetString(columnIndex);
-                }
-            }
-            return path;
-        }
-
         protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
             if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
@@ -65,12 +48,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
-                Android.Net.Uri uri = data.Data;
-                string imgPath = GetPathToImage(uri);
-                if (imgPath != null)
+
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
+                String fileName = StreamHelper.GetFileName(this, data.Data);
+                if (fileStream != null)
                 {
-                    System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
-                    BlahguaAPIObject.Current.UploadPhoto(fileStream, Path.GetFileName(imgPath), (photoString) =>
+                    //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
+                    BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
                             RunOnUiThread(() =>
                             {
