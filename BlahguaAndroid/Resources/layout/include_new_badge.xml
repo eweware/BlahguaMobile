@@ -1,27 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="#D9DADA"
+  android:padding="10dp">
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#D9DADA"
-    android:padding="10dp">
-    <TextView
+    android:orientation="vertical">
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textColor="#000"
-      android:textSize="14sp"
-      android:paddingBottom="5dp"
-      android:text="@string/new_badge_title" />
-    <EditText
-      android:id="@+id/edit"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textColor="#3C3C3C"
-      android:textCursorDrawable="@null"
-      android:hint="@string/new_badge_edit_email"
-      android:background="@drawable/edit"
-      android:inputType="textEmailAddress"
-      android:paddingBottom="10dp"/>
+      android:layout_marginBottom="5dp"
+      android:orientation="vertical">
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:paddingBottom="5dp"
+        android:text="@string/new_badge_title" />
+      <EditText
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:textCursorDrawable="@null"
+        android:hint="@string/new_badge_edit_email"
+        android:background="@drawable/edit"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="10dp"/>
+      <TextView
+        android:id="@+id/text_privacy_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:text="@string/new_badge_title_privacy_statement" />
+    </LinearLayout>
     <Button
       android:id="@+id/btn_done"
       android:layout_width="match_parent"
@@ -29,11 +46,12 @@
       android:background="@drawable/btn_green"
       android:textColor="@drawable/btn_colored_text"
       android:textStyle="bold"
-      android:text="DONE"/>
+      android:text="SUBMIT"/>
     <ProgressBar
       android:id="@+id/progressBar1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:visibility="gone"/>
-</LinearLayout>
+  </LinearLayout>
+</ScrollView>

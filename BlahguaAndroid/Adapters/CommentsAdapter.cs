@@ -179,6 +179,15 @@ namespace BlahguaMobile.AndroidClient.Adapters
         void view_Click(object sender, EventArgs e)
         {
             View item = sender as View;
+
+            int pos = (int)item.Tag;
+
+            if (_list[pos].A == BlahguaAPIObject.Current.CurrentUser._id)
+            {
+                // this is a users comment - skip showing promote/demote buttons
+                return;
+            }
+
             LinearLayout layout = item.FindViewById<LinearLayout>(Resource.Id.votes);
             Button btn_upvote = item.FindViewById<Button>(Resource.Id.btn_upvote);
             Button btn_downvote = item.FindViewById<Button>(Resource.Id.btn_downvote);
@@ -216,7 +225,6 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             }
 
-            int pos = (int)item.Tag;
             UpdateVoteButtons(item, _list[pos]);
         }
 
