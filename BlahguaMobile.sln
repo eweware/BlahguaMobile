@@ -81,7 +81,7 @@ Global
 		>>>>>>> develop
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BlahguaAndroid\BlahguaAndroid.csproj
+		StartupItem = BlahguaIOS\BlahguaIOS.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
