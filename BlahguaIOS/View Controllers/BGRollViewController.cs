@@ -70,7 +70,8 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
-
+            //Synsoft on 9 July 2014 for active color  #1FBBD1
+            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
@@ -192,7 +193,10 @@ namespace BlahguaMobile.IOS
 				if(NavigationItem.RightBarButtonItems == null)
 				{
 				    NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-				    NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+                    //Synsoft On 9 July 2014
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+                    //commented by Synsoft on 9 July 2014
+                    //NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
 				}
 			}
 			else 

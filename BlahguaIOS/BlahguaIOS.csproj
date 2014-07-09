@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,13 +44,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Pavel Sipaila (X2548GX5V7)</CodesignKey>
+    <MtouchDebug>True</MtouchDebug>
+    <CodesignKey>iPhone Developer: Alok Patil %28SKEKL3PX8F%29</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
+    <MtouchSdkVersion>7.0</MtouchSdkVersion>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <CodesignProvision>38A32C4F-F24B-4F58-A167-AAB3156CF99B</CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -309,14 +316,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Constants\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Views\" />
-    <Folder Include="View Controllers\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Controls\SlidingMenu\" />
-    <Folder Include="Controls\RollViewCollection\" />
+    <BundleResource Include="Resources\signupRadioButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -486,5 +486,8 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\signupRadioButtonUn.png" />
   </ItemGroup>
 </Project>
