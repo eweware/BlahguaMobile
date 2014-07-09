@@ -47,22 +47,6 @@ namespace BlahguaMobile.IOS
 			var size = manager.GetCellSizeF (reusableId);
 			cell.SetCellProperties (inboxBlah, reusableId, size, indexPath);
 
-            // if we have an image AND a string, we do the animation
-            if ((!String.IsNullOrEmpty(inboxBlah.T)) && (!String.IsNullOrEmpty(inboxBlah.ImageURL)))
-            {
-                    UIView.Animate(2, 2, UIViewAnimationOptions.CurveEaseInOut | UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.Repeat | UIViewAnimationOptions.AllowUserInteraction, 
-                        () => 
-                        {
-                            cell.textView.Alpha = 0;
-                        }, 
-                        () => 
-                        {
-                            cell.textView.Alpha = .9f; 
-                        }
-                    );
-
-            }
-
 
 			if(indexPath.Item == dataSource.Count - 1 && dataSource.Count > 1000)
 			{
@@ -93,7 +77,7 @@ namespace BlahguaMobile.IOS
 				NSIndexPath[] paths = new NSIndexPath[100];
 				int count = dataSource.Count;
 
-				if( inb != null && inb.Count > 0 )
+				if(inb != null && inb.Count > 0)
 				{
 					for (int i = count, j = 0; i < count + 100; i++, j++) {
 						paths [j] = NSIndexPath.FromItemSection (i, 0);
@@ -108,6 +92,14 @@ namespace BlahguaMobile.IOS
 				if(dataSource.Count > 1000)
 				{
 					viewController.DeleteFirst200Items ();
+				}
+				if(dataSource.Count <= 100)
+				{
+					if(!viewController.IsAutoScrollingEnabled)
+					{
+						viewController.IsAutoScrollingEnabled = true;
+						viewController.AutoScroll();
+					}
 				}
 			});
 		}

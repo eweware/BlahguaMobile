@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
+using BlahguaMobile.BlahguaCore;
+
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 
@@ -13,6 +15,14 @@ namespace BlahguaMobile.IOS
 	public class BGSlidingMenuTableSource : UITableViewSource
 	{
 		private BGLeftMenuType type;
+
+		public BGLeftMenuType Type
+		{
+			get
+			{
+				return type;
+			}
+		}
 
 		public BGSlidingMenuTableSource(BGLeftMenuType type)
 		{
@@ -41,10 +51,25 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				var blahType = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes.ElementAt(indexPath.Row);
+				var blahType = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes[indexPath.Row];
 				cell.Text = blahType.N;
-//				BlahguaCore.BlahguaAPIObject.Current.CurrentBlah.ChannelName = BlahguaCore.BlahguaAPIObject.Current.CurrentChannel.ChannelName;
-//				BlahguaCore.BlahguaAPIObject.Current.Cu ;
+				if(BlahguaCore.BlahguaAPIObject.Current.CreateRecord == null || 
+					BlahguaCore.BlahguaAPIObject.Current.CreateRecord.BlahType == null || 
+					blahType._id == BlahguaCore.BlahguaAPIObject.Current.CreateRecord.BlahType._id)
+				{
+
+					if(BlahguaAPIObject.Current.CreateRecord == null)
+					{
+						BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord ();
+					}
+					BlahguaAPIObject.Current.CreateRecord.BlahType = blahType;
+					cell.SelectRow ();
+					tableView.SelectRow (indexPath, true, UITableViewScrollPosition.None);
+				}
+				else
+				{
+					cell.DeselectRow ();
+				}
 			}
 			return cell;
 		}
@@ -88,12 +113,13 @@ namespace BlahguaMobile.IOS
 				cell.SelectRow ();
 				if(type == BGLeftMenuType.Channels)
 				{
-					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList.ElementAt (indexPath.Row);
-
+					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList[indexPath.Row];
 				}
 				else
 				{
-					///BlahguaCore.BlahguaAPIObject.Current.Curr*/
+					var createRecord = BlahguaAPIObject.Current.CreateRecord;
+					createRecord.BlahType = BlahguaAPIObject.Current.CurrentBlahTypes [indexPath.Row];
+					BlahguaAPIObject.Current.CreateRecord = createRecord;
 				}
 			}
 			return indexPath;

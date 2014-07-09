@@ -20,43 +20,55 @@ namespace BlahguaMobile.IOS
 
 	public partial class BGLeftMenuTableViewController : UITableViewController
 	{
-		public BGLeftMenuType Type 
-		{
-			get;
-			set;
-		}
+
+		private BGSlidingMenuTableSource channelsTypesTableSource = new BGSlidingMenuTableSource (BGLeftMenuType.Channels);
+		private BGSlidingMenuTableSource blahTypesTableSource = new BGSlidingMenuTableSource (BGLeftMenuType.BlahType);
 
 		public BGLeftMenuTableViewController (IntPtr handle) : base (handle)
 		{
-			Type = BGLeftMenuType.Channels;
 		}
 
 		public BGLeftMenuTableViewController() : base()
 		{
-			Type = BGLeftMenuType.Channels;
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("darkGrayBack.png"));
+            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("darkGrayBack"));
 			BlahguaCore.BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
-				if(e.PropertyName == "CurrentChannelList" || e.PropertyName == "CurrentChannelTypeList")
+
+				if(e.PropertyName == "CurrentChannelList" || e.PropertyName == "CurrentBlahTypes")
 				{
 					TableView.ReloadData();
 				}
 			};
-
+			SwitchTableSource (BGLeftMenuType.Channels);
 			TableView.TableFooterView = new UIView ();
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
-			TableView.Source = new BGSlidingMenuTableSource(Type);
-			TableView.ReloadData ();
 			base.ViewWillAppear (animated);
+			TableView.ReloadData ();
+		}
+
+		public void SwitchTableSource(BGLeftMenuType type)
+		{
+			TableView.DeselectRow (TableView.IndexPathForSelectedRow, false);
+			if (type == BGLeftMenuType.BlahType) {
+				TableView.Source = blahTypesTableSource;
+			} 
+			else
+			{
+				TableView.Source = channelsTypesTableSource;
+			}
+
+			TableView.ReloadData ();
+
+
 		}
 	}
 

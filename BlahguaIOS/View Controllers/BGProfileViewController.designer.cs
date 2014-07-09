@@ -16,15 +16,15 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField nicknameTextField { get; set; }
+		MonoTouch.UIKit.UITextField nicknameTextField { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIView profileView { get; set; }
+		MonoTouch.UIKit.UIView profileView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectImage { get; set; }
+		MonoTouch.UIKit.UIButton selectImage { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

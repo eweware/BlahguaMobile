@@ -359,13 +359,8 @@
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-      <LogicalName>
-      </LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resources.resx">
-      <LogicalName>
-      </LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Advertising.Mobile, Version=6.2.960.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

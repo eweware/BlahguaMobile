@@ -4,8 +4,11 @@ using System.CodeDom.Compiler;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.MessageUI;
 
 using BlahguaMobile.BlahguaCore;
+
+using BlahguaMobile.IOS;
 
 namespace BlahguaMobile.IOS
 {
@@ -17,10 +20,13 @@ namespace BlahguaMobile.IOS
 		private bool rememberMe = true;
 		private bool signUp = false;
 
+		private MFMailComposeViewController mailComposer;
+
 		#endregion
 
 		public BGAuthVewController (IntPtr handle) : base (handle)
 		{
+
 		}
 
 		#region View Controller Overridden Methods
@@ -35,25 +41,60 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = BGAppearanceHelper.GetColorForBackground ("signinBckg.png");
+			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
+			NavigationItem.RightBarButtonItem.Enabled = false;
+            //Synsoft on 9 July 2014 for inactive color  #bcbcbc
+            NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
-			NavigationItem.RightBarButtonItem.Enabled = true;
+            //Synsoft on 9 July 2014 for active color  #1FBBD1
+            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
 			};
 
+			var placeholderAttrs = new UIStringAttributes {
+				Font = UIFont.FromName (BGAppearanceConstants.FontName, 15),
+				ForegroundColor = UIColor.LightGray
+			};
+			var textAttrs = new UIStringAttributes {
+				Font = UIFont.FromName (BGAppearanceConstants.MediumFontName, 15),
+				ForegroundColor = UIColor.Black
+			};
+
+			usernameOrEmail.AttributedPlaceholder = new NSAttributedString (
+				"Username", 
+				placeholderAttrs
+			);
+			usernameOrEmail.AttributedText = new NSAttributedString ("", textAttrs);
+			usernameOrEmail.Background = UIImage.FromBundle ("input_back");
 			usernameOrEmail.ShouldReturn = delegate {
 				password.BecomeFirstResponder();
 				return false;
 			};
+			usernameOrEmail.AllEditingEvents += InputsEditingHandler;
+			usernameOrEmail.ReturnKeyType = UIReturnKeyType.Next;
+
+			password.AttributedPlaceholder = new NSAttributedString (
+				"Password", 
+				placeholderAttrs
+			);
+			password.AttributedText = new NSAttributedString ("", textAttrs);
+			password.Background = UIImage.FromBundle ("input_back");
 			password.ShouldReturn = delegate {
-				SignIn();
-				password.ResignFirstResponder();
 				return true;
 			};
+			password.AllEditingEvents += InputsEditingHandler;
+
+			confirmPassword.AttributedPlaceholder = new NSAttributedString (
+				"Confirm Password", 
+				placeholderAttrs
+			);
+			confirmPassword.AttributedText = new NSAttributedString ("", textAttrs);
+			confirmPassword.Background = UIImage.FromBundle ("input_back");
+			confirmPassword.AllEditingEvents += InputsEditingHandler;
 
 			SetMode (signUp);
 
@@ -62,32 +103,26 @@ namespace BlahguaMobile.IOS
 				Mode.SetImage(GetModeBackgroundImage(), UIControlState.Normal);
 				if(signUp)
 				{
-					password.AllEditingEvents += PasswordEditingHandler;
+
 					password.ReturnKeyType = UIReturnKeyType.Next;
 					password.ShouldReturn = delegate {
 						confirmPassword.BecomeFirstResponder();
 						return false;
 					};
 
-					confirmPassword.AllEditingEvents += PasswordEditingHandler;
+					confirmPassword.AllEditingEvents += InputsEditingHandler;
+
 					confirmPassword.ShouldReturn = delegate {
-						if(password.Text == confirmPassword.Text)
-						{
-							SignUp();
-						}
 						return true;
 					};
-
+					confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
 				}
 				else
 				{
-					NavigationItem.RightBarButtonItem.Enabled = true;
-					password.ReturnKeyType = UIReturnKeyType.Done;
-					password.AllEditingEvents -= PasswordEditingHandler;
-					confirmPassword.AllEditingEvents -= PasswordEditingHandler;
+
+					password.ReturnKeyType = UIReturnKeyType.Default;
 
 					password.ShouldReturn = delegate {
-						SignIn();
 						return true;
 					};
 				}
@@ -95,18 +130,36 @@ namespace BlahguaMobile.IOS
 			};
 
 			usernameOrEmail.ReturnKeyType = UIReturnKeyType.Next;
-			password.ReturnKeyType = UIReturnKeyType.Done;
+			password.ReturnKeyType = UIReturnKeyType.Default;
 
 			password.SecureTextEntry = true;
 			confirmPassword.SecureTextEntry = true;
 
-			RectangleF viewRectangleF = BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ?
-				new RectangleF (0, 517, 320, 51) : new RectangleF (0, 429, 320, 51);
-			UIView bottomView = new UIView (viewRectangleF);
-			bottomView.BackgroundColor = UIColor.White;
-
-
-
+			helpButton.Enabled = true;
+			helpButton.TouchUpInside += (object sender, EventArgs e) => {
+				if(MFMailComposeViewController.CanSendMail)
+				{
+					mailComposer = new MFMailComposeViewController();
+					mailComposer.SetToRecipients(new string[] { "info@goheard.com" });
+					mailComposer.Finished += (s, ev) => {
+						ev.Controller.DismissViewController(true, null);
+					};
+					PresentViewController(mailComposer, true, null);
+				}
+				else
+				{
+					var alert = new UIAlertView("Inforamtion", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
+					alert.Show();
+				}
+			};
+			aboutButton.Enabled = true;
+			aboutButton.TouchUpInside += (object sender, EventArgs e) => {
+				var url = NSUrl.FromString("http://www.goheard.com/"); 
+				if(UIApplication.SharedApplication.CanOpenUrl(url))
+				{
+					UIApplication.SharedApplication.OpenUrl(url);
+				}
+			};
 		}
 
 		public override bool PrefersStatusBarHidden()
@@ -120,6 +173,9 @@ namespace BlahguaMobile.IOS
 
 		private void DoneHandler(object sender, EventArgs args)
 		{
+			usernameOrEmail.ResignFirstResponder ();
+			password.ResignFirstResponder ();
+			confirmPassword.ResignFirstResponder ();
 			if(signUp)
 			{
 				SignUp ();
@@ -128,11 +184,12 @@ namespace BlahguaMobile.IOS
 			{
 				SignIn ();
 			}
+			NavigationItem.RightBarButtonItem.Enabled = false;
 		}
 
 		private void CancelHandler(object sender, EventArgs args)
 		{
-
+            NavigationController.PopViewControllerAnimated(true);
 		}
 
 		private void SignIn()
@@ -145,16 +202,40 @@ namespace BlahguaMobile.IOS
 			BlahguaAPIObject.Current.Register (usernameOrEmail.Text, password.Text, rememberMe, AuthenticationResultCallback);
 		}
 
-		private void PasswordEditingHandler(object sender, EventArgs e) {
-			if(password.Text != confirmPassword.Text || password.Text == String.Empty || password.Text == String.Empty)
+		private void InputsEditingHandler(object sender, EventArgs e) {
+			if(signUp)
 			{
-				NavigationItem.RightBarButtonItem.Enabled = false;
-				confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
+				if(password.Text != confirmPassword.Text || 
+				   String.IsNullOrEmpty(password.Text) || 
+				   String.IsNullOrEmpty(confirmPassword.Text) || 
+				   String.IsNullOrEmpty(usernameOrEmail.Text))
+				{
+					NavigationItem.RightBarButtonItem.Enabled = false;
+                    //Synsoft on 9 July 2014 for inactive 
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
+				}
+				else
+				{
+					NavigationItem.RightBarButtonItem.Enabled = true;
+                    //Synsoft on 9 July 2014
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+				}
 			}
 			else
 			{
-				NavigationItem.RightBarButtonItem.Enabled = true;
-				confirmPassword.ReturnKeyType = UIReturnKeyType.Done;
+				if(String.IsNullOrEmpty(password.Text) || 
+					String.IsNullOrEmpty(usernameOrEmail.Text))
+				{
+					NavigationItem.RightBarButtonItem.Enabled = false;
+                    //Synsoft on 9 July 2014 for inactive 
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
+				}
+				else
+				{
+					NavigationItem.RightBarButtonItem.Enabled = true;
+                    //Synsoft on 9 July 2014
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+				}
 			}
 		}
 
@@ -172,17 +253,21 @@ namespace BlahguaMobile.IOS
 		{
 			if (result == null)
 			{
-				InvokeOnMainThread (() => PerformSegue ("fromLoginToProfile", this));
+				InvokeOnMainThread (() => NavigationController.PopViewControllerAnimated(true));
+			}
+			else
+			{
+				InvokeOnMainThread (() => NavigationItem.RightBarButtonItem.Enabled = true );
 			}
 		}
 
 		private UIImage GetModeBackgroundImage()
 		{
-			return UIImage.FromFile (signUp ? "signupRadioButton.png" : "signupRadioButtonUn.png");
+			return UIImage.FromBundle (signUp ? "signupRadioButton" : "signupRadioButtonUn");
 		}
 			
 
-		partial void RememberMeAction (UIButton sender)
+		 void RememberMeAction (UIButton sender)
 		{
 			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
 			{
@@ -193,13 +278,13 @@ namespace BlahguaMobile.IOS
 
 			if(rememberMe)
 			{
-				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
-				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
+				rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
+                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
 			}
 			else
 			{
-				rememberMeYesButton.SetImage(UIImage.FromFile("rememberMeRadioButton_un.png"), UIControlState.Normal);
-				rememberMeNoButton.SetImage(UIImage.FromFile("rememberMeRadioButton.png"), UIControlState.Normal);
+                rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
+                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
 			}
 		}
 
