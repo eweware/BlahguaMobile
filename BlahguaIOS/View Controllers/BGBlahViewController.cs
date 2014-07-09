@@ -70,7 +70,8 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
+            //Synsoft on 9 July 2014 added title
+            this.Title = "Summary";
 			SetUpBaseLayout ();
 
 			SetUpHeaderView ();
@@ -100,6 +101,7 @@ namespace BlahguaMobile.IOS
 				var vc = (BGCommentsViewController)segue.DestinationViewController;
 				BlahguaAPIObject.Current.LoadBlahComments (vc.CommentsLoaded);
 				vc.parentViewController = this;
+               
 			} 
 
 
@@ -377,7 +379,19 @@ namespace BlahguaMobile.IOS
             commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 			commentsButton.TouchUpInside += (object sender, EventArgs e) => {
                 SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments_dark"), UIImage.FromBundle ("stats"));
-				PerformSegue("fromBlahViewToComments", this);
+                //Commented by Synsoft on 9 July 2014
+                //PerformSegue("fromBlahViewToComments", this);
+
+                //Synsoft on 9 July 2014 to add popup animation
+
+                AppDelegate objAppDelegate = new AppDelegate();
+                var myStoryboard = objAppDelegate.MainStoryboard;
+                BGCommentsViewController objBGCommentsViewController = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
+
+                UINavigationController objUINavigationController = new UINavigationController(objBGCommentsViewController);
+                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                this.PresentViewController(objUINavigationController, true, null);   
 			};
 			commentsView.CustomView = commentsButton;
 
@@ -386,7 +400,19 @@ namespace BlahguaMobile.IOS
             statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
                 SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
-				PerformSegue("fromBlahViewToStats", this);
+				//Commented by Synsoft on 9 July 2014 
+                //PerformSegue("fromBlahViewToStats", this);
+
+               //Synsoft on 9 July 2014 to add popup animation
+
+                AppDelegate objAppDelegate = new AppDelegate();
+                var myStoryboard = objAppDelegate.MainStoryboard;
+                BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+                UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
+                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                this.PresentViewController(objUINavigationController, true, null);   
 			};
 			statsView.CustomView = statsButton;
 		}

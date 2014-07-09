@@ -326,18 +326,18 @@ namespace BlahguaMobile.AndroidClient.Screens
             progress_actionbar.Visibility = ViewStates.Visible;
             btn_login.Visibility = ViewStates.Gone;
 
-            Toast.MakeText(this, "looking for server...", ToastLength.Short).Show();
+            //Toast.MakeText(this, "looking for server...", ToastLength.Short).Show();
 
-            loadTimer.Stop();
-            loadTimer.Interval = 10000;
-            loadTimer.Elapsed += delegate
-            {
-                RunOnUiThread(() =>
-                {
-                    Toast.MakeText(this, "still looking...", ToastLength.Short).Show();
-                });
-            };
-            loadTimer.Enabled = true;
+            //loadTimer.Stop();
+            //loadTimer.Interval = 10000;
+            //loadTimer.Elapsed += delegate
+            //{
+            //    RunOnUiThread(() =>
+            //    {
+            //        Toast.MakeText(this, "still looking...", ToastLength.Short).Show();
+            //    });
+            //};
+            //loadTimer.Enabled = true;
 
             ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
             BlahguaAPIObject.Current.UserName = _sharedPref.GetString("username", "");
@@ -393,7 +393,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                         };
                         avatarBar.Click += (sender, args) =>
                         {
-                            SlidingMenu.ShowSecondaryMenu();
+                            if (create_post_block.Visibility == ViewStates.Gone)
+                            {
+                                SlidingMenu.ShowSecondaryMenu();
+                            }
                         };
                         firstInit = false;
                     }
@@ -462,7 +465,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             Button btn_menu = FindViewById<Button>(Resource.Id.btn_menu);
             btn_menu.Click += delegate
             {
-                SlidingMenu.ShowMenu(true);
+                if (create_post_block.Visibility == ViewStates.Gone)
+                {
+                    SlidingMenu.ShowMenu(true);
+                }
             };
 
             SetBehindContentView(Resource.Layout.sidemenu_sorting);

@@ -45,6 +45,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;
+            list.ItemClick += (sender, args) => {
+                if (adapter != null)
+                {
+                    View listItem = HistoryUiHelper.getViewByPosition(args.Position, list);
+                    HistoryUiHelper.manageSwipe(listItem, true, false);
+                }
+            };
             //list.SetOnTouchListener(Activity);
             no_entries = fragment.FindViewById<LinearLayout>(Resource.Id.no_entries);
             no_entries.Visibility = ViewStates.Visible;

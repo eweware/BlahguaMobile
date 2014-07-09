@@ -103,19 +103,42 @@ namespace BlahguaMobile.IOS
 		{
 			if(BlahguaAPIObject.Current.CurrentUser != null)
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
-
-			NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
-				if(CurrentComment != null)
-				{
-					CurrentComment = null;
-					contentView.ReloadData();
-				}
-				else
-				{
-					NavigationController.PopToViewController(parentViewController, true);
-				}
-			});
+            //Synsoft on 9 July 2014 to add back button
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
+          
+            //Commented by Synsoft 9 July 2014
+            //NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
+            //    //Synsoft on 9 July 2014 for active color  #1FBBD1
+            //    NavigationItem.BackBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+            //    if(CurrentComment != null)
+            //    {
+            //        CurrentComment = null;
+            //        contentView.ReloadData();
+            //    }
+            //    else
+            //    {
+            //        NavigationController.PopToViewController(parentViewController, true);
+            //    }
+            //});
 		}
+
+        //Synsoft on 9 July 2014 for back handler
+        private void BackHandler(object sender, EventArgs args)
+        {
+            //Synsoft on 9 July 2014 for active color  #1FBBD1
+            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+            if (CurrentComment != null)
+            {
+                CurrentComment = null;
+                contentView.ReloadData();
+            }
+            else
+            {
+                DismissViewController(true, null);
+            }
+            
+           
+        }
 
 		private void SetUpBaseLayout()
 		{
@@ -276,7 +299,19 @@ namespace BlahguaMobile.IOS
             statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
                 SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
-				PerformSegue("fromCommentsToStats", this);
+                //Commented by Synsoft on 9 July 2014
+               // PerformSegue("fromCommentsToStats", this);
+               
+                //Synsoft on 9 July 2014 to add popup animation
+
+                AppDelegate objAppDelegate = new AppDelegate();
+                var myStoryboard = objAppDelegate.MainStoryboard;
+                BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+                UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
+                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                this.PresentViewController(objUINavigationController, true, null);
 			};
 			statsView.CustomView = statsButton;
 		}
@@ -331,6 +366,7 @@ namespace BlahguaMobile.IOS
 					isWriteMode = false;
 				}
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
+                NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
 			}
 			else
@@ -344,6 +380,8 @@ namespace BlahguaMobile.IOS
 				}
 				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
+                //Synsoft on 9 July 2014 for active color  #1FBBD1
+                NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 				View.AddSubview (newCommentViewController.View);
 				newYCoordDiff += 246f;
 				isWriteMode = true;

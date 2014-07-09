@@ -45,7 +45,11 @@ namespace BlahguaMobile.IOS
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
+            //Synsoft on 9 July 2014 for inactive color  #bcbcbc
+            NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
+            //Synsoft on 9 July 2014 for active color  #1FBBD1
+            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
@@ -185,7 +189,7 @@ namespace BlahguaMobile.IOS
 
 		private void CancelHandler(object sender, EventArgs args)
 		{
-
+            NavigationController.PopViewControllerAnimated(true);
 		}
 
 		private void SignIn()
@@ -207,10 +211,14 @@ namespace BlahguaMobile.IOS
 				   String.IsNullOrEmpty(usernameOrEmail.Text))
 				{
 					NavigationItem.RightBarButtonItem.Enabled = false;
+                    //Synsoft on 9 July 2014 for inactive 
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 				}
 				else
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
+                    //Synsoft on 9 July 2014
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 				}
 			}
 			else
@@ -219,10 +227,14 @@ namespace BlahguaMobile.IOS
 					String.IsNullOrEmpty(usernameOrEmail.Text))
 				{
 					NavigationItem.RightBarButtonItem.Enabled = false;
+                    //Synsoft on 9 July 2014 for inactive 
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 				}
 				else
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
+                    //Synsoft on 9 July 2014
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 				}
 			}
 		}

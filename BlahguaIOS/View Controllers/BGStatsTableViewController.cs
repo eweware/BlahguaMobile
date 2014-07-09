@@ -33,6 +33,10 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+            //Synsoft on 7 July 2014 added title
+            this.Title = "Stats";
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
+
 			Dictionary<string, string> source = new Dictionary<string, string> ();
 			if(CurrentBlah != null)
 			{
@@ -64,6 +68,11 @@ namespace BlahguaMobile.IOS
 			}
 			TableView.Source = new BGStatsTableSource (source);
 		}
+
+        private void BlahHandler(object sender, EventArgs args)
+        {
+            DismissViewController(true, null);
+        }
 
 		public void SetParentViewController (UIViewController parentViewController)
 		{

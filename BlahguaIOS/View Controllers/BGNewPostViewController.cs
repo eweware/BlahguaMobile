@@ -132,14 +132,15 @@ namespace BlahguaMobile.IOS
 				"Done", 
 				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
 				UIColor.White), UIControlState.Normal);
-			if(!String.IsNullOrEmpty(titleInput.Text))
-			{
-				done.Enabled = true;
-			}
-			else
-			{
-				done.Enabled = false;
-			}
+
+            if (!string.IsNullOrEmpty(titleInput.Text))
+            {
+                done.Enabled = true;
+            }
+            else
+            {
+                done.Enabled = false;
+            }
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
 			};
@@ -197,12 +198,12 @@ namespace BlahguaMobile.IOS
 		public void Done()
 		{
 			if(!String.IsNullOrEmpty(titleInput.Text))
-			{
+            {
 				NewPost.F = titleInput.Text;
 				NewPost.T = bodyInput.Text;
 				DateTime expDate;
-				if (DateTime.TryParse (expirationDateInput.Text, out expDate))
-					NewPost.ExpirationDate = expDate;
+                if (DateTime.TryParse (expirationDateInput.Text, out expDate))
+                    NewPost.ExpirationDate = expDate;
 				if(NewPost.I != null && NewPost.I.Count > 0)
 				{
 					foreach(var pi in NewPost.I)
