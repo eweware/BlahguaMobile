@@ -66,11 +66,11 @@
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Controls.BarChart.Android">
-      <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Text">
       <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Controls.BarChart.Android">
+      <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
