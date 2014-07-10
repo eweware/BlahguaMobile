@@ -64,36 +64,32 @@ namespace BlahguaMobile.IOS
 
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
-            this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
-            CollectionView.BackgroundColor = UIColor.Clear;
+			this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
+			CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
 
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
-            //Synsoft on 9 July 2014 for active color  #1FBBD1
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+			NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle ("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
+			//Synsoft on 9 July 2014 for active color #1FBBD1
+			NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
 
-			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
-			{
-				if(e.PropertyName == "CurrentChannel")
-				{
-					CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-					InvokeOnMainThread(() => {
+			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
+				if (e.PropertyName == "CurrentChannel") {
+					CollectionView.ScrollToItem (NSIndexPath.FromItemSection (0, 0), UICollectionViewScrollPosition.Top, true);
+					InvokeOnMainThread (() => {
 						Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 						var dataSource = ((BGRollViewDataSource)CollectionView.DataSource);
-						dataSource.DataSource.Clear();
-						CollectionView.ReloadData();
+						dataSource.DataSource.Clear ();
+						CollectionView.ReloadData ();
 					});
 					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 				}
 			};
 
-			if(BlahguaAPIObject.Current.CurrentUser != null)
-				BlahguaAPIObject.Current.CurrentUser.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
-				{
-					if(usernameLabel.Text != ((User)sender).UserName)
-					{
-						SetUsername(BlahguaAPIObject.Current.CurrentUser.UserName);
+			if (BlahguaAPIObject.Current.CurrentUser != null)
+				BlahguaAPIObject.Current.CurrentUser.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
+					if (usernameLabel.Text != ((User)sender).UserName) {
+						SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
 					}
 				};
 				
@@ -127,40 +123,40 @@ namespace BlahguaMobile.IOS
 
 		#region Methods
 
-		public void AutoScroll()
+		public void AutoScroll ()
 		{
-			UIView.Animate(0.05, 0, 
-				UIViewAnimationOptions.CurveLinear | 
-				UIViewAnimationOptions.AllowUserInteraction | 
+			UIView.Animate (0.05, 0, 
+				UIViewAnimationOptions.CurveLinear |
+				UIViewAnimationOptions.AllowUserInteraction |
 				UIViewAnimationOptions.AllowAnimatedContent,
 				() => { 
-					if(!NaturalScrollInProgress)
-						CollectionView.ContentOffset = new PointF(0, CollectionView.ContentOffset.Y + 1);
+					if (!NaturalScrollInProgress)
+						CollectionView.ContentOffset = new PointF (0, CollectionView.ContentOffset.Y + 1);
 				}, AutoScroll);
 		}
-			
 
-		public void RefreshData()
+
+		public void RefreshData ()
 		{
 			BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 		}
 
-		public void DeleteFirst200Items()
+		public void DeleteFirst200Items ()
 		{
 			((BGRollViewDataSource)CollectionView.DataSource).DeleteFirst350Items ();
 		}
 
-		private void SetSrollingAvailability(bool enabled)
+		private void SetSrollingAvailability (bool enabled)
 		{
 			NaturalScrollInProgress = !enabled;
 		}
 
-		private void MenuButtonClicked(object sender, EventArgs args)
+		private void MenuButtonClicked (object sender, EventArgs args)
 		{
 			leftSlidingMenu.ToggleMenuAnimated ();
 		}
 
-		private void LoginButtonClicked(object sender, EventArgs args)
+		private void LoginButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToLogin", this);
 		}
@@ -174,31 +170,26 @@ namespace BlahguaMobile.IOS
 				InboxLoadingCompleted (theList);
 			});
 		}
-			
-		private void InboxLoadingCompleted(Inbox inbox)
+
+		private void InboxLoadingCompleted (Inbox inbox)
 		{
 			InvokeOnMainThread (() => {
-				((BGRollViewDataSource)CollectionView.DataSource).InsertItems(inbox);
+				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
 			});
 		}
 
-		private void PrepareRightBarButton()
+		private void PrepareRightBarButton ()
 		{
-			if(BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null)
-			{
-				if(NavigationItem.RightBarButtonItems == null)
-				{
-				    NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-                    //Synsoft On 9 July 2014
-                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-                    //commented by Synsoft on 9 July 2014
-                    //NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
+				if (NavigationItem.RightBarButtonItems == null) {
+					NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+					//Synsoft On 9 July 2014
+					NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
+					//commented by Synsoft on 9 July 2014
+					//NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
 				}
-			}
-			else 
-			{
-				if (NavigationItem.RightBarButtonItems.Length < 2) 
-				{
+			} else {
+				if (NavigationItem.RightBarButtonItems.Length < 2) {
 					if (rightViewContainer == null)
 						PrepareRightMenu ();
 					profile = new UIButton (new RectangleF (44, 0, 44, 44));
@@ -225,19 +216,15 @@ namespace BlahguaMobile.IOS
 		{
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
-			if(isNewPostMode)
-			{
+			if (isNewPostMode) {
 				CollectionView.Hidden = false;
 				isNewPostMode = false;
 				newPostViewController.View.RemoveFromSuperview ();
 				SetSrollingAvailability (true);
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
-			}
-			else
-			{
+			} else {
 				SetSrollingAvailability (false);
-				if(newPostViewController == null)
-				{
+				if (newPostViewController == null) {
 					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
 						.MainStoryboard
 						.InstantiateViewController ("BGNewPostViewController");
@@ -254,13 +241,13 @@ namespace BlahguaMobile.IOS
 			UIView.CommitAnimations ();
 		}
 
-		private void UpdateRightMenu()
+		private void UpdateRightMenu ()
 		{
 			profileImage.Image = GetProfileImage ();
 			SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
 		}
 
-		private void PrepareRightMenu()
+		private void PrepareRightMenu ()
 		{
 			rightViewContainer = new UIView (BGAppearanceConstants.InitialRightViewContainerFrame);
 			rightViewContainer.BackgroundColor = UIColor.Clear;
@@ -272,18 +259,18 @@ namespace BlahguaMobile.IOS
 			rightViewContainer.AddGestureRecognizer (tapGesture);
 
 			rightView = new UIView (BGAppearanceConstants.RightViewFrame);
-			rightView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+			rightView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
 			float yCoord = 0;
 
 			float profileImageHeight = BGAppearanceConstants.RightViewFrame.Width, profileImageWidth = profileImageHeight;
-			profileImage = new UIImageView(new RectangleF (0, yCoord, profileImageHeight, profileImageWidth));
+			profileImage = new UIImageView (new RectangleF (0, yCoord, profileImageHeight, profileImageWidth));
 			profileImage.Image = GetProfileImage ();
 			yCoord += profileImageHeight;
 
 			rightView.Add (profileImage);
 
-			usernameLabel = new UILabel(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 20));
+			usernameLabel = new UILabel (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 20));
 			usernameLabel.TextAlignment = UITextAlignment.Center;
 			usernameLabel.BackgroundColor = UIColor.White;
 			yCoord += 21;
@@ -291,13 +278,13 @@ namespace BlahguaMobile.IOS
 
 			rightView.Add (usernameLabel);
 
-			profileButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			profileButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
 			profileButton.UserInteractionEnabled = true;
 			profileButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			profileButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+			profileButton.SetAttributedTitle (new NSAttributedString ("Profile", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			profileButton.SetAttributedTitle (new NSAttributedString("Profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+			profileButton.SetAttributedTitle (new NSAttributedString ("Profile", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			profileButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			profileButton.BackgroundColor = UIColor.White;
@@ -308,13 +295,13 @@ namespace BlahguaMobile.IOS
 
 			yCoord += 45.0f;
 
-			badgesButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
+			badgesButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
 			badgesButton.UserInteractionEnabled = true;
 			badgesButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			badgesButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
+			badgesButton.SetAttributedTitle (new NSAttributedString ("Badges", UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			badgesButton.SetAttributedTitle (new NSAttributedString("Badges", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
+			badgesButton.SetAttributedTitle (new NSAttributedString ("Badges", UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			badgesButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			badgesButton.BackgroundColor = UIColor.White;
@@ -325,13 +312,13 @@ namespace BlahguaMobile.IOS
 
 			yCoord += 33.0f;
 
-			demographicsButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
+			demographicsButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 32.0f));
 			demographicsButton.UserInteractionEnabled = true;
 			demographicsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			demographicsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black), 
+			demographicsButton.SetAttributedTitle (new NSAttributedString ("Demographics", UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			demographicsButton.SetAttributedTitle (new NSAttributedString("Demographics", UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.White), 
+			demographicsButton.SetAttributedTitle (new NSAttributedString ("Demographics", UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			demographicsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			demographicsButton.BackgroundColor = UIColor.White;
@@ -342,13 +329,13 @@ namespace BlahguaMobile.IOS
 
 			yCoord += 33.0f;
 
-			historyButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			historyButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
 			historyButton.UserInteractionEnabled = true;
 			historyButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			historyButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+			historyButton.SetAttributedTitle (new NSAttributedString ("History", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			historyButton.SetAttributedTitle (new NSAttributedString("History", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+			historyButton.SetAttributedTitle (new NSAttributedString ("History", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			historyButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			historyButton.BackgroundColor = UIColor.White;
@@ -359,13 +346,13 @@ namespace BlahguaMobile.IOS
 
 			yCoord += 45.0f;
 
-			statsButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			statsButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
 			statsButton.UserInteractionEnabled = true;
 			statsButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			statsButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+			statsButton.SetAttributedTitle (new NSAttributedString ("Stats", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			statsButton.SetAttributedTitle (new NSAttributedString("Stats", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+			statsButton.SetAttributedTitle (new NSAttributedString ("Stats", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			statsButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			statsButton.BackgroundColor = UIColor.White;
@@ -376,13 +363,13 @@ namespace BlahguaMobile.IOS
 
 			yCoord += 45.0f;
 
-			logoutButton = new UIButton(new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
+			logoutButton = new UIButton (new RectangleF (0, yCoord, BGAppearanceConstants.RightViewFrame.Width, 44.0f));
 			logoutButton.UserInteractionEnabled = true;
 			logoutButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 			logoutButton.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
+			logoutButton.SetAttributedTitle (new NSAttributedString ("LOG OUT", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.Black), 
 				UIControlState.Normal);
-			logoutButton.SetAttributedTitle (new NSAttributedString("LOG OUT", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
+			logoutButton.SetAttributedTitle (new NSAttributedString ("LOG OUT", UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.White), 
 				UIControlState.Selected);
 			logoutButton.SetBackgroundImage (UIImage.FromBundle ("greenBack"), UIControlState.Selected);
 			logoutButton.BackgroundColor = UIColor.Clear;
@@ -401,37 +388,37 @@ namespace BlahguaMobile.IOS
 			View.BringSubviewToFront (rightViewContainer);
 
 			rightViewContainerXConstraint = NSLayoutConstraint.Create (
-								rightViewContainer, 
-								NSLayoutAttribute.Leading, 
-								NSLayoutRelation.Equal, 
-								View,
-				                NSLayoutAttribute.Trailing, 
-								1, 
-								0);
+				rightViewContainer, 
+				NSLayoutAttribute.Leading, 
+				NSLayoutRelation.Equal, 
+				View,
+				NSLayoutAttribute.Trailing, 
+				1, 
+				0);
 			var constraintTop = NSLayoutConstraint.Create (
-				                        rightViewContainer, 
-				                        NSLayoutAttribute.Top, 
-				                        NSLayoutRelation.Equal, 
-				                        View,
-				                        NSLayoutAttribute.Top, 
-				                        1, 
-				                        0);
+				                    rightViewContainer, 
+				                    NSLayoutAttribute.Top, 
+				                    NSLayoutRelation.Equal, 
+				                    View,
+				                    NSLayoutAttribute.Top, 
+				                    1, 
+				                    0);
 			var constraintBottom = NSLayoutConstraint.Create (
-				                           rightViewContainer, 
-				                           NSLayoutAttribute.Bottom, 
-				                           NSLayoutRelation.Equal, 
-				                           View,
-				                           NSLayoutAttribute.Bottom, 
-				                           1, 
-				                           0);
+				                       rightViewContainer, 
+				                       NSLayoutAttribute.Bottom, 
+				                       NSLayoutRelation.Equal, 
+				                       View,
+				                       NSLayoutAttribute.Bottom, 
+				                       1, 
+				                       0);
 			var constraintWidth = NSLayoutConstraint.Create (
-				                          rightViewContainer, 
-				                          NSLayoutAttribute.Width, 
-				                          NSLayoutRelation.Equal, 
-				                          null,
-				                          NSLayoutAttribute.NoAttribute, 
-				                          1, 
-				                          BGAppearanceConstants.RightViewFrame.Width);
+				                      rightViewContainer, 
+				                      NSLayoutAttribute.Width, 
+				                      NSLayoutRelation.Equal, 
+				                      null,
+				                      NSLayoutAttribute.NoAttribute, 
+				                      1, 
+				                      BGAppearanceConstants.RightViewFrame.Width);
 			View.AddConstraints (new NSLayoutConstraint[] {
 				rightViewContainerXConstraint, 
 				constraintBottom,
@@ -446,12 +433,12 @@ namespace BlahguaMobile.IOS
 
 		}
 
-		private void ProfileButtonClicked(object sender, EventArgs args)
+		private void ProfileButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToProfile", this);
 		}
 
-		private void BadgesButtonClicked(object sender, EventArgs args)
+		private void BadgesButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToBadges", this);
 		}
@@ -463,12 +450,12 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
-		private void HistoryButtonClicked(object sender, EventArgs args)
+		private void HistoryButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToHistory", this);
 		}
 
-		private void StatsButtonClicked(object sender, EventArgs args)
+		private void StatsButtonClicked (object sender, EventArgs args)
 		{
 			BlahguaAPIObject.Current.LoadUserStatsInfo ((userInfo) => {
 				InvokeOnMainThread (() => {
@@ -477,7 +464,7 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
-		private void LogoutButtonClicked(object sender, EventArgs args)
+		private void LogoutButtonClicked (object sender, EventArgs args)
 		{
 			BlahguaAPIObject.Current.SignOut (null, SignoutCompleted);
 
@@ -485,39 +472,34 @@ namespace BlahguaMobile.IOS
 
 		private void SignoutCompleted (bool didIt)
 		{
-			if(didIt)
-			{
+			if (didIt) {
 				InvokeOnMainThread (() => {
 					ToggleRightMenu ();
-					View.RemoveGestureRecognizer(RightMenuPanRecognizer);
+					View.RemoveGestureRecognizer (RightMenuPanRecognizer);
 					PrepareRightBarButton ();
 				});
 			}
 		}
 
-		private void ToggleRightMenu()
+		private void ToggleRightMenu ()
 		{
-			if(isOpened)
-			{
+			if (isOpened) {
 				SetSrollingAvailability (true);
 				ResetToStartPosition (true);
 				isOpened = false;
-			}
-			else
-			{
+			} else {
 				SetSrollingAvailability (false);
 				SetFinalContainerViewPosition (true);
 				isOpened = true;
 			}
 		}
 
-		public void PanRightView(UIPanGestureRecognizer recognizer)
+		public void PanRightView (UIPanGestureRecognizer recognizer)
 		{
-			switch(recognizer.State)
-			{
+			switch (recognizer.State) {
 
 			case UIGestureRecognizerState.Began:
-				panStartPoint = recognizer.TranslationInView(rightViewContainer);
+				panStartPoint = recognizer.TranslationInView (rightViewContainer);
 				break;
 			case UIGestureRecognizerState.Changed:
 				PointF currentPoint = recognizer.TranslationInView (rightViewContainer);
@@ -563,24 +545,18 @@ namespace BlahguaMobile.IOS
 				}
 				break;
 			case UIGestureRecognizerState.Ended:
-				if (startingLayoutRight == 0) 
-				{
+				if (startingLayoutRight == 0) {
 					float position = BGAppearanceConstants.RightViewFrame.Width / 2 - 1;
-					if (rightViewContainer.Frame.X < position) 
-					{
+					if (rightViewContainer.Frame.X < position) {
 						SetFinalContainerViewPosition (true);
-					} else 
-					{
+					} else {
 						ResetToStartPosition (true);
 					}
-				} else 
-				{
+				} else {
 					float position = BGAppearanceConstants.RightViewFrame.Width / 2;
-					if (rightViewContainer.Frame.X < position) 
-					{
+					if (rightViewContainer.Frame.X < position) {
 						SetFinalContainerViewPosition (true);
-					} else 
-					{
+					} else {
 						ResetToStartPosition (true);
 					}
 				}
@@ -597,61 +573,60 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public void ResetToStartPosition(bool animated)
+		public void ResetToStartPosition (bool animated)
 		{
 			if (startingLayoutRight == 0 &&
-				rightViewContainer.Frame.X == 0) {
+			    rightViewContainer.Frame.X == 0) {
 				return;
 			}
 
 			rightViewContainerXConstraint.Constant = 0;
 
-			UpdateConstraintsIfNeeded(animated, () => {
+			UpdateConstraintsIfNeeded (animated, () => {
 				CollectionView.UserInteractionEnabled = true;
 				leftSlidingMenu.SetGesturesState (true);
 				startingLayoutRight = rightViewContainerXConstraint.Constant;
 			});
 		}
 
-		public void SetFinalContainerViewPosition(bool animated)
+		public void SetFinalContainerViewPosition (bool animated)
 		{
 			if (startingLayoutRight == BGAppearanceConstants.RightViewFrame.Width &&
-				rightViewContainer.Frame.X == BGAppearanceConstants.RightViewFrame.Width) {
+			    rightViewContainer.Frame.X == BGAppearanceConstants.RightViewFrame.Width) {
 				return;
 			}
 
 			rightViewContainerXConstraint.Constant = -320;
 
-			UpdateConstraintsIfNeeded(animated,() => {
+			UpdateConstraintsIfNeeded (animated, () => {
 				CollectionView.UserInteractionEnabled = false;
-				View.BringSubviewToFront(rightViewContainer);
+				View.BringSubviewToFront (rightViewContainer);
 				leftSlidingMenu.SetGesturesState (false);
 				startingLayoutRight = -rightViewContainerXConstraint.Constant;
 			});
 		}
 
-		private void UpdateConstraintsIfNeeded(bool animated, NSAction completionHandler)
+		private void UpdateConstraintsIfNeeded (bool animated, NSAction completionHandler)
 		{
 			float duration = 0;
-			if(animated)
-			{
+			if (animated) {
 				duration = 0.3f;
 			}
 
 			UIView.Animate (duration, () => {
-				View.LayoutIfNeeded();
+				View.LayoutIfNeeded ();
 			}, completionHandler);
 		}
 
-		private UIImage GetProfileImage()
+		private UIImage GetProfileImage ()
 		{
 			return ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
 		}
 
-		private void SetUsername(string text)
+		private void SetUsername (string text)
 		{
 			usernameLabel.AttributedText = new NSAttributedString (text, 
-				UIFont.FromName(BGAppearanceConstants.BoldFontName, 15), UIColor.Black);
+				UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.Black);
 		}
 
 		#endregion
@@ -678,8 +653,7 @@ namespace BlahguaMobile.IOS
 
 		public override bool ShouldReceiveTouch (UIGestureRecognizer recognizer, UITouch touch)
 		{
-			if(touch.View is UIButton)
-			{
+			if (touch.View is UIButton) {
 				return false;
 			}
 			return true;
