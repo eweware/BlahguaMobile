@@ -10,13 +10,15 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Drawing;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGStatsTableViewController : UITableViewController
+	public partial class BGStatsTableViewController : UIViewController
 	{
 		private UIViewController parentViewController;
-
+        UIScrollView scrollView;
+        
 		private Blah CurrentBlah
 		{
 			get
@@ -30,44 +32,72 @@ namespace BlahguaMobile.IOS
 
 		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-            //Synsoft on 7 July 2014 added title
-            this.Title = "Stats";
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
+        public override void ViewDidLoad()
+        {
 
-			Dictionary<string, string> source = new Dictionary<string, string> ();
-			if(CurrentBlah != null)
-			{
-				source.Add ("Opened: ", CurrentBlah.O.ToString ());
-				source.Add ("Viewed: ", CurrentBlah.V.ToString ());
-				source.Add ("Promotes: ", CurrentBlah.P.ToString ());
-				source.Add ("Demotes: ", CurrentBlah.D.ToString ());
-				source.Add ("Comments: ", CurrentBlah.C.ToString ());
-			}
-			else if(BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
-			{
-				var userInfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
-				int userViews, opens, creates, comments, views;
-				userViews = opens = creates = comments = views = 0;
+            try
+            {
+                base.ViewDidLoad();
 
-				for(int i = 0; i < userInfo.DayCount; i++)
-				{
-					userViews += userInfo.UserViews (i);
-					opens += userInfo.Opens (i);
-					creates += userInfo.UserCreates (i);
-					comments += userInfo.UserComments (i);
-					views += userInfo.Views (i);
-				}
-				source.Add ("Openes: ", opens.ToString());
-				source.Add ("Viewes: ", views.ToString());
-				source.Add ("Creates: ", creates.ToString ());
-				source.Add ("User Views: ", userViews.ToString ());
-				source.Add ("Comments: ", comments.ToString ());
-			}
-			TableView.Source = new BGStatsTableSource (source);
-		}
+                //Synsoft on 9 July 2014 added title
+                this.Title = "Stats";
+                NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
+               
+                //Synsoft on 10 June 2014 
+                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
+                
+                Dictionary<string, string> source = new Dictionary<string, string>();
+                
+                //Synsoft on 10 June 2014 
+                if (CurrentBlah != null)
+                {
+                    //lblHeardScore.Text = CurrentBlah.
+                    //lblOpenedImpression.Text = CurrentBlah
+                    lblConversionRatio.Text = CurrentBlah.ConversionString.ToString();
+                    lblOpen.Text = CurrentBlah.O.ToString();
+                    lblDemotes.Text = CurrentBlah.D.ToString();
+                    lblPromotes.Text = CurrentBlah.P.ToString();
+                    lblComment.Text = CurrentBlah.C.ToString();
+                    lblImpression.Text = CurrentBlah.ImpressionString.ToString();
+                }
+                //commented by Synsoft on 10 June 2014 -- old code using table source
+                //if (CurrentBlah != null)
+                //{
+                //    source.Add("Opened: ", CurrentBlah.O.ToString());
+                //    source.Add("Viewed: ", CurrentBlah.V.ToString());
+                //    source.Add("Promotes: ", CurrentBlah.P.ToString());
+                //    source.Add("Demotes: ", CurrentBlah.D.ToString());
+                //    source.Add("Comments: ", CurrentBlah.C.ToString());
+                //}
+                else if (BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
+                {
+                    var userinfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
+                    int userviews, opens, creates, comments, views;
+                    userviews = opens = creates = comments = views = 0;
+
+                    for (int i = 0; i < userinfo.DayCount; i++)
+                    {
+                        userviews += userinfo.UserViews(i);
+                        opens += userinfo.Opens(i);
+                        creates += userinfo.UserCreates(i);
+                        comments += userinfo.UserComments(i);
+                        views += userinfo.Views(i);
+                    }
+
+                    lblOpen.Text = opens.ToString();
+                    lblComment.Text = comments.ToString();
+                }
+                //commented by Synsoft on 10 June 2014 -- old code using table source
+                //TableView.Source = new BGStatsTableSource (source);
+                //new BGStatsTableSource(source);
+            }
+            catch(Exception e)
+            {
+                e.Message.ToString();
+
+            }
+
+        }
 
         private void BlahHandler(object sender, EventArgs args)
         {
@@ -80,7 +110,9 @@ namespace BlahguaMobile.IOS
 		}
 	}
 
-	public class BGStatsTableSource : UITableViewSource
+    //commented by Synsoft on 10 June 2014 -- old code using table source
+
+	/*public class BGStatsTableSource : UITableViewSource
 	{
 		private Dictionary<string, string> source;
 
@@ -106,5 +138,5 @@ namespace BlahguaMobile.IOS
 		{
 			return 1;
 		}
-	}
+	}*/
 }

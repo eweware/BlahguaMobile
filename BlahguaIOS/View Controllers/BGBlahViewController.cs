@@ -399,20 +399,30 @@ namespace BlahguaMobile.IOS
 			statsButton.Frame = new RectangleF (0, 0, 26, 17);
             statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
-				//Commented by Synsoft on 9 July 2014 
-                //PerformSegue("fromBlahViewToStats", this);
+
+
+                try
+                {
+                    SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+                    //Commented by Synsoft on 9 July 2014 
+                   // PerformSegue("fromBlahViewToStats", this);
+                    AppDelegate objAppDelegate = new AppDelegate();
+                    var myStoryboard = objAppDelegate.MainStoryboard;
+                    BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+                    UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
+                    objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                    this.PresentViewController(objUINavigationController, true, null);   
+                }
+                catch (Exception ex)
+                {
+                    ex.Message.ToString();
+                }
 
                //Synsoft on 9 July 2014 to add popup animation
 
-                AppDelegate objAppDelegate = new AppDelegate();
-                var myStoryboard = objAppDelegate.MainStoryboard;
-                BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
 
-                UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
-                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-
-                this.PresentViewController(objUINavigationController, true, null);   
 			};
 			statsView.CustomView = statsButton;
 		}

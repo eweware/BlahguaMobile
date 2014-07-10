@@ -31,12 +31,12 @@ namespace BlahguaMobile.IOS
 			TableView.Source = new BGSignaturesTableSource (this);
 		}
 
-		partial void Done (NSObject sender)
+		partial void Done (MonoTouch.UIKit.UIBarButtonItem sender)
 		{
 			DismissViewController(true, null);
 		}
 
-		partial void SelectAll (NSObject sender)
+        partial void SelectAll(MonoTouch.UIKit.UIBarButtonItem sender)
 		{
 			int count = TableView.NumberOfRowsInSection(0);
 			for(int i = 0; i < count; i++)
