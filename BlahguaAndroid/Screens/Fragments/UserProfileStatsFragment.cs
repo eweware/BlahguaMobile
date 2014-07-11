@@ -40,13 +40,21 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, views, opens, comments, userviews, useropens, usercreates, usercomments);
 
-            TextView conversion = fragment.FindViewById<TextView>(Resource.Id.conversion);
-            TextView impression = fragment.FindViewById<TextView>(Resource.Id.impression);
             TextView score = fragment.FindViewById<TextView>(Resource.Id.score);
-            TextView promotes = fragment.FindViewById<TextView>(Resource.Id.promotes);
-            TextView demotes = fragment.FindViewById<TextView>(Resource.Id.demotes);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, conversion, impression, score, promotes, demotes);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, score);
+
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal,
+                                fragment.FindViewById<TextView>(Resource.Id.t1),
+                                fragment.FindViewById<TextView>(Resource.Id.t2),
+                                fragment.FindViewById<TextView>(Resource.Id.t3),
+                                fragment.FindViewById<TextView>(Resource.Id.t4),
+                                fragment.FindViewById<TextView>(Resource.Id.t5),
+                                fragment.FindViewById<TextView>(Resource.Id.t6),
+                                fragment.FindViewById<TextView>(Resource.Id.t7),
+                                fragment.FindViewById<TextView>(Resource.Id.t8),
+                                fragment.FindViewById<TextView>(Resource.Id.t9));
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 

@@ -56,6 +56,52 @@
   <string name="profilemenu_history">History</string>
   <string name="profilemenu_stats">Stats</string>
   <string name="profilemenu_logout">Logout</string>
+
+  <!-- CREATE POST SCREEN -->
+  <string name="create_post_type_say">Say</string>
+  <string name="create_post_type_predict">Predict</string>
+  <string name="create_post_type_poll">Poll</string>
+  <string name="create_post_type_ask">Ask</string>
+  <string name="create_post_type_leak">Leak</string>
+  <string name="create_post_select_image_btn">Select image</string>
+  <string name="create_post_select_sign_btn">Select signature</string>
+  <string name="create_post_add_more_options_btn">+ Add more options</string>
+  <string name="create_post_hint_edit_title">TYPE HEADLINE (64)</string>
+  <string name="create_post_hint_edit_body">Type body text</string>
+  <string name="create_post_hint_edit_prediction_date">Type prediction expiration date (mm/dd/yyyy)</string>
+  <string name="create_post_hint_edit_poll_option_1">Type poll option #1</string>
+  <string name="create_post_hint_edit_poll_option_2">Type poll option #2</string>
+  <string name="create_post_hint_edit_poll_option_3">Type poll option #3</string>
+  <string name="create_post_hint_edit_poll_option_4">Type poll option #4</string>
+  <string name="create_post_hint_edit_poll_option_5">Type poll option #5</string>
+  <string name="create_post_hint_edit_poll_option_6">Type poll option #6</string>
+  <string name="create_post_hint_edit_poll_option_7">Type poll option #7</string>
+  <string name="create_post_hint_edit_poll_option_8">Type poll option #8</string>
+  <string name="create_post_hint_edit_poll_option_9">Type poll option #9</string>
+  <string name="create_post_hint_edit_poll_option_10">Type poll option #10</string>
+
+  <!-- VIEWPOST STATS SCREEN -->
+  <string name="viewpost_stats_info_title">Audience response</string>
+  <string name="viewpost_stats_info">Key statistical data for this post. The heard score is an overall rating computed by assigning different weights to different data metrics.</string>
+  <string name="viewpost_stats_heard_score">heard score:</string>
+  <string name="viewpost_stats_convers_ratio">Conversion Ratio:</string>
+  <string name="viewpost_stats_impressions">Impressions:</string>
+  <string name="viewpost_stats_views_count">Views count:</string>
+  <string name="viewpost_stats_opens_count">Opens count:</string>
+  <string name="viewpost_stats_comments_count">Comments count:</string>
+  <string name="viewpost_stats_promotes">Promotes:</string>
+  <string name="viewpost_stats_demotes">Demotes:</string>
+  
+  <!-- USER STATS SCREEN -->
+  <string name="userprofile_stats_info">Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics.</string>
+  <string name="userprofile_stats_user_score">User score:</string>
+  <string name="userprofile_stats_user_views_count">User Views count:</string>
+  <string name="userprofile_stats_user_opens_count">User Opens count:</string>
+  <string name="userprofile_stats_user_creates_count">User Creates count:</string>
+  <string name="userprofile_stats_user_comments_count">User Comments count:</string>
+  <string name="userprofile_stats_view_count">Views count:</string>
+  <string name="userprofile_stats_opens_count">Opens count:</string>
+  <string name="userprofile_stats_comments_count">Comments count:</string>
   
   <!-- BADGES SCREEN -->
   <string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
@@ -65,7 +111,17 @@
   <string name="new_badge_edit_email">Type email address</string>
 
   <!-- DEMOGRAPHICS SCREEN -->
-  <string name="select_prompt">Select</string>
+  <string name="userprofile_demograph_select_prompt">Select</string>
+
+  <string name="userprofile_demograph_public_check">Public</string>
+  <string name="userprofile_demograph_gender">Gender</string>
+  <string name="userprofile_demograph_dob">Date of Birth</string>
+  <string name="userprofile_demograph_ethnic">Ethnicity</string>
+  <string name="userprofile_demograph_city">City</string>
+  <string name="userprofile_demograph_state">State</string>
+  <string name="userprofile_demograph_post_code">Post code</string>
+  <string name="userprofile_demograph_country">Country</string>
+  
   <string-array name="gender_array">
     <item>Unspecified</item>
     <item>Male</item>
