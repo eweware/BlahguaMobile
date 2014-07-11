@@ -14,23 +14,23 @@ using System.Drawing;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGStatsTableViewController : UIViewController
-	{
-		private UIViewController parentViewController;
-        UIScrollView scrollView;
-        
-		private Blah CurrentBlah
-		{
-			get
-			{
-				return ((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah;
-			}
-		}
+    public partial class BGStatsTableViewController : UIViewController
+    {
+        private UIViewController parentViewController;
 
-		public BGStatsTableViewController (IntPtr handle) : base (handle)
-		{
+        private Blah CurrentBlah
+        {
+            get
+            {
+                return ((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah;
+            }
+        }
 
-		}
+        public BGStatsTableViewController(IntPtr handle)
+            : base(handle)
+        {
+
+        }
 
         public override void ViewDidLoad()
         {
@@ -42,23 +42,26 @@ namespace BlahguaMobile.IOS
                 //Synsoft on 9 July 2014 added title
                 this.Title = "Stats";
                 NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
-               
+                //Synsoft on 11 July 2014 for active color  #1FBBD1
+                NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+                
                 //Synsoft on 10 June 2014 
-                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
-                
+                // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
+                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 600);
+                scrollView.ScrollEnabled = true;
                 Dictionary<string, string> source = new Dictionary<string, string>();
-                
+
                 //Synsoft on 10 June 2014 
                 if (CurrentBlah != null)
                 {
-                    //lblHeardScore.Text = CurrentBlah.
-                    //lblOpenedImpression.Text = CurrentBlah
                     lblConversionRatio.Text = CurrentBlah.ConversionString.ToString();
                     lblOpen.Text = CurrentBlah.O.ToString();
                     lblDemotes.Text = CurrentBlah.D.ToString();
                     lblPromotes.Text = CurrentBlah.P.ToString();
                     lblComment.Text = CurrentBlah.C.ToString();
-                    lblImpression.Text = CurrentBlah.ImpressionString.ToString();
+                    lblImpression.Text = CurrentBlah.V.ToString();
+                    lblHeardRatio.Text = CurrentBlah.S.ToString("0.00") + "%";
+                    lblOpenedImpression.Text = CurrentBlah.O.ToString() + "/" + CurrentBlah.V.ToString();
                 }
                 //commented by Synsoft on 10 June 2014 -- old code using table source
                 //if (CurrentBlah != null)
@@ -86,12 +89,13 @@ namespace BlahguaMobile.IOS
 
                     lblOpen.Text = opens.ToString();
                     lblComment.Text = comments.ToString();
+                    lblImpression.Text = views.ToString();
                 }
                 //commented by Synsoft on 10 June 2014 -- old code using table source
                 //TableView.Source = new BGStatsTableSource (source);
                 //new BGStatsTableSource(source);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 e.Message.ToString();
 
@@ -104,39 +108,39 @@ namespace BlahguaMobile.IOS
             DismissViewController(true, null);
         }
 
-		public void SetParentViewController (UIViewController parentViewController)
-		{
-			this.parentViewController = parentViewController;
-		}
-	}
+        public void SetParentViewController(UIViewController parentViewController)
+        {
+            this.parentViewController = parentViewController;
+        }
+    }
 
     //commented by Synsoft on 10 June 2014 -- old code using table source
 
-	/*public class BGStatsTableSource : UITableViewSource
-	{
-		private Dictionary<string, string> source;
+    /*public class BGStatsTableSource : UITableViewSource
+    {
+        private Dictionary<string, string> source;
 
-		public BGStatsTableSource(Dictionary<string, string> source) : base()
-		{
-			this.source = source;
-		}
+        public BGStatsTableSource(Dictionary<string, string> source) : base()
+        {
+            this.source = source;
+        }
 
-		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
-		{
-			var cell = (BGStatsTableCell)tableView.DequeueReusableCell ("cell");
-			var element = source.ElementAt (indexPath.Row);
-			cell.SetKeyValue (element.Key, element.Value);
-			return cell;
-		}
+        public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (BGStatsTableCell)tableView.DequeueReusableCell ("cell");
+            var element = source.ElementAt (indexPath.Row);
+            cell.SetKeyValue (element.Key, element.Value);
+            return cell;
+        }
 
-		public override int RowsInSection (UITableView tableview, int section)
-		{
-			return source.Count;
-		}
+        public override int RowsInSection (UITableView tableview, int section)
+        {
+            return source.Count;
+        }
 
-		public override int NumberOfSections (UITableView tableView)
-		{
-			return 1;
-		}
-	}*/
+        public override int NumberOfSections (UITableView tableView)
+        {
+            return 1;
+        }
+    }*/
 }

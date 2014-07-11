@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlahguaAndroid", "BlahguaAndroid\BlahguaAndroid.csproj", "{BE0D4993-B841-42DA-9006-B3729A7A3C5E}"
 EndProject
@@ -112,6 +112,7 @@ Global
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|iPhone.Deploy.0 = Debug|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|iPhoneSimulator.Deploy.0 = Debug|iPhoneSimulator
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|Mixed Platforms.ActiveCfg = Debug|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|Mixed Platforms.Build.0 = Debug|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Debug|x64.ActiveCfg = Debug|iPhoneSimulator
@@ -120,8 +121,10 @@ Global
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|ARM.ActiveCfg = Release|iPhoneSimulator
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhone.ActiveCfg = Release|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhone.Build.0 = Release|iPhone
+		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhone.Deploy.0 = Release|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|iPhoneSimulator.Deploy.0 = Release|iPhoneSimulator
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|Mixed Platforms.ActiveCfg = Release|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|Mixed Platforms.Build.0 = Release|iPhone
 		{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}.Release|x64.ActiveCfg = Release|iPhoneSimulator
