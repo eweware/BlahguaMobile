@@ -130,6 +130,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             text = create_comment_block.FindViewById<EditText>(Resource.Id.text);
             text.TextChanged += edit_TextChanged;
             Button btn_select_image = create_comment_block.FindViewById<Button>(Resource.Id.btn_image);
+            btn_select_image.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             btn_select_image.Click += (sender, args) => {
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
@@ -142,9 +143,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 initiateSignaturePopUp();
             };
+            btn_signature.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += btn_done_Click;
             btn_done.Enabled = false;
+            btn_done.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             imageCreateComment = create_comment_block.FindViewById<ImageView>(Resource.Id.createcomment_image);
             imageCreateCommentLayout = create_comment_block.FindViewById<FrameLayout>(Resource.Id.createcomment_image_layout);

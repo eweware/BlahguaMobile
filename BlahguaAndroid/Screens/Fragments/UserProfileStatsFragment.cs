@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Util;
 using BlahguaMobile.BlahguaCore;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -35,12 +36,24 @@ namespace BlahguaMobile.AndroidClient.Screens
             useropens = fragment.FindViewById<TextView>(Resource.Id.useropens);
             usercreates = fragment.FindViewById<TextView>(Resource.Id.usercreates);
             usercomments = fragment.FindViewById<TextView>(Resource.Id.usercomments);
+            views.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            opens.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            comments.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            userviews.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            useropens.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            usercreates.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            usercomments.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             TextView conversion = fragment.FindViewById<TextView>(Resource.Id.conversion);
             TextView impression = fragment.FindViewById<TextView>(Resource.Id.impression);
             TextView score = fragment.FindViewById<TextView>(Resource.Id.score);
             TextView promotes = fragment.FindViewById<TextView>(Resource.Id.promotes);
             TextView demotes = fragment.FindViewById<TextView>(Resource.Id.demotes);
+            conversion.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            impression.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            score.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            promotes.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            demotes.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 

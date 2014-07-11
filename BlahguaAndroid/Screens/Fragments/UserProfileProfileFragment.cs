@@ -50,6 +50,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             nickname = fragment.FindViewById<EditText>(Resource.Id.text);
             progress = fragment.FindViewById<ProgressBar>(Resource.Id.progressBar1);
             btn_avatar = fragment.FindViewById<Button>(Resource.Id.btn_avatar);
+            nickname.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            btn_avatar.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             nickname.TextChanged += nickname_TextChanged;
             progress.Visibility = ViewStates.Gone;

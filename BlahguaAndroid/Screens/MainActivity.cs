@@ -493,7 +493,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             listChannels = leftMenu.FindViewById<ListView>(Resource.Id.listChannels);
             listChannels.ChoiceMode = ChoiceMode.Single;
-            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, channels);
+            listChannels.Adapter = new GothamFontArrayAdapter(this, Resource.Layout.listitem_check, channels);
             listChannels.SetItemChecked(0, true);
 
 
@@ -529,7 +529,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 GetString(Resource.String.profilemenu_stats) };
             ListView listProfileMenu = rightMenu.FindViewById<ListView>(Resource.Id.listProfileMenu);
             listProfileMenu.ChoiceMode = ChoiceMode.None;
-            listProfileMenu.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_profile, profile);
+            listProfileMenu.Adapter = new GothamFontArrayAdapter(this, Resource.Layout.listitem_profile, profile);
             listProfileMenu.ItemClick += (sender, args) =>
             {
                 SlidingMenu.Toggle();
@@ -564,10 +564,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
             };
 
-            (rightMenu.FindViewById<Button>(Resource.Id.btn_logout)).Click += (sender, args) =>
+            Button btn_logout = rightMenu.FindViewById<Button>(Resource.Id.btn_logout);
+            btn_logout.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
+            btn_logout.Click += (sender, args) =>
             {
                 ProgressDialog dialog = new ProgressDialog(this);
-                dialog.SetMessage("Signing out...");
+                dialog.SetMessage(GetString(Resource.String.roll_message_signing_out));
                 dialog.SetCancelable(false);
                 dialog.Show();
 

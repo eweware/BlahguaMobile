@@ -69,6 +69,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             city.TextChanged += city_TextChanged;
             state.TextChanged += state_TextChanged;
             post_code.TextChanged += post_code_TextChanged;
+            dob.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            city.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            state.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            post_code.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             //// CHECKMARKS
             check_public_gender = fragment.FindViewById<CheckBox>(Resource.Id.check_public_gender);
@@ -85,6 +89,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             check_public_state.CheckedChange += check_public_state_CheckedChange;
             check_public_post_code.CheckedChange += check_public_post_code_CheckedChange;
             check_public_country.CheckedChange += check_public_country_CheckedChange;
+            check_public_gender.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_dob.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_ethnicity.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_city.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_state.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_post_code.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_public_country.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             UpdateDemographics();
 

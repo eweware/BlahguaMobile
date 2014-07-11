@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\GothamFontArrayAdapter.cs" />
     <Compile Include="Adapters\ViewPostBadgesAdapter.cs" />
     <Compile Include="Adapters\CreateCommentSignatureAdapter.cs" />
     <Compile Include="Adapters\CreateBlahSignatureAdapter.cs" />

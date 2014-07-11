@@ -15,6 +15,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -42,6 +43,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
 
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
+            posts_total_count.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;

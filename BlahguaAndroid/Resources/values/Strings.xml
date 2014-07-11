@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">Heard</string>
-	<string name="welcome">Welcome to Heard</string>
-  <string name="login_title">Sign in or Register</string>
+
+  <string name="done_big_btn">DONE</string>
+  <string name="done_titlebar_btn">Done</string>
+  <string name="cancel_titlebar_btn">Cancel</string>
+  <string name="roll_message_signing_out">Signing out...</string>
+
+  <!-- SIGN IN SCREEN -->
+  <string name="signin_title">Login</string>
+
+  <string name="signin_message_signing_in">Signing in...</string>
+  <string name="signin_message_error_signing_in">Invalid username or password.</string>
+
+  <string name="signin_message_enter_login">Enter username</string>
+  <string name="signin_message_enter_pass">Enter password</string>
+  <string name="signin_message_passwords_must_match">Passwords must match</string>
+  
+  <string name="signin_create_acc_check">Create Account</string>
+  <string name="signin_login_hint">Username</string>
+  <string name="signin_password_hint">Password</string>
+  <string name="signin_confirm_pass_hint">Confirm password</string>
+  <string name="signin_remember_me_check">Remember me?</string>
+
+  <string name="signin_about_btn">ABOUT</string>
+  <string name="signin_help_btn">HELP</string>
+  <string name="signin_report_btn">REPORT BUG</string>
+
+  <string name="signin_report_chooser_title">Sending a bug report</string>
+  <string name="signin_help_chooser_title">Send email...</string>
+  <string name="signin_report_email_subject">Bug Report</string>
+  <string name="signin_help_email_subject">Help Me</string>
 
   <!-- SIDE MENU-->
   <string name="sidemenu_channels">Channels</string>
-
 
   <string name="sidemenu_view">View</string>
   <string name="sidemenu_v_newest">Newest</string>
@@ -31,13 +57,14 @@
   <string name="profilemenu_stats">Stats</string>
   <string name="profilemenu_logout">Logout</string>
   
-  
+  <!-- BADGES SCREEN -->
   <string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
   <string name="new_badge_title">To see if you qualify for a badge, please enter your email address below. Don\'t worry if your domain is not yet supported: You can enter a request to add it in the next page.\nIf our email address does qualify, you will be emailed a code to enter in the following page.</string>
   <string name="new_badge_title_privacy_title">Privacy Statement:</string>
   <string name="new_badge_title_privacy_statement">Only badges (not your email address) will be sent to blahgua.</string>
   <string name="new_badge_edit_email">Type email address</string>
 
+  <!-- DEMOGRAPHICS SCREEN -->
   <string name="select_prompt">Select</string>
   <string-array name="gender_array">
     <item>Unspecified</item>
