@@ -15,6 +15,7 @@ using Android.Animation;
 using Android.Graphics;
 using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using Android.Text;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -44,7 +45,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             no_badges = fragment.FindViewById<LinearLayout>(Resource.Id.no_badges);
             list_container = fragment.FindViewById<ScrollView>(Resource.Id.list_container);
 
-            new_block = fragment.FindViewById<LinearLayout>(Resource.Id.new_badge);
+            new_block = fragment.FindViewById<View>(Resource.Id.new_badge);
 
             btn_done = new_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Enabled = false;
@@ -52,6 +53,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             edit = new_block.FindViewById<EditText>(Resource.Id.edit);
             edit.TextChanged += edit_TextChanged;
+
+            TextView privacy = new_block.FindViewById<TextView>(Resource.Id.text_privacy_state);
+            privacy.TextFormatted = Html.FromHtml("<b>" + GetString(Resource.String.new_badge_title_privacy_title) + "</b> " + GetString(Resource.String.new_badge_title_privacy_statement));
 
             progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 
@@ -357,11 +361,20 @@ namespace BlahguaMobile.AndroidClient.Screens
                 new_block.Measure(widthSpec, heightSpec);
 
                 newBadgeStage = 0;
-                btn_done.Text = "NEXT";
+                btn_done.Text = "SUBMIT";
                 edit.Hint = "Type email address";
 
                 ValueAnimator mAnimator = slideAnimator(new_block, 0, new_block.MeasuredHeight, false);
                 mAnimator.Start();
+                mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
+                {
+                    if (btn_done.Bottom + new_block.PaddingBottom > new_block.MeasuredHeight)
+                    {
+                        slideAnimator(new_block,
+                            new_block.MeasuredHeight, btn_done.Bottom + new_block.PaddingBottom * 2,
+                            false).Start();
+                    }
+                };
 
                 //initBlahCreationSlidingMenu();
             }

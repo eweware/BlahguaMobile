@@ -19,6 +19,11 @@ namespace BlahguaMobile.IOS
 		private UILabel label;
 		public  UIView textView;
 		private NSIndexPath path;
+		private UIImageView	speechActItem;
+		private UIImageView hotIcon;
+		private UIImageView ownBlahIcon;
+		private UIImageView newIcon;
+		private UIImageView badgeIcon;
 
 		private CAKeyFrameAnimation fadeInOutAnimation;
 		private CABasicAnimation fadeOutAnimation;
@@ -50,8 +55,31 @@ namespace BlahguaMobile.IOS
 			//	label.AttributedText = new NSAttributedString (inboxBlah.T, font, UIColor.Black);
 			label.Hidden = false;
 			textView.Add (label);
-
 			ContentView.Add (textView);
+
+			speechActItem = new UIImageView ();
+			ContentView.Add (speechActItem);
+
+			badgeIcon = new UIImageView (UIImage.FromBundle ("badge_icon.png"));
+			badgeIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
+			badgeIcon.Hidden = true;
+			ContentView.Add (badgeIcon);
+
+			ownBlahIcon = new UIImageView (UIImage.FromBundle ("pen_bw.png"));
+			ownBlahIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
+			ownBlahIcon.Hidden = true;
+			ContentView.Add (ownBlahIcon);
+
+			hotIcon = new UIImageView (UIImage.FromBundle ("ico_hot.png"));
+			hotIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
+			hotIcon.Hidden = true;
+			ContentView.Add (hotIcon);
+
+			newIcon = new UIImageView (UIImage.FromBundle ("ico_new.png"));
+			newIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
+			newIcon.Hidden = true;
+			ContentView.Add (newIcon);
+
 		}
 
 		public void SetCellProperties(InboxBlah blah, string reusableId, SizeF size, NSIndexPath path)
@@ -128,40 +156,37 @@ namespace BlahguaMobile.IOS
 				speechActImageStr = "predict_icon.png";
 				break;
 			}
-			UIImageView	speechActItem = new UIImageView (UIImage.FromBundle (speechActImageStr));
+			speechActItem.Image = UIImage.FromBundle (speechActImageStr);
 			speechActItem.Frame = new RectangleF (size.Width - (iconSize + iconOffset), size.Height - (iconSize + iconOffset), iconSize, iconSize);
 			speechActItem.ContentMode = UIViewContentMode.ScaleAspectFit;
-			ContentView.Add (speechActItem);
+
 
 			// current user's own blah?
 			if ((BlahguaAPIObject.Current.CurrentUser != null) &&
-				(BlahguaAPIObject.Current.CurrentUser._id == blah.A)) {
-				UIImageView	ownBlahIcon = new UIImageView (UIImage.FromBundle ("pen_bw.png"));
+			    (BlahguaAPIObject.Current.CurrentUser._id == blah.A)) {
 				ownBlahIcon.Frame = new RectangleF (size.Width - ((iconSize + iconOffset) * 2), size.Height - (iconSize + iconOffset), iconSize, iconSize);
-				ownBlahIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
-				ContentView.Add (ownBlahIcon);
-			}
+				ownBlahIcon.Hidden = false;
+			} else
+				ownBlahIcon.Hidden = true;
 
 			// remaining icons
 			float curLeft = iconOffset;
 
 			// badged
 			if (!String.IsNullOrEmpty (blah.B)) {
-				UIImageView	badgeIcon = new UIImageView (UIImage.FromBundle ("badge_icon.png"));
 				badgeIcon.Frame = new RectangleF (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
-				badgeIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
-				ContentView.Add (badgeIcon);
+				badgeIcon.Hidden = false;
 				curLeft += iconSize + iconOffset;
-			}
+			} else
+				badgeIcon.Hidden = true;
 
 			// hot
 			if (blah.RR) {
-				UIImageView	hotIcon = new UIImageView (UIImage.FromBundle ("ico_hot.png"));
 				hotIcon.Frame = new RectangleF (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
-				hotIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
-				ContentView.Add (hotIcon);
+				hotIcon.Hidden = false;
 				curLeft += iconSize + iconOffset;
-			}
+			} else
+				hotIcon.Hidden = true;
 
 			// new
 			double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
@@ -171,12 +196,12 @@ namespace BlahguaMobile.IOS
 
 
 			if (currentUtc - blah.c < newMilliseconds) {
-				UIImageView	newIcon = new UIImageView (UIImage.FromBundle ("ico_new.png"));
 				newIcon.Frame = new RectangleF (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
-				newIcon.ContentMode = UIViewContentMode.ScaleAspectFit;
-				ContentView.Add (newIcon);
+				newIcon.Hidden = false;
 				curLeft += iconSize + iconOffset;
-			}
+			} else
+				newIcon.Hidden = true;
+
 			SetUpAnimation ();
 		}
 

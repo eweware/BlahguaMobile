@@ -15,16 +15,31 @@ namespace BlahguaMobile.IOS
 	partial class BGDemographicsInputCell
 	{
 		[Outlet]
-		MonoTouch.UIKit.UITextField input { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		BlahguaMobile.IOS.BGTextField input { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton isPublicButton { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel publicLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (input != null) {
+				input.Dispose ();
+				input = null;
+			}
+			if (isPublicButton != null) {
+				isPublicButton.Dispose ();
+				isPublicButton = null;
+			}
+			if (publicLabel != null) {
+				publicLabel.Dispose ();
+				publicLabel = null;
+			}
 		}
 	}
 }

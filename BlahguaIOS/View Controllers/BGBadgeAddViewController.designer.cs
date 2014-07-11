@@ -15,16 +15,31 @@ namespace BlahguaMobile.IOS
 	partial class BGBadgeAddViewController
 	{
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton doneButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField emailTextField { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		BlahguaMobile.IOS.BGTextField emailTextField { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel infoTitle { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (doneButton != null) {
+				doneButton.Dispose ();
+				doneButton = null;
+			}
+			if (emailTextField != null) {
+				emailTextField.Dispose ();
+				emailTextField = null;
+			}
+			if (infoTitle != null) {
+				infoTitle.Dispose ();
+				infoTitle = null;
+			}
 		}
 	}
 }

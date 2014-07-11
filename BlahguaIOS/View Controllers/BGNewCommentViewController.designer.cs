@@ -15,22 +15,47 @@ namespace BlahguaMobile.IOS
 	partial class BGNewCommentViewController
 	{
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIImageView back { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UITextField input { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton selectSignature { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (back != null) {
+				back.Dispose ();
+				back = null;
+			}
+			if (done != null) {
+				done.Dispose ();
+				done = null;
+			}
+			if (input != null) {
+				input.Dispose ();
+				input = null;
+			}
+			if (selectImageButton != null) {
+				selectImageButton.Dispose ();
+				selectImageButton = null;
+			}
+			if (selectSignature != null) {
+				selectSignature.Dispose ();
+				selectSignature = null;
+			}
 		}
 	}
 }

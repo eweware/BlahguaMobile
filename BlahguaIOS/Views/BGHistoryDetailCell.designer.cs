@@ -15,13 +15,23 @@ namespace BlahguaMobile.IOS
 	partial class BGHistoryDetailCell
 	{
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UITextView text { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel upAndDownVotes { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (text != null) {
+				text.Dispose ();
+				text = null;
+			}
+			if (upAndDownVotes != null) {
+				upAndDownVotes.Dispose ();
+				upAndDownVotes = null;
+			}
 		}
 	}
 }

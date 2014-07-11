@@ -48,7 +48,7 @@
     <CodesignKey>iPhone Developer: Alok Patil %28SKEKL3PX8F%29</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>Default, ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchSdkVersion>7.0</MtouchSdkVersion>

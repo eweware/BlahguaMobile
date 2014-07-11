@@ -5,41 +5,41 @@
     android:background="#EAEAEA"
     android:orientation="vertical">
     <FrameLayout
-        android:layout_width="match_parent"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:background="#3F2B2F"
+      android:paddingLeft="6dp">
+      <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:background="#3F2B2F"
-        android:paddingLeft="6dp">
-      <Button
-          android:id="@+id/btn_back"
-          android:layout_width="wrap_content"
-          android:layout_height="40dp"
-          android:layout_gravity="left"
-          android:drawableLeft="@drawable/btn_back"
-          android:background="@null"
-          android:textColor="#60BFA4"
-          android:textSize="14sp"
-          android:visibility="gone"
-          android:text=" Back" />
+        android:layout_gravity="left"
+        android:drawableLeft="@drawable/btn_back"
+        android:background="@null"
+        android:textColor="#60BFA4"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:text=" Back" />
       <TextView
-          android:id="@+id/title"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:gravity="center"
-          android:layout_gravity="center"
-          android:background="@null"
-          android:textColor="#60BFA4"
-          android:textSize="18sp"
-          android:textStyle="bold"
-          android:text="Profile" />
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:textColor="#60BFA4"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="Profile" />
       <Button
-          android:id="@+id/btn_right"
-          android:layout_width="wrap_content"
-          android:layout_height="40dp"
-          android:layout_gravity="right"
-          android:background="@null"
-          android:textColor="#60BFA4"
-          android:textSize="14sp"
-          android:text="Done" />
+        android:id="@+id/btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:background="@null"
+        android:textColor="#60BFA4"
+        android:textSize="14sp"
+        android:text="Done" />
     </FrameLayout>
 
     <FrameLayout

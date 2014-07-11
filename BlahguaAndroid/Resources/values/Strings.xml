@@ -32,7 +32,10 @@
   <string name="profilemenu_logout">Logout</string>
   
   
-  <string name="new_badge_title">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
+  <string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
+  <string name="new_badge_title">To see if you qualify for a badge, please enter your email address below. Don\'t worry if your domain is not yet supported: You can enter a request to add it in the next page.\nIf our email address does qualify, you will be emailed a code to enter in the following page.</string>
+  <string name="new_badge_title_privacy_title">Privacy Statement:</string>
+  <string name="new_badge_title_privacy_statement">Only badges (not your email address) will be sent to blahgua.</string>
   <string name="new_badge_edit_email">Type email address</string>
 
   <string name="select_prompt">Select</string>
