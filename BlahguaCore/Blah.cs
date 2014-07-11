@@ -41,6 +41,7 @@ namespace BlahguaMobile.BlahguaCore
             M = otherBlah.M;
             B = otherBlah.B;
             S = otherBlah.S;
+            RR = otherBlah.RR;
             displaySize = otherBlah.displaySize;
         }
 

@@ -15,16 +15,31 @@ namespace BlahguaMobile.IOS
 	partial class BGBlahBadgeCell
 	{
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIImageView badgeImage { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel badgeName { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel verifiedLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (badgeImage != null) {
+				badgeImage.Dispose ();
+				badgeImage = null;
+			}
+			if (badgeName != null) {
+				badgeName.Dispose ();
+				badgeName = null;
+			}
+			if (verifiedLabel != null) {
+				verifiedLabel.Dispose ();
+				verifiedLabel = null;
+			}
 		}
 	}
 }

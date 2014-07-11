@@ -15,370 +15,393 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGBlahViewController : UIViewController, IImageUpdated
-	{
-		#region Fields
+    public partial class BGBlahViewController : UIViewController, IImageUpdated
+    {
+        #region Fields
 
-		private ImageUpdateDelegate badgeImageUpdateDelegate;
+        private ImageUpdateDelegate badgeImageUpdateDelegate;
 
-		private float textInsetDefaultValue = 11.0f;
-		private float defaultWidthOfContent = 320.0f;
-		private float defaultContentViewStartYCoor = 97.0f;
-		private float iphone4ContentViewHeight = 339f;
-		private float iphone5ContentViewHeight = 427f;
-		private SizeF toolbarViewSize = new SizeF(320f, 44f);
+        private float textInsetDefaultValue = 11.0f;
+        private float defaultWidthOfContent = 320.0f;
+        private float defaultContentViewStartYCoor = 97.0f;
+        private float iphone4ContentViewHeight = 339f;
+        private float iphone5ContentViewHeight = 427f;
+        private SizeF toolbarViewSize = new SizeF(320f, 44f);
 
-		private bool badgesShown = false;
+        private bool badgesShown = false;
 
-		private UITableView tableView;
+        private UITableView tableView;
 
-		private UITableView itemsTable;
+        private UITableView itemsTable;
 
-		private UIButton upVoteButton;
-		private UIButton downVoteButton;
+        private UIButton upVoteButton;
+        private UIButton downVoteButton;
 
-		private UIButton summaryButton;
-		private UIButton commentsButton;
-		private UIButton statsButton;
+        private UIButton summaryButton;
+        private UIButton commentsButton;
+        private UIButton statsButton;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private Blah CurrentBlah
-		{
-			get
-			{
-				return BlahguaAPIObject.Current.CurrentBlah;
-			}
-		}
+        private Blah CurrentBlah
+        {
+            get
+            {
+                return BlahguaAPIObject.Current.CurrentBlah;
+            }
+        }
 
-		public bool ShouldMoveToStats { get; set; }
+        public bool ShouldMoveToStats { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Contructors
+        #region Contructors
 
-		public BGBlahViewController (IntPtr handle) : base (handle)
-		{
-		}
+        public BGBlahViewController(IntPtr handle)
+            : base(handle)
+        {
+        }
 
-		#endregion
+        #endregion
 
-		#region View Controller
+        #region View Controller
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
             //Synsoft on 9 July 2014 added title
             this.Title = "Summary";
-			SetUpBaseLayout ();
 
-			SetUpHeaderView ();
+            //Synsoft on 11 July 2014            
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
+            //Synsoft on 11 July 2014 for active color  #1FBBD1
+            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
-			SetUpContentView ();
+            SetUpBaseLayout();
 
-			SetUpToolbar ();
-		}
+            SetUpHeaderView();
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-            SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
-			if(ShouldMoveToStats)
-			{
-				ShouldMoveToStats = false;
-				PerformSegue ("fromBlahViewToStats", this);
-			}
+            SetUpContentView();
 
-			contentView.ContentSize = new SizeF (320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
-		}
+            SetUpToolbar();
+        }
 
-		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
-		{
-			if(segue.Identifier == "fromBlahViewToComments")
-			{
-				var vc = (BGCommentsViewController)segue.DestinationViewController;
-				BlahguaAPIObject.Current.LoadBlahComments (vc.CommentsLoaded);
-				vc.parentViewController = this;
-               
-			} 
+        //Synsoft on 11 July 2014            
+        private void BackHandler(object sender, EventArgs args)
+        {
+            DismissViewController(true, null);
+        }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
+            if (ShouldMoveToStats)
+            {
+                ShouldMoveToStats = false;
+                PerformSegue("fromBlahViewToStats", this);
+            }
 
-			base.PrepareForSegue (segue, sender);
-		}
+            contentView.ContentSize = new SizeF(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
+        }
 
-		#endregion
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            if (segue.Identifier == "fromBlahViewToComments")
+            {
+                var vc = (BGCommentsViewController)segue.DestinationViewController;
+                BlahguaAPIObject.Current.LoadBlahComments(vc.CommentsLoaded);
+                vc.parentViewController = this;
 
-		#region Methods
-
-		private void SetUpBaseLayout()
-		{
-            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
-			contentView.BackgroundColor = UIColor.White;
-			contentView.ScrollEnabled = true;
-			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
+            }
 
 
-			contentView.ClipsToBounds = true;
-			contentView.ContentOffset = new PointF(0,0);
-			contentView.BackgroundColor = UIColor.White;
-		
-            bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
-            bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+            base.PrepareForSegue(segue, sender);
+        }
 
-			View.AddSubviews (new UIView [] { contentView, bottomToolbar });
-		}
+        #endregion
 
-		private void SetUpHeaderView()
-		{
-			userImage.Image = ImageLoader.DefaultRequestImage (new Uri (CurrentBlah.UserImage), 
-				new ImageUpdateDelegate (userImage));
+        #region Methods
 
-			SetAuthorName ();
-			SetAuthorDescription ();
-
-			//badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
-
-            badgeImage.SetImage (UIImage.FromBundle ("badges"), UIControlState.Normal);
-			badgeImage.TouchUpInside += (sender, e) => {
-				AdjustBadgesTableView();
-			};
-			badgesTableView.Source = new BGBlahBadgesTableSource ();
-			if(CurrentBlah.B != null && CurrentBlah.B.Any())
-			{
-				badgeImage.Hidden = false;
-				badgesTableViewHeight.Constant = 0;
-
-			}
-			else
-			{
-				badgeImage.Hidden = true;
-			}
-
-			blahTimespan.AttributedText = new NSAttributedString (
-				CurrentBlah.ElapsedTimeString ?? "", 
-				UIFont.FromName (BGAppearanceConstants.MediumFontName, 12), 
-				UIColor.Black
-			);
-		}
-
-		private void AdjustBadgesTableView()
-		{
-			if(badgesShown)
-			{
-				badgesTableViewHeight.Constant = 0;
-			}
-			else
-			{
-				var count = badgesTableView.NumberOfRowsInSection (0);
-				badgesTableViewHeight.Constant = count <= 1 ? 28 : 56;
-			}
-			badgesShown = !badgesShown;
-			badgesTableView.ReloadData();
-		}
-
-		private void SetUpContentView()
-		{
-
-			if(!String.IsNullOrEmpty(CurrentBlah.T))
-			{
-				blahTitle.Hidden = false;
-				var blahTitleAttributes = new UIStringAttributes {
-					Font = UIFont.FromName (BGAppearanceConstants.BoldFontName, 21), 
-					ForegroundColor = UIColor.Black,
-
-				};
-					
-				blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
-				blahTitle.Lines = 0;
+        private void SetUpBaseLayout()
+        {
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+            contentView.BackgroundColor = UIColor.White;
+            contentView.ScrollEnabled = true;
+            bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
 
 
-				blahTitle.AttributedText = new NSAttributedString (CurrentBlah.T, blahTitleAttributes);
+            contentView.ClipsToBounds = true;
+            contentView.ContentOffset = new PointF(0, 0);
+            contentView.BackgroundColor = UIColor.White;
 
-				blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
-			}
-			else
-			{
-				blahTitle.Hidden = true;
-			}
+            bottomToolbar.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+            bottomToolbar.BarTintColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+
+            View.AddSubviews(new UIView[] { contentView, bottomToolbar });
+        }
+
+        private void SetUpHeaderView()
+        {
+            userImage.Image = ImageLoader.DefaultRequestImage(new Uri(CurrentBlah.UserImage),
+                new ImageUpdateDelegate(userImage));
+
+            SetAuthorName();
+            SetAuthorDescription();
+
+            //badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
+
+            badgeImage.SetImage(UIImage.FromBundle("badges"), UIControlState.Normal);
+            badgeImage.TouchUpInside += (sender, e) =>
+            {
+                AdjustBadgesTableView();
+            };
+            badgesTableView.Source = new BGBlahBadgesTableSource();
+            if (CurrentBlah.B != null && CurrentBlah.B.Any())
+            {
+                badgeImage.Hidden = false;
+                badgesTableViewHeight.Constant = 0;
+
+            }
+            else
+            {
+                badgeImage.Hidden = true;
+            }
+
+            blahTimespan.AttributedText = new NSAttributedString(
+                CurrentBlah.ElapsedTimeString ?? "",
+                UIFont.FromName(BGAppearanceConstants.MediumFontName, 12),
+                UIColor.Black
+            );
+        }
+
+        private void AdjustBadgesTableView()
+        {
+            if (badgesShown)
+            {
+                badgesTableViewHeight.Constant = 0;
+            }
+            else
+            {
+                var count = badgesTableView.NumberOfRowsInSection(0);
+                badgesTableViewHeight.Constant = count <= 1 ? 28 : 56;
+            }
+            badgesShown = !badgesShown;
+            badgesTableView.ReloadData();
+        }
+
+        private void SetUpContentView()
+        {
+
+            if (!String.IsNullOrEmpty(CurrentBlah.T))
+            {
+                blahTitle.Hidden = false;
+                var blahTitleAttributes = new UIStringAttributes
+                {
+                    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 21),
+                    ForegroundColor = UIColor.Black,
+
+                };
+
+                blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
+                blahTitle.Lines = 0;
 
 
-			if(CurrentBlah.ImageURL != null)
-			{
-				blahImage.Image = ImageLoader.DefaultRequestImage(
-					new Uri(CurrentBlah.ImageURL), 
-					this
-				);
-			}
-			else
-			{
-				imageHeightViewHeight.Constant = 0;
-			}
+                blahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
 
-			if(!String.IsNullOrEmpty(CurrentBlah.F))
-			{
-				var blahBodyAttributes = new UIStringAttributes {
-					Font = UIFont.FromName(BGAppearanceConstants.FontName, 12.0f),
-					ForegroundColor = UIColor.Black,
-				};
-
-				blahBodyView.Hidden = false;
-				blahBodyView.AttributedText = new NSAttributedString (CurrentBlah.F, blahBodyAttributes);
-				blahBodyView.TextAlignment = UITextAlignment.Left;
-				blahBodyView.ScrollEnabled = false;
-				blahBodyView.Editable = false;
-				blahBodyView.ContentInset = new UIEdgeInsets (textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-			}
-			else
-			{
-				blahBodyView.Text = "";
-			}
-			bodyTextViewHeight.Constant = blahBodyView.ContentSize.Height;
-
-			if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
-			{
-
-				tableView = new UITableView ();
-				tableView.ScrollEnabled = false;
-				tableView.AllowsMultipleSelection = false;
-				if(BlahguaAPIObject.Current.CurrentUser == null)
-				{
-					tableView.AllowsSelection = false;
-				}
-				tableView.BackgroundColor = UIColor.Clear;
-				if(CurrentBlah.TypeName == "polls")
-				{
-					tableView.Source = new BGBlahPollTableSource (BlahPollType.Poll);
-					tableView.Delegate = new BGBlahPollTableDelegate (BlahPollType.Poll, this);
-				}
-				else
-				{
-					tableView.Source = new BGBlahPollTableSource (BlahPollType.Predict);
-					tableView.Delegate = new BGBlahPollTableDelegate (BlahPollType.Predict, this);
-				}
-
-				tableView.ReloadData ();
-				tableView.TranslatesAutoresizingMaskIntoConstraints = false;
+                blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
+            }
+            else
+            {
+                blahTitle.Hidden = true;
+            }
 
 
-				var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
-				var height = NSLayoutConstraint.Create(
-					tableView, 
-					NSLayoutAttribute.Height, 
-					NSLayoutRelation.Equal, 
-					null, 
-					NSLayoutAttribute.NoAttribute, 
-					1, 
-					tableView.NumberOfRowsInSection(0) * 64.0f
-				);
+            if (CurrentBlah.ImageURL != null)
+            {
+                blahImage.Image = ImageLoader.DefaultRequestImage(
+                    new Uri(CurrentBlah.ImageURL),
+                    this
+                );
+            }
+            else
+            {
+                imageHeightViewHeight.Constant = 0;
+            }
 
-				tableView.AddConstraints(new NSLayoutConstraint[] {width, height});
+            if (!String.IsNullOrEmpty(CurrentBlah.F))
+            {
+                var blahBodyAttributes = new UIStringAttributes
+                {
+                    Font = UIFont.FromName(BGAppearanceConstants.FontName, 12.0f),
+                    ForegroundColor = UIColor.Black,
+                };
 
-				contentView.AddSubview (tableView);
+                blahBodyView.Hidden = false;
+                blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
+                blahBodyView.TextAlignment = UITextAlignment.Left;
+                blahBodyView.ScrollEnabled = false;
+                blahBodyView.Editable = false;
+                blahBodyView.ContentInset = new UIEdgeInsets(textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
+            }
+            else
+            {
+                blahBodyView.Text = "";
+            }
+            bodyTextViewHeight.Constant = blahBodyView.ContentSize.Height;
 
-				var positionYTop = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
-				var positionYBottom = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-				var positionXLeft = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
-				var positionXRight = NSLayoutConstraint.Create (tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+            if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
+            {
 
-				contentView.AddConstraints (new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
-			}
-			else
-			{
-				var constraint = NSLayoutConstraint.Create (blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-				contentView.AddConstraint (constraint);
-			}
-		}
+                tableView = new UITableView();
+                tableView.ScrollEnabled = false;
+                tableView.AllowsMultipleSelection = false;
+                if (BlahguaAPIObject.Current.CurrentUser == null)
+                {
+                    tableView.AllowsSelection = false;
+                }
+                tableView.BackgroundColor = UIColor.Clear;
+                if (CurrentBlah.TypeName == "polls")
+                {
+                    tableView.Source = new BGBlahPollTableSource(BlahPollType.Poll);
+                    tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Poll, this);
+                }
+                else
+                {
+                    tableView.Source = new BGBlahPollTableSource(BlahPollType.Predict);
+                    tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Predict, this);
+                }
 
-		private void SetUpToolbar()
-		{
-			bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
-			bottomToolbar.TintColor = UIColor.Clear;
-			SetUpVotesButtons ();
-			SetUpModesButtons ();
-		}
+                tableView.ReloadData();
+                tableView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-		private void SetUpVotesButtons()
-		{
-			var votesButtonRect = new RectangleF (0, 0, 11, 19);
-			upVoteButton = new UIButton (UIButtonType.Custom);
-			upVoteButton.Frame = votesButtonRect;
-			upVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-				if(CurrentBlah.uv != 1)
-				{
+
+                var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
+                var height = NSLayoutConstraint.Create(
+                    tableView,
+                    NSLayoutAttribute.Height,
+                    NSLayoutRelation.Equal,
+                    null,
+                    NSLayoutAttribute.NoAttribute,
+                    1,
+                    tableView.NumberOfRowsInSection(0) * 64.0f
+                );
+
+                tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
+
+                contentView.AddSubview(tableView);
+
+                var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+                var positionYBottom = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+                var positionXLeft = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
+                var positionXRight = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+
+                contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
+            }
+            else
+            {
+                var constraint = NSLayoutConstraint.Create(blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+                contentView.AddConstraint(constraint);
+            }
+        }
+
+        private void SetUpToolbar()
+        {
+            bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
+            bottomToolbar.TintColor = UIColor.Clear;
+            SetUpVotesButtons();
+            SetUpModesButtons();
+        }
+
+        private void SetUpVotesButtons()
+        {
+            var votesButtonRect = new RectangleF(0, 0, 11, 19);
+            upVoteButton = new UIButton(UIButtonType.Custom);
+            upVoteButton.Frame = votesButtonRect;
+            upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                if (CurrentBlah.uv != 1)
+                {
                     upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-					BlahguaAPIObject.Current.SetBlahVote(1, (value) => {
-						Console.WriteLine(value);
-					});
-				}
-			};
+                    BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+                    {
+                        Console.WriteLine(value);
+                    });
+                }
+            };
 
-			downVoteButton = new UIButton (UIButtonType.Custom);
-			downVoteButton.Frame = votesButtonRect;
-			downVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-				if(CurrentBlah.uv != -1)
-				{
+            downVoteButton = new UIButton(UIButtonType.Custom);
+            downVoteButton.Frame = votesButtonRect;
+            downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                if (CurrentBlah.uv != -1)
+                {
                     downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-					BlahguaAPIObject.Current.SetBlahVote(-1, (value) => {
-						Console.WriteLine(value);
-					});
-				}
-			};
+                    BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+                    {
+                        Console.WriteLine(value);
+                    });
+                }
+            };
 
-			SetVoteButtonsImages ();
+            SetVoteButtonsImages();
 
-			upVote.CustomView = upVoteButton;
-			downVote.CustomView = downVoteButton;
-		}
+            upVote.CustomView = upVoteButton;
+            downVote.CustomView = downVoteButton;
+        }
 
-		private void SetVoteButtonsImages()
-		{
-			switch(CurrentBlah.uv)
-			{
-			case 1:
-				{
-                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up_dark"), UIImage.FromBundle ("arrow_down"));
-					break;
-				}
-			case -1:
-				{
-                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up"), UIImage.FromBundle ("arrow_down_dark"));
-					break;
-				}
-			default:
-				{
-                        SetVoteButtonsImages (UIImage.FromBundle ("arrow_up"), UIImage.FromBundle ("arrow_down"));
-					break;
-				}
-			}
-		}
+        private void SetVoteButtonsImages()
+        {
+            switch (CurrentBlah.uv)
+            {
+                case 1:
+                    {
+                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up_dark"), UIImage.FromBundle("arrow_down"));
+                        break;
+                    }
+                case -1:
+                    {
+                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down_dark"));
+                        break;
+                    }
+                default:
+                    {
+                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down"));
+                        break;
+                    }
+            }
+        }
 
-		private void SetVoteButtonsImages(UIImage upVoteImage, UIImage downVoteImage)
-		{
-			upVoteButton.SetImage(upVoteImage
-				.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-				UIControlState.Normal);
-			downVoteButton.SetImage(downVoteImage
-				.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-				UIControlState.Normal);
-		}
+        private void SetVoteButtonsImages(UIImage upVoteImage, UIImage downVoteImage)
+        {
+            upVoteButton.SetImage(upVoteImage
+                .ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
+                UIControlState.Normal);
+            downVoteButton.SetImage(downVoteImage
+                .ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
+                UIControlState.Normal);
+        }
 
-		private void SetUpModesButtons ()
-		{
-			summaryButton = new UIButton (UIButtonType.Custom);
-			summaryButton.Frame = new RectangleF (0, 0, 20, 16);
-            summaryButton.SetImage (UIImage.FromBundle ("summary_dark"), UIControlState.Normal);
-			summaryButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
-			};
-			summaryView.CustomView = summaryButton;
+        private void SetUpModesButtons()
+        {
+            summaryButton = new UIButton(UIButtonType.Custom);
+            summaryButton.Frame = new RectangleF(0, 0, 20, 16);
+            summaryButton.SetImage(UIImage.FromBundle("summary_dark"), UIControlState.Normal);
+            summaryButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
+            };
+            summaryView.CustomView = summaryButton;
 
-			commentsButton = new UIButton (UIButtonType.Custom);
-			commentsButton.Frame = new RectangleF (0, 0, 22, 19);
-            commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
-			commentsButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments_dark"), UIImage.FromBundle ("stats"));
+            commentsButton = new UIButton(UIButtonType.Custom);
+            commentsButton.Frame = new RectangleF(0, 0, 22, 19);
+            commentsButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
+            commentsButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments_dark"), UIImage.FromBundle("stats"));
                 //Commented by Synsoft on 9 July 2014
                 //PerformSegue("fromBlahViewToComments", this);
 
@@ -391,305 +414,314 @@ namespace BlahguaMobile.IOS
                 UINavigationController objUINavigationController = new UINavigationController(objBGCommentsViewController);
                 objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
-                this.PresentViewController(objUINavigationController, true, null);   
-			};
-			commentsView.CustomView = commentsButton;
+                this.PresentViewController(objUINavigationController, true, null);
+            };
+            commentsView.CustomView = commentsButton;
 
-			statsButton = new UIButton (UIButtonType.Custom);
-			statsButton.Frame = new RectangleF (0, 0, 26, 17);
-            statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
-			statsButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
-				//Commented by Synsoft on 9 July 2014 
-                //PerformSegue("fromBlahViewToStats", this);
+            statsButton = new UIButton(UIButtonType.Custom);
+            statsButton.Frame = new RectangleF(0, 0, 26, 17);
+            statsButton.SetImage(UIImage.FromBundle("stats"), UIControlState.Normal);
+            statsButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                try
+                {
+                    SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+                    //Commented by Synsoft on 9 July 2014 
+                    // PerformSegue("fromBlahViewToStats", this);
 
-               //Synsoft on 9 July 2014 to add popup animation
+                    //Synsoft on 9 July 2014 to add popup animation
+                    AppDelegate objAppDelegate = new AppDelegate();
+                    var myStoryboard = objAppDelegate.MainStoryboard;
+                    BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
 
-                AppDelegate objAppDelegate = new AppDelegate();
-                var myStoryboard = objAppDelegate.MainStoryboard;
-                BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+                    UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
+                    objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
-                UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
-                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+                    this.PresentViewController(objUINavigationController, true, null);
+                }
+                catch (Exception ex)
+                {
+                    ex.Message.ToString();
+                }    
 
-                this.PresentViewController(objUINavigationController, true, null);   
-			};
-			statsView.CustomView = statsButton;
-		}
+            };
+            statsView.CustomView = statsButton;
+        }
 
-		private void SetModeButtonsImages(UIImage sumImage, UIImage commentsImage, UIImage statsImage)
-		{
-			commentsButton.SetImage (commentsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-			summaryButton.SetImage (sumImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-			statsButton.SetImage (statsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-		}
+        private void SetModeButtonsImages(UIImage sumImage, UIImage commentsImage, UIImage statsImage)
+        {
+            commentsButton.SetImage(commentsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+            summaryButton.SetImage(sumImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+            statsButton.SetImage(statsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+        }
 
-		private void SetAuthorName()
-		{
-			author.AttributedText = new NSAttributedString (CurrentBlah.UserName, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
-				UIColor.Black);
-		}
+        private void SetAuthorName()
+        {
+            author.AttributedText = new NSAttributedString(CurrentBlah.UserName,
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
+                UIColor.Black);
+        }
 
-		private void SetAuthorDescription()
-		{
-			userDescription.AttributedText = new NSAttributedString (CurrentBlah.DescriptionString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
-				UIColor.Black);
-		}
+        private void SetAuthorDescription()
+        {
+            userDescription.AttributedText = new NSAttributedString(CurrentBlah.DescriptionString, UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
+                UIColor.Black);
+        }
 
-		public void PollVoted(UserPollVote item)
-		{
-			InvokeOnMainThread(() => tableView.ReloadData ());
-		}
+        public void PollVoted(UserPollVote item)
+        {
+            InvokeOnMainThread(() => tableView.ReloadData());
+        }
 
-		public void PredictionVoted(UserPredictionVote item)
-		{
-			InvokeOnMainThread(() => tableView.ReloadData ());
-		}
+        public void PredictionVoted(UserPredictionVote item)
+        {
+            InvokeOnMainThread(() => tableView.ReloadData());
+        }
 
-		#endregion
+        #endregion
 
-		#region IImageUpdated implementation
+        #region IImageUpdated implementation
 
-		public void UpdatedImage (Uri uri)
-		{
-			blahImage.Image = ImageLoader.DefaultRequestImage (uri, this);
+        public void UpdatedImage(Uri uri)
+        {
+            blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
 
-		}
+        }
 
-		#endregion
-
-
-		private enum BlahPollType
-		{
-			Poll,
-			Predict
-		}
-
-		private class BGBlahPollTableSource : UITableViewSource
-		{
-			private BlahPollType type;
-			private bool isUserVoted;
-
-			private bool IsUserVoted
-			{
-				get
-				{
-					PollItem pi;
-					if(type == BlahPollType.Poll)
-					{
-						pi = BlahguaAPIObject.Current.CurrentBlah.I.FirstOrDefault(i => i.IsUserVote == true);
-					}
-					else
-					{
-
-						if(BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-							pi = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems.FirstOrDefault(i => i.IsUserVote == true);
-						else
-							pi = BlahguaAPIObject.Current.CurrentBlah.PredictionItems.FirstOrDefault(i => i.IsUserVote == true);
-					}
-					return pi != null;
-				}
-			}
-
-			public BGBlahPollTableSource(BlahPollType type)
-			{
-				this.type = type;
-			}
-
-			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
-			{
-				var cell = BGPollTableViewCell.Create();
-				cell.Frame = BGAppearanceConstants.PollCellRect;
-				PollItem pollItem;
-				if(type == BlahPollType.Poll)
-				{
-					pollItem = BlahguaAPIObject.Current.CurrentBlah.I.ElementAt (indexPath.Row);
-				}
-				else
-				{
-					if (!BlahguaAPIObject.Current.CurrentBlah.IsPredictInited)
-						BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote (null);
-					if(BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-					{
-						pollItem = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems [indexPath.Row];
-					}
-					else
-					{
-						pollItem = BlahguaAPIObject.Current.CurrentBlah.PredictionItems [indexPath.Row];
-					}
-				}
-				cell.SetUp (pollItem, IsUserVoted);
-				return cell;
-			}
-
-			public override int NumberOfSections (UITableView tableView)
-			{
-				return 1;
-			}
-
-			public override int RowsInSection (UITableView tableview, int section)
-			{
-				return type == BlahPollType.Poll ? BlahguaAPIObject.Current.CurrentBlah.I.Count : 3;
-			}
-
-			public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
-			{
-				return 64f;
-			}
-			public override float GetHeightForHeader (UITableView tableView, int section)
-			{
-				return type == BlahPollType.Poll ? 0 : 64f;
-			}
-
-			public override UIView GetViewForHeader (UITableView tableView, int section)
-			{
-				var header = type == BlahPollType.Poll ? 
-					new UIView() : 
-					BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ? 
-						"Predection was expired at " :
-						"Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
-				return header;
-			}
-		}
-
-		private class BGBlahPollTableDelegate : UITableViewDelegate
-		{
-			private BlahPollType type;
-			private BGBlahViewController vc;
-
-			public BGBlahPollTableDelegate(BlahPollType type, BGBlahViewController vc) : base()
-			{
-				this.type = type;
-				this.vc = vc;
-			}
-
-			public override float EstimatedHeight (UITableView tableView, NSIndexPath indexPath)
-			{
-				return 64f;
-			}
-
-			public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
-			{
-				return 64f;
-			}
-
-			public override float GetHeightForHeader (UITableView tableView, int section)
-			{
-				return type == BlahPollType.Poll ? 0 : 64f;
-			}
-
-			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
-			{
-				if(type == BlahPollType.Poll)
-				{
-					var pollItem = BlahguaAPIObject.Current.CurrentBlah.I [indexPath.Row];
-					BlahguaAPIObject.Current.SetPollVote (pollItem, vc.PollVoted);
-					BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote (new UserPollVote () { W = indexPath.Row });
-				}
-				else
-				{
-					PollItem pollItem;
-					UserPredictionVote upv;
-					if(BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-					{
-						pollItem = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems [indexPath.Row];
-						switch(indexPath.Row)
-						{
-						case 0:
-							{
-								upv = new UserPredictionVote { Z = "y" };
-								break;
-							}
-						case 1:
-							{
-								upv = new UserPredictionVote { Z = "n" };
-								break;
-							}
-						case 3:
-						default:
-							{
-								upv = new UserPredictionVote { Z = "u" };
-								break;
-							}
-						}
-					}
-					else
-					{
-						pollItem = BlahguaAPIObject.Current.CurrentBlah.PredictionItems [indexPath.Row];
-						switch(indexPath.Row)
-						{
-						case 0:
-							{
-								upv = new UserPredictionVote { D = "y" };
-								break;
-							}
-						case 1:
-							{
-								upv = new UserPredictionVote { D = "n" };
-								break;
-							}
-						case 3:
-						default:
-							{
-								upv = new UserPredictionVote { D = "u" };
-								break;
-							}
-						}
-					}
-					BlahguaAPIObject.Current.SetPredictionVote (pollItem, vc.PredictionVoted);
-					BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote (upv);
-				}
-			}
-		}
-
-		private class BGBlahBadgesTableSource : UITableViewSource
-		{
-			#region implemented abstract members of UITableViewSource
-
-			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
-			{
-				var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell ("cell");
-				cell.SetUp (
-					BlahguaAPIObject.Current.CurrentBlah.Badges [indexPath.Row].BadgeName, 
-					BlahguaAPIObject.Current.CurrentBlah.Badges [indexPath.Row].BadgeImage
-				);
-				return cell;
-			}
-
-			public override int RowsInSection (UITableView tableview, int section)
-			{
-				return BlahguaAPIObject.Current.CurrentBlah.B == null || !BlahguaAPIObject.Current.CurrentBlah.B.Any() ? 
-					0 : BlahguaAPIObject.Current.CurrentBlah.B.Count;
-			}
-
-			public override int NumberOfSections (UITableView tableView)
-			{
-				return 1;
-			}
-
-			#endregion
+        #endregion
 
 
-		}
-	}
+        private enum BlahPollType
+        {
+            Poll,
+            Predict
+        }
 
-	public class ImageUpdateDelegate : IImageUpdated
-	{
-		private UIImageView image;
+        private class BGBlahPollTableSource : UITableViewSource
+        {
+            private BlahPollType type;
+            private bool isUserVoted;
 
-		public ImageUpdateDelegate(UIImageView image)
-		{
-			this.image = image;
-		}
+            private bool IsUserVoted
+            {
+                get
+                {
+                    PollItem pi;
+                    if (type == BlahPollType.Poll)
+                    {
+                        pi = BlahguaAPIObject.Current.CurrentBlah.I.FirstOrDefault(i => i.IsUserVote == true);
+                    }
+                    else
+                    {
 
-		#region IImageUpdated implementation
+                        if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
+                            pi = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems.FirstOrDefault(i => i.IsUserVote == true);
+                        else
+                            pi = BlahguaAPIObject.Current.CurrentBlah.PredictionItems.FirstOrDefault(i => i.IsUserVote == true);
+                    }
+                    return pi != null;
+                }
+            }
 
-		public void UpdatedImage (Uri uri)
-		{
-			image.Image = ImageLoader.DefaultRequestImage (uri, this);
-		}
+            public BGBlahPollTableSource(BlahPollType type)
+            {
+                this.type = type;
+            }
 
-		#endregion
-	}
+            public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+            {
+                var cell = BGPollTableViewCell.Create();
+                cell.Frame = BGAppearanceConstants.PollCellRect;
+                PollItem pollItem;
+                if (type == BlahPollType.Poll)
+                {
+                    pollItem = BlahguaAPIObject.Current.CurrentBlah.I.ElementAt(indexPath.Row);
+                }
+                else
+                {
+                    if (!BlahguaAPIObject.Current.CurrentBlah.IsPredictInited)
+                        BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote(null);
+                    if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
+                    {
+                        pollItem = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems[indexPath.Row];
+                    }
+                    else
+                    {
+                        pollItem = BlahguaAPIObject.Current.CurrentBlah.PredictionItems[indexPath.Row];
+                    }
+                }
+                cell.SetUp(pollItem, IsUserVoted);
+                return cell;
+            }
+
+            public override int NumberOfSections(UITableView tableView)
+            {
+                return 1;
+            }
+
+            public override int RowsInSection(UITableView tableview, int section)
+            {
+                return type == BlahPollType.Poll ? BlahguaAPIObject.Current.CurrentBlah.I.Count : 3;
+            }
+
+            public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+            {
+                return 64f;
+            }
+            public override float GetHeightForHeader(UITableView tableView, int section)
+            {
+                return type == BlahPollType.Poll ? 0 : 64f;
+            }
+
+            public override UIView GetViewForHeader(UITableView tableView, int section)
+            {
+                var header = type == BlahPollType.Poll ?
+                    new UIView() :
+                    BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
+                        "Predection was expired at " :
+                        "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
+                return header;
+            }
+        }
+
+        private class BGBlahPollTableDelegate : UITableViewDelegate
+        {
+            private BlahPollType type;
+            private BGBlahViewController vc;
+
+            public BGBlahPollTableDelegate(BlahPollType type, BGBlahViewController vc)
+                : base()
+            {
+                this.type = type;
+                this.vc = vc;
+            }
+
+            public override float EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
+            {
+                return 64f;
+            }
+
+            public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+            {
+                return 64f;
+            }
+
+            public override float GetHeightForHeader(UITableView tableView, int section)
+            {
+                return type == BlahPollType.Poll ? 0 : 64f;
+            }
+
+            public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+            {
+                if (type == BlahPollType.Poll)
+                {
+                    var pollItem = BlahguaAPIObject.Current.CurrentBlah.I[indexPath.Row];
+                    BlahguaAPIObject.Current.SetPollVote(pollItem, vc.PollVoted);
+                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(new UserPollVote() { W = indexPath.Row });
+                }
+                else
+                {
+                    PollItem pollItem;
+                    UserPredictionVote upv;
+                    if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
+                    {
+                        pollItem = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems[indexPath.Row];
+                        switch (indexPath.Row)
+                        {
+                            case 0:
+                                {
+                                    upv = new UserPredictionVote { Z = "y" };
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    upv = new UserPredictionVote { Z = "n" };
+                                    break;
+                                }
+                            case 3:
+                            default:
+                                {
+                                    upv = new UserPredictionVote { Z = "u" };
+                                    break;
+                                }
+                        }
+                    }
+                    else
+                    {
+                        pollItem = BlahguaAPIObject.Current.CurrentBlah.PredictionItems[indexPath.Row];
+                        switch (indexPath.Row)
+                        {
+                            case 0:
+                                {
+                                    upv = new UserPredictionVote { D = "y" };
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    upv = new UserPredictionVote { D = "n" };
+                                    break;
+                                }
+                            case 3:
+                            default:
+                                {
+                                    upv = new UserPredictionVote { D = "u" };
+                                    break;
+                                }
+                        }
+                    }
+                    BlahguaAPIObject.Current.SetPredictionVote(pollItem, vc.PredictionVoted);
+                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote(upv);
+                }
+            }
+        }
+
+        private class BGBlahBadgesTableSource : UITableViewSource
+        {
+            #region implemented abstract members of UITableViewSource
+
+            public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+            {
+                var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
+                cell.SetUp(
+                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeName,
+                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeImage
+                );
+                return cell;
+            }
+
+            public override int RowsInSection(UITableView tableview, int section)
+            {
+                return BlahguaAPIObject.Current.CurrentBlah.B == null || !BlahguaAPIObject.Current.CurrentBlah.B.Any() ?
+                    0 : BlahguaAPIObject.Current.CurrentBlah.B.Count;
+            }
+
+            public override int NumberOfSections(UITableView tableView)
+            {
+                return 1;
+            }
+
+            #endregion
+
+
+        }
+    }
+
+    public class ImageUpdateDelegate : IImageUpdated
+    {
+        private UIImageView image;
+
+        public ImageUpdateDelegate(UIImageView image)
+        {
+            this.image = image;
+        }
+
+        #region IImageUpdated implementation
+
+        public void UpdatedImage(Uri uri)
+        {
+            image.Image = ImageLoader.DefaultRequestImage(uri, this);
+        }
+
+        #endregion
+    }
 }

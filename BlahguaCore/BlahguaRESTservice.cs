@@ -67,8 +67,8 @@ namespace BlahguaMobile.BlahguaCore
             else
             {
                 System.Console.WriteLine("Using Production Server");
-                apiClient = new RestClient("http://beta2.blahgua.com/v2");
-                BaseShareURL = "http://beta2.blahgua.com/";
+                apiClient = new RestClient("http://app.goheard.com/v2");
+                BaseShareURL = "http://app.goheard.com/";
                 imageBaseURL = "https://s3-us-west-2.amazonaws.com/blahguaimages/image/";
             }
 
@@ -293,13 +293,15 @@ namespace BlahguaMobile.BlahguaCore
         public void GetPublicChannels(bool bIncludeHidden, ChannelList_callback callback)
         {
             RestRequest request = new RestRequest("groups/featured", Method.GET);
-            apiClient.ExecuteAsync<ChannelList>(request, (response) =>
+            apiClient.ExecuteAsync(request, (response) =>
             {
-                if (response.Data != null)
+                ChannelList theList = response.Content.FromJson<ChannelList>();
+
+                if (theList != null)
                 {
                     ChannelList newList = new ChannelList();
 
-                    foreach (Channel curChan in response.Data)
+                    foreach (Channel curChan in theList)
                     {
                         if (bIncludeHidden || (curChan.R > 0))
                             newList.Add(curChan);
@@ -806,9 +808,10 @@ namespace BlahguaMobile.BlahguaCore
         {
             RestRequest request = new RestRequest("users/inbox", Method.GET);
             request.AddParameter("groupId", groupId);
-            apiClient.ExecuteAsync<Inbox>(request, (response) =>
+            apiClient.ExecuteAsync(request, (response) =>
             {
-                callback(response.Data);
+                    Inbox inbox  = response.Content.FromJson<Inbox>();
+                callback(inbox);
             });
         }
     }
