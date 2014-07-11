@@ -808,9 +808,10 @@ namespace BlahguaMobile.BlahguaCore
         {
             RestRequest request = new RestRequest("users/inbox", Method.GET);
             request.AddParameter("groupId", groupId);
-            apiClient.ExecuteAsync<Inbox>(request, (response) =>
+            apiClient.ExecuteAsync(request, (response) =>
             {
-                callback(response.Data);
+                    Inbox inbox  = response.Content.FromJson<Inbox>();
+                callback(inbox);
             });
         }
     }
