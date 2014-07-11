@@ -125,7 +125,7 @@
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
-    <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="HelpingClasses\UiHelper.cs" />
     <Compile Include="HelpingClasses\ImageLoader.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="HelpingClasses\StreamHelper.cs" />

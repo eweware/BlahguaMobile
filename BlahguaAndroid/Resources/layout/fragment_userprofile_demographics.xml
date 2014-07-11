@@ -16,6 +16,7 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -64,6 +65,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -112,6 +114,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t3"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -159,6 +162,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t4"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -206,6 +210,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t5"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -253,6 +258,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t6"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
@@ -300,6 +306,7 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t7"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"

@@ -13,6 +13,8 @@ using BlahguaMobile.BlahguaCore;
 
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Util;
+using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -63,6 +65,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var percent_bar = view.FindViewById<View>(Resource.Id.percent_bar);
             var percent_string = view.FindViewById<TextView>(Resource.Id.percent_string);
             var vote_text = view.FindViewById<TextView>(Resource.Id.vote_text);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, percent_string, vote_text);
 
             PollItem p = _list[position];
             if (BlahguaAPIObject.Current.CurrentUser == null)

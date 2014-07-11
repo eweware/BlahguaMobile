@@ -16,6 +16,7 @@ using Android.Graphics;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Database;
 using Android.Graphics.Drawables;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -130,7 +131,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             text = create_comment_block.FindViewById<EditText>(Resource.Id.text);
             text.TextChanged += edit_TextChanged;
             Button btn_select_image = create_comment_block.FindViewById<Button>(Resource.Id.btn_image);
-            btn_select_image.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             btn_select_image.Click += (sender, args) => {
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
@@ -143,11 +143,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 initiateSignaturePopUp();
             };
-            btn_signature.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             btn_done = create_comment_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Click += btn_done_Click;
             btn_done.Enabled = false;
-            btn_done.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             imageCreateComment = create_comment_block.FindViewById<ImageView>(Resource.Id.createcomment_image);
             imageCreateCommentLayout = create_comment_block.FindViewById<FrameLayout>(Resource.Id.createcomment_image_layout);
@@ -155,10 +153,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressBarImageLoading.Visibility = ViewStates.Gone;
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
-            comments_total_count.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count, btn_done, btn_signature, btn_select_image);
 
             LoadComments();
 

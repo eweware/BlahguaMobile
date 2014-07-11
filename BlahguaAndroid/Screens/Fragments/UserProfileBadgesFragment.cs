@@ -16,6 +16,7 @@ using Android.Graphics;
 using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Text;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -54,14 +55,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             edit = new_block.FindViewById<EditText>(Resource.Id.edit);
             edit.TextChanged += edit_TextChanged;
-            //edit.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             TextView privacy = new_block.FindViewById<TextView>(Resource.Id.text_privacy_state);
             privacy.TextFormatted = Html.FromHtml("<b>" + GetString(Resource.String.new_badge_title_privacy_title) + "</b> " + GetString(Resource.String.new_badge_title_privacy_statement));
-            //privacy.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             //TextView text_new_badge_title = new_block.FindViewById<TextView>(Resource.Id.text_new_badge_title);
-            //text_new_badge_title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, btn_done);//, edit, privacy, text_new_badge_title);
 
             progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 

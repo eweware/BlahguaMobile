@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using Java.Util;
 using BlahguaMobile.BlahguaCore;
+using Android.Graphics;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -54,7 +56,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
 		    if (convertView == null) {
                 convertView = mInflater.Inflate(Resource.Layout.listitem_popup_signature, null);
 			    holder = new ViewHolder();
-			    holder.tv = convertView.FindViewById<TextView>(Resource.Id.text);
+                holder.tv = convertView.FindViewById<TextView>(Resource.Id.text);
+                UiHelper.SetGothamTypeface(TypefaceStyle.Normal, holder.tv);
                 holder.chkbox = convertView.FindViewById<CheckBox>(Resource.Id.check);
                 holder.chkbox.Tag = position;
 			    convertView.Tag = holder;

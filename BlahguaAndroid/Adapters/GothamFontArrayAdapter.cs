@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using BlahguaMobile.AndroidClient.Screens;
 using System.Collections;
+using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -40,7 +42,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         if(items[position] != null )
         {
-            text.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text);
             text.Text = items[position].ToString();
 
         }

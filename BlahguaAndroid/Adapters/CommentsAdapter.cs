@@ -87,12 +87,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
             TextView authorBadge = view.FindViewById<TextView>(Resource.Id.comment_author_badge);
 
             // set fonts
-            text.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            author.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Bold);
-            time_ago.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            authorDesc.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Italic);
-            upvoted.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            downvoted.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Italic, authorDesc);
 
             Comment c = _list[position];
             if (!String.IsNullOrEmpty(c.ImageURL))
@@ -107,7 +104,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 image.Visibility = ViewStates.Gone;
             }
 
-            text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
+            text.Text = c.T;
             author.Text = c.AuthorName;
             author_avatar.SetUrlDrawable(c.AuthorImage);
             time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);

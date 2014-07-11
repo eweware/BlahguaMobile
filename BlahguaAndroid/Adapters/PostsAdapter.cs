@@ -90,11 +90,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
 
             // set fonts
-            text.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            author.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Bold);
-            time_ago.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            upvoted.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            downvoted.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
 
             Blah b = _list[position];
             if (String.IsNullOrEmpty(b.ImageURL))

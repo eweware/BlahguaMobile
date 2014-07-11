@@ -32,7 +32,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         // main block
         private ImageView image;
-        private TextView titleView, textView;
+        private TextView titleView, messageView;
         private ProgressDialog dialog;
         private ProgressBar progress_image;
 
@@ -62,7 +62,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             dialog.SetMessage("Please wait...");
             dialog.SetCancelable(false);
 
-            textView = fragment.FindViewById<TextView>(Resource.Id.text);
+            messageView = fragment.FindViewById<TextView>(Resource.Id.text);
             titleView = fragment.FindViewById<TextView>(Resource.Id.title);
 			image = fragment.FindViewById<ImageView>(Resource.Id.blah_image);
             image.Click += (sender, args) => {
@@ -96,12 +96,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
             pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
-            textView.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            titleView.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            author.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            timeago.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            authorDescription.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            predictsElapsedtime.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, author, timeago, authorDescription, predictsElapsedtime);
 
             initBlahPost();
 
@@ -173,7 +168,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 parent.RunOnUiThread(() =>
                 {
                     titleView.SetText(loadedBlah.T, TextView.BufferType.Normal);
-                    textView.SetText(loadedBlah.F, TextView.BufferType.Normal);
+                    messageView.SetText(loadedBlah.F, TextView.BufferType.Normal);
                 });
 
                 // author
@@ -244,7 +239,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     pollsVotes.Adapter = new VotesAdapter(Activity, curBlah.I, !isVoted, pollsTap);
                     //((Storyboard)Resources["ShowPollAnimation"]).Begin();
-                    HistoryUiHelper.setListViewHeightBasedOnChildren(pollsVotes);
+                    UiHelper.SetListViewHeightBasedOnChildren(pollsVotes);
                 });
             }
             );
@@ -278,7 +273,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
                         }
 
-                        HistoryUiHelper.setListViewHeightBasedOnChildren(predictsVotes);
+                        UiHelper.SetListViewHeightBasedOnChildren(predictsVotes);
                     });
                 }
             );

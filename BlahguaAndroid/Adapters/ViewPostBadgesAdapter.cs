@@ -12,6 +12,8 @@ using Android.Widget;
 using Java.Util;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
+using Android.Graphics;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -50,6 +52,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var badgeName = convertView.FindViewById<TextView>(Resource.Id.text);
             badgeImage.SetUrlDrawable(b.BadgeImage);
             badgeName.Text = b.BadgeName;
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, badgeName);
 
 		    return convertView;
 	    }

@@ -496,6 +496,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             listChannels.Adapter = new GothamFontArrayAdapter(this, Resource.Layout.listitem_check, channels);
             listChannels.SetItemChecked(0, true);
 
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, leftMenu.FindViewById<TextView>(Resource.Id.t1));
 
             listChannels.ItemClick += listChannel_Click;
         }
@@ -520,6 +521,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             avatar = rightMenu.FindViewById<ImageView>(Resource.Id.avatar);
             userName = rightMenu.FindViewById<TextView>(Resource.Id.user_name);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, userName);
             
             String[] profile = new String[] {
                                 GetString(Resource.String.profilemenu_profile),
