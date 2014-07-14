@@ -64,16 +64,7 @@ namespace BlahguaMobile.IOS
 			BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
 				InvokeOnMainThread(() => {
 					((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
-                    //commented by Synsoft on 11 July 2014 --old code
-					//viewController.PerformSegue("fromRollToBlah", viewController);
-
-                    //Synsoft on 11 July 2014 --for popup animation
-                    AppDelegate objAppDelegate = new AppDelegate();
-                    var myStoryboard = objAppDelegate.MainStoryboard;
-                    BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
-                    UINavigationController objUINavigationController = new UINavigationController(objBGBlahViewController);
-                    objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;  
-                    viewController.PresentViewController(objUINavigationController, true, null);
+					viewController.PerformSegue("fromRollToBlah", viewController);
 				});
 			});
 		}
