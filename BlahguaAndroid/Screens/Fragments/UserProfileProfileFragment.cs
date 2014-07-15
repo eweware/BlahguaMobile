@@ -21,16 +21,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     class UserProfileProfileFragment : Fragment, IUrlImageViewCallback
     {
-        ProgressBar progress;
-        ImageView avatar;
-        EditText nickname;
-        Button btn_avatar;
         public static UserProfileProfileFragment NewInstance()
         {
             return new UserProfileProfileFragment { Arguments = new Bundle() };
         }
 
         private readonly string TAG = "UserProfileProfileFragment";
+
+        private ProgressBar progress;
+        private ImageView avatar;
+        private EditText nickname;
+        private Button btn_avatar;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -50,6 +51,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             nickname = fragment.FindViewById<EditText>(Resource.Id.text);
             progress = fragment.FindViewById<ProgressBar>(Resource.Id.progressBar1);
             btn_avatar = fragment.FindViewById<Button>(Resource.Id.btn_avatar);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, nickname, btn_avatar);
 
             nickname.TextChanged += nickname_TextChanged;
             progress.Visibility = ViewStates.Gone;
@@ -129,6 +132,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 );
             }
         }
+
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
         {
             if (avatar == imageView)
@@ -140,6 +144,5 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        
     }
 }

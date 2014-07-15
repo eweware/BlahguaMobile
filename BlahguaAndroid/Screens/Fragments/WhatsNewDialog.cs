@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using BlahguaMobile.BlahguaCore;
+using Android.Graphics;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -36,6 +38,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             var downvotes = view.FindViewById<TextView>(Resource.Id.downvotes);
             var messages = view.FindViewById<TextView>(Resource.Id.messages);
             var opens = view.FindViewById<TextView>(Resource.Id.opens);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, title, comments, upvotes, downvotes, messages, opens);
 
             if ((newInfo.message != null) && (newInfo.message != ""))
             {

@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using Android.Util;
 using BlahguaMobile.BlahguaCore;
+using Android.Graphics;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -36,11 +38,23 @@ namespace BlahguaMobile.AndroidClient.Screens
             usercreates = fragment.FindViewById<TextView>(Resource.Id.usercreates);
             usercomments = fragment.FindViewById<TextView>(Resource.Id.usercomments);
 
-            TextView conversion = fragment.FindViewById<TextView>(Resource.Id.conversion);
-            TextView impression = fragment.FindViewById<TextView>(Resource.Id.impression);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, views, opens, comments, userviews, useropens, usercreates, usercomments);
+
             TextView score = fragment.FindViewById<TextView>(Resource.Id.score);
-            TextView promotes = fragment.FindViewById<TextView>(Resource.Id.promotes);
-            TextView demotes = fragment.FindViewById<TextView>(Resource.Id.demotes);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, score);
+
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal,
+                                fragment.FindViewById<TextView>(Resource.Id.t1),
+                                fragment.FindViewById<TextView>(Resource.Id.t2),
+                                fragment.FindViewById<TextView>(Resource.Id.t3),
+                                fragment.FindViewById<TextView>(Resource.Id.t4),
+                                fragment.FindViewById<TextView>(Resource.Id.t5),
+                                fragment.FindViewById<TextView>(Resource.Id.t6),
+                                fragment.FindViewById<TextView>(Resource.Id.t7),
+                                fragment.FindViewById<TextView>(Resource.Id.t8),
+                                fragment.FindViewById<TextView>(Resource.Id.t9));
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 

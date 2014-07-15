@@ -14,6 +14,7 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.AndroidClient.Screens;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -85,6 +86,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+
+            // set fonts
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
 
             Comment c = _list[position];
             if (String.IsNullOrEmpty(c.ImageURL))

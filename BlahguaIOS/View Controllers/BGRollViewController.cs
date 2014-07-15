@@ -445,11 +445,12 @@ namespace BlahguaMobile.IOS
 			});
 			rightViewContainer.AddConstraint (constraintWidth);
 
+			/*
 			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
 			RightMenuPanRecognizer.CancelsTouchesInView = false;
 			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
 			View.AddGestureRecognizer (RightMenuPanRecognizer);
-
+*/
 		}
 
 		private void ProfileButtonClicked (object sender, EventArgs args)
@@ -502,6 +503,7 @@ namespace BlahguaMobile.IOS
 
 		private void ToggleRightMenu ()
 		{
+			/*
 			if (isOpened) {
 				SetSrollingAvailability (true);
 				ResetToStartPosition (true);
@@ -511,6 +513,8 @@ namespace BlahguaMobile.IOS
 				SetFinalContainerViewPosition (true);
 				isOpened = true;
 			}
+			*/
+			leftSlidingMenu.ToggleRightMenuAnimated ();
 		}
 
 		public void PanRightView (UIPanGestureRecognizer recognizer)

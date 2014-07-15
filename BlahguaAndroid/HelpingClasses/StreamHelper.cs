@@ -24,11 +24,21 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
                 if (uri.Scheme.Equals("content"))
                 {
                     //result = context.ContentResolver.OpenInputStream(uri);
+                    // old method (osVersion < 19)
                     string imgPath = GetPathToImage((Activity)context, uri);
                     if (imgPath != null)
                     {
                         result = System.IO.File.OpenRead(imgPath);
                     }
+                    //int osVersion = (int)Build.VERSION.SdkInt;
+                    //if (osVersion >= 19)
+                    //{
+                    //    // TODO new kit kat API methods are currently
+                    //    // not available in the last Xamarin updates
+                    //    // So Bug https://eweware.atlassian.net/browse/BM-343 can't be resolved
+                    //    // The way to fix it is described at the following link:
+                    //    // http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri-for-intent-action-get-content
+                    //}
                 }
                 else if (uri.Scheme.Equals("file"))
                 {

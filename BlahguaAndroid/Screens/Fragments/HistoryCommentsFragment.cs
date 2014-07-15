@@ -15,6 +15,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Animation;
 using BlahguaMobile.AndroidClient.Adapters;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -42,7 +43,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
-            comments_total_count.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count);
+
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
@@ -63,8 +65,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
             if (adapter != null)
             {
-                View listItem = HistoryUiHelper.getViewByPosition(position, list);
-                HistoryUiHelper.manageSwipe(listItem, false, true);
+                View listItem = UiHelper.GetViewByPosition(position, list);
+                UiHelper.ManageSwipe(listItem, false, true);
                 View rightView = listItem.FindViewById<View>(Resource.Id.right_layout);
                 rightView.Visibility = ViewStates.Gone;
             }
@@ -75,8 +77,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
             if (adapter != null)
             {
-                View listItem = HistoryUiHelper.getViewByPosition(position, list);
-                HistoryUiHelper.manageSwipe(listItem, true, false);
+                View listItem = UiHelper.GetViewByPosition(position, list);
+                UiHelper.ManageSwipe(listItem, true, false);
             }
         }
 

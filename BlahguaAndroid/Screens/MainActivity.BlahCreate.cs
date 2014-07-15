@@ -621,28 +621,28 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             switch (count)
             {
-                case 9:
+                case 10:
                     editPoll10.Visibility = ViewStates.Visible;
                     break;
-                case 8:
+                case 9:
                     editPoll9.Visibility = ViewStates.Visible;
                     break;
-                case 7:
+                case 8:
                     editPoll8.Visibility = ViewStates.Visible;
                     break;
-                case 6:
+                case 7:
                     editPoll7.Visibility = ViewStates.Visible;
                     break;
-                case 5:
+                case 6:
                     editPoll6.Visibility = ViewStates.Visible;
                     break;
-                case 4:
+                case 5:
                     editPoll5.Visibility = ViewStates.Visible;
                     break;
-                case 3:
+                case 4:
                     editPoll4.Visibility = ViewStates.Visible;
                     break;
-                case 2:
+                case 3:
                     editPoll3.Visibility = ViewStates.Visible;
                     break;
             }

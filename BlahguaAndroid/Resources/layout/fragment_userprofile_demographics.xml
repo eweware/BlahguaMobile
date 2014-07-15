@@ -8,7 +8,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical">
-      <!-- DEMOGRAPHICS -->
+      
+      <!-- GENDER -->
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,10 +17,11 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="Gender"
+          android:text="@string/userprofile_demograph_gender"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -39,7 +41,7 @@
               android:background="@drawable/btn_green"
               android:gravity="center"
               android:textColor="#3C3C3C"
-              android:prompt="@string/select_prompt" />
+              android:prompt="@string/userprofile_demograph_select_prompt" />
 
           <CheckBox
               android:id="@+id/check_public_gender"
@@ -47,7 +49,7 @@
               android:layout_height="wrap_content"
               android:gravity="center"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -64,10 +66,11 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="Date of Birth"
+          android:text="@string/userprofile_demograph_dob"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -95,7 +98,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -112,10 +115,11 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t3"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="Ethnicity"
+          android:text="@string/userprofile_demograph_ethnic"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -135,14 +139,14 @@
               android:gravity="center"
               android:textColor="#3C3C3C"
               android:background="@drawable/btn_green"
-              android:prompt="@string/select_prompt" />
+              android:prompt="@string/userprofile_demograph_select_prompt" />
 
           <CheckBox
               android:id="@+id/check_public_ethnicity"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -159,10 +163,11 @@
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t4"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="City"
+          android:text="@string/userprofile_demograph_city"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -189,7 +194,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -199,17 +204,18 @@
         </LinearLayout>
       </LinearLayout>
 
-      <!-- CITY -->
+      <!-- STATE -->
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t5"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="State"
+          android:text="@string/userprofile_demograph_state"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -236,7 +242,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -246,17 +252,18 @@
         </LinearLayout>
       </LinearLayout>
 
-      <!-- CITY -->
+      <!-- POST CODE -->
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t6"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="Post code"
+          android:text="@string/userprofile_demograph_post_code"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -283,7 +290,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"
@@ -293,17 +300,18 @@
         </LinearLayout>
       </LinearLayout>
 
-      <!-- Country -->
+      <!-- COUNTRY -->
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
         android:orientation="vertical">
         <TextView
+          android:id="@+id/t7"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:padding="5dp"
-          android:text="Country"
+          android:text="@string/userprofile_demograph_country"
           android:textColor="#3C3C3C"
           android:textStyle="bold"
           android:textSize="14sp"/>
@@ -322,7 +330,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="@drawable/btn_green"
-            android:prompt="@string/select_prompt"
+            android:prompt="@string/userprofile_demograph_select_prompt"
             android:textColor="#3C3C3C" />
 
           <CheckBox
@@ -330,7 +338,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:padding="5dp"
-              android:text="Public"
+              android:text="@string/userprofile_demograph_public_check"
               android:textColor="#3C3C3C"
               android:textStyle="bold"
               android:textSize="12sp"

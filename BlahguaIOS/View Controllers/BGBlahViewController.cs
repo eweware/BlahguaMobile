@@ -15,63 +15,61 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-    public partial class BGBlahViewController : UIViewController, IImageUpdated
-    {
-        #region Fields
+	public partial class BGBlahViewController : UIViewController, IImageUpdated
+	{
+		#region Fields
 
-        private ImageUpdateDelegate badgeImageUpdateDelegate;
+		private ImageUpdateDelegate badgeImageUpdateDelegate;
 
-        private float textInsetDefaultValue = 11.0f;
-        private float defaultWidthOfContent = 320.0f;
-        private float defaultContentViewStartYCoor = 97.0f;
-        private float iphone4ContentViewHeight = 339f;
-        private float iphone5ContentViewHeight = 427f;
-        private SizeF toolbarViewSize = new SizeF(320f, 44f);
+		private float textInsetDefaultValue = 11.0f;
+		private float defaultWidthOfContent = 320.0f;
+		private float defaultContentViewStartYCoor = 97.0f;
+		private float iphone4ContentViewHeight = 339f;
+		private float iphone5ContentViewHeight = 427f;
+		private SizeF toolbarViewSize = new SizeF(320f, 44f);
 
-        private bool badgesShown = false;
+		private bool badgesShown = false;
 
-        private UITableView tableView;
+		private UITableView tableView;
 
-        private UITableView itemsTable;
+		private UITableView itemsTable;
 
-        private UIButton upVoteButton;
-        private UIButton downVoteButton;
+		private UIButton upVoteButton;
+		private UIButton downVoteButton;
 
-        private UIButton summaryButton;
-        private UIButton commentsButton;
-        private UIButton statsButton;
+		private UIButton summaryButton;
+		private UIButton commentsButton;
+		private UIButton statsButton;
 
-        #endregion
+		#endregion
 
-        #region Properties
+		#region Properties
 
-        private Blah CurrentBlah
-        {
-            get
-            {
-                return BlahguaAPIObject.Current.CurrentBlah;
-            }
-        }
+		private Blah CurrentBlah
+		{
+			get
+			{
+				return BlahguaAPIObject.Current.CurrentBlah;
+			}
+		}
 
-        public bool ShouldMoveToStats { get; set; }
+		public bool ShouldMoveToStats { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Contructors
+		#region Contructors
 
-        public BGBlahViewController(IntPtr handle)
-            : base(handle)
-        {
-        }
+		public BGBlahViewController (IntPtr handle) : base (handle)
+		{
+		}
 
-        #endregion
+		#endregion
 
-        #region View Controller
+		#region View Controller
 
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
             //Synsoft on 9 July 2014 added title
             this.Title = "Summary";
 
@@ -349,14 +347,7 @@ namespace BlahguaMobile.IOS
 
 
                   //by synsoft on 14 July 2014 for voting first go to login page if not login   
-                  if (BlahguaAPIObject.Current.CurrentUser == null)
-                  {
-                    AlertDelegate obj = new AlertDelegate();
-                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-                    _alert.Clicked += _alert_Clicked;
-                    _alert.Show();         
-                  }
-                  else if (BlahguaAPIObject.Current.CurrentUser != null)
+                  if (BlahguaAPIObject.Current.CurrentUser != null)
                   {
                       if (CurrentBlah.uv != 1)
                       {
@@ -367,6 +358,14 @@ namespace BlahguaMobile.IOS
                           });
                       }
                   }
+                  else
+                  {
+                      AlertDelegate obj = new AlertDelegate();
+                      UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                      _alert.Clicked += _alert_Clicked;
+                      _alert.Show();
+                  }
+       
 
               };
             
@@ -389,14 +388,7 @@ namespace BlahguaMobile.IOS
                 //}
 
                 // synsoft on 14 July 2014
-                if (BlahguaAPIObject.Current.CurrentUser == null)
-                {
-                    AlertDelegate obj = new AlertDelegate();
-                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-                    _alert.Clicked += _alert_Clicked;
-                    _alert.Show();
-                }
-                else if (BlahguaAPIObject.Current.CurrentUser != null)
+                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     if (CurrentBlah.uv != -1)
                     {
@@ -407,6 +399,13 @@ namespace BlahguaMobile.IOS
                         });
                     }
                 }
+                else
+                {
+                    AlertDelegate obj = new AlertDelegate();
+                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                    _alert.Clicked += _alert_Clicked;
+                    _alert.Show();
+                }      
 
             };
 
@@ -483,22 +482,21 @@ namespace BlahguaMobile.IOS
                 UINavigationController objUINavigationController = new UINavigationController(objBGCommentsViewController);
                 objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
-                this.PresentViewController(objUINavigationController, true, null);
-            };
-            commentsView.CustomView = commentsButton;
+                this.PresentViewController(objUINavigationController, true, null);   
+			};
+			commentsView.CustomView = commentsButton;
 
-            statsButton = new UIButton(UIButtonType.Custom);
-            statsButton.Frame = new RectangleF(0, 0, 26, 17);
-            statsButton.SetImage(UIImage.FromBundle("stats"), UIControlState.Normal);
-            statsButton.TouchUpInside += (object sender, EventArgs e) =>
-            {
+			statsButton = new UIButton (UIButtonType.Custom);
+			statsButton.Frame = new RectangleF (0, 0, 26, 17);
+            statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
+			statsButton.TouchUpInside += (object sender, EventArgs e) => {
+
+
                 try
                 {
                     SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
                     //Commented by Synsoft on 9 July 2014 
-                    // PerformSegue("fromBlahViewToStats", this);
-
-                    //Synsoft on 9 July 2014 to add popup animation
+                   // PerformSegue("fromBlahViewToStats", this);
                     AppDelegate objAppDelegate = new AppDelegate();
                     var myStoryboard = objAppDelegate.MainStoryboard;
                     BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
@@ -506,90 +504,14 @@ namespace BlahguaMobile.IOS
                     UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
                     objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
-                    this.PresentViewController(objUINavigationController, true, null);
+                    this.PresentViewController(objUINavigationController, true, null);   
                 }
                 catch (Exception ex)
                 {
                     ex.Message.ToString();
-                }    
-
-            };
-            statsView.CustomView = statsButton;
-        }
-
-        private void SetModeButtonsImages(UIImage sumImage, UIImage commentsImage, UIImage statsImage)
-        {
-            commentsButton.SetImage(commentsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-            summaryButton.SetImage(sumImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-            statsButton.SetImage(statsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-        }
-
-        private void SetAuthorName()
-        {
-            author.AttributedText = new NSAttributedString(CurrentBlah.UserName,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
-                UIColor.Black);
-        }
-
-        private void SetAuthorDescription()
-        {
-            userDescription.AttributedText = new NSAttributedString(CurrentBlah.DescriptionString, UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
-                UIColor.Black);
-        }
-
-        public void PollVoted(UserPollVote item)
-        {
-            InvokeOnMainThread(() => tableView.ReloadData());
-        }
-
-        public void PredictionVoted(UserPredictionVote item)
-        {
-            InvokeOnMainThread(() => tableView.ReloadData());
-        }
-
-        #endregion
-
-        #region IImageUpdated implementation
-
-        public void UpdatedImage(Uri uri)
-        {
-            blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
-
-        }
-
-        #endregion
-
-
-        private enum BlahPollType
-        {
-            Poll,
-            Predict
-        }
-
-        private class BGBlahPollTableSource : UITableViewSource
-        {
-            private BlahPollType type;
-            private bool isUserVoted;
-
-            private bool IsUserVoted
-            {
-                get
-                {
-                    PollItem pi;
-                    if (type == BlahPollType.Poll)
-                    {
-                        pi = BlahguaAPIObject.Current.CurrentBlah.I.FirstOrDefault(i => i.IsUserVote == true);
-                    }
-                    else
-                    {
-
-                        if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-                            pi = BlahguaAPIObject.Current.CurrentBlah.ExpPredictionItems.FirstOrDefault(i => i.IsUserVote == true);
-                        else
-                            pi = BlahguaAPIObject.Current.CurrentBlah.PredictionItems.FirstOrDefault(i => i.IsUserVote == true);
-                    }
-                    return pi != null;
                 }
+			};
+				statsView.CustomView = statsButton;
             }
 
             public BGBlahPollTableSource(BlahPollType type)
@@ -770,8 +692,6 @@ namespace BlahguaMobile.IOS
             }
 
             #endregion
-
-
         }
     }
 

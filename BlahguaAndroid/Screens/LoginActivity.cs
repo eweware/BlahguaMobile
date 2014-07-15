@@ -42,9 +42,17 @@ namespace BlahguaMobile.AndroidClient
 
 			// Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_login);
+
+            // HEADER
             TextView loginTitle = FindViewById<TextView>(Resource.Id.login_title);
+            Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
+            buttonDone = FindViewById<Button>(Resource.Id.btn_done);
+            buttonDone.Enabled = false;
+            buttonDone.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            buttonCancel.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
             loginTitle.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
 
+            // BODY
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             login = FindViewById<EditText>(Resource.Id.login);
             password = FindViewById<EditText>(Resource.Id.password);
@@ -52,13 +60,12 @@ namespace BlahguaMobile.AndroidClient
             login.TextChanged += edit_TextChanged;
             password.TextChanged += edit_TextChanged;
             passwordConfirm.TextChanged += edit_TextChanged;
+            login.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            password.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            passwordConfirm.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
-            Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
-            buttonDone = FindViewById<Button>(Resource.Id.btn_done);
-            buttonDone.Enabled = false;
-            buttonDone.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            buttonCancel.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            check_create_acc.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             passwordConfirm.Visibility = ViewStates.Gone;
             progress.Visibility = ViewStates.Invisible;
@@ -101,9 +108,10 @@ namespace BlahguaMobile.AndroidClient
             // yes and no checkboxes
 
             check_remember_me = FindViewById<CheckBox>(Resource.Id.check_remember_me);
+            check_remember_me.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             dialog = new ProgressDialog(this);
-            dialog.SetMessage("Signing in...");
+            dialog.SetMessage(GetString(Resource.String.signin_message_signing_in));
             dialog.SetCancelable(false);
 
             Button btn_help = FindViewById<Button>(Resource.Id.btn_help);
@@ -111,21 +119,31 @@ namespace BlahguaMobile.AndroidClient
             {
                 Intent emailIntent = new Intent(Intent.ActionSendto,
                     Android.Net.Uri.FromParts("mailto", App.EmailHelp, null));
-                emailIntent.PutExtra(Intent.ExtraSubject, "Help Me");
-                StartActivity(Intent.CreateChooser(emailIntent, "Send email..."));
+                emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.signin_help_email_subject));
+                StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_help_chooser_title)));
             };
             Button btn_about = FindViewById<Button>(Resource.Id.btn_about);
             btn_about.Click += (sender, args) =>
             {
                 StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse(App.WebsiteAbout)));
             };
-            btn_help.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            btn_about.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            Button btn_report = FindViewById<Button>(Resource.Id.btn_report);
+            btn_report.Click += (sender, args) =>
+            {
+                Intent emailIntent = new Intent(Intent.ActionSendto,
+                    Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
+                emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.signin_report_email_subject));
+                StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_report_chooser_title)));
+            };
+            btn_help.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            btn_about.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            btn_report.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 		}
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            if (login.Text.Length == 0 || password.Text.Length == 0 || (check_create_acc.Checked && passwordConfirm.Text.Length == 0))
+            if (login.Text.Length == 0 || password.Text.Length == 0 ||
+                (check_create_acc.Checked && passwordConfirm.Text.Length == 0))
             {
                 buttonDone.Enabled = false;
             }
@@ -162,7 +180,7 @@ namespace BlahguaMobile.AndroidClient
                         {
                             progress.Visibility = ViewStates.Invisible;
                             //Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
-                            Toast.MakeText(this, "Invalid username or password.", ToastLength.Short).Show();
+                            Toast.MakeText(this, GetString(Resource.String.signin_message_error_signing_in), ToastLength.Short).Show();
                         });
                     }
                 }
@@ -194,7 +212,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Enter username", ToastLength.Short).Show();
+                    Toast.MakeText(this, GetString(Resource.String.signin_message_enter_login), ToastLength.Short).Show();
                 });
                 return;
             }
@@ -202,7 +220,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Enter password", ToastLength.Short).Show();
+                    Toast.MakeText(this, GetString(Resource.String.signin_message_enter_pass), ToastLength.Short).Show();
                 });
                 return;
             }
@@ -220,14 +238,15 @@ namespace BlahguaMobile.AndroidClient
             if (BlahguaAPIObject.Current.UserPassword != BlahguaAPIObject.Current.UserPassword2)
             {
                 RunOnUiThread(() => {
-                    Toast.MakeText(this, "Passwords must match", ToastLength.Short).Show();
+                    Toast.MakeText(this, GetString(Resource.String.signin_message_passwords_must_match), ToastLength.Short).Show();
                 });
             }
             else
             {
                 progress.Visibility = ViewStates.Visible;
                 dialog.Show();
-                BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
+                BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword,
+                    BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
                 {
                     dialog.Hide();
                     if (errMsg == null)
@@ -250,5 +269,3 @@ namespace BlahguaMobile.AndroidClient
         }
 	}
 }
-
-

@@ -128,8 +128,7 @@ namespace BlahguaMobile.IOS
 				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
             //Synsoft on 9 July 2014 to add back button
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-
+          
             //Commented by Synsoft 9 July 2014
             //NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
             //    //Synsoft on 9 July 2014 for active color  #1FBBD1

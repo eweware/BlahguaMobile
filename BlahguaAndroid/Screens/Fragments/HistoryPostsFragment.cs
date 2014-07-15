@@ -15,6 +15,7 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -42,14 +43,16 @@ namespace BlahguaMobile.AndroidClient.Screens
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
 
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, posts_total_count);
+
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;
             list.ItemClick += (sender, args) => {
                 if (adapter != null)
                 {
-                    View listItem = HistoryUiHelper.getViewByPosition(args.Position, list);
-                    HistoryUiHelper.manageSwipe(listItem, true, false);
+                    View listItem = UiHelper.GetViewByPosition(args.Position, list);
+                    UiHelper.ManageSwipe(listItem, true, false);
                 }
             };
             //list.SetOnTouchListener(Activity);
@@ -72,8 +75,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
             if (adapter != null)
             {
-                View listItem = HistoryUiHelper.getViewByPosition(position, list);
-                HistoryUiHelper.manageSwipe(listItem, false, true);
+                View listItem = UiHelper.GetViewByPosition(position, list);
+                UiHelper.ManageSwipe(listItem, false, true);
             }
         }
 
@@ -82,8 +85,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
             if (adapter != null)
             {
-                View listItem = HistoryUiHelper.getViewByPosition(position, list);
-                HistoryUiHelper.manageSwipe(listItem, true, false);
+                View listItem = UiHelper.GetViewByPosition(position, list);
+                UiHelper.ManageSwipe(listItem, true, false);
             }
         }
 

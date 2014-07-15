@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using Android.Util;
 using BlahguaMobile.BlahguaCore;
+using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -27,7 +29,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             MainActivity.analytics.PostPageView("/blah/stats");
+
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_stats, null);
+
             views = fragment.FindViewById<TextView>(Resource.Id.views);
             opens = fragment.FindViewById<TextView>(Resource.Id.opens);
             comments = fragment.FindViewById<TextView>(Resource.Id.comments);
@@ -37,6 +41,22 @@ namespace BlahguaMobile.AndroidClient.Screens
             TextView score = fragment.FindViewById<TextView>(Resource.Id.score);
             TextView promotes = fragment.FindViewById<TextView>(Resource.Id.promotes);
             TextView demotes = fragment.FindViewById<TextView>(Resource.Id.demotes);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, views, opens, comments, conversion, impression, score, promotes, demotes);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold,
+                fragment.FindViewById<TextView>(Resource.Id.t1));
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal,
+                fragment.FindViewById<TextView>(Resource.Id.t2),
+                fragment.FindViewById<TextView>(Resource.Id.t3),
+                fragment.FindViewById<TextView>(Resource.Id.t4),
+                fragment.FindViewById<TextView>(Resource.Id.t5),
+                fragment.FindViewById<TextView>(Resource.Id.t6),
+                fragment.FindViewById<TextView>(Resource.Id.t7),
+                fragment.FindViewById<TextView>(Resource.Id.t8),
+                fragment.FindViewById<TextView>(Resource.Id.t9),
+                fragment.FindViewById<TextView>(Resource.Id.t10));
 
             Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
 

@@ -13,6 +13,7 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -70,6 +71,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             state.TextChanged += state_TextChanged;
             post_code.TextChanged += post_code_TextChanged;
 
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, dob, city, state, post_code);
+
             //// CHECKMARKS
             check_public_gender = fragment.FindViewById<CheckBox>(Resource.Id.check_public_gender);
             check_public_dob = fragment.FindViewById<CheckBox>(Resource.Id.check_public_dob);
@@ -85,6 +88,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             check_public_state.CheckedChange += check_public_state_CheckedChange;
             check_public_post_code.CheckedChange += check_public_post_code_CheckedChange;
             check_public_country.CheckedChange += check_public_country_CheckedChange;
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, check_public_gender, check_public_dob, check_public_ethnicity, check_public_city, check_public_state, check_public_post_code, check_public_country);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal,
+                fragment.FindViewById<TextView>(Resource.Id.t1),
+                fragment.FindViewById<TextView>(Resource.Id.t2),
+                fragment.FindViewById<TextView>(Resource.Id.t3),
+                fragment.FindViewById<TextView>(Resource.Id.t4),
+                fragment.FindViewById<TextView>(Resource.Id.t5),
+                fragment.FindViewById<TextView>(Resource.Id.t6),
+                fragment.FindViewById<TextView>(Resource.Id.t7));
 
             UpdateDemographics();
 

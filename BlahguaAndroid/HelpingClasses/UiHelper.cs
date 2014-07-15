@@ -10,12 +10,22 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Animation;
+using BlahguaMobile.AndroidClient.Screens;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.HelpingClasses
 {
-    class HistoryUiHelper
+    class UiHelper
     {
-        public static void setListViewHeightBasedOnChildren(ListView listView) {
+        public static void SetGothamTypeface(TypefaceStyle style, params TextView[] views)
+        {
+            foreach (TextView view in views)
+            {
+                view.SetTypeface(MainActivity.gothamFont, style);
+            }
+        }
+
+        public static void SetListViewHeightBasedOnChildren(ListView listView) {
             IListAdapter listAdapter = listView.Adapter; 
             if (listAdapter == null) {
                 // pre-condition
@@ -35,7 +45,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             listView.RequestLayout();
         }    
 
-        public static View getViewByPosition(int position, ListView listView)
+        public static View GetViewByPosition(int position, ListView listView)
         {
             int firstListItemPosition = listView.FirstVisiblePosition;
             int lastListItemPosition = firstListItemPosition + listView.ChildCount - 1;
@@ -51,7 +61,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             }
         }
 
-        public static void manageSwipe(View listItem, bool left, bool right)
+        public static void ManageSwipe(View listItem, bool left, bool right)
         {
             View leftView = listItem.FindViewById<View>(Resource.Id.left_layout);
             View rightView = listItem.FindViewById<View>(Resource.Id.right_layout);

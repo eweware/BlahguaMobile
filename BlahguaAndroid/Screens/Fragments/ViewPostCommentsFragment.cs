@@ -16,6 +16,7 @@ using Android.Graphics;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Database;
 using Android.Graphics.Drawables;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -152,10 +153,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressBarImageLoading.Visibility = ViewStates.Gone;
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
-            comments_total_count.SetTypeface(MainActivity.gothamFont, Android.Graphics.TypefaceStyle.Normal);
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count, btn_done, btn_signature, btn_select_image);
 
             LoadComments();
 

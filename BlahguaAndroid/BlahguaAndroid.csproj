@@ -51,7 +51,7 @@
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="RestSharp.MonoDroid">
-      <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+      <HintPath>..\Components\restsharp-104.4.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="Adapters\BlahFrameLayout.cs" />
     <Compile Include="Adapters\CommentsAdapter.cs" />
+    <Compile Include="Adapters\GothamFontArrayAdapter.cs" />
     <Compile Include="Adapters\ViewPostBadgesAdapter.cs" />
     <Compile Include="Adapters\CreateCommentSignatureAdapter.cs" />
     <Compile Include="Adapters\CreateBlahSignatureAdapter.cs" />
@@ -124,7 +125,7 @@
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
-    <Compile Include="HelpingClasses\HistoryUiHelper.cs" />
+    <Compile Include="HelpingClasses\UiHelper.cs" />
     <Compile Include="HelpingClasses\ImageLoader.cs" />
     <Compile Include="HelpingClasses\ResizableImageView.cs" />
     <Compile Include="HelpingClasses\StreamHelper.cs" />

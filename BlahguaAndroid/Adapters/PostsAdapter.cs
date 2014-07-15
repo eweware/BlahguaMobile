@@ -16,6 +16,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Screens;
 using System.Reflection;
 using System.ComponentModel;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -87,6 +88,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+
+            // set fonts
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
 
             Blah b = _list[position];
             if (String.IsNullOrEmpty(b.ImageURL))

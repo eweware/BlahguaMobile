@@ -16,6 +16,7 @@ using Android.Graphics;
 using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Text;
+using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -50,12 +51,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             btn_done = new_block.FindViewById<Button>(Resource.Id.btn_done);
             btn_done.Enabled = false;
             btn_done.Click += btn_done_Click;
+            btn_done.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             edit = new_block.FindViewById<EditText>(Resource.Id.edit);
             edit.TextChanged += edit_TextChanged;
 
             TextView privacy = new_block.FindViewById<TextView>(Resource.Id.text_privacy_state);
             privacy.TextFormatted = Html.FromHtml("<b>" + GetString(Resource.String.new_badge_title_privacy_title) + "</b> " + GetString(Resource.String.new_badge_title_privacy_statement));
+
+            //TextView text_new_badge_title = new_block.FindViewById<TextView>(Resource.Id.text_new_badge_title);
+
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, btn_done);//, edit, privacy, text_new_badge_title);
 
             progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 
@@ -169,6 +175,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             var control = Activity.LayoutInflater.Inflate(Resource.Layout.uiitem_badge, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
+            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             var image = control.FindViewById<ImageView>(Resource.Id.image);
             image.LayoutParameters = imageParams;
 
