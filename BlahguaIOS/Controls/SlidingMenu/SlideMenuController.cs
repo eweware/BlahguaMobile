@@ -436,10 +436,10 @@ namespace MonoTouch.SlideMenu
 			contentViewController.BeginAppearanceTransition(false, true);
 			menuViewController.BeginAppearanceTransition(true, true);
 
-            ApplySnapshot();
+			ApplySnapshot();
 
 			UIView.AnimateNotify(duration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-                ScaleContentView();
+				ScaleContentView();
 
 				contentViewFrame.Height = UIScreen.MainScreen.Bounds.Height * SCALE;
 				contentViewFrame.Y = (UIScreen.MainScreen.Bounds.Height - contentViewFrame.Height) / 2;
@@ -449,13 +449,14 @@ namespace MonoTouch.SlideMenu
 
 				//TapGesture.Enabled = true;
 				PanGesture.Enabled = true;
-				
+
 				if (completion != null) {
 					completion (finished);
 				}
 
 				menuViewController.EndAppearanceTransition ();
 				contentViewController.EndAppearanceTransition();
+				((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = true;
 			});
 		}
 		public void ShowRightMenuAnimated (bool animated, UICompletionHandler completion)
@@ -490,8 +491,10 @@ namespace MonoTouch.SlideMenu
 
 				rightMenuViewController.EndAppearanceTransition ();
 				contentViewController.EndAppearanceTransition();
+				((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = true;
 			});
 		}
+
 
 		// #pragma mark - Gestures
 
@@ -567,7 +570,7 @@ namespace MonoTouch.SlideMenu
 					contentViewController.View.EndEditing(true); // Dismiss any open keyboards.
 					menuViewController.BeginAppearanceTransition(true, true); // Menu is appearing
 				}
-					
+
 				if (!IsRightMenuOpen()) {
 					if (BlahguaAPIObject.Current.CurrentUser != null) {
 						LoadRightMenuViewControllerViewIfNeeded (); //Right Menu is closed, load it if needed
@@ -619,13 +622,13 @@ namespace MonoTouch.SlideMenu
 					if (animationDuration > ANIMATION_DURATION) {
 						animationDuration = ANIMATION_DURATION;
 					}
-										
+
 					// Remove gestures
 					//TapGesture.Enabled = false;
 					PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
-										
+
 					//frame.X = OffsetXWhenMenuIsClose();
-									
+
 					if (!menuWasOpenAtPanBegin) {
 						menuViewController.EndAppearanceTransition();
 					}
@@ -647,6 +650,8 @@ namespace MonoTouch.SlideMenu
 							if (finished) {
 								contentViewController.View.LayoutIfNeeded();
 							}
+
+							((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = false;
 						});
 
 					}
@@ -659,11 +664,14 @@ namespace MonoTouch.SlideMenu
 						UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 							DeScaleContentView();
 							contentViewController.View.Frame =new RectangleF( View.Bounds.X - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Y, View.Bounds.Width, View.Bounds.Height) ;
+
 						}, (finished) => {
 							RemoveSnapshot();
 							menuViewController.EndAppearanceTransition();
 							rightMenuViewController.EndAppearanceTransition();
 							contentViewController.EndAppearanceTransition();
+
+							((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = true;
 						});
 					} 
 
@@ -690,15 +698,20 @@ namespace MonoTouch.SlideMenu
 						frame.Height = UIScreen.MainScreen.Bounds.Height * SCALE;
 						frame.Y = (UIScreen.MainScreen.Bounds.Height - frame.Height) / 2;
 						contentViewController.View.Frame = frame;
-                        ScaleContentView();
+						ScaleContentView();
 					}, (finished) => {
 						//TapGesture.Enabled = true;
 						if (!menuWasOpenAtPanBegin){
 							menuViewController.EndAppearanceTransition();
 						}
+
+						if(frame.X == OffsetXWhenMenuIsClose())
+							((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = false;
+						else
+							((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).NaturalScrollInProgress = true;
 					});
 				}
-	
+
 				contentViewControllerFrame = frame;
 			}
 			/*

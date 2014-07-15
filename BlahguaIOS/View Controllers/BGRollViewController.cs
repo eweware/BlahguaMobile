@@ -236,27 +236,33 @@ namespace BlahguaMobile.IOS
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			if (isNewPostMode) {
-				CollectionView.Hidden = false;
+				//CollectionView.Hidden = false;
 				isNewPostMode = false;
-				newPostViewController.View.RemoveFromSuperview ();
+				newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+				UIView.CommitAnimations ();
+				//newPostViewController.View.RemoveFromSuperview ();
 				SetSrollingAvailability (true);
-                ((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.View.Hidden = false;
+
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
-			} else {
+			}  else {
 				SetSrollingAvailability (false);
 				if (newPostViewController == null) {
 					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
 						.MainStoryboard
 						.InstantiateViewController ("BGNewPostViewController");
+					newPostViewController.View.BackgroundColor = new UIColor(50/255.0f, 50/255.0f, 50/255.0f, 0.7f);
 					newPostViewController.ParentViewController = this;
 					this.AddChildViewController (newPostViewController);
+					newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+					View.AddSubview (newPostViewController.View);
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
+
 				isNewPostMode = true;
-                ((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.View.Hidden = true;
-				CollectionView.Hidden = true;
-				View.AddSubview (newPostViewController.View);
+				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );
+				//CollectionView.Hidden = true;
+
 			}
 			UIView.CommitAnimations ();
 		}
