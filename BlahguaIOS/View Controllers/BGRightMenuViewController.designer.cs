@@ -14,6 +14,30 @@ namespace BlahguaMobile.IOS
 	[Register ("BGRightMenuViewController")]
 	partial class BGRightMenuViewController
 	{
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnBadges { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnDemographics { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnHistory { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnLogout { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnProfile { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton m_btnStats { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView m_imgAvatar { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel m_lblUserName { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 		}

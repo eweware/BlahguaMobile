@@ -305,7 +305,7 @@ namespace BlahguaMobile.IOS
 		{
 			return UIImage.FromBundle (signUp ? "signupRadioButton" : "signupRadioButtonUn");
 		}
-			
+			/*
 		void RememberMeAction (UIButton sender)
 		{
 			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
@@ -326,7 +326,7 @@ namespace BlahguaMobile.IOS
                 rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
 			}
 		}
-
+*/
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			if(segue.Identifier == "fromLoginToProfile")

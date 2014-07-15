@@ -6,12 +6,13 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using System.Drawing;
 using BlahguaMobile.IOS;
+using BlahguaMobile.BlahguaCore;
 
 namespace MonoTouch.SlideMenu
 {
 	public class SlideMenuController : UIViewController
 	{
-		const float WIDTH_OF_CONTENT_VIEW_VISIBLE = 165.0f;
+		const float WIDTH_OF_CONTENT_VIEW_VISIBLE = 160.0f;
 		const float ANIMATION_DURATION = 0.3f;
 		const float SCALE = 1.0f;
 		private float currentScale = 1.0f;
@@ -55,6 +56,8 @@ namespace MonoTouch.SlideMenu
 			this.SetMenuViewController(menuViewController);
 			this.SetRightMenuViewController (rightMenuViewController);
 			this.SetContentViewController(contentViewController);
+
+
 
 			panEnabledWhenSlideMenuIsHidden = true;
 		}
@@ -260,7 +263,7 @@ namespace MonoTouch.SlideMenu
 		public void LoadMenuViewControllerViewIfNeeded ()
 		{
 			if (menuViewController.TableView.Superview == null) {
-				RectangleF menuFrame = View.Bounds;
+				RectangleF menuFrame = new RectangleF (View.Bounds.X, View.Bounds.Top, WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Height);   //View.Bounds;
 				//menuFrame.Width -= WIDTH_OF_CONTENT_VIEW_VISIBLE; 
 				menuViewController.TableView.Frame = menuFrame;
 
@@ -306,6 +309,11 @@ namespace MonoTouch.SlideMenu
 
 				// Add the new content view
 				SetContentViewController(controller);
+
+				//add for right menu 
+				this.rightMenuViewController.SetContentView (controller);
+
+
                 controller.View.Transform = tranfsorm;
 				contentViewController.View.Frame = frame;
 				//contentViewController.View.AddGestureRecognizer(TapGesture);
@@ -316,7 +324,6 @@ namespace MonoTouch.SlideMenu
    			}
 
             ShowContentViewControllerAnimated(animated, null, true);
-
 		}
 
 		// - (void)showContentViewControllerAnimated:(BOOL)animated completion:(void(^)(BOOL finished))completion
@@ -374,18 +381,15 @@ namespace MonoTouch.SlideMenu
 
 		public void ToggleRightMenuAnimated ()
 		{
-			((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).PerformSegue ("fromRollToProfile", ((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]));
-
-			/*
 			if (IsRightMenuOpen ()) {
 				//				UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide);
-				ShowContentViewControllerAnimated(true, null);
+				ShowContentViewControllerAnimated (true, null);
 			} else {
 				//				UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
-				ShowRightMenuAnimated(true, null);
+				ShowRightMenuAnimated (true, null);
 			}
-			*/
 		}
+		
 
 
         public void ApplySnapshot(bool updateStatusBar = true) {
@@ -563,14 +567,15 @@ namespace MonoTouch.SlideMenu
 					contentViewController.View.EndEditing(true); // Dismiss any open keyboards.
 					menuViewController.BeginAppearanceTransition(true, true); // Menu is appearing
 				}
-				/*
-
+					
 				if (!IsRightMenuOpen()) {
-					LoadRightMenuViewControllerViewIfNeeded (); // Menu is closed, load it if needed
-					contentViewController.View.EndEditing(true); // Dismiss any open keyboards.
-					rightMenuViewController.BeginAppearanceTransition(true, true); // Menu is appearing
+					if (BlahguaAPIObject.Current.CurrentUser != null) {
+						LoadRightMenuViewControllerViewIfNeeded (); //Right Menu is closed, load it if needed
+						contentViewController.View.EndEditing (true); // Dismiss any open keyboards.
+						rightMenuViewController.BeginAppearanceTransition (true, true); //Right Menu is appearing
+					}
 				}
-*/
+
 			}
 
 			PointF translation = PanGesture.TranslationInView (PanGesture.View);
@@ -579,13 +584,17 @@ namespace MonoTouch.SlideMenu
 			frame.X += translation.X;
 
 			float offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
+
+			float offsetXWhenRightMenuIsOpen = OffsetXWhenRightMenuIsOpen ();
+
+			/*
             float offsetXWhenMenuIsClose = OffsetXWhenMenuIsClose ();
-            if (frame.X < offsetXWhenMenuIsClose) {
-				frame.X = offsetXWhenMenuIsClose;
-			} else if (frame.X > offsetXWhenMenuIsOpen) {
+			if (frame.X <= offsetXWhenRightMenuIsOpen)
+				frame.X = offsetXWhenRightMenuIsOpen;
+			else if (frame.X > offsetXWhenMenuIsOpen) {
 				frame.X = offsetXWhenMenuIsOpen;
 			}
-
+*/
 			currentScale = 1.0f-(1.0f-SCALE)*(frame.X/offsetXWhenMenuIsOpen);
 			//contentViewController.View.Transform = CGAffineTransform.MakeScale(currentScale, currentScale);
 			frame.Height = UIScreen.MainScreen.Bounds.Height * currentScale;
@@ -602,7 +611,9 @@ namespace MonoTouch.SlideMenu
 				if (velocity.X < 0) // close
 				{
 					// Compute animation duration
-					distance = frame.X;
+					distance = Math.Abs( frame.X);
+					if (distance < 150 && !IsMenuOpen() && !IsRightMenuOpen())
+						return;
 					animationDuration = Math.Abs(distance / velocity.X);
 
 					if (animationDuration > ANIMATION_DURATION) {
@@ -613,40 +624,67 @@ namespace MonoTouch.SlideMenu
 					//TapGesture.Enabled = false;
 					PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
 										
-					frame.X = OffsetXWhenMenuIsClose();
-										
+					//frame.X = OffsetXWhenMenuIsClose();
+									
 					if (!menuWasOpenAtPanBegin) {
 						menuViewController.EndAppearanceTransition();
 					}
-										
-					menuViewController.BeginAppearanceTransition(false, true);
-					contentViewController.BeginAppearanceTransition(true, true);
+					if (!IsRightMenuOpen()) {
+						//rightMenuViewController.BeginAppearanceTransition(true,true);
+					}
 
-					UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-						DeScaleContentView();
-						contentViewController.View.Frame = View.Bounds;
-					}, (finished) => {
-						RemoveSnapshot();
-						menuViewController.EndAppearanceTransition();
-						contentViewController.EndAppearanceTransition();
-						if (finished) {
-							contentViewController.View.LayoutIfNeeded();
-						}
-					});
+					if (menuWasOpenAtPanBegin) {
+						menuViewController.BeginAppearanceTransition(false, true);
+						contentViewController.BeginAppearanceTransition(true, true);
+
+						UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+							DeScaleContentView();
+							contentViewController.View.Frame = View.Bounds;
+						}, (finished) => {
+							RemoveSnapshot();
+							menuViewController.EndAppearanceTransition();
+							contentViewController.EndAppearanceTransition();
+							if (finished) {
+								contentViewController.View.LayoutIfNeeded();
+							}
+						});
+
+					}
+
+					else if(!IsRightMenuOpen() && BlahguaAPIObject.Current.CurrentUser != null)
+					{
+						menuViewController.BeginAppearanceTransition(false, true);
+						rightMenuViewController.BeginAppearanceTransition (true, true);
+
+						UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+							DeScaleContentView();
+							contentViewController.View.Frame =new RectangleF( View.Bounds.X - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Y, View.Bounds.Width, View.Bounds.Height) ;
+						}, (finished) => {
+							RemoveSnapshot();
+							menuViewController.EndAppearanceTransition();
+							rightMenuViewController.EndAppearanceTransition();
+							contentViewController.EndAppearanceTransition();
+						});
+					} 
+
+
+
 				} 
 				else // open
 				{
 
 					//distance = Math.Abs(offsetXWhenMenuIsOpen - frame.X);
 					distance = Math.Abs (frame.X);
-					if (distance < 200) // threshold for swiping
+					if (distance < 150 && !IsMenuOpen() && !IsRightMenuOpen()) // threshold for swiping
 						return;
 					animationDuration = Math.Abs(distance / velocity.X);
 					if (animationDuration > ANIMATION_DURATION){
 						animationDuration = ANIMATION_DURATION;
 					}
-
-					frame.X = OffsetXWhenMenuIsOpen();
+					if (IsRightMenuOpen ())
+						frame.X = OffsetXWhenMenuIsClose ();
+					else
+						frame.X = OffsetXWhenMenuIsOpen();
 					UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 						ScaleContentView();
 						frame.Height = UIScreen.MainScreen.Bounds.Height * SCALE;
@@ -663,6 +701,7 @@ namespace MonoTouch.SlideMenu
 	
 				contentViewControllerFrame = frame;
 			}
+			/*
 			if(ContentViewController is BGMainNavigationController && 
 				((BGMainNavigationController)ContentViewController).ViewControllers[0] is BGRollViewController)
 			{
@@ -672,6 +711,7 @@ namespace MonoTouch.SlideMenu
 					else
 						((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).RightMenuPanRecognizer.Enabled = true;
 			}
+			*/
 		}
 
 		// - (BOOL)isMenuOpen;
@@ -710,7 +750,7 @@ namespace MonoTouch.SlideMenu
 		// - (CGFloat)offsetXWhenMenuIsOpen
 		public float OffsetXWhenMenuIsOpen ()
 		{
-            float baseOffset = View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE;
+			float baseOffset = WIDTH_OF_CONTENT_VIEW_VISIBLE;   //View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE;
 			baseOffset -= ScaleCorrection();
 			return baseOffset;
 		}
