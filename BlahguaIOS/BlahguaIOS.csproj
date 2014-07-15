@@ -293,7 +293,7 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <Version>104.1.0</Version>
+      <Version>104.4.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -311,11 +311,21 @@
       <HintPath>..\Components\servicestacktext-3.9.60.0\lib\ios\ServiceStack.Text.MonoTouch.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\..\..\..\blaghua15julyagainpull\BlahguaMobile\BlahguaIOS\bin\iPhone\Debug\RestSharp.MonoTouch.dll</HintPath>
+      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton.png" />
+    <BundleResource Include="Resources\icon_speechact_ask_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_ask.png" />
+    <BundleResource Include="Resources\icon_speechact_leak_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_leak.png" />
+    <BundleResource Include="Resources\icon_speechact_poll_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_poll.png" />
+    <BundleResource Include="Resources\icon_speechact_predict_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_predict.png" />
+    <BundleResource Include="Resources\icon_speechact_say_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_say.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
