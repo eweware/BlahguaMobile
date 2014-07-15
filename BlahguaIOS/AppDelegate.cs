@@ -16,6 +16,7 @@ namespace BlahguaMobile.IOS
 		#region Fields
 
 		private BGLeftMenuTableViewController menu;
+		private BGRightMenuViewController rightMenu;
 		private SlideMenuController slideMenu;
 
 
@@ -31,7 +32,7 @@ namespace BlahguaMobile.IOS
 			{
 				if (slideMenu == null)
 				{
-					slideMenu = new SlideMenuController(Menu, new UIViewController());
+					slideMenu = new SlideMenuController(Menu,RightMenu, new UIViewController());
 				}
 				return slideMenu;
 			}
@@ -46,6 +47,18 @@ namespace BlahguaMobile.IOS
 					menu = (BGLeftMenuTableViewController)MainStoryboard.InstantiateViewController("BGLeftMenuTableViewController");
 				}
 				return menu;
+			}
+		}
+
+		public BGRightMenuViewController RightMenu
+		{
+			get
+			{
+				if(rightMenu == null)
+				{
+					rightMenu = (BGRightMenuViewController)MainStoryboard.InstantiateViewController("BGRightMenuViewController");
+				}
+				return rightMenu;
 			}
 		}
 

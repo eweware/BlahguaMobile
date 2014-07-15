@@ -11,19 +11,11 @@ using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("BGHistoryViewController")]
-	partial class BGHistoryViewController
+	[Register ("BGRightMenuViewController")]
+	partial class BGRightMenuViewController
 	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView view { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (view != null) {
-				view.Dispose ();
-				view = null;
-			}
 		}
 	}
 }

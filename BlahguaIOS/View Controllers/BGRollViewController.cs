@@ -483,6 +483,7 @@ namespace BlahguaMobile.IOS
 
 		private void ToggleRightMenu ()
 		{
+			/*
 			if (isOpened) {
 				SetSrollingAvailability (true);
 				ResetToStartPosition (true);
@@ -492,6 +493,8 @@ namespace BlahguaMobile.IOS
 				SetFinalContainerViewPosition (true);
 				isOpened = true;
 			}
+			*/
+			leftSlidingMenu.ToggleRightMenuAnimated ();
 		}
 
 		public void PanRightView (UIPanGestureRecognizer recognizer)

@@ -16,7 +16,7 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITextField pollItemText { get; set; }
+		UITextField pollItemText { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
