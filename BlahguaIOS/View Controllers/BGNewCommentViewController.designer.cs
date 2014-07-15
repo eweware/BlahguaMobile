@@ -16,23 +16,23 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView back { get; set; }
+		MonoTouch.UIKit.UIImageView back { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton done { get; set; }
+		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField input { get; set; }
+		MonoTouch.UIKit.UITextField input { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectImageButton { get; set; }
+		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectSignature { get; set; }
+		MonoTouch.UIKit.UIButton selectSignature { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

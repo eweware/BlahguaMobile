@@ -51,7 +51,7 @@
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="RestSharp.MonoDroid">
-      <HintPath>..\Components\restsharp-104.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+      <HintPath>..\Components\restsharp-104.4.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>

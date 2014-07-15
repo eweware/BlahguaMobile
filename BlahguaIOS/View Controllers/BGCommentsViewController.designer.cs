@@ -16,35 +16,35 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIToolbar bottomToolbar { get; set; }
+		MonoTouch.UIKit.UIToolbar bottomToolbar { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem commentsView { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView contentView { get; set; }
+		MonoTouch.UIKit.UITableView contentView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem downVote { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem statsView { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem summaryView { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem upVote { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel viewTitle { get; set; }
+		MonoTouch.UIKit.UILabel viewTitle { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

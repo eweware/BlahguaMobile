@@ -16,11 +16,11 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel label { get; set; }
+		MonoTouch.UIKit.UILabel label { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView selectedImage { get; set; }
+		MonoTouch.UIKit.UIImageView selectedImage { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

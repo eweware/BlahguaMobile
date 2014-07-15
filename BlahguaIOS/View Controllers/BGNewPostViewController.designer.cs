@@ -16,58 +16,34 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView AskBtn { get; set; }
+		MonoTouch.UIKit.UIImageView back { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView back { get; set; }
+		MonoTouch.UIKit.UITextField bodyInput { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField bodyInput { get; set; }
+		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton done { get; set; }
+		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView LeakBtn { get; set; }
+		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView PollBtn { get; set; }
+		MonoTouch.UIKit.UIButton selectSignature { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView pollItemsTableView { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView PredictBtn { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView SayBtn { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectImageButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectSignature { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField titleInput { get; set; }
+		MonoTouch.UIKit.UITextField titleInput { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (AskBtn != null) {
-				AskBtn.Dispose ();
-				AskBtn = null;
-			}
 			if (back != null) {
 				back.Dispose ();
 				back = null;
@@ -80,25 +56,9 @@ namespace BlahguaMobile.IOS
 				done.Dispose ();
 				done = null;
 			}
-			if (LeakBtn != null) {
-				LeakBtn.Dispose ();
-				LeakBtn = null;
-			}
-			if (PollBtn != null) {
-				PollBtn.Dispose ();
-				PollBtn = null;
-			}
 			if (pollItemsTableView != null) {
 				pollItemsTableView.Dispose ();
 				pollItemsTableView = null;
-			}
-			if (PredictBtn != null) {
-				PredictBtn.Dispose ();
-				PredictBtn = null;
-			}
-			if (SayBtn != null) {
-				SayBtn.Dispose ();
-				SayBtn = null;
 			}
 			if (selectImageButton != null) {
 				selectImageButton.Dispose ();

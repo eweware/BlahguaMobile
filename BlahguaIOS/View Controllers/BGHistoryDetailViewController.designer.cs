@@ -16,7 +16,7 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView view { get; set; }
+		MonoTouch.UIKit.UITableView view { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

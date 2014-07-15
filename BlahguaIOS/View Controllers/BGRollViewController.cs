@@ -426,11 +426,12 @@ namespace BlahguaMobile.IOS
 			});
 			rightViewContainer.AddConstraint (constraintWidth);
 
+			/*
 			RightMenuPanRecognizer = new UIPanGestureRecognizer (PanRightView);
 			RightMenuPanRecognizer.CancelsTouchesInView = false;
 			RightMenuPanRecognizer.Delegate = new PanGestureRecognizerDelegate ();
 			View.AddGestureRecognizer (RightMenuPanRecognizer);
-
+*/
 		}
 
 		private void ProfileButtonClicked (object sender, EventArgs args)

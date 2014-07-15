@@ -16,15 +16,15 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton ddButton { get; set; }
+		MonoTouch.UIKit.UIButton ddButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton isPublicButton { get; set; }
+		MonoTouch.UIKit.UIButton isPublicButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel publicLabel { get; set; }
+		MonoTouch.UIKit.UILabel publicLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

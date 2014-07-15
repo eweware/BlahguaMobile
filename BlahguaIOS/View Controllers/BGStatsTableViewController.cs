@@ -17,7 +17,7 @@ namespace BlahguaMobile.IOS
 	public partial class BGStatsTableViewController : UIViewController
 	{
 		private UIViewController parentViewController;
-        //UIScrollView scrollView;
+        UIScrollView scrollView;
         
 		private Blah CurrentBlah
 		{

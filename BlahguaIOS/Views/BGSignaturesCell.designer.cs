@@ -16,7 +16,7 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel name { get; set; }
+		MonoTouch.UIKit.UILabel name { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

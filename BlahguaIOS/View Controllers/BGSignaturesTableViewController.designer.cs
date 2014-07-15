@@ -16,11 +16,11 @@ namespace BlahguaMobile.IOS
 	{
 		[Action ("Done:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void Done (UIBarButtonItem sender);
+		partial void Done (MonoTouch.UIKit.UIBarButtonItem sender);
 
 		[Action ("SelectAll:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void SelectAll (UIBarButtonItem sender);
+		partial void SelectAll (MonoTouch.UIKit.UIBarButtonItem sender);
 
 		void ReleaseDesignerOutlets ()
 		{
