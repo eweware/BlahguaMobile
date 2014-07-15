@@ -16,11 +16,11 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITextView text { get; set; }
+		UITextView text { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel upAndDownVotes { get; set; }
+		UILabel upAndDownVotes { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

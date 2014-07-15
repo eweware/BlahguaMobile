@@ -316,6 +316,16 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton.png" />
+    <BundleResource Include="Resources\icon_speechact_ask_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_ask.png" />
+    <BundleResource Include="Resources\icon_speechact_leak_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_leak.png" />
+    <BundleResource Include="Resources\icon_speechact_poll_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_poll.png" />
+    <BundleResource Include="Resources\icon_speechact_predict_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_predict.png" />
+    <BundleResource Include="Resources\icon_speechact_say_teal.png" />
+    <BundleResource Include="Resources\icon_speechact_say.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

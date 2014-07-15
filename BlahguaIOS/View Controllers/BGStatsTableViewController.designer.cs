@@ -45,7 +45,11 @@ namespace BlahguaMobile.IOS
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblPromotes { get; set; }
- 
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIScrollView scrollView { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (lblComment != null) {
@@ -80,8 +84,10 @@ namespace BlahguaMobile.IOS
 				lblPromotes.Dispose ();
 				lblPromotes = null;
 			}
-
-           
+			if (scrollView != null) {
+				scrollView.Dispose ();
+				scrollView = null;
+			}
 		}
 	}
 }
