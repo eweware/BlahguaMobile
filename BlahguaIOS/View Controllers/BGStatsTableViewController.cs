@@ -44,7 +44,13 @@ namespace BlahguaMobile.IOS
                 NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
                 //Synsoft on 11 July 2014 for active color  #1FBBD1
                 NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-                
+
+                //Synsoft on 14 July 2014 for swipping between screens                
+                UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentsController);
+                objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
+                this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
+
+
                 //Synsoft on 10 June 2014 
                 // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
                 scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 600);
@@ -103,6 +109,13 @@ namespace BlahguaMobile.IOS
 
         }
 
+        //Synsoft on 14 July 2014
+        private void SwipeToCommentsController()
+        {
+            this.NavigationController.PopViewControllerAnimated(true);
+        }
+
+        //Synsoft on 11 July 2014 for swipping between screens
         private void BlahHandler(object sender, EventArgs args)
         {
             DismissViewController(true, null);

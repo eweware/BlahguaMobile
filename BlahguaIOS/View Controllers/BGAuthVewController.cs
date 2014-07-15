@@ -24,6 +24,12 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
+        // synsoft on 14 July 2014
+        public BGAuthVewController()
+        { 
+        
+        }
+
 		public BGAuthVewController (IntPtr handle) : base (handle)
 		{
 

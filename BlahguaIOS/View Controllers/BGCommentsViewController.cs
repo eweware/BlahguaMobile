@@ -64,6 +64,10 @@ namespace BlahguaMobile.IOS
 		public BGCommentsViewController (IntPtr handle) : base (handle)
 		{
 		}
+        public BGCommentsViewController()
+        { 
+        
+        }
 
 		#endregion
 
@@ -83,8 +87,27 @@ namespace BlahguaMobile.IOS
 
 			SetUpToolbar ();
 
+            //Synsoft on 14 July 2014 for swiping between screens
+            UISwipeGestureRecognizer objUISwipeGestureRecognizer2 = new UISwipeGestureRecognizer(SwipeToStatsController);
+            objUISwipeGestureRecognizer2.Direction = UISwipeGestureRecognizerDirection.Left;
+            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer2);
 
+            UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToSummaryController);
+            objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
+            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);     
 		}
+
+        //Synsoft on 14 July 2014
+        private void SwipeToSummaryController()
+        {
+            this.NavigationController.PopViewControllerAnimated(true);
+        }
+
+        //Synsoft on 14 July 2014
+        private void SwipeToStatsController()
+        {
+            PerformSegue("fromCommentsToStats", this);
+        }
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{

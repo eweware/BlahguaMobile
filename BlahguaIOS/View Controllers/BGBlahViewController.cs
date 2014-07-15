@@ -87,7 +87,19 @@ namespace BlahguaMobile.IOS
             SetUpContentView();
 
             SetUpToolbar();
+
+            //Synsoft on 14 July 2014 for swipping between screens
+
+            UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentController);
+            objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Left;
+            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);          
         }
+
+        //Synsoft on 14 July 2014 
+        private void SwipeToCommentController()
+        {
+            PerformSegue("fromBlahViewToComments", this);
+        }       
 
         //Synsoft on 11 July 2014            
         private void BackHandler(object sender, EventArgs args)
@@ -322,35 +334,92 @@ namespace BlahguaMobile.IOS
             upVoteButton = new UIButton(UIButtonType.Custom);
             upVoteButton.Frame = votesButtonRect;
             upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
-            {
-                if (CurrentBlah.uv != 1)
-                {
-                    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                    BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
-                    {
-                        Console.WriteLine(value);
-                    });
-                }
-            };
+              {
 
+                  //======by synsoft on 14 July 2014
+                //if (CurrentBlah.uv != 1)
+                //{
+                //    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                //    BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+                //    {
+                //        Console.WriteLine(value);
+                //    });
+                //}
+                //=======================*/
+
+
+                  //by synsoft on 14 July 2014 for voting first go to login page if not login   
+                  if (BlahguaAPIObject.Current.CurrentUser == null)
+                  {
+                    AlertDelegate obj = new AlertDelegate();
+                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                    _alert.Clicked += _alert_Clicked;
+                    _alert.Show();         
+                  }
+                  else if (BlahguaAPIObject.Current.CurrentUser != null)
+                  {
+                      if (CurrentBlah.uv != 1)
+                      {
+                          upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                          BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+                          {
+                              Console.WriteLine(value);
+                          });
+                      }
+                  }
+
+              };
+            
+           
+  
             downVoteButton = new UIButton(UIButtonType.Custom);
             downVoteButton.Frame = votesButtonRect;
             downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
             {
-                if (CurrentBlah.uv != -1)
+
+                // comment by synsoft on 14 July 2014 --old code
+
+                //if (CurrentBlah.uv != -1)
+                //{
+                //    downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                //    BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+                //    {
+                //        Console.WriteLine(value);
+                //    });
+                //}
+
+                // synsoft on 14 July 2014
+                if (BlahguaAPIObject.Current.CurrentUser == null)
                 {
-                    downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                    BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
-                    {
-                        Console.WriteLine(value);
-                    });
+                    AlertDelegate obj = new AlertDelegate();
+                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                    _alert.Clicked += _alert_Clicked;
+                    _alert.Show();
                 }
+                else if (BlahguaAPIObject.Current.CurrentUser != null)
+                {
+                    if (CurrentBlah.uv != -1)
+                    {
+                        upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                        BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+                        {
+                            Console.WriteLine(value);
+                        });
+                    }
+                }
+
             };
 
             SetVoteButtonsImages();
 
             upVote.CustomView = upVoteButton;
             downVote.CustomView = downVoteButton;
+        }
+
+        //Synsoft on 14 July 2014 
+        void _alert_Clicked(object sender, UIButtonEventArgs e)
+        {
+            this.PerformSegue("fromSummaryToLogin", this);
         }
 
         private void SetVoteButtonsImages()
@@ -723,5 +792,16 @@ namespace BlahguaMobile.IOS
         }
 
         #endregion
+    }
+
+    public class AlertDelegate : UIAlertViewDelegate
+    {
+        public override void Clicked(UIAlertView alertview, int buttonIndex)
+        {
+            base.Clicked(alertview, buttonIndex);
+          
+        }
+     
+
     }
 }

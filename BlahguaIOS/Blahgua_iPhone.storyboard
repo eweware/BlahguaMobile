@@ -617,11 +617,13 @@
                         <outlet property="userImage" destination="WuP-gY-bnW" id="902-S2-UvW"/>
                         <segue destination="SJE-mi-DmF" kind="push" identifier="fromBlahViewToComments" id="0GW-vI-3d3"/>
                         <segue destination="99" kind="push" identifier="fromBlahViewToStats" id="107"/>
+                        <segue destination="1" kind="push" id="499" identifier="fromSummaryToLogin"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7uw-Za-e2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="518" numberOfTouchesRequired="1"/>
             </objects>
-            <point key="canvasLocation" x="1178" y="424"/>
+            <point key="canvasLocation" x="1188" y="509"/>
         </scene>
         <!--History View Controller-->
         <scene sceneID="cti-x0-Ugh">
@@ -1046,8 +1048,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JtY-af-kjW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="519" numberOfTouchesRequired="1"/>
             </objects>
-            <point key="canvasLocation" x="2532" y="1065"/>
+            <point key="canvasLocation" x="2118" y="910"/>
         </scene>
         <!--Demographics View Controller-->
         <scene sceneID="Cpf-N9-NYt">
@@ -1772,6 +1775,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="103" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="521"/>
             </objects>
             <point key="canvasLocation" x="3299" y="312"/>
         </scene>
