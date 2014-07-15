@@ -264,7 +264,46 @@ namespace BlahguaMobile.IOS
 			else
 			{
 				InvokeOnMainThread (() => NavigationItem.RightBarButtonItem.Enabled = true );
+//                UIAlertView alert = new UIAlertView ();
+//				alert.Title = "Error";
+//				alert.AddButton ("OK");
+//				alert.AddButton ("Cancel");
+//				alert.Message = "This should be an error message";
+
+				Console.WriteLine ("Authentication failed");
+
+				InvokeOnMainThread (()=> displayAlert());
+			
 			}
+		}
+			
+		public void displayAlert()
+		{
+
+			/*Console.WriteLine ("Authentication failed in display function");
+
+			UIAlertView alert = new UIAlertView ();
+							alert.Title = "Error";
+							alert.AddButton ("OK");
+							alert.Message = "This should be an error message";
+
+			alert.Show ();*/
+
+			int clicked = -1;
+			var x = new UIAlertView ("Error", "Authentication failure",  null, "OK");
+			x.Show ();
+			//bool done = false;
+			x.Clicked += (sender, buttonArgs) => {
+				Console.WriteLine ("User clicked on {0}", buttonArgs.ButtonIndex);
+				clicked = buttonArgs.ButtonIndex;
+			};    
+			while (clicked == -1){
+				NSRunLoop.Current.RunUntil (NSDate.FromTimeIntervalSinceNow (0.5));
+				Console.WriteLine ("Waiting for another 0.5 seconds");
+			}
+			Console.WriteLine ("The user clicked {0}", clicked);
+			//return clicked;
+			
 		}
 
 		private UIImage GetModeBackgroundImage()
