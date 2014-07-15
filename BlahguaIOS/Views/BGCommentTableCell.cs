@@ -11,235 +11,271 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGCommentTableCell : UITableViewCell
-	{
-		private UIPanGestureRecognizer panRecognizer;
-		private PointF panStartPoint;
-		private float startingLayoutRight = 0;
-		private Comment comment;
+    public partial class BGCommentTableCell : UITableViewCell
+    {
+        private UIPanGestureRecognizer panRecognizer;
+        private PointF panStartPoint;
+        private float startingLayoutRight = 0;
+        private Comment comment;
 
-		public BGCommentTableCell (IntPtr handle) : base (handle)
-		{
-		}
+        public BGCommentTableCell(IntPtr handle)
+            : base(handle)
+        {
+        }
 
-		public void SetUp(Comment comment)
-		{
-			this.comment = comment;
-			panRecognizer = new UIPanGestureRecognizer (PanThisCell);
-			panRecognizer.Delegate = new PanGestureRecognizerDelegate ();
-			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
-			containerView.AddGestureRecognizer (panRecognizer);
+        public void SetUp(Comment comment)
+        {
+            this.comment = comment;
+            panRecognizer = new UIPanGestureRecognizer(PanThisCell);
+            panRecognizer.Delegate = new PanGestureRecognizerDelegate();
+            containerView.TranslatesAutoresizingMaskIntoConstraints = false;
+            containerView.AddGestureRecognizer(panRecognizer);
 
-			if(!String.IsNullOrEmpty(comment.ImageURL))
-			{
-				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), new ImageUpdateDelegate (commentImageView));
-			}
-				
-			if(!String.IsNullOrEmpty(comment.T))
-			{
-				text.AttributedText = new NSAttributedString (comment.T, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				text.ScrollEnabled = false;
-			}
-				
-			author.AttributedText = new NSAttributedString (
-				comment.AuthorName, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
-				UIColor.Black
-			);
+            if (!String.IsNullOrEmpty(comment.ImageURL))
+            {
+                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), new ImageUpdateDelegate(commentImageView));
+            }
 
+            if (!String.IsNullOrEmpty(comment.T))
+            {
+                text.AttributedText = new NSAttributedString(comment.T, UIFont.FromName(BGAppearanceConstants.FontName, 14), UIColor.Black);
+                text.ScrollEnabled = false;
+            }
 
-			timespan.AttributedText = new NSAttributedString (
-				comment.ElapsedTimeString, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
-				UIColor.Black
-			);
+            author.AttributedText = new NSAttributedString(
+                comment.AuthorName,
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                UIColor.Black
+            );
 
 
-			upAndDownVotes.AttributedText = new NSAttributedString (
-				comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(), 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
-				UIColor.Black
-			);
+            timespan.AttributedText = new NSAttributedString(
+                comment.ElapsedTimeString,
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                UIColor.Black
+            );
 
-			voteView.BackgroundColor = BGAppearanceConstants.TealGreen;
-			if(comment.uv == -1)
-			{
-				downVoteButton.SetImage (UIImage.FromFile ("arrow_down_dark.png"), UIControlState.Normal);
-				upVoteButton.SetImage (UIImage.FromFile ("arrow_up.png"), UIControlState.Normal);
-			} 
-			else if(comment.uv == 1)
-			{
-				downVoteButton.SetImage (UIImage.FromFile ("arrow_down.png"), UIControlState.Normal);
-				upVoteButton.SetImage (UIImage.FromFile ("arrow_up_dark.png"), UIControlState.Normal);
-			}
-			
-			downVoteButton.TouchUpInside += (sender, e) => {
-				BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
-				downVoteButton.SetImage (UIImage.FromFile ("arrow_down_dark.png"), UIControlState.Normal);
-				upVoteButton.SetImage (UIImage.FromFile ("arrow_up.png"), UIControlState.Normal);
-			};
 
-			upVoteButton.TouchUpInside += (sender, e) => {
-				BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
-				downVoteButton.SetImage (UIImage.FromFile ("arrow_down.png"), UIControlState.Normal);
-				upVoteButton.SetImage (UIImage.FromFile ("arrow_up_dark.png"), UIControlState.Normal);
-			};
-		}
+            upAndDownVotes.AttributedText = new NSAttributedString(
+                comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                UIColor.Black
+            );
 
-		public void PanThisCell(UIPanGestureRecognizer recognizer)
-		{
-			switch(recognizer.State)
-			{
+            voteView.BackgroundColor = BGAppearanceConstants.TealGreen;
+            if (comment.uv == -1)
+            {
+                downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
+                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+            }
+            else if (comment.uv == 1)
+            {
+                downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
+                upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+            }
 
-			case UIGestureRecognizerState.Began:
-				panStartPoint = recognizer.TranslationInView(containerView);
-				break;
-			case UIGestureRecognizerState.Changed:
-				PointF currentPoint = recognizer.TranslationInView (containerView);
-				float deltaX = currentPoint.X - panStartPoint.X;
-				bool panningLeft = false; 
-				if (currentPoint.X < panStartPoint.X) { 
-					panningLeft = true;
-				}
+            downVoteButton.TouchUpInside += (sender, e) =>
+            {
+                BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
+                downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
+                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+            };
 
-				if (startingLayoutRight == 0) { 
-					if (!panningLeft) {
-						float constant = Math.Max (-deltaX, 0);
-						if (constant == 0) {
-							ResetToStartPosition (true);
-						} else { 
-							rightPosition.Constant = constant;
-						}
-					} else {
-						float constant = Math.Min (-deltaX, ButtonTotalWidth());
-						if (constant == ButtonTotalWidth()) {
-							SetFinalContainerViewPosition (true);
-						} else {
-							rightPosition.Constant = constant;
-						}
-					}
-				} else {
-					float adjustment = startingLayoutRight - deltaX;
-					if (!panningLeft) {
-						float constant = Math.Max (adjustment, 0);
-						if (constant == 0) {
-							ResetToStartPosition (true);
-						} else {
-							rightPosition.Constant = constant;
-						}
-					} else {
-						float constant = Math.Min (adjustment, ButtonTotalWidth());
-						if (constant == ButtonTotalWidth()) {
-							SetFinalContainerViewPosition (true);
-						} else {
-							rightPosition.Constant = constant;
-						}
-					}
-				}
-				break;
-			case UIGestureRecognizerState.Ended:
-				if (startingLayoutRight == 0) 
-				{
-					float position = ButtonTotalWidth() / 2 - 1;
-					if (rightPosition.Constant >= position) 
-					{
-						SetFinalContainerViewPosition (true);
-					} else 
-					{
-						ResetToStartPosition (true);
-					}
-				} else 
-				{
-					float position = ButtonTotalWidth () / 2;
-					if (rightPosition.Constant >= position) 
-					{
-						SetFinalContainerViewPosition (true);
-					} else 
-					{
-						ResetToStartPosition (true);
-					}
-				}
-				break;
-			case UIGestureRecognizerState.Cancelled:
-				if (startingLayoutRight == 0) {
-					ResetToStartPosition (true);
-				} else {
-					SetFinalContainerViewPosition (true);
-				}
-				break;
-			default:
-				break;
-			}
-		}
+            upVoteButton.TouchUpInside += (sender, e) =>
+            {
+                BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
+                downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
+                upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+            };
+        }
 
-		public void ResetToStartPosition(bool animated)
-		{
-			if (startingLayoutRight == 0 &&
-				rightPosition.Constant == 0) {
-				//Already all the way closed, no bounce necessary
-				return;
-			}
+        public void PanThisCell(UIPanGestureRecognizer recognizer)
+        {
+            switch (recognizer.State)
+            {
 
-			rightPosition.Constant = 0;
+                case UIGestureRecognizerState.Began:
+                    panStartPoint = recognizer.TranslationInView(containerView);
+                    break;
+                case UIGestureRecognizerState.Changed:
+                    PointF currentPoint = recognizer.TranslationInView(containerView);
+                    float deltaX = currentPoint.X - panStartPoint.X;
+                    bool panningLeft = false;
+                    if (currentPoint.X < panStartPoint.X)
+                    {
+                        panningLeft = true;
+                    }
 
-			UpdateConstraintsIfNeeded(animated, () => {
-				startingLayoutRight = rightPosition.Constant;
-			});
-		}
+                    if (startingLayoutRight == 0)
+                    {
+                        if (!panningLeft)
+                        {
+                            float constant = Math.Max(-deltaX, 0);
+                            if (constant == 0)
+                            {
+                                ResetToStartPosition(true);
+                            }
+                            else
+                            {
+                                rightPosition.Constant = constant;
+                            }
+                        }
+                        else
+                        {
+                            float constant = Math.Min(-deltaX, ButtonTotalWidth());
+                            if (constant == ButtonTotalWidth())
+                            {
+                                SetFinalContainerViewPosition(true);
+                            }
+                            else
+                            {
+                                rightPosition.Constant = constant;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        float adjustment = startingLayoutRight - deltaX;
+                        if (!panningLeft)
+                        {
+                            float constant = Math.Max(adjustment, 0);
+                            if (constant == 0)
+                            {
+                                ResetToStartPosition(true);
+                            }
+                            else
+                            {
+                                rightPosition.Constant = constant;
+                            }
+                        }
+                        else
+                        {
+                            float constant = Math.Min(adjustment, ButtonTotalWidth());
+                            if (constant == ButtonTotalWidth())
+                            {
+                                SetFinalContainerViewPosition(true);
+                            }
+                            else
+                            {
+                                rightPosition.Constant = constant;
+                            }
+                        }
+                    }
+                    break;
+                case UIGestureRecognizerState.Ended:
+                    if (startingLayoutRight == 0)
+                    {
+                        float position = ButtonTotalWidth() / 2 - 1;
+                        if (rightPosition.Constant >= position)
+                        {
+                            SetFinalContainerViewPosition(true);
+                        }
+                        else
+                        {
+                            ResetToStartPosition(true);
+                        }
+                    }
+                    else
+                    {
+                        float position = ButtonTotalWidth() / 2;
+                        if (rightPosition.Constant >= position)
+                        {
+                            SetFinalContainerViewPosition(true);
+                        }
+                        else
+                        {
+                            ResetToStartPosition(true);
+                        }
+                    }
+                    break;
+                case UIGestureRecognizerState.Cancelled:
+                    if (startingLayoutRight == 0)
+                    {
+                        ResetToStartPosition(true);
+                    }
+                    else
+                    {
+                        SetFinalContainerViewPosition(true);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		public void SetFinalContainerViewPosition(bool animated)
-		{
-			if (startingLayoutRight == ButtonTotalWidth() &&
-				rightPosition.Constant == ButtonTotalWidth()) {
-				return;
-			}
-				
-			rightPosition.Constant = ButtonTotalWidth();
+        public void ResetToStartPosition(bool animated)
+        {
+            if (startingLayoutRight == 0 &&
+             rightPosition.Constant == 0)
+            {
+                //Already all the way closed, no bounce necessary
+                return;
+            }
 
-			UpdateConstraintsIfNeeded(animated,() => {
-				startingLayoutRight = rightPosition.Constant;
-			});
-		}
+            rightPosition.Constant = 0;
 
-		private void UpdateConstraintsIfNeeded(bool animated, NSAction completionHandler)
-		{
-			float duration = 0;
-			if(animated)
-			{
-				duration = 0.1f;
-			}
+            UpdateConstraintsIfNeeded(animated, () =>
+            {
+                startingLayoutRight = rightPosition.Constant;
+            });
+        }
 
-			UIView.Animate (duration, () => {
-				LayoutIfNeeded();
-			}, completionHandler);
-		}
+        public void SetFinalContainerViewPosition(bool animated)
+        {
+            if (startingLayoutRight == ButtonTotalWidth() &&
+                rightPosition.Constant == ButtonTotalWidth())
+            {
+                return;
+            }
 
-		private float ButtonTotalWidth()
-		{
-			return voteView.Frame.Width;
-		}
+            rightPosition.Constant = ButtonTotalWidth();
 
-		public override void PrepareForReuse ()
-		{
-			base.PrepareForReuse ();
-			ResetToStartPosition (false);
-		}
-	}
+            UpdateConstraintsIfNeeded(animated, () =>
+            {
+                startingLayoutRight = rightPosition.Constant;
+            });
+        }
 
-	public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
-	{
-		public override bool ShouldRecognizeSimultaneously (UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
-		{
-			return true;
-		}
+        private void UpdateConstraintsIfNeeded(bool animated, NSAction completionHandler)
+        {
+            float duration = 0;
+            if (animated)
+            {
+                duration = 0.1f;
+            }
 
-		public override bool ShouldReceiveTouch (UIGestureRecognizer recognizer, UITouch touch)
-		{
-//			if(touch.View is UIButton)
-//			{
-//				return false;
-//			}
-			return true;
-		}
-	}
+            UIView.Animate(duration, () =>
+            {
+                LayoutIfNeeded();
+            }, completionHandler);
+        }
+
+        private float ButtonTotalWidth()
+        {
+            return voteView.Frame.Width;
+        }
+
+        public override void PrepareForReuse()
+        {
+            base.PrepareForReuse();
+            ResetToStartPosition(false);
+        }
+    }
+
+    public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
+    {
+        public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
+        {
+            return true;
+        }
+
+        public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
+        {
+            //			if(touch.View is UIButton)
+            //			{
+            //				return false;
+            //			}
+            return true;
+        }
+    }
 }

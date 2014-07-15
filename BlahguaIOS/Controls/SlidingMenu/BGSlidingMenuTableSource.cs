@@ -51,6 +51,7 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
+                /*
 				var blahType = BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes[indexPath.Row];
 				cell.Text = blahType.N;
 				if(BlahguaCore.BlahguaAPIObject.Current.CreateRecord == null || 
@@ -70,6 +71,7 @@ namespace BlahguaMobile.IOS
 				{
 					cell.DeselectRow ();
 				}
+    */            
 			}
 			return cell;
 		}
@@ -82,7 +84,7 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				return BlahguaCore.BlahguaAPIObject.Current.CurrentBlahTypes.Count;
+                return 0;
 			}
 		}
 
@@ -98,10 +100,7 @@ namespace BlahguaMobile.IOS
 			{
 				headerCell.Header = "Channels";
 			}
-			else
-			{
-				headerCell.Header = "Type of post";
-			}
+			
 			return headerCell;
 		}
 
@@ -115,12 +114,7 @@ namespace BlahguaMobile.IOS
 				{
 					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList[indexPath.Row];
 				}
-				else
-				{
-					var createRecord = BlahguaAPIObject.Current.CreateRecord;
-					createRecord.BlahType = BlahguaAPIObject.Current.CurrentBlahTypes [indexPath.Row];
-					BlahguaAPIObject.Current.CreateRecord = createRecord;
-				}
+				
 			}
 			return indexPath;
 		}

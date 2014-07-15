@@ -271,9 +271,9 @@ namespace BlahguaMobile.IOS
 		{
 			return UIImage.FromBundle (signUp ? "signupRadioButton" : "signupRadioButtonUn");
 		}
-			
 
-		 void RememberMeAction (UIButton sender)
+
+		partial void RememberMeAction (UIButton sender)
 		{
 			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
 			{

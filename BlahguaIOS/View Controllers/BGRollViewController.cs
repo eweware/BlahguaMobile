@@ -240,6 +240,7 @@ namespace BlahguaMobile.IOS
 				isNewPostMode = false;
 				newPostViewController.View.RemoveFromSuperview ();
 				SetSrollingAvailability (true);
+                ((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.View.Hidden = false;
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
 			} else {
 				SetSrollingAvailability (false);
@@ -253,7 +254,7 @@ namespace BlahguaMobile.IOS
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
 				isNewPostMode = true;
-				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.BlahType);
+                ((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.View.Hidden = true;
 				CollectionView.Hidden = true;
 				View.AddSubview (newPostViewController.View);
 			}

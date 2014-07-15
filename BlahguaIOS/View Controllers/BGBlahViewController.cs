@@ -1604,7 +1604,7 @@ namespace BlahguaMobile.IOS
         //Synsoft on 14 July 2014 
         void _alert_Clicked(object sender, UIButtonEventArgs e)
         {
-            this.PerformSegue("fromSummaryToLogin", this);
+            this.PerformSegue("SummaryToLogin", this);
         }
 
         private void SetVoteButtonsImages()

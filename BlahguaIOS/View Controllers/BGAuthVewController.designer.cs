@@ -58,6 +58,10 @@ namespace BlahguaMobile.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel yesLabel { get; set; }
 
+		[Action ("RememberMeAction:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void RememberMeAction (MonoTouch.UIKit.UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (aboutButton != null) {
