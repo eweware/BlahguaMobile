@@ -11,6 +11,7 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGRightMenuViewController : UIViewController, IImageUpdated
 	{
+		UIViewController contentView = null;
 
 		public BGRightMenuViewController (IntPtr handle) : base (handle)
 		{
@@ -20,6 +21,10 @@ namespace BlahguaMobile.IOS
 		{
 		}
 
+		public void SetContentView(UIViewController contentViewController)
+		{
+			contentView = contentViewController;
+		}
 		public override void DidReceiveMemoryWarning ()
 		{
 			// Releases the view if it doesn't have a superview.
@@ -32,15 +37,49 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			//m_imgAvatar.Image = GetProfileImage ();
+			m_imgAvatar.Image = GetProfileImage ();
 
-			//m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
+			m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
-			/*
+
 			m_btnProfile.TouchUpInside += (sender, e) => {
-				PerformSegue("menuToProfile", this);
+				if(contentView != null)
+					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToProfile", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+
 			};
-			*/
+
+			m_btnBadges.TouchUpInside += (sender, e) => {
+				if(contentView != null)
+					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToBadges", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+
+			};
+
+			m_btnHistory.TouchUpInside += (sender, e) => {
+				if(contentView != null)
+					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToHistory", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+
+			};
+				
+			m_btnDemographics.TouchUpInside += (sender, e) => {
+				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
+					InvokeOnMainThread (() => { if(contentView != null)
+						((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToDemographics", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+					});
+				});
+			};
+
+			m_btnStats.TouchUpInside += (sender, e) => {
+				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
+					InvokeOnMainThread (() => { if(contentView != null)
+						((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToStats", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+					});
+				});
+			};
+
+			m_btnLogout.TouchUpInside += (sender, e) => {
+				BlahguaAPIObject.Current.SignOut (null, null);
+			};
+
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
@@ -57,7 +96,7 @@ namespace BlahguaMobile.IOS
 		{
 			var image = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
 			//profile.SetImage (image, UIControlState.Normal);
-			//m_imgAvatar.Image = image;
+			m_imgAvatar.Image = image;
 		}
 
 		#endregion
