@@ -15,102 +15,86 @@ namespace BlahguaMobile.IOS
 	partial class BGNewPostViewController
 	{
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView AskBtn { get; set; }
+		MonoTouch.UIKit.UIButton AskBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView back { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextField bodyInput { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton done { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton LeakBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton PollBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton PredictBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton SayBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton selectSignature { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextField titleInput { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView back { get; set; }
+		UILabel AskBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField bodyInput { get; set; }
+		UILabel LeakBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton done { get; set; }
+		UILabel PollBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView LeakBtn { get; set; }
+		UILabel PredictBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView PollBtn { get; set; }
+		UILabel SayBtnText { get; set; }
 
-		[Outlet]
+		[Action ("HandleTitleChanged:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView pollItemsTableView { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView PredictBtn { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView SayBtn { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectImageButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectSignature { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField titleInput { get; set; }
+		partial void HandleTitleChanged (UITextField sender);
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (AskBtn != null) {
-				AskBtn.Dispose ();
-				AskBtn = null;
+			if (AskBtnText != null) {
+				AskBtnText.Dispose ();
+				AskBtnText = null;
 			}
-			if (back != null) {
-				back.Dispose ();
-				back = null;
+			if (LeakBtnText != null) {
+				LeakBtnText.Dispose ();
+				LeakBtnText = null;
 			}
-			if (bodyInput != null) {
-				bodyInput.Dispose ();
-				bodyInput = null;
+			if (PollBtnText != null) {
+				PollBtnText.Dispose ();
+				PollBtnText = null;
 			}
-			if (done != null) {
-				done.Dispose ();
-				done = null;
+			if (PredictBtnText != null) {
+				PredictBtnText.Dispose ();
+				PredictBtnText = null;
 			}
-			if (LeakBtn != null) {
-				LeakBtn.Dispose ();
-				LeakBtn = null;
-			}
-			if (PollBtn != null) {
-				PollBtn.Dispose ();
-				PollBtn = null;
-			}
-			if (pollItemsTableView != null) {
-				pollItemsTableView.Dispose ();
-				pollItemsTableView = null;
-			}
-			if (PredictBtn != null) {
-				PredictBtn.Dispose ();
-				PredictBtn = null;
-			}
-			if (SayBtn != null) {
-				SayBtn.Dispose ();
-				SayBtn = null;
-			}
-			if (selectImageButton != null) {
-				selectImageButton.Dispose ();
-				selectImageButton = null;
-			}
-			if (selectSignature != null) {
-				selectSignature.Dispose ();
-				selectSignature = null;
-			}
-			if (titleInput != null) {
-				titleInput.Dispose ();
-				titleInput = null;
+			if (SayBtnText != null) {
+				SayBtnText.Dispose ();
+				SayBtnText = null;
 			}
 		}
 	}

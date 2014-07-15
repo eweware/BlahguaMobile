@@ -14,15 +14,14 @@ namespace BlahguaMobile.IOS
 {
 	public enum BGLeftMenuType
 	{
-		Channels,
-		BlahType
+		Channels
 	}
 
 	public partial class BGLeftMenuTableViewController : UITableViewController
 	{
 
 		private BGSlidingMenuTableSource channelsTypesTableSource = new BGSlidingMenuTableSource (BGLeftMenuType.Channels);
-		private BGSlidingMenuTableSource blahTypesTableSource = new BGSlidingMenuTableSource (BGLeftMenuType.BlahType);
+
 
 		public BGLeftMenuTableViewController (IntPtr handle) : base (handle)
 		{
@@ -40,7 +39,7 @@ namespace BlahguaMobile.IOS
 			BlahguaCore.BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
 			{
 
-				if(e.PropertyName == "CurrentChannelList" || e.PropertyName == "CurrentBlahTypes")
+				if(e.PropertyName == "CurrentChannelList")
 				{
 					TableView.ReloadData();
 				}
@@ -58,12 +57,14 @@ namespace BlahguaMobile.IOS
 		public void SwitchTableSource(BGLeftMenuType type)
 		{
 			TableView.DeselectRow (TableView.IndexPathForSelectedRow, false);
-			if (type == BGLeftMenuType.BlahType) {
-				TableView.Source = blahTypesTableSource;
+            if (type == BGLeftMenuType.Channels) {
+                View.Hidden = false;
+                TableView.Source = channelsTypesTableSource;
 			} 
 			else
 			{
-				TableView.Source = channelsTypesTableSource;
+                View.Hidden = true;
+                TableView.Source = null;
 			}
 
 			TableView.ReloadData ();
