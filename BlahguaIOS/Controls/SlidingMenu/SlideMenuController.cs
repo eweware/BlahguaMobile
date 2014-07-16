@@ -166,7 +166,7 @@ namespace MonoTouch.SlideMenu
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-
+			this.NavigationController.SetNavigationBarHidden (true, false);
 			contentViewController.EndAppearanceTransition();
 			if (menuViewController.IsViewLoaded && menuViewController.View.Superview != null) {
 				menuViewController.EndAppearanceTransition();
@@ -311,8 +311,6 @@ namespace MonoTouch.SlideMenu
 				SetContentViewController(controller);
 
 				//add for right menu 
-				this.rightMenuViewController.SetContentView (controller);
-
 
                 controller.View.Transform = tranfsorm;
 				contentViewController.View.Frame = frame;
@@ -558,6 +556,11 @@ namespace MonoTouch.SlideMenu
             }
         }
 
+		public void CloseRightMenuForNavigation()
+		{
+			contentViewController.View.Frame = View.Bounds;
+			//this.NavigationController.PushViewController( (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController"), true);
+		}
 
 		void PanGestureTriggered ()
 		{
@@ -590,14 +593,7 @@ namespace MonoTouch.SlideMenu
 
 			float offsetXWhenRightMenuIsOpen = OffsetXWhenRightMenuIsOpen ();
 
-			/*
-            float offsetXWhenMenuIsClose = OffsetXWhenMenuIsClose ();
-			if (frame.X <= offsetXWhenRightMenuIsOpen)
-				frame.X = offsetXWhenRightMenuIsOpen;
-			else if (frame.X > offsetXWhenMenuIsOpen) {
-				frame.X = offsetXWhenMenuIsOpen;
-			}
-*/
+
 			currentScale = 1.0f-(1.0f-SCALE)*(frame.X/offsetXWhenMenuIsOpen);
 			//contentViewController.View.Transform = CGAffineTransform.MakeScale(currentScale, currentScale);
 			frame.Height = UIScreen.MainScreen.Bounds.Height * currentScale;

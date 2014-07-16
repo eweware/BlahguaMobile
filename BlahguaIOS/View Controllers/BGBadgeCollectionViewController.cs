@@ -21,6 +21,8 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
+			this.NavigationController.SetNavigationBarHidden(false, true);
+
 			View.BackgroundColor = UIColor.White;
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, NewBadge);

@@ -24,6 +24,8 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
+			this.NavigationController.SetNavigationBarHidden(false, true);
+
 			TableView.BackgroundColor = UIColor.FromRGB (255, 255, 248);
 			TableView.TableFooterView = new UIView ();
 			TableView.Source = new BGDemographicsTableSource (this);

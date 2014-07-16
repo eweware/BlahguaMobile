@@ -18,7 +18,7 @@ namespace BlahguaMobile.IOS
 		private BGLeftMenuTableViewController menu;
 		private BGRightMenuViewController rightMenu;
 		private SlideMenuController slideMenu;
-
+		private UINavigationController navController;
 
 		#endregion
 
@@ -33,6 +33,7 @@ namespace BlahguaMobile.IOS
 				if (slideMenu == null)
 				{
 					slideMenu = new SlideMenuController(Menu,RightMenu, new UIViewController());
+					navController = new UINavigationController (slideMenu);
 				}
 				return slideMenu;
 			}
@@ -151,7 +152,7 @@ namespace BlahguaMobile.IOS
 						SlideMenu.SetContentViewControllerAnimated(c as UIViewController, true);
 						if (Window.RootViewController != SlideMenu) {
 							UIView.Transition(this.Window.RootViewController.View, this.SlideMenu.View, 0.5, UIViewAnimationOptions.TransitionFlipFromRight, delegate {
-								Window.RootViewController = SlideMenu;
+									Window.RootViewController = SlideMenu.NavigationController;
 							}); 
 						}
 					}

@@ -41,6 +41,9 @@ namespace BlahguaMobile.IOS
 
                 //Synsoft on 9 July 2014 added title
                 this.Title = "Stats";
+
+				this.NavigationController.SetNavigationBarHidden(false, true);
+
                 NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
                 //Synsoft on 11 July 2014 for active color  #1FBBD1
                 NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
