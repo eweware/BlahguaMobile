@@ -11,6 +11,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.ActionSheetDatePicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -31,6 +32,8 @@ namespace BlahguaMobile.IOS
 
 		private bool isProfileSignature;
         private UIButton curTypeView = null;
+
+		private ActionSheetDatePicker datePicker = null;
 
 		private UITextField expirationDateInput;
 		private UITextField ExpirationDateInput
@@ -56,6 +59,23 @@ namespace BlahguaMobile.IOS
                     expirationDateInput.Background = UIImage.FromBundle ("input_back");
 
 					expirationDateInput.ReturnKeyType = UIReturnKeyType.Default;
+					expirationDateInput.ShouldBeginEditing = delegate {
+						datePicker = new ActionSheetDatePicker (this.View);
+						datePicker.Title = "Choose Date";
+						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
+						NSDateFormatter dateFormatter = new NSDateFormatter();
+						dateFormatter.DateFormat = "MM/dd/yyyy";
+					
+						datePicker.DatePicker.ValueChanged += (s, e) => {
+
+							NSDate dateValue = (s as UIDatePicker).Date;
+							expirationDateInput.Text = new NSString(dateFormatter.ToString(dateValue));
+						};
+
+						datePicker.Show ();
+
+						return false;
+					};
 					expirationDateInput.ShouldReturn = delegate {
 						DateTime expDateTime;
 						if (DateTime.TryParse (expirationDateInput.Text, out expDateTime)) 
