@@ -18,6 +18,13 @@ namespace BlahguaMobile.IOS
     {
         private UIViewController parentViewController;
 
+		private UIButton upVoteButton;
+		private UIButton downVoteButton;
+
+		private UIButton summaryButton;
+		private UIButton commentsButton;
+		private UIButton statsButton;
+
         private Blah CurrentBlah
         {
             get
@@ -41,15 +48,13 @@ namespace BlahguaMobile.IOS
 
                 //Synsoft on 9 July 2014 added title
                 this.Title = "Stats";
-                NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
-                //Synsoft on 11 July 2014 for active color  #1FBBD1
-                NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+
+				this.NavigationController.SetNavigationBarHidden(false, true);
 
                 //Synsoft on 14 July 2014 for swipping between screens                
                 UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentsController);
                 objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
                 this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
-
 
                 //Synsoft on 10 June 2014 
                 // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
@@ -107,54 +112,186 @@ namespace BlahguaMobile.IOS
                 e.Message.ToString();
 
             }
+			SetUpBaseLayout ();
+			SetUpToolbar ();
 
         }
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear (animated);
+			SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+		}
+		private void SetUpBaseLayout()
+		{
+			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+			bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
+
+			bottomToolBar.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+			bottomToolBar.BarTintColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+		}
 
         //Synsoft on 14 July 2014
         private void SwipeToCommentsController()
         {
-            this.NavigationController.PopViewControllerAnimated(true);
-        }
-
-        //Synsoft on 11 July 2014 for swipping between screens
-        private void BlahHandler(object sender, EventArgs args)
-        {
-            DismissViewController(true, null);
+			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();
         }
 
         public void SetParentViewController(UIViewController parentViewController)
         {
             this.parentViewController = parentViewController;
         }
+
+		private void SetUpToolbar()
+		{
+			bottomToolBar.TintColor = UIColor.Clear;
+			SetUpVotesButtons ();
+			SetUpModesButtons ();
+		}
+
+		private void SetUpVotesButtons()
+		{
+			var votesButtonRect = new RectangleF(0, 0, 11, 19);
+			upVoteButton = new UIButton(UIButtonType.Custom);
+			upVoteButton.Frame = votesButtonRect;
+			upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
+			{
+				if (BlahguaAPIObject.Current.CurrentUser != null)
+				{
+					if (CurrentBlah.uv != 1)
+					{
+						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+						BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+							{
+								Console.WriteLine(value);
+							});
+					}
+				}
+				else
+				{
+					AlertDelegate obj = new AlertDelegate();
+					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+					_alert.Clicked += _alert_Clicked;
+					_alert.Show();
+				}
+
+			};
+
+
+
+			downVoteButton = new UIButton(UIButtonType.Custom);
+			downVoteButton.Frame = votesButtonRect;
+			downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
+			{
+				if (BlahguaAPIObject.Current.CurrentUser != null)
+				{
+					if (CurrentBlah.uv != -1)
+					{
+						upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+						BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+							{
+								Console.WriteLine(value);
+							});
+					}
+				}
+				else
+				{
+					AlertDelegate obj = new AlertDelegate();
+					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+					_alert.Clicked += _alert_Clicked;
+					_alert.Show();
+				}
+			};
+
+			SetVoteButtonsImages();
+
+			upVote.CustomView = upVoteButton;
+			downVote.CustomView = downVoteButton;
+		}
+
+		void _alert_Clicked(object sender, UIButtonEventArgs e)
+		{
+			this.PerformSegue("fromStatsToLogin", this);
+		}
+
+		private void SetVoteButtonsImages()
+		{
+			switch (CurrentBlah.uv)
+			{
+			case 1:
+				{
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up_dark"), UIImage.FromBundle("arrow_down"));
+					break;
+				}
+			case -1:
+				{
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down_dark"));
+					break;
+				}
+			default:
+				{
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down"));
+					break;
+				}
+			}
+		}
+
+		private void SetVoteButtonsImages(UIImage upVoteImage, UIImage downVoteImage)
+		{
+			upVoteButton.SetImage(upVoteImage
+				.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+				UIControlState.Normal);
+			downVoteButton.SetImage(downVoteImage
+				.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+				UIControlState.Normal);
+		}
+
+
+		private void SetUpModesButtons ()
+		{
+			summaryButton = new UIButton (UIButtonType.Custom);
+			summaryButton.Frame = new RectangleF (0, 0, 20, 16);
+			summaryButton.SetImage (UIImage.FromBundle ("summary"), UIControlState.Normal);
+			summaryButton.TouchUpInside += (object sender, EventArgs e) => {
+				//SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
+
+				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeFromStatsToSummary ();
+			};
+			summaryView.CustomView = summaryButton;
+
+			commentsButton = new UIButton (UIButtonType.Custom);
+			commentsButton.Frame = new RectangleF (0, 0, 22, 19);
+			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
+			commentsButton.TouchUpInside += (object sender, EventArgs e) => {
+
+				//SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments_dark"), UIImage.FromBundle ("stats"));
+
+				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();
+			};
+			commentsView.CustomView = commentsButton;
+
+			statsButton = new UIButton (UIButtonType.Custom);
+			statsButton.Frame = new RectangleF (0, 0, 26, 17);
+			statsButton.SetImage (UIImage.FromBundle ("stats_dark"), UIControlState.Normal);
+			statsButton.TouchUpInside += (object sender, EventArgs e) => {
+				SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
+				//Commented by Synsoft on 9 July 2014
+				// PerformSegue("fromCommentsToStats", this);
+
+				//Synsoft on 9 July 2014 to add popup animation
+
+
+			};
+			statsView.CustomView = statsButton;
+		}
+
+		private void SetModeButtonsImages(UIImage sumImage, UIImage commentsImage, UIImage statsImage)
+		{
+			commentsButton.SetImage (commentsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+			summaryButton.SetImage (sumImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+			statsButton.SetImage (statsImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+		}
+
     }
 
-    //commented by Synsoft on 10 June 2014 -- old code using table source
 
-    /*public class BGStatsTableSource : UITableViewSource
-    {
-        private Dictionary<string, string> source;
-
-        public BGStatsTableSource(Dictionary<string, string> source) : base()
-        {
-            this.source = source;
-        }
-
-        public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
-        {
-            var cell = (BGStatsTableCell)tableView.DequeueReusableCell ("cell");
-            var element = source.ElementAt (indexPath.Row);
-            cell.SetKeyValue (element.Key, element.Value);
-            return cell;
-        }
-
-        public override int RowsInSection (UITableView tableview, int section)
-        {
-            return source.Count;
-        }
-
-        public override int NumberOfSections (UITableView tableView)
-        {
-            return 1;
-        }
-    }*/
 }

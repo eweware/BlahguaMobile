@@ -7,6 +7,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.SlideMenu;
 
 namespace BlahguaMobile.IOS
 {
@@ -69,11 +70,20 @@ namespace BlahguaMobile.IOS
 
                     //Synsoft on 11 July 2014 --for popup animation
                     AppDelegate objAppDelegate = new AppDelegate();
-                    var myStoryboard = objAppDelegate.MainStoryboard;
+					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
                     BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
-                    UINavigationController objUINavigationController = new UINavigationController(objBGBlahViewController);
-                    objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-                    viewController.PresentViewController(objUINavigationController, true, null);
+					BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
+					BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+
+
+                    //UINavigationController objUINavigationController = new UINavigationController(objBGBlahViewController);
+                    //objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+                    //viewController.PresentViewController(objUINavigationController, true, null);
+					SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
+					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
+					((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, true);
+					//viewController.NavigationController.PushViewController(swipeView, true);
 				});
 			});
 		}

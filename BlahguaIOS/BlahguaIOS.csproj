@@ -163,7 +163,6 @@
     <Compile Include="Controls\SlidingMenu\BGMenuTableCellView.designer.cs">
       <DependentUpon>BGMenuTableCellView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
     <Compile Include="Controls\SlidingMenu\SlideMenuGesturesState.cs" />
     <Compile Include="Controls\SlidingMenu\Extensions.cs" />
     <Compile Include="Controls\SlidingMenu\BGMenuTableHeaderView.cs" />
@@ -286,6 +285,8 @@
     <Compile Include="View Controllers\BGRightMenuViewController.designer.cs">
       <DependentUpon>BGRightMenuViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SlidingMenu\SwipeViewController.cs" />
+    <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">

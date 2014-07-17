@@ -60,7 +60,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
-
+			this.NavigationController.SetNavigationBarHidden (false, true);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
             //Synsoft on 9 July 2014 for active color  #1FBBD1
             NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
@@ -92,30 +92,32 @@ namespace BlahguaMobile.IOS
 				selectImage.Hidden = false;
 				selectImage.TouchUpInside += ActionForImage;
 			}
-
-
+		}
+		public override void ViewDidAppear(bool animated)
+		{
 			var url = BlahguaAPIObject.Current.CurrentUser.UserImage;
 			if(!String.IsNullOrEmpty(url))
 			{
 				selectImage.Hidden = true;
-				UIImage profileImage = UIImageHelper.ImageFromUrl(url);
+				if (url != null) {
+					UIImage profileImage = UIImageHelper.ImageFromUrl (url);
 
-				UIImageView profileImageView = new UIImageView (profileImage);
-				profileImageView.Frame = new RectangleF (89, 24, 128, 128);
+					UIImageView profileImageView = new UIImageView (profileImage);
+					profileImageView.Frame = new RectangleF (89, 24, 128, 128);
 
-				var button = new UIButton (profileImageView.Frame);
-				button.TouchUpInside += ActionForImage;
+					var button = new UIButton (profileImageView.Frame);
+					button.TouchUpInside += ActionForImage;
 
-				profileView.Add (profileImageView);
+					profileView.Add (profileImageView);
 
-				profileView.SendSubviewToBack (profileImageView);
+					profileView.SendSubviewToBack (profileImageView);
+				}
 			}
 			else
 			{
 				selectImage.Hidden = false;
 			}
 		}
-
 		public override void ViewWillDisappear(bool animated)
 		{
 			base.ViewWillDisappear(animated);

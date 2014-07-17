@@ -1,12 +1,10 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-using System;
 using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -15,78 +13,125 @@ namespace BlahguaMobile.IOS
 	partial class BGStatsTableViewController
 	{
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblComment { get; set; }
+		MonoTouch.UIKit.UIToolbar bottomToolBar { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblConversionRatio { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblDemotes { get; set; }
+		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblHeardRatio { get; set; }
+		MonoTouch.UIKit.UILabel lblComment { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblImpression { get; set; }
+		MonoTouch.UIKit.UILabel lblConversionRatio { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblOpen { get; set; }
+		MonoTouch.UIKit.UILabel lblDemotes { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblOpenedImpression { get; set; }
+		MonoTouch.UIKit.UILabel lblHeardRatio { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblPromotes { get; set; }
+		MonoTouch.UIKit.UILabel lblImpression { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIScrollView scrollView { get; set; }
+		MonoTouch.UIKit.UILabel lblOpen { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblOpenedImpression { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblPromotes { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (bottomToolBar != null) {
+				bottomToolBar.Dispose ();
+				bottomToolBar = null;
+			}
+
+			if (commentsView != null) {
+				commentsView.Dispose ();
+				commentsView = null;
+			}
+
+			if (downVote != null) {
+				downVote.Dispose ();
+				downVote = null;
+			}
+
 			if (lblComment != null) {
 				lblComment.Dispose ();
 				lblComment = null;
 			}
+
 			if (lblConversionRatio != null) {
 				lblConversionRatio.Dispose ();
 				lblConversionRatio = null;
 			}
+
 			if (lblDemotes != null) {
 				lblDemotes.Dispose ();
 				lblDemotes = null;
 			}
+
 			if (lblHeardRatio != null) {
 				lblHeardRatio.Dispose ();
 				lblHeardRatio = null;
 			}
+
 			if (lblImpression != null) {
 				lblImpression.Dispose ();
 				lblImpression = null;
 			}
+
 			if (lblOpen != null) {
 				lblOpen.Dispose ();
 				lblOpen = null;
 			}
+
 			if (lblOpenedImpression != null) {
 				lblOpenedImpression.Dispose ();
 				lblOpenedImpression = null;
 			}
+
 			if (lblPromotes != null) {
 				lblPromotes.Dispose ();
 				lblPromotes = null;
 			}
+
 			if (scrollView != null) {
 				scrollView.Dispose ();
 				scrollView = null;
+			}
+
+			if (statsView != null) {
+				statsView.Dispose ();
+				statsView = null;
+			}
+
+			if (summaryView != null) {
+				summaryView.Dispose ();
+				summaryView = null;
+			}
+
+			if (upVote != null) {
+				upVote.Dispose ();
+				upVote = null;
 			}
 		}
 	}

@@ -11,19 +11,12 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGRightMenuViewController : UIViewController, IImageUpdated
 	{
-		UIViewController contentView = null;
-
 		public BGRightMenuViewController (IntPtr handle) : base (handle)
 		{
 		}
 
 		public BGRightMenuViewController () : base ("BGRightMenuViewController", null)
 		{
-		}
-
-		public void SetContentView(UIViewController contentViewController)
-		{
-			contentView = contentViewController;
 		}
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -43,35 +36,45 @@ namespace BlahguaMobile.IOS
 
 
 			m_btnProfile.TouchUpInside += (sender, e) => {
-				if(contentView != null)
-					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToProfile", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
 
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController"), true);
 			};
 
 			m_btnBadges.TouchUpInside += (sender, e) => {
-				if(contentView != null)
-					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToBadges", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+	
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGBadgeCollectionViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGBadgeCollectionViewController"), true);
 
 			};
 
 			m_btnHistory.TouchUpInside += (sender, e) => {
-				if(contentView != null)
-					((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToHistory", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
 
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGHistoryViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGHistoryViewController"), true);
 			};
 				
 			m_btnDemographics.TouchUpInside += (sender, e) => {
 				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
-					InvokeOnMainThread (() => { if(contentView != null)
-						((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToDemographics", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+					InvokeOnMainThread (() => {
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGDemographicsViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGDemographicsViewController"), true);
+
 					});
 				});
 			};
 
 			m_btnStats.TouchUpInside += (sender, e) => {
 				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
-					InvokeOnMainThread (() => { if(contentView != null)
-						((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]).PerformSegue ("fromRollToStats", ((BGRollViewController)((BGMainNavigationController)contentView).ViewControllers [0]));
+					InvokeOnMainThread (() => {
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGStatsTableViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGStatsTableViewController"), true);
+
+						//rollView.PerformSegue ("fromRollToStats", rollView);
 					});
 				});
 			};

@@ -11,6 +11,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.ActionSheetDatePicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -31,6 +32,8 @@ namespace BlahguaMobile.IOS
 
 		private bool isProfileSignature;
         private UIButton curTypeView = null;
+
+		private ActionSheetDatePicker datePicker = null;
 
 		private UITextField expirationDateInput;
 		private UITextField ExpirationDateInput
@@ -56,6 +59,23 @@ namespace BlahguaMobile.IOS
                     expirationDateInput.Background = UIImage.FromBundle ("input_back");
 
 					expirationDateInput.ReturnKeyType = UIReturnKeyType.Default;
+					expirationDateInput.ShouldBeginEditing = delegate {
+						datePicker = new ActionSheetDatePicker (this.View);
+						datePicker.Title = "Choose Date";
+						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
+						NSDateFormatter dateFormatter = new NSDateFormatter();
+						dateFormatter.DateFormat = "MM/dd/yyyy";
+					
+						datePicker.DatePicker.ValueChanged += (s, e) => {
+
+							NSDate dateValue = (s as UIDatePicker).Date;
+							expirationDateInput.Text = new NSString(dateFormatter.ToString(dateValue));
+						};
+
+						datePicker.Show ();
+
+						return false;
+					};
 					expirationDateInput.ShouldReturn = delegate {
 						DateTime expDateTime;
 						if (DateTime.TryParse (expirationDateInput.Text, out expDateTime)) 
@@ -143,7 +163,8 @@ namespace BlahguaMobile.IOS
 			};
 
 
-          
+			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
+			bodyInput.Placeholder = "Says is used for general sharing";
           
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -287,31 +308,36 @@ namespace BlahguaMobile.IOS
                             );
                             pollItemsTableView.Hidden = true;
                             ExpirationDateInput.Hidden = false;
+						titleInput.Placeholder = "HEADLINE: Predictions detail outcomes expected to occure.";
                             bodyInput.Placeholder = "Predictions require you to set a date";
                         });
                     break;
 
-                case "says":
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
+			case "says":
+				pollItemsTableView.Hidden = true;
+				ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
                     bodyInput.Placeholder = "Says is used for general sharing";
                     break;
 
                 case "asks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Asks are open-ended questions. Must include a '?'";
                     bodyInput.Placeholder = "Asks must be in the form a a question";
                     break;
 
                 case "leaks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Leaks require that a badge to be attached.";
                     bodyInput.Placeholder = "You must be badged to leak something";
                     break;
 
                 default:
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Polls allow user to vote on pre-defined responses.";
                     break;
             }
         }
