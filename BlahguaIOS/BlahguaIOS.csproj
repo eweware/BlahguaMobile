@@ -328,6 +328,7 @@
     <BundleResource Include="Resources\icon_speechact_predict.png" />
     <BundleResource Include="Resources\icon_speechact_say_teal.png" />
     <BundleResource Include="Resources\icon_speechact_say.png" />
+    <BundleResource Include="Resources\icon_createpost.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

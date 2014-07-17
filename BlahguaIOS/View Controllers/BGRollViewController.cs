@@ -208,8 +208,8 @@ namespace BlahguaMobile.IOS
 					profile = new UIButton (new RectangleF (44, 0, 44, 44));
 					profile.SetImage (GetProfileImage (), UIControlState.Normal);
 					newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
-					newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
-					newBlah.SetImage (UIImage.FromBundle ("newBlahImage"), UIControlState.Normal);
+					//newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
+					newBlah.SetImage (UIImage.FromBundle ("icon_createpost"), UIControlState.Normal);
 					profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu ();
 					newBlah.TouchUpInside += NewBlah;
 
