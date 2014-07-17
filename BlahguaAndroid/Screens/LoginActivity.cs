@@ -155,6 +155,9 @@ namespace BlahguaMobile.AndroidClient
 
         private void DoSignIn()
         {
+			login.Text = login.Text.Trim ();
+			password.Text = password.Text.Trim ();
+
             if (BlahguaAPIObject.Current.UserName != login.Text)
                 BlahguaAPIObject.Current.UserName = login.Text;
 
@@ -170,7 +173,7 @@ namespace BlahguaMobile.AndroidClient
                 BlahguaAPIObject.Current.AutoLogin,
                 (errMsg) =>
                 {
-                    dialog.Hide();
+                    //dialog.Hide();
                     if (errMsg == null)
                         HandleUserSignIn();
                     else
@@ -181,6 +184,7 @@ namespace BlahguaMobile.AndroidClient
                             progress.Visibility = ViewStates.Invisible;
                             //Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
                             Toast.MakeText(this, GetString(Resource.String.signin_message_error_signing_in), ToastLength.Short).Show();
+							dialog.Hide();
                         });
                     }
                 }
@@ -208,6 +212,9 @@ namespace BlahguaMobile.AndroidClient
 
         private void DoCreateAccount()
         {
+			login.Text = login.Text.Trim ();
+			password.Text = password.Text.Trim ();
+
             if (login.Text.Length == 0)
             {
                 RunOnUiThread(() =>
@@ -248,7 +255,6 @@ namespace BlahguaMobile.AndroidClient
                 BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword,
                     BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
                 {
-                    dialog.Hide();
                     if (errMsg == null)
                     {
                         MainActivity.analytics.PostRegisterUser();
@@ -261,6 +267,7 @@ namespace BlahguaMobile.AndroidClient
                         {
                             progress.Visibility = ViewStates.Invisible;
                             Toast.MakeText(this, "could not register: " + errMsg, ToastLength.Short).Show();
+							dialog.Hide();
                         });
                     }
                 }
