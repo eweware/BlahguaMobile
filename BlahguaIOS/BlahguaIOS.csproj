@@ -144,6 +144,10 @@
     <Compile Include="View Controllers\BGAuthVewController.designer.cs">
       <DependentUpon>BGAuthVewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="View Controllers\ProfileToStatsViewController.cs" />
+    <Compile Include="View Controllers\ProfileToStatsViewController.designer.cs">
+      <DependentUpon>ProfileToStatsViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\BGTextField.cs" />
     <Compile Include="Views\BGTextField.designer.cs">
       <DependentUpon>BGTextField.cs</DependentUpon>

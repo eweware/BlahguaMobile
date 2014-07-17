@@ -16,39 +16,39 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblComment { get; set; }
+		MonoTouch.UIKit.UILabel lblComment { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblConversionRatio { get; set; }
+		MonoTouch.UIKit.UILabel lblConversionRatio { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblDemotes { get; set; }
+		MonoTouch.UIKit.UILabel lblDemotes { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblHeardRatio { get; set; }
+		MonoTouch.UIKit.UILabel lblHeardRatio { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblImpression { get; set; }
+		MonoTouch.UIKit.UILabel lblImpression { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblOpen { get; set; }
+		MonoTouch.UIKit.UILabel lblOpen { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblOpenedImpression { get; set; }
+		MonoTouch.UIKit.UILabel lblOpenedImpression { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblPromotes { get; set; }
+		MonoTouch.UIKit.UILabel lblPromotes { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIScrollView scrollView { get; set; }
+		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

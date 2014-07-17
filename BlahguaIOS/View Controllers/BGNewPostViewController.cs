@@ -135,8 +135,11 @@ namespace BlahguaMobile.IOS
 				"Done", 
 				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
 				UIColor.White), UIControlState.Normal);
-
+            //HandleBodyChanged(null);
             HandleTitleChanged(null);
+              
+            
+            
 
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
@@ -190,10 +193,25 @@ namespace BlahguaMobile.IOS
 			};
 		}
 
+        //partial void HandleBodyChanged(UITextField sender)
+        //{
+        //    if (!string.IsNullOrEmpty(bodyInput.Text))
+        //    {
+              
+        //        done.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        done.Enabled = false;
+        //    }
+        //}
+       
         partial void HandleTitleChanged(UITextField sender)
         {
             if (!string.IsNullOrEmpty(titleInput.Text))
             {
+
+               
                 done.Enabled = true;
             }
             else
