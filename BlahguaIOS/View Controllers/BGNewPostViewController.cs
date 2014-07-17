@@ -143,7 +143,8 @@ namespace BlahguaMobile.IOS
 			};
 
 
-          
+			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
+			bodyInput.Placeholder = "Says is used for general sharing";
           
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -287,31 +288,36 @@ namespace BlahguaMobile.IOS
                             );
                             pollItemsTableView.Hidden = true;
                             ExpirationDateInput.Hidden = false;
+						titleInput.Placeholder = "HEADLINE: Predictions detail outcomes expected to occure.";
                             bodyInput.Placeholder = "Predictions require you to set a date";
                         });
                     break;
 
-                case "says":
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
+			case "says":
+				pollItemsTableView.Hidden = true;
+				ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
                     bodyInput.Placeholder = "Says is used for general sharing";
                     break;
 
                 case "asks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Asks are open-ended questions. Must include a '?'";
                     bodyInput.Placeholder = "Asks must be in the form a a question";
                     break;
 
                 case "leaks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Leaks require that a badge to be attached.";
                     bodyInput.Placeholder = "You must be badged to leak something";
                     break;
 
                 default:
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Polls allow user to vote on pre-defined responses.";
                     break;
             }
         }

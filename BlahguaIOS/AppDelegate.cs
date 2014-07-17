@@ -19,6 +19,8 @@ namespace BlahguaMobile.IOS
 		private BGRightMenuViewController rightMenu;
 		private SlideMenuController slideMenu;
 		private UINavigationController navController;
+		public SwipeViewController swipeView;
+
 
 		#endregion
 
