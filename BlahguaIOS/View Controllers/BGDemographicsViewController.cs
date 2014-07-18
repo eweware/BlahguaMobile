@@ -66,11 +66,11 @@ namespace BlahguaMobile.IOS
 						break;
 					}
 				case 7:
-				default:
 					{
 						vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
 						break;
 					}
+                
 				}
 				index = 0;
 			}
@@ -117,7 +117,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+			
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
 					break;
@@ -165,10 +165,12 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
 				}
 			case 7:
-			default:
+			
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
 				}
+            default:
+                { return string.Empty; }
 			}
 		}
 
@@ -212,7 +214,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+			
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
 					break;
@@ -253,10 +255,13 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.CountryPerm;
 				}
 			case 7:
-			default:
+			
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm;
+                  
 				}
+                default:
+                { return true; }
 			}
 		}
 
@@ -354,7 +359,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+			
 				{
 					labelText = "Income";
 					break;

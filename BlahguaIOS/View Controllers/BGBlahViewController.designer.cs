@@ -10,74 +10,74 @@ using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
-{	
-    [Register ("BGBlahViewController")]
+{
+	[Register ("BGBlahViewController")]
 	partial class BGBlahViewController
 	{
-    [Outlet]
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel author { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIButton badgeImage { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UITableView badgesTableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint badgesTableViewHeight { get; set; }
-
-		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UITextView blahBodyView { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIImageView blahImage { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel blahTimespan { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel blahTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint bodyTextViewHeight { get; set; }
-
-		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIToolbar bottomToolbar { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIScrollView contentView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint contentViewHeight { get; set; }
-
-		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint imageHeightViewHeight { get; set; }
-
-		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint titleLabelHeight { get; set; }
-
-		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel userDescription { get; set; }
 
 		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIImageView userImage { get; set; }
 
-		
 		void ReleaseDesignerOutlets ()
 		{
 			if (author != null) {

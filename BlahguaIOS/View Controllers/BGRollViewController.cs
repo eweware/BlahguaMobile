@@ -486,7 +486,7 @@ namespace BlahguaMobile.IOS
 		{
 			BlahguaAPIObject.Current.LoadUserStatsInfo ((userInfo) => {
 				InvokeOnMainThread (() => {
-					PerformSegue ("fromRollToStats", this);
+                    PerformSegue("fromRollToStats", this);
 				});
 			});
 		}

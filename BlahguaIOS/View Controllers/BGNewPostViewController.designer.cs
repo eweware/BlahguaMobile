@@ -82,7 +82,11 @@ namespace BlahguaMobile.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UITextField titleInput { get; set; }
 
-		[Action ("HandleTitleChanged:")]
+		[Action ("HandleBodyChanged")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void HandleBodyChanged (MonoTouch.UIKit.UITextField sender);
+
+		[Action ("HandleTitleChanged")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void HandleTitleChanged (MonoTouch.UIKit.UITextField sender);
 

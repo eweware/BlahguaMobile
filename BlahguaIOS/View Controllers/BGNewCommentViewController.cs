@@ -68,12 +68,17 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
+            //Synsoft on 17 July 2014
 			input.AllEditingEvents += (object sender, EventArgs e) => {
-				if(String.IsNullOrEmpty(input.Text))
-					done.Enabled = false;
-				else
-					done.Enabled = true;
-			};
+                if (!String.IsNullOrEmpty(input.Text) && input.Text.Length > 3)
+                {
+                    done.Enabled = true;
+                }
+                else
+                {
+                    done.Enabled = false;
+                }
+            };
 
             done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);

@@ -131,6 +131,7 @@
     <Compile Include="..\BlahguaCore\Utilities.cs">
       <Link>BlahguaCore\Utilities.cs</Link>
     </Compile>
+    <Compile Include="Common.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Info.plist" />
@@ -143,6 +144,10 @@
     <Compile Include="View Controllers\BGAuthVewController.cs" />
     <Compile Include="View Controllers\BGAuthVewController.designer.cs">
       <DependentUpon>BGAuthVewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\ProfileToStatsViewController.cs" />
+    <Compile Include="View Controllers\ProfileToStatsViewController.designer.cs">
+      <DependentUpon>ProfileToStatsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\BGTextField.cs" />
     <Compile Include="Views\BGTextField.designer.cs">

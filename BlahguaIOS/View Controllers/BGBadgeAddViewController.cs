@@ -6,6 +6,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Text.RegularExpressions;
 
 namespace BlahguaMobile.IOS
 {
@@ -17,6 +18,9 @@ namespace BlahguaMobile.IOS
 		public BGBadgeAddViewController (IntPtr handle) : base (handle)
 		{
 		}
+
+
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -38,8 +42,9 @@ namespace BlahguaMobile.IOS
 				UIFont.FromName(BGAppearanceConstants.FontName, 17), 
 				UIColor.Black
 			);
+            //Synsoft on 17 July 2014
 			emailTextField.AllEditingEvents += (object sender, EventArgs e) => {
-				if(!String.IsNullOrEmpty(emailTextField.Text))
+                if (!String.IsNullOrEmpty(emailTextField.Text) && Common.IsValidEmail(emailTextField.Text))
 				{
 					doneButton.Enabled = true;
 				}
