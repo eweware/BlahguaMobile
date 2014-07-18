@@ -76,14 +76,11 @@ namespace BlahguaMobile.IOS
 					BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
 
 
-
-                    //UINavigationController objUINavigationController = new UINavigationController(objBGBlahViewController);
-                    //objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-                    //viewController.PresentViewController(objUINavigationController, true, null);
 					SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
 					((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, true);
-					//viewController.NavigationController.PushViewController(swipeView, true);
+
+					viewController.NaturalScrollInProgress = true;
 				});
 			});
 		}

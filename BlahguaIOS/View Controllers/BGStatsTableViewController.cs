@@ -186,7 +186,7 @@ namespace BlahguaMobile.IOS
 				{
 					if (CurrentBlah.uv != -1)
 					{
-						upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
 						BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
 							{
 								Console.WriteLine(value);

@@ -94,13 +94,17 @@ namespace BlahguaMobile.IOS
 
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToSummaryController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);     
+            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);  
+
+			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
 		}
 
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
 			SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments_dark"), UIImage.FromBundle("stats"));
+
+
 		}
 
         //Synsoft on 14 July 2014

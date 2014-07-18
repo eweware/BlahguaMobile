@@ -106,6 +106,8 @@ namespace BlahguaMobile.IOS
 			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 
 			statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
+
+
 		}
 
         //Synsoft on 14 July 2014 
@@ -193,6 +195,15 @@ namespace BlahguaMobile.IOS
             else
             {
                 badgeImage.Hidden = true;
+
+				badgesTableView.RemoveFromSuperview ();
+				var count = 0;
+				if(CurrentBlah.B != null)
+					count = CurrentBlah.B.Count ;
+				badgesTableViewHeight.Constant = count * 28;
+
+				View.AddSubview (badgesTableView);
+
             }
 
             blahTimespan.AttributedText = new NSAttributedString(
@@ -403,7 +414,7 @@ namespace BlahguaMobile.IOS
                 {
                     if (CurrentBlah.uv != -1)
                     {
-                        upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
                         BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
                         {
                             Console.WriteLine(value);
