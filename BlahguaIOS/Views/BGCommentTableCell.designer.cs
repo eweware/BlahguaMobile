@@ -28,6 +28,15 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIButton downVoteButton { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.NSLayoutConstraint imageViewHeight { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imgAvatar { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblUserType { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.NSLayoutConstraint rightPosition { get; set; }
 
 		[Outlet]
@@ -72,6 +81,16 @@ namespace BlahguaMobile.IOS
 				downVoteButton = null;
 			}
 
+			if (imgAvatar != null) {
+				imgAvatar.Dispose ();
+				imgAvatar = null;
+			}
+
+			if (lblUserType != null) {
+				lblUserType.Dispose ();
+				lblUserType = null;
+			}
+
 			if (rightPosition != null) {
 				rightPosition.Dispose ();
 				rightPosition = null;
@@ -100,6 +119,11 @@ namespace BlahguaMobile.IOS
 			if (voteView != null) {
 				voteView.Dispose ();
 				voteView = null;
+			}
+
+			if (imageViewHeight != null) {
+				imageViewHeight.Dispose ();
+				imageViewHeight = null;
 			}
 		}
 	}

@@ -48,10 +48,19 @@ namespace BlahguaMobile.IOS
 			tapRecognizer.NumberOfTapsRequired = 1;
 			containerView.AddGestureRecognizer (tapRecognizer);
 
+			if (!String.IsNullOrEmpty(comment.AuthorImage))
+			{
+				imgAvatar.Image = ImageLoader.DefaultRequestImage(new Uri(comment.AuthorImage), new ImageUpdateDelegate(imgAvatar));
+			}
 
             if (!String.IsNullOrEmpty(comment.ImageURL))
             {
                 commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), new ImageUpdateDelegate(commentImageView));
+
+				if (commentImageView.Image != null) {
+					UIImage img = commentImageView.Image;
+					imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+				}
             }
 
             if (!String.IsNullOrEmpty(comment.T))
@@ -60,23 +69,29 @@ namespace BlahguaMobile.IOS
                 text.ScrollEnabled = false;
             }
 
+			lblUserType.AttributedText = new NSAttributedString(
+				comment.DescriptionString,
+				UIFont.FromName(BGAppearanceConstants.BoldFontName, 12),
+				UIColor.Black
+			);
+
             author.AttributedText = new NSAttributedString(
                 comment.AuthorName,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
-                UIColor.Black
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
+				BGAppearanceConstants.TealGreen
             );
 
 
             timespan.AttributedText = new NSAttributedString(
                 comment.ElapsedTimeString,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 12),
                 UIColor.Black
             );
 
 
             upAndDownVotes.AttributedText = new NSAttributedString(
                 comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
                 UIColor.Black
             );
 
