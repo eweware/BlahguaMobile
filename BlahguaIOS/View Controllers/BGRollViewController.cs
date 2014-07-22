@@ -121,7 +121,9 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-
+			if (CollectionView.NumberOfItemsInSection (0) > 0)
+				NaturalScrollInProgress = false;
+				//CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -225,8 +227,21 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
+		public bool IsNewPostMode
+		{
+			get
+			{
+				return isNewPostMode;
+			}
+		}
 		private void NewBlah (object sender, EventArgs e)
 		{
+
+			if(leftSlidingMenu.IsMenuOpen() || leftSlidingMenu.IsRightMenuOpen())
+			{
+				return;
+			}
+				
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			if (isNewPostMode) {
@@ -266,8 +281,7 @@ namespace BlahguaMobile.IOS
 			profileImage.Image = GetProfileImage ();
 			SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
 		}
-
-
+			
 		private void ToggleRightMenu ()
 		{
 			/*
@@ -281,6 +295,8 @@ namespace BlahguaMobile.IOS
 				isOpened = true;
 			}
 			*/
+			if(IsNewPostMode)
+				return;
 			leftSlidingMenu.ToggleRightMenuAnimated ();
 		}
 

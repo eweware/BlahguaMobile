@@ -29,6 +29,10 @@ namespace MonoTouch.SlideMenu
 		BGStatsTableViewController statsViewController;
 		BGBlahViewController summaryViewController;
 
+		RectangleF leftFrame ;
+		RectangleF centerFrame ;
+		RectangleF rightFrame;
+
 		public SwipeViewController (BGBlahViewController blahView,BGCommentsViewController commentView, BGStatsTableViewController statsView)
 		{
 			this.SetCommentViewController(commentView);
@@ -107,8 +111,17 @@ namespace MonoTouch.SlideMenu
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			summaryViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+
+			leftFrame = new RectangleF (-View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			centerFrame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			rightFrame = new RectangleF (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			summaryViewController.View.Frame = centerFrame;
+			commentViewController.View.Frame = leftFrame;
+			statsViewController.View.Frame = rightFrame;
+
 			View.AddSubview(summaryViewController.View);
+			View.AddSubview (commentViewController.View);
+			View.AddSubview (statsViewController.View);
 
 			view_type = VIEW_TYPE.SUMMARY_VIEW;
 			this.NavigationItem.Title = @"Summary";
@@ -135,14 +148,13 @@ namespace MonoTouch.SlideMenu
 		{
 			base.ViewDidAppear (animated);
 			this.NavigationController.SetNavigationBarHidden (false, false);
-
+			summaryViewController.AdjustViewLayout ();
 		}
 
 		// - (void)viewWillDisappear:(BOOL)animated
 		public override void ViewWillDisappear (bool animated)
 		{
 			base.ViewWillDisappear (animated);
-
 		}
 
 		// - (void)viewDidDisappear:(BOOL)animated
@@ -155,16 +167,16 @@ namespace MonoTouch.SlideMenu
 		public void SwipeToLeft()
 		{
 			if (view_type == VIEW_TYPE.SUMMARY_VIEW) {
-				summaryViewController.View.RemoveFromSuperview ();
-				commentViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (commentViewController.View);
+				summaryViewController.View.Frame = leftFrame;
+				commentViewController.View.Frame = centerFrame;
+
 				view_type = VIEW_TYPE.COMMENT_VIEW;
 				this.NavigationItem.Title = "Comment";
 
 			} else if (view_type == VIEW_TYPE.COMMENT_VIEW) {
-				commentViewController.View.RemoveFromSuperview ();
-				statsViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (statsViewController.View);
+				commentViewController.View.Frame = leftFrame;
+				statsViewController.View.Frame = centerFrame;
+
 				view_type = VIEW_TYPE.STATS_VIEW;
 
 				this.NavigationItem.Title = "Stats";
@@ -174,17 +186,18 @@ namespace MonoTouch.SlideMenu
 		public void SwipeToRight()
 		{
 			if (view_type == VIEW_TYPE.STATS_VIEW) {
-				statsViewController.View.RemoveFromSuperview ();
-				commentViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (commentViewController.View);
+				statsViewController.View.Frame = rightFrame;
+
+				commentViewController.View.Frame = centerFrame;
+
 				view_type = VIEW_TYPE.COMMENT_VIEW;
 
 				this.NavigationItem.Title = "Comment";
 
 			} else if (view_type == VIEW_TYPE.COMMENT_VIEW) {
-				commentViewController.View.RemoveFromSuperview ();
-				summaryViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (summaryViewController.View);
+
+				commentViewController.View.Frame = rightFrame;
+				summaryViewController.View.Frame = centerFrame;
 				view_type = VIEW_TYPE.SUMMARY_VIEW;
 				this.NavigationItem.Title = "Summary";
 			}
@@ -193,9 +206,10 @@ namespace MonoTouch.SlideMenu
 		public void SwipeFromSummaryToStats()
 		{
 			if (view_type == VIEW_TYPE.SUMMARY_VIEW) {
-				summaryViewController.View.RemoveFromSuperview ();
-				statsViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (statsViewController.View);
+
+				summaryViewController.View.Frame = leftFrame;
+				statsViewController.View.Frame = centerFrame;
+
 				view_type = VIEW_TYPE.STATS_VIEW;
 				this.NavigationItem.Title = "Stats";
 			}
@@ -203,9 +217,10 @@ namespace MonoTouch.SlideMenu
 		public void SwipeFromStatsToSummary()
 		{
 			if (view_type == VIEW_TYPE.STATS_VIEW) {
-				statsViewController .View.RemoveFromSuperview ();
-				summaryViewController.View.Frame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-				View.AddSubview (summaryViewController.View);
+
+				statsViewController.View.Frame = rightFrame;
+				summaryViewController.View.Frame = centerFrame;
+
 				view_type = VIEW_TYPE.SUMMARY_VIEW;
 				this.NavigationItem.Title = "Summary";
 			}
