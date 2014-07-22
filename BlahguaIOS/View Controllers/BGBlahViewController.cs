@@ -42,6 +42,8 @@ namespace BlahguaMobile.IOS
         private UIButton commentsButton;
         private UIButton statsButton;
 
+		private float offset_Y = 0;
+
         #endregion
 
         #region Properties
@@ -76,11 +78,11 @@ namespace BlahguaMobile.IOS
             //Synsoft on 9 July 2014 added title
             this.Title = "Summary";
 
-
+			offset_Y = 44;
             //Synsoft on 11 July 2014            
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
+            //NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
             //Synsoft on 11 July 2014 for active color  #1FBBD1
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+            //NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
             SetUpBaseLayout();
 
@@ -106,7 +108,6 @@ namespace BlahguaMobile.IOS
 			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 
 			statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
-
 
 		}
 
@@ -157,8 +158,7 @@ namespace BlahguaMobile.IOS
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
             contentView.BackgroundColor = UIColor.White;
             contentView.ScrollEnabled = true;
-            bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
-
+            //bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
 
             contentView.ClipsToBounds = true;
             contentView.ContentOffset = new PointF(0, 0);
@@ -189,21 +189,24 @@ namespace BlahguaMobile.IOS
             if (CurrentBlah.B != null && CurrentBlah.B.Any())
             {
                 badgeImage.Hidden = false;
-                badgesTableViewHeight.Constant = 0;
+				//badgesShown = true;
+				var count = 0;
+				if(CurrentBlah.B != null)
+					count = CurrentBlah.B.Count ;
+				///badgesTableViewHeight.Constant = count * 28;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,count * 28);
+				//badgesTableView.ContentSize = badgesTableView.Frame.Size;
+				offset_Y += count * 28;
+				RecalcContentViewFrame ();
 
+				badgesTableView.ReloadData();
             }
             else
             {
                 badgeImage.Hidden = true;
 
-				badgesTableView.RemoveFromSuperview ();
-				var count = 0;
-				if(CurrentBlah.B != null)
-					count = CurrentBlah.B.Count ;
-				badgesTableViewHeight.Constant = count * 28;
-
-				View.AddSubview (badgesTableView);
-
+				//badgesTableViewHeight.Constant = 0;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
             }
 
             blahTimespan.AttributedText = new NSAttributedString(
@@ -212,17 +215,28 @@ namespace BlahguaMobile.IOS
                 UIColor.Black
             );
         }
-
-        private void AdjustBadgesTableView()
+		void RecalcContentViewFrame()
+		{
+			contentView.Frame = new RectangleF (contentView.Frame.X, offset_Y, contentView.Frame.Width, this.View.Bounds.Height -  44 - offset_Y);
+		}
+		private void AdjustBadgesTableView()
         {
             if (badgesShown)
             {
-                badgesTableViewHeight.Constant = 0;
+                //badgesTableViewHeight.Constant = 0;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width, 0);
+
+				offset_Y = 44;
+				RecalcContentViewFrame ();
             }
             else
             {
                 var count = badgesTableView.NumberOfRowsInSection(0);
-                badgesTableViewHeight.Constant = count <= 1 ? 28 : 56;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width, count <= 1 ? 28 : 56); 
+
+				offset_Y = 44 + (count <= 1 ? 28 : 56);
+				RecalcContentViewFrame ();
+
             }
             badgesShown = !badgesShown;
             badgesTableView.ReloadData();
@@ -242,7 +256,7 @@ namespace BlahguaMobile.IOS
                 };
 
                 blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
-                blahTitle.Lines = 0;
+				blahTitle.Lines = 0;
 
 
                 blahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
@@ -257,14 +271,23 @@ namespace BlahguaMobile.IOS
 
             if (CurrentBlah.ImageURL != null)
             {
-                blahImage.Image = ImageLoader.DefaultRequestImage(
-                    new Uri(CurrentBlah.ImageURL),
-                    this
-                );
+				UIImage img = ImageLoader.DefaultRequestImage(
+					new Uri(CurrentBlah.ImageURL),
+					this
+				);
+                
+				if (img != null) {
+					float newHeight = img.Size.Height / img.Size.Width * 320;
+
+					blahImage.Image = img;
+					//imageHeightViewHeight.Constant = newHeight;
+					blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, newHeight);
+				}
             }
             else
             {
-                imageHeightViewHeight.Constant = 0;
+                //imageHeightViewHeight.Constant = 0;
+				blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, 0);
             }
 
             if (!String.IsNullOrEmpty(CurrentBlah.F))
@@ -281,12 +304,20 @@ namespace BlahguaMobile.IOS
                 blahBodyView.ScrollEnabled = false;
                 blahBodyView.Editable = false;
                 blahBodyView.ContentInset = new UIEdgeInsets(textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-            }
-            else
-            {
-                blahBodyView.Text = "";
-            }
-            bodyTextViewHeight.Constant = blahBodyView.ContentSize.Height;
+				var ctxt = new NSStringDrawingContext();
+				var text = new NSMutableAttributedString(CurrentBlah.F);
+				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.FontName, 12.0f), new NSRange(0, text.Length));
+				var boundingRect = text.GetBoundingRect(new SizeF(blahBodyView.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
+				//Add some padding 
+
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width, boundingRect.Height + 40);
+			}
+			else
+			{
+				blahBodyView.Text = "";
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width,0);
+			}
+			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
 
             if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
             {
@@ -313,7 +344,7 @@ namespace BlahguaMobile.IOS
                 tableView.ReloadData();
                 tableView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-
+				/*
                 var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
                 var height = NSLayoutConstraint.Create(
                     tableView,
@@ -324,25 +355,90 @@ namespace BlahguaMobile.IOS
                     1,
                     tableView.NumberOfRowsInSection(0) * 64.0f
                 );
-
-                tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
+*/
+                //tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
 
                 contentView.AddSubview(tableView);
 
-                var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
-                var positionYBottom = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-                var positionXLeft = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
-                var positionXRight = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
+               // var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+               // var positionYBottom = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+               // var positionXLeft = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
+               // var positionXRight = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
 
-                contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
+               // contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
             }
             else
             {
-                var constraint = NSLayoutConstraint.Create(blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-                contentView.AddConstraint(constraint);
+                //var constraint = NSLayoutConstraint.Create(blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
+                //contentView.AddConstraint(constraint);
             }
         }
+		public void AdjustViewLayout()
+		{
+			//badge table view
+			if (CurrentBlah.B != null && CurrentBlah.B.Any())
+			{
+				badgeImage.Hidden = false;
+				//badgesShown = true;
+				var count = 0;
+				if(CurrentBlah.B != null)
+					count = CurrentBlah.B.Count ;
+				///badgesTableViewHeight.Constant = count * 28;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,count * 28);
+				//badgesTableView.ContentSize = badgesTableView.Frame.Size;
+				offset_Y =44 + count * 28;
+				RecalcContentViewFrame ();
 
+				badgesTableView.ReloadData();
+			}
+			else
+			{
+				badgeImage.Hidden = true;
+
+				//badgesTableViewHeight.Constant = 0;
+				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
+			}
+
+			//content view;
+			if (blahImage.Image != null) {
+				UIImage img = blahImage.Image;
+				float newHeight = img.Size.Height / img.Size.Width * 320;
+				blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, newHeight);
+			}
+
+			//text view
+
+			if (!String.IsNullOrEmpty(CurrentBlah.F))
+			{
+				var blahBodyAttributes = new UIStringAttributes
+				{
+					Font = UIFont.FromName(BGAppearanceConstants.FontName, 12.0f),
+					ForegroundColor = UIColor.Black,
+				};
+
+				blahBodyView.Hidden = false;
+				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
+				blahBodyView.TextAlignment = UITextAlignment.Left;
+				blahBodyView.ScrollEnabled = false;
+				blahBodyView.Editable = false;
+				blahBodyView.ContentInset = new UIEdgeInsets(textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
+
+ 				var ctxt = new NSStringDrawingContext();
+				var text = new NSMutableAttributedString(CurrentBlah.F);
+				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.FontName, 12.0f), new NSRange(0, text.Length));
+				var boundingRect = text.GetBoundingRect(new SizeF(blahBodyView.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
+        		//Add some padding 
+        		
+
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width, boundingRect.Height + 40);
+			}
+			else
+			{
+				blahBodyView.Text = "";
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width,0);
+			}
+			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
+		}
         private void SetUpToolbar()
         {
             bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
