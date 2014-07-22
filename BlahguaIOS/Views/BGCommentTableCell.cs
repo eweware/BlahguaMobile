@@ -31,10 +31,10 @@ namespace BlahguaMobile.IOS
             panRecognizer = new UIPanGestureRecognizer(PanThisCell);
             panRecognizer.Delegate = new PanGestureRecognizerDelegate();
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
-            containerView.AddGestureRecognizer(panRecognizer);
+            //containerView.AddGestureRecognizer(panRecognizer);
 
 			NSAction action = () => {
-				if (containerView.Frame.Width != this.Frame.Width) {
+				if (rightPosition.Constant == voteView.Frame.Width) {
 					rightPosition.Constant = 0;
 				} else {
 					rightPosition.Constant = voteView.Frame.Width;
@@ -94,16 +94,36 @@ namespace BlahguaMobile.IOS
 
             downVoteButton.TouchUpInside += (sender, e) =>
             {
-                BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
-                downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
-                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
+				{
+                	BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
+                	downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
+                	upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+
+					comment.DownVoteCount += 1;
+					upAndDownVotes.AttributedText = new NSAttributedString(
+						comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
+						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+						UIColor.Black
+					);
+				}
             };
 
             upVoteButton.TouchUpInside += (sender, e) =>
             {
-                BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
-                downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
-                upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
+				{
+                	BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
+                	downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
+                	upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+
+					comment.UpVoteCount += 1;
+					upAndDownVotes.AttributedText = new NSAttributedString(
+						comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
+						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+						UIColor.Black
+					);
+				}
             };
         }
 
