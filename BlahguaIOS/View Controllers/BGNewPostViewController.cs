@@ -89,7 +89,7 @@ namespace BlahguaMobile.IOS
 		public BGNewPostViewController (IntPtr handle) : base (handle)
 		{
 		}
-
+        public string s, y;
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -113,12 +113,14 @@ namespace BlahguaMobile.IOS
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			titleInput.ReturnKeyType = UIReturnKeyType.Next;
-			titleInput.ShouldReturn = delegate {
+             y = titleInput.Text;
+            titleInput.ShouldReturn = delegate {
 				bodyInput.BecomeFirstResponder ();
 				return false;
 			};
 
 			bodyInput.ReturnKeyType = UIReturnKeyType.Next;
+             s = bodyInput.Text;
 			bodyInput.ShouldReturn = delegate {
 				bodyInput.ResignFirstResponder();
 				return true;
@@ -135,16 +137,17 @@ namespace BlahguaMobile.IOS
 				"Done", 
 				UIFont.FromName(BGAppearanceConstants.MediumFontName, 17), 
 				UIColor.White), UIControlState.Normal);
-
+           
             HandleTitleChanged(null);
 
+            // Synsoft on 18 July 2014 
+            HandleBodyChanged(null);
+                    
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
 			};
 
 
-          
-          
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
@@ -190,17 +193,56 @@ namespace BlahguaMobile.IOS
 			};
 		}
 
+
+        public bool isTitle;
+            public bool isbody=false;
+            public bool isFirst = false;
         partial void HandleTitleChanged(UITextField sender)
         {
-            if (!string.IsNullOrEmpty(titleInput.Text))
+            if (!string.IsNullOrEmpty(titleInput.Text) && isbody)
             {
+              // Synsoft on 18 July 2014
+            //    done.Enabled = true;
+                isTitle = true;
                 done.Enabled = true;
+                //isbody = true;
+            }
+            else if (string.IsNullOrEmpty(titleInput.Text))
+            {
+                isTitle = false;
+                done.Enabled = false;
             }
             else
             {
-                done.Enabled = false;
+              // Synsoft on 18 July 2014
+              done.Enabled = false;
+                isTitle = true;
             }
         }
+
+        // Synsoft on 18 July 2014
+        
+        partial void HandleBodyChanged(UITextField sender)
+        {
+            if (!string.IsNullOrEmpty(bodyInput.Text) && isTitle)
+            {
+            
+                done.Enabled = true;
+                isbody = true;
+            }
+            else if (string.IsNullOrEmpty(bodyInput.Text))
+            {
+                isbody = false;
+                done.Enabled = false;
+            }
+            else
+            {
+                    isbody = true;
+                    isFirst = true;
+           }
+        }
+
+       
 
         private void EnableTypeBtn(UIButton theType)
         {

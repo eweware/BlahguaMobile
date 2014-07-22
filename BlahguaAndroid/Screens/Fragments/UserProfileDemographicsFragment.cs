@@ -15,6 +15,8 @@ using Android.Animation;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 
+
+
 namespace BlahguaMobile.AndroidClient.Screens
 {
     class UserProfileDemographicsFragment : Fragment

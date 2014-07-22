@@ -18,6 +18,7 @@ namespace BlahguaMobile.IOS
 
 		public BGDemographicsDropDownCell (IntPtr handle) : base (handle)
 		{
+           
 		}
 
 		public void SetUp (int section)
@@ -52,65 +53,68 @@ namespace BlahguaMobile.IOS
 			};
 			ddButton.TouchUpInside += (sender, e) => {
 				viewController.PushSelectingTable(index);
+                
 			};
-			BlahguaAPIObject.Current.CurrentUser.Profile.PropertyChanged += (sender, e) => 
-			{
-				switch(section)
-				{
-				case 0:
-					{
-						if(e.PropertyName == "Gender")
-						{
-							ddButton.SetAttributedTitle (new NSAttributedString (
-								BlahguaAPIObject.Current.CurrentUser.Profile.Gender, 
-								UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), 
-								UIColor.Black
-							), UIControlState.Normal);
-						}
 
-						break;
-					}
-				case 2:
-					{
-						if(e.PropertyName == "Race")
-						{
-							ddButton.SetAttributedTitle (new NSAttributedString (
-								BlahguaAPIObject.Current.CurrentUser.Profile.Race, 
-								UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), 
-								UIColor.Black
-							), UIControlState.Normal);
-						}
+            BlahguaAPIObject.Current.CurrentUser.Profile.PropertyChanged += (sender, e) =>
+            {
+                switch (section)
+                {
+                    case 0:
+                        {
 
-						break;
-					}
-				case 6:
-					{
-						if(e.PropertyName == "Country")
-						{
-							ddButton.SetAttributedTitle (new NSAttributedString (
-								BlahguaAPIObject.Current.CurrentUser.Profile.Country, 
-								UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), 
-								UIColor.Black
-							), UIControlState.Normal);
-						}
-						break;
-					}
-				case 7:
-				default:
-					{
-						if(e.PropertyName == "Income")
-						{
-							ddButton.SetAttributedTitle (new NSAttributedString (
-								BlahguaAPIObject.Current.CurrentUser.Profile.Income, 
-								UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), 
-								UIColor.Black
-							), UIControlState.Normal);
-						}
-						break;
-					}
-				}
+                            if (e.PropertyName == "Gender")
+                            {
+                                ddButton.SetAttributedTitle(new NSAttributedString(
+                                    BlahguaAPIObject.Current.CurrentUser.Profile.Gender,
+                                    UIFont.FromName(BGAppearanceConstants.BoldFontName, 15),
+                                    UIColor.Black
+                                ), UIControlState.Normal);
+                            }
 
-			};
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (e.PropertyName == "Race")
+                            {
+                                ddButton.SetAttributedTitle(new NSAttributedString(
+                                    BlahguaAPIObject.Current.CurrentUser.Profile.Race,
+                                    UIFont.FromName(BGAppearanceConstants.BoldFontName, 15),
+                                    UIColor.Black
+                                ), UIControlState.Normal);
+                            }
+
+                            break;
+                        }
+                    case 6:
+                        {
+                            if (e.PropertyName == "Country")
+                            {
+                                ddButton.SetAttributedTitle(new NSAttributedString(
+                                    BlahguaAPIObject.Current.CurrentUser.Profile.Country,
+                                    UIFont.FromName(BGAppearanceConstants.BoldFontName, 15),
+                                    UIColor.Black
+                                ), UIControlState.Normal);
+                            }
+                            break;
+                        }
+                    case 7:
+                    default:
+                        {
+                            if (e.PropertyName == "Income")
+                            {
+                                ddButton.SetAttributedTitle(new NSAttributedString(
+                                    BlahguaAPIObject.Current.CurrentUser.Profile.Income,
+                                    UIFont.FromName(BGAppearanceConstants.BoldFontName, 15),
+                                    UIColor.Black
+                                ), UIControlState.Normal);
+                            }
+                            break;
+                        }
+                }
+
+            };
 
 		}
 	}

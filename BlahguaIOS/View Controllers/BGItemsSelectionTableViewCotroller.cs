@@ -25,6 +25,8 @@ namespace BlahguaMobile.IOS
 			TableView.BackgroundColor = UIColor.White;
 			TableView.TableFooterView = new UIView ();
 			TableView.Source = new BGItemsSelectionTableSource (this);
+           //Synsoft Global
+           // Add(TableView);
 		}
 	}
 
@@ -39,9 +41,20 @@ namespace BlahguaMobile.IOS
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell ("simpleCell");
+            //var cell = tableView.DequeueReusableCell("simpleCell");
+			UITableViewCell cell = tableView.DequeueReusableCell ("simpleCell");
 			cell.TextLabel.AttributedText = new NSAttributedString (vc.source [indexPath.Row], UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.Black);
-			return cell;
+            
+            //Synsoft Global
+            if (cell == null)
+            {
+                //UIAlertView a = new UIAlertView("Row selected", vc.source[indexPath.Row], null, "ok", null);
+                //a.Show();
+                cell = new UITableViewCell(UITableViewCellStyle.Default, "simpleCell");
+                cell.TextLabel.Text = vc.source[indexPath.Row];
+                
+            }
+            return cell;
 		}
 
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
@@ -61,8 +74,13 @@ namespace BlahguaMobile.IOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			vc.ParentViewController.SetValue (vc.index, vc.source [indexPath.Row]);
-			vc.NavigationController.PopViewControllerAnimated (true);
+            vc.ParentViewController.SetValue(vc.index, vc.source[indexPath.Row]);
+            vc.NavigationController.PopViewControllerAnimated(true);
+            //vc.DismissViewController(true, null);
+
+            //UIAlertView a = new UIAlertView("Row selected", vc.source[indexPath.Row], null, "ok", null);
+            //a.Show();
+            //tableView.DeselectRow(indexPath, true);
 		}
 	}
 }

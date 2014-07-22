@@ -39,50 +39,64 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
-		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
-		{
-			if(segue.Identifier == "fromDemographicsToItemSelection")
-			{
-				var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
-				vc.ParentViewController = this;
-				vc.index = index;
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+        }
 
-				switch(index)
-				{
-				case 0:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.GenderChoices;
-						break;
-					}
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            // Synsoft Global
+            base.PrepareForSegue(segue, sender);
+            if (segue.Identifier == "fromDemographicsToItemSelection")
+            {
+                //var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
+                //Synsoft GLobal 
+                var vc = segue.DestinationViewController as BGItemsSelectionTableViewCotroller;
+                if (vc != null)
+                {
+                    vc.ParentViewController = this;
+                    vc.index = index;
 
-				case 2:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.RaceChoices;
-						break;
-					}
-				case 6:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.CountryChoices;
-						break;
-					}
-				case 7:
-				default:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
-						break;
-					}
-				}
-				index = 0;
-			}
-			base.PrepareForSegue (segue, sender);
-		}
+                    switch (index)
+                    {
+                        case 0:
+                            {
+                                vc.source = BlahguaAPIObject.Current.UserProfileSchema.GenderChoices;
+                                break;
+                            }
 
+                        case 2:
+                            {
+                                vc.source = BlahguaAPIObject.Current.UserProfileSchema.RaceChoices;
+                                break;
+                            }
+                        case 6:
+                            {
+                                vc.source = BlahguaAPIObject.Current.UserProfileSchema.CountryChoices;
+                                break;
+                            }
+                        case 7:
+                            {
+                                vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
+                                break;
+                            }
+
+                    }
+                    index = 0;
+                }
+                  base.PrepareForSegue(segue, sender);
+        
+            }
+        }
 		public void SetValue(int index, string value)
 		{
 			switch(index)
 			{
 			case 0:
 				{
+                    //UIAlertView ac = new UIAlertView("setvalue", "index-" + value+"  "+index ,null, "ok", null);
+                    //ac.Show();
 					BlahguaAPIObject.Current.CurrentUser.Profile.Gender = value;
 					break;
 				}
@@ -117,7 +131,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+			
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
 					break;
@@ -165,10 +179,12 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
 				}
 			case 7:
-			default:
+                default:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
 				}
+            //default:
+            //    { return string.Empty; }
 			}
 		}
 
@@ -212,7 +228,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+                default:
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
 					break;
@@ -253,24 +269,28 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.CountryPerm;
 				}
 			case 7:
-			default:
+                default:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm;
+                  
 				}
+                //default:
+                //{ return true; }
 			}
 		}
 
 		public void PushSelectingTable(int index)
 		{
 			this.index = index;
-			PerformSegue ("fromDemographicsToItemSelection", this);
+			PerformSegue ("fromDemographicsToItemSelection",this);
 		}
 	}
 
 	public class BGDemographicsTableSource : UITableViewSource
 	{
 		private BGDemographicsViewController vc;
-
+       //synsoft 21 July
+        //static NSString MycellId = new NSString("MycellId");
 		public BGDemographicsTableSource (BGDemographicsViewController vc)
 		{
 			this.vc = vc;
@@ -354,7 +374,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			default:
+			
 				{
 					labelText = "Income";
 					break;

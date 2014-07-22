@@ -5,6 +5,9 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
 using BlahguaMobile.BlahguaCore;
+using BlahguaMobile.IOS.View_Controllers;
+
+
 
 
 namespace BlahguaMobile.IOS
@@ -67,17 +70,37 @@ namespace BlahguaMobile.IOS
 				});
 			};
 
-			m_btnStats.TouchUpInside += (sender, e) => {
-				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
-					InvokeOnMainThread (() => {
-						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+            //m_btnStats.TouchUpInside += (sender, e) =>
+            //{
+            //    BlahguaAPIObject.Current.GetUserProfile((profile) =>
+            //    {
+            //        InvokeOnMainThread(() =>
+            //        {
+            //            ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
 
-						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGStatsTableViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGStatsTableViewController"), true);
+            //            ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGStatsTableViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGStatsTableViewController"), true);
 
-						//rollView.PerformSegue ("fromRollToStats", rollView);
-					});
-				});
-			};
+            //            //rollView.PerformSegue ("fromRollToStats", rollView);
+            //        });
+            //    });
+            //};
+
+
+            m_btnStats.TouchUpInside += (sender, e) =>
+            {
+                //PerformSegue("fromProfileToStats", null);
+               BlahguaAPIObject.Current.GetUserProfile((profile) =>
+                {
+                    InvokeOnMainThread(() =>
+                    {
+                        ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+
+                        ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((ProfileToStatsViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("ProfileToStatsViewController"), true);
+
+                        //rollView.PerformSegue ("fromRollToStats", rollView);
+                    });
+                });
+            };
 
 			m_btnLogout.TouchUpInside += (sender, e) => {
 				BlahguaAPIObject.Current.SignOut (null, null);
