@@ -100,7 +100,7 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu.SetGesturesState (true);
 			SetSrollingAvailability (true);
             //CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-
+			/*
             BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
             {
                 if (e.PropertyName == "CurrentChannel")
@@ -116,6 +116,7 @@ namespace BlahguaMobile.IOS
                     BlahguaAPIObject.Current.GetInbox(InboxLoadingCompleted);
                 }
             };
+            */
 		}
 
 		public override void ViewDidAppear (bool animated)
