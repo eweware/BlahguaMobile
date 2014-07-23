@@ -133,7 +133,7 @@ Global
 		{BE0D4993-B841-42DA-9006-B3729A7A3C5E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BlahguaAndroid\BlahguaAndroid.csproj
+		StartupItem = BlahguaIOS\BlahguaIOS.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
