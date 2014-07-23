@@ -168,6 +168,8 @@ namespace BlahguaMobile.IOS
 
 		private void MenuButtonClicked (object sender, EventArgs args)
 		{
+			if (IsNewPostMode)
+				return;
 			leftSlidingMenu.ToggleMenuAnimated ();
 		}
 
