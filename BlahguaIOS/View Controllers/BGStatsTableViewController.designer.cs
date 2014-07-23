@@ -19,9 +19,6 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel lblComment { get; set; }
 
 		[Outlet]
@@ -49,13 +46,13 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem signInBtn { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -69,9 +66,9 @@ namespace BlahguaMobile.IOS
 				commentsView = null;
 			}
 
-			if (downVote != null) {
-				downVote.Dispose ();
-				downVote = null;
+			if (signInBtn != null) {
+				signInBtn.Dispose ();
+				signInBtn = null;
 			}
 
 			if (lblComment != null) {
@@ -127,11 +124,6 @@ namespace BlahguaMobile.IOS
 			if (summaryView != null) {
 				summaryView.Dispose ();
 				summaryView = null;
-			}
-
-			if (upVote != null) {
-				upVote.Dispose ();
-				upVote = null;
 			}
 		}
 	}
