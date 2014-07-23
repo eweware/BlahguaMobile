@@ -1987,6 +1987,7 @@
                             <constraint firstAttribute="trailing" secondItem="f5K-ra-HTn" secondAttribute="trailing" id="zyQ-DD-VEj"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="3JH-9k-Skz"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
@@ -2052,8 +2053,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="r5o-U4-GYW"/>
-        <segue reference="Nj2-Uz-Kf4"/>
+        <segue reference="ehh-t0-FMR"/>
         <segue reference="5oQ-rS-0pJ"/>
+        <segue reference="r5o-U4-GYW"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -426,7 +426,13 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-
+		public void clearAllFields()
+		{
+			titleInput.Text = "";
+			bodyInput.Text = "";
+			selectImageButton.SetImage (null, UIControlState.Normal);
+			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+		}
 
 		private void ActionForImage(object sender, EventArgs e)
 		{

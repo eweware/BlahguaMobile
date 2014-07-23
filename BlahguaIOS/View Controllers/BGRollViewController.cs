@@ -100,7 +100,7 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu.SetGesturesState (true);
 			SetSrollingAvailability (true);
             //CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-
+			/*
             BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
             {
                 if (e.PropertyName == "CurrentChannel")
@@ -116,6 +116,7 @@ namespace BlahguaMobile.IOS
                     BlahguaAPIObject.Current.GetInbox(InboxLoadingCompleted);
                 }
             };
+            */
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -267,7 +268,7 @@ namespace BlahguaMobile.IOS
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
-
+				newPostViewController.clearAllFields ();
 				isNewPostMode = true;
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );
 				//CollectionView.Hidden = true;

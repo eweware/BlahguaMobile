@@ -119,15 +119,19 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
-			SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+			if(CurrentBlah != null)
+				SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
 		}
 		private void SetUpBaseLayout()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
-			bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
 
-			bottomToolBar.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
-			bottomToolBar.BarTintColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+			if (CurrentBlah != null) {
+				bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
+
+				bottomToolBar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+				bottomToolBar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+			}
 		}
 
         //Synsoft on 14 July 2014
@@ -143,9 +147,13 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpToolbar()
 		{
-			bottomToolBar.TintColor = UIColor.Clear;
-			SetUpVotesButtons ();
-			SetUpModesButtons ();
+			if (CurrentBlah != null) {
+				bottomToolBar.TintColor = UIColor.Clear;
+				SetUpVotesButtons ();
+				SetUpModesButtons ();
+			} else {
+				bottomToolBar.Hidden = true;
+			}
 		}
 
 		private void SetUpVotesButtons()
