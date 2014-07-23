@@ -16,6 +16,18 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIToolbar bottomToolBar { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UILabel lblComment { get; set; }
 
 		[Outlet]
@@ -50,8 +62,32 @@ namespace BlahguaMobile.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (bottomToolBar != null) {
+				bottomToolBar.Dispose ();
+				bottomToolBar = null;
+			}
+			if (commentsView != null) {
+				commentsView.Dispose ();
+				commentsView = null;
+			}
+			if (downVote != null) {
+				downVote.Dispose ();
+				downVote = null;
+			}
 			if (lblComment != null) {
 				lblComment.Dispose ();
 				lblComment = null;
@@ -87,6 +123,18 @@ namespace BlahguaMobile.IOS
 			if (scrollView != null) {
 				scrollView.Dispose ();
 				scrollView = null;
+			}
+			if (statsView != null) {
+				statsView.Dispose ();
+				statsView = null;
+			}
+			if (summaryView != null) {
+				summaryView.Dispose ();
+				summaryView = null;
+			}
+			if (upVote != null) {
+				upVote.Dispose ();
+				upVote = null;
 			}
 		}
 	}

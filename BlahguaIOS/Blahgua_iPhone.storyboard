@@ -208,7 +208,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="730" y="-1566"/>
+            <point key="canvasLocation" x="1735" y="862"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="15">
@@ -449,7 +449,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="contentView" bounces="NO" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gpn-9b-ooF">
+                            <scrollView appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" restorationIdentifier="contentView" bounces="NO" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gpn-9b-ooF">
                                 <rect key="frame" x="0.0" y="87" width="320" height="437"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -617,8 +617,6 @@
                         <outlet property="upVote" destination="g6C-db-Rh2" id="blh-4J-9h5"/>
                         <outlet property="userDescription" destination="kzR-xf-sH0" id="s5H-f4-n1X"/>
                         <outlet property="userImage" destination="WuP-gY-bnW" id="902-S2-UvW"/>
-                        <segue destination="SJE-mi-DmF" kind="push" identifier="fromBlahViewToComments" id="0GW-vI-3d3"/>
-                        <segue destination="99" kind="push" identifier="fromBlahViewToStats" id="107"/>
                         <segue destination="1" kind="push" identifier="SummaryToLogin" id="535"/>
                     </connections>
                 </viewController>
@@ -862,7 +860,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </toolbar>
-                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAh-R7-qcl">
+                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAh-R7-qcl">
                                 <rect key="frame" x="20" y="57" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -873,7 +871,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="64" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Drt-Aq-Ex7">
+                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="64" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Drt-Aq-Ex7">
                                 <rect key="frame" x="0.0" y="86" width="320" height="438"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1045,12 +1043,12 @@
                         <outlet property="summaryView" destination="IZb-ik-KRr" id="7r3-mE-R5R"/>
                         <outlet property="upVote" destination="TyZ-zS-NbS" id="JSX-7N-J3B"/>
                         <outlet property="viewTitle" destination="KAh-R7-qcl" id="PdV-H6-pgM"/>
-                        <segue destination="99" kind="push" identifier="fromCommentsToStats" id="109"/>
+                        <segue destination="1" kind="push" identifier="fromCommentsToLogin" id="Nj2-Uz-Kf4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JtY-af-kjW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2532" y="1065"/>
+            <point key="canvasLocation" x="2591" y="571"/>
         </scene>
         <!--Demographics View Controller-->
         <scene sceneID="Cpf-N9-NYt">
@@ -1250,6 +1248,7 @@
                     <navigationItem key="navigationItem" title="Roll" id="WvV-aF-vc4"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <segue destination="1" kind="push" identifier="fromRollToLogin" id="5CP-DJ-zHp"/>
                         <segue destination="44" kind="push" identifier="fromRollToProfile" id="hr5-eJ-fAn"/>
@@ -1570,7 +1569,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView hidden="YES" appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="sNx-5o-7Kn">
-                                <rect key="frame" x="7" y="335" width="305" height="213"/>
+                                <rect key="frame" x="7" y="283" width="305" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1624,7 +1623,7 @@
                                 <rect key="frame" x="161" y="241" width="152" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="  Signature" image="signature_ico.png">
+                                <state key="normal" title="Signature">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1636,7 +1635,7 @@
                                 <rect key="frame" x="8" y="241" width="152" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="  Select Image" image="image_select.png">
+                                <state key="normal" title="Select Image">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1651,7 +1650,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WE-eN-ZEd">
-                                <rect key="frame" x="12" y="54" width="36" height="36"/>
+                                <rect key="frame" x="17" y="59" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -1662,7 +1661,7 @@
                                 <state key="highlighted" image="icon_speechact_say_teal.png" backgroundImage="icon_speechact_say_teal.png"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jA-w8-Zlh">
-                                <rect key="frame" x="75" y="54" width="36" height="36"/>
+                                <rect key="frame" x="80" y="59" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -1673,7 +1672,7 @@
                                 <state key="highlighted" image="icon_speechact_predict_teal.png"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WPk-2X-BkY">
-                                <rect key="frame" x="140" y="54" width="36" height="36"/>
+                                <rect key="frame" x="143" y="59" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -1684,7 +1683,7 @@
                                 <state key="highlighted" image="icon_speechact_poll_teal.png"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7IY-Wq-woX">
-                                <rect key="frame" x="205" y="54" width="36" height="36"/>
+                                <rect key="frame" x="208" y="59" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -1695,7 +1694,7 @@
                                 <state key="highlighted" image="icon_speechact_ask_teal.png"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CON-xR-rZK">
-                                <rect key="frame" x="270" y="54" width="36" height="36"/>
+                                <rect key="frame" x="267" y="59" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
@@ -1706,7 +1705,7 @@
                                 <state key="highlighted" image="icon_speechact_leak_teal.png"/>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="Say" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="486">
-                                <rect key="frame" x="10" y="85" width="40" height="20"/>
+                                <rect key="frame" x="13" y="85" width="40" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1714,7 +1713,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="Predict" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N6S-Hg-Fym">
-                                <rect key="frame" x="75" y="85" width="40" height="20"/>
+                                <rect key="frame" x="76" y="85" width="40" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1730,7 +1729,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="Ask" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="AZM-QH-mZl">
-                                <rect key="frame" x="205" y="85" width="40" height="20"/>
+                                <rect key="frame" x="204" y="85" width="40" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1738,7 +1737,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" text="Leak" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="QfJ-P1-Ifu">
-                                <rect key="frame" x="270" y="85" width="40" height="20"/>
+                                <rect key="frame" x="263" y="85" width="40" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1782,11 +1781,11 @@
                         <viewControllerLayoutGuide type="bottom" id="102"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="100">
-                        <rect key="frame" x="0.0" y="74" width="320" height="494"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="389">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="492"/>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="389">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="394">
@@ -1983,16 +1982,51 @@
                                     </label>
                                 </subviews>
                             </scrollView>
+                            <toolbar appearanceType="aqua" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f5K-ra-HTn">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="0.83921575550000005" green="0.78823536630000002" blue="0.76470595600000002" alpha="1" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="uru-dr-dh8"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem image="arrow_up.png" width="30" style="plain" id="JAg-5g-bcz">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="arrow_down.png" width="24" style="plain" id="4k7-q7-exi">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem width="112" style="plain" systemItem="fixedSpace" id="KV8-qA-W8a"/>
+                                    <barButtonItem image="summary.png" style="plain" id="Nnp-Ag-m4I">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="comments.png" width="34" style="plain" id="zpQ-Jh-6mq"/>
+                                    <barButtonItem image="stats.png" style="plain" id="WUi-UU-kox"/>
+                                </items>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="389" secondAttribute="bottom" constant="2" id="440"/>
+                            <constraint firstItem="389" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="2FP-MG-4I9"/>
+                            <constraint firstItem="f5K-ra-HTn" firstAttribute="top" secondItem="389" secondAttribute="bottom" id="4TP-89-I0C"/>
+                            <constraint firstItem="102" firstAttribute="top" secondItem="f5K-ra-HTn" secondAttribute="bottom" id="4no-mJ-cS0"/>
+                            <constraint firstItem="f5K-ra-HTn" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="C9J-ne-d7D"/>
+                            <constraint firstAttribute="trailing" secondItem="f5K-ra-HTn" secondAttribute="trailing" id="Ihl-az-7kJ"/>
+                            <constraint firstAttribute="trailing" secondItem="389" secondAttribute="trailing" id="aFh-yw-t9T"/>
+                            <constraint firstAttribute="centerX" secondItem="f5K-ra-HTn" secondAttribute="centerX" id="c6w-JE-jNs"/>
+                            <constraint firstItem="389" firstAttribute="top" secondItem="100" secondAttribute="top" id="hvu-Ac-UQq"/>
+                            <constraint firstItem="f5K-ra-HTn" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="tmZ-df-axe"/>
+                            <constraint firstAttribute="trailing" secondItem="f5K-ra-HTn" secondAttribute="trailing" id="zyQ-DD-VEj"/>
                         </constraints>
                     </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
+                        <outlet property="bottomToolBar" destination="f5K-ra-HTn" id="5MC-pE-Lk8"/>
+                        <outlet property="commentsView" destination="zpQ-Jh-6mq" id="3h0-24-UNf"/>
+                        <outlet property="downVote" destination="4k7-q7-exi" id="Iho-1P-MKb"/>
                         <outlet property="lblComment" destination="421" id="name-outlet-421"/>
                         <outlet property="lblConversionRatio" destination="400" id="name-outlet-400"/>
                         <outlet property="lblDemotes" destination="408" id="name-outlet-408"/>
@@ -2002,6 +2036,10 @@
                         <outlet property="lblOpenedImpression" destination="403" id="name-outlet-403"/>
                         <outlet property="lblPromotes" destination="409" id="name-outlet-409"/>
                         <outlet property="scrollView" destination="389" id="name-outlet-389"/>
+                        <outlet property="statsView" destination="WUi-UU-kox" id="ILp-SQ-0fu"/>
+                        <outlet property="summaryView" destination="Nnp-Ag-m4I" id="ab2-3n-Owb"/>
+                        <outlet property="upVote" destination="JAg-5g-bcz" id="X7p-WD-2k3"/>
+                        <segue destination="1" kind="push" identifier="fromStatsToLogin" id="ehh-t0-FMR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="103" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2388,6 +2426,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="5CP-DJ-zHp"/>
+        <segue reference="535"/>
         <segue reference="5oQ-rS-0pJ"/>
         <segue reference="r5o-U4-GYW"/>
     </inferredMetricsTieBreakers>

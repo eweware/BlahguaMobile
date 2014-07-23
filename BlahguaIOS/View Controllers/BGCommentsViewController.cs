@@ -94,19 +94,30 @@ namespace BlahguaMobile.IOS
 
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToSummaryController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);     
+            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);  
+
+			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
+		}
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear (animated);
+			SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments_dark"), UIImage.FromBundle("stats"));
+
+
 		}
 
         //Synsoft on 14 July 2014
         private void SwipeToSummaryController()
         {
-            this.NavigationController.PopViewControllerAnimated(true);
+			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();
         }
 
         //Synsoft on 14 July 2014
         private void SwipeToStatsController()
         {
-            PerformSegue("fromCommentsToStats", this);
+            //PerformSegue("fromCommentsToStats", this);
+			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
         }
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -215,42 +226,65 @@ namespace BlahguaMobile.IOS
 			upVoteButton = new UIButton (UIButtonType.Custom);
 			upVoteButton.Frame = votesButtonRect;
 			upVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-				if(CurrentComment != null && CurrentComment.UserVote != 1)
+				if (BlahguaAPIObject.Current.CurrentUser != null)
 				{
-                    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-						UIControlState.Normal);
-					BlahguaAPIObject.Current.SetCommentVote(CurrentComment, 1, (value) => {
-						Console.WriteLine(value);
-					});
+					if(CurrentComment != null && CurrentComment.UserVote != 1)
+					{
+						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+							UIControlState.Normal);
+						BlahguaAPIObject.Current.SetCommentVote(CurrentComment, 1, (value) => {
+							Console.WriteLine(value);
+						});
+					}
+					if(CurrentBlah.uv != 1)
+					{
+						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+							UIControlState.Normal);
+						BlahguaAPIObject.Current.SetBlahVote(1, (value) => {
+							Console.WriteLine(value);
+						});
+					}
 				}
-				if(CurrentBlah.uv != 1)
+				else
 				{
-                    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-						UIControlState.Normal);
-					BlahguaAPIObject.Current.SetBlahVote(1, (value) => {
-						Console.WriteLine(value);
-					});
+					AlertDelegateForComment obj = new AlertDelegateForComment();
+					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+					_alert.Clicked += _alert_Clicked;
+					_alert.Show();
 				}
+
 			};
 
 			downVoteButton = new UIButton (UIButtonType.Custom);
 			downVoteButton.Frame = votesButtonRect;
 			downVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-				if(CurrentComment != null && CurrentComment.UserVote != -1)
+
+
+				if (BlahguaAPIObject.Current.CurrentUser != null)
 				{
-                    upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-						UIControlState.Normal);
-					BlahguaAPIObject.Current.SetCommentVote(CurrentComment, -1, (value) => {
-						Console.WriteLine(value);
-					});
+					if(CurrentComment != null && CurrentComment.UserVote != -1)
+					{
+						upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+							UIControlState.Normal);
+						BlahguaAPIObject.Current.SetCommentVote(CurrentComment, -1, (value) => {
+							Console.WriteLine(value);
+						});
+					}
+					if(CurrentBlah.uv != -1)
+					{
+						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
+							UIControlState.Normal);
+						BlahguaAPIObject.Current.SetBlahVote(-1, (value) => {
+							Console.WriteLine(value);
+						});
+					}
 				}
-				if(CurrentBlah.uv != -1)
+				else
 				{
-                    downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-						UIControlState.Normal);
-					BlahguaAPIObject.Current.SetBlahVote(-1, (value) => {
-						Console.WriteLine(value);
-					});
+					AlertDelegateForComment obj = new AlertDelegateForComment();
+					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+					_alert.Clicked += _alert_Clicked;
+					_alert.Show();
 				}
 			};
 
@@ -260,6 +294,10 @@ namespace BlahguaMobile.IOS
 			downVote.CustomView = downVoteButton;
 		}
 
+		void _alert_Clicked(object sender, UIButtonEventArgs e)
+		{
+			this.PerformSegue("fromCommentsToLogin", this);
+		}
 		private void SetVoteButtonsImages()
 		{
 			int uv = CurrentComment != null ? CurrentComment.UserVote : CurrentBlah.uv;
@@ -299,8 +337,9 @@ namespace BlahguaMobile.IOS
 			summaryButton.Frame = new RectangleF (0, 0, 20, 16);
             summaryButton.SetImage (UIImage.FromBundle ("summary"), UIControlState.Normal);
 			summaryButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
-				NavigationController.PopToViewController(parentViewController, true);
+                //SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
+
+				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();
 			};
 			summaryView.CustomView = summaryButton;
 
@@ -321,20 +360,13 @@ namespace BlahguaMobile.IOS
 			statsButton.Frame = new RectangleF (0, 0, 26, 17);
             statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
-                SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
+                //SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));
                 //Commented by Synsoft on 9 July 2014
                // PerformSegue("fromCommentsToStats", this);
                
                 //Synsoft on 9 July 2014 to add popup animation
 
-                AppDelegate objAppDelegate = new AppDelegate();
-                var myStoryboard = objAppDelegate.MainStoryboard;
-                BGStatsTableViewController objBGStatsTableViewController = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
-
-                UINavigationController objUINavigationController = new UINavigationController(objBGStatsTableViewController);
-                objUINavigationController.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-
-                this.PresentViewController(objUINavigationController, true, null);
+				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
 			};
 			statsView.CustomView = statsButton;
 		}
@@ -493,6 +525,15 @@ namespace BlahguaMobile.IOS
 
 				tableView.ReloadData ();
 			}
+		}
+	}
+
+	public class AlertDelegateForComment : UIAlertViewDelegate
+	{
+		public override void Clicked(UIAlertView alertview, int buttonIndex)
+		{
+			base.Clicked(alertview, buttonIndex);
+
 		}
 	}
 }

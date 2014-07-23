@@ -100,6 +100,18 @@ namespace BlahguaMobile.IOS
                             break;
                         }
                     case 7:
+                    
+                        {
+                            if (e.PropertyName == "Income")
+                            {
+                                ddButton.SetAttributedTitle(new NSAttributedString(
+                                    BlahguaAPIObject.Current.CurrentUser.Profile.Income,
+                                    UIFont.FromName(BGAppearanceConstants.BoldFontName, 15),
+                                    UIColor.Black
+                                ), UIControlState.Normal);
+                            }
+                            break;
+                        }
                     default:
                         {
                             if (e.PropertyName == "Income")

@@ -22,6 +22,9 @@ namespace BlahguaMobile.IOS
         MonoTouch.UIKit.UIView containerView { get; set; }
 
         [Outlet]
+        MonoTouch.UIKit.NSLayoutConstraint containerViewWidth { get; set; }
+
+        [Outlet]
         MonoTouch.UIKit.UIButton downVoteButton { get; set; }
 
         [Outlet]
@@ -60,6 +63,12 @@ namespace BlahguaMobile.IOS
             {
                 containerView.Dispose();
                 containerView = null;
+            }
+
+            if (containerViewWidth != null)
+            {
+                containerViewWidth.Dispose();
+                containerViewWidth = null;
             }
 
             if (downVoteButton != null)

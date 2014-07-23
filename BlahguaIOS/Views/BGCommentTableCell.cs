@@ -8,12 +8,15 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
+using MonoTouch.UIKit;
 
 namespace BlahguaMobile.IOS
 {
     public partial class BGCommentTableCell : UITableViewCell
     {
         private UIPanGestureRecognizer panRecognizer;
+		private UITapGestureRecognizer tapRecognizer;
+
         private PointF panStartPoint;
         private float startingLayoutRight = 0;
         private Comment comment;
@@ -30,6 +33,22 @@ namespace BlahguaMobile.IOS
             panRecognizer.Delegate = new PanGestureRecognizerDelegate();
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
             containerView.AddGestureRecognizer(panRecognizer);
+
+			NSAction action = () => {
+				if (containerView.Frame.Width != this.Frame.Width) {
+					rightPosition.Constant = 0;
+				} else {
+					rightPosition.Constant = voteView.Frame.Width;
+				}
+			};
+
+			tapRecognizer = new UITapGestureRecognizer (action );
+
+			tapRecognizer.Delegate = new PanGestureRecognizerDelegate ();
+			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
+			tapRecognizer.NumberOfTapsRequired = 1;
+			containerView.AddGestureRecognizer (tapRecognizer);
+
 
             if (!String.IsNullOrEmpty(comment.ImageURL))
             {
@@ -266,7 +285,7 @@ namespace BlahguaMobile.IOS
     {
         public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
         {
-            return true;
+			return false;
         }
 
         public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
@@ -278,4 +297,5 @@ namespace BlahguaMobile.IOS
             return true;
         }
     }
+
 }

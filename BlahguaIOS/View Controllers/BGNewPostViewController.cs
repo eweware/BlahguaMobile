@@ -11,6 +11,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.ActionSheetDatePicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -32,6 +33,10 @@ namespace BlahguaMobile.IOS
 		private bool isProfileSignature;
         private UIButton curTypeView = null;
 
+		private RectangleF doneFrame;
+
+		private ActionSheetDatePicker datePicker = null;
+
 		private UITextField expirationDateInput;
 		private UITextField ExpirationDateInput
 		{
@@ -39,8 +44,8 @@ namespace BlahguaMobile.IOS
 			{
 				if(expirationDateInput == null)
 				{
-					expirationDateInput = new BGTextField (new RectangleF (pollItemsTableView.Frame.Location, 
-																			new Size (305, 40)));
+					expirationDateInput = new BGTextField (new RectangleF (doneFrame.X, selectImageButton.Frame.Y + 42, 
+																			305, 40));
 
 					expirationDateInput.AttributedPlaceholder = new NSAttributedString(
 						"Type prediction expiration date (mm/dd/yyyy)",
@@ -56,6 +61,23 @@ namespace BlahguaMobile.IOS
                     expirationDateInput.Background = UIImage.FromBundle ("input_back");
 
 					expirationDateInput.ReturnKeyType = UIReturnKeyType.Default;
+					expirationDateInput.ShouldBeginEditing = delegate {
+						datePicker = new ActionSheetDatePicker (this.View);
+						datePicker.Title = "Choose Date";
+						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
+						NSDateFormatter dateFormatter = new NSDateFormatter();
+						dateFormatter.DateFormat = "MM/dd/yyyy";
+					
+						datePicker.DatePicker.ValueChanged += (s, e) => {
+
+							NSDate dateValue = (s as UIDatePicker).Date;
+							expirationDateInput.Text = new NSString(dateFormatter.ToString(dateValue));
+						};
+
+						datePicker.Show ();
+
+						return false;
+					};
 					expirationDateInput.ShouldReturn = delegate {
 						DateTime expDateTime;
 						if (DateTime.TryParse (expirationDateInput.Text, out expDateTime)) 
@@ -96,6 +118,8 @@ namespace BlahguaMobile.IOS
 
 			pollItemsTableView.Hidden = true;
 
+			doneFrame = done.Frame;
+
 			var buttonsTextAttributes = new UIStringAttributes {
 				Font = UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),
 				ForegroundColor = UIColor.Black
@@ -105,11 +129,11 @@ namespace BlahguaMobile.IOS
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
-            selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
+            //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
 			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("  Select Image", buttonsTextAttributes), UIControlState.Normal);
-            selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
+            //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			titleInput.ReturnKeyType = UIReturnKeyType.Next;
@@ -147,7 +171,9 @@ namespace BlahguaMobile.IOS
 				Done();
 			};
 
-
+			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
+			bodyInput.Placeholder = "Says is used for general sharing";
+          
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
@@ -309,14 +335,23 @@ namespace BlahguaMobile.IOS
             var typeName = BlahguaAPIObject.Current.CreateRecord.BlahType.N;
             switch (typeName)
             {
-                case "polls":
-                    InvokeOnMainThread(() =>
-                        {
-                            pollItemsTableView.Hidden = false;
-                            ExpirationDateInput.Hidden = true;
-                            PreparePollMode();
-                            bodyInput.Placeholder = "Polls must have at least two choices";
-                        });
+			case "polls":
+				InvokeOnMainThread (() => {
+					pollItemsTableView.Hidden = false;
+
+					pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
+
+
+					ExpirationDateInput.Hidden = true;
+
+					PreparePollMode ();
+					bodyInput.Placeholder = "Polls must have at least two choices";
+
+					done.RemoveFromSuperview ();
+					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
+					View.AddSubview(done);
+				});
+
                     break;
 
                 case "predicts":
@@ -327,33 +362,53 @@ namespace BlahguaMobile.IOS
                                 UIFont.FromName(BGAppearanceConstants.FontName, 14),
                                 UIColor.Black
                             );
+						done.RemoveFromSuperview ();
+						done.Frame = new RectangleF(doneFrame.X, doneFrame.Y + 48, doneFrame.Width, doneFrame.Height) ;
+						View.AddSubview(done);
                             pollItemsTableView.Hidden = true;
                             ExpirationDateInput.Hidden = false;
+
+
+						titleInput.Placeholder = "HEADLINE: Predictions detail outcomes expected to occure.";
                             bodyInput.Placeholder = "Predictions require you to set a date";
                         });
+
                     break;
 
-                case "says":
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
+			case "says":
+				pollItemsTableView.Hidden = true;
+				ExpirationDateInput.Hidden = true;
+				done.RemoveFromSuperview ();
+				done.Frame = doneFrame ;
+				View.AddSubview(done);
+				titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
                     bodyInput.Placeholder = "Says is used for general sharing";
                     break;
 
                 case "asks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				done.RemoveFromSuperview ();
+				done.Frame = doneFrame ;
+				View.AddSubview(done);
+				titleInput.Placeholder = "HEADLINE: Asks are open-ended questions. Must include a '?'";
                     bodyInput.Placeholder = "Asks must be in the form a a question";
                     break;
 
                 case "leaks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				done.RemoveFromSuperview ();
+				done.Frame = doneFrame ;
+				View.AddSubview(done);
+				titleInput.Placeholder = "HEADLINE: Leaks require that a badge to be attached.";
                     bodyInput.Placeholder = "You must be badged to leak something";
                     break;
 
                 default:
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				titleInput.Placeholder = "HEADLINE: Polls allow user to vote on pre-defined responses.";
                     break;
             }
         }
@@ -516,6 +571,7 @@ namespace BlahguaMobile.IOS
 			NewPost.I.Add (new PollItem (""));
 
 			pollItemsTableView.ReloadData ();
+
 			AdjustTableViewSize ();
 		}
 
@@ -523,7 +579,18 @@ namespace BlahguaMobile.IOS
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
 			pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
-			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom);
+
+			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60);
+			if (pollItemsTableView.Hidden == false) {
+				done.RemoveFromSuperview ();
+
+				if ((pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height) >= (View.Bounds.Height - 48)) {
+					done.Frame = new RectangleF (doneFrame.X, View.Bounds.Height - 48, doneFrame.Width, doneFrame.Height);
+				} else
+					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
+
+				View.AddSubview (done);
+			}
 		}
 
 		private void PostCreated(Blah NewPost)
@@ -611,7 +678,6 @@ namespace BlahguaMobile.IOS
 				tableView.BeginUpdates ();
 				tableView.InsertRows (new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Left);
 				tableView.EndUpdates ();
-
 			}
 			return indexPath;
 		}

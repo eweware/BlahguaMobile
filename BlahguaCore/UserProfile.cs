@@ -224,14 +224,16 @@ namespace BlahguaMobile.BlahguaCore
                     return Schema.B.DT[B];
                 else
                     return Schema.B.DT["-1"];
+                   
             }
             set
             {
-                if (value != Gender)
+                if (value != null)
                 {
                     B = Schema.B.GetKeyForValue(value);
                     OnPropertyChanged("Gender");
                 }
+
             }
         }
 
@@ -246,11 +248,12 @@ namespace BlahguaMobile.BlahguaCore
             }
             set
             {
-                if (value != Income)
+                if (value != null)
                 {
                     E = Schema.E.GetKeyForValue(value);
                     OnPropertyChanged("Income");
                 }
+               
             }
         }
 
@@ -265,7 +268,7 @@ namespace BlahguaMobile.BlahguaCore
             }
             set
             {
-                if (value != Country)
+                if (value != null)
                 {
                     J = Schema.J.GetKeyForValue(value);
                     OnPropertyChanged("Country");
@@ -285,11 +288,12 @@ namespace BlahguaMobile.BlahguaCore
             }
             set
             {
-                if (value != Race)
+                if (value != null)
                 {
                     D = Schema.D.GetKeyForValue(value);
                     OnPropertyChanged("Race");
                 }
+                
             }
         }
 

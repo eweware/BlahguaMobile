@@ -564,6 +564,8 @@ namespace MonoTouch.SlideMenu
 
 		void PanGestureTriggered ()
 		{
+			if(((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers[0]).IsNewPostMode)
+				return;
 			if (PanGesture.State == UIGestureRecognizerState.Began) {
 				contentViewControllerFrame = contentViewController.View.Frame;
 				menuWasOpenAtPanBegin = IsMenuOpen ();

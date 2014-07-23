@@ -14,7 +14,7 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGDemographicsViewController : UITableViewController
 	{
-		private int index;
+		public int index;
 
 		public BGDemographicsViewController (IntPtr handle) : base (handle)
 		{
@@ -43,16 +43,13 @@ namespace BlahguaMobile.IOS
         {
             base.ViewWillAppear(animated);
         }
-
+       
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {
-            // Synsoft Global
             base.PrepareForSegue(segue, sender);
             if (segue.Identifier == "fromDemographicsToItemSelection")
             {
-                //var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
-                //Synsoft GLobal 
-                var vc = segue.DestinationViewController as BGItemsSelectionTableViewCotroller;
+                var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
                 if (vc != null)
                 {
                     vc.ParentViewController = this;
@@ -81,7 +78,11 @@ namespace BlahguaMobile.IOS
                                 vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
                                 break;
                             }
-
+                        default:
+                            {
+                                vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
+                                break;
+                            }
                     }
                     index = 0;
                 }
@@ -95,8 +96,6 @@ namespace BlahguaMobile.IOS
 			{
 			case 0:
 				{
-                    //UIAlertView ac = new UIAlertView("setvalue", "index-" + value+"  "+index ,null, "ok", null);
-                    //ac.Show();
 					BlahguaAPIObject.Current.CurrentUser.Profile.Gender = value;
 					break;
 				}
@@ -131,11 +130,16 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-			
+               
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
 					break;
 				}
+                default:
+                {
+                    BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
+                    break;
+                }
 			}
 		}
 
@@ -179,12 +183,14 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
 				}
 			case 7:
-                default:
+             
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
 				}
-            //default:
-            //    { return string.Empty; }
+                default:
+                {
+                    return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
+                }
 			}
 		}
 
@@ -228,11 +234,16 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-                default:
+                
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
 					break;
 				}
+                default:
+                {
+                    BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
+                    break;
+                }
 			}
 		}
 
@@ -269,28 +280,29 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.CountryPerm;
 				}
 			case 7:
+                {
+                    return BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm;
+
+                }
                 default:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm;
                   
 				}
-                //default:
-                //{ return true; }
+
 			}
 		}
 
 		public void PushSelectingTable(int index)
 		{
 			this.index = index;
-			PerformSegue ("fromDemographicsToItemSelection",this);
+            PerformSegue("fromDemographicsToItemSelection", this);
 		}
 	}
 
 	public class BGDemographicsTableSource : UITableViewSource
 	{
 		private BGDemographicsViewController vc;
-       //synsoft 21 July
-        //static NSString MycellId = new NSString("MycellId");
 		public BGDemographicsTableSource (BGDemographicsViewController vc)
 		{
 			this.vc = vc;
@@ -314,6 +326,12 @@ namespace BlahguaMobile.IOS
 			case 6:
 			case 2:
 			case 7:
+                {
+                    var cell = (BGDemographicsDropDownCell)tableView.DequeueReusableCell("dropdownCell");
+                    cell.viewController = vc;
+                    cell.SetUp(indexPath.Section);
+                    return cell;
+                }
 			default:
 				{
 					var cell = (BGDemographicsDropDownCell)tableView.DequeueReusableCell ("dropdownCell");
