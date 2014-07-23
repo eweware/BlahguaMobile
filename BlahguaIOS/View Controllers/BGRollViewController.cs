@@ -268,7 +268,7 @@ namespace BlahguaMobile.IOS
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
-
+				newPostViewController.clearAllFields ();
 				isNewPostMode = true;
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );
 				//CollectionView.Hidden = true;
