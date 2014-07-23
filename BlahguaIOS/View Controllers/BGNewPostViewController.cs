@@ -168,7 +168,7 @@ namespace BlahguaMobile.IOS
 
 
 			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
-			bodyInput.Placeholder = "Says is used for general sharing";
+			//bodyInput.Placeholder = "Says is used for general sharing";
           
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -302,8 +302,8 @@ namespace BlahguaMobile.IOS
 					ExpirationDateInput.Hidden = true;
 
 					PreparePollMode ();
-					bodyInput.Placeholder = "Polls must have at least two choices";
-
+					//bodyInput.Placeholder = "Polls must have at least two choices";
+					titleInput.Placeholder = "HEADLINE: Polls have pre-defined responses.";
 					done.RemoveFromSuperview ();
 					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
 					View.AddSubview(done);
@@ -326,8 +326,8 @@ namespace BlahguaMobile.IOS
                             ExpirationDateInput.Hidden = false;
 
 
-						titleInput.Placeholder = "HEADLINE: Predictions detail outcomes expected to occure.";
-                            bodyInput.Placeholder = "Predictions require you to set a date";
+						titleInput.Placeholder = "HEADLINE: Predictionneed a dated outcome.";
+                            //bodyInput.Placeholder = "Predictions require you to set a date";
                         });
 
                     break;
@@ -339,7 +339,7 @@ namespace BlahguaMobile.IOS
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
 				titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
-                    bodyInput.Placeholder = "Says is used for general sharing";
+                    //bodyInput.Placeholder = "Says is used for general sharing";
                     break;
 
                 case "asks":
@@ -348,8 +348,8 @@ namespace BlahguaMobile.IOS
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Asks are open-ended questions. Must include a '?'";
-                    bodyInput.Placeholder = "Asks must be in the form a a question";
+				titleInput.Placeholder = "HEADLINE: Asks must include a '?'";
+                    //bodyInput.Placeholder = "Asks must be in the form a a question";
                     break;
 
                 case "leaks":
@@ -358,8 +358,8 @@ namespace BlahguaMobile.IOS
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Leaks require that a badge to be attached.";
-                    bodyInput.Placeholder = "You must be badged to leak something";
+				titleInput.Placeholder = "HEADLINE: Leaks require a badge to be attached.";
+                    //bodyInput.Placeholder = "You must be badged to leak something";
                     break;
 
                 default:
@@ -426,7 +426,13 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-
+		public void clearAllFields()
+		{
+			titleInput.Text = "";
+			bodyInput.Text = "";
+			selectImageButton.SetImage (null, UIControlState.Normal);
+			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+		}
 
 		private void ActionForImage(object sender, EventArgs e)
 		{

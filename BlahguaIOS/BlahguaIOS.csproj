@@ -291,6 +291,7 @@
     <Compile Include="Controls\SlidingMenu\SwipeViewController.cs" />
     <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
     <Compile Include="Controls\ActionSheetDatePicker.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
