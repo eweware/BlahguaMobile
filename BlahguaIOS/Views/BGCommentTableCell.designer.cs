@@ -13,37 +13,46 @@ namespace BlahguaMobile.IOS
     partial class BGCommentTableCell
     {
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UILabel author { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UIImageView commentImageView { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UIView containerView { get; set; }
 
         [Outlet]
         MonoTouch.UIKit.NSLayoutConstraint containerViewWidth { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UIButton downVoteButton { get; set; }
 
         [Outlet]
-        MonoTouch.UIKit.NSLayoutConstraint rightPosition { get; set; }
-
-        [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UITextView text { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UILabel timespan { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UILabel upAndDownVotes { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UIButton upVoteButton { get; set; }
 
         [Outlet]
+        [GeneratedCode("iOS Designer", "1.0")]
         MonoTouch.UIKit.UIView voteView { get; set; }
+
+        [Outlet]
+        MonoTouch.UIKit.NSLayoutConstraint rightPosition { get; set; }
 
         void ReleaseDesignerOutlets()
         {

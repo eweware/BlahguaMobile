@@ -34,7 +34,12 @@ namespace BlahguaMobile.IOS
         private UIView rightView;
         private UIImageView profileImage;
         private UILabel usernameLabel;
-
+        private UIButton profileButton;
+        private UIButton badgesButton;
+        private UIButton demographicsButton;
+        private UIButton historyButton;
+        private UIButton statsButton;
+        private UIButton logoutButton;
         private bool isOpened = false;
 
         private bool isNewPostMode;
@@ -180,7 +185,6 @@ namespace BlahguaMobile.IOS
         private void LoginButtonClicked(object sender, EventArgs args)
         {
             PerformSegue("fromRollToLogin", this);
-
 
         }
 
@@ -525,4 +529,5 @@ namespace BlahguaMobile.IOS
             return true;
         }
     }
+
 }

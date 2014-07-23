@@ -57,13 +57,12 @@ namespace BlahguaMobile.IOS
                 this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
                 //Synsoft on 10 June 2014 
-                // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
-             
+
                 scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 600);
                 scrollView.ScrollEnabled = true;
                 Dictionary<string, string> source = new Dictionary<string, string>();
 
-                //Synsoft on 10 June 2014 
+                //Synsoft on 10 July 2014 
                 if (CurrentBlah != null)
                 {
                     lblConversionRatio.Text = CurrentBlah.ConversionString.ToString();
@@ -75,7 +74,7 @@ namespace BlahguaMobile.IOS
                     lblHeardRatio.Text = CurrentBlah.S.ToString("0.00") + "%";
                     lblOpenedImpression.Text = CurrentBlah.O.ToString() + "/" + CurrentBlah.V.ToString();
                 }
-                //commented by Synsoft on 10 June 2014 -- old code using table source
+                //commented by Synsoft on 10 July 2014 -- old code using table source
                 //if (CurrentBlah != null)
                 //{
                 //    source.Add("Opened: ", CurrentBlah.O.ToString());
@@ -103,7 +102,7 @@ namespace BlahguaMobile.IOS
                     lblComment.Text = comments.ToString();
                     lblImpression.Text = views.ToString();
                 }
-                //commented by Synsoft on 10 June 2014 -- old code using table source
+                //commented by Synsoft on 10 July 2014 -- old code using table source
                 //TableView.Source = new BGStatsTableSource (source);
                 //new BGStatsTableSource(source);
             }

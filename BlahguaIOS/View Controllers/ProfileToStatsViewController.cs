@@ -28,7 +28,6 @@ namespace BlahguaMobile.IOS.View_Controllers
 
         public override void ViewDidLoad()
         {
-           
             try
             {
                 base.ViewDidLoad();
@@ -37,22 +36,17 @@ namespace BlahguaMobile.IOS.View_Controllers
                 this.Title = "Stats";
 
                 this.NavigationController.SetNavigationBarHidden(false, true);
-
+              
                 NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BlahHandler);
                 //Synsoft on 17 July 2014 for active color  #1FBBD1
                 NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-
-                //Synsoft on 14 July 2014 for swipping between screens                
-                UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToRollController);
-                objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-                this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
                 //Synsoft on 17 July 2014 
                 // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
 
                 scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 600);
                 scrollView.ScrollEnabled = true;
-               
+
                 Dictionary<string, string> source = new Dictionary<string, string>();
 
                 //Synsoft on 17 July 2014 
@@ -104,10 +98,9 @@ namespace BlahguaMobile.IOS.View_Controllers
             this.NavigationController.PopViewControllerAnimated(true);
         }
 
-        //Synsoft on 17 July 2014 for swipping between screens
+        
         private void BlahHandler(object sender, EventArgs args)
         {
-            // DismissViewController(true, null);
             this.NavigationController.PopViewControllerAnimated(true);
         }
 

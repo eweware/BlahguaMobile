@@ -218,17 +218,17 @@ namespace BlahguaMobile.IOS
 				}
 			};
 		}
-
-
         public bool isTitle;
-            public bool isbody=false;
-            public bool isFirst = false;
+        public bool isbody = false;
+        public bool isFirst = false;
+
         partial void HandleTitleChanged(UITextField sender)
         {
             if (!string.IsNullOrEmpty(titleInput.Text) && isbody)
             {
               // Synsoft on 18 July 2014
             //    done.Enabled = true;
+
                 isTitle = true;
                 done.Enabled = true;
                 //isbody = true;
@@ -242,17 +242,17 @@ namespace BlahguaMobile.IOS
             {
               // Synsoft on 18 July 2014
               done.Enabled = false;
+                // Synsoft on 18 July 2014
+                done.Enabled = false;
                 isTitle = true;
             }
         }
 
         // Synsoft on 18 July 2014
-        
         partial void HandleBodyChanged(UITextField sender)
         {
             if (!string.IsNullOrEmpty(bodyInput.Text) && isTitle)
             {
-            
                 done.Enabled = true;
                 isbody = true;
             }
@@ -266,6 +266,7 @@ namespace BlahguaMobile.IOS
                     isbody = true;
                     isFirst = true;
            }
+
         }
 
        

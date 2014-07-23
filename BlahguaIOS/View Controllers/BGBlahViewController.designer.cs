@@ -169,11 +169,13 @@ namespace BlahguaMobile.IOS
                 userImage.Dispose();
                 userImage = null;
             }
+
             if (badgesTableViewHeight != null)
             {
                 badgesTableViewHeight.Dispose();
                 badgesTableViewHeight = null;
             }
+
             if (bodyTextViewHeight != null)
             {
                 bodyTextViewHeight.Dispose();
@@ -185,5 +187,6 @@ namespace BlahguaMobile.IOS
                 imageHeightViewHeight = null;
             }
         }
+
     }
 }

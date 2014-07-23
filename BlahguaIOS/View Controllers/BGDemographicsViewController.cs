@@ -130,7 +130,6 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-               
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
 					break;
@@ -183,7 +182,6 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
 				}
 			case 7:
-             
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
 				}
@@ -191,6 +189,7 @@ namespace BlahguaMobile.IOS
                 {
                     return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
                 }
+
 			}
 		}
 
@@ -234,7 +233,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
-                
+				
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
 					break;

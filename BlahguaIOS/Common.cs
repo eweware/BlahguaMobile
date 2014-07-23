@@ -13,7 +13,6 @@ namespace BlahguaMobile.IOS
     //Synsoft on 17 July 2014
    public static class Common
     {
-     
         //Synsoft on 17 July 2014
        public static bool IsValidEmail(this String email)
        {
