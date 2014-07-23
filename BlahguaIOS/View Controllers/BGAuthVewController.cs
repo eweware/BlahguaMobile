@@ -195,6 +195,13 @@ namespace BlahguaMobile.IOS
 
 		private void CancelHandler(object sender, EventArgs args)
 		{
+			UINavigationController nv = NavigationController;
+
+			if (nv.ViewControllers.Length == 3) {
+				DismissViewController (true, null);
+				return;
+			}
+
             NavigationController.PopViewControllerAnimated(true);
 		}
 

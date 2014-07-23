@@ -46,10 +46,16 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem signInBtn { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextView txtBlahTitle { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
@@ -117,6 +123,11 @@ namespace BlahguaMobile.IOS
 				downVote = null;
 			}
 
+			if (signInBtn != null) {
+				signInBtn.Dispose ();
+				signInBtn = null;
+			}
+
 			if (statsView != null) {
 				statsView.Dispose ();
 				statsView = null;
@@ -140,6 +151,11 @@ namespace BlahguaMobile.IOS
 			if (userImage != null) {
 				userImage.Dispose ();
 				userImage = null;
+			}
+
+			if (txtBlahTitle != null) {
+				txtBlahTitle.Dispose ();
+				txtBlahTitle = null;
 			}
 		}
 	}

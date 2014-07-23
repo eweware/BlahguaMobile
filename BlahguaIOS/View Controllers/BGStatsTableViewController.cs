@@ -145,17 +145,40 @@ namespace BlahguaMobile.IOS
             this.parentViewController = parentViewController;
         }
 
-		private void SetUpToolbar()
+		public void SetUpToolbar()
 		{
 			if (CurrentBlah != null) {
 				bottomToolBar.TintColor = UIColor.Clear;
-				SetUpVotesButtons ();
+				//SetUpVotesButtons ();
+
+				if (BlahguaAPIObject.Current.CurrentUser == null) {
+					var btnSignInRect = new RectangleF (0, 0, 80, 60);
+					var btnSignIn = new UIButton (UIButtonType.Custom);
+					btnSignIn.Frame = btnSignInRect;
+					btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
+					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+						this.PerformSegue ("SummaryToLogin", this);
+					};
+
+					signInBtn.CustomView = btnSignIn;
+				} else {
+					var btnSignInRect = new RectangleF (0, 0, 0, 60);
+					var btnSignIn = new UIButton (UIButtonType.Custom);
+					btnSignIn.Frame = btnSignInRect;
+					btnSignIn.SetTitle ("", UIControlState.Normal);
+					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+
+					};
+
+					signInBtn.CustomView = btnSignIn;
+				}
+
 				SetUpModesButtons ();
 			} else {
 				bottomToolBar.Hidden = true;
 			}
 		}
-
+		/*
 		private void SetUpVotesButtons()
 		{
 			var votesButtonRect = new RectangleF(0, 0, 11, 19);
@@ -215,7 +238,7 @@ namespace BlahguaMobile.IOS
 			upVote.CustomView = upVoteButton;
 			downVote.CustomView = downVoteButton;
 		}
-
+*/
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
 			this.PerformSegue("fromStatsToLogin", this);
