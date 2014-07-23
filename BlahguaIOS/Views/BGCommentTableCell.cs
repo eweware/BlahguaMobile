@@ -81,13 +81,13 @@ namespace BlahguaMobile.IOS
 				BGAppearanceConstants.TealGreen
             );
 
+			string timeAgo= StringHelper.ConstructTimeAgo(comment.CreationDate);
 
             timespan.AttributedText = new NSAttributedString(
-                comment.ElapsedTimeString,
+				timeAgo,
                 UIFont.FromName(BGAppearanceConstants.BoldFontName, 12),
                 UIColor.Black
             );
-
 
             upAndDownVotes.AttributedText = new NSAttributedString(
                 comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),

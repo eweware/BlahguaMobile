@@ -119,15 +119,19 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
-			SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+			if(CurrentBlah != null)
+				SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
 		}
 		private void SetUpBaseLayout()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
-			bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
 
-			bottomToolBar.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
-			bottomToolBar.BarTintColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+			if (CurrentBlah != null) {
+				bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
+
+				bottomToolBar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+				bottomToolBar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+			}
 		}
 
         //Synsoft on 14 July 2014
@@ -141,13 +145,40 @@ namespace BlahguaMobile.IOS
             this.parentViewController = parentViewController;
         }
 
-		private void SetUpToolbar()
+		public void SetUpToolbar()
 		{
-			bottomToolBar.TintColor = UIColor.Clear;
-			SetUpVotesButtons ();
-			SetUpModesButtons ();
-		}
+			if (CurrentBlah != null) {
+				bottomToolBar.TintColor = UIColor.Clear;
+				//SetUpVotesButtons ();
 
+				if (BlahguaAPIObject.Current.CurrentUser == null) {
+					var btnSignInRect = new RectangleF (0, 0, 80, 60);
+					var btnSignIn = new UIButton (UIButtonType.Custom);
+					btnSignIn.Frame = btnSignInRect;
+					btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
+					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+						this.PerformSegue ("SummaryToLogin", this);
+					};
+
+					signInBtn.CustomView = btnSignIn;
+				} else {
+					var btnSignInRect = new RectangleF (0, 0, 0, 60);
+					var btnSignIn = new UIButton (UIButtonType.Custom);
+					btnSignIn.Frame = btnSignInRect;
+					btnSignIn.SetTitle ("", UIControlState.Normal);
+					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+
+					};
+
+					signInBtn.CustomView = btnSignIn;
+				}
+
+				SetUpModesButtons ();
+			} else {
+				bottomToolBar.Hidden = true;
+			}
+		}
+		/*
 		private void SetUpVotesButtons()
 		{
 			var votesButtonRect = new RectangleF(0, 0, 11, 19);
@@ -207,7 +238,7 @@ namespace BlahguaMobile.IOS
 			upVote.CustomView = upVoteButton;
 			downVote.CustomView = downVoteButton;
 		}
-
+*/
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
 			this.PerformSegue("fromStatsToLogin", this);

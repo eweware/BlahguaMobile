@@ -244,28 +244,51 @@ namespace BlahguaMobile.IOS
 
         private void SetUpContentView()
         {
-
+			float offset_Y = 0;
             if (!String.IsNullOrEmpty(CurrentBlah.T))
             {
-                blahTitle.Hidden = false;
+                //blahTitle.Hidden = false;
                 var blahTitleAttributes = new UIStringAttributes
                 {
-                    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 21),
+                    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 19),
                     ForegroundColor = UIColor.Black,
-
                 };
 
-                blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
-				blahTitle.Lines = 0;
+                //blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
+				//blahTitle.Lines = 0;
 
 
-                blahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
+                //blahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
 
-                blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
+                //blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
+
+				/*
+				txtBlahTitle.Hidden = false;
+				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
+				txtBlahTitle.TextAlignment = UITextAlignment.Left;
+				txtBlahTitle.ScrollEnabled = false;
+				txtBlahTitle.Editable = false;
+				txtBlahTitle.ContentInset = new UIEdgeInsets(8, 8, 8, 8);
+				var ctxt = new NSStringDrawingContext();
+				var text = new NSMutableAttributedString(CurrentBlah.T);
+				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.BoldFontName, 21.0f), new NSRange(0, text.Length));
+				var boundingRect = text.GetBoundingRect(new SizeF(txtBlahTitle.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
+				//Add some padding 
+
+				txtBlahTitle.Frame = new RectangleF(blahBodyView.Frame.X, txtBlahTitle.Frame.Y ,blahBodyView.Frame.Width, boundingRect.Height + 10);
+				offset_Y = txtBlahTitle.Frame.Y + txtBlahTitle.Frame.Height;
+				*/
+
+				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
+
+				txtBlahTitle.SizeToFit ();
+
+				offset_Y = txtBlahTitle.Frame.Y + txtBlahTitle.Frame.Height - 8;
             }
             else
             {
                 blahTitle.Hidden = true;
+				offset_Y = 0;
             }
 
 
@@ -281,13 +304,15 @@ namespace BlahguaMobile.IOS
 
 					blahImage.Image = img;
 					//imageHeightViewHeight.Constant = newHeight;
-					blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, newHeight);
+					blahImage.Frame = new RectangleF (blahImage.Frame.X, offset_Y , blahImage.Frame.Width, newHeight);
+
+					offset_Y += newHeight;
 				}
             }
             else
             {
                 //imageHeightViewHeight.Constant = 0;
-				blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, 0);
+				blahImage.Frame = new RectangleF (blahImage.Frame.X, offset_Y, blahImage.Frame.Width, 0);
             }
 
             if (!String.IsNullOrEmpty(CurrentBlah.F))
@@ -301,21 +326,16 @@ namespace BlahguaMobile.IOS
                 blahBodyView.Hidden = false;
                 blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
                 blahBodyView.TextAlignment = UITextAlignment.Left;
-                blahBodyView.ScrollEnabled = false;
-                blahBodyView.Editable = false;
-                blahBodyView.ContentInset = new UIEdgeInsets(textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-				var ctxt = new NSStringDrawingContext();
-				var text = new NSMutableAttributedString(CurrentBlah.F);
-				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.FontName, 12.0f), new NSRange(0, text.Length));
-				var boundingRect = text.GetBoundingRect(new SizeF(blahBodyView.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
-				//Add some padding 
+                blahBodyView.ContentInset = new UIEdgeInsets(4, 4, 4, 4);
 
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width, boundingRect.Height + 40);
+				blahBodyView.SizeToFit ();
+
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, offset_Y - 8 ,blahBodyView.Frame.Width, blahBodyView.Frame.Height);
 			}
 			else
 			{
 				blahBodyView.Text = "";
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width,0);
+				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, offset_Y - 8 ,blahBodyView.Frame.Width,0);
 			}
 			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
 
@@ -399,51 +419,54 @@ namespace BlahguaMobile.IOS
 				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
 			}
 
-			//content view;
-			if (blahImage.Image != null) {
-				UIImage img = blahImage.Image;
-				float newHeight = img.Size.Height / img.Size.Width * 320;
-				blahImage.Frame = new RectangleF (blahImage.Frame.X, blahImage.Frame.Y, blahImage.Frame.Width, newHeight);
-			}
-
-			//text view
-
-			if (!String.IsNullOrEmpty(CurrentBlah.F))
-			{
-				var blahBodyAttributes = new UIStringAttributes
-				{
-					Font = UIFont.FromName(BGAppearanceConstants.FontName, 12.0f),
-					ForegroundColor = UIColor.Black,
-				};
-
-				blahBodyView.Hidden = false;
-				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
-				blahBodyView.TextAlignment = UITextAlignment.Left;
-				blahBodyView.ScrollEnabled = false;
-				blahBodyView.Editable = false;
-				blahBodyView.ContentInset = new UIEdgeInsets(textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue, textInsetDefaultValue);
-
- 				var ctxt = new NSStringDrawingContext();
-				var text = new NSMutableAttributedString(CurrentBlah.F);
-				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.FontName, 12.0f), new NSRange(0, text.Length));
-				var boundingRect = text.GetBoundingRect(new SizeF(blahBodyView.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
-        		//Add some padding 
-        		
-
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width, boundingRect.Height + 40);
-			}
-			else
-			{
-				blahBodyView.Text = "";
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, blahImage.Frame.Y + blahImage.Frame.Height ,blahBodyView.Frame.Width,0);
-			}
-			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
+			SetUpContentView ();
 		}
-        private void SetUpToolbar()
+		public void SetUpToolbar()
         {
             bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = false;
             bottomToolbar.TintColor = UIColor.Clear;
-            SetUpVotesButtons();
+
+			if (BlahguaAPIObject.Current.CurrentUser != null) {
+				UIBarButtonItem[] items = new UIBarButtonItem[6];// (7);
+
+				items [0] = upVote;
+				items [1] = downVote;
+
+				items [2] = new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace);
+
+				items [3] = summaryView;
+				items [4] = commentsView;
+				items [5] = statsView;
+
+				bottomToolbar.SetItems (items, true);
+
+				SetUpVotesButtons();
+			} else {
+				UIBarButtonItem[] items = new UIBarButtonItem[5];// (7);
+
+				items [0] = signInBtn ;
+
+				items [1] = new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace);
+
+				items [2] = summaryView;
+				items [3] = commentsView;
+				items [4] = statsView;
+
+				bottomToolbar.SetItems (items, true);
+
+				bottomToolbar.Frame = new RectangleF (View.Bounds.X, View.Bounds.Height - 44, View.Bounds.Width, 44);
+
+				var btnSignInRect = new RectangleF (0, 0, 11, 60);
+				var btnSignIn = new UIButton (UIButtonType.Custom);
+				btnSignIn.Frame = btnSignInRect;
+				btnSignIn.SetTitle("Sign In", UIControlState.Normal) ;
+				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+					this.PerformSegue("SummaryToLogin", this);
+				};
+
+				signInBtn.CustomView = btnSignIn;
+			}
+            
             SetUpModesButtons();
         }
 
@@ -586,11 +609,6 @@ namespace BlahguaMobile.IOS
             commentsButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
             commentsButton.TouchUpInside += (object sender, EventArgs e) =>
             {
-                //SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments_dark"), UIImage.FromBundle("stats"));
-                //Commented by Synsoft on 9 July 2014
-                //PerformSegue("fromBlahViewToComments", this);
-
-                //Synsoft on 9 July 2014 to add popup animation
 
 				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
             };
@@ -603,11 +621,6 @@ namespace BlahguaMobile.IOS
             {
                 try
                 {
-                    //SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
-                    //Commented by Synsoft on 9 July 2014 
-                    // PerformSegue("fromBlahViewToStats", this);
-
-                    //Synsoft on 9 July 2014 to add popup animation
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeFromSummaryToStats ();
                 }
                 catch (Exception ex)

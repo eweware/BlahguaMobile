@@ -149,6 +149,10 @@ namespace MonoTouch.SlideMenu
 			base.ViewDidAppear (animated);
 			this.NavigationController.SetNavigationBarHidden (false, false);
 			summaryViewController.AdjustViewLayout ();
+
+			summaryViewController.SetUpToolbar ();
+			commentViewController.SetUpToolbar ();
+			statsViewController.SetUpToolbar ();
 		}
 
 		// - (void)viewWillDisappear:(BOOL)animated
