@@ -504,18 +504,19 @@
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-60%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-72.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-72%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small-50.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small-50%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small-40.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small-40%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Icon.png" />
+    <ImageAsset Include="Resources\Icon%402x.png" />
+    <ImageAsset Include="Resources\Icon-60%402x.png" />
+    <ImageAsset Include="Resources\Icon-72.png" />
+    <ImageAsset Include="Resources\Icon-72%402x.png" />
+    <ImageAsset Include="Resources\Icon-76.png" />
+    <ImageAsset Include="Resources\Icon-76%402x.png" />
+    <ImageAsset Include="Resources\Icon-Small.png" />
+    <ImageAsset Include="Resources\Icon-Small-40.png" />
+    <ImageAsset Include="Resources\Icon-Small-40%402x.png" />
+    <ImageAsset Include="Resources\Icon-Small-50.png" />
+    <ImageAsset Include="Resources\Icon-Small-50%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
