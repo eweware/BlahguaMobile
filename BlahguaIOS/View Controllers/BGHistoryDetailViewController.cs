@@ -7,12 +7,14 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
 	public partial class BGHistoryDetailViewController : UITableViewController
 	{
-		public BGHistoryViewController ParentViewController 
+	
+		public BGHistoryViewController ParentViewController
 		{
 			get;
 			set;
@@ -20,23 +22,38 @@ namespace BlahguaMobile.IOS
 
 		public BGHistoryDetailViewController (IntPtr handle) : base (handle)
 		{
+
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+			Title = "History Detail";
 
 			TableView.BackgroundColor = UIColor.White;
+			//TableView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 			TableView.Source = new BGHistoryDetailTableSource(this);
 			TableView.TableFooterView = new UIView ();
+			TableView.AllowsSelection = false;
+			TableView.RowHeight = 70;
+			TableView.SeparatorInset = new UIEdgeInsets (0, 0, 0, 0);
+
 			TableView.ReloadData ();
+
+			//this.TableView.Source = new Source (this);
+
 		}
 	}
 
 	public class BGHistoryDetailTableSource : UITableViewSource
 	{
 		private BGHistoryDetailViewController vc;
+		private float yCoordStart;
+		private float labelXCoordStart;
+		private const float baseXStart = 30f;
+		private const float space = 8f;
+		private SizeF baseSizeForFitting = new SizeF (240, 21);
 
 		public BGHistoryDetailTableSource(BGHistoryDetailViewController vc) : base()
 		{
@@ -45,14 +62,163 @@ namespace BlahguaMobile.IOS
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = (BGHistoryDetailCell)tableView.DequeueReusableCell ("historyDetailCell");
-			if (vc.ParentViewController.isBlahs)
-				cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
-			else
-				cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
+			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
+
+			if (cell == null) {
+			
+				var leftView = new UIButton ();
+				//leftView.Frame = new RectangleF (0, 0, SWTableViewCell.UtilityButtonsWidthMax, tableView.RowHeight);
+				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
+				leftView.BackgroundColor=UIColor.Blue;
+				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
+				leftView.TouchUpInside += (object sender, EventArgs e) => {
+
+					Console.WriteLine("Yogi bha");
+
+				};
+					
+				var buttons = new System.Collections.Generic.List<UIButton> ();
+
+				//buttons.AddUtilityButton ("More", UIColor.LightGray); 
+				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
+
+				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView,leftView);
+				cell.Scrolling += OnScrolling;
+				//cell.UtilityButtonPressed += OnButtonPressed;
+			}
+				
+			cell.HideSwipedContent (false);//reset cell state
+			cell.SetNeedsDisplay ();
+
+			if (vc.ParentViewController.isBlahs) {
+				//cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
+				string type= vc.ParentViewController.UserBlahs [indexPath.Row].TypeName;
+				//int commentCount = vc.ParentViewController.UserBlahs [indexPath.Row].Comments.Count;
+				//int count = vc.ParentViewController.UserBlahs [indexPath.Row].Comments.Count == null ? 0 : vc.ParentViewController.UserBlahs [indexPath.Row].Comments.Count;
+
+				/*string i = vc.ParentViewController.UserBlahs [indexPath.Row].I;
+				string l = vc.ParentViewController.UserBlahs [indexPath.Row].L;
+				string badge = vc.ParentViewController.UserBlahs [indexPath.Row].Badges;
+				string item = vc.ParentViewController.UserBlahs [indexPath.Row].ExpPredictionItems;
+				string ff = vc.ParentViewController.UserBlahs [indexPath.Row].PredictionItems;
+
+				string m = vc.ParentViewController.UserBlahs [indexPath.Row].M;
+				string b = vc.ParentViewController.UserBlahs [indexPath.Row].B;
+				string j = vc.ParentViewController.UserBlahs [indexPath.Row].J;*/
+
+				SetUp (cell,type,vc.ParentViewController.UserBlahs [indexPath.Row].T, vc.ParentViewController.UserBlahs [indexPath.Row].P.ToString () + "/" + vc.ParentViewController.UserBlahs [indexPath.Row].D.ToString (), vc.ParentViewController.UserBlahs [indexPath.Row].ChannelName, vc.ParentViewController.UserBlahs [indexPath.Row].ElapsedTimeString);
+
+			} else {
+				//cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
+				SetUp (cell,null,vc.ParentViewController.UserComments [indexPath.Row].T, vc.ParentViewController.UserComments [indexPath.Row].UpVoteCount.ToString () + "/" + vc.ParentViewController.UserComments [indexPath.Row].DownVoteCount.ToString (), vc.ParentViewController.UserComments [indexPath.Row].AuthorName, vc.ParentViewController.UserComments [indexPath.Row].ElapsedTimeString);
+			}	
 			return cell;
+
+
+		}
+			
+		private void SetUp(UITableViewCell cell,string type,string text, string upAndDownVotesText,string userNameString,string timeString)
+		{
+
+			var textView = new UITextView();
+			var upAndDownVotes = new UILabel ();
+			var userNameLbl = new UILabel ();
+			var daysAgoLbl = new UILabel ();
+
+
+			yCoordStart = space;
+			labelXCoordStart = baseXStart;
+
+			if(!String.IsNullOrEmpty(type))
+			{
+				var commentImageView = new UIImageView ();
+
+				if (type.Equals("says")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_say_teal");
+				} else if(type.Equals("predicts")){
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_predict_teal");
+				} else if(type.Equals("polls")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_poll_teal");
+				} else if(type.Equals("asks")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_ask_teal");
+				} else {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_leak_teal");
+				}
+ 				//commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
+			
+				cell.ContentView.AddSubview (commentImageView);
+				commentImageView.Frame = new RectangleF (10, 10, 20f, 20f);
+				//yCoordStart += commentImageView.Frame.Height + space;
+			}
+
+			textView.RemoveFromSuperview ();
+			if(!String.IsNullOrEmpty(text))
+			{
+
+				textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+
+				var newSize = textView.SizeThatFits (new SizeF (320 - baseXStart * 2, 568));
+				cell.ContentView.AddSubview (textView);
+				textView.Frame = new RectangleF (baseXStart, yCoordStart, 320 - baseXStart * 2, newSize.Height);
+				yCoordStart += textView.Frame.Height + space;
+			}
+
+			upAndDownVotes.AttributedText = new NSAttributedString (
+				upAndDownVotesText,
+				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
+				UIColor.Black
+			);
+
+			SetLabelSize (upAndDownVotes,cell);
+
+
+			userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+			SetLabelSize (userNameLbl,cell);
+
+			daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+			SetLabelSize (daysAgoLbl,cell);
+
+			cell.ContentView.Frame = new RectangleF (0, 0, 320, yCoordStart + upAndDownVotes.Frame.Height + space);
 		}
 
+		private void SetLabelSize(UILabel label,UITableViewCell cell)
+		{
+			label.RemoveFromSuperview ();
+			var newSize = label.SizeThatFits(baseSizeForFitting);
+
+			label.Frame = new RectangleF (labelXCoordStart, yCoordStart,newSize.Width, newSize.Height);
+			cell.ContentView.AddSubview (label);
+			labelXCoordStart += newSize.Width + space;
+		}
+
+		void OnScrolling (object sender, ScrollingEventArgs e)
+		{
+			//uncomment to close any other cells that are open when another cell is swiped
+			/*
+				if (e.CellState != SWCellState.Center) {
+					var paths = this.controller.TableView.IndexPathsForVisibleRows;
+					foreach (var path in paths) {
+						if(path.Equals(e.IndexPath))
+						   continue;
+						var cell = (SWTableViewCell)this.controller.TableView.CellAt (path);
+						if (cell.State != SWCellState.Center) {
+							cell.HideSwipedContent (true);
+						}
+					}
+				}
+				*/
+		}
+
+		/*void OnButtonPressed (object sender, CellUtilityButtonClickedEventArgs e)
+		{
+			if (e.UtilityButtonIndex ==  1) {
+				new UIAlertView("Pressed", "You pressed the edit button!", null, null, new[] {"OK"}).Show();
+			}
+			else if(e.UtilityButtonIndex == 0){
+				new UIAlertView("Pressed", "You pressed the more button!", null, null, new[] {"OK"}).Show();
+			}
+		}*/
+			
 		public override int RowsInSection (UITableView tableview, int section)
 		{
 			if(vc.ParentViewController.isBlahs)
@@ -70,7 +236,7 @@ namespace BlahguaMobile.IOS
 			return 1;
 		}
 
-		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		/*public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell = (BGHistoryDetailCell)tableView.DequeueReusableCell ("historyDetailCell");
 			if (vc.ParentViewController.isBlahs)
@@ -78,7 +244,7 @@ namespace BlahguaMobile.IOS
 			else
 				cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
 			return cell.ContentView.Frame.Height;
-		}
+		}*/
 
 		public override float GetHeightForHeader (UITableView tableView, int section)
 		{

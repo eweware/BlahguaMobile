@@ -17,6 +17,11 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGNewPostViewController : UIViewController
 	{
+		partial void HandleTitleChanged(UITextField sender);
+	}
+
+	public partial class BGNewPostViewController : UIViewController
+	{
 		const string chooseFromText = "Choose From";
 		const string cancelText = "Cancel";
 		const string fromCameraText = "From Camera";
@@ -176,7 +181,7 @@ namespace BlahguaMobile.IOS
                     SayBtn.Highlighted = true;
             };
             curTypeView = SayBtn;
-            EnableTypeBtn(SayBtn);
+            EnableTypeBtn(SayBtn); 
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
                 {
