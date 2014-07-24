@@ -196,7 +196,20 @@ namespace BlahguaMobile.IOS
 				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
 			});
 		}
+		public void ClearRightBarButton()
+		{
+			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 
+					//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+					//Synsoft On 9 July 201
+				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, false);
+
+				//NavigationItem.SetRightBarButtonItem (new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked), true);
+				NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
+					//commented by Synsoft on 9 July 2014
+					//NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+			}
+		}
 		private void PrepareRightBarButton ()
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
