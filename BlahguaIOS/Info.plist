@@ -7,23 +7,19 @@
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<key>MinimumOSVersion</key>
+<<<<<<< HEAD
 	<string>6.0</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
+=======
+	<string>7.0</string>
+>>>>>>> origin/bhanugupta_new
 	<key>CFBundleVersion</key>
 	<string>0.0.0.20</string>
 	<key>UIMainStoryboardFile</key>
@@ -42,21 +38,6 @@
 	</dict>
 	<key>UIStatusBarHidden</key>
 	<true/>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon-72@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon.png</string>
-		<string>Icon-60@2x.png</string>
-		<string>Icon-76.png</string>
-		<string>Icon-76@2x.png</string>
-		<string>Icon-Small-50@2x.png</string>
-		<string>Icon-Small-50.png</string>
-		<string>Icon-Small-40.png</string>
-		<string>Icon-Small-40@2x.png</string>
-		<string>Icon-Small.png</string>
-	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Heard</string>
 	<key>UIAppFonts</key>
@@ -90,7 +71,9 @@
 	<string>1</string>
 	<key>NSMainNibFile</key>
 	<string></string>
-	<key>NSMainNibFile~ipad</key>
-	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.techila.universalXamarin</string>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Images.xcassets/AppIcons-1.appiconset</string>
 </dict>
 </plist>
