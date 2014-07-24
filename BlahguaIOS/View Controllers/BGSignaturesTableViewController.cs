@@ -14,12 +14,6 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGSignaturesTableViewController : UITableViewController
 	{
-		partial void Done (MonoTouch.UIKit.UIBarButtonItem sender);
-		partial void SelectAll(MonoTouch.UIKit.UIBarButtonItem sender);
-	}
-
-	public partial class BGSignaturesTableViewController : UITableViewController
-	{
 		public UIViewController ParentViewController 
 		{
 			get;

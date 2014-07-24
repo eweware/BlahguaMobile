@@ -96,6 +96,13 @@ namespace BlahguaMobile.IOS
 			}
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
+				this.View.RemoveFromSuperview();
+				BGCommentsViewController vc = (BGCommentsViewController)ParentViewController;
+				vc.ReloadComments();
+			};
+
+			cancel.TouchUpInside += (object sender, EventArgs e) => {
+				this.View.RemoveFromSuperview();
 			};
 		}
 

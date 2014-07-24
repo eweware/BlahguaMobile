@@ -17,11 +17,6 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGNewPostViewController : UIViewController
 	{
-		partial void HandleTitleChanged(UITextField sender);
-	}
-
-	public partial class BGNewPostViewController : UIViewController
-	{
 		const string chooseFromText = "Choose From";
 		const string cancelText = "Cancel";
 		const string fromCameraText = "From Camera";
@@ -181,7 +176,7 @@ namespace BlahguaMobile.IOS
                     SayBtn.Highlighted = true;
             };
             curTypeView = SayBtn;
-            EnableTypeBtn(SayBtn); 
+            EnableTypeBtn(SayBtn);
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
                 {
@@ -315,7 +310,7 @@ namespace BlahguaMobile.IOS
 				});
 
                     break;
-
+				 
                 case "predicts":
                     InvokeOnMainThread(() =>
                         {
@@ -437,6 +432,15 @@ namespace BlahguaMobile.IOS
 			bodyInput.Text = "";
 			selectImageButton.SetImage (null, UIControlState.Normal);
 			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+			ExpirationDateInput.Text = "";
+
+			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
+			SayBtn.Highlighted = true;
+
+			NewPost.M = null;
+			NewPost.B = null;
+			NewPost.UseProfile = false;
+
 		}
 
 		private void ActionForImage(object sender, EventArgs e)

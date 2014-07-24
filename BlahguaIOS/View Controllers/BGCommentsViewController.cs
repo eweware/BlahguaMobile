@@ -107,6 +107,10 @@ namespace BlahguaMobile.IOS
 
 		}
 
+		public void ReloadComments()
+		{
+			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
+		}
         //Synsoft on 14 July 2014
         private void SwipeToSummaryController()
         {
@@ -434,6 +438,7 @@ namespace BlahguaMobile.IOS
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			float newYCoordDiff = 0f;
+			/*
 			if(isWriteMode)
 			{
 				if(newCommentViewController != null)
@@ -448,6 +453,7 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
+			*/
 				if(newCommentViewController == null)
 				{
 					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
@@ -462,7 +468,7 @@ namespace BlahguaMobile.IOS
 				View.AddSubview (newCommentViewController.View);
 				newYCoordDiff += 246f;
 				isWriteMode = true;
-			}
+			//}
 			foreach(var subView in View.Subviews)
 			{
 				if(subView != newCommentViewController.View)

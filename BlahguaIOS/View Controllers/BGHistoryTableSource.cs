@@ -57,7 +57,7 @@ namespace BlahguaMobile.IOS
 		{
 			if(indexPath.Row == 0)
 			{
-				vc.SetMode (false, true);
+				vc.SetMode (false, true); 
 			}
 			else
 			{

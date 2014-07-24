@@ -59,8 +59,6 @@ namespace BlahguaMobile.IOS
 
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
-			//this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
-
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
 
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture"));
@@ -74,8 +72,6 @@ namespace BlahguaMobile.IOS
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-portrait"));
 
 			}*/
-
-
 
 			CollectionView.BackgroundColor = UIColor.Clear;
 
@@ -194,6 +190,7 @@ namespace BlahguaMobile.IOS
 		{
 			PerformSegue ("fromRollToLogin", this);
             
+         
 		}
 
 		private void InitialInboxLoadingCompleted (Inbox theList)
