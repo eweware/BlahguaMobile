@@ -63,7 +63,7 @@ namespace BlahguaMobile.IOS
 			{
 				vc.SetMode (true, false);
 			}
-			vc.PerformSegue ("fromBhushanToYogi",vc);
+			vc.PerformSegue ("fromHistoryToDetail",vc);
 	   }
 	}
 
