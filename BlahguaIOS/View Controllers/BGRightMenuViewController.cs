@@ -52,8 +52,8 @@ namespace BlahguaMobile.IOS
 
 			m_btnHistory.TouchUpInside += (sender, e) => {
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
-
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGHistoryViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGHistoryViewController"), true);
+
 			};
 				
 			m_btnDemographics.TouchUpInside += (sender, e) => {

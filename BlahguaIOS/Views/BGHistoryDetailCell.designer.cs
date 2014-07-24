@@ -16,14 +16,26 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITextView text { get; set; }
+		UILabel daysAgoLbl { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel upAndDownVotes { get; set; }
+		UITextView text { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel upAndDownVotes { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel userNameLbl { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (daysAgoLbl != null) {
+				daysAgoLbl.Dispose ();
+				daysAgoLbl = null;
+			}
 			if (text != null) {
 				text.Dispose ();
 				text = null;
@@ -31,6 +43,10 @@ namespace BlahguaMobile.IOS
 			if (upAndDownVotes != null) {
 				upAndDownVotes.Dispose ();
 				upAndDownVotes = null;
+			}
+			if (userNameLbl != null) {
+				userNameLbl.Dispose ();
+				userNameLbl = null;
 			}
 		}
 	}

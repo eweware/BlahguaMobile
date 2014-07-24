@@ -57,7 +57,7 @@ namespace BlahguaMobile.IOS
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
-			((BGHistoryDetailViewController)segue.DestinationViewController).ParentViewController = this;
+			((BGHistoryDetailViewController)segue.DestinationViewController).ParentViewController = this; 
 		}
 
 		public void SetMode(bool isComments, bool isBlahs)

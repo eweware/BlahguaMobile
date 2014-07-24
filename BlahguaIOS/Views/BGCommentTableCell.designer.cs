@@ -56,30 +56,14 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (author != null) {
-				author.Dispose ();
-				author = null;
-			}
 
-			if (commentImageView != null) {
-				commentImageView.Dispose ();
-				commentImageView = null;
-			}
 
-			if (containerView != null) {
-				containerView.Dispose ();
-				containerView = null;
-			}
 
 			if (containerViewWidth != null) {
 				containerViewWidth.Dispose ();
 				containerViewWidth = null;
 			}
 
-			if (downVoteButton != null) {
-				downVoteButton.Dispose ();
-				downVoteButton = null;
-			}
 
 			if (imgAvatar != null) {
 				imgAvatar.Dispose ();
@@ -96,30 +80,10 @@ namespace BlahguaMobile.IOS
 				rightPosition = null;
 			}
 
-			if (text != null) {
-				text.Dispose ();
-				text = null;
-			}
 
-			if (timespan != null) {
-				timespan.Dispose ();
-				timespan = null;
-			}
 
-			if (upAndDownVotes != null) {
-				upAndDownVotes.Dispose ();
-				upAndDownVotes = null;
-			}
 
-			if (upVoteButton != null) {
-				upVoteButton.Dispose ();
-				upVoteButton = null;
-			}
 
-			if (voteView != null) {
-				voteView.Dispose ();
-				voteView = null;
-			}
 
 			if (imageViewHeight != null) {
 				imageViewHeight.Dispose ();

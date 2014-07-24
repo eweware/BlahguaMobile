@@ -59,7 +59,24 @@ namespace BlahguaMobile.IOS
 
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
-			this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
+			//this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
+
+			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture"));
+
+			} else if (BGAppearanceHelper.DeviceType == DeviceType.iPhone5) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-568h"));
+
+			}/* else {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-portrait"));
+
+			}*/
+
+
+
 			CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
@@ -177,7 +194,6 @@ namespace BlahguaMobile.IOS
 		{
 			PerformSegue ("fromRollToLogin", this);
             
-         
 		}
 
 		private void InitialInboxLoadingCompleted (Inbox theList)
