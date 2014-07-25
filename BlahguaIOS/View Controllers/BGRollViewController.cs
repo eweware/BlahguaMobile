@@ -66,20 +66,26 @@ namespace BlahguaMobile.IOS
 			} else if (BGAppearanceHelper.DeviceType == DeviceType.iPhone5) {
 
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-568h"));
+			}
 
-			}/* else {
+			else {
 
-				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-portrait"));
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture"));
 
-			}*/
+			}
 
 			CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
+			this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+				Font = UIFont.FromName ("Merriweather", 20),
+				TextColor = UIColor.FromRGB (96, 191, 164)
+			});
 
-			NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle ("leftMenuButton"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
+			NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle ("hamburger_teal"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
+			NavigationItem.LeftBarButtonItem.SetBackgroundImage (UIImage.FromBundle ("leftMenuButton"), UIControlState.Highlighted, UIBarMetrics.Default);
 			//Synsoft on 9 July 2014 for active color #1FBBD1
-			NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
+			NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB (96, 191, 164);
 
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
 				if (e.PropertyName == "CurrentChannel") {
@@ -213,14 +219,13 @@ namespace BlahguaMobile.IOS
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 
-					//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-					//Synsoft On 9 July 201
 				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, false);
 
-				//NavigationItem.SetRightBarButtonItem (new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked), true);
-				NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
-					//commented by Synsoft on 9 July 2014
-					//NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+				NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
+					Font = UIFont.FromName ("Merriweather", 20),
+					TextColor = UIColor.FromRGB (96, 191, 164)
+				}, UIControlState.Normal);
+
 			}
 		}
 		private void PrepareRightBarButton ()
@@ -228,10 +233,11 @@ namespace BlahguaMobile.IOS
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 				if (NavigationItem.RightBarButtonItems == null) {
 					NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-					//Synsoft On 9 July 2014
-					NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
-					//commented by Synsoft on 9 July 2014
-					//NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+
+					NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
+						Font = UIFont.FromName ("Merriweather", 20),
+						TextColor = UIColor.FromRGB (96, 191, 164)
+					}, UIControlState.Normal);
 				}
 			} else {
 				if (NavigationItem.RightBarButtonItems.Length < 2) {

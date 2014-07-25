@@ -295,6 +295,10 @@
     <Compile Include="View Controllers\historyViewCell.cs" />
     <Compile Include="View Controllers\historyViewSource.cs" />
     <Compile Include="Views\SWTableViewCell.cs" />
+    <Compile Include="View Controllers\BGFullScreenViewController.cs" />
+    <Compile Include="View Controllers\BGFullScreenViewController.designer.cs">
+      <DependentUpon>BGFullScreenViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -348,6 +352,7 @@
     <BundleResource Include="Resources\Background-portrait%402x.png" />
     <BundleResource Include="Resources\BackgroundImage_4inch.png" />
     <BundleResource Include="Resources\BackgroundImage_4inch%402x.png" />
+    <BundleResource Include="Resources\hamburger_teal%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

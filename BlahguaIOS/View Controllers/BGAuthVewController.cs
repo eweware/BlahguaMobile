@@ -65,7 +65,7 @@ namespace BlahguaMobile.IOS
 
 			} else {
 
-				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("Backround-portrait"));
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage"));
 
 			}
 
