@@ -15,6 +15,7 @@ namespace BlahguaMobile.IOS
     {
         private UIPanGestureRecognizer panRecognizer;
 		private UITapGestureRecognizer tapRecognizer;
+		private UITapGestureRecognizer imageTapRecognizer;
 
         private PointF panStartPoint;
         private float startingLayoutRight = 0;
@@ -47,6 +48,25 @@ namespace BlahguaMobile.IOS
 			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
 			tapRecognizer.NumberOfTapsRequired = 1;
 			containerView.AddGestureRecognizer (tapRecognizer);
+
+			NSAction showFullScreen = () => {
+				if(commentImageView.Image != null)
+				{
+					AppDelegate objAppDelegate = new AppDelegate();
+					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+					BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
+
+					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
+					fs.FullImage = commentImageView.Image;
+				}
+
+			};
+
+			imageTapRecognizer = new UITapGestureRecognizer (showFullScreen);
+			imageTapRecognizer.Delegate = new PanGestureRecognizerDelegate ();
+			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
+			imageTapRecognizer.NumberOfTapsRequired = 1;
+			commentImageView.AddGestureRecognizer (imageTapRecognizer);
 
 			if (!String.IsNullOrEmpty(comment.AuthorImage))
 			{
@@ -319,7 +339,7 @@ namespace BlahguaMobile.IOS
     {
         public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
         {
-			return false;
+			return true;
         }
 
         public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
