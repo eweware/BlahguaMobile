@@ -59,7 +59,20 @@ namespace BlahguaMobile.IOS
 
 			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 
-			this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture_01"));
+			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture"));
+
+			} else if (BGAppearanceHelper.DeviceType == DeviceType.iPhone5) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-568h"));
+
+			}/* else {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("texture-portrait"));
+
+			}*/
+
 			CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
@@ -168,6 +181,8 @@ namespace BlahguaMobile.IOS
 
 		private void MenuButtonClicked (object sender, EventArgs args)
 		{
+			if (IsNewPostMode)
+				return;
 			leftSlidingMenu.ToggleMenuAnimated ();
 		}
 
@@ -194,7 +209,20 @@ namespace BlahguaMobile.IOS
 				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
 			});
 		}
+		public void ClearRightBarButton()
+		{
+			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 
+					//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
+					//Synsoft On 9 July 201
+				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, false);
+
+				//NavigationItem.SetRightBarButtonItem (new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked), true);
+				NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB (31, 187, 209);
+					//commented by Synsoft on 9 July 2014
+					//NavigationItem.RightBarButtonItem.TintColor = BGAppearanceConstants.TealGreen;
+			}
+		}
 		private void PrepareRightBarButton ()
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {

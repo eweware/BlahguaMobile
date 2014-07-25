@@ -68,7 +68,7 @@ namespace BlahguaMobile.IOS
 				else
 				{
 					if (BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Any ())
-						cell.SetUp (BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row + 1].BadgeName);
+						cell.SetUp (BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1].BadgeName);
 				}
 
 				if(vc.ParentViewController is BGNewPostViewController)
@@ -82,8 +82,11 @@ namespace BlahguaMobile.IOS
 					}
 					else
 					{
-						if (BlahguaAPIObject.Current.CreateRecord.B.Contains(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row + 1]))
-							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						if (BlahguaAPIObject.Current.CreateRecord.B != null)
+						{
+							if(BlahguaAPIObject.Current.CreateRecord.B.Contains(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row - 1]))
+								cell.Accessory = UITableViewCellAccessory.Checkmark;
+						}
 						else
 							cell.Accessory = UITableViewCellAccessory.None;
 					}
@@ -99,8 +102,10 @@ namespace BlahguaMobile.IOS
 					}
 					else
 					{
-						if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row + 1]))
-							cell.Accessory = UITableViewCellAccessory.Checkmark;
+						if (BlahguaAPIObject.Current.CreateCommentRecord.BD != null) {
+							if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row - 1]))
+								cell.Accessory = UITableViewCellAccessory.Checkmark;
+						}
 						else
 							cell.Accessory = UITableViewCellAccessory.None;
 					}
@@ -148,7 +153,7 @@ namespace BlahguaMobile.IOS
 					{
 						if (BlahguaAPIObject.Current.CreateRecord.B == null)
 							BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
-						BlahguaAPIObject.Current.CreateRecord.B.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+						BlahguaAPIObject.Current.CreateRecord.B.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row - 1]);
 					}
 				}
 				else if(vc.ParentViewController is BGNewCommentViewController)
@@ -161,7 +166,7 @@ namespace BlahguaMobile.IOS
 					{
 						if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
 							BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
-						BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+						BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row - 1]);
 					}
 				}
 				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.Checkmark;
@@ -177,7 +182,7 @@ namespace BlahguaMobile.IOS
 					}
 					else
 					{
-						BlahguaAPIObject.Current.CreateRecord.B.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+						BlahguaAPIObject.Current.CreateRecord.B.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row - 1]);
 					}
 				}
 				else if(vc.ParentViewController is BGNewCommentViewController)
@@ -188,7 +193,7 @@ namespace BlahguaMobile.IOS
 					}
 					else
 					{
-						BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row + 1]);
+						BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row - 1]);
 					}
 				}
 				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.None;

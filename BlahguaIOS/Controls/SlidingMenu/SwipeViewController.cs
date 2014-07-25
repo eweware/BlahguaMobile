@@ -112,7 +112,8 @@ namespace MonoTouch.SlideMenu
 		{
 			base.ViewDidLoad ();
 
-			leftFrame = new RectangleF (-View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			//leftFrame = new RectangleF (-View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			leftFrame = new RectangleF (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
 			centerFrame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
 			rightFrame = new RectangleF (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
 			summaryViewController.View.Frame = centerFrame;
@@ -149,6 +150,10 @@ namespace MonoTouch.SlideMenu
 			base.ViewDidAppear (animated);
 			this.NavigationController.SetNavigationBarHidden (false, false);
 			summaryViewController.AdjustViewLayout ();
+
+			summaryViewController.SetUpToolbar ();
+			commentViewController.SetUpToolbar ();
+			statsViewController.SetUpToolbar ();
 		}
 
 		// - (void)viewWillDisappear:(BOOL)animated

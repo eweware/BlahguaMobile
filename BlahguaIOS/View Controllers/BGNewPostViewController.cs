@@ -310,7 +310,7 @@ namespace BlahguaMobile.IOS
 				});
 
                     break;
-
+				 
                 case "predicts":
                     InvokeOnMainThread(() =>
                         {
@@ -432,6 +432,15 @@ namespace BlahguaMobile.IOS
 			bodyInput.Text = "";
 			selectImageButton.SetImage (null, UIControlState.Normal);
 			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+			ExpirationDateInput.Text = "";
+
+			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
+			SayBtn.Highlighted = true;
+
+			NewPost.M = null;
+			NewPost.B = null;
+			NewPost.UseProfile = false;
+
 		}
 
 		private void ActionForImage(object sender, EventArgs e)

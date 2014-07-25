@@ -29,21 +29,23 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(Blah blah)
 		{
-			SetUp (blah.ImageURL, blah.T, blah.P.ToString () + "/" + blah.D.ToString ());
+			SetUp (blah.ImageURL, blah.T, blah.P.ToString () + "/" + blah.D.ToString (),blah.ChannelName,blah.ElapsedTimeString);
 		}
 
 		public void SetUp(Comment comment)
 		{
-			SetUp (comment.ImageURL, comment.T, comment.UpVoteCount.ToString () + "/" + comment.DownVoteCount.ToString ());
+	
+			SetUp (comment.ImageURL, comment.T, comment.UpVoteCount.ToString () + "/" + comment.DownVoteCount.ToString (),comment.AuthorName,comment.ElapsedTimeString);
 		}
 
-		private void SetUp(string imageUrl, string text, string upAndDownVotesText)
+		private void SetUp(string imageUrl, string text, string upAndDownVotesText,string userNameString,string timeString)
 		{
 			yCoordStart = space;
 			labelXCoordStart = baseXStart;
 			if(!String.IsNullOrEmpty(imageUrl))
 			{
 				commentImageView = new UIImageView ();
+	
 				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
 				ContentView.AddSubview (commentImageView);
 				commentImageView.Frame = new RectangleF (0, yCoordStart, 320f, 161f);
@@ -66,8 +68,14 @@ namespace BlahguaMobile.IOS
 				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
 				UIColor.Black
 			);
+
 			SetLabelSize (upAndDownVotes);
 
+			userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+			SetLabelSize (userNameLbl);
+
+			daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+			SetLabelSize (daysAgoLbl);
 
 			ContentView.Frame = new RectangleF (0, 0, 320, yCoordStart + upAndDownVotes.Frame.Height + space);
 		}

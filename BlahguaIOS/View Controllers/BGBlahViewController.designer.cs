@@ -46,10 +46,16 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIBarButtonItem signInBtn { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextView txtBlahTitle { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
@@ -59,7 +65,6 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView userImage { get; set; }
-		
 		void ReleaseDesignerOutlets ()
 		{
 			if (author != null) {
@@ -67,79 +72,29 @@ namespace BlahguaMobile.IOS
 				author = null;
 			}
 
-			if (badgeImage != null) {
-				badgeImage.Dispose ();
-				badgeImage = null;
+
+
+
+
+
+
+
+
+
+
+			if (signInBtn != null) {
+				signInBtn.Dispose ();
+				signInBtn = null;
 			}
 
-			if (badgesTableView != null) {
-				badgesTableView.Dispose ();
-				badgesTableView = null;
-			}
 
-			if (blahBodyView != null) {
-				blahBodyView.Dispose ();
-				blahBodyView = null;
-			}
 
-			if (blahImage != null) {
-				blahImage.Dispose ();
-				blahImage = null;
-			}
 
-			if (blahTimespan != null) {
-				blahTimespan.Dispose ();
-				blahTimespan = null;
-			}
 
-			if (blahTitle != null) {
-				blahTitle.Dispose ();
-				blahTitle = null;
-			}
 
-			if (bottomToolbar != null) {
-				bottomToolbar.Dispose ();
-				bottomToolbar = null;
-			}
-
-			if (commentsView != null) {
-				commentsView.Dispose ();
-				commentsView = null;
-			}
-
-			if (contentView != null) {
-				contentView.Dispose ();
-				contentView = null;
-			}
-
-			if (downVote != null) {
-				downVote.Dispose ();
-				downVote = null;
-			}
-
-			if (statsView != null) {
-				statsView.Dispose ();
-				statsView = null;
-			}
-
-			if (summaryView != null) {
-				summaryView.Dispose ();
-				summaryView = null;
-			}
-
-			if (upVote != null) {
-				upVote.Dispose ();
-				upVote = null;
-			}
-
-			if (userDescription != null) {
-				userDescription.Dispose ();
-				userDescription = null;
-			}
-
-			if (userImage != null) {
-				userImage.Dispose ();
-				userImage = null;
+			if (txtBlahTitle != null) {
+				txtBlahTitle.Dispose ();
+				txtBlahTitle = null;
 			}
 		}
 	}

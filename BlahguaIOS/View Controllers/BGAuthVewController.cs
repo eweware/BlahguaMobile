@@ -12,6 +12,12 @@ using BlahguaMobile.IOS;
 
 namespace BlahguaMobile.IOS
 {
+
+	partial class BGAuthVewController : UIViewController
+	{
+		partial void RememberMeAction (UIButton sender);
+	}
+
 	partial class BGAuthVewController : UIViewController
 	{
 
@@ -47,7 +53,21 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
+			//View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
+
+			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage"));
+
+			} else if (BGAppearanceHelper.DeviceType == DeviceType.iPhone5) {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage_4inch"));
+
+			} else {
+
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("Backround-portrait"));
+
+			}
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
@@ -195,6 +215,13 @@ namespace BlahguaMobile.IOS
 
 		private void CancelHandler(object sender, EventArgs args)
 		{
+			UINavigationController nv = NavigationController;
+
+			if (nv.ViewControllers.Length == 3) {
+				DismissViewController (true, null);
+				return;
+			}
+
             NavigationController.PopViewControllerAnimated(true);
 		}
 

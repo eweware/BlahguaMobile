@@ -7,6 +7,9 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.Dialog.Utilities;
+
+
 
 namespace BlahguaMobile.IOS
 {
@@ -54,14 +57,14 @@ namespace BlahguaMobile.IOS
 		{
 			if(indexPath.Row == 0)
 			{
-				vc.SetMode (false, true);
+				vc.SetMode (false, true); 
 			}
 			else
 			{
 				vc.SetMode (true, false);
 			}
-			vc.PerformSegue ("fromHistoryToDetail", vc);
-		}
+			vc.PerformSegue ("fromHistoryToDetail",vc);
+	   }
 	}
 
 }

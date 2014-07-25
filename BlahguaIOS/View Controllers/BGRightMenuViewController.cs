@@ -80,7 +80,21 @@ namespace BlahguaMobile.IOS
 			};
 
 			m_btnLogout.TouchUpInside += (sender, e) => {
-				BlahguaAPIObject.Current.SignOut (null, null);
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+				BlahguaAPIObject.Current.SignOut (null, (theStr) =>
+					{
+						if (theStr)
+						{
+							InvokeOnMainThread(()=>{
+								((BGRollViewController)	((BGMainNavigationController)((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.ContentViewController).ViewControllers[0]).ClearRightBarButton();
+							});
+						}
+
+						//NavigationService.GoBack();
+					}
+				);
+
+
 			};
 
 			// Perform any additional setup after loading the view, typically from a nib.

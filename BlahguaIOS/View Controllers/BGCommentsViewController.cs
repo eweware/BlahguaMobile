@@ -107,6 +107,10 @@ namespace BlahguaMobile.IOS
 
 		}
 
+		public void ReloadComments()
+		{
+			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
+		}
         //Synsoft on 14 July 2014
         private void SwipeToSummaryController()
         {
@@ -135,10 +139,10 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpNavigationBar()
 		{
-			if(BlahguaAPIObject.Current.CurrentUser != null)
-				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
+			//if(BlahguaAPIObject.Current.CurrentUser != null)
+				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
             //Synsoft on 9 July 2014 to add back button
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
+            //NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
           
             //Commented by Synsoft 9 July 2014
             //NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
@@ -213,13 +217,35 @@ namespace BlahguaMobile.IOS
 			//contentView.ContentSize = new SizeF (defaultWidthOfContent, currentYCoord);
 		}
 
-		private void SetUpToolbar()
+		public void SetUpToolbar()
 		{
 			bottomToolbar.TintColor = UIColor.Clear;
-			SetUpVotesButtons ();
+			//SetUpVotesButtons ();
+			if (BlahguaAPIObject.Current.CurrentUser == null) {
+				var btnSignInRect = new RectangleF (0, 0, 80, 60);
+				var btnSignIn = new UIButton (UIButtonType.Custom);
+				btnSignIn.Frame = btnSignInRect;
+				btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
+				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+					this.PerformSegue ("SummaryToLogin", this);
+				};
+
+				btnComment.CustomView = btnSignIn;
+			} else {
+				var btnSignInRect = new RectangleF (0, 0, 80, 60);
+				var btnSignIn = new UIButton (UIButtonType.Custom);
+				btnSignIn.Frame = btnSignInRect;
+				btnSignIn.SetTitle ("Comment", UIControlState.Normal);
+				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+					WriteCommentAction();
+				};
+
+				btnComment.CustomView = btnSignIn;
+			}
+
 			SetUpModesButtons ();
 		}
-
+		/*
 		private void SetUpVotesButtons()
 		{
 			var votesButtonRect = new RectangleF (0, 0, 11, 19);
@@ -293,7 +319,7 @@ namespace BlahguaMobile.IOS
 			upVote.CustomView = upVoteButton;
 			downVote.CustomView = downVoteButton;
 		}
-
+*/
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
 			this.PerformSegue("fromCommentsToLogin", this);
@@ -407,11 +433,12 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
-		private void WriteCommentAction(object sender, EventArgs e)
+		private void WriteCommentAction()
 		{
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			float newYCoordDiff = 0f;
+			/*
 			if(isWriteMode)
 			{
 				if(newCommentViewController != null)
@@ -420,12 +447,13 @@ namespace BlahguaMobile.IOS
 					newYCoordDiff = -246f;
 					isWriteMode = false;
 				}
-				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
-                NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
+                //NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
 			}
 			else
 			{
+			*/
 				if(newCommentViewController == null)
 				{
 					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
@@ -434,13 +462,13 @@ namespace BlahguaMobile.IOS
 					AddChildViewController (newCommentViewController);
 				}
 				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
-				NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
+				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
                 //Synsoft on 9 July 2014 for active color  #1FBBD1
-                NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+                //NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 				View.AddSubview (newCommentViewController.View);
 				newYCoordDiff += 246f;
 				isWriteMode = true;
-			}
+			//}
 			foreach(var subView in View.Subviews)
 			{
 				if(subView != newCommentViewController.View)
@@ -451,7 +479,7 @@ namespace BlahguaMobile.IOS
 
 		public void SwitchNewCommentMode()
 		{
-			WriteCommentAction (null, null);
+			//WriteCommentAction (null, null);
 		}
 
 		#endregion
