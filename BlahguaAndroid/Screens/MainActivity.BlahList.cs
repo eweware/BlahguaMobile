@@ -69,6 +69,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
             {
                 loadTimer.Stop();
+
                 if (newBlahList == null)
                     newBlahList = new Inbox();
                 blahList = newBlahList;
@@ -76,7 +77,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (blahList.Count == 100)
                 {
                     RenderInitialBlahs();
-                    //StartTimers();
+                    StartTimers();
                     //LoadingBox.Visibility = Visibility.Collapsed;
                 }
                 else if (!secondTry)
@@ -90,13 +91,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
                 else
                 {
-                    RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(this, "Well, thanks for trying. Looks like there is a server issue.  Please go ahead and leave the app and try again later.", ToastLength.Long).Show();
-                    });
+                    progress_main.Visibility = ViewStates.Gone;
+                    InsertEmptyChannelWarning();
                 }
 
-                StartTimers();
+                
             });
         }
 
@@ -138,7 +137,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.GetInbox((newBlahList) =>
             {
                 loadTimer.Stop();
-                if (newBlahList != null)
+                if ((newBlahList == null) || (newBlahList.Count == 0))
+                {
+                    InsertEmptyChannelWarning();
+                }
+                else
                 {
                     blahList = newBlahList;
                     blahList.PrepareBlahs();
@@ -146,11 +149,39 @@ namespace BlahguaMobile.AndroidClient.Screens
                     AtScrollEnd = false;
                     inboxCounter++;
                 }
+
                 MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
         }
 
+        private void InsertEmptyChannelWarning()
+        {
+            FrameLayout.LayoutParams layoutParams =
+            new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent);
+
+            FrameLayout.LayoutParams layoutParams2 =
+                new FrameLayout.LayoutParams(Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+
+            var control = LayoutInflater.Inflate(Resource.Layout.empty_channel_warning, null);
+            var title = control.FindViewById<TextView>(Resource.Id.title);
+            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            control.LayoutParameters = layoutParams;
+            BlahContainerLayout.LayoutParameters = layoutParams2;
+
+
+            RunOnUiThread(() =>
+            {
+                progress_main.Visibility = ViewStates.Gone;
+                inboxCounter = 0;
+                BlahContainerLayout.RemoveAllViews();
+                BlahContainerLayout.AddView(control);
+                BlahScroller.ScrollTo(0, 0);
+               
+            });
+
+        }
         private void ClearBlahs()
         {
             RunOnUiThread(() =>

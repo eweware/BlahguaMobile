@@ -83,32 +83,56 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 Resource.Layout.listitem_history_blah, parent, false);
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
-            var author = view.FindViewById<TextView>(Resource.Id.author);
-            var author_avatar = view.FindViewById<ImageView>(Resource.Id.author_avatar);
+            var type_mark = view.FindViewById<ImageView>(Resource.Id.blahtype);
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+            var convert = view.FindViewById<TextView>(Resource.Id.conversion);
+            var comments = view.FindViewById<TextView>(Resource.Id.comments);
 
             // set fonts
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
-            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, time_ago, upvoted, downvoted, convert, comments);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, text);
 
             Blah b = _list[position];
             if (String.IsNullOrEmpty(b.ImageURL))
             {
                 image.SetUrlDrawable(b.ImageURL);
+                image.Visibility = ViewStates.Visible;
             }
+            else
+                image.Visibility = ViewStates.Gone;
 
             text.Text = b.T;
-            author.Text = b.UserName;
-            author_avatar.SetUrlDrawable(b.UserImage);
+
             if (!(b.u == null && b.cdate == null))
             {
                 time_ago.Text = StringHelper.ConstructTimeAgo(b.CreationDate);
             }
 
+            switch (b.TypeName)
+            {
+                case "says":
+                    type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
+                    break;
+                case "asks":
+                    type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
+                    break;
+                case "leaks":
+                    type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
+                    break;
+                case "polls":
+                    type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
+                    break;
+                case "predicts":
+                    type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
+                    break;
+            }
+
             upvoted.Text = b.uv.ToString();
             downvoted.Text = b.uv.ToString();
+            convert.Text = b.ConversionString;
+            comments.Text = b.C.ToString();
 
             var btnOpenPost = view.FindViewById<Button>(Resource.Id.btn_open);
             btnOpenPost.Tag = b._id;

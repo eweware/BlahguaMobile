@@ -3,7 +3,7 @@
     android:layout_width="128dp"
     android:layout_height="128dp"
     android:padding="0dp"
-    android:background="#FF00FF">
+    android:background="#FFFFFF">
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"

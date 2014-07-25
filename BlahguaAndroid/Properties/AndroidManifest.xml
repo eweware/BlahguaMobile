@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".25" package="com.eweware.heard" android:installLocation="auto" android:versionCode="25">
 	<uses-sdk />
-	<application android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" android:label="heard">
-	</application>
+	<application android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" android:label="heard"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />

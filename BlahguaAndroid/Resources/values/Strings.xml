@@ -91,6 +91,7 @@
   <string name="viewpost_stats_comments_count">Comments count:</string>
   <string name="viewpost_stats_promotes">Promotes:</string>
   <string name="viewpost_stats_demotes">Demotes:</string>
+  <string name="userprofile_recent_header">Activity in the last week</string>
   
   <!-- USER STATS SCREEN -->
   <string name="userprofile_stats_info">Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics.</string>
@@ -102,6 +103,10 @@
   <string name="userprofile_stats_view_count">Views count:</string>
   <string name="userprofile_stats_opens_count">Opens count:</string>
   <string name="userprofile_stats_comments_count">Comments count:</string>
+
+
+  <!-- EMPTY CHANNEL SCREEN -->
+  <string name="empty_channel_info">Heard is currently undergoing maintenance.  Please check back in 15 minutes.</string>
   
   <!-- BADGES SCREEN -->
   <string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>

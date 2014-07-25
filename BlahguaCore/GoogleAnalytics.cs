@@ -11,7 +11,7 @@ namespace BlahguaMobile.BlahguaCore
     public class GoogleAnalytics
     {
         private RestClient restClient;
-        private string trackingId = "UA-35868442-2";
+        private string trackingId = "UA-35868442-3";
         //private string accountId = "35868442";
         private string version = "1";
         private string clientId;
@@ -48,7 +48,7 @@ namespace BlahguaMobile.BlahguaCore
             request.AddParameter("cid", clientId);
             request.AddParameter("t", "pageview");
             request.AddParameter("dp", pageURL);
-            request.AddParameter("dl", "https://beta.blahgua.com/");
+            request.AddParameter("dl", "auto");
             request.AddParameter("_s", counter++);
 
             restClient.ExecuteAsync(request, (response) =>
