@@ -399,7 +399,7 @@ namespace BlahguaMobile.BlahguaCore
 
         private string GetTicket(string htmlStr)
         {
-            int startVal = htmlStr.IndexOf("'blahgua.com") + 1;
+            int startVal = htmlStr.IndexOf("'goheard.com") + 1;
             int endVal = htmlStr.IndexOf("'", startVal + 1);
             string tkv = htmlStr.Substring(startVal, endVal - startVal);
 
