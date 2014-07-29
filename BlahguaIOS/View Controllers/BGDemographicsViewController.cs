@@ -14,7 +14,7 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGDemographicsViewController : UITableViewController
 	{
-		private int index;
+		public int index;
 
 		public BGDemographicsViewController (IntPtr handle) : base (handle)
 		{
@@ -39,40 +39,47 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
+		public override void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
+		}
+
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			if(segue.Identifier == "fromDemographicsToItemSelection")
 			{
+				base.PrepareForSegue(segue, sender);
 				var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
-				vc.ParentViewController = this;
-				vc.index = index;
+				if (vc != null) {
+					vc.ParentViewController = this;
+					vc.index = index;
 
-				switch(index)
-				{
-				case 0:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.GenderChoices;
-						break;
-					}
+					switch (index) {
+					case 0:
+						{
+							vc.source = BlahguaAPIObject.Current.UserProfileSchema.GenderChoices;
+							break;
+						}
 
-				case 2:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.RaceChoices;
-						break;
+					case 2:
+						{
+							vc.source = BlahguaAPIObject.Current.UserProfileSchema.RaceChoices;
+							break;
+						}
+					case 6:
+						{
+							vc.source = BlahguaAPIObject.Current.UserProfileSchema.CountryChoices;
+							break;
+						}
+					case 7:
+					default:
+						{
+							vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
+							break;
+						}
 					}
-				case 6:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.CountryChoices;
-						break;
-					}
-				case 7:
-				default:
-					{
-						vc.source = BlahguaAPIObject.Current.UserProfileSchema.IncomeChoices;
-						break;
-					}
+					index = 0;
 				}
-				index = 0;
 			}
 			base.PrepareForSegue (segue, sender);
 		}
@@ -117,6 +124,10 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
+				{
+					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
+					break;
+				}
 			default:
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.Income = value;
@@ -165,6 +176,9 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Country;
 				}
 			case 7:
+				{
+					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
+				}
 			default:
 				{
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
@@ -212,6 +226,10 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			case 7:
+				{
+					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
+					break;
+				}
 			default:
 				{
 					BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm = perm;
