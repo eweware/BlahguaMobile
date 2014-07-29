@@ -105,6 +105,13 @@ namespace MonoTouch.SlideMenu
 			}
 		}
 
+
+		public BGBlahViewController SummaryViewController
+		{
+			get{
+				return summaryViewController;
+			}
+		}
 		// #pragma mark - View lifecycle
 
 		// - (void)viewDidLoad
@@ -126,15 +133,8 @@ namespace MonoTouch.SlideMenu
 
 			view_type = VIEW_TYPE.SUMMARY_VIEW;
 			this.NavigationItem.Title = @"Summary";
-			//SetShadowOnContentViewControllerView();
 
-//			contentViewController.View.AddGestureRecognizer(TapGesture);
-//			TapGesture.Enabled = false;
-
-			//contentViewController.View.AddGestureRecognizer(PanGesture);
-			//PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
-
-
+			NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
 		}
 
 		// - (void)viewWillAppear:(BOOL)animated
@@ -143,7 +143,10 @@ namespace MonoTouch.SlideMenu
 			base.ViewWillAppear (animated);
 
 		}
-
+		private void BackHandler(object sender, EventArgs args)
+		{
+			this.NavigationController.PopViewControllerAnimated(false);
+		}
 		// - (void)viewDidAppear:(BOOL)animated
 		public override void ViewDidAppear (bool animated)
 		{

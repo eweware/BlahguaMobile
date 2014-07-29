@@ -189,6 +189,12 @@ namespace BlahguaMobile.BlahguaCore
           
             apiClient.ExecuteAsync(request, (response) =>
             {
+                bool didIt;
+                if (response.ContentType == "JSON")
+                    didIt = false;
+                else
+                    didIt = true;
+
                 callback(response.Content);
             });
 

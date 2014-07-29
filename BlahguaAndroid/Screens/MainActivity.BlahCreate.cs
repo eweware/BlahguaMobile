@@ -528,6 +528,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
+                // inser the blah into the stream
+                if (BlahguaAPIObject.Current.NewBlahToInsert != null)
+                {
+                    InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
+                    BlahguaAPIObject.Current.NewBlahToInsert = null;
+
+                }
+
                 SlidingMenu.TouchModeAbove = TouchMode.Margin;
                 //collapse
                 blayGrayed.Visibility = ViewStates.Gone;
@@ -569,6 +577,124 @@ namespace BlahguaMobile.AndroidClient.Screens
                 populateChannelMenu();
             }
         }
+
+        void InsertBlahInStream(Blah theBlah)
+        {
+            View control = null;
+            double scrollTop = BlahScroller.ScrollY + BlahScroller.Height;
+
+            for (int i = 0; i < CurrentBlahContainer.ChildCount; i++)
+            {
+                control = CurrentBlahContainer.GetChildAt(i);
+                if ((control.Top > scrollTop) &&
+                    (control.Height == mediumBlahSize) &&
+                    (control.Width == mediumBlahSize))
+                    break;
+            }
+
+            if (control != null)
+            {
+                // conform to view
+                var title = control.FindViewById<TextView>(Resource.Id.title);
+
+                if (String.IsNullOrEmpty(theBlah.T))
+                    control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Invisible;
+                else
+                {
+                    double width = control.Width;
+                    double height = control.Height;
+                    control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible;
+
+                    title.Text = theBlah.T;
+
+                    if (width == smallBlahSize && height == smallBlahSize)
+                    {
+                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
+                    }
+                    else if (width == mediumBlahSize && height == smallBlahSize)
+                    {
+                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
+                    }
+                    else if (width == mediumBlahSize && height == mediumBlahSize)
+                    {
+                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 24);
+                    }
+                    else if (width == largeBlahSize && height == mediumBlahSize)
+                    {
+                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
+                    }
+                }
+
+                ImageView image = control.FindViewById<ImageView>(Resource.Id.image);
+                image.Tag = null;
+                if (theBlah.M != null)
+                {
+                    image.Visibility = ViewStates.Visible;
+                    string imageBase = theBlah.M[0];
+                    string imageSize = "B";
+                    string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
+                    RunOnUiThread(() =>
+                    {
+                        image.SetUrlDrawable(imageURL);
+                        if (!String.IsNullOrEmpty(theBlah.T))
+                        {
+                            image.Tag = true;   // animate this
+                            control.FindViewById<LinearLayout>(Resource.Id.textLayout).Alpha = 0.9f;
+                        }
+                    });
+                }
+                else
+                    image.Visibility = ViewStates.Invisible;
+
+
+                ///////
+                RunOnUiThread(() =>
+                {
+                    var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
+                    var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
+                    var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
+                    var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
+                    var user_mark = control.FindViewById<View>(Resource.Id.user_mark);
+
+                    switch (theBlah.TypeName)
+                    {
+                        case "says":
+                            type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
+                            break;
+                        case "asks":
+                            type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
+                            break;
+                        case "leaks":
+                            type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
+                            break;
+                        case "polls":
+                            type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
+                            break;
+                        case "predicts":
+                            type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
+                            break;
+                    }
+
+                    // icons
+                    new_mark.Visibility = ViewStates.Visible;
+                    hot_mark.Visibility = ViewStates.Gone;
+
+                    if ((theBlah.B == null) || (theBlah.B.Count == 0))
+                        badges_mark.Visibility = ViewStates.Gone;
+                    else
+                        badges_mark.Visibility = ViewStates.Visible;
+
+                    user_mark.Visibility = ViewStates.Visible;
+                });
+                InboxBlah inboxItem = new InboxBlah(theBlah);
+                control.Click += delegate
+                {
+                    OpenBlahItem(inboxItem);
+                };
+            }
+
+        }
+
 
         private ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
         {

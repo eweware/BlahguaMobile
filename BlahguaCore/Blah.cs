@@ -47,14 +47,15 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-			c = long.Parse(otherBlah.cdate);
+            if (otherBlah.cdate != null)
+			    c = long.Parse(otherBlah.cdate);
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
             G = otherBlah.G;
             A = otherBlah.A;
             M = otherBlah.M;
-            if (otherBlah.B != null)
+            if ((otherBlah.B != null) && (otherBlah.B.Count > 0))
                 B = "B";
             displaySize = 2;
         }
@@ -1122,6 +1123,9 @@ namespace BlahguaMobile.BlahguaCore
 
                 if (V > 0)
                     theRate = (double)O / (double)V;
+
+                if (theRate > 1)
+                    theRate = 1;
 
                 return theRate.ToString("p2");
             }

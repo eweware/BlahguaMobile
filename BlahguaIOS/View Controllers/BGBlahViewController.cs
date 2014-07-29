@@ -97,6 +97,24 @@ namespace BlahguaMobile.IOS
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Left;
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
+
+			NSAction showFullScreen = () => {
+				if(blahImage.Image != null)
+				{
+					AppDelegate objAppDelegate = new AppDelegate();
+					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+					BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
+
+					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
+					fs.FullImage = blahImage.Image;
+				}
+
+			};
+
+			UITapGestureRecognizer imageTapRecognizer = new UITapGestureRecognizer (showFullScreen);
+			imageTapRecognizer.Delegate = new PanGestureRecognizerDelegate ();
+			imageTapRecognizer.NumberOfTapsRequired = 1;
+			blahImage.AddGestureRecognizer (imageTapRecognizer);
         }
 
 		public override void ViewDidAppear(bool animated)
@@ -897,6 +915,8 @@ namespace BlahguaMobile.IOS
         public ImageUpdateDelegate(UIImageView image)
         {
             this.image = image;
+			if(((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView != null)
+				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SummaryViewController.AdjustViewLayout ();
         }
 
         #region IImageUpdated implementation
@@ -904,7 +924,8 @@ namespace BlahguaMobile.IOS
         public void UpdatedImage(Uri uri)
         {
             image.Image = ImageLoader.DefaultRequestImage(uri, this);
-        }
+
+		}
 
         #endregion
     }

@@ -173,7 +173,9 @@
     <AndroidResource Include="Resources\layout\fragment_viewpost_comments.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml" />
+    <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\activity_main.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -183,6 +185,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\tallimage.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\wideimage.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\tiny.jpg" />
+    <AndroidResource Include="Resources\layout\empty_channel_warning.xml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -689,5 +694,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\progress_smiley.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_conversion.png" />
   </ItemGroup>
 </Project>
