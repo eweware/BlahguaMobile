@@ -295,6 +295,7 @@
     <Compile Include="View Controllers\historyViewCell.cs" />
     <Compile Include="View Controllers\historyViewSource.cs" />
     <Compile Include="Views\SWTableViewCell.cs" />
+    <None Include="RELEASE-NOTES.txt" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
