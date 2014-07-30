@@ -1319,6 +1319,10 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zsf-MC-ufR">
+                                        <rect key="frame" x="89" y="24" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TYPE NICKNAME" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67">
                                         <rect key="frame" x="11" y="186" width="294" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1353,6 +1357,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="nicknameTextField" destination="67" id="name-outlet-67"/>
+                        <outlet property="profileImageView" destination="zsf-MC-ufR" id="lmO-eg-RNB"/>
                         <outlet property="profileView" destination="65" id="name-outlet-65"/>
                         <outlet property="selectImage" destination="66" id="name-outlet-66"/>
                     </connections>
@@ -2154,7 +2159,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="535"/>
+        <segue reference="5CP-DJ-zHp"/>
         <segue reference="5oQ-rS-0pJ"/>
         <segue reference="FLS-jN-55E"/>
     </inferredMetricsTieBreakers>

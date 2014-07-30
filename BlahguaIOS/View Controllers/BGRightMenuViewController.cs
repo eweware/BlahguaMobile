@@ -38,8 +38,9 @@ namespace BlahguaMobile.IOS
 			m_btnProfile.TouchUpInside += (sender, e) => {
 
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
-
-				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController"), true);
+				BGProfileViewController vc = (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController");
+				vc.IsEditMode = true;
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(vc, true);
 			};
 
 			m_btnBadges.TouchUpInside += (sender, e) => {
