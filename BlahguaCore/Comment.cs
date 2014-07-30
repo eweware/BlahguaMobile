@@ -170,9 +170,9 @@ namespace BlahguaMobile.BlahguaCore
 
         public bool XX { get; set; }
 
-        public int U { get; set; }
+        public int Upvotes { get; set; }
 
-        public int D { get; set; }
+        public int Downvotes { get; set; }
 
         public DemographicRecord _d { get; set; }
 
@@ -215,8 +215,8 @@ namespace BlahguaMobile.BlahguaCore
 
         public Comment()
         {
-            U = 0;
-            D = 0;
+            Upvotes = 0;
+            Downvotes = 0;
             uv = 0;
             _indentLevel = 0;
         }
@@ -283,10 +283,10 @@ namespace BlahguaMobile.BlahguaCore
 
         public int UpVoteCount
         {
-            get {return U;}
+            get {return Upvotes;}
             set
             {
-                U = value;
+                Upvotes = value;
                 OnPropertyChanged("UpVoteCount");
             }
            
@@ -294,10 +294,10 @@ namespace BlahguaMobile.BlahguaCore
 
         public int DownVoteCount
         {
-            get { return D; }
+            get { return Downvotes; }
             set
             {
-                D = value;
+                Downvotes = value;
                 OnPropertyChanged("DownVoteCount");
             }
         }

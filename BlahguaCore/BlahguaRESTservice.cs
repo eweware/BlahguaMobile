@@ -91,7 +91,10 @@ namespace BlahguaMobile.BlahguaCore
                 CommentList commentList = null;
                 try
                 {
-						commentList = response.Content.FromJson<CommentList>();
+                    string resStr = response.Content;
+                    resStr = resStr.Replace("\"D\":", "\"Downvotes\":");
+                    resStr = resStr.Replace("\"U\":", "\"Upvotes\":");
+                    commentList = resStr.FromJson<CommentList>();
                 }
                 catch (SerializationException exp)
                 {

@@ -22,7 +22,8 @@
   <string name="signin_password_hint">Password</string>
   <string name="signin_confirm_pass_hint">Confirm password</string>
   <string name="signin_remember_me_check">Remember me?</string>
-
+  <string name="signin_recovery_email_hint">recovery email (optional)</string>
+  
   <string name="signin_about_btn">ABOUT</string>
   <string name="signin_help_btn">HELP</string>
   <string name="signin_report_btn">REPORT BUG</string>
@@ -31,6 +32,7 @@
   <string name="signin_help_chooser_title">Send email...</string>
   <string name="signin_report_email_subject">Bug Report</string>
   <string name="signin_help_email_subject">Help Me</string>
+
 
   <!-- SIDE MENU-->
   <string name="sidemenu_channels">Channels</string>
@@ -113,7 +115,14 @@
   <string name="new_badge_title">To see if you qualify for a badge, please enter your email address below. Don\'t worry if your domain is not yet supported: You can enter a request to add it in the next page.\nIf our email address does qualify, you will be emailed a code to enter in the following page.</string>
   <string name="new_badge_title_privacy_title">Privacy Statement:</string>
   <string name="new_badge_title_privacy_statement">Only badges (not your email address) will be sent to Heard.</string>
-  <string name="new_badge_edit_email">Type email address</string>
+  <string name="new_badge_edit_email">email address</string>
+  <string name="new_badge_edit_code">confirmation code</string>
+  <string name="btn_submittext">SUBMIT</string>
+  <string name="btn_verifytext">VERIFY</string>
+  <string name="confirm_message">Please check your email for a confirmation code and enter it below.  If you did not receive the code, please do your request again.</string>
+  <string name="btn_requesttext">REQUEST</string>
+  <string name="request_message">No badges are available for your domain.  Click REQUEST to request new badges from the authority.</string>
+
 
   <!-- DEMOGRAPHICS SCREEN -->
   <string name="userprofile_demograph_select_prompt">Select</string>

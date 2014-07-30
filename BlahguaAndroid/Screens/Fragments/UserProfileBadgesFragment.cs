@@ -33,9 +33,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ScrollView list_container;
 
         private View new_block;
-        private Button btn_done;
-        private EditText edit;
+        private Button btn_submit, btn_verify, btn_request;
+        private EditText emailField, codeField;
         private ProgressBar progressBar1;
+        private LinearLayout submitSection, verifySection, requestSection;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -43,25 +44,44 @@ namespace BlahguaMobile.AndroidClient.Screens
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_badges, null);
            
             list = fragment.FindViewById<LinearLayout>(Resource.Id.list);
+            submitSection = fragment.FindViewById<LinearLayout>(Resource.Id.section_badge_submit);
+            verifySection = fragment.FindViewById<LinearLayout>(Resource.Id.section_badge_confirm);
+            requestSection = fragment.FindViewById<LinearLayout>(Resource.Id.section_badge_request);
             no_badges = fragment.FindViewById<LinearLayout>(Resource.Id.no_badges);
             list_container = fragment.FindViewById<ScrollView>(Resource.Id.list_container);
 
+            submitSection.Visibility = ViewStates.Visible;
+            verifySection.Visibility = ViewStates.Gone;
+            requestSection.Visibility = ViewStates.Gone;
+
             new_block = fragment.FindViewById<View>(Resource.Id.new_badge);
 
-            btn_done = new_block.FindViewById<Button>(Resource.Id.btn_done);
-            btn_done.Enabled = false;
-            btn_done.Click += btn_done_Click;
-            btn_done.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            btn_submit = new_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_submit.Enabled = false;
+            btn_submit.Click += btn_submit_Click;
 
-            edit = new_block.FindViewById<EditText>(Resource.Id.edit);
-            edit.TextChanged += edit_TextChanged;
+            btn_verify = new_block.FindViewById<Button>(Resource.Id.btn_verify_done);
+            btn_verify.Enabled = false;
+            btn_verify.Click += btn_verify_Click;
+
+
+            btn_request = new_block.FindViewById<Button>(Resource.Id.btn_request);
+            btn_request.Enabled = true;
+            btn_request.Click += btn_request_Click;
+
+
+            emailField = new_block.FindViewById<EditText>(Resource.Id.edit);
+            emailField.TextChanged += edit_TextChanged;
+
+            codeField = new_block.FindViewById<EditText>(Resource.Id.badge_codeField);
+            codeField.TextChanged += badge_codeField_TextChanged;
 
             TextView privacy = new_block.FindViewById<TextView>(Resource.Id.text_privacy_state);
             privacy.TextFormatted = Html.FromHtml("<b>" + GetString(Resource.String.new_badge_title_privacy_title) + "</b> " + GetString(Resource.String.new_badge_title_privacy_statement));
 
             //TextView text_new_badge_title = new_block.FindViewById<TextView>(Resource.Id.text_new_badge_title);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, btn_done);//, edit, privacy, text_new_badge_title);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, btn_submit, btn_request, btn_verify);//, edit, privacy, text_new_badge_title);
 
             progressBar1 = new_block.FindViewById<ProgressBar>(Resource.Id.progressBar1);
 
@@ -74,15 +94,28 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            if (edit.Text.Length == 0)
+            if (emailField.Text.Length == 0)
             {
-                btn_done.Enabled = false;
+                btn_submit.Enabled = false;
             }
             else
             {
-                btn_done.Enabled = true;
+                btn_submit.Enabled = true;
             }
         }
+
+        private void badge_codeField_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            if (codeField.Text.Length == 0)
+            {
+                btn_verify.Enabled = false;
+            }
+            else
+            {
+                btn_verify.Enabled = true;
+            }
+        }
+
 
 
         public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -227,13 +260,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         private String ticketStr = String.Empty;
         private void DoSubmitEmail()
         {
-            edit.Enabled = false;
-            btn_done.Visibility = ViewStates.Gone;
+            emailField.Enabled = false;
+            btn_submit.Visibility = ViewStates.Gone;
             progressBar1.Visibility = ViewStates.Visible;
             BlahguaAPIObject.Current.GetBadgeAuthorities((authList) =>
             {
                 string badgeId = authList[0]._id;
-                string emailAddr = edit.Text;
+                string emailAddr = emailField.Text;
 
                 BlahguaAPIObject.Current.GetEmailBadgeForUser(badgeId, emailAddr, (ticket) =>
                 {
@@ -243,23 +276,21 @@ namespace BlahguaMobile.AndroidClient.Screens
                         if (ticket == "")
                         {
                             // fail
-                            Toast.MakeText(Activity, "The authority currently has no badges for that email address.  Please try again in the future.", ToastLength.Short).Show();
-                            edit.Enabled = true;
-                            btn_done.Visibility = ViewStates.Visible;
+                            Toast.MakeText(Activity, "The authority currently has no badges for that email address.", ToastLength.Short).Show();
+                            emailField.Enabled = true;
+                            btn_submit.Visibility = ViewStates.Visible;
                             MainActivity.analytics.PostRequestBadge(badgeId);
                             MainActivity.analytics.PostBadgeNoEmail(emailAddr);
+                            submitSection.Visibility = ViewStates.Gone;
+                            requestSection.Visibility = ViewStates.Visible;
                         }
                         else
                         {
                             // success
-                            edit.Text = "";
+                            emailField.Text = "";
                             ticketStr = ticket;
-                            newBadgeStage = 1;
-                            btn_done.Text = "DONE";
-                            edit.Hint = "Type confirm code";
-                            edit.Enabled = true;
-                            btn_done.Visibility = ViewStates.Visible;
-                            MainActivity.analytics.PostRequestBadge(badgeId);
+                            submitSection.Visibility = ViewStates.Gone;
+                            verifySection.Visibility = ViewStates.Visible;
                         }
                     });
                 }
@@ -271,23 +302,24 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void DoValidate()
         {
-            edit.Enabled = false;
-            btn_done.Visibility = ViewStates.Gone;
+            codeField.Enabled = false;
+            btn_verify.Visibility = ViewStates.Gone;
             progressBar1.Visibility = ViewStates.Visible;
 
-            string valString = edit.Text;
+            string valString = codeField.Text;
 
             BlahguaAPIObject.Current.VerifyEmailBadge(valString, ticketStr, (resultStr) =>
             {
-                if (resultStr == "")
+                if (resultStr == "fail")
                 {
                     // fail
                     Activity.RunOnUiThread(() =>
                     {
                         progressBar1.Visibility = ViewStates.Gone;
                         Toast.MakeText(Activity, "That validation code was not valid.  Please retry your badging attempt.", ToastLength.Short).Show();
-                        edit.Enabled = true;
-                        btn_done.Visibility = ViewStates.Visible;
+                        codeField.Enabled = true;
+                        codeField.SelectAll();
+                        btn_verify.Visibility = ViewStates.Visible;
                     });
                     MainActivity.analytics.PostBadgeValidateFailed();
                 }
@@ -318,32 +350,45 @@ namespace BlahguaMobile.AndroidClient.Screens
         //////////////////////////////////////
         //////////
 
-        private void btn_done_Click(object sender, EventArgs e)
+        private void btn_submit_Click(object sender, EventArgs e)
         {
-            if (newBadgeStage == 0)
+            if (IsValidEmail(emailField.Text))
             {
-                if (IsValidEmail(edit.Text))
-                {
-                    DoSubmitEmail();
-                }
-                else
-                {
-                    Toast.MakeText(Activity, "Email not valid!", ToastLength.Short).Show();
-                }
+                DoSubmitEmail();
             }
             else
             {
-                if (!String.IsNullOrEmpty(edit.Text))
-                {
-                    DoValidate();
-                }
-                else
-                {
-                    Toast.MakeText(Activity, "Type confirm code first", ToastLength.Short).Show();
-                }
+                Toast.MakeText(Activity, "Email not valid!", ToastLength.Short).Show();
+            }
+           
+        }
+
+        private void btn_verify_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(codeField.Text))
+            {
+                DoValidate();
+            }
+            else
+            {
+                Toast.MakeText(Activity, "Type confirm code first", ToastLength.Short).Show();
             }
         }
-        int newBadgeStage = 0;
+
+        private void btn_request_Click(object sender, EventArgs e)
+        {
+            var addr = new System.Net.Mail.MailAddress(emailField.Text);
+            string emailAddr = addr.Address;
+            string domainName = addr.Host;
+            BlahguaAPIObject.Current.RequestBadgeForDomain(emailAddr, domainName, (resultStr) =>
+                {
+                    if (resultStr == "ok")
+                    {
+                        Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
+                    }
+                });
+        }
+
         bool IsValidEmail(string email)
         {
             try
@@ -367,23 +412,18 @@ namespace BlahguaMobile.AndroidClient.Screens
                 int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
                 new_block.Measure(widthSpec, heightSpec);
 
-                newBadgeStage = 0;
-                btn_done.Text = "SUBMIT";
-                edit.Hint = "Type email address";
 
                 ValueAnimator mAnimator = slideAnimator(new_block, 0, new_block.MeasuredHeight, false);
                 mAnimator.Start();
                 mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
                 {
-                    if (btn_done.Bottom + new_block.PaddingBottom > new_block.MeasuredHeight)
+                    if (btn_submit.Bottom + new_block.PaddingBottom > new_block.MeasuredHeight)
                     {
                         slideAnimator(new_block,
-                            new_block.MeasuredHeight, btn_done.Bottom + new_block.PaddingBottom * 2,
+                            new_block.MeasuredHeight, btn_submit.Bottom + new_block.PaddingBottom * 2,
                             false).Start();
                     }
                 };
-
-                //initBlahCreationSlidingMenu();
             }
             else
             {
@@ -397,11 +437,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                     new_block.Visibility = ViewStates.Gone;
                 };
 
-                //initSlidingMenu();
-                //if (BlahguaAPIObject.Current.CurrentUser != null)
-                //{
-                //    SlidingMenu.Mode = MenuMode.LeftRight;
-                //}
             }
         }
 

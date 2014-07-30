@@ -5,40 +5,40 @@
     android:background="@drawable/bg_gray_gradient"
     android:orientation="vertical">
     <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="40dp"
-      android:background="#3F2B2F">
-      <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="@null"
-        android:textSize="14sp"
-        android:textColor="@drawable/color_white_button_text"
-        android:padding="10dp"
-        android:visibility="gone"
-        android:text="@string/cancel_titlebar_btn" />
-      <TextView
-        android:id="@+id/login_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="#60BFA4"
-        android:textStyle="bold"
-        android:text="@string/signin_title" />
-      <Button
-        android:id="@+id/btn_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="@null"
-        android:textSize="14sp"
-        android:textColor="#60BFA4"
-        android:padding="10dp"
-        android:text="@string/done_titlebar_btn" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#3F2B2F">
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="@drawable/color_white_button_text"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:text="@string/cancel_titlebar_btn" />
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="#60BFA4"
+            android:textStyle="bold"
+            android:text="@string/signin_title" />
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#60BFA4"
+            android:padding="10dp"
+            android:text="@string/done_titlebar_btn" />
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,6 +88,15 @@
             android:textCursorDrawable="@null"
             android:textColor="#3C3C3C"
             android:hint="@string/signin_confirm_pass_hint" />
+        <EditText
+            android:id="@+id/email_recovery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit"
+            android:inputType="textEmailAddress"
+            android:textCursorDrawable="@null"
+            android:textColor="#3C3C3C"
+            android:hint="@string/signin_recovery_email_hint" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

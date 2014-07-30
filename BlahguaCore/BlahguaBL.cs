@@ -397,13 +397,37 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
+        public void RequestBadgeForDomain(string emailDomain, string domainName, string_callback callback)
+        {
+            RestClient apiClient;
+            apiClient = new RestClient(badgeEndpoint);
+            string query = "?e=" + emailDomain + "&d=" + domainName;
+            RestRequest request = new RestRequest("/badges/support" + query, Method.POST);
+            request.AddHeader("Accept", "*/*");
+
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+                    callback("ok");
+            }
+            );
+
+        }
+
+
+
         private string GetTicket(string htmlStr)
         {
-            int startVal = htmlStr.IndexOf("'goheard.com") + 1;
-            int endVal = htmlStr.IndexOf("'", startVal + 1);
-            string tkv = htmlStr.Substring(startVal, endVal - startVal);
+            if (String.IsNullOrEmpty(htmlStr))
+                return "";
+            else
+            {
+                int startVal = htmlStr.IndexOf("'goheard.com") + 1;
+                int endVal = htmlStr.IndexOf("'", startVal + 1);
+                string tkv = htmlStr.Substring(startVal, endVal - startVal);
 
-            return tkv;
+                return tkv;
+            }
+
         }
 
         private string GetEndPoint(string htmlStr)
@@ -1232,7 +1256,9 @@ namespace BlahguaMobile.BlahguaCore
         void AddChannelsToUser(ChannelList theList, ChannelList_callback theCallback)
         {
             Channel curChanel = theList[0];
-            BlahguaRest.AddUserToChannel(curChanel._id, (didItStr) =>
+            if (curChanel.R > 0)
+            {
+                BlahguaRest.AddUserToChannel(curChanel._id, (didItStr) =>
                 {
                     theList.RemoveAt(0);
                     if (theList.Count > 0)
@@ -1241,8 +1267,19 @@ namespace BlahguaMobile.BlahguaCore
                     {
                         BlahguaRest.GetUserChannels(theCallback);
                     }
+                });
+            }
+            else
+            {
+                theList.RemoveAt(0);
+                if (theList.Count > 0)
+                    AddChannelsToUser(theList, theCallback);
+                else
+                {
+                    BlahguaRest.GetUserChannels(theCallback);
                 }
-            );
+            }
+            
         }
 
         public void GetWhatsNew(WhatsNew_callback theCallback)
