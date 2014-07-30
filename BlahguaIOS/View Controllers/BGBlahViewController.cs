@@ -132,7 +132,6 @@ namespace BlahguaMobile.IOS
         //Synsoft on 14 July 2014 
         private void SwipeToCommentController()
         {
-           // PerformSegue("fromBlahViewToComments", this);
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
         }
 
@@ -145,11 +144,10 @@ namespace BlahguaMobile.IOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            //SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
+            
             if (ShouldMoveToStats)
             {
                 ShouldMoveToStats = false;
-                //PerformSegue("fromBlahViewToStats", this);
             }
 
             contentView.ContentSize = new SizeF(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
@@ -195,8 +193,6 @@ namespace BlahguaMobile.IOS
 
             SetAuthorName();
             SetAuthorDescription();
-
-            //badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
             badgeImage.SetImage(UIImage.FromBundle("badges"), UIControlState.Normal);
             badgeImage.TouchUpInside += (sender, e) =>
@@ -277,6 +273,8 @@ namespace BlahguaMobile.IOS
 					float newHeight = img.Size.Height / img.Size.Width * 320;
 
 					blahImage.Image = img;
+
+					//aspect fit and align to top.
 					blahImageHeight.Constant = newHeight;
 				}
             }

@@ -358,9 +358,12 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
-    <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="View Controllers\historyViewController_iPhone.xib" />
     <InterfaceDefinition Include="View Controllers\historyViewController_iPad.xib" />
+    <InterfaceDefinition Include="View Controllers\Blahgua_iPhone.storyboard">
+      <DependentUpon>BGProfileViewController.cs</DependentUpon>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
