@@ -29,7 +29,7 @@ namespace BlahguaMobile.IOS
         private float iphone5ContentViewHeight = 427f;
         private SizeF toolbarViewSize = new SizeF(320f, 44f);
 
-        private bool badgesShown = false;
+		private bool badgesShown = true;
 
         private UITableView tableView;
 
@@ -207,15 +207,12 @@ namespace BlahguaMobile.IOS
             if (CurrentBlah.B != null && CurrentBlah.B.Any())
             {
                 badgeImage.Hidden = false;
-				//badgesShown = true;
+
 				var count = 0;
 				if(CurrentBlah.B != null)
 					count = CurrentBlah.B.Count ;
-				///badgesTableViewHeight.Constant = count * 28;
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,count * 28);
-				//badgesTableView.ContentSize = badgesTableView.Frame.Size;
-				offset_Y += count * 28;
-				RecalcContentViewFrame ();
+
+				badgeTableHeight.Constant = count * 28;
 
 				badgesTableView.ReloadData();
             }
@@ -223,8 +220,7 @@ namespace BlahguaMobile.IOS
             {
                 badgeImage.Hidden = true;
 
-				//badgesTableViewHeight.Constant = 0;
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
+				badgeTableHeight.Constant = 0;
             }
 
             blahTimespan.AttributedText = new NSAttributedString(
@@ -233,28 +229,16 @@ namespace BlahguaMobile.IOS
                 UIColor.Black
             );
         }
-		void RecalcContentViewFrame()
-		{
-			contentView.Frame = new RectangleF (contentView.Frame.X, offset_Y, contentView.Frame.Width, this.View.Bounds.Height -  44 - offset_Y);
-		}
 		private void AdjustBadgesTableView()
         {
             if (badgesShown)
             {
-                //badgesTableViewHeight.Constant = 0;
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width, 0);
-
-				offset_Y = 44;
-				RecalcContentViewFrame ();
+                badgeTableHeight.Constant = 0;
             }
             else
             {
                 var count = badgesTableView.NumberOfRowsInSection(0);
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width, count <= 1 ? 28 : 56); 
-
-				offset_Y = 44 + (count <= 1 ? 28 : 56);
-				RecalcContentViewFrame ();
-
+				badgeTableHeight.Constant = count <= 1 ? 28 : 56;
             }
             badgesShown = !badgesShown;
             badgesTableView.ReloadData();
@@ -262,51 +246,23 @@ namespace BlahguaMobile.IOS
 
         private void SetUpContentView()
         {
-			float offset_Y = 0;
+
             if (!String.IsNullOrEmpty(CurrentBlah.T))
             {
-                //blahTitle.Hidden = false;
+
                 var blahTitleAttributes = new UIStringAttributes
                 {
                     Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 19),
                     ForegroundColor = UIColor.Black,
                 };
 
-                //blahTitle.LineBreakMode = UILineBreakMode.WordWrap;
-				//blahTitle.Lines = 0;
-
-
-                //blahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
-
-                //blahTitle.PreferredMaxLayoutWidth = defaultWidthOfContent - textInsetDefaultValue * 2;
-
-				/*
-				txtBlahTitle.Hidden = false;
-				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
-				txtBlahTitle.TextAlignment = UITextAlignment.Left;
-				txtBlahTitle.ScrollEnabled = false;
-				txtBlahTitle.Editable = false;
-				txtBlahTitle.ContentInset = new UIEdgeInsets(8, 8, 8, 8);
-				var ctxt = new NSStringDrawingContext();
-				var text = new NSMutableAttributedString(CurrentBlah.T);
-				text.AddAttribute(UIStringAttributeKey.Font,  UIFont.FromName(BGAppearanceConstants.BoldFontName, 21.0f), new NSRange(0, text.Length));
-				var boundingRect = text.GetBoundingRect(new SizeF(txtBlahTitle.Frame.Width, float.MaxValue), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, ctxt);
-				//Add some padding 
-
-				txtBlahTitle.Frame = new RectangleF(blahBodyView.Frame.X, txtBlahTitle.Frame.Y ,blahBodyView.Frame.Width, boundingRect.Height + 10);
-				offset_Y = txtBlahTitle.Frame.Y + txtBlahTitle.Frame.Height;
-				*/
-
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
 
 				txtBlahTitle.SizeToFit ();
-
-				offset_Y = txtBlahTitle.Frame.Y + txtBlahTitle.Frame.Height - 8;
             }
             else
             {
                 blahTitle.Hidden = true;
-				offset_Y = 0;
             }
 
 
@@ -321,16 +277,12 @@ namespace BlahguaMobile.IOS
 					float newHeight = img.Size.Height / img.Size.Width * 320;
 
 					blahImage.Image = img;
-					//imageHeightViewHeight.Constant = newHeight;
-					blahImage.Frame = new RectangleF (blahImage.Frame.X, offset_Y , blahImage.Frame.Width, newHeight);
-
-					offset_Y += newHeight;
+					blahImageHeight.Constant = newHeight;
 				}
             }
             else
             {
-                //imageHeightViewHeight.Constant = 0;
-				blahImage.Frame = new RectangleF (blahImage.Frame.X, offset_Y, blahImage.Frame.Width, 0);
+				blahImageHeight.Constant = 0;
             }
 
             if (!String.IsNullOrEmpty(CurrentBlah.F))
@@ -347,13 +299,10 @@ namespace BlahguaMobile.IOS
                 blahBodyView.ContentInset = new UIEdgeInsets(4, 4, 4, 4);
 
 				blahBodyView.SizeToFit ();
-
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, offset_Y - 8 ,blahBodyView.Frame.Width, blahBodyView.Frame.Height);
 			}
 			else
 			{
 				blahBodyView.Text = "";
-				blahBodyView.Frame = new RectangleF(blahBodyView.Frame.X, offset_Y - 8 ,blahBodyView.Frame.Width,0);
 			}
 			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
 
@@ -417,15 +366,10 @@ namespace BlahguaMobile.IOS
 			if (CurrentBlah.B != null && CurrentBlah.B.Any())
 			{
 				badgeImage.Hidden = false;
-				//badgesShown = true;
 				var count = 0;
 				if(CurrentBlah.B != null)
 					count = CurrentBlah.B.Count ;
-				///badgesTableViewHeight.Constant = count * 28;
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,count * 28);
-				//badgesTableView.ContentSize = badgesTableView.Frame.Size;
-				offset_Y =44 + count * 28;
-				RecalcContentViewFrame ();
+				badgeTableHeight.Constant = count * 28;
 
 				badgesTableView.ReloadData();
 			}
@@ -433,8 +377,8 @@ namespace BlahguaMobile.IOS
 			{
 				badgeImage.Hidden = true;
 
-				//badgesTableViewHeight.Constant = 0;
-				badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
+				badgeTableHeight.Constant = 0;
+				//badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
 			}
 
 			SetUpContentView ();
@@ -915,8 +859,8 @@ namespace BlahguaMobile.IOS
         public ImageUpdateDelegate(UIImageView image)
         {
             this.image = image;
-			if(((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView != null)
-				((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SummaryViewController.AdjustViewLayout ();
+			//if(((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView != null)
+			//	((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SummaryViewController.AdjustViewLayout ();
         }
 
         #region IImageUpdated implementation
