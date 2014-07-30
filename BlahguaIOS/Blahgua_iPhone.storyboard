@@ -1750,10 +1750,10 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
                                 </accessibility>
-                                <state key="normal" image="icon_speechact_say.png" backgroundImage="icon_speechact_say.png">
+                                <state key="normal" image="icon_speechact_say.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" image="icon_speechact_say_teal.png" backgroundImage="icon_speechact_say_teal.png"/>
+                                <state key="highlighted" image="icon_speechact_say_teal.png"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jA-w8-Zlh">
                                 <rect key="frame" x="80" y="59" width="32" height="32"/>
@@ -2176,8 +2176,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="r5o-U4-GYW"/>
         <segue reference="5CP-DJ-zHp"/>
         <segue reference="5oQ-rS-0pJ"/>
-        <segue reference="FLS-jN-55E"/>
     </inferredMetricsTieBreakers>
 </document>

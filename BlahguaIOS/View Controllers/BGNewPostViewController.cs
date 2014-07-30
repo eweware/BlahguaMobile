@@ -173,10 +173,11 @@ namespace BlahguaMobile.IOS
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
-                    SayBtn.Highlighted = true;
+                    //SayBtn.Highlighted = true;
             };
-            curTypeView = SayBtn;
-            EnableTypeBtn(SayBtn);
+            //curTypeView = SayBtn;
+            //EnableTypeBtn(SayBtn);
+			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
                 {
@@ -434,8 +435,7 @@ namespace BlahguaMobile.IOS
 			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
 			ExpirationDateInput.Text = "";
 
-			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
-			SayBtn.Highlighted = true;
+			//SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 
 			NewPost.M = null;
 			NewPost.B = null;
