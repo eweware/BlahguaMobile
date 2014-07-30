@@ -117,7 +117,8 @@ namespace BlahguaMobile.IOS
 			PrepareRightBarButton ();
 			((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = null;
 			leftSlidingMenu.SetGesturesState (true);
-			SetSrollingAvailability (true);
+			if(!IsNewPostMode)
+				SetSrollingAvailability (true);
             //CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 			/*
             BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
@@ -141,7 +142,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			if (CollectionView.NumberOfItemsInSection (0) > 0)
+			if (CollectionView.NumberOfItemsInSection (0) > 0 && !IsNewPostMode)
 				NaturalScrollInProgress = false;
 				//CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 		}
