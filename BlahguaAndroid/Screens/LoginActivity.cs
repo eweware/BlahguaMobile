@@ -22,7 +22,7 @@ namespace BlahguaMobile.AndroidClient
 	{
         private static LoginActivity instance;
 
-        private EditText login, password, passwordConfirm;
+        private EditText login, password, passwordConfirm, recoveryEmail;
         private ProgressBar progress;
         private Button buttonDone;
 
@@ -57,17 +57,20 @@ namespace BlahguaMobile.AndroidClient
             login = FindViewById<EditText>(Resource.Id.login);
             password = FindViewById<EditText>(Resource.Id.password);
             passwordConfirm = FindViewById<EditText>(Resource.Id.password_confirm);
+            recoveryEmail = FindViewById<EditText>(Resource.Id.email_recovery);
             login.TextChanged += edit_TextChanged;
             password.TextChanged += edit_TextChanged;
             passwordConfirm.TextChanged += edit_TextChanged;
             login.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             password.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
             passwordConfirm.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            recoveryEmail.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
             check_create_acc.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
 
             passwordConfirm.Visibility = ViewStates.Gone;
+            recoveryEmail.Visibility = ViewStates.Gone;
             progress.Visibility = ViewStates.Invisible;
 
             buttonCancel.Click += delegate
@@ -97,11 +100,14 @@ namespace BlahguaMobile.AndroidClient
                 {
                     passwordConfirm.Visibility = ViewStates.Visible;
                     passwordConfirm.Text = "";
+                    recoveryEmail.Visibility = ViewStates.Visible;
+                    recoveryEmail.Text = "";
                     buttonDone.Enabled = false;
                 }
                 else
                 {
                     passwordConfirm.Visibility = ViewStates.Gone;
+                    recoveryEmail.Visibility = ViewStates.Gone;
                 }
             };
 
