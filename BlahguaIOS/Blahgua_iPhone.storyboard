@@ -126,13 +126,13 @@
                                     <action selector="RememberMeAction:" destination="1" eventType="touchUpInside" id="33"/>
                                 </connections>
                             </button>
-                            <view appearanceType="aqua" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pFo-3I-Cuh">
+                            <view appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pFo-3I-Cuh">
                                 <rect key="frame" x="0.0" y="529" width="320" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38">
-                                <rect key="frame" x="24" y="535" width="49" height="33"/>
+                                <rect key="frame" x="10" y="535" width="49" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="49" id="59"/>
@@ -144,7 +144,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40">
-                                <rect key="frame" x="89" y="535" width="63" height="33"/>
+                                <rect key="frame" x="75" y="535" width="63" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                                 <state key="normal" title="ABOUT">
@@ -152,16 +152,31 @@
                                     <color key="titleShadowColor" red="0.14509803921568629" green="0.70588235294117652" blue="0.41960784313725491" alpha="0.49803921568627452" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a78-1J-KW7">
+                                <rect key="frame" x="187" y="535" width="130" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="AqZ-IW-Hwb"/>
+                                    <constraint firstAttribute="width" constant="130" id="TqQ-jP-YDI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                <state key="normal" title="REPORT BUG">
+                                    <color key="titleColor" red="0.1450980392" green="0.70588235290000001" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.1450980392" green="0.70588235290000001" blue="0.41960784309999999" alpha="0.49803921569999998" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="38" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="24" id="57"/>
+                            <constraint firstItem="38" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10" id="57"/>
                             <constraint firstAttribute="bottom" secondItem="38" secondAttribute="bottom" id="58"/>
-                            <constraint firstItem="40" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="89" id="60"/>
+                            <constraint firstItem="40" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="75" id="60"/>
                             <constraint firstAttribute="bottom" secondItem="40" secondAttribute="bottom" id="61"/>
                             <constraint firstItem="13" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="12" id="0Nh-pS-DxE"/>
+                            <constraint firstItem="4" firstAttribute="top" secondItem="a78-1J-KW7" secondAttribute="bottom" id="3to-GJ-s56"/>
                             <constraint firstItem="12" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="8" id="6zA-pg-bPM"/>
                             <constraint firstItem="7" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10" id="8XI-s0-Tup"/>
+                            <constraint firstAttribute="trailing" secondItem="a78-1J-KW7" secondAttribute="trailing" constant="3" id="9Vh-uU-0ed"/>
                             <constraint firstItem="10" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10" id="BnX-gi-KVo"/>
                             <constraint firstItem="7" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="14" id="Bsf-Ik-bnW"/>
                             <constraint firstItem="12" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="Bzs-ii-RlD"/>
@@ -183,6 +198,7 @@
                             <constraint firstItem="jqx-37-y0d" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="12" id="fkl-vx-din"/>
                             <constraint firstItem="12" firstAttribute="baseline" secondItem="dzD-xx-lJt" secondAttribute="baseline" id="iDs-Ad-qcr"/>
                             <constraint firstAttribute="trailing" secondItem="QC5-Su-vlJ" secondAttribute="trailing" constant="121" id="iSw-ic-rBU"/>
+                            <constraint firstItem="pFo-3I-Cuh" firstAttribute="top" secondItem="2" secondAttribute="top" constant="529" id="iWc-aN-S0u"/>
                             <constraint firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="10" id="l35-e3-uux"/>
                             <constraint firstItem="QC5-Su-vlJ" firstAttribute="leading" secondItem="jqx-37-y0d" secondAttribute="trailing" constant="8" id="q6e-AO-W2x"/>
                             <constraint firstItem="jqx-37-y0d" firstAttribute="leading" secondItem="dzD-xx-lJt" secondAttribute="trailing" constant="19" id="u8a-HT-GqF"/>
@@ -201,6 +217,7 @@
                         <outlet property="rememberMeLabel" destination="12" id="name-outlet-12"/>
                         <outlet property="rememberMeNoButton" destination="jqx-37-y0d" id="name-outlet-jqx-37-y0d"/>
                         <outlet property="rememberMeYesButton" destination="13" id="name-outlet-13"/>
+                        <outlet property="reportBugButton" destination="a78-1J-KW7" id="yAo-Nk-E7Z"/>
                         <outlet property="usernameOrEmail" destination="9" id="name-outlet-9"/>
                         <outlet property="yesLabel" destination="dzD-xx-lJt" id="name-outlet-dzD-xx-lJt"/>
                         <segue destination="44" kind="push" identifier="fromLoginToProfile" id="5oQ-rS-0pJ"/>

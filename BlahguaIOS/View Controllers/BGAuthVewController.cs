@@ -178,6 +178,24 @@ namespace BlahguaMobile.IOS
 					alert.Show();
 				}
 			};
+
+			reportBugButton.TouchUpInside += (object sender, EventArgs e) => {
+				if(MFMailComposeViewController.CanSendMail)
+				{
+					mailComposer = new MFMailComposeViewController();
+					mailComposer.SetToRecipients(new string[] { "admin@goheard.com" });
+					mailComposer.Finished += (s, ev) => {
+						ev.Controller.DismissViewController(true, null);
+					};
+					PresentViewController(mailComposer, true, null);
+				}
+				else
+				{
+					var alert = new UIAlertView("Inforamtion", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
+					alert.Show();
+				}
+			};
+
 			aboutButton.Enabled = true;
 			aboutButton.TouchUpInside += (object sender, EventArgs e) => {
 				var url = NSUrl.FromString("http://www.goheard.com/"); 
