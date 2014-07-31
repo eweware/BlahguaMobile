@@ -37,9 +37,6 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UILabel blahTimespan { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel blahTitle { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIToolbar bottomToolbar { get; set; }
 
 		[Outlet]
@@ -61,7 +58,13 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.NSLayoutConstraint txtBlahBodyHeight { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UITextView txtBlahTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.NSLayoutConstraint txtBlahTitleHeight { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
@@ -94,11 +97,6 @@ namespace BlahguaMobile.IOS
 				badgeTableHeight = null;
 			}
 
-			if (blahImageHeight != null) {
-				blahImageHeight.Dispose ();
-				blahImageHeight = null;
-			}
-
 			if (blahBodyView != null) {
 				blahBodyView.Dispose ();
 				blahBodyView = null;
@@ -109,14 +107,14 @@ namespace BlahguaMobile.IOS
 				blahImage = null;
 			}
 
+			if (blahImageHeight != null) {
+				blahImageHeight.Dispose ();
+				blahImageHeight = null;
+			}
+
 			if (blahTimespan != null) {
 				blahTimespan.Dispose ();
 				blahTimespan = null;
-			}
-
-			if (blahTitle != null) {
-				blahTitle.Dispose ();
-				blahTitle = null;
 			}
 
 			if (bottomToolbar != null) {
@@ -172,6 +170,16 @@ namespace BlahguaMobile.IOS
 			if (userImage != null) {
 				userImage.Dispose ();
 				userImage = null;
+			}
+
+			if (txtBlahTitleHeight != null) {
+				txtBlahTitleHeight.Dispose ();
+				txtBlahTitleHeight = null;
+			}
+
+			if (txtBlahBodyHeight != null) {
+				txtBlahBodyHeight.Dispose ();
+				txtBlahBodyHeight = null;
 			}
 		}
 	}

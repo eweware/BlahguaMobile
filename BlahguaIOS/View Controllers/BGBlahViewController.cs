@@ -257,28 +257,33 @@ namespace BlahguaMobile.IOS
                 };
 
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
+				//txtBlahTitle.TextAlignment = UITextAlignment.Left;
+				//txtBlahTitle.ContentInset = new UIEdgeInsets(4, 4, 4, 4);
+				SizeF size = txtBlahTitle.SizeThatFits (new SizeF (320, 5000));
+				txtBlahTitleHeight.Constant = size.Height;
 
-				txtBlahTitle.SizeToFit ();
+				//txtBlahTitle.SizeToFit ();
             }
             else
             {
-                blahTitle.Hidden = true;
+				txtBlahTitle.Hidden = true;
             }
 
 
             if (CurrentBlah.ImageURL != null)
             {
-				UIImage img = ImageLoader.DefaultRequestImage(
+				blahImage.Image = ImageLoader.DefaultRequestImage(
 					new Uri(CurrentBlah.ImageURL),
 					this
 				);
                 
-				if (img != null) {
+				if (blahImage.Image != null) {
+					UIImage img = blahImage.Image;
 					float newHeight = img.Size.Height / img.Size.Width * 320;
 
-					blahImage.Image = img;
 					blahImageHeight.Constant = newHeight;
 				}
+
             }
             else
             {
@@ -293,12 +298,10 @@ namespace BlahguaMobile.IOS
                     ForegroundColor = UIColor.Black,
                 };
 
-                blahBodyView.Hidden = false;
-                blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
-                blahBodyView.TextAlignment = UITextAlignment.Left;
-                blahBodyView.ContentInset = new UIEdgeInsets(4, 4, 4, 4);
+				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
 
-				blahBodyView.SizeToFit ();
+				SizeF size = blahBodyView.SizeThatFits (new SizeF (320, 5000));
+				txtBlahBodyHeight.Constant = size.Height;
 			}
 			else
 			{
