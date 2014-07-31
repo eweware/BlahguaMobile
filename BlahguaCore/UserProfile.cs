@@ -73,14 +73,6 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string _id { get; set; }
 
-		[DataMember]
-		public string c { get; set; }
-		private DateTime _createDate = DateTime.MinValue;
-
-		[DataMember]
-		public string u { get; set; }
-		private DateTime _updateDate = DateTime.MinValue;
-
 
         public static ProfileSchema Schema {get; set; }
 

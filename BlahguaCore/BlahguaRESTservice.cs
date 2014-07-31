@@ -345,7 +345,9 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("users/profile/info", Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-					UserProfile profile = response.Content.FromJson<UserProfile>();
+					string resStr = response.Content;
+					resStr = resStr.Replace("\"c\":", "\"cdate\":");
+					UserProfile profile = resStr.FromJson<UserProfile>();
 
                 callback(profile);
             });
