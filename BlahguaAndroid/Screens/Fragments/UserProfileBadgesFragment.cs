@@ -382,10 +382,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             string domainName = addr.Host;
             BlahguaAPIObject.Current.RequestBadgeForDomain(emailAddr, domainName, (resultStr) =>
                 {
-                    if (resultStr == "ok")
-                    {
-                        Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
-                    }
+					Activity.RunOnUiThread(() =>
+						{
+							triggerNewBlock();
+		                    if (resultStr == "ok")
+		                    Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
+						});
+
                 });
         }
 
