@@ -1,166 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Heard</string>
-
-  <string name="done_big_btn">DONE</string>
-  <string name="done_titlebar_btn">Done</string>
-  <string name="cancel_titlebar_btn">Cancel</string>
-  <string name="roll_message_signing_out">Signing out...</string>
-
-  <!-- SIGN IN SCREEN -->
-  <string name="signin_title">Login</string>
-
-  <string name="signin_message_signing_in">Signing in...</string>
-  <string name="signin_message_error_signing_in">Invalid username or password.</string>
-
-  <string name="signin_message_enter_login">Enter username</string>
-  <string name="signin_message_enter_pass">Enter password</string>
-  <string name="signin_message_passwords_must_match">Passwords must match</string>
-  
-  <string name="signin_create_acc_check">Create Account</string>
-  <string name="signin_login_hint">Username</string>
-  <string name="signin_password_hint">Password</string>
-  <string name="signin_confirm_pass_hint">Confirm password</string>
-  <string name="signin_remember_me_check">Remember me?</string>
-  <string name="signin_recovery_email_hint">recovery email (optional)</string>
-  
-  <string name="signin_about_btn">ABOUT</string>
-  <string name="signin_help_btn">HELP</string>
-  <string name="signin_report_btn">REPORT BUG</string>
-
-  <string name="signin_report_chooser_title">Sending a bug report</string>
-  <string name="signin_help_chooser_title">Send email...</string>
-  <string name="signin_report_email_subject">Bug Report</string>
-  <string name="signin_help_email_subject">Help Me</string>
-
-
-  <!-- SIDE MENU-->
-  <string name="sidemenu_channels">Channels</string>
-
-  <string name="sidemenu_view">View</string>
-  <string name="sidemenu_v_newest">Newest</string>
-  <string name="sidemenu_v_oldest">Oldest</string>
-  <string name="sidemenu_v_most_popular">Most Popular</string>
-  <string name="sidemenu_v_most_promoted">Most Promoted</string>
-  <string name="sidemenu_v_most_demoted">Most Demoted</string>
-
-  <string name="sidemenu_blahcreate_title">Type of post</string>
-  <string name="sidemenu_blahcreate_asks">Asks</string>
-  <string name="sidemenu_blahcreate_leaks">Leaks</string>
-  <string name="sidemenu_blahcreate_polls">Polls</string>
-  <string name="sidemenu_blahcreate_predicts">Predicts</string>
-  <string name="sidemenu_blahcreate_says">Says</string>
-  
-  <!-- PROFILE MENU -->
-  <string name="profilemenu_profile">Profile</string>
-  <string name="profilemenu_badges">Badges</string>
-  <string name="profilemenu_demographics">Demographics</string>
-  <string name="profilemenu_history">History</string>
-  <string name="profilemenu_stats">Stats</string>
-  <string name="profilemenu_logout">Logout</string>
-
-  <!-- CREATE POST SCREEN -->
-  <string name="create_post_type_say">Say</string>
-  <string name="create_post_type_predict">Predict</string>
-  <string name="create_post_type_poll">Poll</string>
-  <string name="create_post_type_ask">Ask</string>
-  <string name="create_post_type_leak">Leak</string>
-  <string name="create_post_select_image_btn">Select image</string>
-  <string name="create_post_select_sign_btn">Select signature</string>
-  <string name="create_post_add_more_options_btn">+ Add more options</string>
-  <string name="create_post_hint_edit_title">TYPE HEADLINE (64)</string>
-  <string name="create_post_hint_edit_body">Type body text</string>
-  <string name="create_post_hint_edit_prediction_date">Type prediction expiration date (mm/dd/yyyy)</string>
-  <string name="create_post_hint_edit_poll_option_1">Type poll option #1</string>
-  <string name="create_post_hint_edit_poll_option_2">Type poll option #2</string>
-  <string name="create_post_hint_edit_poll_option_3">Type poll option #3</string>
-  <string name="create_post_hint_edit_poll_option_4">Type poll option #4</string>
-  <string name="create_post_hint_edit_poll_option_5">Type poll option #5</string>
-  <string name="create_post_hint_edit_poll_option_6">Type poll option #6</string>
-  <string name="create_post_hint_edit_poll_option_7">Type poll option #7</string>
-  <string name="create_post_hint_edit_poll_option_8">Type poll option #8</string>
-  <string name="create_post_hint_edit_poll_option_9">Type poll option #9</string>
-  <string name="create_post_hint_edit_poll_option_10">Type poll option #10</string>
-
-  <!-- VIEWPOST STATS SCREEN -->
-  <string name="viewpost_stats_info_title">Audience response</string>
-  <string name="viewpost_stats_info">Key statistical data for this post. The heard score is an overall rating computed by assigning different weights to different data metrics.</string>
-  <string name="viewpost_stats_heard_score">heard score:</string>
-  <string name="viewpost_stats_convers_ratio">Conversion Ratio:</string>
-  <string name="viewpost_stats_impressions">Impressions:</string>
-  <string name="viewpost_stats_views_count">Views count:</string>
-  <string name="viewpost_stats_opens_count">Opens count:</string>
-  <string name="viewpost_stats_comments_count">Comments count:</string>
-  <string name="viewpost_stats_promotes">Promotes:</string>
-  <string name="viewpost_stats_demotes">Demotes:</string>
-  <string name="userprofile_recent_header">Activity in the last week</string>
-  
-  <!-- USER STATS SCREEN -->
-  <string name="userprofile_stats_info">Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics.</string>
-  <string name="userprofile_stats_user_score">User score:</string>
-  <string name="userprofile_stats_user_views_count">User Views count:</string>
-  <string name="userprofile_stats_user_opens_count">User Opens count:</string>
-  <string name="userprofile_stats_user_creates_count">User Creates count:</string>
-  <string name="userprofile_stats_user_comments_count">User Comments count:</string>
-  <string name="userprofile_stats_view_count">Views count:</string>
-  <string name="userprofile_stats_opens_count">Opens count:</string>
-  <string name="userprofile_stats_comments_count">Comments count:</string>
-
-
-  <!-- EMPTY CHANNEL SCREEN -->
-  <string name="empty_channel_info">Heard is currently undergoing maintenance.  Please check back in 15 minutes.</string>
-  
-  <!-- BADGES SCREEN -->
-  <string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
-  <string name="new_badge_title">To see if you qualify for a badge, please enter your email address below. Don\'t worry if your domain is not yet supported: You can enter a request to add it in the next page.\nIf our email address does qualify, you will be emailed a code to enter in the following page.</string>
-  <string name="new_badge_title_privacy_title">Privacy Statement:</string>
-  <string name="new_badge_title_privacy_statement">Only badges (not your email address) will be sent to Heard.</string>
-  <string name="new_badge_edit_email">email address</string>
-  <string name="new_badge_edit_code">confirmation code</string>
-  <string name="btn_submittext">SUBMIT</string>
-  <string name="btn_verifytext">VERIFY</string>
-  <string name="confirm_message">Please check your email for a confirmation code and enter it below.  If you did not receive the code, please do your request again.</string>
-  <string name="btn_requesttext">REQUEST</string>
-  <string name="request_message">No badges are available for your domain.  Click REQUEST to request new badges from the authority.</string>
-
-
-  <!-- DEMOGRAPHICS SCREEN -->
-  <string name="userprofile_demograph_select_prompt">Select</string>
-
-  <string name="userprofile_demograph_public_check">Public</string>
-  <string name="userprofile_demograph_gender">Gender</string>
-  <string name="userprofile_demograph_dob">Date of Birth</string>
-  <string name="userprofile_demograph_ethnic">Ethnicity</string>
-  <string name="userprofile_demograph_city">City</string>
-  <string name="userprofile_demograph_state">State</string>
-  <string name="userprofile_demograph_post_code">Post code</string>
-  <string name="userprofile_demograph_country">Country</string>
-  
-  <string-array name="gender_array">
-    <item>Unspecified</item>
-    <item>Male</item>
-    <item>Female</item>
-  </string-array>
-  <string-array name="ethnicity_array">
-    <item>Unspecified</item>
-    <item>Asian</item>
-    <item>Black</item>
-    <item>Hispanic</item>
-    <item>White</item>
-    <item>Other</item>
-  </string-array>
-  <string-array name="country_array">
-    <item>Unspecified</item>
-    <item>Australia</item>
-    <item>Brazil</item>
-    <item>Canada</item>
-    <item>China (PRC)</item>
-    <item>Japan</item>
-    <item>Singapore</item>
-    <item>South Korea</item>
-    <item>Taiwan</item>
-    <item>Thailand</item>
-    <item>United Kingdom</item>
-    <item>United States</item>
-  </string-array>
+	<string name="done_big_btn">DONE</string>
+	<string name="done_titlebar_btn">Done</string>
+	<string name="cancel_titlebar_btn">Cancel</string>
+	<string name="roll_message_signing_out">Signing out...</string>
+	<!-- SIGN IN SCREEN -->
+	<string name="signin_title">Login</string>
+	<string name="signin_message_signing_in">Signing in...</string>
+	<string name="signin_message_error_signing_in">Invalid username or password.</string>
+	<string name="signin_message_enter_login">Enter username</string>
+	<string name="signin_message_enter_pass">Enter password</string>
+	<string name="signin_message_passwords_must_match">Passwords must match</string>
+	<string name="signin_create_acc_check">Create Account</string>
+	<string name="signin_login_hint">Username</string>
+	<string name="signin_password_hint">Password</string>
+	<string name="signin_confirm_pass_hint">Confirm password</string>
+	<string name="signin_remember_me_check">Remember me?</string>
+	<string name="signin_recovery_email_hint">recovery email (optional)</string>
+	<string name="signin_about_btn">ABOUT</string>
+	<string name="signin_help_btn">HELP</string>
+	<string name="signin_report_btn">REPORT BUG</string>
+	<string name="signin_report_chooser_title">Sending a bug report</string>
+	<string name="signin_help_chooser_title">Send email...</string>
+	<string name="signin_report_email_subject">Bug Report</string>
+	<string name="signin_help_email_subject">Help Me</string>
+	<!-- SIDE MENU-->
+	<string name="sidemenu_channels">Channels</string>
+	<string name="sidemenu_view">View</string>
+	<string name="sidemenu_v_newest">Newest</string>
+	<string name="sidemenu_v_oldest">Oldest</string>
+	<string name="sidemenu_v_most_popular">Most Popular</string>
+	<string name="sidemenu_v_most_promoted">Most Promoted</string>
+	<string name="sidemenu_v_most_demoted">Most Demoted</string>
+	<string name="sidemenu_blahcreate_title">Type of post</string>
+	<string name="sidemenu_blahcreate_asks">Asks</string>
+	<string name="sidemenu_blahcreate_leaks">Leaks</string>
+	<string name="sidemenu_blahcreate_polls">Polls</string>
+	<string name="sidemenu_blahcreate_predicts">Predicts</string>
+	<string name="sidemenu_blahcreate_says">Says</string>
+	<!-- PROFILE MENU -->
+	<string name="profilemenu_profile">Profile</string>
+	<string name="profilemenu_badges">Badges</string>
+	<string name="profilemenu_demographics">Demographics</string>
+	<string name="profilemenu_history">History</string>
+	<string name="profilemenu_stats">Stats</string>
+	<string name="profilemenu_logout">Logout</string>
+	<!-- CREATE POST SCREEN -->
+	<string name="create_post_type_say">Say</string>
+	<string name="create_post_type_predict">Predict</string>
+	<string name="create_post_type_poll">Poll</string>
+	<string name="create_post_type_ask">Ask</string>
+	<string name="create_post_type_leak">Leak</string>
+	<string name="create_post_select_image_btn">Select image</string>
+	<string name="create_post_select_sign_btn">Select signature</string>
+	<string name="create_post_add_more_options_btn">+ Add more options</string>
+	<string name="create_post_hint_edit_title">TYPE HEADLINE (64)</string>
+	<string name="create_post_hint_edit_body">Type body text</string>
+	<string name="create_post_hint_edit_prediction_date">Type prediction expiration date (mm/dd/yyyy)</string>
+	<string name="create_post_hint_edit_poll_option_1">Type poll option #1</string>
+	<string name="create_post_hint_edit_poll_option_2">Type poll option #2</string>
+	<string name="create_post_hint_edit_poll_option_3">Type poll option #3</string>
+	<string name="create_post_hint_edit_poll_option_4">Type poll option #4</string>
+	<string name="create_post_hint_edit_poll_option_5">Type poll option #5</string>
+	<string name="create_post_hint_edit_poll_option_6">Type poll option #6</string>
+	<string name="create_post_hint_edit_poll_option_7">Type poll option #7</string>
+	<string name="create_post_hint_edit_poll_option_8">Type poll option #8</string>
+	<string name="create_post_hint_edit_poll_option_9">Type poll option #9</string>
+	<string name="create_post_hint_edit_poll_option_10">Type poll option #10</string>
+	<!-- VIEWPOST STATS SCREEN -->
+	<string name="viewpost_stats_info_title">Audience response</string>
+	<string name="viewpost_stats_info">Key statistical data for this post. The heard score is an overall rating computed by assigning different weights to different data metrics.</string>
+	<string name="viewpost_stats_heard_score">Heard Score:</string>
+	<string name="viewpost_stats_convers_ratio">Conversion Ratio:</string>
+	<string name="viewpost_stats_impressions">Impressions:</string>
+	<string name="viewpost_stats_views_count">Impressions:</string>
+	<string name="viewpost_stats_opens_count">Opens:</string>
+	<string name="viewpost_stats_comments_count">Comments:</string>
+	<string name="viewpost_stats_promotes">Promotes:</string>
+	<string name="viewpost_stats_demotes">Demotes:</string>
+	<string name="userprofile_recent_header">Activity in the last week for your posts</string>
+	<!-- USER STATS SCREEN -->
+	<string name="userprofile_stats_info">Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics.</string>
+	<string name="userprofile_stats_user_score">User Score:</string>
+	<string name="userprofile_stats_user_views_count">Posts Seen:</string>
+	<string name="userprofile_stats_user_opens_count">Posts opened:</string>
+	<string name="userprofile_stats_user_creates_count">Posts ceated:</string>
+	<string name="userprofile_stats_user_comments_count">Comments Left:</string>
+	<string name="userprofile_stats_view_count">Impressions:</string>
+	<string name="userprofile_stats_opens_count">Opens:</string>
+	<string name="userprofile_stats_comments_count">Comments:</string>
+	<string name="userprofile_youractivity_header">Your overall activity</string>
+	<!-- EMPTY CHANNEL SCREEN -->
+	<string name="empty_channel_info">Heard is currently undergoing maintenance.  Please check back in 15 minutes.</string>
+	<!-- BADGES SCREEN -->
+	<string name="new_badge_title2">Badges add credibility to content by letting users attach verified facts about themselves.\n(e.g.I work at Microsoft, I am in Chicago, etc.).\nCurrently only email-based badges are issued.</string>
+	<string name="new_badge_title">To see if you qualify for a badge, please enter your email address below. Don\'t worry if your domain is not yet supported: You can enter a request to add it in the next page.\nIf our email address does qualify, you will be emailed a code to enter in the following page.</string>
+	<string name="new_badge_title_privacy_title">Privacy Statement:</string>
+	<string name="new_badge_title_privacy_statement">Only badges (not your email address) will be sent to Heard.</string>
+	<string name="new_badge_edit_email">email address</string>
+	<string name="new_badge_edit_code">confirmation code</string>
+	<string name="btn_submittext">SUBMIT</string>
+	<string name="btn_verifytext">VERIFY</string>
+	<string name="confirm_message">Please check your email for a confirmation code and enter it below.  If you did not receive the code, please do your request again.</string>
+	<string name="btn_requesttext">REQUEST</string>
+	<string name="request_message">No badges are available for your domain.  Click REQUEST to request new badges from the authority.</string>
+	<!-- DEMOGRAPHICS SCREEN -->
+	<string name="userprofile_demograph_select_prompt">Select</string>
+	<string name="userprofile_demograph_public_check">Public</string>
+	<string name="userprofile_demograph_gender">Gender</string>
+	<string name="userprofile_demograph_dob">Date of Birth</string>
+	<string name="userprofile_demograph_ethnic">Ethnicity</string>
+	<string name="userprofile_demograph_city">City</string>
+	<string name="userprofile_demograph_state">State</string>
+	<string name="userprofile_demograph_post_code">Post code</string>
+	<string name="userprofile_demograph_country">Country</string>
+	<string-array name="gender_array">
+		<item>Unspecified</item>
+		<item>Male</item>
+		<item>Female</item>
+	</string-array>
+	<string-array name="ethnicity_array">
+		<item>Unspecified</item>
+		<item>Asian</item>
+		<item>Black</item>
+		<item>Hispanic</item>
+		<item>White</item>
+		<item>Other</item>
+	</string-array>
+	<string-array name="country_array">
+		<item>Unspecified</item>
+		<item>Australia</item>
+		<item>Brazil</item>
+		<item>Canada</item>
+		<item>China (PRC)</item>
+		<item>Japan</item>
+		<item>Singapore</item>
+		<item>South Korea</item>
+		<item>Taiwan</item>
+		<item>Thailand</item>
+		<item>United Kingdom</item>
+		<item>United States</item>
+	</string-array>
 </resources>

@@ -124,6 +124,7 @@
     <Compile Include="HelpingClasses\StreamHelper.cs" />
     <Compile Include="HelpingClasses\StringHelper.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
+    <Compile Include="Screens\Fragments\TutorialDialog.cs" />
     <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
     <Compile Include="Screens\MainActivity.Signature.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
@@ -186,6 +187,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\wideimage.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\tiny.jpg" />
     <AndroidResource Include="Resources\layout\empty_channel_warning.xml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\dialog_tutorial.xml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -697,5 +701,20 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_conversion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_5.jpg" />
   </ItemGroup>
 </Project>

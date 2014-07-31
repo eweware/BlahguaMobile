@@ -408,6 +408,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                     //SignInBtn.Visibility = Visibility.Visible;
                     btn_login.Visibility = ViewStates.Visible;
                     registered_layout.Visibility = ViewStates.Gone;
+                    ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+                    String seenIt = _sharedPref.GetString("sawtutorial", "");
+                    if (String.IsNullOrEmpty(seenIt))
+                    {
+                        _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
+                        TutorialDialog.ShowDialog(FragmentManager);
+                    }
                 }
             }
         }

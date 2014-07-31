@@ -16,7 +16,8 @@
 
 <resources>
 
-    <dimen name="slidingmenu_offset">200dp</dimen>
+    <dimen name="slidingmenu_offset">175dp</dimen>
+  <dimen name="profilegmenu_offset">200dp</dimen>
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 

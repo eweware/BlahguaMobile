@@ -14,6 +14,15 @@
             android:layout_margin="5dp"
             android:layout_gravity="top|left"
             android:background="#AAA" />
+        <ImageView
+            android:id="@+id/comment_badged"
+            android:src="@drawable/badge_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="top"
+            android:background="#AAA"
+            android:layout_marginLeft="-24dp"
+            android:layout_marginTop="58dp" />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -32,14 +41,6 @@
                     android:textColor="#60BFA4"
                     android:textStyle="bold"
                     android:text="author" />
-                <ImageView
-                    android:id="@+id/comment_badged"
-                    android:src="@drawable/badge_icon"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="#AAA" />
                 <TextView
                     android:id="@+id/time_ago"
                     android:layout_width="wrap_content"

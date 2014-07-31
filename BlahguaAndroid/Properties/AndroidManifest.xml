@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".28" package="com.eweware.heard" android:installLocation="auto" android:versionCode="28">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".29" package="com.eweware.heard" android:installLocation="auto" android:versionCode="29">
 	<uses-sdk />
 	<application android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" android:label="Heard"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -81,15 +81,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 Resource.Layout.listitem_history_comment, parent, false);
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
-            var author = view.FindViewById<TextView>(Resource.Id.author);
-            var author_avatar = view.FindViewById<ImageView>(Resource.Id.author_avatar);
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
 
             // set fonts
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
-            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
 
             Comment c = _list[position];
             if (String.IsNullOrEmpty(c.ImageURL))
@@ -98,8 +95,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             }
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
-            author.Text = c.AuthorName;
-            author_avatar.SetUrlDrawable(c.AuthorImage);
+
             if (!(c.u == null && c.c == null))
             {
                 time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);

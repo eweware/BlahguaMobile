@@ -847,7 +847,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Post created", ToastLength.Short).Show();
                     triggerCreateBlock();
                 });
                 //NavigationService.GoBack();
@@ -856,7 +856,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Unable to create the post.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 });
                 MainActivity.analytics.PostFormatError("blah create failed");
             }
