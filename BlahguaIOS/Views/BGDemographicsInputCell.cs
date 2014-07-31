@@ -7,6 +7,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.ActionSheetDatePicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -50,9 +51,6 @@ namespace BlahguaMobile.IOS
                 isPublicButton.SetImage(UIImage.FromBundle(isPublic ? "signupRadioButton" : "signupRadioButtonUn"), UIControlState.Normal);
 			};
 			input.AttributedPlaceholder = new NSAttributedString ("Type here", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-			input.ShouldReturn = delegate {
-				return true;
-			};
 
 			input.EditingDidEndOnExit += (sender, e) => {
 				viewController.SetValue(index, input.Text);
@@ -63,13 +61,38 @@ namespace BlahguaMobile.IOS
 			{
 			case 1:
 				{
+					input.Text = String.IsNullOrEmpty (viewController.GetValue (index)) ? String.Empty : viewController.GetValue (index);
+
+					input.ShouldBeginEditing = delegate {
+						viewController.BirthDatePicker = new ActionSheetDatePicker (viewController.View);
+						viewController.BirthDatePicker.Title = "Choose Date";
+						viewController.BirthDatePicker.DatePicker.Mode = UIDatePickerMode.Date;
+						NSDateFormatter dateFormatter = new NSDateFormatter();
+						dateFormatter.DateFormat = "MM/dd/yyyy";
+
+						//input.Text = DateTime.Now.ToString();
+
+						viewController.BirthDatePicker.DatePicker.ValueChanged += (s, e) => {
+
+							NSDate dateValue = (s as UIDatePicker).Date;
+							input.Text = new NSString(dateFormatter.ToString(dateValue));
+							viewController.SetValue(index, input.Text);
+						};
+
+						viewController.BirthDatePicker.Show ();
+						NSDate dv = viewController.BirthDatePicker.DatePicker.Date;
+						if(input.Text.Length == 0)
+							input.Text = new NSString(dateFormatter.ToString(dv));
+
+						return false;
+					};
 
 					input.ShouldReturn = delegate {
 						DateTime dt;
 						return DateTime.TryParse (input.Text, new DateTimeFormatInfo() { FullDateTimePattern = "mm/dd/yyyy"}, DateTimeStyles.None, out dt);
 					};
 					input.AttributedPlaceholder = new NSAttributedString ("mm/dd/yyyy", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-					break;
+					return;
 				}
 			
 			case 3:
