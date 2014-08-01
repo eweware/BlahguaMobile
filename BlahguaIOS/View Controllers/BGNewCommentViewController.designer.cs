@@ -1,10 +1,12 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -29,38 +31,9 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton selectSignature { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (back != null) {
-				back.Dispose ();
-				back = null;
-			}
-
-			if (done != null) {
-				done.Dispose ();
-				done = null;
-			}
-
-			if (cancel != null) {
-				cancel.Dispose ();
-				cancel = null;
-			}
-
-			if (input != null) {
-				input.Dispose ();
-				input = null;
-			}
-
-			if (selectImageButton != null) {
-				selectImageButton.Dispose ();
-				selectImageButton = null;
-			}
-
-			if (selectSignature != null) {
-				selectSignature.Dispose ();
-				selectSignature = null;
-			}
 		}
 	}
 }
