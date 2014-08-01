@@ -62,6 +62,7 @@ namespace BlahguaMobile.IOS
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
+
 			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
 
 			if (cell == null) {
@@ -82,6 +83,14 @@ namespace BlahguaMobile.IOS
 
 			}
 				
+			if (cell.ContentView.Subviews!=null) {
+
+				foreach(UIView sub in cell.ContentView.Subviews)
+				{
+					sub.RemoveFromSuperview();
+				}
+			}
+
 			cell.HideSwipedContent (false);//reset cell state
 			cell.SetNeedsDisplay ();
 
@@ -96,16 +105,8 @@ namespace BlahguaMobile.IOS
 				//cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
 				SetUp (cell,null,vc.ParentViewController.UserComments [indexPath.Row].T, vc.ParentViewController.UserComments [indexPath.Row].UpVoteCount.ToString () + "/" + vc.ParentViewController.UserComments [indexPath.Row].DownVoteCount.ToString (), vc.ParentViewController.UserComments [indexPath.Row].AuthorName, vc.ParentViewController.UserComments [indexPath.Row].ElapsedTimeString);
 			}	
-
-			foreach(UIView sub in cell.ContentView.Subviews)
-			{
-				//sub.RemoveFromSuperview();
-			}
-			Console.WriteLine (cell.ContentView.Subviews);
-
+				
 			return cell;
-
-
 		}
 			
 		private void SetUp(UITableViewCell cell,string type,string text, string upAndDownVotesText,string userNameString,string timeString)
