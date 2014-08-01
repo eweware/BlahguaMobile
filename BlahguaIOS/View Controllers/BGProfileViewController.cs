@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 		private const float iPhone4Padding = 35.0f;
 		private NSObject keyboardShowObserver;
 		private NSObject keyboardHideObserver;
-
+		UIImage profile_image;
 		private bool keyboardHidden;
 
 		#endregion
@@ -92,31 +92,40 @@ namespace BlahguaMobile.IOS
 				selectImage.Hidden = false;
 				selectImage.TouchUpInside += ActionForImage;
 			}
-		}
-		public override void ViewDidAppear(bool animated)
-		{
+
 			var url = BlahguaAPIObject.Current.CurrentUser.UserImage;
+			if (url != null)
+				selectImage.Hidden = true;
+
 			if(!String.IsNullOrEmpty(url))
 			{
 				selectImage.Hidden = true;
 				if (url != null) {
-					UIImage profileImage = UIImageHelper.ImageFromUrl (url);
+					//UIImage profileImage = UIImageHelper.ImageFromUrl (url);
 
-					UIImageView profileImageView = new UIImageView (profileImage);
-					profileImageView.Frame = new RectangleF (89, 24, 128, 128);
+					//UIImageView profileImageView = new UIImageView (profileImage);
+					Uri imageToLoad = new Uri (url);
+
+					profileImageView.Image = ImageLoader.DefaultRequestImage  (imageToLoad, this);
+
+					//profileImageView.Frame = new RectangleF (89, 24, 128, 128);
 
 					var button = new UIButton (profileImageView.Frame);
 					button.TouchUpInside += ActionForImage;
 
-					profileView.Add (profileImageView);
+					profileView.Add (button);
 
-					profileView.SendSubviewToBack (profileImageView);
+					//profileView.SendSubviewToBack (profileImageView);
 				}
 			}
 			else
 			{
 				selectImage.Hidden = false;
 			}
+		}
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear (animated);
 		}
 		public override void ViewWillDisappear(bool animated)
 		{
@@ -138,6 +147,9 @@ namespace BlahguaMobile.IOS
 		private void DoneHandler(object sender, EventArgs args)
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
+
+			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.UpdateProfileImage ();
+
 			NavigationController.PopToRootViewController (true);
 		}
 
@@ -192,6 +204,7 @@ namespace BlahguaMobile.IOS
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
 			UIImage image = eventArgs.OriginalImage;
+			profile_image = image;
 			DateTime now = DateTime.Now;
 			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
 			BlahguaAPIObject.Current.UploadUserImage (image.AsPNG ().AsStream (), 
@@ -199,10 +212,14 @@ namespace BlahguaMobile.IOS
 													  ProfileImageUploadCallback);
 			((BGImagePickerController) sender).DismissViewController(true, 
 				() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+
 		}
 
 		private void ProfileImageUploadCallback(string result)
 		{
+			InvokeOnMainThread (() => {
+				profileImageView.Image = profile_image;
+			});
 			Console.WriteLine (result);
 		}
 
@@ -241,7 +258,7 @@ namespace BlahguaMobile.IOS
 
 		public void UpdatedImage (Uri uri)
 		{
-			throw new NotImplementedException ();
+			profileImageView.Image = ImageLoader.DefaultRequestImage (uri, this);
 		}
 
 		#endregion

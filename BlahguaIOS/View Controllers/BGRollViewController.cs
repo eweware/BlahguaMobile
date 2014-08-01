@@ -119,24 +119,7 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu.SetGesturesState (true);
 			if(!IsNewPostMode)
 				SetSrollingAvailability (true);
-            //CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-			/*
-            BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
-            {
-                if (e.PropertyName == "CurrentChannel")
-                {
-                    CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-                    InvokeOnMainThread(() =>
-                    {
-                        Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
-                        var dataSource = ((BGRollViewDataSource)CollectionView.DataSource);
-                        dataSource.DataSource.Clear();
-                        CollectionView.ReloadData();
-                    });
-                    BlahguaAPIObject.Current.GetInbox(InboxLoadingCompleted);
-                }
-            };
-            */
+
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -216,6 +199,13 @@ namespace BlahguaMobile.IOS
 				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
 			});
 		}
+
+		public void UpdateProfileImage()
+		{
+			if(profile != null)
+				profile.SetImage (GetProfileImage (), UIControlState.Normal);
+		}
+
 		public void ClearRightBarButton()
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {

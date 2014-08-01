@@ -101,6 +101,11 @@ namespace BlahguaMobile.IOS
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
+		public void UpdateProfileImage()
+		{
+			m_imgAvatar.Image = GetProfileImage ();
+		}
+
 		private UIImage GetProfileImage ()
 		{
 			return ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);

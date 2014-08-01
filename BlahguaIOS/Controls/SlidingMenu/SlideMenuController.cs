@@ -255,7 +255,11 @@ namespace MonoTouch.SlideMenu
 			}
 		}
 
-
+		public void UpdateProfileImage()
+		{
+			rightMenuViewController.UpdateProfileImage ();
+			((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).UpdateProfileImage ();
+		}
 		// #pragma mark - Menu view lazy load
 
 
