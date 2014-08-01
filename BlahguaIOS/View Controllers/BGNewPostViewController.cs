@@ -304,7 +304,7 @@ namespace BlahguaMobile.IOS
 
 					PreparePollMode ();
 					//bodyInput.Placeholder = "Polls must have at least two choices";
-					titleInput.Placeholder = "HEADLINE: Polls have pre-defined responses.";
+					titleInput.Placeholder = "HEADLINE: Include pre-defined responses.";
 					done.RemoveFromSuperview ();
 					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
 					View.AddSubview(done);
@@ -327,7 +327,7 @@ namespace BlahguaMobile.IOS
                             ExpirationDateInput.Hidden = false;
 
 
-						titleInput.Placeholder = "HEADLINE: Predictionneed a dated outcome.";
+						titleInput.Placeholder = "HEADLINE: Need a dated outcome.";
                             //bodyInput.Placeholder = "Predictions require you to set a date";
                         });
 
@@ -339,7 +339,7 @@ namespace BlahguaMobile.IOS
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
+				titleInput.Placeholder = "HEADLINE: General posts, no requirements.";
                     //bodyInput.Placeholder = "Says is used for general sharing";
                     break;
 
@@ -349,7 +349,7 @@ namespace BlahguaMobile.IOS
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Asks must include a '?'";
+				titleInput.Placeholder = "HEADLINE: Must include a question mark.";
                     //bodyInput.Placeholder = "Asks must be in the form a a question";
                     break;
 
@@ -359,7 +359,7 @@ namespace BlahguaMobile.IOS
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Leaks require a badge to be attached.";
+				titleInput.Placeholder = "HEADLINE: Require a badge to be attached.";
                     //bodyInput.Placeholder = "You must be badged to leak something";
                     break;
 
