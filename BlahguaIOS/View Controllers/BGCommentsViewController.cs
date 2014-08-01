@@ -479,7 +479,7 @@ namespace BlahguaMobile.IOS
 
 		public void SwitchNewCommentMode()
 		{
-			//WriteCommentAction (null, null);
+			contentView.ReloadData ();
 		}
 
 		#endregion
