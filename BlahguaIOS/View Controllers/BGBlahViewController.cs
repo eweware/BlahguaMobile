@@ -102,11 +102,12 @@ namespace BlahguaMobile.IOS
 				if(blahImage.Image != null)
 				{
 					AppDelegate objAppDelegate = new AppDelegate();
-					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-					BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
+					//var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+					//BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
+					FullScreenView fs = new FullScreenView(blahImage.Image);
 
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
-					fs.FullImage = blahImage.Image;
+					//fs.FullImage = blahImage.Image;
 				}
 
 			};

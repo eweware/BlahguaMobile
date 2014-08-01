@@ -301,6 +301,7 @@
       <DependentUpon>BGFullScreenViewController.cs</DependentUpon>
     </Compile>
     <None Include="RELEASE-NOTES.txt" />
+    <Compile Include="View Controllers\FullScreenView.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">

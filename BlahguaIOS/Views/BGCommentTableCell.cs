@@ -52,12 +52,9 @@ namespace BlahguaMobile.IOS
 			NSAction showFullScreen = () => {
 				if(commentImageView.Image != null)
 				{
-					AppDelegate objAppDelegate = new AppDelegate();
 					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-					BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
-
+					FullScreenView fs = new FullScreenView(commentImageView.Image);
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
-					fs.FullImage = commentImageView.Image;
 				}
 
 			};
