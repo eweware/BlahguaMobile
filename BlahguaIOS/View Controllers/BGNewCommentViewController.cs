@@ -56,11 +56,11 @@ namespace BlahguaMobile.IOS
 			};
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("Signature", buttonsTextAttributes), UIControlState.Normal);
-            selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
+            //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
 			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("Select Image", buttonsTextAttributes), UIControlState.Normal);
-            selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
+            //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			input.ReturnKeyType = UIReturnKeyType.Default;

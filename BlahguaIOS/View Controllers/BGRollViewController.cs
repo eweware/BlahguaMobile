@@ -262,7 +262,7 @@ namespace BlahguaMobile.IOS
 		}
 		private void NewBlah (object sender, EventArgs e)
 		{
-
+			this.View.EndEditing (true);
 			if(leftSlidingMenu.IsMenuOpen() || leftSlidingMenu.IsRightMenuOpen())
 			{
 				return;
