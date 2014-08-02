@@ -494,17 +494,17 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="verified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gv-mX-4mP">
-                                                    <rect key="frame" x="34" y="3" width="60" height="21"/>
+                                                    <rect key="frame" x="34" y="4" width="44" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="tRF-91-BzJ"/>
+                                                        <constraint firstAttribute="width" constant="44" id="tRF-91-BzJ"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JRO-5A-Afn">
-                                                    <rect key="frame" x="102" y="3" width="198" height="21"/>
+                                                    <rect key="frame" x="78" y="3" width="237" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
@@ -513,8 +513,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="3gv-mX-4mP" secondAttribute="centerY" id="1ge-Lg-R9F"/>
                                                 <constraint firstItem="3gv-mX-4mP" firstAttribute="baseline" secondItem="JRO-5A-Afn" secondAttribute="baseline" id="74a-ga-Hly"/>
-                                                <constraint firstAttribute="trailing" secondItem="JRO-5A-Afn" secondAttribute="trailing" constant="20" symbolic="YES" id="BQ4-SP-9aB"/>
-                                                <constraint firstItem="JRO-5A-Afn" firstAttribute="leading" secondItem="3gv-mX-4mP" secondAttribute="trailing" constant="8" symbolic="YES" id="DYh-j0-Iv0"/>
+                                                <constraint firstAttribute="trailing" secondItem="JRO-5A-Afn" secondAttribute="trailing" constant="5" id="BQ4-SP-9aB"/>
+                                                <constraint firstItem="JRO-5A-Afn" firstAttribute="leading" secondItem="3gv-mX-4mP" secondAttribute="trailing" id="DYh-j0-Iv0"/>
                                                 <constraint firstItem="T5T-1A-geC" firstAttribute="leading" secondItem="qsv-A3-TZV" secondAttribute="leading" constant="8" id="dyR-vO-7gl"/>
                                                 <constraint firstItem="3gv-mX-4mP" firstAttribute="leading" secondItem="T5T-1A-geC" secondAttribute="trailing" constant="8" symbolic="YES" id="hvK-fF-heW"/>
                                                 <constraint firstItem="T5T-1A-geC" firstAttribute="centerY" secondItem="qsv-A3-TZV" secondAttribute="centerY" id="j2u-qr-2Gz"/>
@@ -584,7 +584,7 @@
                                 </constraints>
                             </scrollView>
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PP7-b3-1iy">
-                                <rect key="frame" x="75" y="7" width="22" height="22"/>
+                                <rect key="frame" x="75" y="6" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="aeN-aM-Pyx"/>
@@ -609,7 +609,7 @@
                             <constraint firstItem="WuP-gY-bnW" firstAttribute="top" secondItem="iSM-i3-bDs" secondAttribute="top" constant="10" id="VbR-D1-932"/>
                             <constraint firstItem="8fM-bx-dNI" firstAttribute="leading" secondItem="WuP-gY-bnW" secondAttribute="trailing" constant="6" id="Xiu-YN-svc"/>
                             <constraint firstItem="7Gv-Zg-uwz" firstAttribute="top" secondItem="iSM-i3-bDs" secondAttribute="top" constant="7" id="ZYi-e1-2H4"/>
-                            <constraint firstItem="PP7-b3-1iy" firstAttribute="top" secondItem="iSM-i3-bDs" secondAttribute="top" constant="7" id="gQ7-nu-n1n"/>
+                            <constraint firstItem="PP7-b3-1iy" firstAttribute="top" secondItem="iSM-i3-bDs" secondAttribute="top" constant="6" id="gQ7-nu-n1n"/>
                             <constraint firstAttribute="trailing" secondItem="7Gv-Zg-uwz" secondAttribute="trailing" constant="8" id="kDT-vM-3jB"/>
                             <constraint firstAttribute="trailing" secondItem="kzR-xf-sH0" secondAttribute="trailing" constant="8" id="kI3-Hl-ZmD"/>
                             <constraint firstItem="Gpn-9b-ooF" firstAttribute="leading" secondItem="iSM-i3-bDs" secondAttribute="leading" id="ltv-5K-bik"/>
@@ -2179,7 +2179,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ehh-t0-FMR"/>
+        <segue reference="535"/>
         <segue reference="5oQ-rS-0pJ"/>
         <segue reference="FLS-jN-55E"/>
     </inferredMetricsTieBreakers>
