@@ -717,4 +717,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_5.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\logo_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\signup_2.jpg" />
+  </ItemGroup>
 </Project>
