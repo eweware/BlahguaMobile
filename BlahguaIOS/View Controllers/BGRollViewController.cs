@@ -179,8 +179,6 @@ namespace BlahguaMobile.IOS
 		private void LoginButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToLogin", this);
-            
-         
 		}
 
 		private void InitialInboxLoadingCompleted (Inbox theList)
@@ -210,13 +208,12 @@ namespace BlahguaMobile.IOS
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 
-				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, false);
+				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, true);
 
 				NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
 					Font = UIFont.FromName ("Merriweather", 20),
 					TextColor = UIColor.FromRGB (96, 191, 164)
 				}, UIControlState.Normal);
-
 			}
 		}
 		private void PrepareRightBarButton ()
@@ -224,7 +221,6 @@ namespace BlahguaMobile.IOS
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 				if (NavigationItem.RightBarButtonItems == null) {
 					NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-
 					NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
 						Font = UIFont.FromName ("Merriweather", 20),
 						TextColor = UIColor.FromRGB (96, 191, 164)

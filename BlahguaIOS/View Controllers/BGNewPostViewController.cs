@@ -550,8 +550,10 @@ namespace BlahguaMobile.IOS
 		public void AdjustTableViewSize ()
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
-			pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
-
+			if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
+				pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
+			else
+				return;
 			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60);
 			if (pollItemsTableView.Hidden == false) {
 				done.RemoveFromSuperview ();

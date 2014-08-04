@@ -563,7 +563,7 @@ namespace MonoTouch.SlideMenu
 		public void CloseRightMenuForNavigation()
 		{
 			contentViewController.View.Frame = View.Bounds;
-			//this.NavigationController.PushViewController( (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController"), true);
+
 		}
 
 		void PanGestureTriggered ()
