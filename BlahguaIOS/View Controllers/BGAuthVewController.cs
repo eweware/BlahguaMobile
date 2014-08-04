@@ -75,7 +75,7 @@ namespace BlahguaMobile.IOS
             NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
             //Synsoft on 9 July 2014 for active color  #1FBBD1
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(21, 181, 104);
+			NavigationItem.LeftBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
 
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
@@ -276,7 +276,7 @@ namespace BlahguaMobile.IOS
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
                     //Synsoft on 9 July 2014
-                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(96, 191, 164);
 				}
 			}
 			else
@@ -292,7 +292,7 @@ namespace BlahguaMobile.IOS
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
                     //Synsoft on 9 July 2014
-                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+					NavigationItem.RightBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
 				}
 			}
 		}

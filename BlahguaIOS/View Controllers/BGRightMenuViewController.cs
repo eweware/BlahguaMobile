@@ -105,6 +105,7 @@ namespace BlahguaMobile.IOS
 		public void UpdateProfileImage()
 		{
 			m_imgAvatar.Image = GetProfileImage ();
+			m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 		}
 
 		private UIImage GetProfileImage ()

@@ -148,7 +148,7 @@ namespace BlahguaMobile.IOS
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
 
-			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.UpdateProfileImage ();
+
 
 			NavigationController.PopToRootViewController (true);
 		}
@@ -160,6 +160,10 @@ namespace BlahguaMobile.IOS
 
 		private void NicknameUpdateCallback(string result)
 		{
+			InvokeOnMainThread (() => {
+				BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserName = nicknameTextField.Text;
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.UpdateProfileImage ();
+			});
 			Console.WriteLine (result);
 		}
 
@@ -227,7 +231,6 @@ namespace BlahguaMobile.IOS
 		{
 			Console.WriteLine (result);
 		}
-
 
 		private void CalibrateViewPosition ()
 		{
