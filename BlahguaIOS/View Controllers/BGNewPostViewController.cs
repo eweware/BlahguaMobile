@@ -440,7 +440,7 @@ namespace BlahguaMobile.IOS
 			NewPost.M = null;
 			NewPost.B = null;
 			NewPost.UseProfile = false;
-
+			done.Enabled = false;
 		}
 
 		private void ActionForImage(object sender, EventArgs e)
