@@ -39,7 +39,6 @@ namespace BlahguaMobile.IOS
 			TableView.RowHeight = 100;
 			TableView.TableHeaderView = new UIView ();
 			TableView.SeparatorInset = new UIEdgeInsets (0, 0, 0, 0);
-
 			TableView.ReloadData ();
 
 			//this.TableView.Source = new Source (this);
@@ -78,9 +77,14 @@ namespace BlahguaMobile.IOS
 
 				};
 					
-				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView,leftView);
-				cell.Scrolling += OnScrolling;
+				var buttons = new System.Collections.Generic.List<UIButton> ();
+				buttons.AddUtilityButton ("Delete", UIColor.Red);
+				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
 
+
+				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView, buttons, leftView);
+				cell.Scrolling += OnScrolling;
+				cell.UtilityButtonPressed += OnButtonPressed;
 			}
 				
 			if (cell.ContentView.Subviews!=null) {
@@ -112,6 +116,9 @@ namespace BlahguaMobile.IOS
 				commentCountVal = -1;
 				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (), userComment.AuthorName,
 					userComment.ElapsedTimeString,null,commentCountVal);
+
+
+
 			}	
 				
 			return cell;
@@ -250,6 +257,22 @@ namespace BlahguaMobile.IOS
 				}
 				
 		}
+
+
+		void OnButtonPressed (object sender, CellUtilityButtonClickedEventArgs e)
+		{
+			if (e.UtilityButtonIndex ==  1) {
+
+				new UIAlertView("Pressed", "You pressed the edit button!", null, null, new[] {"OK"}).Show();
+			}
+			else if(e.UtilityButtonIndex == 0) {
+
+				Console.WriteLine (e.IndexPath);
+				var blah = vc.ParentViewController.UserBlahs[e.IndexPath.Row];
+				vc.ParentViewController.UserBlahs.Remove (blah);
+				this.vc.TableView.ReloadData ();
+			}
+		}
 			
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -283,7 +306,7 @@ namespace BlahguaMobile.IOS
 		}*/
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-
+			//cell.Scrolling += OnScrolling;
 		}
 
 		public override float GetHeightForHeader (UITableView tableView, int section)
