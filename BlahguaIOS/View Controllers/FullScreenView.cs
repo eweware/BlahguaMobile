@@ -28,12 +28,13 @@ namespace BlahguaMobile.IOS
 
 			scrollView.MaximumZoomScale = 2.0f;
 
-			//float newHeight = m_image.Size.Height / m_image.Size.Width * View.Bounds.Width;
+			float newHeight = m_image.Size.Height / m_image.Size.Width * View.Bounds.Width;
 
-			//RectangleF rect= new RectangleF(0, 0, View.Bounds.Width, newHeight);
-			RectangleF rect= new RectangleF(0, 44, m_image.Size.Width, m_image.Size.Height );
+			RectangleF rect= new RectangleF(0, 0, View.Bounds.Width, newHeight);
+			//RectangleF rect= new RectangleF(0, 44, m_image.Size.Width, m_image.Size.Height );
 
 			imageView = new UIImageView (rect);
+			imageView.ContentMode = UIViewContentMode.ScaleAspectFit; //UIViewContentModeScaleAspectFit;
 
 			imageView.Image = m_image;
 			scrollView.ContentSize = imageView.Frame.Size;

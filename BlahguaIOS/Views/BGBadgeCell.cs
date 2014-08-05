@@ -16,7 +16,7 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(string imageUrl, string text)
 		{
-			name.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.Black);
+			name.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 15), UIColor.Black);
 			badgeImage.Image = ImageLoader.DefaultRequestImage (new Uri (imageUrl), new ImageUpdateDelegate (badgeImage));
 		}
 	}

@@ -28,6 +28,8 @@ namespace BlahguaMobile.IOS
 		UIImage profile_image;
 		private bool keyboardHidden;
 
+		private UIActivityIndicatorView progressIndicator;
+
 		#endregion
 
 		#region Properties
@@ -211,9 +213,25 @@ namespace BlahguaMobile.IOS
 			profile_image = image;
 			DateTime now = DateTime.Now;
 			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
+
 			BlahguaAPIObject.Current.UploadUserImage (image.AsPNG ().AsStream (), 
 													  imageName,
 													  ProfileImageUploadCallback);
+				
+			progressIndicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
+			progressIndicator.TranslatesAutoresizingMaskIntoConstraints = false;
+			var constraintWidth = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
+			var constraintHeight = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
+			progressIndicator.AddConstraints (new NSLayoutConstraint[] { constraintHeight, constraintWidth });
+			progressIndicator.HidesWhenStopped = true;
+			profileImageView.Hidden = true;
+			View.AddSubview (progressIndicator);
+			View.BringSubviewToFront (progressIndicator);
+			var constraintX = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, profileImageView, NSLayoutAttribute.CenterX, 1, 0);
+			var constraintY = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, profileImageView, NSLayoutAttribute.CenterY, 1, 0);
+			View.AddConstraints (new NSLayoutConstraint[] { constraintX, constraintY });
+			progressIndicator.StartAnimating ();
+
 			((BGImagePickerController) sender).DismissViewController(true, 
 				() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
 
@@ -222,6 +240,8 @@ namespace BlahguaMobile.IOS
 		private void ProfileImageUploadCallback(string result)
 		{
 			InvokeOnMainThread (() => {
+				progressIndicator.StopAnimating ();
+				profileImageView.Hidden = false;
 				profileImageView.Image = profile_image;
 			});
 			Console.WriteLine (result);
