@@ -398,8 +398,8 @@ namespace BlahguaMobile.IOS
 		{
 			if(!String.IsNullOrEmpty(titleInput.Text))
             {
-				NewPost.F = titleInput.Text;
-				NewPost.T = bodyInput.Text;
+				NewPost.T = titleInput.Text;
+				NewPost.F = bodyInput.Text;
 
                 switch (NewPost.BlahType.N)
                 {
@@ -570,6 +570,11 @@ namespace BlahguaMobile.IOS
 		private void PostCreated(Blah NewPost)
 		{
 			Console.WriteLine ("Post pushed");
+			InvokeOnMainThread (() => {
+				ParentViewController.HideNewBlahDialog ();
+				ParentViewController.AddNewBlahToView(NewPost);
+			});
+
 		}
 
 		private void ImageUploaded(string s)

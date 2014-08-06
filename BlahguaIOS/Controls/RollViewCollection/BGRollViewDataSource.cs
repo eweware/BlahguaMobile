@@ -37,6 +37,19 @@ namespace BlahguaMobile.IOS
 			this.viewController = viewController;
 		}
 
+		public int IndexOf(InboxBlah blahToFind)
+		{
+			return dataSource.IndexOf (blahToFind);
+		}
+
+		public void ReplaceItem(Blah newItem, int oldIndex)
+		{
+			InboxBlah newBlah = new InboxBlah (newItem);
+			int oldSize = dataSource [oldIndex].displaySize;
+			newBlah.displaySize = oldSize;
+			dataSource [oldIndex] = newBlah;
+		}
+
 		#region Collection View Data Source overriden methods
 
 		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath)
