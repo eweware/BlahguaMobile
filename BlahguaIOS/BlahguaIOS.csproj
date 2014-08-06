@@ -359,6 +359,8 @@
     <BundleResource Include="Resources\BackgroundImage_4inch.png" />
     <BundleResource Include="Resources\BackgroundImage_4inch%402x.png" />
     <BundleResource Include="Resources\hamburger_teal%402x.png" />
+    <BundleResource Include="Resources\short_button_normal%402x.png" />
+    <BundleResource Include="Resources\short_button_pressed%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

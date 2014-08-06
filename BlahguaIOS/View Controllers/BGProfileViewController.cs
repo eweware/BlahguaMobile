@@ -128,6 +128,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
+			UIApplication.SharedApplication.SetStatusBarHidden (true, false);
 		}
 		public override void ViewWillDisappear(bool animated)
 		{

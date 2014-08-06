@@ -27,7 +27,7 @@ namespace BlahguaMobile.IOS
 			ContentView.BackgroundColor = UIColor.FromRGB (248, 248, 248);
 
 			ddButton.SetAttributedTitle (new NSAttributedString ("Select", UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.White), UIControlState.Normal);
-            ddButton.SetBackgroundImage (UIImage.FromBundle ("short_button"), UIControlState.Normal);
+            //ddButton.SetBackgroundImage (UIImage.FromBundle ("short_button_normal"), UIControlState.Normal);
 			publicLabel.AttributedText = new NSAttributedString ("", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
             isPublicButton.SetBackgroundImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);

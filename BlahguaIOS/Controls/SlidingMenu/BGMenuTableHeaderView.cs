@@ -30,7 +30,7 @@ namespace BlahguaMobile.IOS
 
 		public BGMenuTableHeaderView (IntPtr handle) : base (handle)
 		{
-			ContentView.BackgroundColor = BGAppearanceConstants.DarkBrown;
+			ContentView.BackgroundColor = BGAppearanceConstants.HeaderBlue;
 		}
 	}
 }

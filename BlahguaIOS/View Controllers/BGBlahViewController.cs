@@ -183,8 +183,8 @@ namespace BlahguaMobile.IOS
             contentView.ContentOffset = new PointF(0, 0);
             contentView.BackgroundColor = UIColor.White;
 
-            bottomToolbar.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
-            bottomToolbar.BarTintColor = UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+			bottomToolbar.BackgroundColor =  BGAppearanceConstants.TealGreen; //UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
+			bottomToolbar.BarTintColor = BGAppearanceConstants.TealGreen; //UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
 
             View.AddSubviews(new UIView[] { contentView, bottomToolbar });
         }
@@ -199,7 +199,7 @@ namespace BlahguaMobile.IOS
 
             //badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
-            badgeImage.SetImage(UIImage.FromBundle("badges"), UIControlState.Normal);
+            badgeImage.SetImage(UIImage.FromBundle("badge_icon"), UIControlState.Normal);
             badgeImage.TouchUpInside += (sender, e) =>
             {
                 AdjustBadgesTableView();

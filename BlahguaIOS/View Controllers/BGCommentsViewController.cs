@@ -79,8 +79,6 @@ namespace BlahguaMobile.IOS
 
 			SetUpBaseLayout ();
 
-			SetUpNavigationBar ();
-
 			SetUpHeaderView ();
 
 			SetUpContentView ();
@@ -137,29 +135,6 @@ namespace BlahguaMobile.IOS
 
 		#region Methods
 
-		private void SetUpNavigationBar()
-		{
-			//if(BlahguaAPIObject.Current.CurrentUser != null)
-				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
-            //Synsoft on 9 July 2014 to add back button
-            //NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
-          
-            //Commented by Synsoft 9 July 2014
-            //NavigationItem.BackBarButtonItem = new UIBarButtonItem("Blah", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
-            //    //Synsoft on 9 July 2014 for active color  #1FBBD1
-            //    NavigationItem.BackBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-            //    if(CurrentComment != null)
-            //    {
-            //        CurrentComment = null;
-            //        contentView.ReloadData();
-            //    }
-            //    else
-            //    {
-            //        NavigationController.PopToViewController(parentViewController, true);
-            //    }
-            //});
-		}
-
         //Synsoft on 9 July 2014 for back handler
         private void BackHandler(object sender, EventArgs args)
         {
@@ -188,8 +163,8 @@ namespace BlahguaMobile.IOS
 			contentView.ContentOffset = new PointF(0,0);
 			contentView.BackgroundColor = UIColor.White;
 
-            bottomToolbar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
-            bottomToolbar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+			bottomToolbar.BackgroundColor = BGAppearanceConstants.TealGreen;  //UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+			bottomToolbar.BarTintColor =  BGAppearanceConstants.TealGreen;  //UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
 
 		}
 
@@ -438,37 +413,18 @@ namespace BlahguaMobile.IOS
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			float newYCoordDiff = 0f;
-			/*
-			if(isWriteMode)
-			{
-				if(newCommentViewController != null)
-				{
-					newCommentViewController.View.RemoveFromSuperview ();
-					newYCoordDiff = -246f;
-					isWriteMode = false;
-				}
-				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, WriteCommentAction);
-                //NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
 
-			}
-			else
+			if(newCommentViewController == null)
 			{
-			*/
-				if(newCommentViewController == null)
-				{
-					newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
+				newCommentViewController = (BGNewCommentViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard
 						.InstantiateViewController ("BGNewCommentViewController");
-					newCommentViewController.ParentViewController = this;
-					AddChildViewController (newCommentViewController);
-				}
-				newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
-				//NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Plain, WriteCommentAction);
-                //Synsoft on 9 July 2014 for active color  #1FBBD1
-                //NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-				View.AddSubview (newCommentViewController.View);
-				newYCoordDiff += 246f;
-				isWriteMode = true;
-			//}
+				newCommentViewController.ParentViewController = this;
+				AddChildViewController (newCommentViewController);
+			}
+			newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
+			View.AddSubview (newCommentViewController.View);
+			newYCoordDiff += 246f;
+			isWriteMode = true;
 			foreach(var subView in View.Subviews)
 			{
 				if(subView != newCommentViewController.View)
