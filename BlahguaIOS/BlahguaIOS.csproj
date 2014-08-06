@@ -90,7 +90,10 @@
     <IpaPackageName>
     </IpaPackageName>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>5ACB1700-F6F2-4DBF-81B2-65659EBABB8B</CodesignProvision>
+    <CodesignProvision>8564DEA2-36FB-4FED-BA00-BCBB97AC4C25</CodesignProvision>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
