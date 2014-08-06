@@ -305,6 +305,8 @@
     </Compile>
     <None Include="RELEASE-NOTES.txt" />
     <Compile Include="View Controllers\FullScreenView.cs" />
+    <Compile Include="Controls\SlidingMenu\TutorialSwipeViewController.cs" />
+    <Compile Include="View Controllers\BGTutorialViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -361,6 +363,12 @@
     <BundleResource Include="Resources\hamburger_teal%402x.png" />
     <BundleResource Include="Resources\short_button_normal%402x.png" />
     <BundleResource Include="Resources\short_button_pressed%402x.png" />
+    <BundleResource Include="Resources\tutorial_screen_1.jpg" />
+    <BundleResource Include="Resources\tutorial_screen_2.jpg" />
+    <BundleResource Include="Resources\tutorial_screen_3.jpg" />
+    <BundleResource Include="Resources\tutorial_screen_4.jpg" />
+    <BundleResource Include="Resources\tutorial_screen_5.jpg" />
+    <BundleResource Include="Resources\tutorial_close.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
