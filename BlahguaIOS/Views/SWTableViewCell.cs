@@ -28,67 +28,68 @@ namespace BlahguaMobile.IOS
 
 	public partial class SWTableViewCell : UITableViewCell
 	{
-		//public const float UtilityButtonsWidthMax = 260;
+		public const float UtilityButtonsWidthMax = 260;
 		public const float UtilityButtonWidthDefault = 90;
 		public const float SectionIndexWidth = 15;
 
 
 		UITableView containingTableView;
 
-		//UIButton[] rightUtilityButtons;
+		UIButton[] rightUtilityButtons;
 
 		UIView scrollViewLeft;
 
 
 		SWCellState cellState; // The state of the cell within the scroll view, can be left, right or middle
-		//float additionalRightPadding;
-	
+		float additionalRightPadding;
+
 
 		// Scroll view to be added to UITableViewCell
-		 UIScrollView cellScrollView;
+		UIScrollView cellScrollView;
 
 		// The cell's height
 		float height;
 
 		// Views that live in the scroll view
 		UIView scrollViewContentView;
-		//SWUtilityButtonView scrollViewButtonViewRight;
+		SWUtilityButtonView scrollViewButtonViewRight;
 		UIScrollViewDelegate scrollViewDelegate;
 
 		float ScrollLeftViewWidth {
 			get{return this.scrollViewLeft.Frame.Width;}
 		}
 
-		//float RightUtilityButtonsWidth {
-			//get{return this.scrollViewButtonViewRight.UtilityButtonsWidth + additionalRightPadding;}
-		//}
+		float RightUtilityButtonsWidth {
+			get{return this.scrollViewButtonViewRight.UtilityButtonsWidth + additionalRightPadding;}
+		}
 
 		float UtilityButtonsPadding {
-			get{return ScrollLeftViewWidth + 10;}
+			get{return ScrollLeftViewWidth + RightUtilityButtonsWidth;}
 		}
 
 		PointF ScrollViewContentOffset {
 			get{return new PointF(ScrollLeftViewWidth, 0);}
 		}
-	
+
 
 		public SWTableViewCell (UITableViewCellStyle style, string reuseIdentifier, 
-		                        UITableView containingTable,UIView leftView):base(style, reuseIdentifier)
+			UITableView containingTable, IEnumerable<UIButton> rightUtilityButtons, 
+			UIView leftView):base(style, reuseIdentifier)
 		{
 			this.scrollViewLeft = leftView;
-			//this.rightUtilityButtons = rightUtilityButtons.ToArray();
-			//this.scrollViewButtonViewRight = new SWUtilityButtonView (this.rightUtilityButtons, this);
+			this.rightUtilityButtons = rightUtilityButtons.ToArray();
+			this.scrollViewButtonViewRight = new SWUtilityButtonView (this.rightUtilityButtons, this);
 
 			this.containingTableView = containingTable;
 			this.height = containingTableView.RowHeight;
 			this.scrollViewDelegate = new SWScrollViewDelegate (this);
-	
+
 
 			// Check if the UITableView will display Indices on the right. If that's the case, add a padding
 			if(containingTableView.RespondsToSelector(new MonoTouch.ObjCRuntime.Selector("sectionIndexTitlesForTableView:")))
 			{
 				var indices = containingTableView.Source.SectionIndexTitles (containingTableView);
-				//additionalRightPadding = indices == null || indices.Length == 0 ? 0 : SectionIndexWidth;
+				additionalRightPadding = indices == null || indices.Length == 0 ? 0 : SectionIndexWidth;
 			}
 
 			// Set up scroll view that will host our cell content
@@ -100,31 +101,31 @@ namespace BlahguaMobile.IOS
 			this.cellScrollView.ScrollsToTop = false;
 			UITapGestureRecognizer tapGestureRecognizer = new UITapGestureRecognizer(OnScrollViewPressed);
 			this.cellScrollView.AddGestureRecognizer (tapGestureRecognizer);
-		
+
 			// Set up the views that will hold the utility buttons
 			this.scrollViewLeft.Frame = new RectangleF (ScrollLeftViewWidth, 0, ScrollLeftViewWidth, height);//TODO:frame
 			this.cellScrollView.AddSubview (scrollViewLeft);
 
-			//this.scrollViewButtonViewRight.Frame = new RectangleF (Bounds.Width, 0, RightUtilityButtonsWidth, height); //TODO:frame
-			//this.cellScrollView.AddSubview (scrollViewButtonViewRight);
+			this.scrollViewButtonViewRight.Frame = new RectangleF (Bounds.Width, 0, RightUtilityButtonsWidth, height); //TODO:frame
+			this.cellScrollView.AddSubview (scrollViewButtonViewRight);
 
 
 
 			// Populate the button views with utility buttons
-			//this.scrollViewButtonViewRight.PopulateUtilityButtons ();
+			this.scrollViewButtonViewRight.PopulateUtilityButtons ();
 			// Create the content view that will live in our scroll view
 			this.scrollViewContentView = new UIView(new RectangleF(ScrollLeftViewWidth, 0, Bounds.Width, height));
 			this.scrollViewContentView.BackgroundColor = UIColor.White;
 			this.cellScrollView.AddSubview (this.scrollViewContentView);
 
-			
+
 			// Add the cell scroll view to the cell 
 			var contentViewParent = Subviews[0];
 			foreach (var subView in contentViewParent.Subviews) {
 				this.scrollViewContentView.AddSubview (subView);
 			}
 			AddSubview (this.cellScrollView);
-		
+
 			HideSwipedContent (false);
 		}
 
@@ -191,7 +192,7 @@ namespace BlahguaMobile.IOS
 			this.cellScrollView.ContentSize = new SizeF (Bounds.Width + UtilityButtonsPadding, height);
 			this.cellScrollView.ContentOffset = new PointF (ScrollLeftViewWidth, 0);
 			this.scrollViewLeft.Frame = new RectangleF (ScrollLeftViewWidth , 0, ScrollLeftViewWidth , height);
-			//this.scrollViewButtonViewRight.Frame = new RectangleF (Bounds.Width, 0, RightUtilityButtonsWidth , height);
+			this.scrollViewButtonViewRight.Frame = new RectangleF (Bounds.Width, 0, RightUtilityButtonsWidth , height);
 			this.scrollViewContentView.Frame = new RectangleF (ScrollLeftViewWidth , 0, Bounds.Width, height);
 
 		}
@@ -203,7 +204,7 @@ namespace BlahguaMobile.IOS
 			public SWScrollViewDelegate (SWTableViewCell cell)
 			{
 				this.cell = cell;
-				
+
 			}
 
 			public override void WillEndDragging (UIScrollView scrollView, PointF velocity, ref PointF targetContentOffset)
@@ -211,18 +212,16 @@ namespace BlahguaMobile.IOS
 				switch (cell.cellState) {
 				case SWCellState.Center:
 
-					//if (velocity.X >= 0.5f) {
-						//this.ScrollToRight(ref targetContentOffset);
-					//}
-					if (velocity.X <= -0.5f) {
+					if (velocity.X >= 0.5f) {
+						this.ScrollToRight(ref targetContentOffset);
+					} else if (velocity.X <= -0.5f) {
 						this.ScrollToLeft(ref targetContentOffset);
 					} else {
-						//float rightThreshold = cell.UtilityButtonsPadding - (cell.UtilityButtonsPadding / 2);
+						float rightThreshold = cell.UtilityButtonsPadding - (cell.UtilityButtonsPadding / 2);
 						float leftThreshold = cell.ScrollLeftViewWidth / 2;
-						//if (targetContentOffset.X > rightThreshold)
-						//	this.ScrollToRight(ref targetContentOffset);
-						//else 
-						if (targetContentOffset.X < leftThreshold)
+						if (targetContentOffset.X > rightThreshold)
+							this.ScrollToRight(ref targetContentOffset);
+						else if (targetContentOffset.X < leftThreshold)
 							this.ScrollToLeft(ref targetContentOffset);
 						else
 							this.ScrollToCenter(ref targetContentOffset);
@@ -235,15 +234,15 @@ namespace BlahguaMobile.IOS
 					} else if (velocity.X <= -0.5f) {
 						// No-op
 					} else {
-						//if (targetContentOffset.X >= (cell.UtilityButtonsPadding -  cell.RightUtilityButtonsWidth / 2))
-							//this.ScrollToRight(ref targetContentOffset);
-						//if (targetContentOffset.X > cell.ScrollLeftViewWidth / 2)
-							//this.ScrollToCenter(ref targetContentOffset);
-						//else
+						if (targetContentOffset.X >= (cell.UtilityButtonsPadding -  cell.RightUtilityButtonsWidth / 2))
+							this.ScrollToRight(ref targetContentOffset);
+						else if (targetContentOffset.X > cell.ScrollLeftViewWidth / 2)
+							this.ScrollToCenter(ref targetContentOffset);
+						else
 							this.ScrollToLeft(ref targetContentOffset);
 					}
 					break;
-				/*case SWCellState.Right:
+				case SWCellState.Right:
 					if (velocity.X >= 0.5f) {
 						// No-op
 					} else if (velocity.X <= -0.5f) {
@@ -256,7 +255,7 @@ namespace BlahguaMobile.IOS
 						else
 							this.ScrollToRight(ref targetContentOffset);
 					}
-					break;*/
+					break;
 				default:
 					break;
 				}
@@ -276,22 +275,22 @@ namespace BlahguaMobile.IOS
 				cell.OnScrolling ();
 			}
 
-			/*void ScrollToRight (ref PointF targetContentOffset)
+			void ScrollToRight (ref PointF targetContentOffset)
 			{
 				targetContentOffset.X = cell.UtilityButtonsPadding;
 				cell.cellState = SWCellState.Right;
 				cell.OnScrolling ();
-			}*/
+			}
 
 			public override void Scrolled (UIScrollView scrollView)
 			{
-				/*if (scrollView.ContentOffset.X > this.cell.ScrollLeftViewWidth) {
+				if (scrollView.ContentOffset.X > this.cell.ScrollLeftViewWidth) {
 					//expose the right view
 					this.cell.scrollViewButtonViewRight.Frame = new RectangleF (scrollView.ContentOffset.X + cell.Bounds.Width - cell.RightUtilityButtonsWidth, 
-					                                                            0, cell.RightUtilityButtonsWidth, cell.height);
-				} else {*/
+						0, cell.RightUtilityButtonsWidth, cell.height);
+				} else {
 					this.cell.scrollViewLeft.Frame = new RectangleF (scrollView.ContentOffset.X, 0, cell.ScrollLeftViewWidth, cell.height);
-				//}
+				}
 			}
 		}
 	}
@@ -304,20 +303,20 @@ namespace BlahguaMobile.IOS
 		UIButton[] utilityButtons;
 		float utilityButtonWidth;
 
-		/*public SWUtilityButtonView (UIButton[] buttons, SWTableViewCell parentCell)
+		public SWUtilityButtonView (UIButton[] buttons, SWTableViewCell parentCell)
 		{
 			this.utilityButtons = buttons;
 			this.parentCell = parentCell;
 			this.utilityButtonWidth = this.CalculateUtilityButtonWidth ();
 			this.AddSubviews (buttons);
-		}*/
+		}
 
-		/*public float UtilityButtonsWidth 
+		public float UtilityButtonsWidth 
 		{
 			get { return utilityButtonWidth * utilityButtons.Length; }
-		}*/
-	
-		/*float CalculateUtilityButtonWidth ()
+		}
+
+		float CalculateUtilityButtonWidth ()
 		{
 			float buttonWidth = SWTableViewCell.UtilityButtonWidthDefault;
 			if (buttonWidth * utilityButtons.Length > SWTableViewCell.UtilityButtonsWidthMax) {
@@ -325,7 +324,7 @@ namespace BlahguaMobile.IOS
 				buttonWidth -= buffer / utilityButtons.Length;
 			}
 			return buttonWidth;
-		}*/
+		}
 
 		public void PopulateUtilityButtons ()
 		{
@@ -339,14 +338,14 @@ namespace BlahguaMobile.IOS
 				button.TouchDown += (object sender, EventArgs e) => this.parentCell.OnLeftUtilityButtonPressed((UIButton)sender);
 
 
-		    }
-	
+			}
+
 		}
 
 
 	}
 
-	/*public static class SWButtonCellExtensions
+	public static class SWButtonCellExtensions
 	{
 		public static void AddUtilityButton(this List<UIButton> list,  string title, UIColor color)
 		{
@@ -355,7 +354,7 @@ namespace BlahguaMobile.IOS
 			button.SetTitle (title, UIControlState.Normal);
 			button.SetTitleColor (UIColor.White, UIControlState.Normal);
 			list.Add (button);
-		
+
 		}
-	}*/
+	}
 }

@@ -16,6 +16,9 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIButton aboutButton { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIButton btnCreateAccount { get; set; }
+
+		[Outlet]
 		BlahguaMobile.IOS.BGTextField confirmPassword { get; set; }
 
 		[Outlet]
@@ -29,6 +32,9 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		BlahguaMobile.IOS.BGTextField password { get; set; }
+
+		[Outlet]
+		BlahguaMobile.IOS.BGTextField recoveryEmail { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel rememberMeLabel { get; set; }
@@ -53,6 +59,11 @@ namespace BlahguaMobile.IOS
 			if (aboutButton != null) {
 				aboutButton.Dispose ();
 				aboutButton = null;
+			}
+
+			if (btnCreateAccount != null) {
+				btnCreateAccount.Dispose ();
+				btnCreateAccount = null;
 			}
 
 			if (confirmPassword != null) {
@@ -95,19 +106,24 @@ namespace BlahguaMobile.IOS
 				rememberMeYesButton = null;
 			}
 
+			if (reportBugButton != null) {
+				reportBugButton.Dispose ();
+				reportBugButton = null;
+			}
+
 			if (usernameOrEmail != null) {
 				usernameOrEmail.Dispose ();
 				usernameOrEmail = null;
 			}
 
+			if (recoveryEmail != null) {
+				recoveryEmail.Dispose ();
+				recoveryEmail = null;
+			}
+
 			if (yesLabel != null) {
 				yesLabel.Dispose ();
 				yesLabel = null;
-			}
-
-			if (reportBugButton != null) {
-				reportBugButton.Dispose ();
-				reportBugButton = null;
 			}
 		}
 	}

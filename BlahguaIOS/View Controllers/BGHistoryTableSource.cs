@@ -28,7 +28,7 @@ namespace BlahguaMobile.IOS
 			if(indexPath.Row == 0)
 			{
 				int count = vc.UserBlahs == null ? 0 : vc.UserBlahs.Count;
-				cell.SetUp ("Blahs", count.ToString());
+				cell.SetUp ("Posts", count.ToString());
 			}
 			else
 			{
@@ -55,15 +55,27 @@ namespace BlahguaMobile.IOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			if(indexPath.Row == 0)
-			{
-				vc.SetMode (false, true); 
+			if(indexPath.Row == 0) {
+				int count = vc.UserBlahs == null ? 0 : vc.UserBlahs.Count;
+				if (count > 0) {
+
+					vc.SetMode (false, true); 
+					vc.PerformSegue ("fromHistoryToDetail",vc);
+				}
+
 			}
 			else
 			{
-				vc.SetMode (true, false);
+				int count = vc.UserComments == null ? 0 : vc.UserComments.Count;
+				if (count > 0) {
+
+					vc.SetMode (true, false);
+					vc.PerformSegue ("fromHistoryToDetail",vc);
+
+				}
+
 			}
-			vc.PerformSegue ("fromHistoryToDetail",vc);
+
 	   }
 	}
 

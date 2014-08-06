@@ -81,12 +81,13 @@ namespace BlahguaMobile.IOS
 			};
 
 			m_btnLogout.TouchUpInside += (sender, e) => {
-				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.ToggleRightMenuAnimated();
 				BlahguaAPIObject.Current.SignOut (null, (theStr) =>
 					{
 						if (theStr)
 						{
 							InvokeOnMainThread(()=>{
+								((BGRollViewController)	((BGMainNavigationController)((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.ContentViewController).ViewControllers[0]).NaturalScrollInProgress = true;
 								((BGRollViewController)	((BGMainNavigationController)((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.ContentViewController).ViewControllers[0]).ClearRightBarButton();
 							});
 						}
@@ -104,6 +105,7 @@ namespace BlahguaMobile.IOS
 		public void UpdateProfileImage()
 		{
 			m_imgAvatar.Image = GetProfileImage ();
+			m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 		}
 
 		private UIImage GetProfileImage ()

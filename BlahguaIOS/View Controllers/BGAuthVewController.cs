@@ -75,7 +75,7 @@ namespace BlahguaMobile.IOS
             NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
             //Synsoft on 9 July 2014 for active color  #1FBBD1
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+			NavigationItem.LeftBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
 
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
@@ -124,36 +124,11 @@ namespace BlahguaMobile.IOS
 
 			SetMode (signUp);
 
-			Mode.TouchUpInside += (sender, e) => {
-				signUp = !signUp;
-				Mode.SetImage(GetModeBackgroundImage(), UIControlState.Normal);
-				if(signUp)
-				{
+			Mode.TouchUpInside += (sender, e) => SetModeAction (sender,e);
 
-					password.ReturnKeyType = UIReturnKeyType.Next;
-					password.ShouldReturn = delegate {
-						confirmPassword.BecomeFirstResponder();
-						return false;
-					};
+			btnCreateAccount.TouchUpInside += (sender, e) => SetModeAction (sender,e);
 
-					confirmPassword.AllEditingEvents += InputsEditingHandler;
 
-					confirmPassword.ShouldReturn = delegate {
-						return true;
-					};
-					confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
-				}
-				else
-				{
-
-					password.ReturnKeyType = UIReturnKeyType.Default;
-
-					password.ShouldReturn = delegate {
-						return true;
-					};
-				}
-				SetMode(signUp);
-			};
 
 			usernameOrEmail.ReturnKeyType = UIReturnKeyType.Next;
 			password.ReturnKeyType = UIReturnKeyType.Default;
@@ -179,7 +154,7 @@ namespace BlahguaMobile.IOS
 				}
 			};
 
-			reportBugButton.TouchUpInside += (object sender, EventArgs e) => {
+			reportBugButton.TouchUpInside +=(object sender, EventArgs e) => {
 				if(MFMailComposeViewController.CanSendMail)
 				{
 					mailComposer = new MFMailComposeViewController();
@@ -204,6 +179,38 @@ namespace BlahguaMobile.IOS
 					UIApplication.SharedApplication.OpenUrl(url);
 				}
 			};
+		}
+
+		public void SetModeAction(object sender, EventArgs e)
+		{
+			signUp = !signUp;
+			Mode.SetImage(GetModeBackgroundImage(), UIControlState.Normal);
+			if(signUp)
+			{
+
+				password.ReturnKeyType = UIReturnKeyType.Next;
+				password.ShouldReturn = delegate {
+					confirmPassword.BecomeFirstResponder();
+					return false;
+				};
+
+				confirmPassword.AllEditingEvents += InputsEditingHandler;
+
+				confirmPassword.ShouldReturn = delegate {
+					return true;
+				};
+				confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
+			}
+			else
+			{
+
+				password.ReturnKeyType = UIReturnKeyType.Default;
+
+				password.ShouldReturn = delegate {
+					return true;
+				};
+			}
+			SetMode(signUp);
 		}
 
 		public override bool PrefersStatusBarHidden()
@@ -269,7 +276,7 @@ namespace BlahguaMobile.IOS
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
                     //Synsoft on 9 July 2014
-                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(96, 191, 164);
 				}
 			}
 			else
@@ -285,7 +292,7 @@ namespace BlahguaMobile.IOS
 				{
 					NavigationItem.RightBarButtonItem.Enabled = true;
                     //Synsoft on 9 July 2014
-                    NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+					NavigationItem.RightBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
 				}
 			}
 		}
@@ -298,6 +305,7 @@ namespace BlahguaMobile.IOS
 			rememberMeYesButton.Hidden = !isSignUpMode;
 			yesLabel.Hidden = !isSignUpMode;
 			noLabel.Hidden = !isSignUpMode;
+			recoveryEmail.Hidden = !isSignUpMode;
 		}
 
 		private void AuthenticationResultCallback(string result)

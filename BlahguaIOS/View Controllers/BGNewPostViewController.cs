@@ -398,8 +398,8 @@ namespace BlahguaMobile.IOS
 		{
 			if(!String.IsNullOrEmpty(titleInput.Text))
             {
-				NewPost.F = titleInput.Text;
-				NewPost.T = bodyInput.Text;
+				NewPost.T = titleInput.Text;
+				NewPost.F = bodyInput.Text;
 
                 switch (NewPost.BlahType.N)
                 {
@@ -440,7 +440,7 @@ namespace BlahguaMobile.IOS
 			NewPost.M = null;
 			NewPost.B = null;
 			NewPost.UseProfile = false;
-
+			done.Enabled = false;
 		}
 
 		private void ActionForImage(object sender, EventArgs e)
@@ -550,8 +550,10 @@ namespace BlahguaMobile.IOS
 		public void AdjustTableViewSize ()
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
-			pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
-
+			if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
+				pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
+			else
+				return;
 			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60);
 			if (pollItemsTableView.Hidden == false) {
 				done.RemoveFromSuperview ();
@@ -568,6 +570,11 @@ namespace BlahguaMobile.IOS
 		private void PostCreated(Blah NewPost)
 		{
 			Console.WriteLine ("Post pushed");
+			InvokeOnMainThread (() => {
+				ParentViewController.HideNewBlahDialog ();
+				ParentViewController.AddNewBlahToView(NewPost);
+			});
+
 		}
 
 		private void ImageUploaded(string s)

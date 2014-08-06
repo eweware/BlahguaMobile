@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 
 			View.BackgroundColor = UIColor.White;
 
-			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Write", UIBarButtonItemStyle.Plain, NewBadge);
+			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Add", UIBarButtonItemStyle.Plain, NewBadge);
 			CollectionView.BackgroundColor = UIColor.White;
 
 			CollectionView.DataSource = new BGBadgeCollectionSource ();

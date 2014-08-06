@@ -47,8 +47,12 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-            if (otherBlah.cdate != null)
-			    c = long.Parse(otherBlah.cdate);
+			if (otherBlah.cdate != null) {
+				double otherDate = otherBlah.CreationDate
+					.Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Local))
+					.TotalMilliseconds;
+				c = (long)otherDate;
+			}
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
@@ -1086,7 +1090,7 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
-		public DateTime CreationDate {
+			public DateTime CreationDate {
 			get {
 				if (_createDate == DateTime.MinValue)
                 {

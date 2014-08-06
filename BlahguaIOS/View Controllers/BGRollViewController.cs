@@ -10,6 +10,7 @@ using MonoTouch.SlideMenu;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
+using System.Threading;
 
 namespace BlahguaMobile.IOS
 {
@@ -38,6 +39,9 @@ namespace BlahguaMobile.IOS
 		private bool isOpened = false;
 
 		private bool isNewPostMode;
+		private Timer toastTimer;
+		private UIAlertView toast;
+
 
 		#endregion
 
@@ -49,6 +53,22 @@ namespace BlahguaMobile.IOS
 
 		public BGRollViewController (IntPtr handle) : base (handle)
 		{
+			TimerCallback tcb = HideToastDialog;
+			toastTimer = new Timer (tcb);
+			toast = new UIAlertView ("Heard", "test", null, null, null);
+		}
+
+		private void StartToastTimer()
+		{
+			toastTimer.Change (5000, -1);
+		}
+
+
+		private void HideToastDialog(object stateObj)
+		{
+			InvokeOnMainThread(() => {
+					toast.DismissWithClickedButtonIndex(0, true);
+				});
 		}
 
 		#region View Controller Overriden Methods
@@ -179,8 +199,6 @@ namespace BlahguaMobile.IOS
 		private void LoginButtonClicked (object sender, EventArgs args)
 		{
 			PerformSegue ("fromRollToLogin", this);
-            
-         
 		}
 
 		private void InitialInboxLoadingCompleted (Inbox theList)
@@ -210,13 +228,12 @@ namespace BlahguaMobile.IOS
 		{
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 
-				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, false);
+				NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[]{ new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked) }, true);
 
 				NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
 					Font = UIFont.FromName ("Merriweather", 20),
 					TextColor = UIColor.FromRGB (96, 191, 164)
 				}, UIControlState.Normal);
-
 			}
 		}
 		private void PrepareRightBarButton ()
@@ -224,7 +241,6 @@ namespace BlahguaMobile.IOS
 			if (BlahguaCore.BlahguaAPIObject.Current.CurrentUser == null) {
 				if (NavigationItem.RightBarButtonItems == null) {
 					NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
-
 					NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
 						Font = UIFont.FromName ("Merriweather", 20),
 						TextColor = UIColor.FromRGB (96, 191, 164)
@@ -260,6 +276,53 @@ namespace BlahguaMobile.IOS
 				return isNewPostMode;
 			}
 		}
+
+		public void HideNewBlahDialog()
+		{
+			UIView.BeginAnimations (null);
+			UIView.SetAnimationDuration (0.5f);
+			isNewPostMode = false;
+			newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+			UIView.CommitAnimations ();
+			//newPostViewController.View.RemoveFromSuperview ();
+			SetSrollingAvailability (true);
+
+			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
+		}
+
+		public void AddNewBlahToView(Blah newBlah)
+		{
+			// determine the last visible item
+			BGRollViewDataSource dataSource = (BGRollViewDataSource)CollectionView.DataSource;
+			UICollectionViewCell[]	theCells = CollectionView.VisibleCells;
+			int lastBlahLoc = -1, curLoc;
+
+			foreach (BGRollViewCell curCell in theCells) {
+				curLoc = dataSource.IndexOf (curCell.Blah);
+				if (curLoc > lastBlahLoc)
+					lastBlahLoc = curLoc;
+			}
+
+			if (lastBlahLoc < dataSource.GetItemsCount (CollectionView, 0) - 1)
+				lastBlahLoc++;
+				
+			// replace the next blah in the roll with the new one
+
+			dataSource.ReplaceItem (newBlah, lastBlahLoc);
+
+			// notify the user
+			ShowToast("New Post created - now look for it in the stream!");
+
+		}
+
+		public void ShowToast(string toastMsg)
+		{
+			toast.Message = toastMsg;
+			
+			toast.Show ();
+			StartToastTimer ();
+		}
+
 		private void NewBlah (object sender, EventArgs e)
 		{
 			this.View.EndEditing (true);
@@ -268,18 +331,12 @@ namespace BlahguaMobile.IOS
 				return;
 			}
 				
-			UIView.BeginAnimations (null);
-			UIView.SetAnimationDuration (0.5f);
-			if (isNewPostMode) {
-				//CollectionView.Hidden = false;
-				isNewPostMode = false;
-				newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
-				UIView.CommitAnimations ();
-				//newPostViewController.View.RemoveFromSuperview ();
-				SetSrollingAvailability (true);
 
-				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
+			if (isNewPostMode) {
+				HideNewBlahDialog ();
 			}  else {
+				UIView.BeginAnimations (null);
+				UIView.SetAnimationDuration (0.5f);
 				SetSrollingAvailability (false);
 				if (newPostViewController == null) {
 					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)

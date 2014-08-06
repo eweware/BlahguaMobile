@@ -45,7 +45,16 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/signup_2">
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp" />
+        <ImageView
+            android:src="@drawable/logo_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView1" />
         <View
             android:layout_width="wrap_content"
             android:layout_height="10dp" />

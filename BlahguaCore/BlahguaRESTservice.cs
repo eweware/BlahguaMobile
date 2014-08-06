@@ -503,6 +503,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (response.StatusCode == HttpStatusCode.Created)
                 {
 						newBlah = response.Content.FromJson<Blah>();
+						newBlah.cdate = DateTime.Now.ToString();
 
                 }
 
