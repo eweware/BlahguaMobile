@@ -327,7 +327,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((XX == false) && (d != null))
                     return d;
                 else
-                    return "An unidentified user";
+                    return "An unidentified person";
             }
         }
 

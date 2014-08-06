@@ -1,2 +1,11 @@
-Tuesday AM build
+Tuesday evening build
 
+Fixes
+====
+1) Title and Body are correctly set
+2) Post Creation logic is correct
+3) Enable creation of posts with no title, just image
+4) inserted new posts into stream
+5) toast message after posts are created OK
+6) toast messages for post format errors
+7) create page is closed after successful create
