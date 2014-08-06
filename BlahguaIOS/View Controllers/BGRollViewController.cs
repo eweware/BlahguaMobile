@@ -60,7 +60,7 @@ namespace BlahguaMobile.IOS
 
 		private void StartToastTimer()
 		{
-			toastTimer.Change (5000, -1);
+			toastTimer.Change (4000, -1);
 		}
 
 

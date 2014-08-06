@@ -48,7 +48,7 @@ namespace BlahguaMobile.IOS
 																			305, 40));
 
 					expirationDateInput.AttributedPlaceholder = new NSAttributedString(
-						"Type prediction expiration date (mm/dd/yyyy)",
+						"will happen by (mm/dd/yyyy)",
 						UIFont.FromName(BGAppearanceConstants.FontName, 12),
 						UIColor.Black
 					);
@@ -218,14 +218,23 @@ namespace BlahguaMobile.IOS
 
         partial void HandleTitleChanged(UITextField sender)
         {
-            if (!string.IsNullOrEmpty(titleInput.Text))
+            UpdatePostBtn();
+        }
+
+        private void UpdatePostBtn()
+        {
+            if ((NewPost.M == null) || (NewPost.M.Count == 0))
             {
-                done.Enabled = true;
+                // no image, require a title
+                if (String.IsNullOrEmpty(titleInput.Text) || (titleInput.Text.Length < 3))
+                {
+                    done.Enabled = false;
+                }
+                else
+                    done.Enabled = true;
             }
             else
-            {
-                done.Enabled = false;
-            }
+                done.Enabled = true;
         }
 
         private void EnableTypeBtn(UIButton theType)
@@ -394,12 +403,61 @@ namespace BlahguaMobile.IOS
 				((BGSignaturesTableViewController)segue.DestinationViewController).ParentViewController = this;
 		}
 
+        private string ValidateCreateRecord()
+        {
+            string resultStr = "";
+
+            // check for title or image
+            if ((NewPost.M == null) || (NewPost.M.Count == 0))
+            {
+                // no image, require a title
+                if (String.IsNullOrEmpty(titleInput.Text) || (titleInput.Text.Length < 3))
+                {
+                    resultStr = "Posts must have a title or an image";
+                }
+            }
+
+            switch (NewPost.BlahType.N)
+            {
+                case "asks":
+                    if (titleInput.Text.IndexOf("?") == -1)
+                        resultStr = "Ask posts must contain a question mark.";
+                    break;
+
+                case "leaks":
+                    if ((NewPost.B == null) || (NewPost.B.Count == 0))
+                        resultStr = "Leaks must be badged";
+                    break;
+
+                case "predicts":
+                    DateTime expDate;
+                    if (DateTime.TryParse(expirationDateInput.Text, out expDate))
+                    {
+                        TimeSpan timeDif = expDate - DateTime.Now;
+                        if (timeDif.TotalDays < 3.0)
+                            resultStr = "Predictions must be at least three days in the future";
+                    }
+                    else
+                        resultStr = "Predictions must have a valid expiration date";
+                    break;
+
+                case "polls":
+                    if ((NewPost.I == null) || (NewPost.I.Count < 2))
+                        resultStr = "Polls must have at least two choices";
+                    break;
+            }
+
+            return resultStr;
+        }
+
 		public void Done()
 		{
-			if(!String.IsNullOrEmpty(titleInput.Text))
+            string errString = ValidateCreateRecord();
+
+            if (String.IsNullOrEmpty(errString))
             {
-				NewPost.T = titleInput.Text;
-				NewPost.F = bodyInput.Text;
+                NewPost.T = titleInput.Text;
+                NewPost.F = bodyInput.Text;
 
                 switch (NewPost.BlahType.N)
                 {
@@ -423,8 +481,14 @@ namespace BlahguaMobile.IOS
                         break;
                 }
                 System.Console.WriteLine("About to Submit!");
-				BlahguaAPIObject.Current.CreateBlah (PostCreated);
-			}
+                BlahguaAPIObject.Current.CreateBlah(PostCreated);
+            }
+            else
+            {
+                // show a message box
+                this.ParentViewController.ShowToast(errString);
+                
+            }
 		}
 
 		public void clearAllFields()
@@ -589,6 +653,7 @@ namespace BlahguaMobile.IOS
 					NewPost.M = new List<string>();
 				}
 				NewPost.M.Add (s);
+                UpdatePostBtn();
 			});
 		}
 	}
