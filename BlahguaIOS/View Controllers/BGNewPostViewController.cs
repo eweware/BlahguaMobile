@@ -673,7 +673,7 @@ namespace BlahguaMobile.IOS
 
 			context.ConcatCTM (transform);
 
-			context.DrawImage (bounds, imgRef);
+            context.DrawImage (new RectangleF(0,0, width, height), imgRef);
 			UIImage imageCopy = UIGraphics.GetImageFromCurrentImageContext ();
 			UIGraphics.EndImageContext ();
 
