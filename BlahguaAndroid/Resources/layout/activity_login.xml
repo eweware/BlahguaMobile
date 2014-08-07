@@ -52,9 +52,13 @@
             android:layout_height="10dp" />
         <ImageView
             android:src="@drawable/logo_white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView1" />
+            android:layout_width="189dp"
+            android:layout_height="99dp"
+            android:id="@+id/imageView1"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
         <View
             android:layout_width="wrap_content"
             android:layout_height="10dp" />
