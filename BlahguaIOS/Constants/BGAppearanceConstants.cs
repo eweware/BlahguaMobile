@@ -25,6 +25,7 @@ namespace BlahguaMobile.IOS
 		public static readonly UIColor buttonBackInactiveColor = UIColor.FromRGB(188, 188, 188);
         public static readonly UIColor DarkBrown = UIColor.FromRGB(63, 43, 47);
         public static readonly UIColor TealGreen = UIColor.FromRGB(96, 191, 164);
+		public static readonly UIColor HeaderBlue = UIColor.FromRGB(31, 187, 209);
 	}
 }
 

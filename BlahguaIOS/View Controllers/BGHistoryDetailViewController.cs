@@ -13,7 +13,11 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGHistoryDetailViewController : UITableViewController
 	{
-	
+		public string imageUrl;
+		public string postTitle;
+		public string upDownCount;
+		public string timeAgo;
+
 		public BGHistoryViewController ParentViewController
 		{
 			get;
@@ -33,17 +37,31 @@ namespace BlahguaMobile.IOS
 
 			TableView.BackgroundColor = UIColor.White;
 			//TableView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
-			TableView.Source = new BGHistoryDetailTableSource(this);
 			TableView.TableFooterView = new UIView ();
 			TableView.AllowsSelection = false;
-			TableView.RowHeight = 100;
 			TableView.TableHeaderView = new UIView ();
 			TableView.SeparatorInset = new UIEdgeInsets (0, 0, 0, 0);
 			TableView.ReloadData ();
+			TableView.Source = new BGHistoryDetailTableSource(this);
+			//TableView.Source = new Source (this);
 
-			//this.TableView.Source = new Source (this);
+		 }
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			base.PrepareForSegue (segue, sender);
+			if (segue.Identifier.Equals ("historyDetailToCommentDetail")) {
+				/*
+				var view = (getCommentHistoryViewController)segue.DestinationViewController;
+
+				view.imageUrl = imageUrl;
+				view.postTitle = postTitle;
+				view.upDownCount = upDownCount;
+				view.timeAgo = timeAgo;
+				*/
+			}
 
 		}
+	
 	}
 
 	public class BGHistoryDetailTableSource : UITableViewSource
@@ -62,8 +80,8 @@ namespace BlahguaMobile.IOS
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
+		
 			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
-
 			if (cell == null) {
 			
 				var leftView = new UIButton ();
@@ -73,16 +91,49 @@ namespace BlahguaMobile.IOS
 				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
 				leftView.TouchUpInside += (object sender, EventArgs e) => {
 
-					Console.WriteLine("Yogi bha");
+				Console.WriteLine("Yogi bha");
+				
+				string postTitleStr = vc.ParentViewController.UserBlahs [indexPath.Row].T;
+				string postImgUrlStr = vc.ParentViewController.UserBlahs [indexPath.Row].ImageURL;
+				string upDownCountStr = vc.ParentViewController.UserBlahs [indexPath.Row].P.ToString () + "/" + vc.ParentViewController.UserBlahs [indexPath.Row].D.ToString ();
+				string timeAgoStr = vc.ParentViewController.UserBlahs [indexPath.Row].ElapsedTimeString;
 
-				};
+				//CommentList getComments = vc.ParentViewController.UserBlahs [indexPath.Row].Comments;
+				//Comment data = getComment[indexPath.Row];
+
+				vc.imageUrl = postImgUrlStr;
+				vc.postTitle = postTitleStr;
+				vc.timeAgo = timeAgoStr;
+				vc.upDownCount = upDownCountStr;
+				//vc.PerformSegue("historyDetailToCommentDetail",vc);
+
+
+			};
 					
 				var buttons = new System.Collections.Generic.List<UIButton> ();
-				buttons.AddUtilityButton ("Delete", UIColor.Red);
+
+				if (vc.ParentViewController.isBlahs) {
+
+					buttons.AddUtilityButton ("Delete", UIColor.Red);
+
+				} else {}
+
 				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
 
+				float cellHeight = 0.0f;
 
-				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView, buttons, leftView);
+				if (vc.ParentViewController.isBlahs) {
+
+					cellHeight= getHeight (vc.ParentViewController.UserBlahs [indexPath.Row].T);
+
+				} else {
+
+					cellHeight= getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
+				}
+			
+				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, cellHeight, "C", tableView, buttons, leftView);
+
+//				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView, buttons, leftView);
 				cell.Scrolling += OnScrolling;
 				cell.UtilityButtonPressed += OnButtonPressed;
 			}
@@ -105,7 +156,7 @@ namespace BlahguaMobile.IOS
 				Blah userBlah = vc.ParentViewController.UserBlahs [indexPath.Row];
 				commentCountVal = userBlah.C;
 				string historyType = "Blahs";
-				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),null,userBlah.ElapsedTimeString,
+				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
 					userBlah.ConversionString,commentCountVal);
 
 			} else {
@@ -114,23 +165,21 @@ namespace BlahguaMobile.IOS
 				Comment userComment = vc.ParentViewController.UserComments [indexPath.Row];
 				string historyType = "Comments";
 				commentCountVal = -1;
-				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (), userComment.AuthorName,
+				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (),
 					userComment.ElapsedTimeString,null,commentCountVal);
-
-
 
 			}	
 				
 			return cell;
 		}
 			
-		private void SetUp(UITableViewCell cell,string historyType,string type,string text, string upVotesText,string downVotesText,string userNameString,string timeString,string conversionStirng,int commentsCount)
+		private void SetUp(UITableViewCell cell,string historyType,string type,string text, string upVotesText,string downVotesText,string timeString,string conversionStirng,int commentsCount)
 		{
 
 			var textView = new UITextView ();
 			var upVotesLbl = new UILabel ();
 			var downVotesLbl = new UILabel ();
-			var userNameLbl = new UILabel ();
+			//var userNameLbl = new UILabel ();
 			var daysAgoLbl = new UILabel ();
 			var conversionRatioLbl = new UILabel ();
 			var commentsCountLbl = new UILabel ();
@@ -142,93 +191,105 @@ namespace BlahguaMobile.IOS
 			yCoordStart = space;
 			labelXCoordStart = baseXStart;
 
-			//if (historyType.Equals ("Comments") || historyType.Equals ("Blahs")) {
+			textView.RemoveFromSuperview ();
+			if(!String.IsNullOrEmpty(text)) {
 
-				textView.RemoveFromSuperview ();
-				if(!String.IsNullOrEmpty(text)) {
+				textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+				textView.Editable = false;
+				var newSize = textView.SizeThatFits (new SizeF (320 - baseXStart * 2, 568));
+				textView.Frame = new RectangleF (baseXStart, yCoordStart, 320 - baseXStart * 2, newSize.Height);
+			    cell.ContentView.AddSubview (textView);
+				yCoordStart += textView.Frame.Height + space;
+			}
 
-					textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-					textView.Editable = false;
-					var newSize = textView.SizeThatFits (new SizeF (320 - baseXStart * 2, 568));
-					cell.ContentView.AddSubview (textView);
-					textView.Frame = new RectangleF (baseXStart, yCoordStart, 320 - baseXStart * 2, newSize.Height);
-					yCoordStart += textView.Frame.Height + space;
+			if(!String.IsNullOrEmpty(type)) {
+
+				var commentImageView = new UIImageView ();
+
+				if (type.Equals("says")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_say");
+				} else if(type.Equals("predicts")){
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_predict");
+				} else if(type.Equals("polls")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_poll");
+				} else if(type.Equals("asks")) {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_ask");
+				} else {
+					commentImageView.Image = UIImage.FromBundle ("icon_speechact_leak");
 				}
+				//commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
 
-				if(!String.IsNullOrEmpty(type)) {
+				cell.ContentView.AddSubview (commentImageView);
+				commentImageView.Frame = new RectangleF (baseXStart, yCoordStart-15, 20f, 20f);
+			   
+			}
 
-					var commentImageView = new UIImageView ();
+			if (historyType.Equals ("Blahs")) {
 
-					if (type.Equals("says")) {
-						commentImageView.Image = UIImage.FromBundle ("icon_speechact_say");
-					} else if(type.Equals("predicts")){
-						commentImageView.Image = UIImage.FromBundle ("icon_speechact_predict");
-					} else if(type.Equals("polls")) {
-						commentImageView.Image = UIImage.FromBundle ("icon_speechact_poll");
-					} else if(type.Equals("asks")) {
-						commentImageView.Image = UIImage.FromBundle ("icon_speechact_ask");
-					} else {
-						commentImageView.Image = UIImage.FromBundle ("icon_speechact_leak");
-					}
-					//commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
+				upVoteImageView.Image = UIImage.FromBundle ("arrow-up");
+				upVoteImageView.Frame = new RectangleF (baseXStart + 30, yCoordStart - 15, 10f, 20f);
+				cell.ContentView.AddSubview (upVoteImageView);
 
-					cell.ContentView.AddSubview (commentImageView);
-					commentImageView.Frame = new RectangleF (baseXStart, yCoordStart-15, 20f, 20f);
-				   
-				}
+				labelXCoordStart += 40; 
+				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				SetLabelSize (upVotesLbl, cell);
 
-			 
-			    upVoteImageView.Image = UIImage.FromBundle ("arrow-up");
-			    upVoteImageView.Frame = new RectangleF (baseXStart+30, yCoordStart-15, 10f, 20f);
-			    cell.ContentView.AddSubview (upVoteImageView);
+				downVoteImageView.Image = UIImage.FromBundle ("arrow-down");
+				downVoteImageView.Frame = new RectangleF (baseXStart + 60, yCoordStart - 15, 10f, 20f);
+				cell.ContentView.AddSubview (downVoteImageView);
 
-			    labelXCoordStart += 40; 
-				upVotesLbl.AttributedText = new NSAttributedString (upVotesText,UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-			    SetLabelSize (upVotesLbl,cell);
+				labelXCoordStart += 20; 
+				downVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
+				SetLabelSize (downVotesLbl, cell);
 
-			    downVoteImageView.Image = UIImage.FromBundle ("arrow-down");
-			    downVoteImageView.Frame = new RectangleF (baseXStart+60, yCoordStart-15, 10f, 20f);
-			    cell.ContentView.AddSubview (downVoteImageView);
+			} 
 
-			    labelXCoordStart += 20; 
-			    downVotesLbl.AttributedText = new NSAttributedString (upVotesText,UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
-			    SetLabelSize (downVotesLbl,cell);
+			//if (!String.IsNullOrEmpty (userNameString)) {
 
-				if (!String.IsNullOrEmpty (userNameString)) {
+				//userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				//SetLabelSize (userNameLbl, cell);
+			//}
+			
+		    if (!String.IsNullOrEmpty (conversionStirng)) {
 
-					userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-					SetLabelSize (userNameLbl, cell);
-				}
-				
-			    if (!String.IsNullOrEmpty (conversionStirng)) {
+			    conversionImagView.Image = UIImage.FromBundle ("eye");
+			    conversionImagView.Frame = new RectangleF (baseXStart+100, yCoordStart-10, 20f, 10f);
+			    cell.ContentView.AddSubview (conversionImagView);
+			    labelXCoordStart += 30; 	
 
-				    conversionImagView.Image = UIImage.FromBundle ("eye");
-				    conversionImagView.Frame = new RectangleF (baseXStart+100, yCoordStart-10, 20f, 10f);
-				    cell.ContentView.AddSubview (conversionImagView);
-				    labelXCoordStart += 30; 	
+				conversionRatioLbl.AttributedText = new NSAttributedString (conversionStirng, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				SetLabelSize (conversionRatioLbl, cell);
 
-					conversionRatioLbl.AttributedText = new NSAttributedString (conversionStirng, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-					SetLabelSize (conversionRatioLbl, cell);
+		    }
 
-			    }
+			
+			if (commentsCount >= 0) {
 
-				
-				if (commentsCount >= 0) {
+				commentIconImageView.Image = UIImage.FromBundle ("commentss");
+				commentIconImageView.Frame = new RectangleF (baseXStart+195, yCoordStart-10, 20f, 10f);
+				cell.ContentView.AddSubview (commentIconImageView);
+			    labelXCoordStart += 40; 	
 
-					commentIconImageView.Image = UIImage.FromBundle ("commentss");
-					commentIconImageView.Frame = new RectangleF (baseXStart+195, yCoordStart-10, 20f, 10f);
-					cell.ContentView.AddSubview (commentIconImageView);
-				    labelXCoordStart += 40; 	
+				commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				SetLabelSize (commentsCountLbl, cell);
+			}
 
-					commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-					SetLabelSize (commentsCountLbl, cell);
-				}
+		    yCoordStart += downVotesLbl.Frame.Height + space;
+		    labelXCoordStart = baseXStart;
+		    daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 12), UIColor.Black);
+		    SetLabelSize (daysAgoLbl,cell);
+		    
+		    if(historyType.Equals ("Comments")) {
 
-			    yCoordStart += downVotesLbl.Frame.Height + space;
-			    labelXCoordStart = baseXStart;
- 			    daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 12), UIColor.Black);
-			    SetLabelSize (daysAgoLbl,cell);
-			    //cell.ContentView.Frame = new RectangleF (0, 0, 320, 50);
+				labelXCoordStart = 260;
+				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),UIColor. FromRGB(115/255.0f,195/255.0f,173/255.0f));
+				SetLabelSize (upVotesLbl, cell);
+
+				downVotesLbl.AttributedText = new NSAttributedString ("/"+upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
+				SetLabelSize (downVotesLbl, cell);
+		    }
+
+		    //cell.ContentView.Frame = new RectangleF (0, 0, 320, 50);
 		}
 
 		private void SetLabelSize(UILabel label,UITableViewCell cell)
@@ -267,7 +328,6 @@ namespace BlahguaMobile.IOS
 			}
 			else if(e.UtilityButtonIndex == 0) {
 
-				Console.WriteLine (e.IndexPath);
 				var blah = vc.ParentViewController.UserBlahs[e.IndexPath.Row];
 				vc.ParentViewController.UserBlahs.Remove (blah);
 				this.vc.TableView.ReloadData ();
@@ -291,7 +351,7 @@ namespace BlahguaMobile.IOS
 			return 1;
 		}
 
-		/*public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 		
 			/*var cell = (BGHistoryDetailCell)tableView.DequeueReusableCell ("historyDetailCell");
@@ -299,11 +359,44 @@ namespace BlahguaMobile.IOS
 				cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
 			else
 				cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
-			return cell.ContentView.Frame.Height;
+			return cell.ContentView.Frame.Height;*/
+
+			if (vc.ParentViewController.isBlahs) {
+
+				return getHeight (vc.ParentViewController.UserBlahs [indexPath.Row].T);
+
+
+			} else {
+
+				return getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
+			}
+			
+		   
+			//Console.WriteLine ("this is cell " + cell);
 
 			//return 100.0f;
 
-		}*/
+		}
+
+		public float getHeight(string textViewString)
+		{ 
+			float height=0.0f;
+			float xStart=30f;
+			float yStart = 8f;
+		
+			if(!String.IsNullOrEmpty(textViewString)) {
+				var obj_textView = new UITextView ();
+				obj_textView.AttributedText = new NSAttributedString (textViewString, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+				var newSize = obj_textView.SizeThatFits (new SizeF (320 - xStart * 2, 568));
+				obj_textView.Frame = new RectangleF (xStart, yStart, 320 - xStart * 2, newSize.Height);
+				height = obj_textView.Frame.Height + 50;
+				return height;
+			}
+			return height;
+
+		}
+
+
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			//cell.Scrolling += OnScrolling;

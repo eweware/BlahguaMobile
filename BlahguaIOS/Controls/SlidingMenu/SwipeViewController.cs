@@ -157,6 +157,8 @@ namespace MonoTouch.SlideMenu
 			summaryViewController.SetUpToolbar ();
 			commentViewController.SetUpToolbar ();
 			statsViewController.SetUpToolbar ();
+
+			UIApplication.SharedApplication.SetStatusBarHidden (true, false);
 		}
 
 		// - (void)viewWillDisappear:(BOOL)animated

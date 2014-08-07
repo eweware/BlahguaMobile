@@ -130,35 +130,46 @@ namespace BlahguaMobile.IOS
 			else
 			{
 				InvokeOnMainThread (() => 
-                        {
-                            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes 
+					{
+
+                    	UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes 
                                 { 
                                     TextColor = BGAppearanceConstants.TealGreen, 
         						    TextShadowColor = UIColor.Clear, 
         						    Font = UIFont.FromName(BGAppearanceConstants.BoldFontName, 18) 
                                 });
-                            UINavigationBar.Appearance.BarTintColor = BGAppearanceConstants.DarkBrown;
-							UINavigationBar.Appearance.TintColor = BGAppearanceConstants.TealGreen;
-                            UINavigationBar.Appearance.BackgroundColor = BGAppearanceConstants.DarkBrown;
+                        UINavigationBar.Appearance.BarTintColor = BGAppearanceConstants.DarkBrown;
+						UINavigationBar.Appearance.TintColor = BGAppearanceConstants.TealGreen;
+                        UINavigationBar.Appearance.BackgroundColor = BGAppearanceConstants.DarkBrown;
                             //UINavigationBar.Appearance.SetBackgroundImage (UIImage.FromFile ("navigationBar.png"), UIBarMetrics.Default);
-					UINavigationBar.Appearance.ShadowImage = new UIImage();
+						UINavigationBar.Appearance.ShadowImage = new UIImage();
 
-					var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");
-
-					if (SlideMenu.ContentViewController != null && c.GetType() == SlideMenu.ContentViewController.GetType())
-					{
-						SlideMenu.ShowContentViewControllerAnimated(true, null, false);
-					} 
-					else
-					{
-						SlideMenu.SetContentViewControllerAnimated(c as UIViewController, true);
-						if (Window.RootViewController != SlideMenu) {
-							UIView.Transition(this.Window.RootViewController.View, this.SlideMenu.View, 0.5, UIViewAnimationOptions.TransitionFlipFromRight, delegate {
-									Window.RootViewController = SlideMenu.NavigationController;
-							}); 
+						bool isSecond = NSUserDefaults.StandardUserDefaults.BoolForKey("isSecond");
+						if(!isSecond)
+						{
+							var c = new BGTutorialViewController();
+							Window.RootViewController = c;
+							NSUserDefaults.StandardUserDefaults.SetBool(true,"isSecond");
+							NSUserDefaults.StandardUserDefaults.Synchronize();
 						}
-					}
-				});
+						else
+						{
+							var c = MainStoryboard.InstantiateViewController ("BGMainNavigationController");
+							if (SlideMenu.ContentViewController != null && c.GetType() == SlideMenu.ContentViewController.GetType())
+							{
+								SlideMenu.ShowContentViewControllerAnimated(true, null, false);
+							} 
+							else
+							{
+								SlideMenu.SetContentViewControllerAnimated(c as UIViewController, true);
+								if (Window.RootViewController != SlideMenu) {
+									UIView.Transition(this.Window.RootViewController.View, this.SlideMenu.View, 0.5, UIViewAnimationOptions.TransitionFlipFromRight, delegate {
+									Window.RootViewController = SlideMenu.NavigationController;
+									}); 
+								}
+							}
+						}
+					});
 			}
 		}
 

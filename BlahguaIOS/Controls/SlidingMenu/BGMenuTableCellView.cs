@@ -38,6 +38,7 @@ namespace BlahguaMobile.IOS
 
 		public BGMenuTableCellView (IntPtr handle) : base (handle)
 		{
+			ContentView.BackgroundColor = BGAppearanceConstants.DarkBrown;
 		}
 
 		#region Methods

@@ -11,7 +11,7 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-    public partial class BGCommentTableCell : UITableViewCell
+	public partial class BGCommentTableCell : UITableViewCell, IImageUpdated
     {
         private UIPanGestureRecognizer panRecognizer;
 		private UITapGestureRecognizer tapRecognizer;
@@ -72,7 +72,7 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(comment.ImageURL))
             {
-                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), new ImageUpdateDelegate(commentImageView));
+				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), this);
 
 				if (commentImageView.Image != null) {
 					UIImage img = commentImageView.Image;
@@ -158,6 +158,22 @@ namespace BlahguaMobile.IOS
 				}
             };
         }
+
+		#region IImageUpdated implementation
+
+		public void UpdatedImage(Uri uri)
+		{
+			commentImageView.Image = ImageLoader.DefaultRequestImage(uri, this);
+			if (commentImageView.Image != null) {
+				UIImage img = commentImageView.Image;
+				float newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+
+				imageViewHeight.Constant = newHeight;
+			}
+
+		}
+
+		#endregion
 
         public void PanThisCell(UIPanGestureRecognizer recognizer)
         {

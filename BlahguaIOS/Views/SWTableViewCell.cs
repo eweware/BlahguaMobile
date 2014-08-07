@@ -72,7 +72,7 @@ namespace BlahguaMobile.IOS
 		}
 
 
-		public SWTableViewCell (UITableViewCellStyle style, string reuseIdentifier, 
+		public SWTableViewCell (UITableViewCellStyle style,float height ,string reuseIdentifier, 
 			UITableView containingTable, IEnumerable<UIButton> rightUtilityButtons, 
 			UIView leftView):base(style, reuseIdentifier)
 		{
@@ -81,7 +81,8 @@ namespace BlahguaMobile.IOS
 			this.scrollViewButtonViewRight = new SWUtilityButtonView (this.rightUtilityButtons, this);
 
 			this.containingTableView = containingTable;
-			this.height = containingTableView.RowHeight;
+			//this.height = containingTableView.RowHeight;
+			this.height =height;
 			this.scrollViewDelegate = new SWScrollViewDelegate (this);
 
 
