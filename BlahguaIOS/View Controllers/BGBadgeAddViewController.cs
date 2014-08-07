@@ -50,7 +50,7 @@ namespace BlahguaMobile.IOS
 			};
 
 			doneButton.Enabled = false;
-            doneButton.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
+            //doneButton.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             doneButton.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			doneButton.SetAttributedTitle(new NSAttributedString("Done", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 			doneButton.TouchUpInside += (object sender, EventArgs e) => {

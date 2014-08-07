@@ -639,6 +639,7 @@ namespace BlahguaMobile.IOS
 				float newHeight = img.Size.Height / img.Size.Width * 320;
 
 				blahImageHeight.Constant = newHeight;
+				contentView.ContentSize = new SizeF (contentView.ContentSize.Width, contentView.ContentSize.Height + blahImageHeight.Constant);
 			}
 
         }
