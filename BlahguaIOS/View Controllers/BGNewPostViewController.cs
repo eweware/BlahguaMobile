@@ -148,7 +148,7 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
-            done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
+            //done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			done.SetAttributedTitle (new NSAttributedString (
 				"Done", 
