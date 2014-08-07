@@ -50,13 +50,14 @@ namespace BlahguaMobile.IOS
 		{
 			base.PrepareForSegue (segue, sender);
 			if (segue.Identifier.Equals ("historyDetailToCommentDetail")) {
-
+				/*
 				var view = (getCommentHistoryViewController)segue.DestinationViewController;
 
 				view.imageUrl = imageUrl;
 				view.postTitle = postTitle;
 				view.upDownCount = upDownCount;
 				view.timeAgo = timeAgo;
+				*/
 			}
 
 		}
