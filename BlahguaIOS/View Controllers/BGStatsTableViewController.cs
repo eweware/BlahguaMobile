@@ -130,8 +130,8 @@ namespace BlahguaMobile.IOS
 			if (CurrentBlah != null) {
 				bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
 
-				bottomToolBar.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
-				bottomToolBar.BarTintColor = UIColor.FromPatternImage (UIImage.FromBundle ("greenBack"));
+				bottomToolBar.BackgroundColor = BGAppearanceConstants.TealGreen;
+				bottomToolBar.BarTintColor = BGAppearanceConstants.TealGreen;
 			}
 		}
 

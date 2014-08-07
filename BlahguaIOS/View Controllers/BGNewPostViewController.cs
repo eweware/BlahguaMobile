@@ -167,6 +167,7 @@ namespace BlahguaMobile.IOS
 			};
 
 
+
 			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
 			//bodyInput.Placeholder = "Says is used for general sharing";
           
