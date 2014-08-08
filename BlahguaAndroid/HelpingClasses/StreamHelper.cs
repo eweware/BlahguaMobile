@@ -12,14 +12,15 @@ using Android.Widget;
 using System.IO;
 using Android.Database;
 using Android.Graphics;
+using Android.Media;
 
 namespace BlahguaMobile.AndroidClient.HelpingClasses
 {
     class StreamHelper
     {
-        public static Stream GetStreamFromFileUri(Context context, Android.Net.Uri uri, int maxSize = 0)
+		public static System.IO.Stream GetStreamFromFileUri(Context context, Android.Net.Uri uri, int maxSize = 0)
         {
-            Stream result = null;
+			System.IO.Stream result = null;
             if (context is Activity)
             {
                 string filePath = null;
@@ -65,29 +66,50 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 
         private static Bitmap ResizeImageFile(string filePath, int maxSize)
         {
-            BitmapFactory.Options opt = new BitmapFactory.Options();
+ 			Bitmap bp = BitmapFactory.DecodeFile (filePath);
+			int originalWidth = bp.Width;
+			int originalHeight = bp.Height;
 
-            opt.InJustDecodeBounds = true;
-            Bitmap bp = BitmapFactory.DecodeFile(filePath, opt);
-            int originalWidth = opt.OutWidth;
-            int originalHeight = opt.OutHeight;
+			ExifInterface	exif = new ExifInterface (filePath);
+			int orientation = exif.GetAttributeInt (ExifInterface.TagOrientation, (int)Android.Media.Orientation.Normal);
+			int angle = 0;
 
-            double resizeScale = 1;
+			switch (orientation) 
+			{
+			case (int)Android.Media.Orientation.Normal:
+						break;
 
-             if ( originalWidth > maxSize || originalHeight > maxSize ) 
-             {
-                double heightRatio = Math.Round((double)originalHeight / (double)maxSize);
-                double widthRatio = Math.Round((double)originalWidth / (double)maxSize);
-                resizeScale = heightRatio < widthRatio ? heightRatio : widthRatio;
-            }
-            //put the scale instruction (1 -> scale to (1/1); 8-> scale to 1/8)
-            opt.InSampleSize = (int)resizeScale;
-            opt.InJustDecodeBounds = false;
+			case (int)Android.Media.Orientation.Rotate90:
+				angle = 90;
+				break;
 
-            bp = BitmapFactory.DecodeFile(filePath, opt);
+			case (int)Android.Media.Orientation.Rotate180:
+				angle = 180;
+				break;
 
+			case (int)Android.Media.Orientation.Rotate270:
+				angle = 270;
+				break;
+			}
 
-            return bp;
+            float resizeScale = 1;
+
+			if (originalWidth > maxSize || originalHeight > maxSize) {
+				double ratio = (double)originalWidth / (double)originalHeight;
+
+				if (ratio > 1)
+					resizeScale = (float)maxSize / (float)originalWidth;
+				else
+					resizeScale = (float)maxSize / (float)originalHeight;
+			}
+				
+         
+			Matrix mat = new Matrix ();
+			mat.PostScale (resizeScale, resizeScale);
+			mat.PostRotate ((float)angle);
+			Bitmap capBitmap = Bitmap.CreateBitmap (bp, 0, 0, originalWidth, originalHeight, mat, true);
+
+			return capBitmap;
 
         }
         public static string GetFileName(Context context, Android.Net.Uri uri)

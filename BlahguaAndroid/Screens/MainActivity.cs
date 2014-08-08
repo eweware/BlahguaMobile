@@ -288,6 +288,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (create_post_block.Visibility != ViewStates.Visible)
                 StartTimers();
             initLayouts();
+			// check for re-signin
+			if (BlahguaAPIObject.Current.CurrentUser != null) {
+				BlahguaAPIObject.Current.EnsureSignin ();
+			}
         }
 
         protected override void OnPause()
