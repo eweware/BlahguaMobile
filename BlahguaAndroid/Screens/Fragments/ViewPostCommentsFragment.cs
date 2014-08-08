@@ -70,11 +70,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateCommentLayout.Visibility = ViewStates.Visible;
                 imageCreateComment.SetImageDrawable(null);
-                Android.Net.Uri uri = data.Data;
-                string imgPath = GetPathToImage(uri);
-                //string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName);
-                System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
-                BlahguaAPIObject.Current.UploadPhoto(fileStream, System.IO.Path.GetFileName(imgPath), (photoString) =>
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this.Activity, data.Data, 1024);
+                String fileName = StreamHelper.GetFileName(this.Activity, data.Data);
+
+                BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                 {
                     Activity.RunOnUiThread(() =>
                     {
