@@ -1,3 +1,7 @@
-Wednesday afternoon build
+Thursday AM build
 
-Experimental test to fix image rotation
+New features
+========
+- image upload speed much faster
+- images from camera rotated correctly
+- tutorial for first-time users
