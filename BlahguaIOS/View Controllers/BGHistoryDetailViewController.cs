@@ -8,6 +8,9 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using MonoTouch.SlideMenu;
 
 namespace BlahguaMobile.IOS
 {
@@ -72,6 +75,10 @@ namespace BlahguaMobile.IOS
 		private const float space = 8f;
 		private SizeF baseSizeForFitting = new SizeF (240, 21);
 
+
+
+
+
 		public BGHistoryDetailTableSource(BGHistoryDetailViewController vc) : base()
 		{
 			this.vc = vc;
@@ -81,33 +88,59 @@ namespace BlahguaMobile.IOS
 		{
 		
 			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
-			if (cell == null) {
+			List<Comment> _cmtList;
+			List<Blah> _blhList;
+			float CellHeight;
+
+			//if (cell == null) {
 			
+
 				var leftView = new UIButton ();
 				//leftView.Frame = new RectangleF (0, 0, SWTableViewCell.UtilityButtonsWidthMax, tableView.RowHeight);
 				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
-				leftView.BackgroundColor=UIColor.Blue;
+				leftView.BackgroundColor = UIColor.Blue;
 				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
 				leftView.TouchUpInside += (object sender, EventArgs e) => {
 
-				Console.WriteLine("Yogi bha");
+					Console.WriteLine ("Yogi bha");
 				
-				string postTitleStr = vc.ParentViewController.UserBlahs [indexPath.Row].T;
-				string postImgUrlStr = vc.ParentViewController.UserBlahs [indexPath.Row].ImageURL;
-				string upDownCountStr = vc.ParentViewController.UserBlahs [indexPath.Row].P.ToString () + "/" + vc.ParentViewController.UserBlahs [indexPath.Row].D.ToString ();
-				string timeAgoStr = vc.ParentViewController.UserBlahs [indexPath.Row].ElapsedTimeString;
+					string postTitleStr = vc.ParentViewController.UserBlahs [indexPath.Row].T;
+					string postImgUrlStr = vc.ParentViewController.UserBlahs [indexPath.Row].ImageURL;
+					string upDownCountStr = vc.ParentViewController.UserBlahs [indexPath.Row].P.ToString () + "/" + vc.ParentViewController.UserBlahs [indexPath.Row].D.ToString ();
+					string timeAgoStr = vc.ParentViewController.UserBlahs [indexPath.Row].ElapsedTimeString;
 
-				//CommentList getComments = vc.ParentViewController.UserBlahs [indexPath.Row].Comments;
-				//Comment data = getComment[indexPath.Row];
+					//CommentList getComments = vc.ParentViewController.UserBlahs [indexPath.Row].Comments;
+					//Comment data = getComment[indexPath.Row];
 
-				vc.imageUrl = postImgUrlStr;
-				vc.postTitle = postTitleStr;
-				vc.timeAgo = timeAgoStr;
-				vc.upDownCount = upDownCountStr;
-				//vc.PerformSegue("historyDetailToCommentDetail",vc);
+					vc.imageUrl = postImgUrlStr;
+					vc.postTitle = postTitleStr;
+					vc.timeAgo = timeAgoStr;
+					vc.upDownCount = upDownCountStr;
+					//vc.PerformSegue("historyDetailToCommentDetail",vc);
+
+				    BlahList list = vc.ParentViewController.UserBlahs; 
+				    _blhList = list.OrderByDescending(b => b.CreationDate).ToList();
+
+				    BlahguaAPIObject.Current.SetCurrentBlahFromId (_blhList [indexPath.Row]._id, (blah) => {
+					InvokeOnMainThread(() => {
+						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+
+						var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+						BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
+						BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
+						BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+						SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
+						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
+
+					});
+				});
 
 
-			};
+				};
+			//}
 					
 				var buttons = new System.Collections.Generic.List<UIButton> ();
 
@@ -119,23 +152,32 @@ namespace BlahguaMobile.IOS
 
 				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
 
-				float cellHeight = 0.0f;
-
 				if (vc.ParentViewController.isBlahs) {
+				
 
-					cellHeight= getHeight (vc.ParentViewController.UserBlahs [indexPath.Row].T);
+					BlahList list = vc.ParentViewController.UserBlahs; 
+					_blhList = list.OrderByDescending(b => b.CreationDate).ToList();
 
+				    CellHeight = 0f;
+					CellHeight= getHeight (_blhList[indexPath.Row].T);
+					
+					
 				} else {
+				
 
-					cellHeight= getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
+					CommentList list = vc.ParentViewController.UserComments; 
+					_cmtList = list.OrderByDescending(b => b.CreationDate).ToList();
+
+					CellHeight = 0f;
+					CellHeight= getHeight (_cmtList[indexPath.Row].T);
+					
 				}
 			
-				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, cellHeight, "C", tableView, buttons, leftView);
-
+			    cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, CellHeight, "C", tableView, buttons, leftView);
 //				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView, buttons, leftView);
 				cell.Scrolling += OnScrolling;
 				cell.UtilityButtonPressed += OnButtonPressed;
-			}
+
 				
 			if (cell.ContentView.Subviews!=null) {
 
@@ -152,7 +194,12 @@ namespace BlahguaMobile.IOS
 			if (vc.ParentViewController.isBlahs) {
 
 				//cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
-				Blah userBlah = vc.ParentViewController.UserBlahs [indexPath.Row];
+
+				List<Blah> _list;
+				BlahList list = vc.ParentViewController.UserBlahs; 
+				_list = list.OrderByDescending(b => b.CreationDate).ToList();
+
+				Blah userBlah = _list [indexPath.Row];
 				commentCountVal = userBlah.C;
 				string historyType = "Blahs";
 				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
@@ -161,7 +208,11 @@ namespace BlahguaMobile.IOS
 			} else {
 
 				//cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
-				Comment userComment = vc.ParentViewController.UserComments [indexPath.Row];
+				List<Comment> _list;
+				CommentList list = vc.ParentViewController.UserComments; 
+				_list = list.OrderByDescending(b => b.CreationDate).ToList();
+
+				Comment userComment = _list[indexPath.Row];
 				string historyType = "Comments";
 				commentCountVal = -1;
 				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (),
@@ -362,12 +413,24 @@ namespace BlahguaMobile.IOS
 
 			if (vc.ParentViewController.isBlahs) {
 
-				return getHeight (vc.ParentViewController.UserBlahs [indexPath.Row].T);
+				float height = 0f;
+				List<Blah> _list;
+				BlahList list = vc.ParentViewController.UserBlahs; 
+				_list = list.OrderByDescending(b => b.CreationDate).ToList();
+				Console.WriteLine (_list [indexPath.Row].ElapsedTimeString);
+				height = getHeight (_list [indexPath.Row].T);
+				return height;
 
 
 			} else {
 
-				return getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
+				float height = 0f;
+				List<Comment> _list;
+				CommentList list = vc.ParentViewController.UserComments; 
+				_list = list.OrderByDescending(b => b.CreationDate).ToList();
+				height = getHeight (_list [indexPath.Row].T);
+				return height;
+				//return getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
 			}
 			
 		   
@@ -379,16 +442,17 @@ namespace BlahguaMobile.IOS
 
 		public float getHeight(string textViewString)
 		{ 
-			float height=0.0f;
+			float height=0f;
 			float xStart=30f;
 			float yStart = 8f;
 		
 			if(!String.IsNullOrEmpty(textViewString)) {
 				var obj_textView = new UITextView ();
+				obj_textView.RemoveFromSuperview ();
 				obj_textView.AttributedText = new NSAttributedString (textViewString, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 				var newSize = obj_textView.SizeThatFits (new SizeF (320 - xStart * 2, 568));
 				obj_textView.Frame = new RectangleF (xStart, yStart, 320 - xStart * 2, newSize.Height);
-				height = obj_textView.Frame.Height + 50;
+				height = obj_textView.Frame.Height + 60;
 				return height;
 			}
 			return height;
@@ -416,9 +480,8 @@ namespace BlahguaMobile.IOS
 			{
 				labelText = "Posts" + "(" + vc.ParentViewController.UserBlahs.Count + ")";
 
-			}
-			else
-			{
+			} else {
+
 				labelText = "Comments" + "(" + vc.ParentViewController.UserComments.Count + ")";
 			}
 			label.AttributedText = new NSAttributedString(
