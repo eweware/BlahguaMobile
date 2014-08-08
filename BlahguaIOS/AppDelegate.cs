@@ -99,6 +99,12 @@ namespace BlahguaMobile.IOS
             return true;
         }
 
+		public override void OnActivated(UIApplication application)
+		{
+			if (BlahguaAPIObject.Current.CurrentUser != null)
+				BlahguaAPIObject.Current.EnsureSignin ();
+		}
+
         public void SetBlahSizesForScreen()
         {
             RectangleF screenRect = UIScreen.MainScreen.Bounds;
