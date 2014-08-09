@@ -1,3 +1,5 @@
-Wednesday afternoon build
+Friday afternoon build
 
-Experimental test to fix image rotation
+Fixes:
+- comment sorting
+- app will properly resume from background
