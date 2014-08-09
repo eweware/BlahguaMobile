@@ -346,11 +346,13 @@ namespace BlahguaMobile.IOS
 					newPostViewController.ParentViewController = this;
 					this.AddChildViewController (newPostViewController);
 					newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+
 					View.AddSubview (newPostViewController.View);
 				}
 				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
 				newPostViewController.clearAllFields ();
+				UIView v = newPostViewController.View;
 				((UIScrollView)newPostViewController.View).ContentSize = new SizeF (320, 800);
 				isNewPostMode = true;
 				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );

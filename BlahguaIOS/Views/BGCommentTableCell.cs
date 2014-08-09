@@ -20,14 +20,16 @@ namespace BlahguaMobile.IOS
         private PointF panStartPoint;
         private float startingLayoutRight = 0;
         private Comment comment;
+		private UITableView parentTableView;
 
         public BGCommentTableCell(IntPtr handle)
             : base(handle)
         {
         }
 
-        public void SetUp(Comment comment)
+		public void SetUp(Comment comment, UITableView tableView)
         {
+			parentTableView = tableView;
             this.comment = comment;
             panRecognizer = new UIPanGestureRecognizer(PanThisCell);
             panRecognizer.Delegate = new PanGestureRecognizerDelegate();
@@ -168,7 +170,11 @@ namespace BlahguaMobile.IOS
 				UIImage img = commentImageView.Image;
 				float newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
 
+
 				imageViewHeight.Constant = newHeight;
+				//containerViewHeight.Constant = containerViewHeight.Constant + newHeight;
+				//SetNeedsUpdateConstraints();
+				parentTableView.ReloadData ();
 			}
 
 		}
@@ -179,7 +185,6 @@ namespace BlahguaMobile.IOS
         {
             switch (recognizer.State)
             {
-
                 case UIGestureRecognizerState.Began:
                     panStartPoint = recognizer.TranslationInView(containerView);
                     break;
@@ -352,7 +357,7 @@ namespace BlahguaMobile.IOS
     {
         public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
         {
-			return true;
+			return false;
         }
 
         public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)

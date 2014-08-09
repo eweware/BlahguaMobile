@@ -158,7 +158,7 @@ namespace BlahguaMobile.IOS
 					btnSignIn.Frame = btnSignInRect;
 					btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
 					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
-						this.PerformSegue ("SummaryToLogin", this);
+						this.PerformSegue ("fromStatsToLogin", this);
 					};
 
 					signInBtn.CustomView = btnSignIn;
