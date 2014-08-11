@@ -1,7 +1,5 @@
-Thursday AM build
+Friday afternoon build
 
-New features
-========
-- image upload speed much faster
-- images from camera rotated correctly
-- tutorial for first-time users
+Fixes:
+- comment sorting
+- app will properly resume from background>>>>>>> 425bc4f51f0da70e260c72aefec1f980d63637f0

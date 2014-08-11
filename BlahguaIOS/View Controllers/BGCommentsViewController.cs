@@ -202,7 +202,7 @@ namespace BlahguaMobile.IOS
 				btnSignIn.Frame = btnSignInRect;
 				btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
 				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
-					this.PerformSegue ("SummaryToLogin", this);
+					this.PerformSegue ("fromCommentsToLogin", this);
 				};
 
 				btnComment.CustomView = btnSignIn;
@@ -463,7 +463,7 @@ namespace BlahguaMobile.IOS
 
 				cell.SetUp (type == BGCommentsTableSourceType.Blah ? 
 					vc.CurrentBlah.Comments [indexPath.Row] : 
-					vc.CurrentComment.subComments [indexPath.Row]);			
+					vc.CurrentComment.subComments [indexPath.Row], tableView);			
 				return cell;
 			}
 
@@ -494,7 +494,7 @@ namespace BlahguaMobile.IOS
 				var cell = (BGCommentTableCell)tableView.DequeueReusableCell ("commentWithImage");
 				cell.SetUp (type == BGCommentsTableSourceType.Blah ? 
 					vc.CurrentBlah.Comments [indexPath.Row] : 
-					vc.CurrentComment.subComments [indexPath.Row]);	
+					vc.CurrentComment.subComments [indexPath.Row], tableView);	
 				cell.SetNeedsUpdateConstraints();
 				cell.UpdateConstraintsIfNeeded();
 				cell.Bounds = RectangleF.FromLTRB (0, 0, 320, 64);

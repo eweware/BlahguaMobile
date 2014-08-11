@@ -49,11 +49,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
 
-                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data, 1024);
                 String fileName = StreamHelper.GetFileName(this, data.Data);
                 if (fileStream != null)
                 {
-                    //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
+
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
                             RunOnUiThread(() =>

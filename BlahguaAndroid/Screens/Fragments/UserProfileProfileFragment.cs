@@ -107,7 +107,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;
-                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
+                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data, 512);
                 String fileName = StreamHelper.GetFileName(Activity, data.Data);
                 //String fileName = data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1);
                 avatar.SetUrlDrawable(null);

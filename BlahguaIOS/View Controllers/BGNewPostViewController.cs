@@ -484,6 +484,7 @@ namespace BlahguaMobile.IOS
                 }
                 System.Console.WriteLine("About to Submit!");
                 BlahguaAPIObject.Current.CreateBlah(PostCreated);
+                this.View.EndEditing (true);
             }
             else
             {
@@ -491,6 +492,7 @@ namespace BlahguaMobile.IOS
                 this.ParentViewController.ShowToast(errString);
                 
             }
+			
 		}
 
 		public void clearAllFields()
@@ -551,9 +553,10 @@ namespace BlahguaMobile.IOS
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
 			UIImage image = imageForUploading = UIImageHelper.ScaleAndRotateImage(eventArgs.OriginalImage);
+
 			DateTime now = DateTime.Now;
 			string imageName = String.Format ("{0}_{1}.jpg", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
-			BlahguaAPIObject.Current.UploadPhoto ( image.AsJPEG ().AsStream (), imageName, ImageUploaded);
+			BlahguaAPIObject.Current.UploadPhoto (image.AsJPEG ().AsStream (), imageName, ImageUploaded);
 			progressIndicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
 			progressIndicator.TranslatesAutoresizingMaskIntoConstraints = false;
 			var constraintWidth = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
@@ -571,7 +574,6 @@ namespace BlahguaMobile.IOS
 				() => {});
 		}
 
-		
 
 		private void ChooseSignature (object sender, EventArgs e)
 		{
