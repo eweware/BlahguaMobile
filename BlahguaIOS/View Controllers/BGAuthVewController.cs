@@ -252,12 +252,12 @@ namespace BlahguaMobile.IOS
 
 		private void SignIn()
 		{
-			BlahguaAPIObject.Current.SignIn (usernameOrEmail.Text, password.Text, rememberMe, AuthenticationResultCallback);
+			BlahguaAPIObject.Current.SignIn (usernameOrEmail.Text, password.Text, true, AuthenticationResultCallback);
 		}
 
 		private void SignUp ()
 		{
-			BlahguaAPIObject.Current.Register (usernameOrEmail.Text, password.Text, rememberMe, AuthenticationResultCallback);
+			BlahguaAPIObject.Current.Register (usernameOrEmail.Text, password.Text, true, AuthenticationResultCallback);
 		}
 
 		private void InputsEditingHandler(object sender, EventArgs e) {
