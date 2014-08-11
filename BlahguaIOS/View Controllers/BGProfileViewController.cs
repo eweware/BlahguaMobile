@@ -210,12 +210,12 @@ namespace BlahguaMobile.IOS
 
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
-			UIImage image = eventArgs.OriginalImage;
+            UIImage image =  UIImageHelper.ScaleAndRotateImage(eventArgs.OriginalImage);
 			profile_image = image;
 			DateTime now = DateTime.Now;
-			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
+			string imageName = String.Format ("{0}_{1}.jpg", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
 
-			BlahguaAPIObject.Current.UploadUserImage (image.AsPNG ().AsStream (), 
+			BlahguaAPIObject.Current.UploadUserImage (image.AsJPEG ().AsStream (), 
 													  imageName,
 													  ProfileImageUploadCallback);
 				
