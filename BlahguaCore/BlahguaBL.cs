@@ -203,17 +203,21 @@ namespace BlahguaMobile.BlahguaCore
             SavedUserInfo theInfo = new SavedUserInfo();
             theInfo.UserName = (string)SafeLoadSetting("username", UserName);
             theInfo.Password = (string)SafeLoadSetting("password", UserPassword);
+			System.Console.WriteLine ("Loaded " + theInfo.UserName + "/" + theInfo.Password);
             return theInfo;
         }
 
         void SaveUserInfo(string name, string password)
         {
+			System.Console.WriteLine ("Saving " + name + "/" + password);
             SafeSaveSetting("username", name);
             SafeSaveSetting("password", password);
+
         }
 
         void LoadSettings()
         {
+			System.Console.WriteLine ("Loading Settings");
             AutoLogin = (bool)SafeLoadSetting("AutoLogin", true);
             FilterProfanity = (bool)SafeLoadSetting("FilterProfanity", true);
             FilterFlaggedContent = (bool)SafeLoadSetting("FilterFlaggedContent", true);
@@ -221,6 +225,7 @@ namespace BlahguaMobile.BlahguaCore
 
         void SaveSettings()
         {
+			System.Console.WriteLine ("Saving Settings");
             SafeSaveSetting("AutoLogin", AutoLogin);
             SafeSaveSetting("FilterProfanity", FilterProfanity);
             SafeSaveSetting("FilterFlaggedContent", FilterFlaggedContent);
@@ -251,8 +256,9 @@ namespace BlahguaMobile.BlahguaCore
             else
             {
                 settings.Add(setting, val);
-                settings.Save();
+
             }
+			settings.Save();
         }
 
         public void SafeClearSetting(string setting)
@@ -462,6 +468,7 @@ namespace BlahguaMobile.BlahguaCore
 
                             if (AutoLogin)
                             {
+								System.Console.WriteLine("Doing autologin");
                                 System.Diagnostics.Debug.WriteLine("Doing auto login");
                                 SavedUserInfo info = GetSavedUserInfo();
                                 if (info.UserName != "")
