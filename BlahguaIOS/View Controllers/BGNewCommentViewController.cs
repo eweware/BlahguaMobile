@@ -164,10 +164,10 @@ namespace BlahguaMobile.IOS
 
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
-			UIImage image = imageForUploading = eventArgs.OriginalImage;
+            UIImage image = imageForUploading =  UIImageHelper.ScaleAndRotateImage(eventArgs.OriginalImage);
 			DateTime now = DateTime.Now;
-			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
-			BlahguaAPIObject.Current.UploadPhoto (image.AsPNG ().AsStream (), imageName, ImageUploaded);
+			string imageName = String.Format ("{0}_{1}.jpg", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
+			BlahguaAPIObject.Current.UploadPhoto (image.AsJPEG ().AsStream (), imageName, ImageUploaded);
 			progressIndicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
 			progressIndicator.TranslatesAutoresizingMaskIntoConstraints = false;
 			var constraintWidth = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
