@@ -16,26 +16,14 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel daysAgoLbl { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView text { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel upAndDownVotes { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel userNameLbl { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (daysAgoLbl != null) {
-				daysAgoLbl.Dispose ();
-				daysAgoLbl = null;
-			}
 			if (text != null) {
 				text.Dispose ();
 				text = null;
@@ -43,10 +31,6 @@ namespace BlahguaMobile.IOS
 			if (upAndDownVotes != null) {
 				upAndDownVotes.Dispose ();
 				upAndDownVotes = null;
-			}
-			if (userNameLbl != null) {
-				userNameLbl.Dispose ();
-				userNameLbl = null;
 			}
 		}
 	}

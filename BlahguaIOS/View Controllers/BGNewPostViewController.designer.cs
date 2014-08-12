@@ -16,75 +16,75 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton AskBtn { get; set; }
+		UIButton AskBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel AskBtnText { get; set; }
+		UILabel AskBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIImageView back { get; set; }
+		UIImageView back { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITextField bodyInput { get; set; }
+		UITextField bodyInput { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton done { get; set; }
+		UIButton done { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton LeakBtn { get; set; }
+		UIButton LeakBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel LeakBtnText { get; set; }
+		UILabel LeakBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton PollBtn { get; set; }
+		UIButton PollBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel PollBtnText { get; set; }
+		UILabel PollBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
+		UITableView pollItemsTableView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton PredictBtn { get; set; }
+		UIButton PredictBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel PredictBtnText { get; set; }
+		UILabel PredictBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton SayBtn { get; set; }
+		UIButton SayBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel SayBtnText { get; set; }
+		UILabel SayBtnText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
+		UIButton selectImageButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton selectSignature { get; set; }
+		UIButton selectSignature { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UITextField titleInput { get; set; }
+		UITextField titleInput { get; set; }
 
 		[Action ("HandleTitleChanged:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void HandleTitleChanged (MonoTouch.UIKit.UITextField sender);
+		partial void HandleTitleChanged (UITextField sender);
 
 		void ReleaseDesignerOutlets ()
 		{

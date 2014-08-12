@@ -16,35 +16,35 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnBadges { get; set; }
+		UIButton m_btnBadges { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnDemographics { get; set; }
+		UIButton m_btnDemographics { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnHistory { get; set; }
+		UIButton m_btnHistory { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnLogout { get; set; }
+		UIButton m_btnLogout { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnProfile { get; set; }
+		UIButton m_btnProfile { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton m_btnStats { get; set; }
+		UIButton m_btnStats { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIImageView m_imgAvatar { get; set; }
+		UIImageView m_imgAvatar { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel m_lblUserName { get; set; }
+		UILabel m_lblUserName { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

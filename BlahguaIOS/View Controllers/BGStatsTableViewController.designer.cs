@@ -1,10 +1,12 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -53,78 +55,9 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (bottomToolBar != null) {
-				bottomToolBar.Dispose ();
-				bottomToolBar = null;
-			}
-
-			if (commentsView != null) {
-				commentsView.Dispose ();
-				commentsView = null;
-			}
-
-			if (signInBtn != null) {
-				signInBtn.Dispose ();
-				signInBtn = null;
-			}
-
-			if (lblComment != null) {
-				lblComment.Dispose ();
-				lblComment = null;
-			}
-
-			if (lblConversionRatio != null) {
-				lblConversionRatio.Dispose ();
-				lblConversionRatio = null;
-			}
-
-			if (lblDemotes != null) {
-				lblDemotes.Dispose ();
-				lblDemotes = null;
-			}
-
-			if (lblHeardRatio != null) {
-				lblHeardRatio.Dispose ();
-				lblHeardRatio = null;
-			}
-
-			if (lblImpression != null) {
-				lblImpression.Dispose ();
-				lblImpression = null;
-			}
-
-			if (lblOpen != null) {
-				lblOpen.Dispose ();
-				lblOpen = null;
-			}
-
-			if (lblOpenedImpression != null) {
-				lblOpenedImpression.Dispose ();
-				lblOpenedImpression = null;
-			}
-
-			if (lblPromotes != null) {
-				lblPromotes.Dispose ();
-				lblPromotes = null;
-			}
-
-			if (scrollView != null) {
-				scrollView.Dispose ();
-				scrollView = null;
-			}
-
-			if (statsView != null) {
-				statsView.Dispose ();
-				statsView = null;
-			}
-
-			if (summaryView != null) {
-				summaryView.Dispose ();
-				summaryView = null;
-			}
 		}
 	}
 }

@@ -16,18 +16,66 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UIButton doneButton { get; set; }
+		UIView BadgeRequestView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		BlahguaMobile.IOS.BGTextField emailTextField { get; set; }
+		UIView BadgeSubmitView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		MonoTouch.UIKit.UILabel infoTitle { get; set; }
+		UIView BadgeVerifyView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton doneButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		BGTextField emailTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel infoTitle { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel labelPrivacy { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel labelRequestBadge { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel labelVerifyCodeText { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton RequestBadgeBtn { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton verifyCodeBtn { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField verifyCodeTextField { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (BadgeRequestView != null) {
+				BadgeRequestView.Dispose ();
+				BadgeRequestView = null;
+			}
+			if (BadgeSubmitView != null) {
+				BadgeSubmitView.Dispose ();
+				BadgeSubmitView = null;
+			}
+			if (BadgeVerifyView != null) {
+				BadgeVerifyView.Dispose ();
+				BadgeVerifyView = null;
+			}
 			if (doneButton != null) {
 				doneButton.Dispose ();
 				doneButton = null;
@@ -39,6 +87,30 @@ namespace BlahguaMobile.IOS
 			if (infoTitle != null) {
 				infoTitle.Dispose ();
 				infoTitle = null;
+			}
+			if (labelPrivacy != null) {
+				labelPrivacy.Dispose ();
+				labelPrivacy = null;
+			}
+			if (labelRequestBadge != null) {
+				labelRequestBadge.Dispose ();
+				labelRequestBadge = null;
+			}
+			if (labelVerifyCodeText != null) {
+				labelVerifyCodeText.Dispose ();
+				labelVerifyCodeText = null;
+			}
+			if (RequestBadgeBtn != null) {
+				RequestBadgeBtn.Dispose ();
+				RequestBadgeBtn = null;
+			}
+			if (verifyCodeBtn != null) {
+				verifyCodeBtn.Dispose ();
+				verifyCodeBtn = null;
+			}
+			if (verifyCodeTextField != null) {
+				verifyCodeTextField.Dispose ();
+				verifyCodeTextField = null;
 			}
 		}
 	}
