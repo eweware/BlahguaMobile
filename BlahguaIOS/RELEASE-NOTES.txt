@@ -1,5 +1,6 @@
-Friday afternoon build
-
-Fixes:
-- comment sorting
-- app will properly resume from background>>>>>>> 425bc4f51f0da70e260c72aefec1f980d63637f0
+Late Mondy build
+===========
+- should remember login correctly now
+- improvements to photo upload & create
+- sability improvements
+- correct background for iPhone 5

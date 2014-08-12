@@ -16,13 +16,13 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView view { get; set; }
+		UITableView detailView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (view != null) {
-				view.Dispose ();
-				view = null;
+			if (detailView != null) {
+				detailView.Dispose ();
+				detailView = null;
 			}
 		}
 	}
