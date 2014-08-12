@@ -59,7 +59,7 @@ namespace BlahguaMobile.IOS
                 //Synsoft on 10 June 2014 
                 // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
              
-                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 480);
+                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 440);
 
                 scrollView.ScrollEnabled = true;
 
