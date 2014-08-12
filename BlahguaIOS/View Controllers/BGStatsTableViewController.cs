@@ -56,10 +56,10 @@ namespace BlahguaMobile.IOS
                 objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
                 this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
-                //Synsoft on 10 June 2014 
-                // scrollView.ContentSize = new SizeF(scrollView.Frame.Width, scrollView.Frame.Height);
+
+                scrollView.ContentSize = new SizeF(320, 640);
              
-                scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 440);
+               
 
                 scrollView.ScrollEnabled = true;
 
@@ -75,15 +75,6 @@ namespace BlahguaMobile.IOS
                     lblHeardRatio.Text = CurrentBlah.S.ToString("0.00") + "%";
                     lblOpenedImpression.Text = CurrentBlah.O.ToString() + "/" + CurrentBlah.V.ToString();
                 }
-                //commented by Synsoft on 10 June 2014 -- old code using table source
-                //if (CurrentBlah != null)
-                //{
-                //    source.Add("Opened: ", CurrentBlah.O.ToString());
-                //    source.Add("Viewed: ", CurrentBlah.V.ToString());
-                //    source.Add("Promotes: ", CurrentBlah.P.ToString());
-                //    source.Add("Demotes: ", CurrentBlah.D.ToString());
-                //    source.Add("Comments: ", CurrentBlah.C.ToString());
-                //}
                 else if (BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
                 {
                     var userinfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
@@ -103,9 +94,6 @@ namespace BlahguaMobile.IOS
                     lblComment.Text = comments.ToString();
                     lblImpression.Text = views.ToString();
                 }
-                //commented by Synsoft on 10 June 2014 -- old code using table source
-                //TableView.Source = new BGStatsTableSource (source);
-                //new BGStatsTableSource(source);
             }
             catch (Exception e)
             {
@@ -119,15 +107,17 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
+			scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
 			if(CurrentBlah != null)
 				SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+
 		}
 		private void SetUpBaseLayout()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			if (CurrentBlah != null) {
-				bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
+				//bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
 
 				bottomToolBar.BackgroundColor = BGAppearanceConstants.TealGreen;
 				bottomToolBar.BarTintColor = BGAppearanceConstants.TealGreen;
@@ -178,67 +168,7 @@ namespace BlahguaMobile.IOS
 				bottomToolBar.Hidden = true;
 			}
 		}
-		/*
-		private void SetUpVotesButtons()
-		{
-			var votesButtonRect = new RectangleF(0, 0, 11, 19);
-			upVoteButton = new UIButton(UIButtonType.Custom);
-			upVoteButton.Frame = votesButtonRect;
-			upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
-			{
-				if (BlahguaAPIObject.Current.CurrentUser != null)
-				{
-					if (CurrentBlah.uv != 1)
-					{
-						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-						BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
-							{
-								Console.WriteLine(value);
-							});
-					}
-				}
-				else
-				{
-					AlertDelegate obj = new AlertDelegate();
-					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-					_alert.Clicked += _alert_Clicked;
-					_alert.Show();
-				}
 
-			};
-
-
-
-			downVoteButton = new UIButton(UIButtonType.Custom);
-			downVoteButton.Frame = votesButtonRect;
-			downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
-			{
-				if (BlahguaAPIObject.Current.CurrentUser != null)
-				{
-					if (CurrentBlah.uv != -1)
-					{
-						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-						BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
-							{
-								Console.WriteLine(value);
-							});
-					}
-				}
-				else
-				{
-					AlertDelegate obj = new AlertDelegate();
-					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-					_alert.Clicked += _alert_Clicked;
-					_alert.Show();
-				}
-			};
-
-			SetVoteButtonsImages();
-
-			upVote.CustomView = upVoteButton;
-			downVote.CustomView = downVoteButton;
-		}
-*/
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
 			this.PerformSegue("fromStatsToLogin", this);
