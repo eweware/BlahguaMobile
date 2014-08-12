@@ -12,7 +12,6 @@ namespace BlahguaMobile.IOS
 	public partial class BGBadgeAddViewController : UIViewController
 	{
 		private string ticketString;
-		private bool isEmail;
 
 		public BGBadgeAddViewController (IntPtr handle) : base (handle)
 		{
@@ -31,7 +30,7 @@ namespace BlahguaMobile.IOS
 				UIColor.Black
 			);
 
-			labelPrivacy.AttributedText = new NSAttributedString("Only badges (not your email address) will be sent to Heard",
+			labelPrivacyNotice.AttributedText = new NSAttributedString("Only badges (not your email address) will be sent to Heard",
 				UIFont.FromName(BGAppearanceConstants.FontName, 13),
 				UIColor.Black
 			);
@@ -64,7 +63,7 @@ namespace BlahguaMobile.IOS
 			doneButton.SetAttributedTitle(new NSAttributedString("Submit", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 
 			// page two
-			labelVerifyCodeText.AttributedText = new NSAttributedString("Please check your email for a confirmation code and enter it below.  If you did not receive the code, please try your request again.",
+			labelVerifyText.AttributedText = new NSAttributedString("Please check your email for a confirmation code and enter it below.  If you did not receive the code, please try your request again.",
 				UIFont.FromName(BGAppearanceConstants.FontName, 13),
 				UIColor.Black
 			);
@@ -83,33 +82,33 @@ namespace BlahguaMobile.IOS
 			verifyCodeTextField.AllEditingEvents += (object sender, EventArgs e) => {
 				if(!String.IsNullOrEmpty(verifyCodeTextField.Text))
 				{
-					verifyCodeBtn.Enabled = true;
+                    verifyButton.Enabled = true;
 				}
 				else
 				{
-					verifyCodeBtn.Enabled = false;
+                    verifyButton.Enabled = false;
 				}
 			};
 
-			verifyCodeBtn.Enabled = false;
-			verifyCodeBtn.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
-			verifyCodeBtn.SetAttributedTitle(new NSAttributedString("Verify", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
+			verifyButton.Enabled = false;
+            verifyButton.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
+            verifyButton.SetAttributedTitle(new NSAttributedString("Verify", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 
 
 
 			// page three
-			labelRequestBadge.AttributedText = new NSAttributedString("Only badges (not your email address) will be sent to Heard",
+            labelRequestText.AttributedText = new NSAttributedString("No badges are available for your domain.  Click REQUEST to request new badges from the authority.",
 				UIFont.FromName(BGAppearanceConstants.FontName, 13),
 				UIColor.Black
 			);
 
-			RequestBadgeBtn.Enabled = true;
-			RequestBadgeBtn.SetAttributedTitle(new NSAttributedString("Request", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
+			requestButton.Enabled = true;
+            requestButton.SetAttributedTitle(new NSAttributedString("Request", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White), UIControlState.Normal);
 
 			// events
-
-
-			//doneButton.TouchUpInside += (object sender, EventArgs e) => ;
+            doneButton.TouchUpInside += ClickBadgeSubmitBtn;
+            verifyButton.TouchUpInside += ClickBadgeVerifyBtn;
+            requestButton.TouchUpInside += ClickBadgeRequestBtn;
 
 		}
 
@@ -118,17 +117,21 @@ namespace BlahguaMobile.IOS
 			ticketString = "";
 			emailTextField.ResignFirstResponder();
 			BlahguaAPIObject.Current.GetBadgeAuthorities((authorities) =>{
+                if (authorities == null)
+                    return;
 				InvokeOnMainThread(() => {
 					string authId = authorities[0]._id;
 					string emailAddr = emailTextField.Text;
-					BlahguaAPIObject.Current.GetBadgeForUser(authId, (ticket) => {
+                    BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, emailAddr, (ticket) => {
 						InvokeOnMainThread(() => {
 							if(ticket == String.Empty)
 							{
 								doneButton.Enabled = false;
-								RequestBadgeBtn.Enabled = true;
+								requestButton.Enabled = true;
 								BadgeRequestView.Hidden = false;
 								BadgeSubmitView.Hidden = true;
+                                //MainActivity.analytics.PostRequestBadge(authId);
+                                //MainActivity.analytics.PostBadgeNoEmail(emailAddr);
 
 							}
 							else
@@ -137,7 +140,7 @@ namespace BlahguaMobile.IOS
 								doneButton.Enabled = false;
 								emailTextField.Text = String.Empty;
 								verifyCodeTextField.Text = String.Empty;
-								verifyCodeBtn.Enabled = false;
+								verifyButton.Enabled = false;
 								BadgeVerifyView.Hidden = false;
 								BadgeSubmitView.Hidden = true;
 							}
@@ -151,13 +154,23 @@ namespace BlahguaMobile.IOS
 		{
 			BlahguaAPIObject.Current.VerifyEmailBadge (verifyCodeTextField.Text, ticketString, (result) => {
 				InvokeOnMainThread (() => {
-					if (result == String.Empty) {
+					if (result == "fail") {
 						UIAlertView alert = new UIAlertView ("", "That validation code was not valid.  Please retry your badging attempt.", null, "OK");
 						alert.Show ();
+                        verifyCodeTextField.SelectAll(this);
+                        //MainActivity.analytics.PostBadgeValidateFailed();
 					} else {
-						UIAlertView alert = new UIAlertView ("", "Code accepted.  Your new badge will be issued shortly.", null, "OK");
-
-						NavigationController.PopViewControllerAnimated (true);
+                        // MainActivity.analytics.PostGotBadge();
+                        BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
+                            {
+                                InvokeOnMainThread(() => {
+                                    UIAlertView alert = new UIAlertView ("", "Code accepted.  Your new badge will be issued shortly.", null, "OK");
+                                    alert.Show();
+                                    // TO DO:  Update the badge area
+                                    NavigationController.PopViewControllerAnimated (true);
+                                    });
+                                }
+                        );
 					}
 				});
 			});

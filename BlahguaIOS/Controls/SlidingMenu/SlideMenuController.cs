@@ -36,8 +36,6 @@ namespace MonoTouch.SlideMenu
 
 		RectangleF contentViewControllerFrame;
 		bool menuWasOpenAtPanBegin;
-        bool statusBarHidden = false;
-        bool scaleEnabled = true;
 
         bool contentViewScaled = false;
 
@@ -414,8 +412,7 @@ namespace MonoTouch.SlideMenu
             {
                 if (updateStatusBar)
                 {
-                    statusBarHidden = false;
-                    SetNeedsStatusBarAppearanceUpdate();
+                     SetNeedsStatusBarAppearanceUpdate();
                 }
                 NSTimer.CreateScheduledTimer(0.01, delegate
                 {
@@ -596,8 +593,6 @@ namespace MonoTouch.SlideMenu
 			frame.X += translation.X;
 
 			float offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
-
-			float offsetXWhenRightMenuIsOpen = OffsetXWhenRightMenuIsOpen ();
 
 
 			currentScale = 1.0f-(1.0f-SCALE)*(frame.X/offsetXWhenMenuIsOpen);

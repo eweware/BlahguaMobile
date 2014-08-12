@@ -56,7 +56,6 @@ namespace BlahguaMobile.IOS
 				viewController.SetValue(index, input.Text);
 			};
 
-			string value = String.Empty;
 			switch(section)
 			{
 			case 1:

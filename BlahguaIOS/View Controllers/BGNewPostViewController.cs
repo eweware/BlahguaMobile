@@ -26,7 +26,6 @@ namespace BlahguaMobile.IOS
 		const string userProfileText = "User Profile";
 		const string deleteSignatare = "Delete Signature";
 
-		private float space = 8f;
 
 		private UIActivityIndicatorView progressIndicator;
 		private UIImage imageForUploading;
@@ -97,7 +96,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public BGRollViewController ParentViewController { get; set; }
+		public new BGRollViewController ParentViewController { get; set; }
 
 		private BlahCreateRecord NewPost 
 		{

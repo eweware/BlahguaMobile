@@ -26,7 +26,6 @@ namespace BlahguaMobile.IOS
 		private UIImageView badgeIcon;
 
 		private CAKeyFrameAnimation fadeInOutAnimation;
-		private CABasicAnimation fadeOutAnimation;
 
 		public InboxBlah Blah 
 		{

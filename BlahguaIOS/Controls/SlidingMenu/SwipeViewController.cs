@@ -21,7 +21,6 @@ namespace MonoTouch.SlideMenu
 		const float WIDTH_OF_CONTENT_VIEW_VISIBLE = 160.0f;
 		const float ANIMATION_DURATION = 0.3f;
 		const float SCALE = 1.0f;
-		private float currentScale = 1.0f;
 
 		private VIEW_TYPE view_type;
 

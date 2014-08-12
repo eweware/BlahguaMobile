@@ -14,7 +14,7 @@ namespace BlahguaMobile.IOS
 	public partial class BGItemsSelectionTableViewCotroller : UITableViewController
 	{
 		public List<string> source;
-		public BGDemographicsViewController ParentViewController;
+		public new BGDemographicsViewController ParentViewController;
 		public int index;
 
 		public BGItemsSelectionTableViewCotroller (IntPtr handle) : base (handle)

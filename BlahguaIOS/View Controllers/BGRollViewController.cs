@@ -32,11 +32,9 @@ namespace BlahguaMobile.IOS
 		public bool IsAutoScrollingEnabled = false;
 
 		private UIView rightViewContainer;
-		private UIView rightView;
 		private UIImageView profileImage;
 		private UILabel usernameLabel;
 
-		private bool isOpened = false;
 
 		private bool isNewPostMode;
 		private Timer toastTimer;

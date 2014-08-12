@@ -40,23 +40,23 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel labelPrivacy { get; set; }
+		UILabel labelPrivacyNotice { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel labelRequestBadge { get; set; }
+		UILabel labelRequestText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel labelVerifyCodeText { get; set; }
+		UILabel labelVerifyText { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton RequestBadgeBtn { get; set; }
+		UIButton requestButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton verifyCodeBtn { get; set; }
+		UIButton verifyButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -88,25 +88,25 @@ namespace BlahguaMobile.IOS
 				infoTitle.Dispose ();
 				infoTitle = null;
 			}
-			if (labelPrivacy != null) {
-				labelPrivacy.Dispose ();
-				labelPrivacy = null;
+			if (labelPrivacyNotice != null) {
+				labelPrivacyNotice.Dispose ();
+				labelPrivacyNotice = null;
 			}
-			if (labelRequestBadge != null) {
-				labelRequestBadge.Dispose ();
-				labelRequestBadge = null;
+			if (labelRequestText != null) {
+				labelRequestText.Dispose ();
+				labelRequestText = null;
 			}
-			if (labelVerifyCodeText != null) {
-				labelVerifyCodeText.Dispose ();
-				labelVerifyCodeText = null;
+			if (labelVerifyText != null) {
+				labelVerifyText.Dispose ();
+				labelVerifyText = null;
 			}
-			if (RequestBadgeBtn != null) {
-				RequestBadgeBtn.Dispose ();
-				RequestBadgeBtn = null;
+			if (requestButton != null) {
+				requestButton.Dispose ();
+				requestButton = null;
 			}
-			if (verifyCodeBtn != null) {
-				verifyCodeBtn.Dispose ();
-				verifyCodeBtn = null;
+			if (verifyButton != null) {
+				verifyButton.Dispose ();
+				verifyButton = null;
 			}
 			if (verifyCodeTextField != null) {
 				verifyCodeTextField.Dispose ();

@@ -21,7 +21,7 @@ namespace BlahguaMobile.IOS
 		public string upDownCount;
 		public string timeAgo;
 
-		public BGHistoryViewController ParentViewController
+		public new BGHistoryViewController ParentViewController
 		{
 			get;
 			set;

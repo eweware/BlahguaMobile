@@ -1,6 +1,4 @@
 ﻿using System;
-
-using System;
 using System.Drawing;
 
 using MonoTouch.Foundation;
@@ -16,7 +14,6 @@ namespace BlahguaMobile.IOS
 
 		int totalPages;
 		int curPage;
-		UIScrollViewDelegate dele;
 
 		private NSMutableArray curViews = null;
 

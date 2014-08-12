@@ -123,7 +123,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     handler(this, new PropertyChangedEventArgs(name));
                 }
-                catch (Exception exp)
+                catch (Exception)
                 {
                     // do nothing for now...
                 }
@@ -1428,7 +1428,6 @@ namespace BlahguaMobile.BlahguaCore
             {
                 BlahguaRest.GetPublicChannels(true, (chanList) =>
                     {
-                        bool didIt = false;
 
                         theChan = chanList.ChannelFromName(channelName);
                         if (theChan != null)

@@ -99,7 +99,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     handler(this, new PropertyChangedEventArgs(name));
                 }
-                catch (Exception exp)
+                catch (Exception)
                 {
                     // do nothing for now...
                 }

@@ -96,7 +96,7 @@ namespace BlahguaMobile.BlahguaCore
                     resStr = resStr.Replace("\"U\":", "\"Upvotes\":");
                     commentList = resStr.FromJson<CommentList>();
                 }
-                catch (SerializationException exp)
+                catch (SerializationException)
                 {
                     commentList = new CommentList();
                     // serialization failed - make some BS comments
@@ -144,9 +144,10 @@ namespace BlahguaMobile.BlahguaCore
         public void GetBadgeAuthorities(BadgeAuthorities_callback callback)
         {
             RestRequest request = new RestRequest("badges/authorities", Method.GET);
-            apiClient.ExecuteAsync<BadgeAuthorityList>(request, (response) =>
+            apiClient.ExecuteAsync(request, (response) =>
             {
-                callback(response.Data);
+                    BadgeAuthorityList theList = response.Content.FromJson<BadgeAuthorityList>();
+                    callback(theList);
             });
         }
 
@@ -192,12 +193,6 @@ namespace BlahguaMobile.BlahguaCore
           
             apiClient.ExecuteAsync(request, (response) =>
             {
-                bool didIt;
-                if (response.ContentType == "JSON")
-                    didIt = false;
-                else
-                    didIt = true;
-
                 callback(response.Content);
             });
 
@@ -242,7 +237,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
 					commentList = response.Content.FromJson<CommentList>();
                 }
-                catch (SerializationException exp)
+                catch (SerializationException)
                 {
                     commentList = new CommentList();
                     // serialization failed - make some BS comments
@@ -278,7 +273,7 @@ namespace BlahguaMobile.BlahguaCore
                     if (altList != null)
                         blahList = altList;
                 }
-                catch (SerializationException exp)
+                catch (SerializationException)
                 {
                     
                 }

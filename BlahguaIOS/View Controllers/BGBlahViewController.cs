@@ -19,21 +19,10 @@ namespace BlahguaMobile.IOS
     public partial class BGBlahViewController : UIViewController, IImageUpdated
     {
         #region Fields
-
-        private ImageUpdateDelegate badgeImageUpdateDelegate;
-
-        private float textInsetDefaultValue = 11.0f;
-        private float defaultWidthOfContent = 320.0f;
-        private float defaultContentViewStartYCoor = 97.0f;
-        private float iphone4ContentViewHeight = 339f;
-        private float iphone5ContentViewHeight = 427f;
-        private SizeF toolbarViewSize = new SizeF(320f, 44f);
-
 		private bool badgesShown = true;
 
         private UITableView tableView;
 
-        private UITableView itemsTable;
 
         private UIButton upVoteButton;
         private UIButton downVoteButton;
@@ -41,8 +30,6 @@ namespace BlahguaMobile.IOS
         private UIButton summaryButton;
         private UIButton commentsButton;
         private UIButton statsButton;
-
-		private float offset_Y = 0;
 
         #endregion
 
@@ -78,12 +65,6 @@ namespace BlahguaMobile.IOS
             //Synsoft on 9 July 2014 added title
             this.Title = "Summary";
 
-			offset_Y = 44;
-            //Synsoft on 11 July 2014            
-            //NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
-            //Synsoft on 11 July 2014 for active color  #1FBBD1
-            //NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
-
             SetUpBaseLayout();
 
             SetUpHeaderView();
@@ -101,13 +82,9 @@ namespace BlahguaMobile.IOS
 			NSAction showFullScreen = () => {
 				if(blahImage.Image != null)
 				{
-					AppDelegate objAppDelegate = new AppDelegate();
-					//var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-					//BGFullScreenViewController fs = myStoryboard.InstantiateViewController("BGFullScreenViewController") as BGFullScreenViewController;
 					FullScreenView fs = new FullScreenView(blahImage.Image);
 
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
-					//fs.FullImage = blahImage.Image;
 				}
 
 			};
@@ -121,7 +98,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
-			//summaryButton.SetImage (UIImage.FromBundle ("summary_dark"), UIControlState.Normal);
+
 			SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
 
 			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
@@ -133,7 +110,6 @@ namespace BlahguaMobile.IOS
         //Synsoft on 14 July 2014 
         private void SwipeToCommentController()
         {
-           // PerformSegue("fromBlahViewToComments", this);
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
         }
 
@@ -146,11 +122,10 @@ namespace BlahguaMobile.IOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            //SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
+
             if (ShouldMoveToStats)
             {
                 ShouldMoveToStats = false;
-                //PerformSegue("fromBlahViewToStats", this);
             }
 
             contentView.ContentSize = new SizeF(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
@@ -656,8 +631,7 @@ namespace BlahguaMobile.IOS
         private class BGBlahPollTableSource : UITableViewSource
         {
             private BlahPollType type;
-            private bool isUserVoted;
-
+ 
             private bool IsUserVoted
             {
                 get

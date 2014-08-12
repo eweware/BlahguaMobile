@@ -62,7 +62,6 @@ namespace BlahguaMobile.IOS
                 scrollView.ContentSize = new SizeF(scrollView.Frame.Width, 480);
 
                 scrollView.ScrollEnabled = true;
-                Dictionary<string, string> source = new Dictionary<string, string>();
 
                 //Synsoft on 10 June 2014 
                 if (CurrentBlah != null)

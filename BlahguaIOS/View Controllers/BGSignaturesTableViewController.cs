@@ -14,7 +14,7 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGSignaturesTableViewController : UITableViewController
 	{
-		public UIViewController ParentViewController 
+		public new UIViewController ParentViewController 
 		{
 			get;
 			set;

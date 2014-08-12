@@ -28,7 +28,7 @@ namespace BlahguaMobile.IOS
 		private bool isProfileSignature;
 
 
-		public BGCommentsViewController ParentViewController { get; set; }
+		public new BGCommentsViewController ParentViewController { get; set; }
 
 		private CommentCreateRecord NewComment
 		{

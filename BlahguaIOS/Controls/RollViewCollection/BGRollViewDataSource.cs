@@ -86,7 +86,6 @@ namespace BlahguaMobile.IOS
 		{
 			viewController.CollectionView.PerformBatchUpdates (() => {
 				inb.PrepareBlahs ();
-				var preparedInbox = new Inbox ();
 				NSIndexPath[] paths = new NSIndexPath[100];
 				int count = dataSource.Count;
 
