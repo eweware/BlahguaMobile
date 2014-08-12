@@ -22,6 +22,10 @@ namespace MonoTouch.SlideMenu
 
 		UIViewController contentViewController;
 
+		BGNewPostViewController	m_newPostController;
+
+		UIView m_newPostView; 
+
 		public UINavigationController ContentViewNavigationController {
 			get { 
 				if (contentViewController.NavigationController != null)
@@ -36,6 +40,8 @@ namespace MonoTouch.SlideMenu
 
 		RectangleF contentViewControllerFrame;
 		bool menuWasOpenAtPanBegin;
+        bool statusBarHidden = false;
+        bool scaleEnabled = true;
 
         bool contentViewScaled = false;
 
@@ -141,7 +147,58 @@ namespace MonoTouch.SlideMenu
 			contentViewController.View.AddGestureRecognizer(PanGesture);
 			PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
 
+			m_newPostView = new UIScrollView (new RectangleF (0, 0, 320, 480));
+			//m_newPostView.ContentSize = new SizeF (320, 800);
+			//m_newPostView.ScrollEnabled = true;
+			m_newPostView.BackgroundColor = UIColor.Clear;
+			m_newPostView.BackgroundColor = new UIColor(50/255.0f, 50/255.0f, 50/255.0f, 0.7f);
 
+		}
+
+		public void ShowNewPostView()
+		{
+			if (m_newPostController == null) {
+				m_newPostController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
+					.MainStoryboard
+					.InstantiateViewController ("BGNewPostViewController");
+
+				m_newPostController.ParentViewController = this;
+				this.AddChildViewController (m_newPostController);
+				m_newPostController.View.Frame =new RectangleF (0, -44, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height + 44);
+				((UIScrollView)m_newPostController.View).ContentSize = new SizeF (320, 480);
+				((UIScrollView)m_newPostController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
+
+				m_newPostView.AddSubview (m_newPostController.View);
+
+				m_newPostView.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+
+				this.View.AddSubview (m_newPostView);
+			}
+			UIView.BeginAnimations (null);
+			UIView.SetAnimationDuration (0.5f);
+		
+			m_newPostView.Frame = new RectangleF (0, 44, 320, UIScreen.MainScreen.Bounds.Height - 44);
+
+			m_newPostController.clearAllFields ();
+
+			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );
+
+			UIView.CommitAnimations ();
+		}
+
+		public void HideNewBlahDialog()
+		{
+			UIView.BeginAnimations (null);
+			UIView.SetAnimationDuration (0.5f);
+			m_newPostView.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+			UIView.CommitAnimations ();
+
+			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
+		}
+
+		public void AddNewBlahToView(Blah newBlah)
+		{
+			((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).AddNewBlahToView (newBlah);
 		}
 
 		// - (void)viewWillAppear:(BOOL)animated
@@ -412,7 +469,8 @@ namespace MonoTouch.SlideMenu
             {
                 if (updateStatusBar)
                 {
-                     SetNeedsStatusBarAppearanceUpdate();
+                    statusBarHidden = false;
+                    SetNeedsStatusBarAppearanceUpdate();
                 }
                 NSTimer.CreateScheduledTimer(0.01, delegate
                 {
@@ -593,6 +651,8 @@ namespace MonoTouch.SlideMenu
 			frame.X += translation.X;
 
 			float offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
+
+			float offsetXWhenRightMenuIsOpen = OffsetXWhenRightMenuIsOpen ();
 
 
 			currentScale = 1.0f-(1.0f-SCALE)*(frame.X/offsetXWhenMenuIsOpen);

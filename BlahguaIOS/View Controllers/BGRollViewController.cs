@@ -32,9 +32,11 @@ namespace BlahguaMobile.IOS
 		public bool IsAutoScrollingEnabled = false;
 
 		private UIView rightViewContainer;
+		private UIView rightView;
 		private UIImageView profileImage;
 		private UILabel usernameLabel;
 
+		private bool isOpened = false;
 
 		private bool isNewPostMode;
 		private Timer toastTimer;
@@ -245,7 +247,7 @@ namespace BlahguaMobile.IOS
 					}, UIControlState.Normal);
 				}
 			} else {
-				if ((NavigationItem.RightBarButtonItems == null ) || (NavigationItem.RightBarButtonItems.Length < 2)) {
+				if (NavigationItem.RightBarButtonItems.Length < 2) {
 
 					profile = new UIButton (new RectangleF (44, 0, 44, 44));
 					profile.SetImage (GetProfileImage (), UIControlState.Normal);
@@ -282,7 +284,6 @@ namespace BlahguaMobile.IOS
 			isNewPostMode = false;
 			newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
 			UIView.CommitAnimations ();
-			//newPostViewController.View.RemoveFromSuperview ();
 			SetSrollingAvailability (true);
 
 			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
@@ -323,6 +324,16 @@ namespace BlahguaMobile.IOS
 
 		private void NewBlah (object sender, EventArgs e)
 		{
+			if (isNewPostMode) {
+				SetSrollingAvailability (true);
+				leftSlidingMenu.HideNewBlahDialog ();
+				isNewPostMode = false;
+			} else {
+				SetSrollingAvailability (false);
+				leftSlidingMenu.ShowNewPostView ();
+				isNewPostMode = true;
+			}
+		}/*
 			this.View.EndEditing (true);
 			if(leftSlidingMenu.IsMenuOpen() || leftSlidingMenu.IsRightMenuOpen())
 			{
@@ -359,7 +370,7 @@ namespace BlahguaMobile.IOS
 			}
 			UIView.CommitAnimations ();
 		}
-
+*/
 		private void UpdateRightMenu ()
 		{
 			profileImage.Image = GetProfileImage ();

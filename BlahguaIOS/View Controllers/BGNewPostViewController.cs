@@ -12,7 +12,7 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.ActionSheetDatePicker;
-
+using MonoTouch.SlideMenu;
 
 namespace BlahguaMobile.IOS
 {
@@ -26,6 +26,7 @@ namespace BlahguaMobile.IOS
 		const string userProfileText = "User Profile";
 		const string deleteSignatare = "Delete Signature";
 
+		private float space = 8f;
 
 		private UIActivityIndicatorView progressIndicator;
 		private UIImage imageForUploading;
@@ -96,7 +97,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public new BGRollViewController ParentViewController { get; set; }
+		public SlideMenuController ParentViewController { get; set; }
 
 		private BlahCreateRecord NewPost 
 		{
@@ -126,7 +127,7 @@ namespace BlahguaMobile.IOS
 			};
 
 			((UIScrollView)View).ScrollEnabled = true;
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+            //View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
             //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
@@ -483,15 +484,13 @@ namespace BlahguaMobile.IOS
                 }
                 System.Console.WriteLine("About to Submit!");
                 BlahguaAPIObject.Current.CreateBlah(PostCreated);
-                this.View.EndEditing (true);
             }
             else
             {
                 // show a message box
-                this.ParentViewController.ShowToast(errString);
-                
+                //this.ParentViewController.ShowToast(errString);  
             }
-			
+			this.View.EndEditing (true);
 		}
 
 		public void clearAllFields()
@@ -502,12 +501,15 @@ namespace BlahguaMobile.IOS
 			selectImageButton.SetTitle("Select Image", UIControlState.Normal);
 			ExpirationDateInput.Text = "";
 
-			//SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
+			//
 
 			NewPost.M = null;
 			NewPost.B = null;
 			NewPost.UseProfile = false;
 			done.Enabled = false;
+			pollItemsTableView.Hidden = true;
+
+			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 		}
 
 		private void ActionForImage(object sender, EventArgs e)
@@ -551,11 +553,10 @@ namespace BlahguaMobile.IOS
 
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{
-			UIImage image = imageForUploading = UIImageHelper.ScaleAndRotateImage(eventArgs.OriginalImage);
-
+			UIImage image = imageForUploading = eventArgs.OriginalImage;
 			DateTime now = DateTime.Now;
-			string imageName = String.Format ("{0}_{1}.jpg", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
-			BlahguaAPIObject.Current.UploadPhoto (image.AsJPEG ().AsStream (), imageName, ImageUploaded);
+			string imageName = String.Format ("{0}_{1}.png", now.ToLongDateString(), BlahguaAPIObject.Current.CurrentUser.UserName);
+			BlahguaAPIObject.Current.UploadPhoto (image.AsPNG ().AsStream (), imageName, ImageUploaded);
 			progressIndicator = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.Gray);
 			progressIndicator.TranslatesAutoresizingMaskIntoConstraints = false;
 			var constraintWidth = NSLayoutConstraint.Create (progressIndicator, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 40);
@@ -572,7 +573,6 @@ namespace BlahguaMobile.IOS
 			((BGImagePickerController) sender).DismissViewController(true, 
 				() => {});
 		}
-
 
 		private void ChooseSignature (object sender, EventArgs e)
 		{
@@ -619,18 +619,23 @@ namespace BlahguaMobile.IOS
 		public void AdjustTableViewSize ()
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
-			if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
-				pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
-			else
+
+			if (newSize.Height > 200) {
+				pollItemsTableView.ScrollEnabled = true;
 				return;
-			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60);
+			}
+			//if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
+				pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
+			//else
+			//	return;
+			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60 + 200);
 			if (pollItemsTableView.Hidden == false) {
 				done.RemoveFromSuperview ();
 
-				if ((pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height) >= (View.Bounds.Height - 48)) {
-					done.Frame = new RectangleF (doneFrame.X, View.Bounds.Height - 48, doneFrame.Width, doneFrame.Height);
-				} else
-					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
+				//if ((pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height) >= (View.Bounds.Height - 48)) {
+				//	done.Frame = new RectangleF (doneFrame.X, View.Bounds.Height - 48, doneFrame.Width, doneFrame.Height);
+				//} else
+				done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
 
 				View.AddSubview (done);
 			}
