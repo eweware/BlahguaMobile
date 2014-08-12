@@ -296,8 +296,6 @@
     <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
     <Compile Include="Controls\ActionSheetDatePicker.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
-    <Compile Include="View Controllers\historyViewCell.cs" />
-    <Compile Include="View Controllers\historyViewSource.cs" />
     <Compile Include="Views\SWTableViewCell.cs" />
     <Compile Include="View Controllers\BGFullScreenViewController.cs" />
     <Compile Include="View Controllers\BGFullScreenViewController.designer.cs">
@@ -374,8 +372,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
-    <InterfaceDefinition Include="View Controllers\historyViewController_iPhone.xib" />
-    <InterfaceDefinition Include="View Controllers\historyViewController_iPad.xib" />
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>

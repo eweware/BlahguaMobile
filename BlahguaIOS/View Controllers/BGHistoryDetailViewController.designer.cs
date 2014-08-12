@@ -15,9 +15,6 @@ namespace BlahguaMobile.IOS
 	partial class BGHistoryDetailViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UITableView detailMainTable { get; set; }
-
-		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView view { get; set; }
 
