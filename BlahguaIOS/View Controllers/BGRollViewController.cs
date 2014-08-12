@@ -247,7 +247,7 @@ namespace BlahguaMobile.IOS
 					}, UIControlState.Normal);
 				}
 			} else {
-				if (NavigationItem.RightBarButtonItems.Length < 2) {
+				if ((NavigationItem.RightBarButtonItems == null ) || (NavigationItem.RightBarButtonItems.Length < 2)) {
 
 					profile = new UIButton (new RectangleF (44, 0, 44, 44));
 					profile.SetImage (GetProfileImage (), UIControlState.Normal);
