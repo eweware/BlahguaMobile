@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 		const string deleteCurrentPhotoText = "Delete Current Photo";
 		const string userProfileText = "User Profile";
 		const string deleteSignatare = "Delete Signature";
-
+		private float scrollOffset = 0f;
 		private float space = 8f;
 
 		private UIActivityIndicatorView progressIndicator;
@@ -45,7 +45,7 @@ namespace BlahguaMobile.IOS
 			{
 				if(expirationDateInput == null)
 				{
-					expirationDateInput = new BGTextField (new RectangleF (doneFrame.X, selectImageButton.Frame.Y + 42, 
+					expirationDateInput = new BGTextField (new RectangleF (back.Frame.X, back.Frame.Bottom + 2, 
 																			305, 40));
 
 					expirationDateInput.AttributedPlaceholder = new NSAttributedString(
@@ -63,6 +63,11 @@ namespace BlahguaMobile.IOS
 
 					expirationDateInput.ReturnKeyType = UIReturnKeyType.Default;
 					expirationDateInput.ShouldBeginEditing = delegate {
+
+						if(UIScreen.MainScreen.Bounds.Height == 480)
+						{
+							containerScrollView.SetContentOffset(new PointF(0, 100), true);
+						}
 						datePicker = new ActionSheetDatePicker (this.View);
 						datePicker.Title = "Choose Date";
 						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
@@ -74,23 +79,19 @@ namespace BlahguaMobile.IOS
 							NSDate dateValue = (s as UIDatePicker).Date;
 							expirationDateInput.Text = new NSString(dateFormatter.ToString(dateValue));
 						};
-
+					
+						if(UIScreen.MainScreen.Bounds.Height == 480)
+						{
+							datePicker.WillDismiss += (s, e) =>{
+								containerScrollView.SetContentOffset(new PointF(0, 0), true);
+							};
+						}
 						datePicker.Show ();
 
 						return false;
 					};
-					expirationDateInput.ShouldReturn = delegate {
-						DateTime expDateTime;
-						if (DateTime.TryParse (expirationDateInput.Text, out expDateTime)) 
-						{
-							return true;
-						} 
-						else 
-						{
-							return false;
-						}
-					};
-					View.AddSubview (expirationDateInput);
+
+
 					expirationDateInput.Hidden = true;
 				}
 				return expirationDateInput;
@@ -126,7 +127,6 @@ namespace BlahguaMobile.IOS
 				ForegroundColor = UIColor.Black
 			};
 
-			((UIScrollView)View).ScrollEnabled = true;
             //View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
@@ -216,9 +216,11 @@ namespace BlahguaMobile.IOS
 
 				}
 			};
-		}
 
-        partial void HandleTitleChanged(UITextField sender)
+			done.TranslatesAutoresizingMaskIntoConstraints = false;
+			containerScrollView.TranslatesAutoresizingMaskIntoConstraints=  false;
+		}
+		partial void HandleTitleChanged(UITextField sender)
         {
             UpdatePostBtn();
         }
@@ -309,7 +311,7 @@ namespace BlahguaMobile.IOS
 					pollItemsTableView.Hidden = false;
 
 					pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
-
+					containerHeight.Constant = this.View.Bounds.Bottom - doneFrame.Height - 6;
 
 					ExpirationDateInput.Hidden = true;
 
@@ -317,7 +319,7 @@ namespace BlahguaMobile.IOS
 					//bodyInput.Placeholder = "Polls must have at least two choices";
 					titleInput.Placeholder = "HEADLINE: Include pre-defined responses.";
 					done.RemoveFromSuperview ();
-					done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
+					done.Frame = new RectangleF (doneFrame.X, containerHeight.Constant + 4, doneFrame.Width, doneFrame.Height);
 					View.AddSubview(done);
 				});
 
@@ -326,20 +328,33 @@ namespace BlahguaMobile.IOS
                 case "predicts":
                     InvokeOnMainThread(() =>
                         {
-                            ExpirationDateInput.AttributedText = new NSAttributedString(
+
+                        ExpirationDateInput.AttributedText = new NSAttributedString(
                                 NewPost.E ?? String.Empty, 
                                 UIFont.FromName(BGAppearanceConstants.FontName, 14),
                                 UIColor.Black
                             );
+
+						RectangleF oldFrame = containerScrollView.Frame;
+
+						containerHeight.Constant = back.Frame.Height + expirationDateInput.Frame.Height + 8;
+
+						containerScrollView.AddSubview (ExpirationDateInput);
+						if(UIScreen.MainScreen.Bounds.Height == 480)
+						{
+							containerScrollView.ContentSize = new SizeF(containerScrollView.ContentSize.Width, containerHeight.Constant + 100);
+						}
+
+
 						done.RemoveFromSuperview ();
-						done.Frame = new RectangleF(doneFrame.X, doneFrame.Y + 48, doneFrame.Width, doneFrame.Height) ;
+						done.Frame = new RectangleF(doneFrame.X, containerHeight.Constant + 2, doneFrame.Width, doneFrame.Height) ;
 						View.AddSubview(done);
-                            pollItemsTableView.Hidden = true;
-                            ExpirationDateInput.Hidden = false;
+                        pollItemsTableView.Hidden = true;
+                        ExpirationDateInput.Hidden = false;
 
 
 						titleInput.Placeholder = "HEADLINE: Need a dated outcome.";
-                            //bodyInput.Placeholder = "Predictions require you to set a date";
+                        //bodyInput.Placeholder = "Predictions require you to set a date";
                         });
 
                     break;
@@ -347,6 +362,9 @@ namespace BlahguaMobile.IOS
 			case "says":
 				pollItemsTableView.Hidden = true;
 				ExpirationDateInput.Hidden = true;
+
+				containerHeight.Constant = back.Frame.Height;
+
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
@@ -357,6 +375,7 @@ namespace BlahguaMobile.IOS
                 case "asks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				containerHeight.Constant = back.Frame.Height;
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
@@ -367,6 +386,7 @@ namespace BlahguaMobile.IOS
                 case "leaks":
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = true;
+				containerHeight.Constant = back.Frame.Height;
 				done.RemoveFromSuperview ();
 				done.Frame = doneFrame ;
 				View.AddSubview(done);
@@ -620,24 +640,26 @@ namespace BlahguaMobile.IOS
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
 
-			if (newSize.Height > 200) {
-				pollItemsTableView.ScrollEnabled = true;
-				return;
-			}
+			//if (newSize.Height > 200) {
+				//pollItemsTableView.ScrollEnabled = true;
+			//	return;
+			//}
 			//if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
-				pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
+				//pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
+			pollOptionTableHeight.Constant = newSize.Height;
 			//else
 			//	return;
-			((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60 + 200);
+			//((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60 + 200);
+			containerScrollView.ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 216);
 			if (pollItemsTableView.Hidden == false) {
-				done.RemoveFromSuperview ();
+				//done.RemoveFromSuperview ();
 
 				//if ((pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height) >= (View.Bounds.Height - 48)) {
 				//	done.Frame = new RectangleF (doneFrame.X, View.Bounds.Height - 48, doneFrame.Width, doneFrame.Height);
 				//} else
-				done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
+				//done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
 
-				View.AddSubview (done);
+				//View.AddSubview (done);
 			}
 		}
 
@@ -665,6 +687,26 @@ namespace BlahguaMobile.IOS
 				NewPost.M.Add (s);
                 UpdatePostBtn();
 			});
+		}
+
+		public void MoveScrollOffset(int row)
+		{
+
+			if (UIScreen.MainScreen.Bounds.Height == 480) {
+				scrollOffset = containerScrollView.ContentOffset.Y;
+
+				containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, 50 + row * pollItemsTableView.RowHeight), true);
+			}
+			else {
+				if (row > 1) {
+					scrollOffset = containerScrollView.ContentOffset.Y;
+					containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, (row - 1) * pollItemsTableView.RowHeight), true);
+				}
+			}
+		}
+		public void InitScrollOffset()
+		{
+			containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, scrollOffset), true);
 		}
 	}
 
@@ -700,6 +742,16 @@ namespace BlahguaMobile.IOS
 				backImageName = "input_field_middle";
 				cell.SetUpWithPollItem (BlahguaAPIObject.Current.CreateRecord.I [indexPath.Row]);
 			}
+
+			cell.PollItemTextField.ShouldBeginEditing = delegate{
+				vc.MoveScrollOffset(indexPath.Row);
+				return true;
+			};
+			cell.PollItemTextField.ShouldEndEditing = delegate {
+				vc.InitScrollOffset();
+				return true;
+			};
+
 			vc.AdjustTableViewSize ();
             cell.BackgroundView = new UIImageView(UIImage.FromBundle(backImageName));
 

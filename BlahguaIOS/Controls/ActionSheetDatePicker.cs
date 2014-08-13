@@ -13,7 +13,8 @@ namespace MonoTouch.ActionSheetDatePicker {
 		UIButton doneButton = UIButton.FromType (UIButtonType.RoundedRect);
 		UIView owner;
 		UILabel titleLabel = new UILabel ();
-		
+
+		public EventHandler WillDismiss;
 		#endregion
 		
 		#region -= properties =-
@@ -56,7 +57,11 @@ namespace MonoTouch.ActionSheetDatePicker {
 			
 			// configure the done button
 			doneButton.SetTitle ("done", UIControlState.Normal);
-			doneButton.TouchUpInside += (s, e) => { actionSheet.DismissWithClickedButtonIndex (0, true); };
+			doneButton.TouchUpInside += (s, e) => {
+				if(WillDismiss != null)
+					WillDismiss(s, e);
+				actionSheet.DismissWithClickedButtonIndex (0, true); 
+			};
 			
 			// create + configure the action sheet
 			actionSheet = new UIActionSheet () { Style = UIActionSheetStyle.BlackTranslucent };
@@ -75,6 +80,7 @@ namespace MonoTouch.ActionSheetDatePicker {
 		/// <summary>
 		/// Shows the action sheet picker from the view that was set as the owner.
 		/// </summary>
+	
 		public void Show ()
 		{
 			// declare vars
@@ -108,7 +114,8 @@ namespace MonoTouch.ActionSheetDatePicker {
 		{
 			actionSheet.DismissWithClickedButtonIndex (0, animated);
 		}
-		
+
+
 		#endregion		
 	}
 }

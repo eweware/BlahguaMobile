@@ -1,12 +1,10 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-using System;
 using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -15,143 +13,173 @@ namespace BlahguaMobile.IOS
 	partial class BGNewPostViewController
 	{
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton AskBtn { get; set; }
+		MonoTouch.UIKit.UIButton AskBtn { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel AskBtnText { get; set; }
+		MonoTouch.UIKit.UILabel AskBtnText { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView back { get; set; }
+		MonoTouch.UIKit.UIImageView back { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField bodyInput { get; set; }
+		MonoTouch.UIKit.UITextField bodyInput { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton done { get; set; }
+		MonoTouch.UIKit.NSLayoutConstraint containerHeight { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton LeakBtn { get; set; }
+		MonoTouch.UIKit.NSLayoutConstraint containerOffset { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel LeakBtnText { get; set; }
+		MonoTouch.UIKit.UIScrollView containerScrollView { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton PollBtn { get; set; }
+		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel PollBtnText { get; set; }
+		MonoTouch.UIKit.UIButton LeakBtn { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView pollItemsTableView { get; set; }
+		MonoTouch.UIKit.UILabel LeakBtnText { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton PredictBtn { get; set; }
+		MonoTouch.UIKit.UIButton PollBtn { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel PredictBtnText { get; set; }
+		MonoTouch.UIKit.UILabel PollBtnText { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton SayBtn { get; set; }
+		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel SayBtnText { get; set; }
+		MonoTouch.UIKit.NSLayoutConstraint pollOptionTableHeight { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectImageButton { get; set; }
+		MonoTouch.UIKit.UIButton PredictBtn { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton selectSignature { get; set; }
+		MonoTouch.UIKit.UILabel PredictBtnText { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField titleInput { get; set; }
+		MonoTouch.UIKit.UIButton SayBtn { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel SayBtnText { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton selectSignature { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITextField titleInput { get; set; }
 
 		[Action ("HandleTitleChanged:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void HandleTitleChanged (UITextField sender);
-
+		partial void HandleTitleChanged (MonoTouch.UIKit.UITextField sender);
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (AskBtn != null) {
 				AskBtn.Dispose ();
 				AskBtn = null;
 			}
+
 			if (AskBtnText != null) {
 				AskBtnText.Dispose ();
 				AskBtnText = null;
 			}
+
 			if (back != null) {
 				back.Dispose ();
 				back = null;
 			}
+
 			if (bodyInput != null) {
 				bodyInput.Dispose ();
 				bodyInput = null;
 			}
+
+			if (containerHeight != null) {
+				containerHeight.Dispose ();
+				containerHeight = null;
+			}
+
+			if (containerOffset != null) {
+				containerOffset.Dispose ();
+				containerOffset = null;
+			}
+
+			if (containerScrollView != null) {
+				containerScrollView.Dispose ();
+				containerScrollView = null;
+			}
+
 			if (done != null) {
 				done.Dispose ();
 				done = null;
 			}
+
 			if (LeakBtn != null) {
 				LeakBtn.Dispose ();
 				LeakBtn = null;
 			}
+
 			if (LeakBtnText != null) {
 				LeakBtnText.Dispose ();
 				LeakBtnText = null;
 			}
+
 			if (PollBtn != null) {
 				PollBtn.Dispose ();
 				PollBtn = null;
 			}
+
 			if (PollBtnText != null) {
 				PollBtnText.Dispose ();
 				PollBtnText = null;
 			}
+
 			if (pollItemsTableView != null) {
 				pollItemsTableView.Dispose ();
 				pollItemsTableView = null;
 			}
+
+			if (pollOptionTableHeight != null) {
+				pollOptionTableHeight.Dispose ();
+				pollOptionTableHeight = null;
+			}
+
 			if (PredictBtn != null) {
 				PredictBtn.Dispose ();
 				PredictBtn = null;
 			}
+
 			if (PredictBtnText != null) {
 				PredictBtnText.Dispose ();
 				PredictBtnText = null;
 			}
+
 			if (SayBtn != null) {
 				SayBtn.Dispose ();
 				SayBtn = null;
 			}
+
 			if (SayBtnText != null) {
 				SayBtnText.Dispose ();
 				SayBtnText = null;
 			}
+
 			if (selectImageButton != null) {
 				selectImageButton.Dispose ();
 				selectImageButton = null;
 			}
+
 			if (selectSignature != null) {
 				selectSignature.Dispose ();
 				selectSignature = null;
 			}
+
 			if (titleInput != null) {
 				titleInput.Dispose ();
 				titleInput = null;

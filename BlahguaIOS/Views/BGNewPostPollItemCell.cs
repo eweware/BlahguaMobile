@@ -30,13 +30,24 @@ namespace BlahguaMobile.IOS
 			pollItemText.Enabled = false;
 		}
 
+		public UITextField PollItemTextField
+		{
+			get{
+				return pollItemText;
+			}
+			set{
+				pollItemText = value;
+			}
+		}
+
 		private void SetUp(string text, UIFont fontForText)
 		{
 			pollItemText.AttributedPlaceholder = new NSAttributedString (
 				"Type poll option", 
 				UIFont.FromName(BGAppearanceConstants.FontName, 14), 
-				UIColor.Black
+				UIColor.DarkGray
 			);
+			pollItemText.Enabled = true;
 
 			pollItemText.AttributedText = new NSAttributedString (
 				text,
@@ -53,9 +64,9 @@ namespace BlahguaMobile.IOS
 			};
 
 			pollItemText.ReturnKeyType = UIReturnKeyType.Default;
-			pollItemText.ShouldReturn = delegate {
-				return true;
-			};
+			//pollItemText.ShouldReturn = delegate {
+			//	return true;
+			//};
 		}
 	}
 }

@@ -147,12 +147,9 @@ namespace MonoTouch.SlideMenu
 			contentViewController.View.AddGestureRecognizer(PanGesture);
 			PanGesture.Enabled = panEnabledWhenSlideMenuIsHidden;
 
-			m_newPostView = new UIScrollView (new RectangleF (0, 0, 320, 480));
-			//m_newPostView.ContentSize = new SizeF (320, 800);
-			//m_newPostView.ScrollEnabled = true;
-			m_newPostView.BackgroundColor = UIColor.Clear;
-			m_newPostView.BackgroundColor = new UIColor(50/255.0f, 50/255.0f, 50/255.0f, 0.7f);
+			m_newPostView = new UIView (this.View.Bounds);
 
+			m_newPostView.BackgroundColor = new UIColor(50/255.0f, 50/255.0f, 50/255.0f, 0.7f);
 		}
 
 		public void ShowNewPostView()
@@ -164,9 +161,10 @@ namespace MonoTouch.SlideMenu
 
 				m_newPostController.ParentViewController = this;
 				this.AddChildViewController (m_newPostController);
-				m_newPostController.View.Frame =new RectangleF (0, -44, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height + 44);
-				((UIScrollView)m_newPostController.View).ContentSize = new SizeF (320, 480);
-				((UIScrollView)m_newPostController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
+
+				m_newPostController.View.Frame =new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+				//((UIScrollView)m_newPostController.View).ContentSize = new SizeF (320, 480);
+				//((UIScrollView)m_newPostController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 
 				m_newPostView.AddSubview (m_newPostController.View);
 
