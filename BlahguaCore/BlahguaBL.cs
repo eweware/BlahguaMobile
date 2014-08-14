@@ -317,11 +317,18 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     if (theList != null)
                     {
+						BlahList	newList = new BlahList();
                         foreach (Blah curBlah in theList)
                         {
-                            curBlah.T = UnprocessText(curBlah.T);
-                            curBlah.F = UnprocessText(curBlah.F);
+							if (curBlah.S >= 0)
+							{
+	                            curBlah.T = UnprocessText(curBlah.T);
+	                            curBlah.F = UnprocessText(curBlah.F);
+								newList.Add(curBlah);
+							}
                         }
+
+						theList = newList;
                     }
                     callback(theList);
                 }

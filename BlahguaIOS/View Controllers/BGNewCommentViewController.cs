@@ -218,6 +218,7 @@ namespace BlahguaMobile.IOS
 
 		private void CommentCreated(Comment newComment)
 		{
+			input.Text = "";
 			InvokeOnMainThread(() => ParentViewController.SwitchNewCommentMode ());
 			Console.WriteLine ("Comment pushed");
 		}

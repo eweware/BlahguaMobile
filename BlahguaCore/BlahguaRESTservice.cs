@@ -262,13 +262,7 @@ namespace BlahguaMobile.BlahguaCore
 					string resStr = response.Content;
 					resStr = resStr.Replace("\"c\":", "\"cdate\":");
 					BlahList altList = resStr.FromJson<BlahList>();
-                    /*
-                    JsonArrayObjects aObjs = JsonArrayObjects.Parse(response.Content);
-                    foreach (string theKey in aObjs[0].Keys)
-                    {
-                        System.Diagnostics.Debug.WriteLine(theKey);
-                    }
-                    */
+                    
 
                     if (altList != null)
                         blahList = altList;
@@ -492,8 +486,11 @@ namespace BlahguaMobile.BlahguaCore
             theBlah.E = theBlah.ExpirationDate.ToString("yyy-MM-dd") + "T00:00:00";
             request.RequestFormat = DataFormat.Json;
             request.AddBody(theBlah);
+			Console.WriteLine("about to create blah!");
             apiClient.ExecuteAsync(request, (response) =>
             {
+				Console.WriteLine(response.ErrorMessage);
+					Console.WriteLine(response.StatusDescription);
                 Blah newBlah = null;
                 if (response.StatusCode == HttpStatusCode.Created)
                 {

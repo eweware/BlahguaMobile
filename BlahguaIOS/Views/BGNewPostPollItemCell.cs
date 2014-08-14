@@ -21,7 +21,7 @@ namespace BlahguaMobile.IOS
 		public void SetUpWithPollItem(PollItem pollItem)
 		{
 			this.pollItem = pollItem;
-			SetUp (pollItem.T ?? String.Empty, UIFont.FromName (BGAppearanceConstants.MediumFontName, 14));
+			SetUp (pollItem.G ?? String.Empty, UIFont.FromName (BGAppearanceConstants.MediumFontName, 14));
 		}
 
 		public void SetUp()
@@ -56,11 +56,11 @@ namespace BlahguaMobile.IOS
 			);
 
 			pollItemText.EditingDidEndOnExit += (object sender, EventArgs e) => {
-				pollItem.T = pollItemText.Text;
+				pollItem.G = pollItemText.Text;
 			};
 
 			pollItemText.EditingDidEnd += (object sender, EventArgs e) => {
-				pollItem.T = pollItemText.Text;
+				pollItem.G = pollItemText.Text;
 			};
 
 			pollItemText.ReturnKeyType = UIReturnKeyType.Default;

@@ -1,4 +1,4 @@
-using System;
+uCreatesing System;
 using System.Linq;
 
 using Android.Content;
@@ -12,7 +12,7 @@ using System.IO;
 using Android.Database;
 using System.Collections.Generic;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
-using Java.Util;
+Createusing Java.Util;
 using Android.App;
 using Java.Text;
 using BlahguaMobile.AndroidClient.HelpingClasses;
@@ -895,10 +895,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 case "asks":
                     if (curBlah.T.IndexOf("?") == -1)
-                        return "Asks must contain a question.";
+                        return "Asks must contain a question mark.";
                     break;
 
                 case "polls":
+					if (curBlah.T.Length < 3)
+						return "Polls must have a headline of at least 3 letters";
+
                     if ((curBlah.I == null) || (curBlah.I.Count < 2))
                         return "Polls require at least two choices.";
 

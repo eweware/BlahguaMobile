@@ -98,7 +98,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public SlideMenuController ParentViewController { get; set; }
+		public new SlideMenuController ParentViewController { get; set; }
 
 		private BlahCreateRecord NewPost 
 		{
@@ -130,8 +130,6 @@ namespace BlahguaMobile.IOS
             //View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
-            //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
-			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("  Select Image", buttonsTextAttributes), UIControlState.Normal);
             //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
@@ -427,28 +425,39 @@ namespace BlahguaMobile.IOS
 
         private string ValidateCreateRecord()
         {
-            string resultStr = "";
+			NewPost.T = titleInput.Text;
+			NewPost.F = bodyInput.Text;
+			bool hasImage = ((NewPost.M != null) && (NewPost.M.Count > 0));
+			Console.WriteLine ("About to create new " + NewPost.BlahType.N);
 
             // check for title or image
-            if ((NewPost.M == null) || (NewPost.M.Count == 0))
-            {
-                // no image, require a title
-                if (String.IsNullOrEmpty(titleInput.Text) || (titleInput.Text.Length < 3))
-                {
-                    resultStr = "Posts must have a title or an image";
-                }
-            }
+			if (String.IsNullOrEmpty(NewPost.T))
+			{
+				if (!hasImage)
+					return "Headline is too short for a post with no image (< 3 characters)";
+			}
+			else
+			{
+				if ((NewPost.T.Length < 3) && (!hasImage))
+					return "Headline is too short for a post with no image (< 3 characters)";
+
+				if (NewPost.T.Length > 64)
+					return "Headline is too long (> 64 characters)";
+			}
+
+			if ((NewPost.F != null) && (NewPost.F.Length > 2000))
+				return "Body text is too long (> 2000 characters)";
 
             switch (NewPost.BlahType.N)
             {
                 case "asks":
-                    if (titleInput.Text.IndexOf("?") == -1)
-                        resultStr = "Ask posts must contain a question mark.";
+				if (NewPost.T.IndexOf("?") == -1)
+					return "Ask posts must contain a question mark.";
                     break;
 
                 case "leaks":
                     if ((NewPost.B == null) || (NewPost.B.Count == 0))
-                        resultStr = "Leaks must be badged";
+					return "Leaks must be badged";
                     break;
 
                 case "predicts":
@@ -456,25 +465,35 @@ namespace BlahguaMobile.IOS
                     if (DateTime.TryParse(expirationDateInput.Text, out expDate))
                     {
                         TimeSpan timeDif = expDate - DateTime.Now;
-                        if (timeDif.TotalDays < 3.0)
-                            resultStr = "Predictions must be at least three days in the future";
+                        if (timeDif.TotalDays < 1.0)
+						return "Predictions must be at least a day in the future";
                     }
                     else
-                        resultStr = "Predictions must have a valid expiration date";
-                    break;
+						return "Predictions must have a valid expiration date";
+	                break;
 
                 case "polls":
-                    if ((NewPost.I == null) || (NewPost.I.Count < 2))
-                        resultStr = "Polls must have at least two choices";
-                    break;
+				if (String.IsNullOrEmpty(NewPost.T) || (NewPost.T.Length < 3))
+						return "Polls must have a headline of at least 3 letters";
+
+					if ((NewPost.I == null) || (NewPost.I.Count < 2))
+					return "Polls require at least two choices.";
+
+					foreach (PollItem curItem in NewPost.I)
+					{
+						if ((NewPost.G == null) || (NewPost.G.Length == 0))
+						return "Each poll response requires a title.";
+					}
+					break;
             }
 
-            return resultStr;
+            return "";
         }
 
 		public void Done()
 		{
             string errString = ValidateCreateRecord();
+			Console.WriteLine (errString);
 
             if (String.IsNullOrEmpty(errString))
             {
@@ -494,7 +513,7 @@ namespace BlahguaMobile.IOS
                         {
                             foreach (var pi in NewPost.I)
                             {
-                                if (String.IsNullOrEmpty(pi.T))
+                                if (String.IsNullOrEmpty(pi.G))
                                 {
                                     NewPost.I.Remove(pi);
                                 }
@@ -502,13 +521,16 @@ namespace BlahguaMobile.IOS
                         }
                         break;
                 }
-                System.Console.WriteLine("About to Submit!");
+
                 BlahguaAPIObject.Current.CreateBlah(PostCreated);
             }
             else
             {
                 // show a message box
-                //this.ParentViewController.ShowToast(errString);  
+				SlideMenuController slide = (SlideMenuController)ParentViewController;
+				BGMainNavigationController bgCont = (BGMainNavigationController)slide.ContentViewController;
+				BGRollViewController roll = (BGRollViewController)bgCont.ViewControllers [0];
+                roll.ShowToast(errString);  
             }
 			this.View.EndEditing (true);
 		}
@@ -665,7 +687,6 @@ namespace BlahguaMobile.IOS
 
 		private void PostCreated(Blah NewPost)
 		{
-			Console.WriteLine ("Post pushed");
 			InvokeOnMainThread (() => {
 				ParentViewController.HideNewBlahDialog ();
 				ParentViewController.AddNewBlahToView(NewPost);

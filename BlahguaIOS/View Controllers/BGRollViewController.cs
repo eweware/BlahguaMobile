@@ -306,7 +306,7 @@ namespace BlahguaMobile.IOS
 				lastBlahLoc++;
 				
 			// replace the next blah in the roll with the new one
-
+			Console.WriteLine ("inserting new blah!");
 			dataSource.ReplaceItem (newBlah, lastBlahLoc);
 
 			// notify the user

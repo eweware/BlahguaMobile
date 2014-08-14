@@ -267,8 +267,8 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public string G {get; set;}
 
-        [DataMember]
-        public string T {get; set;}
+        //[DataMember]
+        //public string T {get; set;}
 
         private int _maxVotes = 0;
         private int _totalVotes = 0;
