@@ -1,10 +1,12 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -75,115 +77,115 @@ namespace BlahguaMobile.IOS
 		[Outlet]
 		MonoTouch.UIKit.UITextField titleInput { get; set; }
 
-		[Action ("HandleTitleChanged:")]
-		partial void HandleTitleChanged (MonoTouch.UIKit.UITextField sender);
-		
-		void ReleaseDesignerOutlets ()
-		{
-			if (AskBtn != null) {
-				AskBtn.Dispose ();
-				AskBtn = null;
-			}
+        [Action ("HandleTitleChanged:")]
+        partial void HandleTitleChanged (MonoTouch.UIKit.UITextField sender);
+        
+        void ReleaseDesignerOutlets()
+        {
+            if (AskBtn != null) {
+                AskBtn.Dispose ();
+                AskBtn = null;
+            }
 
-			if (AskBtnText != null) {
-				AskBtnText.Dispose ();
-				AskBtnText = null;
-			}
+            if (AskBtnText != null) {
+                AskBtnText.Dispose ();
+                AskBtnText = null;
+            }
 
-			if (back != null) {
-				back.Dispose ();
-				back = null;
-			}
+            if (back != null) {
+                back.Dispose ();
+                back = null;
+            }
 
-			if (bodyInput != null) {
-				bodyInput.Dispose ();
-				bodyInput = null;
-			}
+            if (bodyInput != null) {
+                bodyInput.Dispose ();
+                bodyInput = null;
+            }
 
-			if (containerHeight != null) {
-				containerHeight.Dispose ();
-				containerHeight = null;
-			}
+            if (containerHeight != null) {
+                containerHeight.Dispose ();
+                containerHeight = null;
+            }
 
-			if (containerOffset != null) {
-				containerOffset.Dispose ();
-				containerOffset = null;
-			}
+            if (containerOffset != null) {
+                containerOffset.Dispose ();
+                containerOffset = null;
+            }
 
-			if (containerScrollView != null) {
-				containerScrollView.Dispose ();
-				containerScrollView = null;
-			}
+            if (containerScrollView != null) {
+                containerScrollView.Dispose ();
+                containerScrollView = null;
+            }
 
-			if (done != null) {
-				done.Dispose ();
-				done = null;
-			}
+            if (done != null) {
+                done.Dispose ();
+                done = null;
+            }
 
-			if (LeakBtn != null) {
-				LeakBtn.Dispose ();
-				LeakBtn = null;
-			}
+            if (LeakBtn != null) {
+                LeakBtn.Dispose ();
+                LeakBtn = null;
+            }
 
-			if (LeakBtnText != null) {
-				LeakBtnText.Dispose ();
-				LeakBtnText = null;
-			}
+            if (LeakBtnText != null) {
+                LeakBtnText.Dispose ();
+                LeakBtnText = null;
+            }
 
-			if (PollBtn != null) {
-				PollBtn.Dispose ();
-				PollBtn = null;
-			}
+            if (PollBtn != null) {
+                PollBtn.Dispose ();
+                PollBtn = null;
+            }
 
-			if (PollBtnText != null) {
-				PollBtnText.Dispose ();
-				PollBtnText = null;
-			}
+            if (PollBtnText != null) {
+                PollBtnText.Dispose ();
+                PollBtnText = null;
+            }
 
-			if (pollItemsTableView != null) {
-				pollItemsTableView.Dispose ();
-				pollItemsTableView = null;
-			}
+            if (pollItemsTableView != null) {
+                pollItemsTableView.Dispose ();
+                pollItemsTableView = null;
+            }
 
-			if (pollOptionTableHeight != null) {
-				pollOptionTableHeight.Dispose ();
-				pollOptionTableHeight = null;
-			}
+            if (pollOptionTableHeight != null) {
+                pollOptionTableHeight.Dispose ();
+                pollOptionTableHeight = null;
+            }
 
-			if (PredictBtn != null) {
-				PredictBtn.Dispose ();
-				PredictBtn = null;
-			}
+            if (PredictBtn != null) {
+                PredictBtn.Dispose ();
+                PredictBtn = null;
+            }
 
-			if (PredictBtnText != null) {
-				PredictBtnText.Dispose ();
-				PredictBtnText = null;
-			}
+            if (PredictBtnText != null) {
+                PredictBtnText.Dispose ();
+                PredictBtnText = null;
+            }
 
-			if (SayBtn != null) {
-				SayBtn.Dispose ();
-				SayBtn = null;
-			}
+            if (SayBtn != null) {
+                SayBtn.Dispose ();
+                SayBtn = null;
+            }
 
-			if (SayBtnText != null) {
-				SayBtnText.Dispose ();
-				SayBtnText = null;
-			}
+            if (SayBtnText != null) {
+                SayBtnText.Dispose ();
+                SayBtnText = null;
+            }
 
-			if (selectImageButton != null) {
-				selectImageButton.Dispose ();
-				selectImageButton = null;
-			}
+            if (selectImageButton != null) {
+                selectImageButton.Dispose ();
+                selectImageButton = null;
+            }
 
-			if (selectSignature != null) {
-				selectSignature.Dispose ();
-				selectSignature = null;
-			}
+            if (selectSignature != null) {
+                selectSignature.Dispose ();
+                selectSignature = null;
+            }
 
-			if (titleInput != null) {
-				titleInput.Dispose ();
-				titleInput = null;
-			}
+            if (titleInput != null) {
+                titleInput.Dispose ();
+                titleInput = null;
+            }
 		}
 	}
 }

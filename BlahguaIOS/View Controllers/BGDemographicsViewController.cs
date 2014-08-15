@@ -48,7 +48,7 @@ namespace BlahguaMobile.IOS
 				});
 			});
 
-
+            AppDelegate.analytics.PostPageView("/self/demographics");
 		}
 
 		public override void ViewWillAppear(bool animated)

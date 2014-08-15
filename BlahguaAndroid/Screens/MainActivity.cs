@@ -159,7 +159,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             string model = Build.Model;
             string version = ApplicationContext.PackageManager.GetPackageInfo(ApplicationContext.PackageName, 0).VersionName;
             string platform = "ANDROID";
-            string userAgent = "Mozilla/5.0 (Lonux; Android; Mobile) ";
+            string userAgent = "Mozilla/5.0 (Linux; Android; Mobile) ";
 
             analytics = new GoogleAnalytics(userAgent, maker, model, version, platform, uniqueId);
             analytics.StartSession();

@@ -218,24 +218,48 @@ namespace BlahguaMobile.IOS
 
 		private void CommentCreated(Comment newComment)
 		{
-			input.Text = "";
-			InvokeOnMainThread(() => ParentViewController.SwitchNewCommentMode ());
-			Console.WriteLine ("Comment pushed");
+            if (newComment != null)
+            {
+                AppDelegate.analytics.PostCreateComment();
+                input.Text = "";
+                InvokeOnMainThread(() => ParentViewController.SwitchNewCommentMode());
+                Console.WriteLine("Comment pushed");
+            }
+            else
+            {
+                AppDelegate.analytics.PostSessionError("commentcreatefailed");
+                Console.WriteLine("Comment post failed");
+            }
 		}
 
 		private void ImageUploaded(string s)
 		{
-			InvokeOnMainThread (() => {
-				progressIndicator.StopAnimating ();
-				selectImageButton.Hidden = false;
-				selectImageButton.SetImage (imageForUploading, UIControlState.Normal);
-				selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
-				if(NewComment.M == null || NewComment.M.Count == 0)
-				{
-					NewComment.M = new List<string>();
-				}
-				NewComment.M.Add (s);
-			});
+            if (!String.IsNullOrEmpty(s))
+            {
+                AppDelegate.analytics.PostUploadCommentImage();
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        selectImageButton.Hidden = false;
+                        selectImageButton.SetImage(imageForUploading, UIControlState.Normal);
+                        selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
+                        if (NewComment.M == null || NewComment.M.Count == 0)
+                        {
+                            NewComment.M = new List<string>();
+                        }
+                        NewComment.M.Add(s);
+                    });
+            }
+            else
+            {
+                AppDelegate.analytics.PostSessionError("commentimageuploadfailed");
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        selectImageButton.Hidden = false;
+
+                    });
+            }
 		}
 	}
 }

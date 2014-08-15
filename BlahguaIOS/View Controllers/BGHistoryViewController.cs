@@ -45,6 +45,7 @@ namespace BlahguaMobile.IOS
 			TableView.TableFooterView = new UIView ();
 			BlahguaAPIObject.Current.LoadUserPosts (BlahsLoaded);
 			BlahguaAPIObject.Current.LoadUserComments (CommentsLoaded);
+            AppDelegate.analytics.PostPageView("/self/history");
 		}
 
 		public override void ViewWillAppear (bool animated)

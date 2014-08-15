@@ -60,6 +60,7 @@ namespace BlahguaMobile.IOS
 
         public override void ViewDidLoad()
         {
+            AppDelegate.analytics.PostPageView("/blah");
             base.ViewDidLoad();
 
             //Synsoft on 9 July 2014 added title
@@ -436,6 +437,7 @@ namespace BlahguaMobile.IOS
                         upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
                         BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
                         {
+                            AppDelegate.analytics.PostBlahVote(1);
                             Console.WriteLine(value);
                         });
                     }
@@ -456,19 +458,6 @@ namespace BlahguaMobile.IOS
             downVoteButton.Frame = votesButtonRect;
             downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
             {
-
-                // comment by synsoft on 14 July 2014 --old code
-
-                //if (CurrentBlah.uv != -1)
-                //{
-                //    downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                //    BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
-                //    {
-                //        Console.WriteLine(value);
-                //    });
-                //}
-
-                // synsoft on 14 July 2014
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     if (CurrentBlah.uv != -1)
@@ -476,6 +465,7 @@ namespace BlahguaMobile.IOS
 						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
                         BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
                         {
+                            AppDelegate.analytics.PostBlahVote(-1);
                             Console.WriteLine(value);
                         });
                     }

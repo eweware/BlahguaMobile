@@ -213,6 +213,7 @@ namespace BlahguaMobile.IOS
 
 		private void InboxLoadingCompleted (Inbox inbox)
 		{
+            AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 			InvokeOnMainThread (() => {
 				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
 			});

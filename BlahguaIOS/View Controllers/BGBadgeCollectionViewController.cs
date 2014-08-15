@@ -19,6 +19,8 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidLoad ()
 		{
+            AppDelegate.analytics.PostPageView("/self/badges");
+
 			base.ViewDidLoad ();
 
 			this.NavigationController.SetNavigationBarHidden(false, true);

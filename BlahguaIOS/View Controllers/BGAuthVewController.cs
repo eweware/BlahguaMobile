@@ -52,7 +52,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
+            AppDelegate.analytics.PostPageView("/signup");
 			//View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
 
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
@@ -312,16 +312,20 @@ namespace BlahguaMobile.IOS
 		{
 			if (result == null)
 			{
+                if (signUp)
+                    AppDelegate.analytics.PostRegisterUser();
+                else
+                    AppDelegate.analytics.PostLogin();
 				InvokeOnMainThread (() => NavigationController.PopViewControllerAnimated(true));
 			}
 			else
 			{
+                if (signUp)
+                    AppDelegate.analytics.PostSessionError("registerfailed-" + result);
+                else
+                    AppDelegate.analytics.PostSessionError("signinfailed-" + result);
+
 				InvokeOnMainThread (() => NavigationItem.RightBarButtonItem.Enabled = true );
-//                UIAlertView alert = new UIAlertView ();
-//				alert.Title = "Error";
-//				alert.AddButton ("OK");
-//				alert.AddButton ("Cancel");
-//				alert.Message = "This should be an error message";
 
 				Console.WriteLine ("Authentication failed");
 

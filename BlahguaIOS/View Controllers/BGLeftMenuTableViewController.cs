@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.IOS
 {
@@ -41,6 +42,7 @@ namespace BlahguaMobile.IOS
 
 				if(e.PropertyName == "CurrentChannelList")
 				{
+                    AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);                  
 					TableView.ReloadData();
 				}
 			};

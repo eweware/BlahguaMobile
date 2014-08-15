@@ -60,20 +60,17 @@ namespace BlahguaMobile.AndroidClient.Screens
                             {
                                 if ((photoString != null) && (photoString.Length > 0))
                                 {
-                                    //    newImage.Tag = photoString;
                                     string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                                    //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
-                                    //    ImagesPanel.Children.Remove(newBar);
+
                                     imageCreateBlah.SetUrlDrawable(photoURL, this);
                                     BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
                                     BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
-                                    //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                                    //    App.analytics.PostUploadBlahImage();
+                                    MainActivity.analytics.PostUploadBlahImage();
                                 }
                                 else
                                 {
                                     ClearImages();
-                                    //App.analytics.PostSessionError("blahimageuploadfailed");
+                                    MainActivity.analytics.PostSessionError("blahimageuploadfailed");
                                 }
                             });
                         }

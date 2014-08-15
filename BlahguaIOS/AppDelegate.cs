@@ -7,6 +7,7 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.SlideMenu;
+using System.IO.IsolatedStorage;
 
 namespace BlahguaMobile.IOS
 {
@@ -27,6 +28,8 @@ namespace BlahguaMobile.IOS
 		#region Properties
 
 		public override UIWindow Window { get; set; }
+
+        public static GoogleAnalytics   analytics = null;
 
 		public SlideMenuController SlideMenu
 		{
@@ -90,6 +93,7 @@ namespace BlahguaMobile.IOS
 				UIImage.FromBundle (BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
 					"Default" : "Default-568h"));     
 
+            InitAnalytics();
 			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
             this.Window.TintColor = BGAppearanceConstants.TealGreen;
 
@@ -97,6 +101,31 @@ namespace BlahguaMobile.IOS
             SetBlahSizesForScreen();
 
             return true;
+        }
+
+        private void InitAnalytics()
+        {
+            string uniqueId;
+
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("uniqueId"))
+                uniqueId = settings["uniqueId"].ToString();
+            else
+            {
+                uniqueId = Guid.NewGuid().ToString();
+                settings.Add("uniqueId", uniqueId);
+                settings.Save();
+
+            }
+
+            string maker = "Apple";
+            string model = UIDevice.CurrentDevice.Model;
+            string version = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+            string platform = "IOS";
+            string userAgent = "Mozilla/5.0 (IOS; Apple; Mobile) ";
+
+            analytics = new GoogleAnalytics(userAgent, maker, model, version, platform, uniqueId);
+            analytics.StartSession();
         }
 
 		public override void OnActivated(UIApplication application)
@@ -135,6 +164,8 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
+                if (BlahguaAPIObject.Current.CurrentUser != null)
+                    AppDelegate.analytics.PostAutoLogin();
 				InvokeOnMainThread (() => 
 					{
 

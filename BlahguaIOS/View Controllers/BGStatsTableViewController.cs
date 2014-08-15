@@ -44,6 +44,7 @@ namespace BlahguaMobile.IOS
 
             try
             {
+                AppDelegate.analytics.PostPageView("/blah/stats");
                 base.ViewDidLoad();
 
                 //Synsoft on 9 July 2014 added title

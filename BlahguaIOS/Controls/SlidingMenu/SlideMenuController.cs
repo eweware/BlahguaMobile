@@ -199,6 +199,11 @@ namespace MonoTouch.SlideMenu
 			((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).AddNewBlahToView (newBlah);
 		}
 
+        public void ShowToast(string msg)
+        {
+            ((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).ShowToast (msg);
+        }
+
 		// - (void)viewWillAppear:(BOOL)animated
 		public override void ViewWillAppear (bool animated)
 		{

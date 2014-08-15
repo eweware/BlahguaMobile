@@ -20,7 +20,7 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
+            base.ViewDidLoad ();
 
             View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
@@ -130,12 +130,12 @@ namespace BlahguaMobile.IOS
 								requestButton.Enabled = true;
 								BadgeRequestView.Hidden = false;
 								BadgeSubmitView.Hidden = true;
-                                //MainActivity.analytics.PostRequestBadge(authId);
-                                //MainActivity.analytics.PostBadgeNoEmail(emailAddr);
+                                AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
 
 							}
 							else
 							{
+                                AppDelegate.analytics.PostRequestBadge(authId);
 								ticketString = ticket;
 								doneButton.Enabled = false;
 								emailTextField.Text = String.Empty;
@@ -158,9 +158,9 @@ namespace BlahguaMobile.IOS
 						UIAlertView alert = new UIAlertView ("", "That validation code was not valid.  Please retry your badging attempt.", null, "OK");
 						alert.Show ();
                         verifyCodeTextField.SelectAll(this);
-                        //MainActivity.analytics.PostBadgeValidateFailed();
+                        AppDelegate.analytics.PostBadgeValidateFailed();
 					} else {
-                        // MainActivity.analytics.PostGotBadge();
+                        AppDelegate.analytics.PostGotBadge();
                         BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
                             {
                                 InvokeOnMainThread(() => {

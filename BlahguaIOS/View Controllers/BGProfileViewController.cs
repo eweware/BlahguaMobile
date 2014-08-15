@@ -61,6 +61,7 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidLoad ()
 		{
+            AppDelegate.analytics.PostPageView("/self/profile");
 			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 			this.NavigationController.SetNavigationBarHidden (false, true);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
@@ -240,11 +241,26 @@ namespace BlahguaMobile.IOS
 
 		private void ProfileImageUploadCallback(string result)
 		{
-			InvokeOnMainThread (() => {
-				progressIndicator.StopAnimating ();
-				profileImageView.Hidden = false;
-				profileImageView.Image = profile_image;
-			});
+            if (!String.IsNullOrEmpty(result))
+            {
+                AppDelegate.analytics.PostUploadUserImage();
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        profileImageView.Hidden = false;
+                        profileImageView.Image = profile_image;
+                    });
+            }
+            else
+            {
+                AppDelegate.analytics.PostSessionError("userimageuploadfailed");
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        profileImageView.Hidden = false;
+                        profileImageView.Image = null;
+                    });
+            }
 			Console.WriteLine (result);
 		}
 

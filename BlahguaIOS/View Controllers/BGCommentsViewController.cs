@@ -95,6 +95,7 @@ namespace BlahguaMobile.IOS
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);  
 
 			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
+            AppDelegate.analytics.PostPageView("/blah/comments");
 		}
 
 		public override void ViewDidAppear(bool animated)

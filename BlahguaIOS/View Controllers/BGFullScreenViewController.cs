@@ -36,7 +36,8 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
+            base.ViewDidLoad ();
+            AppDelegate.analytics.PostPageView("/ImageViewer");
 
 			this.NavigationController.SetNavigationBarHidden (true, false);
 

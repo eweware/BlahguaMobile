@@ -218,6 +218,8 @@ namespace BlahguaMobile.IOS
 			done.TranslatesAutoresizingMaskIntoConstraints = false;
 			containerScrollView.TranslatesAutoresizingMaskIntoConstraints=  false;
 		}
+
+
 		partial void HandleTitleChanged(UITextField sender)
         {
             UpdatePostBtn();
@@ -687,27 +689,54 @@ namespace BlahguaMobile.IOS
 
 		private void PostCreated(Blah NewPost)
 		{
-			InvokeOnMainThread (() => {
-				ParentViewController.HideNewBlahDialog ();
-				ParentViewController.AddNewBlahToView(NewPost);
-			});
-
+            if (NewPost != null)
+            {
+                AppDelegate.analytics.PostCreateBlah(NewPost.Y);
+                InvokeOnMainThread(() =>
+                    {
+                        ParentViewController.HideNewBlahDialog();
+                        ParentViewController.AddNewBlahToView(NewPost);
+                    });
+            }
+            else
+            {
+                InvokeOnMainThread(() =>
+                    {
+                        ParentViewController.ShowToast("Unable to create the post.  Please try again.  If the problem persists, please try at a different time.");
+                    });
+                AppDelegate.analytics.PostFormatError("blah create failed");
+            }
 		}
 
 		private void ImageUploaded(string s)
 		{
-			InvokeOnMainThread (() => {
-				progressIndicator.StopAnimating ();
-				selectImageButton.Hidden = false;
-				selectImageButton.SetImage (imageForUploading, UIControlState.Normal);
-				selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
-				if(NewPost.M == null || NewPost.M.Count == 0)
-				{
-					NewPost.M = new List<string>();
-				}
-				NewPost.M.Add (s);
-                UpdatePostBtn();
-			});
+            if (!String.IsNullOrEmpty(s))
+            {
+                AppDelegate.analytics.PostUploadBlahImage();
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        selectImageButton.Hidden = false;
+                        selectImageButton.SetImage(imageForUploading, UIControlState.Normal);
+                        selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
+                        if (NewPost.M == null || NewPost.M.Count == 0)
+                        {
+                            NewPost.M = new List<string>();
+                        }
+                        NewPost.M.Add(s);
+                        UpdatePostBtn();
+                    });
+            }
+            else
+            {
+                AppDelegate.analytics.PostSessionError("blahimageuploadfailed");
+                InvokeOnMainThread(() =>
+                    {
+                        progressIndicator.StopAnimating();
+                        selectImageButton.Hidden = false;
+                        UpdatePostBtn();
+                    });
+            }
 		}
 
 		public void MoveScrollOffset(int row)

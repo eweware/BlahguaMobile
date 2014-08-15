@@ -130,6 +130,7 @@ namespace BlahguaMobile.IOS
             {
 				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
 				{
+                    AppDelegate.analytics.PostCommentVote(-1);
                 	BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
                 	downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
                 	upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
@@ -147,6 +148,7 @@ namespace BlahguaMobile.IOS
             {
 				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
 				{
+                    AppDelegate.analytics.PostCommentVote(1);
                 	BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
                 	downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
                 	upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
