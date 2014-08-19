@@ -64,11 +64,7 @@ namespace BlahguaMobile.IOS
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			input.ReturnKeyType = UIReturnKeyType.Default;
-			input.ShouldReturn = delegate {
-				return true;
-			};
-
-			input.AllEditingEvents += (object sender, EventArgs e) => {
+            input.Changed += (object sender, EventArgs e) => {
 				if(String.IsNullOrEmpty(input.Text))
 					done.Enabled = false;
 				else

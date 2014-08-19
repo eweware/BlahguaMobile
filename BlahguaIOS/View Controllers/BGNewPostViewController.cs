@@ -141,11 +141,7 @@ namespace BlahguaMobile.IOS
 				return false;
 			};
 
-			bodyInput.ReturnKeyType = UIReturnKeyType.Next;
-			bodyInput.ShouldReturn = delegate {
-				bodyInput.ResignFirstResponder();
-				return true;
-			};
+            bodyInput.ReturnKeyType = UIReturnKeyType.Done;
 
             //done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);

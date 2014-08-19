@@ -1,6 +1,6 @@
-Late Mondy build
-===========
-- should remember login correctly now
-- improvements to photo upload & create
-- sability improvements
-- correct background for iPhone 5
+Friday Build
+=======
+- fixed comment word wrapping
+- fixed crashes in poll submission
+- better layout of polls
+- analytics turned on

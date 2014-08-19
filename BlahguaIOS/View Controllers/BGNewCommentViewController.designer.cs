@@ -24,7 +24,7 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIButton done { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField input { get; set; }
+		MonoTouch.UIKit.UITextView input { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
