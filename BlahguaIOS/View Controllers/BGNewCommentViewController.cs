@@ -19,7 +19,7 @@ namespace BlahguaMobile.IOS
 		const string fromCameraText = "From Camera";
 		const string fromGalleryText = "From Gallery";
 		const string deleteCurrentPhotoText = "Delete Current Photo";
-		const string userProfileText = "User Profile";
+		const string userProfileText = "Use Profile";
 		const string deleteSignatare = "Delete Signature";
 
 		private UIActivityIndicatorView progressIndicator;
@@ -154,7 +154,8 @@ namespace BlahguaMobile.IOS
 				ParentViewController.PresentViewController (filePicker, true, 
 					() => UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide));
 			} else if (eventArgs.ButtonIndex == 2) {
-				NewComment.M.Clear();
+				if (NewComment.M != null)
+					NewComment.M.Clear();
 			}
 		}
 

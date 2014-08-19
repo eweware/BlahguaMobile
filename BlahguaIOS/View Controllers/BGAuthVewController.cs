@@ -13,17 +13,13 @@ using BlahguaMobile.IOS;
 namespace BlahguaMobile.IOS
 {
 
-	partial class BGAuthVewController : UIViewController
-	{
-		partial void RememberMeAction (UIButton sender);
-	}
 
 	partial class BGAuthVewController : UIViewController
 	{
 
 		#region Fields
 
-		private bool rememberMe = true;
+
 		private bool signUp = false;
 
 		private MFMailComposeViewController mailComposer;
@@ -124,9 +120,11 @@ namespace BlahguaMobile.IOS
 
 			SetMode (signUp);
 
-			Mode.TouchUpInside += (sender, e) => SetModeAction (sender,e);
+			createBtn.ValueChanged += SetModeAction;
 
-			btnCreateAccount.TouchUpInside += (sender, e) => SetModeAction (sender,e);
+			//Mode.TouchUpInside += (sender, e) => SetModeAction (sender,e);
+
+			//btnCreateAccount.TouchUpInside += (sender, e) => SetModeAction (sender,e);
 
 
 
@@ -183,8 +181,8 @@ namespace BlahguaMobile.IOS
 
 		public void SetModeAction(object sender, EventArgs e)
 		{
-			signUp = !signUp;
-			Mode.SetImage(GetModeBackgroundImage(), UIControlState.Normal);
+			signUp = createBtn.On;
+
 			if(signUp)
 			{
 
@@ -210,6 +208,7 @@ namespace BlahguaMobile.IOS
 					return true;
 				};
 			}
+
 			SetMode(signUp);
 		}
 
@@ -300,11 +299,6 @@ namespace BlahguaMobile.IOS
 		private void SetMode(bool isSignUpMode)
 		{
 			confirmPassword.Hidden = !isSignUpMode;
-			rememberMeLabel.Hidden = !isSignUpMode;
-			rememberMeNoButton.Hidden = !isSignUpMode;
-			rememberMeYesButton.Hidden = !isSignUpMode;
-			yesLabel.Hidden = !isSignUpMode;
-			noLabel.Hidden = !isSignUpMode;
 			recoveryEmail.Hidden = !isSignUpMode;
 		}
 
@@ -368,27 +362,6 @@ namespace BlahguaMobile.IOS
 			return UIImage.FromBundle (signUp ? "signupRadioButton" : "signupRadioButtonUn");
 		}
 
-
-		partial void RememberMeAction (UIButton sender)
-		{
-			if((sender == rememberMeNoButton && !rememberMe) || (sender == rememberMeYesButton && rememberMe))
-			{
-				return;
-			}
-
-			rememberMe = !rememberMe;
-
-			if(rememberMe)
-			{
-				rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
-                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
-			}
-			else
-			{
-                rememberMeYesButton.SetImage(UIImage.FromBundle("rememberMeRadioButton_un"), UIControlState.Normal);
-                rememberMeNoButton.SetImage(UIImage.FromBundle("rememberMeRadioButton"), UIControlState.Normal);
-			}
-		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{

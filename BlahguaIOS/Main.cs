@@ -7,8 +7,13 @@ using MonoTouch.UIKit;
 
 namespace BlahguaMobile.IOS
 {
+
+
     public class Application
     {
+
+
+
         // This is the main entry point of the application.
         static void Main(string[] args)
         {
@@ -22,7 +27,7 @@ namespace BlahguaMobile.IOS
             }
             catch (Exception e)
             {
-                e.Message.ToString();
+				e.Message.ToString ();
                 
             }
         }

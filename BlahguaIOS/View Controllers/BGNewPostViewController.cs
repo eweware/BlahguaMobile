@@ -23,7 +23,7 @@ namespace BlahguaMobile.IOS
 		const string fromCameraText = "From Camera";
 		const string fromGalleryText = "From Gallery";
 		const string deleteCurrentPhotoText = "Delete Current Photo";
-		const string userProfileText = "User Profile";
+		const string userProfileText = "Use Profile";
 		const string deleteSignatare = "Delete Signature";
 		private float scrollOffset = 0f;
 		private float space = 8f;
@@ -114,10 +114,18 @@ namespace BlahguaMobile.IOS
 		{
 		}
 
+		public override void TouchesBegan (NSSet touches, UIEvent evt)
+		{
+			UITouch curTouch = (UITouch)evt.AllTouches.AnyObject;
+
+			if (!((curTouch.View is UITextView) || (curTouch.View is UITextField)))
+				this.View.EndEditing (true);
+
+			base.TouchesBegan (touches, evt);
+		}
+
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
-
 			pollItemsTableView.Hidden = true;
 
 			doneFrame = done.Frame;
@@ -132,7 +140,7 @@ namespace BlahguaMobile.IOS
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("  Select Image", buttonsTextAttributes), UIControlState.Normal);
-            //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
+
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			titleInput.ReturnKeyType = UIReturnKeyType.Next;
@@ -141,7 +149,7 @@ namespace BlahguaMobile.IOS
 				return false;
 			};
 
-            bodyInput.ReturnKeyType = UIReturnKeyType.Done;
+            bodyInput.ReturnKeyType = UIReturnKeyType.Default;
 
             //done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
@@ -587,7 +595,8 @@ namespace BlahguaMobile.IOS
 				ParentViewController.PresentViewController (filePicker, true, 
 					() => UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide));
 			} else if (eventArgs.ButtonIndex == 2) {
-				NewPost.M.Clear();
+				if (NewPost.M != null)
+					NewPost.M.Clear();
 			}
 		}
 

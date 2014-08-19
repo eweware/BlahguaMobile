@@ -20,23 +20,15 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnCreateAccount { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		BGTextField confirmPassword { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UISwitch createBtn { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton helpButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton Mode { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel noLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -48,31 +40,11 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel rememberMeLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton rememberMeNoButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton rememberMeYesButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton reportBugButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		BGTextField usernameOrEmail { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel yesLabel { get; set; }
-
-		[Action ("RememberMeAction:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void RememberMeAction (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -80,25 +52,17 @@ namespace BlahguaMobile.IOS
 				aboutButton.Dispose ();
 				aboutButton = null;
 			}
-			if (btnCreateAccount != null) {
-				btnCreateAccount.Dispose ();
-				btnCreateAccount = null;
-			}
 			if (confirmPassword != null) {
 				confirmPassword.Dispose ();
 				confirmPassword = null;
 			}
+			if (createBtn != null) {
+				createBtn.Dispose ();
+				createBtn = null;
+			}
 			if (helpButton != null) {
 				helpButton.Dispose ();
 				helpButton = null;
-			}
-			if (Mode != null) {
-				Mode.Dispose ();
-				Mode = null;
-			}
-			if (noLabel != null) {
-				noLabel.Dispose ();
-				noLabel = null;
 			}
 			if (password != null) {
 				password.Dispose ();
@@ -108,18 +72,6 @@ namespace BlahguaMobile.IOS
 				recoveryEmail.Dispose ();
 				recoveryEmail = null;
 			}
-			if (rememberMeLabel != null) {
-				rememberMeLabel.Dispose ();
-				rememberMeLabel = null;
-			}
-			if (rememberMeNoButton != null) {
-				rememberMeNoButton.Dispose ();
-				rememberMeNoButton = null;
-			}
-			if (rememberMeYesButton != null) {
-				rememberMeYesButton.Dispose ();
-				rememberMeYesButton = null;
-			}
 			if (reportBugButton != null) {
 				reportBugButton.Dispose ();
 				reportBugButton = null;
@@ -127,10 +79,6 @@ namespace BlahguaMobile.IOS
 			if (usernameOrEmail != null) {
 				usernameOrEmail.Dispose ();
 				usernameOrEmail = null;
-			}
-			if (yesLabel != null) {
-				yesLabel.Dispose ();
-				yesLabel = null;
 			}
 		}
 	}
