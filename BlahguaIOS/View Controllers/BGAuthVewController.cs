@@ -26,15 +26,17 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
-        // synsoft on 14 July 2014
+     
         public BGAuthVewController()
         { 
-        
+			NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillHideNotification, OnKeyboardNotification);
+			NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillShowNotification, OnKeyboardNotification);
         }
 
 		public BGAuthVewController (IntPtr handle) : base (handle)
 		{
-
+			NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillHideNotification, OnKeyboardNotification);
+			NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillShowNotification, OnKeyboardNotification);
 		}
 
 		#region View Controller Overridden Methods
@@ -45,6 +47,102 @@ namespace BlahguaMobile.IOS
 
 		}
 
+		private void OnKeyboardNotification (NSNotification notification)
+		{
+			if (IsViewLoaded) {
+
+				//Check if the keyboard is becoming visible
+				bool visible = notification.Name == UIKeyboard.WillShowNotification;
+
+				//Start an animation, using values from the keyboard
+				UIView.BeginAnimations ("AnimateForKeyboard");
+				UIView.SetAnimationBeginsFromCurrentState (true);
+				UIView.SetAnimationDuration (UIKeyboard.AnimationDurationFromNotification (notification));
+				UIView.SetAnimationCurve ((UIViewAnimationCurve)UIKeyboard.AnimationCurveFromNotification (notification));
+
+				//Pass the notification, calculating keyboard height, etc.
+				bool landscape = InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
+				if (visible) {
+					var keyboardFrame = UIKeyboard.FrameEndFromNotification (notification);
+
+					OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+				} else {
+					var keyboardFrame = UIKeyboard.FrameBeginFromNotification (notification);
+
+					OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+				}
+
+				//Commit the animation
+				UIView.CommitAnimations ();	
+			}
+		}
+
+		protected  UIView KeyboardGetActiveView()
+		{
+			return FindFirstResponder(this.View);
+		}
+
+		private  UIView FindFirstResponder(UIView view)
+		{
+			if (view.IsFirstResponder)
+			{
+				return view;
+			}
+			foreach (UIView subView in view.Subviews)
+			{
+				var firstResponder = FindFirstResponder(subView);
+				if (firstResponder != null)
+					return firstResponder;
+			}
+			return null;
+		}
+
+
+		protected virtual void OnKeyboardChanged (bool visible, float keyboardHeight)
+		{
+			var activeView = KeyboardGetActiveView();
+			if (activeView == null)
+				return;
+
+
+
+			if (!visible)
+				RestoreScrollPosition(authScroller);
+			else
+				CenterViewInScroll(activeView, authScroller, keyboardHeight);
+		}
+
+		protected void CenterViewInScroll(UIView viewToCenter, UIScrollView scrollView, float keyboardHeight)
+		{
+			var contentInsets = new UIEdgeInsets(0.0f, 0.0f, keyboardHeight, 0.0f);
+			scrollView.ContentInset = contentInsets;
+			scrollView.ScrollIndicatorInsets = contentInsets;
+
+			// Position of the active field relative isnside the scroll view
+			RectangleF relativeFrame = viewToCenter.Superview.ConvertRectToView(viewToCenter.Frame, scrollView);
+
+			bool landscape = InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
+			var spaceAboveKeyboard = (landscape ? scrollView.Frame.Width : scrollView.Frame.Height) - keyboardHeight;
+
+			// Move the active field to the center of the available space
+			var offset = relativeFrame.Y - (spaceAboveKeyboard - viewToCenter.Frame.Height) / 2;
+			scrollView.ContentOffset = new PointF(0, offset);
+		}
+
+		protected virtual void RestoreScrollPosition(UIScrollView scrollView)
+		{
+			scrollView.ContentInset = UIEdgeInsets.Zero;
+			scrollView.ScrollIndicatorInsets = UIEdgeInsets.Zero;
+		}
+
+		public override void TouchesBegan (NSSet touches, UIEvent evt)
+		{
+			var activeView = KeyboardGetActiveView();
+			if (activeView != null)
+				activeView.ResignFirstResponder();
+		}
+
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -52,18 +150,19 @@ namespace BlahguaMobile.IOS
 			//View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
 
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
-
-				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage"));
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
 			} else if (BGAppearanceHelper.DeviceType == DeviceType.iPhone5) {
 
-				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage_4inch"));
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_2x3.jpg"));
 
 			} else {
 
-				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BackgroundImage"));
+				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
 			}
+
+			authScroller.ContentSize = new SizeF (320, 640);
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
@@ -105,9 +204,8 @@ namespace BlahguaMobile.IOS
 			);
 			password.AttributedText = new NSAttributedString ("", textAttrs);
 			password.Background = UIImage.FromBundle ("input_back");
-			password.ShouldReturn = delegate {
-				return true;
-			};
+			password.ReturnKeyType = UIReturnKeyType.Done;
+
 			password.AllEditingEvents += InputsEditingHandler;
 
 			confirmPassword.AttributedPlaceholder = new NSAttributedString (
@@ -122,9 +220,18 @@ namespace BlahguaMobile.IOS
 
 			createBtn.ValueChanged += SetModeAction;
 
-			//Mode.TouchUpInside += (sender, e) => SetModeAction (sender,e);
+			confirmPassword.ReturnKeyType = UIReturnKeyType.Next;
+			confirmPassword.ShouldReturn = delegate {
+				recoveryEmail.BecomeFirstResponder();
+				return false;
+			};
 
-			//btnCreateAccount.TouchUpInside += (sender, e) => SetModeAction (sender,e);
+			recoveryEmail.ShouldReturn = delegate {
+				recoveryEmail.ResignFirstResponder();
+				return true;
+			};
+
+			recoveryEmail.ReturnKeyType = UIReturnKeyType.Done;
 
 
 
@@ -192,17 +299,14 @@ namespace BlahguaMobile.IOS
 					return false;
 				};
 
-				confirmPassword.AllEditingEvents += InputsEditingHandler;
 
-				confirmPassword.ShouldReturn = delegate {
-					return true;
-				};
-				confirmPassword.ReturnKeyType = UIReturnKeyType.Default;
+
+
 			}
 			else
 			{
 
-				password.ReturnKeyType = UIReturnKeyType.Default;
+				password.ReturnKeyType = UIReturnKeyType.Done;
 
 				password.ShouldReturn = delegate {
 					return true;

@@ -20,6 +20,10 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIScrollView authScroller { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		BGTextField confirmPassword { get; set; }
 
 		[Outlet]
@@ -51,6 +55,10 @@ namespace BlahguaMobile.IOS
 			if (aboutButton != null) {
 				aboutButton.Dispose ();
 				aboutButton = null;
+			}
+			if (authScroller != null) {
+				authScroller.Dispose ();
+				authScroller = null;
 			}
 			if (confirmPassword != null) {
 				confirmPassword.Dispose ();

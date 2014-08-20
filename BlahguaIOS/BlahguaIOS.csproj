@@ -368,6 +368,12 @@
     <BundleResource Include="Resources\tutorial_screen_5.jpg" />
     <BundleResource Include="Resources\tutorial_close.png" />
     <BundleResource Include="Resources\texture-568h.png" />
+    <BundleResource Include="Resources\login_background.jpg" />
+    <BundleResource Include="Resources\logo_white.png" />
+    <BundleResource Include="Resources\signup_2.jpg" />
+    <BundleResource Include="Resources\ios_signin_3x4.jpg" />
+    <BundleResource Include="Resources\ios_signin_3x4%402x.jpg" />
+    <BundleResource Include="Resources\ios_signin_2x3%402x.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

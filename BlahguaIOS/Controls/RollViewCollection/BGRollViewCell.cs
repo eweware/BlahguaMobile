@@ -48,7 +48,7 @@ namespace BlahguaMobile.IOS
 			textView.BackgroundColor = new UIColor (1, 1, 1, .9f);
 
 			label = new UILabel(new RectangleF(new PointF(8, 7), new SizeF( ContentView.Frame.Size.Width - 24.0f, ContentView.Frame.Size.Height - 33.0f)));
-			label.Lines = 6;
+			label.Lines = 0;
 			//	UIFont font = reusableId == BGBlahCellSizesConstants.TinyReusableId ? 
 			//		UIFont.FromName (BGAppearanceConstants.FontName, 7.0f) : UIFont.FromName (BGAppearanceConstants.FontName, 14.0f);
 			//	label.AttributedText = new NSAttributedString (inboxBlah.T, font, UIColor.Black);
