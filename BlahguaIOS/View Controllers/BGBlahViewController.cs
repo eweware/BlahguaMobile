@@ -223,6 +223,7 @@ namespace BlahguaMobile.IOS
 
         private void SetUpContentView()
         {
+            float bottom = 640f;
 
             if (!String.IsNullOrEmpty(CurrentBlah.T))
             {
@@ -234,12 +235,8 @@ namespace BlahguaMobile.IOS
                 };
 
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
-				//txtBlahTitle.TextAlignment = UITextAlignment.Left;
-				//txtBlahTitle.ContentInset = new UIEdgeInsets(4, 4, 4, 4);
 				SizeF size = txtBlahTitle.SizeThatFits (new SizeF (320, 5000));
 				txtBlahTitleHeight.Constant = size.Height;
-
-				//txtBlahTitle.SizeToFit ();
             }
             else
             {
@@ -283,62 +280,118 @@ namespace BlahguaMobile.IOS
 			{
 				blahBodyView.Text = "";
 			}
-			contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, blahBodyView.Frame.Bottom);
+            bottom = blahBodyView.Frame.Bottom;
+
 
             if (CurrentBlah.TypeName == "polls" || CurrentBlah.TypeName == "predicts")
             {
-
-                tableView = new UITableView();
-                tableView.ScrollEnabled = false;
-                tableView.AllowsMultipleSelection = false;
-                if (BlahguaAPIObject.Current.CurrentUser == null)
+                if (tableView == null)
                 {
-                    tableView.AllowsSelection = false;
+                    tableView = new UITableView();
+
+                    tableView.ScrollEnabled = false;
+                    tableView.AllowsMultipleSelection = false;
+                    if (BlahguaAPIObject.Current.CurrentUser == null)
+                    {
+                        tableView.AllowsSelection = false;
+                    }
+
+
+
+                    var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
+                    var height = NSLayoutConstraint.Create(
+                                 tableView,
+                                 NSLayoutAttribute.Height,
+                                 NSLayoutRelation.Equal,
+                                 null,
+                                 NSLayoutAttribute.NoAttribute,
+                                 1,
+                                (BlahExtraItemCount + 1 ) * 64.0f);
+                    var left = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Left, 1, 0);
+
+                    tableView.AddConstraints(new NSLayoutConstraint[] { width, height});
+                    var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);                  
+                    contentView.AddConstraints(new NSLayoutConstraint[] {left, positionYTop });
+
+                    contentView.AddSubview(tableView);
+
+                    if (CurrentBlah.TypeName == "polls")
+                        BlahguaAPIObject.Current.GetUserPollVote(PollVoteFetched);
+                    else
+                    {
+                        BlahguaAPIObject.Current.GetUserPredictionVote(PredictionVoteFetched);
+                    }
+
                 }
-                tableView.BackgroundColor = UIColor.Clear;
-                if (CurrentBlah.TypeName == "polls")
-                {
-                    tableView.Source = new BGBlahPollTableSource(BlahPollType.Poll);
-                    tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Poll, this);
-                }
-                else
-                {
-                    tableView.Source = new BGBlahPollTableSource(BlahPollType.Predict);
-                    tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Predict, this);
-                }
 
-                tableView.ReloadData();
-                tableView.TranslatesAutoresizingMaskIntoConstraints = false;
-
-				/*
-                var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
-                var height = NSLayoutConstraint.Create(
-                    tableView,
-                    NSLayoutAttribute.Height,
-                    NSLayoutRelation.Equal,
-                    null,
-                    NSLayoutAttribute.NoAttribute,
-                    1,
-                    tableView.NumberOfRowsInSection(0) * 64.0f
-                );
-*/
-                //tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
-
-                contentView.AddSubview(tableView);
-
-               // var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
-               // var positionYBottom = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-               // var positionXLeft = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Leading, 1, 0);
-               // var positionXRight = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Trailing, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Trailing, 1, 0);
-
-               // contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop, positionYBottom, positionXLeft, positionXRight });
+                bottom += (BlahExtraItemCount + 1) * 64.0f;
             }
-            else
+            contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, bottom);
+            contentView.ScrollEnabled = true;
+        }
+
+        private int BlahExtraItemCount
+        {
+            get
             {
-                //var constraint = NSLayoutConstraint.Create(blahBodyView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Bottom, 1, 0);
-                //contentView.AddConstraint(constraint);
+                switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
+                {
+                    case "polls":
+                        if (BlahguaAPIObject.Current.CurrentBlah.I != null)
+                            return BlahguaAPIObject.Current.CurrentBlah.I.Count;
+                        else
+                            return 0;
+                        break;
+
+                    case "predicts":
+                        return 4;
+                        break;
+
+                    default:
+                        return 0;
+                }
+
             }
         }
+        private void PollVoteFetched(UserPollVote theVote)
+        {
+            BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(theVote);
+            FinalizeVote();
+        }
+
+        private void PredictionVoteFetched(UserPredictionVote theVote)
+        {
+            BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote(theVote);
+            FinalizeVote();
+        }
+
+        private void FinalizeVote()
+        {
+            InvokeOnMainThread(() =>
+                {
+                    if (CurrentBlah.TypeName == "polls")
+                    {
+                        tableView.Source = new BGBlahPollTableSource(BlahPollType.Poll);
+                        tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Poll, this);
+                    }
+                    else
+                    {
+                        tableView.Source = new BGBlahPollTableSource(BlahPollType.Predict);
+                        tableView.Delegate = new BGBlahPollTableDelegate(BlahPollType.Predict, this);
+                    }
+
+                    tableView.ReloadData();
+                    tableView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+                    float finalHeight = blahBodyView.Frame.Bottom;
+                    finalHeight += (BlahExtraItemCount + 1) * 64f;
+                    contentView.ContentSize = new SizeF(contentView.ContentSize.Width, finalHeight);
+                }
+            );
+
+        }
+
+
 		public void AdjustViewLayout()
 		{
 			//badge table view
@@ -604,7 +657,11 @@ namespace BlahguaMobile.IOS
 				float newHeight = img.Size.Height / img.Size.Width * 320;
 
 				blahImageHeight.Constant = newHeight;
-				contentView.ContentSize = new SizeF (contentView.ContentSize.Width, contentView.ContentSize.Height + blahImageHeight.Constant);
+                float finalHeight = blahBodyView.Frame.Bottom;
+                if (tableView != null)
+                    finalHeight += (BlahExtraItemCount + 1) * 64f;
+                finalHeight += newHeight;
+                contentView.ContentSize = new SizeF (contentView.ContentSize.Width, finalHeight);
 			}
 
         }
@@ -693,13 +750,27 @@ namespace BlahguaMobile.IOS
                 return type == BlahPollType.Poll ? 0 : 64f;
             }
 
+            public override string TitleForHeader(UITableView tableView, int section)
+            {
+                if (type == BlahPollType.Predict)
+                {
+                    if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
+                        return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
+                    else
+                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
+                }
+                else
+                    return null;
+            }
+
             public override UIView GetViewForHeader(UITableView tableView, int section)
             {
                 var header = type == BlahPollType.Poll ?
                     new UIView() :
                     BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
-                        "Predection was expired at " :
+                        "Predection expired at " :
                         "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
+                header.Frame = new RectangleF(0, 0, 320, 24);
                 return header;
             }
         }

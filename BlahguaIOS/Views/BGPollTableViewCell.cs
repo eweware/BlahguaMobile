@@ -28,7 +28,7 @@ namespace BlahguaMobile.IOS
 			ContentView.BackgroundColor = UIColor.Clear;
 			name.AttributedText = new NSAttributedString (
 				item.G,
-				UIFont.FromName(BGAppearanceConstants.FontName, 17),
+				UIFont.FromName(BGAppearanceConstants.FontName, 16),
 				UIColor.Black
 			);
 
@@ -36,34 +36,36 @@ namespace BlahguaMobile.IOS
 			{
 				SelectionStyle = UITableViewCellSelectionStyle.None;
 				UserInteractionEnabled = false;
-				if(progressView.Progress <= 0)
-				{
-					noVotesLabel.Hidden = false;
-					noVotesLabel.AttributedText = new NSAttributedString(
-						"no votes", 
-						UIFont.FromName(BGAppearanceConstants.FontName, 13), 
-						UIColor.Gray
-					);
-				}
-				else
-				{
-					noVotesLabel.Hidden = true;
-				}
+                float percent;
+
+                if (item.MaxVotes > 0)
+                    percent = (float)item.Votes / (float)item.MaxVotes;
+                else
+                    percent = 0;
+
+                progressView.Progress = percent;
+              
+                if (item.IsUserVote)
+                {
+                    progressView.ProgressTintColor = new UIColor(.38f, .75f, .64f, 1f);
+                }
+                else
+                {
+                    progressView.ProgressTintColor = new UIColor(12f, .73f, .82f, 1f);
+                }
+
 				percentage.AttributedText = new NSAttributedString(
 					item.VotePercent, 
-					UIFont.FromName(BGAppearanceConstants.FontName, 17), 
-					UIColor.Black
-				);
+					UIFont.FromName(BGAppearanceConstants.FontName, 14), 
+					UIColor.Black);
 			}
 			else
 			{
-
 				UserInteractionEnabled = true;
-				noVotesLabel.Hidden = true;
-				progressView.Progress = 1;
+				progressView.Progress = .5f;
 				percentage.AttributedText = new NSAttributedString (
-					"?",
-					UIFont.FromName(BGAppearanceConstants.FontName, 17),
+					"??",
+					UIFont.FromName(BGAppearanceConstants.FontName, 16),
 					UIColor.Black
 				);
 			}

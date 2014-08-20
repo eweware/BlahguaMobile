@@ -16,9 +16,6 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UILabel name { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel noVotesLabel { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel percentage { get; set; }
 
 		[Outlet]
@@ -26,10 +23,6 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (noVotesLabel != null) {
-				noVotesLabel.Dispose ();
-				noVotesLabel = null;
-			}
 
 			if (name != null) {
 				name.Dispose ();

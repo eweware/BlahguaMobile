@@ -19,7 +19,7 @@ namespace BlahguaMobile.IOS
 		public static BGPollTableHeaderView Create (string headerText)
 		{
 			var view = (BGPollTableHeaderView)Nib.Instantiate (null, null) [0];
-			view.BackgroundColor = UIColor.Clear;
+			view.BackgroundColor = UIColor.Red;
 			view.headerText.AttributedText = new NSAttributedString (
 				headerText, 
 				UIFont.FromName (BGAppearanceConstants.MediumFontName, 17), 
