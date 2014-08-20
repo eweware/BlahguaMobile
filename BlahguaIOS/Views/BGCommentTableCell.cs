@@ -100,7 +100,7 @@ namespace BlahguaMobile.IOS
 				BGAppearanceConstants.TealGreen
             );
 
-			string timeAgo= StringHelper.ConstructTimeAgo(comment.CreationDate);
+            string timeAgo= Utilities.ElapsedDateString(comment.CreationDate);
 
             timespan.AttributedText = new NSAttributedString(
 				timeAgo,

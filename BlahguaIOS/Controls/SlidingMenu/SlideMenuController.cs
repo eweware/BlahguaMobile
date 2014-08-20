@@ -186,6 +186,8 @@ namespace MonoTouch.SlideMenu
 
 		public void HideNewBlahDialog()
 		{
+            // dismiss the first responder
+            m_newPostView.EndEditing(true);
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			m_newPostView.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);

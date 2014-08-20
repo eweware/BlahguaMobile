@@ -382,15 +382,41 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpViewTitleForComment()
 		{
-			string title = "There are " + (CurrentComment.HasComments ? CurrentComment.subComments.Count.ToString() : "no") + " comments.";
+            string title;
+            int count;
+
+            if (CurrentComment.HasComments)
+            {
+                count = CurrentComment.subComments.Count;
+                if (count == 1)
+                    title = "This is one comment";
+                else
+                    title = "There are " + count.ToString() + " comments";
+            }
+            else
+                title = "There are no comments";
+
 			SetUpViewTitle (title);
 		}
 
 		private void SetUpViewTitleForBlah()
 		{
-			string title = "There " + (CurrentBlah.Comments != null && CurrentBlah.Comments.Count > 0 ? 
-				"are " + CurrentBlah.Comments.Count.ToString() : "is no") + " comments.";
-			SetUpViewTitle (title);
+            string title;
+            int count;
+
+            if (CurrentBlah.Comments != null)
+            {
+                count = CurrentBlah.Comments.Count;
+                if (count == 1)
+                    title = "This is one comment";
+                else
+                    title = "There are " + count.ToString() + " comments";
+            }
+            else
+                title = "There are no comments";
+
+            SetUpViewTitle (title);
+
 		}
 
 		private void SetUpViewTitle(string title)
