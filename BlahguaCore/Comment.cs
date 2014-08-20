@@ -349,7 +349,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                return Utilities.ElapsedDateString(new DateTime());//c);
+                return Utilities.ElapsedDateString(CreationDate);//c);
             }
         }
 

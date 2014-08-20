@@ -101,46 +101,46 @@ namespace BlahguaMobile.IOS
 				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
 				leftView.BackgroundColor = UIColor.Blue;
 				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
-				leftView.TouchUpInside += (object sender, EventArgs e) => {
+				leftView.TouchUpInside += (object sender, EventArgs e) => 
+                    {
+                        string blahID;
 
-					Console.WriteLine ("Yogi bha");
-				
-					string postTitleStr = vc.ParentViewController.UserBlahs [indexPath.Row].T;
-					string postImgUrlStr = vc.ParentViewController.UserBlahs [indexPath.Row].ImageURL;
-					string upDownCountStr = vc.ParentViewController.UserBlahs [indexPath.Row].P.ToString () + "/" + vc.ParentViewController.UserBlahs [indexPath.Row].D.ToString ();
-					string timeAgoStr = vc.ParentViewController.UserBlahs [indexPath.Row].ElapsedTimeString;
+                        if (vc.ParentViewController.isBlahs)
+                        {
+                            int blahIndex = indexPath.Row;
+                            BlahList list = vc.ParentViewController.UserBlahs; 
+                            _blhList = list.OrderByDescending(b => b.CreationDate).ToList();
+                            blahID = _blhList[blahIndex]._id;
+                        }
+                        else
+                            {
+                            int commentIndex = indexPath.Row;
+                            CommentList list = vc.ParentViewController.UserComments; 
+                            _cmtList = list.OrderByDescending(c => c.CreationDate).ToList();
+                        blahID = _cmtList[commentIndex].B;
+                        }
+                        
 
-					//CommentList getComments = vc.ParentViewController.UserBlahs [indexPath.Row].Comments;
-					//Comment data = getComment[indexPath.Row];
+    				    BlahguaAPIObject.Current.SetCurrentBlahFromId (blahID, (blah) => 
+                        {
+        					InvokeOnMainThread(() => 
+                                {
+            						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
 
-					vc.imageUrl = postImgUrlStr;
-					vc.postTitle = postTitleStr;
-					vc.timeAgo = timeAgoStr;
-					vc.upDownCount = upDownCountStr;
-					//vc.PerformSegue("historyDetailToCommentDetail",vc);
+            						var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+            						BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
+            						BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
+            						BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
 
-				    BlahList list = vc.ParentViewController.UserBlahs; 
-				    _blhList = list.OrderByDescending(b => b.CreationDate).ToList();
+            						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+            						SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
+            						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
+            						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
 
-				    BlahguaAPIObject.Current.SetCurrentBlahFromId (_blhList [indexPath.Row]._id, (blah) => {
-					InvokeOnMainThread(() => {
-						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+            					});
+    				    });
 
-						var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-						BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
-						BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
-						BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
-
-						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
-						SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
-						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
-						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
-
-					});
-				});
-
-
-				};
+                };
 			//}
 					
 				var buttons = new System.Collections.Generic.List<UIButton> ();
