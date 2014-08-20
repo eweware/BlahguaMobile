@@ -1,6 +1,9 @@
-Friday Build
-=======
-- fixed comment word wrapping
-- fixed crashes in poll submission
-- better layout of polls
-- analytics turned on
+Tuesday Build
+=========
+- fixed display of polls and predictions
+- enabled scrolling on sign-in screen
+- fixed some keyboard logic
+- made keyboard dismiss when create page is dismissed
+- fixed history sorting
+- enabled opening post from a comment in your history
+- other small fixes
