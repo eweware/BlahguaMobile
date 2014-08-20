@@ -918,9 +918,13 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     if (comments != null)
                     {
-                        foreach (Comment theComment in comments)
+                        List<Comment>   sortedList = comments.OrderByDescending(c => c.CreationDate).ToList();
+                        comments = new CommentList();
+
+                        foreach (Comment theComment in sortedList)
                         {
                             theComment.T = UnprocessText(theComment.T);
+                            comments.Add(theComment);
                         }
                         List<string> authorIds = GetCommentAuthorIds(comments);
                         BlahguaRest.GetCommentAuthorDescriptions(authorIds, (descList) =>

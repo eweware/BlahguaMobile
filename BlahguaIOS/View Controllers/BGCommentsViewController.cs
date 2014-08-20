@@ -221,81 +221,7 @@ namespace BlahguaMobile.IOS
 
 			SetUpModesButtons ();
 		}
-		/*
-		private void SetUpVotesButtons()
-		{
-			var votesButtonRect = new RectangleF (0, 0, 11, 19);
-			upVoteButton = new UIButton (UIButtonType.Custom);
-			upVoteButton.Frame = votesButtonRect;
-			upVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-				if (BlahguaAPIObject.Current.CurrentUser != null)
-				{
-					if(CurrentComment != null && CurrentComment.UserVote != 1)
-					{
-						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-							UIControlState.Normal);
-						BlahguaAPIObject.Current.SetCommentVote(CurrentComment, 1, (value) => {
-							Console.WriteLine(value);
-						});
-					}
-					if(CurrentBlah.uv != 1)
-					{
-						upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-							UIControlState.Normal);
-						BlahguaAPIObject.Current.SetBlahVote(1, (value) => {
-							Console.WriteLine(value);
-						});
-					}
-				}
-				else
-				{
-					AlertDelegateForComment obj = new AlertDelegateForComment();
-					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-					_alert.Clicked += _alert_Clicked;
-					_alert.Show();
-				}
-
-			};
-
-			downVoteButton = new UIButton (UIButtonType.Custom);
-			downVoteButton.Frame = votesButtonRect;
-			downVoteButton.TouchUpInside += (object sender, EventArgs e) => {
-
-
-				if (BlahguaAPIObject.Current.CurrentUser != null)
-				{
-					if(CurrentComment != null && CurrentComment.UserVote != -1)
-					{
-						upVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-							UIControlState.Normal);
-						BlahguaAPIObject.Current.SetCommentVote(CurrentComment, -1, (value) => {
-							Console.WriteLine(value);
-						});
-					}
-					if(CurrentBlah.uv != -1)
-					{
-						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), 
-							UIControlState.Normal);
-						BlahguaAPIObject.Current.SetBlahVote(-1, (value) => {
-							Console.WriteLine(value);
-						});
-					}
-				}
-				else
-				{
-					AlertDelegateForComment obj = new AlertDelegateForComment();
-					UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-					_alert.Clicked += _alert_Clicked;
-					_alert.Show();
-				}
-			};
-
-			SetVoteButtonsImages ();
-
-			upVote.CustomView = upVoteButton;
-			downVote.CustomView = downVoteButton;
-		}
-*/
+		
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
 			this.PerformSegue("fromCommentsToLogin", this);
@@ -429,6 +355,7 @@ namespace BlahguaMobile.IOS
 		public void CommentsLoaded(CommentList comments)
 		{
 			InvokeOnMainThread(() => {
+
 				CurrentBlah.Comments.CollectionChanged += (sender, e) => contentView.ReloadData();
 				SetUpHeaderView();
 				contentView.ReloadData ();
