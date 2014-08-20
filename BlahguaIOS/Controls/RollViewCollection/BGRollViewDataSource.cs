@@ -105,7 +105,7 @@ namespace BlahguaMobile.IOS
 				{
 					viewController.DeleteFirst200Items ();
 				}
-				if(dataSource.Count <= 100)
+                if(true)//dataSource.Count <= 100)
 				{
 					if(!viewController.IsAutoScrollingEnabled)
 					{

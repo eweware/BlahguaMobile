@@ -334,45 +334,9 @@ namespace BlahguaMobile.IOS
 				leftSlidingMenu.ShowNewPostView ();
 				isNewPostMode = true;
 			}
-		}/*
-			this.View.EndEditing (true);
-			if(leftSlidingMenu.IsMenuOpen() || leftSlidingMenu.IsRightMenuOpen())
-			{
-				return;
-			}
-				
-
-			if (isNewPostMode) {
-				HideNewBlahDialog ();
-			}  else {
-				UIView.BeginAnimations (null);
-				UIView.SetAnimationDuration (0.5f);
-				SetSrollingAvailability (false);
-				if (newPostViewController == null) {
-					newPostViewController = (BGNewPostViewController)((AppDelegate)UIApplication.SharedApplication.Delegate)
-						.MainStoryboard
-						.InstantiateViewController ("BGNewPostViewController");
-					newPostViewController.View.BackgroundColor = new UIColor(50/255.0f, 50/255.0f, 50/255.0f, 0.7f);
-					newPostViewController.ParentViewController = this;
-					this.AddChildViewController (newPostViewController);
-					newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
-
-					View.AddSubview (newPostViewController.View);
-				}
-				((UIScrollView)newPostViewController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
-				newPostViewController.View.Frame = new RectangleF (0, 0, 320, UIScreen.MainScreen.Bounds.Height);
-				newPostViewController.clearAllFields ();
-				UIView v = newPostViewController.View;
-				((UIScrollView)newPostViewController.View).ContentSize = new SizeF (320, 800);
-				isNewPostMode = true;
-				((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels );
-				//CollectionView.Hidden = true;
-
-			}
-			UIView.CommitAnimations ();
 		}
-*/
-		private void UpdateRightMenu ()
+
+        private void UpdateRightMenu ()
 		{
 			profileImage.Image = GetProfileImage ();
 			SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
@@ -380,17 +344,6 @@ namespace BlahguaMobile.IOS
 			
 		private void ToggleRightMenu ()
 		{
-			/*
-			if (isOpened) {
-				SetSrollingAvailability (true);
-				ResetToStartPosition (true);
-				isOpened = false;
-			} else {
-				SetSrollingAvailability (false);
-				SetFinalContainerViewPosition (true);
-				isOpened = true;
-			}
-			*/
 			if(IsNewPostMode)
 				return;
 			leftSlidingMenu.ToggleRightMenuAnimated ();
