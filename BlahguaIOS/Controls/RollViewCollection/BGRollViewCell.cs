@@ -37,7 +37,7 @@ namespace BlahguaMobile.IOS
 
 		public BGRollViewCell (IntPtr handle) : base (handle)
 		{
-			this.ContentMode = UIViewContentMode.TopLeft;
+			this.ContentMode = UIViewContentMode.Left;
 			SizeF theSize = new SizeF(ContentView.Frame.Size.Width, ContentView.Frame.Size.Width);
 			imageView = new UIImageView (new RectangleF (new PointF (0, 0), theSize));
 			imageView.ContentMode = UIViewContentMode.ScaleAspectFill;
@@ -46,13 +46,14 @@ namespace BlahguaMobile.IOS
 
 			textView = new UIView (new RectangleF (new PointF (0, 0), ContentView.Frame.Size));
 			textView.BackgroundColor = new UIColor (1, 1, 1, .9f);
-
+			textView.ContentMode = UIViewContentMode.Left;
 			label = new UILabel(new RectangleF(new PointF(8, 7), new SizeF( ContentView.Frame.Size.Width - 24.0f, ContentView.Frame.Size.Height - 33.0f)));
 			label.Lines = 0;
 			//	UIFont font = reusableId == BGBlahCellSizesConstants.TinyReusableId ? 
 			//		UIFont.FromName (BGAppearanceConstants.FontName, 7.0f) : UIFont.FromName (BGAppearanceConstants.FontName, 14.0f);
 			//	label.AttributedText = new NSAttributedString (inboxBlah.T, font, UIColor.Black);
 			label.Hidden = false;
+
 			textView.Add (label);
 			ContentView.Add (textView);
 
@@ -123,7 +124,7 @@ namespace BlahguaMobile.IOS
 
 				UIFont font = UIFont.FromName(fontName, fontSize);
 				label.AttributedText = new NSAttributedString (blah.T, font, UIColor.Black);
-				label.SizeToFit ();
+				//label.SizeToFit ();
 				textView.Hidden = false;
 			} 
 			else
