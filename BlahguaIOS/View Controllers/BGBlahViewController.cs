@@ -470,67 +470,59 @@ namespace BlahguaMobile.IOS
             upVoteButton = new UIButton(UIButtonType.Custom);
             upVoteButton.Frame = votesButtonRect;
             upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
-            {
-                //======by synsoft on 14 July 2014
-                //if (CurrentBlah.uv != 1)
-                //{
-                //    upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                //    BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
-                //    {
-                //        Console.WriteLine(value);
-                //    });
-                //}
-                //=======================*/
-
-                //by synsoft on 14 July 2014 for voting first go to login page if not login   
-                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    if (CurrentBlah.uv != 1)
+                    //by synsoft on 14 July 2014 for voting first go to login page if not login   
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
                     {
-                        upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                        BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+                        if (CurrentBlah.uv == 0)
                         {
-                            AppDelegate.analytics.PostBlahVote(1);
-                            Console.WriteLine(value);
-                        });
+                            upVoteButton.SetImage(UIImage.FromBundle("arrow_up_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                            BlahguaAPIObject.Current.SetBlahVote(1, (value) =>
+                                {
+                                    AppDelegate.analytics.PostBlahVote(1);
+                                    CurrentBlah.uv = value;
+                                    InvokeOnMainThread(() => SetVoteButtonsImages());
+                                    
+                                });
+                        }
                     }
-                }
-                else
-                {
-                    AlertDelegate obj = new AlertDelegate();
-                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-                    _alert.Clicked += _alert_Clicked;
-                    _alert.Show();
-                }
+                    else
+                    {
+                        AlertDelegate obj = new AlertDelegate();
+                        UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                        _alert.Clicked += _alert_Clicked;
+                        _alert.Show();
+                    }
 
-            };
+                };
 
 
 
             downVoteButton = new UIButton(UIButtonType.Custom);
             downVoteButton.Frame = votesButtonRect;
             downVoteButton.TouchUpInside += (object sender, EventArgs e) =>
-            {
-                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    if (CurrentBlah.uv != -1)
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
                     {
-						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
-                        BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+                        if (CurrentBlah.uv == 0)
                         {
-                            AppDelegate.analytics.PostBlahVote(-1);
-                            Console.WriteLine(value);
-                        });
+    						downVoteButton.SetImage(UIImage.FromBundle("arrow_down_dark").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), UIControlState.Normal);
+                            BlahguaAPIObject.Current.SetBlahVote(-1, (value) =>
+                            {
+                                AppDelegate.analytics.PostBlahVote(-1);
+                                CurrentBlah.uv = value;
+                                InvokeOnMainThread(() => SetVoteButtonsImages());
+                            });
+                        }
                     }
-                }
-                else
-                {
-                    AlertDelegate obj = new AlertDelegate();
-                    UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
-                    _alert.Clicked += _alert_Clicked;
-                    _alert.Show();
-                }
-            };
+                    else
+                    {
+                        AlertDelegate obj = new AlertDelegate();
+                        UIAlertView _alert = new UIAlertView("Alert", "Please Login First", obj, "OK", null);
+                        _alert.Clicked += _alert_Clicked;
+                        _alert.Show();
+                    }
+                };
 
             SetVoteButtonsImages();
 
