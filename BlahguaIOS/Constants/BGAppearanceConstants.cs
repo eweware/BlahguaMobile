@@ -10,7 +10,8 @@ namespace BlahguaMobile.IOS
 	{
         public static readonly string FontName = "GothamRounded-Book";
         public static readonly string MediumFontName = "GothamRounded-Book";
-        public static readonly string BoldFontName = "GothamRounded-Book";
+        public static readonly string MediumItalicFontName = "GothamRounded-BookItalic";
+        public static readonly string BoldFontName = "GothamRounded-Bold";
 
 
 		public static readonly RectangleF InitialRightViewContainerFrame = new RectangleF(320, 0, 320, UIScreen.MainScreen.Bounds.Height);

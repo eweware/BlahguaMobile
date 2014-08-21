@@ -14,9 +14,13 @@ namespace BlahguaMobile.IOS
 			TintColor = BGAppearanceConstants.TealGreen;
 		}
 
-		public void SetUp(string name)
+        public void SetUp(string name, bool enabled = true)
 		{
-			this.name.AttributedText = new NSAttributedString (name, UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), BGAppearanceConstants.DarkBrown);
+            if (enabled)
+			    this.name.AttributedText = new NSAttributedString (name, UIFont.FromName (BGAppearanceConstants.MediumFontName, 15), BGAppearanceConstants.DarkBrown);
+            else
+                this.name.AttributedText = new NSAttributedString (name, UIFont.FromName (BGAppearanceConstants.MediumItalicFontName, 15), UIColor.Gray);
+
 		}
 	}
 }

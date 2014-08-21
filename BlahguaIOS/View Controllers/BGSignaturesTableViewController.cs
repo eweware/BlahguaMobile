@@ -38,12 +38,16 @@ namespace BlahguaMobile.IOS
 
         partial void SelectAll(MonoTouch.UIKit.UIBarButtonItem sender)
 		{
-			int count = TableView.NumberOfRowsInSection(0);
+			int count = TableView.NumberOfRowsInSection(1);
+
 			for(int i = 0; i < count; i++)
 			{
-				var ip = NSIndexPath.FromRowSection(i, 0);
-				TableView.SelectRow(ip, true, UITableViewScrollPosition.None);
-				TableView.Source.RowSelected(TableView, ip);
+				var ip = NSIndexPath.FromRowSection(i, 1);
+				if (TableView.CellAt(ip).Accessory != UITableViewCellAccessory.Checkmark)
+				{
+					TableView.SelectRow(ip, true, UITableViewScrollPosition.None);
+					TableView.Source.RowSelected(TableView, ip);
+				}
 			}
 		}
 
@@ -61,29 +65,38 @@ namespace BlahguaMobile.IOS
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
 				var cell = (BGSignaturesCell)tableView.DequeueReusableCell ("cell");
+				bool	decorate = false;
 
-				if(indexPath.Row == 0)
+				if (indexPath.Section == 0) 
 				{
-					cell.SetUp ("Use Profile");
+					cell.SetUp ("use public profile");
 				}
 				else
 				{
-					if (BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Any ())
-						cell.SetUp (BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1].BadgeName);
+					if (BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Count > 0)
+					{
+						cell.SetUp(BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row].BadgeName);
+						decorate = true;
+					}
+					else
+					{
+						cell.SetUp("you do not have any badges yet", false);
+						cell.Accessory = UITableViewCellAccessory.None;
+					}
 				}
-
+					
 				if(vc.ParentViewController is BGNewPostViewController)
 				{
-					if(indexPath.Row == 0)
+					if(indexPath.Section == 0)
 					{
 						if (BlahguaAPIObject.Current.CreateRecord.UseProfile)
 							cell.Accessory = UITableViewCellAccessory.Checkmark;
 						else
 							cell.Accessory = UITableViewCellAccessory.None;
 					}
-					else
+					else if (decorate)
 					{
-						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
+						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row];
 
 						if ((BlahguaAPIObject.Current.CreateRecord.B != null) &&
 							BlahguaAPIObject.Current.CreateRecord.B.Contains(badge.ID))
@@ -94,16 +107,16 @@ namespace BlahguaMobile.IOS
 				}
 				else if(vc.ParentViewController is BGNewCommentViewController)
 				{
-					if(indexPath.Row == 0)
+					if(indexPath.Section == 0)
 					{
 						if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile)
 							cell.Accessory = UITableViewCellAccessory.Checkmark;
 						else
 							cell.Accessory = UITableViewCellAccessory.None;
 					}
-					else
+					else if (decorate)
 					{
-						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
+						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row];
 
 						if ((BlahguaAPIObject.Current.CreateCommentRecord.BD != null) &&
 							BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge.ID))
@@ -118,22 +131,34 @@ namespace BlahguaMobile.IOS
 
 			public override int RowsInSection (UITableView tableview, int section)
 			{
-				int count = 1;
-				if(BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Any())
+				if (section == 0)
 				{
-					count += BlahguaAPIObject.Current.CurrentUser.Badges.Count;
+					return 1;
 				}
-				return count;
+				else
+				{
+					int count = 0;
+					if (BlahguaAPIObject.Current.CurrentUser.Badges != null)
+					{
+						count += BlahguaAPIObject.Current.CurrentUser.Badges.Count;
+					}
+					if (count == 0)
+						count = 1; // add the warning
+					return count;
+				}
 			}
+
+
 
 			public override int NumberOfSections (UITableView tableView)
 			{
-				return 1;
+				return 2;
 			}
+
 
 			public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 			{
-				if(indexPath.Row == 0)
+				if(indexPath.Section == 0)
 				{
 					return 36f;
 				}
@@ -143,68 +168,113 @@ namespace BlahguaMobile.IOS
 				}
 			}
 
+			private void HandleCellClick(UITableView tableView, NSIndexPath indexPath)
+			{
+				UITableViewCell curCell = tableView.CellAt (indexPath);
+
+				if (vc.ParentViewController is BGNewPostViewController) 
+				{
+					if (indexPath.Section == 0) 
+					{
+						if (BlahguaAPIObject.Current.CreateRecord.UseProfile) 
+						{
+							BlahguaAPIObject.Current.CreateRecord.UseProfile = false;
+							curCell.Accessory = UITableViewCellAccessory.None;
+						} 
+						else 
+						{
+							BlahguaAPIObject.Current.CreateRecord.UseProfile = true;
+							curCell.Accessory = UITableViewCellAccessory.Checkmark;
+						}
+					} 
+					else 
+					{
+						if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
+						    (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+						{
+							return;
+						}
+						else
+						{
+							BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row];
+
+							if (BlahguaAPIObject.Current.CreateRecord.B == null)
+								BlahguaAPIObject.Current.CreateRecord.B = new List<string>();
+
+							if (BlahguaAPIObject.Current.CreateRecord.B.Contains(theBadge.ID))
+							{
+								BlahguaAPIObject.Current.CreateRecord.B.Remove(theBadge.ID);
+								curCell.Accessory = UITableViewCellAccessory.None;
+							}
+							else
+							{
+								BlahguaAPIObject.Current.CreateRecord.B.Add(theBadge.ID);
+								curCell.Accessory = UITableViewCellAccessory.Checkmark;
+							}
+						}
+					}
+				} 
+				else if (vc.ParentViewController is BGNewCommentViewController) 
+				{
+					if (indexPath.Section == 0) 
+					{
+						if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile) 
+						{
+							BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
+							curCell.Accessory = UITableViewCellAccessory.None;
+						} 
+						else 
+						{
+							BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = true;
+							curCell.Accessory = UITableViewCellAccessory.Checkmark;
+						}
+					} 
+					else 
+					{
+						if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
+						    (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+						{
+							return;
+						}
+						else
+						{
+							BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row];
+
+							if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
+								BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string>();
+
+							if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(theBadge.ID))
+							{
+								BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove(theBadge.ID);
+								curCell.Accessory = UITableViewCellAccessory.None;
+							}
+							else
+							{
+								BlahguaAPIObject.Current.CreateCommentRecord.BD.Add(theBadge.ID);
+								curCell.Accessory = UITableViewCellAccessory.Checkmark;
+							}
+						}
+					}
+				}
+			}
+				
+			public override string TitleForHeader (UITableView tableView, int section)
+			{
+				if (section == 0)
+					return "    description";
+				else
+					return "    badges";
+			}
+
+
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 			{
-				if(vc.ParentViewController is BGNewPostViewController)
-				{
-					if(indexPath.Row == 0)
-					{
-						BlahguaAPIObject.Current.CreateRecord.UseProfile = true;
-					}
-					else
-					{
-						if (BlahguaAPIObject.Current.CreateRecord.B == null)
-							BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
-						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						if (!BlahguaAPIObject.Current.CreateRecord.B.Contains(theBadge.ID))
-							BlahguaAPIObject.Current.CreateRecord.B.Add (theBadge.ID);
-					}
-				}
-				else if(vc.ParentViewController is BGNewCommentViewController)
-				{
-					if(indexPath.Row == 0)
-					{
-						BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = true;
-					}
-					else
-					{
-						if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
-							BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
-						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						if (!BlahguaAPIObject.Current.CreateCommentRecord.B.Contains(theBadge.ID))
-							BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (theBadge.ID);
-					}
-				}
-				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.Checkmark;
+				HandleCellClick(tableView, indexPath);
 			}
 
 			public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
 			{
-				if(vc.ParentViewController is BGNewPostViewController)
-				{
-					if(indexPath.Row == 0)
-					{
-						BlahguaAPIObject.Current.CreateRecord.UseProfile = false;
-					}
-					else
-					{
-						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						BlahguaAPIObject.Current.CreateRecord.B.Remove (theBadge.ID);
-					}
-				}
-				else if(vc.ParentViewController is BGNewCommentViewController)
-				{
-					if(indexPath.Row == 0)
-					{
-						BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
-					}
-					else
-					{
-						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (theBadge.ID);
-					}
-				}
-				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.None;
+				HandleCellClick(tableView, indexPath);
 			}
 
 			#endregion
