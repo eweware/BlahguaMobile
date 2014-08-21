@@ -35,7 +35,7 @@ namespace BlahguaMobile.IOS
 
 		#region Properties
 
-		private Blah CurrentBlah
+		public Blah CurrentBlah
 		{
 			get
 			{
@@ -169,7 +169,7 @@ namespace BlahguaMobile.IOS
 
 		}
 
-		private void SetUpHeaderView()
+		public void SetUpHeaderView()
 		{
 			if(CurrentComment != null)
 			{
@@ -315,7 +315,7 @@ namespace BlahguaMobile.IOS
             {
                 count = CurrentComment.subComments.Count;
                 if (count == 1)
-                    title = "This is one comment";
+                    title = "There is one comment";
                 else
                     title = "There are " + count.ToString() + " comments";
             }
@@ -334,7 +334,7 @@ namespace BlahguaMobile.IOS
             {
                 count = CurrentBlah.Comments.Count;
                 if (count == 1)
-                    title = "This is one comment";
+                    title = "There is one comment";
                 else
                     title = "There are " + count.ToString() + " comments";
             }
@@ -351,6 +351,7 @@ namespace BlahguaMobile.IOS
 				UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), 
 				UIColor.Black);
 		}
+          
 
 		public void CommentsLoaded(CommentList comments)
 		{
@@ -377,7 +378,7 @@ namespace BlahguaMobile.IOS
 			}
 			newCommentViewController.View.Frame = new RectangleF(new PointF (0, 44), newCommentViewController.View.Frame.Size);
 			View.AddSubview (newCommentViewController.View);
-			newYCoordDiff += 246f;
+            newYCoordDiff += 1000f;//246f
 			isWriteMode = true;
 			foreach(var subView in View.Subviews)
 			{
@@ -390,6 +391,7 @@ namespace BlahguaMobile.IOS
 		public void SwitchNewCommentMode()
 		{
 			contentView.ReloadData ();
+            SetUpHeaderView();
 		}
 
 		#endregion

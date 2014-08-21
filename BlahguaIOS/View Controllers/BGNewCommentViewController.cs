@@ -92,9 +92,7 @@ namespace BlahguaMobile.IOS
 			}
 			done.TouchUpInside += (object sender, EventArgs e) => {
 				Done();
-				this.View.RemoveFromSuperview();
-				BGCommentsViewController vc = (BGCommentsViewController)ParentViewController;
-				vc.ReloadComments();
+				
 			};
 
 			cancel.TouchUpInside += (object sender, EventArgs e) => {
@@ -217,10 +215,20 @@ namespace BlahguaMobile.IOS
 		{
             if (newComment != null)
             {
+                //ParentViewController.CurrentBlah.Comments.Insert(0, newComment);
+
                 AppDelegate.analytics.PostCreateComment();
-                input.Text = "";
-                InvokeOnMainThread(() => ParentViewController.SwitchNewCommentMode());
-                Console.WriteLine("Comment pushed");
+                NewComment.Text = "";
+                InvokeOnMainThread(() =>
+                    {
+                        this.View.RemoveFromSuperview();
+                        input.Text = "";
+                        ParentViewController.SwitchNewCommentMode();
+                    }
+                );
+
+                //BGCommentsViewController vc = (BGCommentsViewController)ParentViewController;
+                //vc.ReloadComments();
             }
             else
             {

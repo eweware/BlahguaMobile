@@ -90,13 +90,13 @@ namespace BlahguaMobile.IOS
 
 			lblUserType.AttributedText = new NSAttributedString(
 				comment.DescriptionString,
-				UIFont.FromName(BGAppearanceConstants.BoldFontName, 12),
+				UIFont.FromName(BGAppearanceConstants.MediumItalicFontName, 12),
 				UIColor.Black
 			);
 
             author.AttributedText = new NSAttributedString(
                 comment.AuthorName,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
+                UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
 				BGAppearanceConstants.TealGreen
             );
 
@@ -104,13 +104,13 @@ namespace BlahguaMobile.IOS
 
             timespan.AttributedText = new NSAttributedString(
 				timeAgo,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 12),
+                UIFont.FromName(BGAppearanceConstants.MediumFontName, 12),
                 UIColor.Black
             );
 
             upAndDownVotes.AttributedText = new NSAttributedString(
                 comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
+                UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
                 UIColor.Black
             );
 
