@@ -61,6 +61,7 @@ namespace BlahguaMobile.IOS
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
 				var cell = (BGSignaturesCell)tableView.DequeueReusableCell ("cell");
+
 				if(indexPath.Row == 0)
 				{
 					cell.SetUp ("Use Profile");
@@ -155,7 +156,8 @@ namespace BlahguaMobile.IOS
 						if (BlahguaAPIObject.Current.CreateRecord.B == null)
 							BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
 						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						BlahguaAPIObject.Current.CreateRecord.B.Add (theBadge.ID);
+						if (!BlahguaAPIObject.Current.CreateRecord.B.Contains(theBadge.ID))
+							BlahguaAPIObject.Current.CreateRecord.B.Add (theBadge.ID);
 					}
 				}
 				else if(vc.ParentViewController is BGNewCommentViewController)
@@ -169,7 +171,8 @@ namespace BlahguaMobile.IOS
 						if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
 							BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
 						BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row - 1];
-						BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (theBadge.ID);
+						if (!BlahguaAPIObject.Current.CreateCommentRecord.B.Contains(theBadge.ID))
+							BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (theBadge.ID);
 					}
 				}
 				tableView.CellAt (indexPath).Accessory = UITableViewCellAccessory.Checkmark;
