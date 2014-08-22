@@ -31,12 +31,27 @@ namespace BlahguaMobile.IOS
 			CollectionView.BackgroundColor = UIColor.White;
 
 			CollectionView.DataSource = new BGBadgeCollectionSource ();
+            noBadgeLabel.Hidden = true;
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 			CollectionView.ReloadData ();
+            if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
+                (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+            {
+                noBadgeLabel.LineBreakMode = UILineBreakMode.WordWrap;
+                noBadgeLabel.Lines = 0;
+                noBadgeLabel.AttributedText = new NSAttributedString ("You currently have no badges." + System.Environment.NewLine + "Click 'Add' to add some now!", UIFont.FromName (BGAppearanceConstants.MediumItalicFontName, 15), UIColor.Black);
+                noBadgeLabel.TextAlignment = UITextAlignment.Center;
+                noBadgeLabel.Hidden = false;
+            }
+            else
+            {
+                noBadgeLabel.Hidden = true;
+            }
+
 		}
 
 		private void NewBadge(object sender, EventArgs e)

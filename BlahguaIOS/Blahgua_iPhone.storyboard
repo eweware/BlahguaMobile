@@ -644,6 +644,13 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                         </collectionViewFlowLayout>
+                        <label key="backgroundView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You currently have no badges.  Click Add to add one now!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ICw-4c-vM6">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="badgeCell" id="BVW-AB-lLh" customClass="BGBadgeCell">
                                 <rect key="frame" x="10" y="54" width="90" height="100"/>
@@ -678,6 +685,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="45f-5y-mJA"/>
                     <connections>
+                        <outlet property="noBadgeLabel" destination="ICw-4c-vM6" id="2Ga-dp-A8U"/>
                         <segue destination="hbl-fz-gc6" kind="push" identifier="fromBadgeToNewBadge" id="YbM-kr-p1O"/>
                     </connections>
                 </collectionViewController>
