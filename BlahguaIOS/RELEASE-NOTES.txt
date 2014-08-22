@@ -1,9 +1,19 @@
-Tuesday Build
-=========
-- fixed display of polls and predictions
-- enabled scrolling on sign-in screen
-- fixed some keyboard logic
-- made keyboard dismiss when create page is dismissed
-- fixed history sorting
-- enabled opening post from a comment in your history
-- other small fixes
+Friday Build
+==========
+Please install and test as this is a release candidate!
+
+Fixes:
+  - comment layout improvements
+  - sign in screen layout fixes, especially on iPhone 4
+  - font, color, layout fixes
+  - better layout for poll/predict authoring
+  - keyboard hanging around too often
+  - open post button on comment now opens the post
+  - fix where scrolling would sometimes pause/not resume
+  - badges now deselect from posts as well as select
+  - vote buttons now update when I vote
+  - new comments are displayed immediately
+  - sign out and sign in as a different users was not updating menu
+  - better indication of no badges being available
+  - layout improvements on signature panel
+

@@ -14,11 +14,11 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>6.0</string>
+	<string>7.0</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>0.0.0.37</string>
+	<string>0.0.0.38</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>

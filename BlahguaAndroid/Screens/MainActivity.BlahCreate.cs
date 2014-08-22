@@ -1,4 +1,4 @@
-uCreatesing System;
+using System;
 using System.Linq;
 
 using Android.Content;
@@ -12,7 +12,7 @@ using System.IO;
 using Android.Database;
 using System.Collections.Generic;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
-Createusing Java.Util;
+using Java.Util;
 using Android.App;
 using Java.Text;
 using BlahguaMobile.AndroidClient.HelpingClasses;
