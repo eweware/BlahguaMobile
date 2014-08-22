@@ -317,7 +317,7 @@ namespace MonoTouch.SlideMenu
 
 		public void UpdateProfileImage()
 		{
-			rightMenuViewController.UpdateProfileImage ();
+			rightMenuViewController.UpdateForUser ();
 			((BGRollViewController)((BGMainNavigationController)ContentViewController).ViewControllers [0]).UpdateProfileImage ();
 		}
 		// #pragma mark - Menu view lazy load

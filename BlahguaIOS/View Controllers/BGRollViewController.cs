@@ -34,7 +34,6 @@ namespace BlahguaMobile.IOS
 		private UIView rightViewContainer;
 		private UIView rightView;
 		private UIImageView profileImage;
-		private UILabel usernameLabel;
 
 		private bool isOpened = false;
 
@@ -119,13 +118,6 @@ namespace BlahguaMobile.IOS
 					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 				}
 			};
-
-			if (BlahguaAPIObject.Current.CurrentUser != null)
-				BlahguaAPIObject.Current.CurrentUser.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
-					if (usernameLabel.Text != ((User)sender).UserName) {
-						SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
-					}
-				};
 				
 			manager = new BGRollViewCellsSizeManager ();
 			BlahguaAPIObject.Current.GetInbox (InitialInboxLoadingCompleted);
@@ -139,6 +131,7 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu.SetGesturesState (true);
 			if(!IsNewPostMode)
 				SetSrollingAvailability (true);
+			((AppDelegate)UIApplication.SharedApplication.Delegate).RightMenu.UpdateForUser();
 
 		}
 
@@ -248,25 +241,30 @@ namespace BlahguaMobile.IOS
 					}, UIControlState.Normal);
 				}
 			} else {
-				if ((NavigationItem.RightBarButtonItems == null ) || (NavigationItem.RightBarButtonItems.Length < 2)) {
+				if ((NavigationItem.RightBarButtonItems == null) || (NavigationItem.RightBarButtonItems.Length < 2))
+				{
 
-					profile = new UIButton (new RectangleF (44, 0, 44, 44));
-					profile.SetImage (GetProfileImage (), UIControlState.Normal);
-					newBlah = new UIButton (new RectangleF (0, 0, 44, 44));
+					profile = new UIButton(new RectangleF(44, 0, 44, 44));
+					profile.SetImage(GetProfileImage(), UIControlState.Normal);
+					newBlah = new UIButton(new RectangleF(0, 0, 44, 44));
 					//newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
-					newBlah.SetImage (UIImage.FromBundle ("icon_createpost"), UIControlState.Normal);
-					profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu ();
+					newBlah.SetImage(UIImage.FromBundle("icon_createpost"), UIControlState.Normal);
+					profile.TouchUpInside += (object sender, EventArgs e) => ToggleRightMenu();
 					newBlah.TouchUpInside += NewBlah;
 
-					var negativeSpacer = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
+					var negativeSpacer = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace);
 					negativeSpacer.Width = -15f;
 
-					UIView view = new UIView (new RectangleF (0, 0, 88, 44));
-					view.AddSubviews (new UIView[] { profile, newBlah });
-					var rightBarButton = new UIBarButtonItem (view);
+					UIView view = new UIView(new RectangleF(0, 0, 88, 44));
+					view.AddSubviews(new UIView[] { profile, newBlah });
+					var rightBarButton = new UIBarButtonItem(view);
 
-					NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
+					NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
+
+
+
 				}
+
 			}
 		}
 
@@ -336,11 +334,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-        private void UpdateRightMenu ()
-		{
-			profileImage.Image = GetProfileImage ();
-			SetUsername (BlahguaAPIObject.Current.CurrentUser.UserName);
-		}
+       
 			
 		private void ToggleRightMenu ()
 		{
@@ -475,14 +469,14 @@ namespace BlahguaMobile.IOS
 
 		private UIImage GetProfileImage ()
 		{
-			return ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
+			UIImage theImage = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
+			if (theImage != null)
+				UpdatedImage(null);
+
+			return theImage;
 		}
 
-		private void SetUsername (string text)
-		{
-			usernameLabel.AttributedText = new NSAttributedString (text, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.Black);
-		}
+
 
 		#endregion
 
@@ -491,8 +485,13 @@ namespace BlahguaMobile.IOS
 		public void UpdatedImage (Uri uri)
 		{
 			var image = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
-			profile.SetImage (image, UIControlState.Normal);
-			profileImage.Image = image;
+			if (image != null)
+			{
+				if (profile != null)
+					profile.SetImage(image, UIControlState.Normal);
+				if (profileImage != null)
+					profileImage.Image = image;
+			}
 		}
 
 		#endregion

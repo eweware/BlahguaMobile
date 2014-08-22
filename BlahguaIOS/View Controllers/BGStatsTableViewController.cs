@@ -44,7 +44,7 @@ namespace BlahguaMobile.IOS
 
             try
             {
-                AppDelegate.analytics.PostPageView("/blah/stats");
+               
                 base.ViewDidLoad();
 
                 //Synsoft on 9 July 2014 added title
@@ -58,15 +58,12 @@ namespace BlahguaMobile.IOS
                 this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
 
-                scrollView.ContentSize = new SizeF(320, 640);
-             
-               
-
                 scrollView.ScrollEnabled = true;
 
                 //Synsoft on 10 June 2014 
                 if (CurrentBlah != null)
                 {
+                    AppDelegate.analytics.PostPageView("/blah/stats");
                     lblConversionRatio.Text = CurrentBlah.ConversionString.ToString();
                     lblOpen.Text = CurrentBlah.O.ToString();
                     lblDemotes.Text = CurrentBlah.D.ToString();
@@ -78,6 +75,7 @@ namespace BlahguaMobile.IOS
                 }
                 else if (BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
                 {
+                    AppDelegate.analytics.PostPageView("/profile/stats");
                     var userinfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
                     int userviews, opens, creates, comments, views;
                     userviews = opens = creates = comments = views = 0;
@@ -108,11 +106,19 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
-			scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
+			//scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
 			if(CurrentBlah != null)
 				SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
+                
+            InvokeOnMainThread(  () =>
+                {
+                    scrollView.ScrollEnabled = true;
+                    scrollView.ContentSize = new SizeF(320f, 1024f);
+                });
 
 		}
+
+
 		private void SetUpBaseLayout()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));

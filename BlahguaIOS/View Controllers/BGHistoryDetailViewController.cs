@@ -99,7 +99,7 @@ namespace BlahguaMobile.IOS
 				var leftView = new UIButton ();
 				//leftView.Frame = new RectangleF (0, 0, SWTableViewCell.UtilityButtonsWidthMax, tableView.RowHeight);
 				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
-				leftView.BackgroundColor = UIColor.Blue;
+                leftView.BackgroundColor = UIColor.FromRGB(31,187, 209);
 				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
 				leftView.TouchUpInside += (object sender, EventArgs e) => 
                     {
@@ -147,7 +147,7 @@ namespace BlahguaMobile.IOS
 
 				if (vc.ParentViewController.isBlahs) {
 
-					buttons.AddUtilityButton ("Delete", UIColor.Red);
+                    buttons.AddUtilityButton ("Delete", UIColor.FromRGB(231, 61, 80));
 
 				} else {}
 
