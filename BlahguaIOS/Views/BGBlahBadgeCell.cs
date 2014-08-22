@@ -18,7 +18,7 @@ namespace BlahguaMobile.IOS
 		{
 			verifiedLabel.AttributedText = new NSAttributedString (
 				"verified", 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
+				UIFont.FromName (BGAppearanceConstants.MediumFontName, 10), 
 				UIColor.Black
 			);
 			Uri uri = null;

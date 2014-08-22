@@ -175,15 +175,17 @@ namespace BlahguaMobile.IOS
 
             //badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
-            badgeImage.SetImage(UIImage.FromBundle("badge_icon"), UIControlState.Normal);
+            //badgeImage.SetImage(UIImage.FromBundle("badge_icon"), UIControlState.Normal);
+            /*
             badgeImage.TouchUpInside += (sender, e) =>
             {
                 AdjustBadgesTableView();
             };
+            */
             badgesTableView.Source = new BGBlahBadgesTableSource();
             if (CurrentBlah.B != null && CurrentBlah.B.Any())
             {
-                badgeImage.Hidden = false;
+                //badgeImage.Hidden = false;ƒ
 
 				var count = 0;
 				if(CurrentBlah.B != null)
@@ -195,14 +197,14 @@ namespace BlahguaMobile.IOS
             }
             else
             {
-                badgeImage.Hidden = true;
+                //badgeImage.Hidden = true;
 
 				badgeTableHeight.Constant = 0;
             }
 
             blahTimespan.AttributedText = new NSAttributedString(
                 CurrentBlah.ElapsedTimeString ?? "",
-                UIFont.FromName(BGAppearanceConstants.MediumFontName, 12),
+                UIFont.FromName(BGAppearanceConstants.MediumItalicFontName, 10),
                 UIColor.Black
             );
         }
@@ -397,7 +399,7 @@ namespace BlahguaMobile.IOS
 			//badge table view
 			if (CurrentBlah.B != null && CurrentBlah.B.Any())
 			{
-				badgeImage.Hidden = false;
+				//badgeImage.Hidden = false;
 				var count = 0;
 				if(CurrentBlah.B != null)
 					count = CurrentBlah.B.Count ;
@@ -407,7 +409,7 @@ namespace BlahguaMobile.IOS
 			}
 			else
 			{
-				badgeImage.Hidden = true;
+				//badgeImage.Hidden = true;
 
 				badgeTableHeight.Constant = 0;
 				//badgesTableView.Frame = new RectangleF (badgesTableView.Frame.X, badgesTableView.Frame.Y, badgesTableView.Frame.Width,0);
@@ -623,7 +625,7 @@ namespace BlahguaMobile.IOS
 
         private void SetAuthorDescription()
         {
-            userDescription.AttributedText = new NSAttributedString(CurrentBlah.DescriptionString, UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
+            userDescription.AttributedText = new NSAttributedString(CurrentBlah.DescriptionString, UIFont.FromName(BGAppearanceConstants.MediumItalicFontName, 10),
                 UIColor.Black);
         }
 

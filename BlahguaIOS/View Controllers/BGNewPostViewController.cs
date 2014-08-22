@@ -112,16 +112,28 @@ namespace BlahguaMobile.IOS
 
 		public BGNewPostViewController (IntPtr handle) : base (handle)
 		{
+            NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillHideNotification, OnKeyboardNotification);
+            NSNotificationCenter.DefaultCenter.AddObserver (UIKeyboard.WillShowNotification, OnKeyboardNotification);
 		}
+
+        private void HideKeyboard()
+        {
+            var activeView = KeyboardGetActiveView();
+            if (activeView != null)
+                activeView.ResignFirstResponder();
+        }
 
 		public override void TouchesBegan (NSSet touches, UIEvent evt)
 		{
+            HideKeyboard();
+            /*
 			UITouch curTouch = (UITouch)evt.AllTouches.AnyObject;
 
 			if (!((curTouch.View is UITextView) || (curTouch.View is UITextField)))
 				this.View.EndEditing (true);
 
 			base.TouchesBegan (touches, evt);
+   */         
 		}
 
 		public override void ViewDidLoad ()
@@ -408,6 +420,7 @@ namespace BlahguaMobile.IOS
 
         private void SetBlahType(UIButton theView, BlahType newType)
         {
+            HideKeyboard();
             if (theView != curTypeView)
             {
                 if (curTypeView != null)
@@ -421,6 +434,105 @@ namespace BlahguaMobile.IOS
                 }
             }
         }
+          
+
+        public override void ViewWillAppear (bool animated)
+        {
+            base.ViewWillAppear (animated);
+
+        }
+
+        private void OnKeyboardNotification (NSNotification notification)
+        {
+            if (IsViewLoaded) {
+
+                //Check if the keyboard is becoming visible
+                bool visible = notification.Name == UIKeyboard.WillShowNotification;
+
+                //Start an animation, using values from the keyboard
+                UIView.BeginAnimations ("AnimateForKeyboard");
+                UIView.SetAnimationBeginsFromCurrentState (true);
+                UIView.SetAnimationDuration (UIKeyboard.AnimationDurationFromNotification (notification));
+                UIView.SetAnimationCurve ((UIViewAnimationCurve)UIKeyboard.AnimationCurveFromNotification (notification));
+
+                //Pass the notification, calculating keyboard height, etc.
+                bool landscape = InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
+                if (visible) {
+                    var keyboardFrame = UIKeyboard.FrameEndFromNotification (notification);
+
+                    OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+                } else {
+                    var keyboardFrame = UIKeyboard.FrameBeginFromNotification (notification);
+
+                    OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+                }
+
+                //Commit the animation
+                UIView.CommitAnimations (); 
+            }
+        }
+
+        protected  UIView KeyboardGetActiveView()
+        {
+            return FindFirstResponder(this.View);
+        }
+
+        private  UIView FindFirstResponder(UIView view)
+        {
+            if (view.IsFirstResponder)
+            {
+                return view;
+            }
+            foreach (UIView subView in view.Subviews)
+            {
+                var firstResponder = FindFirstResponder(subView);
+                if (firstResponder != null)
+                    return firstResponder;
+            }
+            return null;
+        }
+
+
+        protected virtual void OnKeyboardChanged (bool visible, float keyboardHeight)
+        {
+            var activeView = KeyboardGetActiveView();
+            if (activeView == null)
+                return;
+
+
+
+            if (!visible)
+                RestoreScrollPosition(containerScrollView);
+            else
+                CenterViewInScroll(activeView, containerScrollView, keyboardHeight);
+        }
+
+        protected void CenterViewInScroll(UIView viewToCenter, UIScrollView scrollView, float keyboardHeight)
+        {
+            var contentInsets = new UIEdgeInsets(0.0f, 0.0f, keyboardHeight, 0.0f);
+            scrollView.ContentInset = contentInsets;
+            scrollView.ScrollIndicatorInsets = contentInsets;
+
+            // Position of the active field relative isnside the scroll view
+            RectangleF relativeFrame = View.Superview.ConvertRectToView(View.Frame, scrollView);
+            var spaceAboveKeyboard = scrollView.Frame.Height - keyboardHeight;
+
+            Console.WriteLine("frameHeight: " + relativeFrame.Height.ToString() + ", spaceAbove:" + spaceAboveKeyboard.ToString());
+            // Move the active field to the center of the available space
+            if (spaceAboveKeyboard < 0)
+            {
+                var offset = relativeFrame.Y - (spaceAboveKeyboard - viewToCenter.Frame.Height) / 2;
+                scrollView.ContentOffset = new PointF(0, offset);
+            }
+        }
+
+        protected virtual void RestoreScrollPosition(UIScrollView scrollView)
+        {
+            scrollView.ContentInset = UIEdgeInsets.Zero;
+            scrollView.ScrollIndicatorInsets = UIEdgeInsets.Zero;
+        }
+
+
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
@@ -487,7 +599,7 @@ namespace BlahguaMobile.IOS
 
 					foreach (PollItem curItem in NewPost.I)
 					{
-						if ((NewPost.G == null) || (NewPost.G.Length == 0))
+                        if ((curItem.G == null) || (curItem.G.Length == 0))
 						return "Each poll response requires a title.";
 					}
 					break;
@@ -515,6 +627,8 @@ namespace BlahguaMobile.IOS
                         break;
 
                     case "polls":
+                        // should not have to remove empty items
+                        /*
                         if (NewPost.I != null && NewPost.I.Count > 0)
                         {
                             foreach (var pi in NewPost.I)
@@ -525,6 +639,7 @@ namespace BlahguaMobile.IOS
                                 }
                             }
                         }
+                        */
                         break;
                 }
 

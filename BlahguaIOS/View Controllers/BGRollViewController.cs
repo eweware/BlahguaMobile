@@ -138,10 +138,14 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			if (CollectionView.NumberOfItemsInSection (0) > 0 && !IsNewPostMode)
-				NaturalScrollInProgress = false;
-				//CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
-		}
+            if (CollectionView.NumberOfItemsInSection (0) > 0)
+            {
+                if (!IsNewPostMode)
+                    NaturalScrollInProgress = false;
+                else
+                    NaturalScrollInProgress = NaturalScrollInProgress;
+    		}
+        }
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
@@ -281,6 +285,7 @@ namespace BlahguaMobile.IOS
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 			isNewPostMode = false;
+            NaturalScrollInProgress = false;
 			newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
 			UIView.CommitAnimations ();
 			SetSrollingAvailability (true);
@@ -310,6 +315,7 @@ namespace BlahguaMobile.IOS
 
 			// notify the user
 			ShowToast("New Post created - now look for it in the stream!");
+            NaturalScrollInProgress = false;
 
 		}
 
@@ -323,6 +329,9 @@ namespace BlahguaMobile.IOS
 
 		private void NewBlah (object sender, EventArgs e)
 		{
+            if (leftSlidingMenu.IsRightMenuOpen())
+                return;
+
 			if (isNewPostMode) {
 				SetSrollingAvailability (true);
 				leftSlidingMenu.HideNewBlahDialog ();
