@@ -44,7 +44,7 @@ namespace BlahguaMobile.IOS
 		{
 			pollItemText.AttributedPlaceholder = new NSAttributedString (
 				"Type poll option", 
-				UIFont.FromName(BGAppearanceConstants.FontName, 14), 
+				UIFont.FromName(BGAppearanceConstants.MediumItalicFontName, 14), 
 				UIColor.DarkGray
 			);
 			pollItemText.Enabled = true;
@@ -63,7 +63,7 @@ namespace BlahguaMobile.IOS
 				pollItem.G = pollItemText.Text;
 			};
 
-			pollItemText.ReturnKeyType = UIReturnKeyType.Default;
+			pollItemText.ReturnKeyType = UIReturnKeyType.Done;
 			//pollItemText.ShouldReturn = delegate {
 			//	return true;
 			//};

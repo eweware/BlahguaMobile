@@ -156,11 +156,20 @@ namespace BlahguaMobile.IOS
 
 		#region Methods
 
+        static int retryCount = 0;
+
 		private void InitCallback(bool isOk)
 		{
 			if(!isOk)
 			{
-				BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
+                retryCount++;
+                if (retryCount < 3)
+				    BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
+                else
+                {
+                    UIAlertView theView = new UIAlertView("Error", "Unable to connect to the Heard.  Please check your internet connection or try again later.", null, "Ok");
+                    theView.Show();
+                }
 			}
 			else
 			{

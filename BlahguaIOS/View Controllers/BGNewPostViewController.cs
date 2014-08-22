@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
 		const string userProfileText = "Use Profile";
 		const string deleteSignatare = "Delete Signature";
 		private float scrollOffset = 0f;
-		private float space = 8f;
+		
 
 		private UIActivityIndicatorView progressIndicator;
 		private UIImage imageForUploading;
@@ -183,16 +183,13 @@ namespace BlahguaMobile.IOS
 
 
 
-			titleInput.Placeholder = "HEADLINE: Says are general posts, no requirements.";
-			//bodyInput.Placeholder = "Says is used for general sharing";
+			titleInput.Placeholder = "says are general posts, no requirements.";
           
             SayBtn.TouchUpInside += (object sender, EventArgs e) =>
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
-                    //SayBtn.Highlighted = true;
             };
-            //curTypeView = SayBtn;
-            //EnableTypeBtn(SayBtn);
+            buttonTopOffset.Constant = 0f;
 			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
@@ -322,100 +319,90 @@ namespace BlahguaMobile.IOS
             var typeName = BlahguaAPIObject.Current.CreateRecord.BlahType.N;
             switch (typeName)
             {
-			case "polls":
-				InvokeOnMainThread (() => {
-					pollItemsTableView.Hidden = false;
+    			case "polls":
+    				InvokeOnMainThread (() => 
+                        {
 
-					pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
-					containerHeight.Constant = this.View.Bounds.Bottom - doneFrame.Height - 6;
+        					pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
+        					//containerHeight.Constant = this.View.Bounds.Bottom - doneFrame.Height - 6;
 
-					ExpirationDateInput.Hidden = true;
-
-					PreparePollMode ();
-					//bodyInput.Placeholder = "Polls must have at least two choices";
-					titleInput.Placeholder = "HEADLINE: Include pre-defined responses.";
-					done.RemoveFromSuperview ();
-					done.Frame = new RectangleF (doneFrame.X, containerHeight.Constant + 4, doneFrame.Width, doneFrame.Height);
-					View.AddSubview(done);
-				});
-
+        					PreparePollMode ();
+        					titleInput.Placeholder = "polls need 2 or more choices";
+                            ShowHideAreas(true, false);
+        				});
                     break;
 				 
                 case "predicts":
                     InvokeOnMainThread(() =>
                         {
+                            ExpirationDateInput.AttributedText = new NSAttributedString(
+                                    NewPost.E ?? String.Empty, 
+                                    UIFont.FromName(BGAppearanceConstants.FontName, 14),
+                                    UIColor.Black
+                                );
 
-                        ExpirationDateInput.AttributedText = new NSAttributedString(
-                                NewPost.E ?? String.Empty, 
-                                UIFont.FromName(BGAppearanceConstants.FontName, 14),
-                                UIColor.Black
-                            );
-
-						RectangleF oldFrame = containerScrollView.Frame;
-
-						containerHeight.Constant = back.Frame.Height + expirationDateInput.Frame.Height + 8;
-
-						containerScrollView.AddSubview (ExpirationDateInput);
-						if(UIScreen.MainScreen.Bounds.Height == 480)
-						{
-							containerScrollView.ContentSize = new SizeF(containerScrollView.ContentSize.Width, containerHeight.Constant + 100);
-						}
+    						RectangleF oldFrame = containerScrollView.Frame;
 
 
-						done.RemoveFromSuperview ();
-						done.Frame = new RectangleF(doneFrame.X, containerHeight.Constant + 2, doneFrame.Width, doneFrame.Height) ;
-						View.AddSubview(done);
-                        pollItemsTableView.Hidden = true;
-                        ExpirationDateInput.Hidden = false;
+    						containerScrollView.AddSubview (ExpirationDateInput);
+    						
 
+                            ShowHideAreas(false, true);
 
-						titleInput.Placeholder = "HEADLINE: Need a dated outcome.";
-                        //bodyInput.Placeholder = "Predictions require you to set a date";
+                           	titleInput.Placeholder = "predicts need a dated outcome.";
                         });
 
                     break;
 
-			case "says":
-				pollItemsTableView.Hidden = true;
-				ExpirationDateInput.Hidden = true;
-
-				containerHeight.Constant = back.Frame.Height;
-
-				done.RemoveFromSuperview ();
-				done.Frame = doneFrame ;
-				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: General posts, no requirements.";
-                    //bodyInput.Placeholder = "Says is used for general sharing";
+			    case "says":
+                    ShowHideAreas(false, false);
+				    titleInput.Placeholder = "says are general posts, no requirements.";
                     break;
 
                 case "asks":
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
-				containerHeight.Constant = back.Frame.Height;
-				done.RemoveFromSuperview ();
-				done.Frame = doneFrame ;
-				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Must include a question mark.";
-                    //bodyInput.Placeholder = "Asks must be in the form a a question";
+                    ShowHideAreas(false, false);
+				    titleInput.Placeholder = "asks must include a question mark.";
                     break;
 
                 case "leaks":
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
-				containerHeight.Constant = back.Frame.Height;
-				done.RemoveFromSuperview ();
-				done.Frame = doneFrame ;
-				View.AddSubview(done);
-				titleInput.Placeholder = "HEADLINE: Require a badge to be attached.";
-                    //bodyInput.Placeholder = "You must be badged to leak something";
+                    ShowHideAreas(false, false);
+                    titleInput.Placeholder = "leaks require a badge to be attached.";
                     break;
 
                 default:
-                    pollItemsTableView.Hidden = true;
-                    ExpirationDateInput.Hidden = true;
-				titleInput.Placeholder = "HEADLINE: Polls allow user to vote on pre-defined responses.";
+                    ShowHideAreas(false, false);
+				    titleInput.Placeholder = "";
                     break;
             }
+        }
+
+
+        private void ShowHideAreas(bool showPoll, bool showPred)
+        {
+            if (showPoll || showPred)
+            {
+                if (showPoll)
+                {
+                    pollItemsTableView.Hidden = false;
+                    ExpirationDateInput.Hidden = true;
+                    buttonTopOffset.Constant = 12f + pollItemsTableView.Frame.Height;
+                }
+                else 
+                {
+                    pollItemsTableView.Hidden = true;
+                    ExpirationDateInput.Hidden = false;
+                    buttonTopOffset.Constant = 12f + ExpirationDateInput.Frame.Height;
+                }
+
+
+            }
+            else
+            {
+                pollItemsTableView.Hidden = true;
+                ExpirationDateInput.Hidden = true;
+                buttonTopOffset.Constant = 8f;
+            }
+
         }
 
         private void SetBlahType(UIButton theView, BlahType newType)
@@ -439,6 +426,7 @@ namespace BlahguaMobile.IOS
         public override void ViewWillAppear (bool animated)
         {
             base.ViewWillAppear (animated);
+            buttonTopOffset.Constant = 8f;
 
         }
 
@@ -495,6 +483,7 @@ namespace BlahguaMobile.IOS
 
         protected virtual void OnKeyboardChanged (bool visible, float keyboardHeight)
         {
+            /*
             var activeView = KeyboardGetActiveView();
             if (activeView == null)
                 return;
@@ -505,6 +494,7 @@ namespace BlahguaMobile.IOS
                 RestoreScrollPosition(containerScrollView);
             else
                 CenterViewInScroll(activeView, containerScrollView, keyboardHeight);
+                */
         }
 
         protected void CenterViewInScroll(UIView viewToCenter, UIScrollView scrollView, float keyboardHeight)
@@ -784,27 +774,11 @@ namespace BlahguaMobile.IOS
 		{
 			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
 
-			//if (newSize.Height > 200) {
-				//pollItemsTableView.ScrollEnabled = true;
-			//	return;
-			//}
-			//if (pollItemsTableView.Frame.Top + newSize.Height < done.Frame.Top)
-				//pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.Location, newSize);
 			pollOptionTableHeight.Constant = newSize.Height;
-			//else
-			//	return;
-			//((UIScrollView)View).ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 60 + 200);
-			containerScrollView.ContentSize = new SizeF (320, pollItemsTableView.Frame.Bottom + 216);
-			if (pollItemsTableView.Hidden == false) {
-				//done.RemoveFromSuperview ();
-
-				//if ((pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height) >= (View.Bounds.Height - 48)) {
-				//	done.Frame = new RectangleF (doneFrame.X, View.Bounds.Height - 48, doneFrame.Width, doneFrame.Height);
-				//} else
-				//done.Frame = new RectangleF (doneFrame.X, pollItemsTableView.Frame.Y + pollItemsTableView.Frame.Height + 8, doneFrame.Width, doneFrame.Height);
-
-				//View.AddSubview (done);
-			}
+			
+            containerScrollView.ContentSize = new SizeF (320, done.Frame.Bottom + 8);
+            if (BlahguaAPIObject.Current.CreateRecord.BlahType.N == "polls")
+                buttonTopOffset.Constant = 12f + newSize.Height;
 		}
 
 		private void PostCreated(Blah NewPost)
