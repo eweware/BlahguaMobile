@@ -21,7 +21,7 @@ namespace BlahguaMobile.IOS
 		private SlideMenuController slideMenu;
 		private UINavigationController navController;
 		public SwipeViewController swipeView;
-
+        private bool appIsDead = false;
 
 		#endregion
 
@@ -85,20 +85,50 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
+        NetworkStatus remoteHostStatus, internetStatus, localWifiStatus;
+
+
+
+        void UpdateStatus ()
+        {
+            remoteHostStatus = Reachability.RemoteHostStatus ();
+            internetStatus = Reachability.InternetConnectionStatus ();
+            localWifiStatus = Reachability.LocalWifiConnectionStatus ();
+        }
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-			UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide);
-             Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage (
-				UIImage.FromBundle (BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
-					"Default" : "Default-568h"));     
+            UpdateStatus ();
+            if (remoteHostStatus == NetworkStatus.NotReachable)
+            {
+                if ((internetStatus == NetworkStatus.NotReachable) && (localWifiStatus == NetworkStatus.NotReachable))
+                {
+                    ShowTerminalDialog("Unable to connect to the Internet.  Please check your connection or try again later.");
+                }
+                else
+                {
+                    ShowTerminalDialog("Unable to connect to the Heard.  Please try again later.");
+                }
+            }
+            else
+            {
+                Reachability.ReachabilityChanged += (object sender, EventArgs e) =>
+                {
+                    UpdateStatus();
+                };
 
-            InitAnalytics();
-			BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
-            this.Window.TintColor = BGAppearanceConstants.TealGreen;
+                UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide);
+                Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage(
+                    UIImage.FromBundle(BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
+    					"Default" : "Default-568h"));     
 
-            // set the sizes
-            SetBlahSizesForScreen();
+                InitAnalytics();
+                BlahguaCore.BlahguaAPIObject.Current.Initialize(null, InitCallback);
+                this.Window.TintColor = BGAppearanceConstants.TealGreen;
+
+                // set the sizes
+                SetBlahSizesForScreen();
+            }
 
             return true;
         }
@@ -134,6 +164,29 @@ namespace BlahguaMobile.IOS
 				BlahguaAPIObject.Current.EnsureSignin ();
 		}
 
+        public override void DidEnterBackground(UIApplication application)
+        {
+            if (appIsDead)
+                throw new Exception("App hit terminal error");
+        }
+
+
+        private void ShowTerminalDialog(string errMsg)
+        {
+            InvokeOnMainThread(() =>
+                {
+                    UIAlertView theView = new UIAlertView("Error", errMsg + Environment.NewLine + 
+                        Environment.NewLine + "You should exit the app now", null, null);
+                    theView.Clicked += (object sender, UIButtonEventArgs e) => 
+                        {
+
+                        };
+                    theView.Show();
+                    appIsDead = true;
+                });
+        }
+
+
         public void SetBlahSizesForScreen()
         {
             RectangleF screenRect = UIScreen.MainScreen.Bounds;
@@ -167,8 +220,8 @@ namespace BlahguaMobile.IOS
 				    BlahguaCore.BlahguaAPIObject.Current.Initialize (null, InitCallback);
                 else
                 {
-                    UIAlertView theView = new UIAlertView("Error", "Unable to connect to the Heard.  Please check your internet connection or try again later.", null, "Ok");
-                    theView.Show();
+                    analytics.PostCrash("startupfail");
+                    ShowTerminalDialog("Unable to connect to the Heard.  Please check your internet connection or try again later.");
                 }
 			}
 			else
