@@ -456,6 +456,7 @@ namespace BlahguaMobile.IOS
 				var btnSignIn = new UIButton (UIButtonType.Custom);
 				btnSignIn.Frame = btnSignInRect;
 				btnSignIn.SetTitle("Sign In", UIControlState.Normal) ;
+                BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather");
 				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
 					this.PerformSegue("SummaryToLogin", this);
 				};

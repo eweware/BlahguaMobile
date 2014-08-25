@@ -27,7 +27,7 @@ namespace BlahguaMobile.IOS
 				{
 					label.AttributedText = new NSAttributedString(
 						value, 
-						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14), 
+						UIFont.FromName(BGAppearanceConstants.MediumFontName, 14), 
 						UIColor.White
 					);
 				}

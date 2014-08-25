@@ -57,6 +57,12 @@ namespace BlahguaMobile.IOS
 				keyboardHidden = true;
 				CalibrateViewPosition();
 			});
+
+            // change header font
+            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                Font = UIFont.FromName ("Merriweather", 20),
+                TextColor = UIColor.FromRGB (96, 191, 164)
+            });
 		}
 
 		public override void ViewDidLoad ()

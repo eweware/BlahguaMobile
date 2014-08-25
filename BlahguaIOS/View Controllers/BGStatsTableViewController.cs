@@ -39,6 +39,15 @@ namespace BlahguaMobile.IOS
 
         }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            this.Title = "Statistics";
+            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                Font = UIFont.FromName ("Merriweather", 20),
+                TextColor = UIColor.FromRGB (96, 191, 164)
+            });
+        }
         public override void ViewDidLoad()
         {
 
@@ -46,9 +55,6 @@ namespace BlahguaMobile.IOS
             {
                
                 base.ViewDidLoad();
-
-                //Synsoft on 9 July 2014 added title
-                this.Title = "Stats";
 
 				this.NavigationController.SetNavigationBarHidden(false, true);
 
@@ -93,6 +99,9 @@ namespace BlahguaMobile.IOS
                     lblComment.Text = comments.ToString();
                     lblImpression.Text = views.ToString();
                 }
+
+                // change everything to a certain
+                ChangeLabelFonts(this.View, BGAppearanceConstants.MediumFontName);
             }
             catch (Exception e)
             {
@@ -103,6 +112,26 @@ namespace BlahguaMobile.IOS
 			SetUpToolbar ();
 
         }
+
+        private void ChangeLabelFonts(UIView anyView, string fontName)
+        {
+            if (anyView is UILabel)
+            {
+                UILabel curLabel = anyView as UILabel;
+                NSAttributedString oldString = curLabel.AttributedText;
+
+                curLabel.AttributedText = new NSAttributedString(curLabel.Text, 
+                    UIFont.FromName(fontName, curLabel.Font.PointSize), 
+                    curLabel.TextColor);
+            }
+
+            foreach (UIView subView in anyView.Subviews)
+            {
+                ChangeLabelFonts(subView, fontName);
+            }
+
+        }
+
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
@@ -153,6 +182,7 @@ namespace BlahguaMobile.IOS
 					var btnSignIn = new UIButton (UIButtonType.Custom);
 					btnSignIn.Frame = btnSignInRect;
 					btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
+                    BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather");
 					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
 						this.PerformSegue ("fromStatsToLogin", this);
 					};

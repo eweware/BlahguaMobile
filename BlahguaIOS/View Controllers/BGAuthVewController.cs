@@ -242,6 +242,7 @@ namespace BlahguaMobile.IOS
 			confirmPassword.SecureTextEntry = true;
 
 			helpButton.Enabled = true;
+            BGAppearanceHelper.SetButtonFont(helpButton, "Merriweather");
 			helpButton.TouchUpInside += (object sender, EventArgs e) => {
 				if(MFMailComposeViewController.CanSendMail)
 				{
@@ -259,6 +260,7 @@ namespace BlahguaMobile.IOS
 				}
 			};
 
+            BGAppearanceHelper.SetButtonFont(reportBugButton, "Merriweather");
 			reportBugButton.TouchUpInside +=(object sender, EventArgs e) => {
 				if(MFMailComposeViewController.CanSendMail)
 				{
@@ -277,6 +279,7 @@ namespace BlahguaMobile.IOS
 			};
 
 			aboutButton.Enabled = true;
+            BGAppearanceHelper.SetButtonFont(aboutButton, "Merriweather");
 			aboutButton.TouchUpInside += (object sender, EventArgs e) => {
 				var url = NSUrl.FromString("http://www.goheard.com/"); 
 				if(UIApplication.SharedApplication.CanOpenUrl(url))
@@ -285,6 +288,8 @@ namespace BlahguaMobile.IOS
 				}
 			};
 		}
+
+
 
 		public void SetModeAction(object sender, EventArgs e)
 		{

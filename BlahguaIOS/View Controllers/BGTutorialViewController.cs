@@ -29,7 +29,7 @@ namespace BlahguaMobile.IOS
 
 			tv.SetDataSource (dataSource);
 
-			var btnRect = new RectangleF (m_frame.Width - 45, 25, 20, 20);
+			var btnRect = new RectangleF (m_frame.Width - 45, 25, 32, 32);
 			var btnSkip = new UIButton (UIButtonType.Custom);
 			btnSkip.Frame = btnRect;
 			btnSkip.SetImage (UIImage.FromBundle ("tutorial_close"), UIControlState.Normal);

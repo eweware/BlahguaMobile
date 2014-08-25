@@ -22,7 +22,7 @@ namespace BlahguaMobile.IOS
             AppDelegate.analytics.PostPageView("/self/badges");
 
 			base.ViewDidLoad ();
-
+            this.Title = "Badges";
 			this.NavigationController.SetNavigationBarHidden(false, true);
 
 			View.BackgroundColor = UIColor.White;
@@ -37,6 +37,12 @@ namespace BlahguaMobile.IOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+            this.Title = "Badges";
+            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                Font = UIFont.FromName ("Merriweather", 20),
+                TextColor = UIColor.FromRGB (96, 191, 164)
+            });
+
 			CollectionView.ReloadData ();
             if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
                 (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))

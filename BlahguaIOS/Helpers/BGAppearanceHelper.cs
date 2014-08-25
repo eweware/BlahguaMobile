@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -14,6 +15,17 @@ namespace BlahguaMobile.IOS
 		#endregion
 
 		#region Properties
+
+        public static void SetButtonFont(UIButton theBtn, string theFontName)
+        {
+            var buttonsTextAttributes = new UIStringAttributes {
+                Font = UIFont.FromName ("Merriweather", theBtn.Font.PointSize),
+                ForegroundColor = theBtn.CurrentTitleColor
+            };
+
+            theBtn.SetAttributedTitle (new NSAttributedString (theBtn.CurrentTitle, buttonsTextAttributes), UIControlState.Normal);
+
+        }
 
 		public static DeviceType DeviceType 
 		{
