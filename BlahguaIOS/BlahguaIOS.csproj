@@ -353,8 +353,6 @@
     <BundleResource Include="Resources\texture.png" />
     <BundleResource Include="Resources\texture-568h%402x.png" />
     <BundleResource Include="Resources\texture%402x.png" />
-    <BundleResource Include="Resources\texture_portrait.png" />
-    <BundleResource Include="Resources\texture_portrait%402x.png" />
     <BundleResource Include="Resources\Background-portrait.png" />
     <BundleResource Include="Resources\Background-portrait%402x.png" />
     <BundleResource Include="Resources\BackgroundImage_4inch.png" />
@@ -375,6 +373,8 @@
     <BundleResource Include="Resources\ios_signin_3x4.jpg" />
     <BundleResource Include="Resources\ios_signin_3x4%402x.jpg" />
     <BundleResource Include="Resources\ios_signin_2x3%402x.jpg" />
+    <BundleResource Include="Resources\conversion.png" />
+    <BundleResource Include="Resources\comments_filled_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -524,7 +524,6 @@
     <BundleResource Include="Resources\fonts\Merriweather.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
-    <BundleResource Include="Resources\texture_01.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Icon.png" />
