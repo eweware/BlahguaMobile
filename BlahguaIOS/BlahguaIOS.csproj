@@ -375,6 +375,7 @@
     <BundleResource Include="Resources\ios_signin_2x3%402x.jpg" />
     <BundleResource Include="Resources\conversion.png" />
     <BundleResource Include="Resources\comments_filled_64x64.png" />
+    <BundleResource Include="Resources\conversion%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

@@ -192,6 +192,8 @@
     <AndroidResource Include="Resources\layout\dialog_tutorial.xml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\conversion.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\comments_filled_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">

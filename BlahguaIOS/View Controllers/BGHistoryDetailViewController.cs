@@ -85,11 +85,7 @@ namespace BlahguaMobile.IOS
 			List<Blah> _blhList;
 			float CellHeight;
 
-			//if (cell == null) {
-			
-
 				var leftView = new UIButton ();
-				//leftView.Frame = new RectangleF (0, 0, SWTableViewCell.UtilityButtonsWidthMax, tableView.RowHeight);
 				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
                 leftView.BackgroundColor = UIColor.FromRGB(31,187, 209);
 				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
@@ -153,11 +149,8 @@ namespace BlahguaMobile.IOS
 
 				    CellHeight = 0f;
 					CellHeight= getHeight (_blhList[indexPath.Row].T);
-					
-					
-				} else {
-				
 
+				} else {
 					CommentList list = vc.ParentViewController.UserComments; 
 					_cmtList = list.OrderByDescending(b => b.CreationDate).ToList();
 
@@ -198,9 +191,10 @@ namespace BlahguaMobile.IOS
 				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
 					userBlah.ConversionString,commentCountVal);
 
-			} else {
+			} 
+            else 
+            {
 
-				//cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
 				List<Comment> _list;
 				CommentList list = vc.ParentViewController.UserComments; 
 				_list = list.OrderByDescending(b => b.CreationDate).ToList();
@@ -261,7 +255,6 @@ namespace BlahguaMobile.IOS
 				} else {
 					commentImageView.Image = UIImage.FromBundle ("icon_speechact_leak");
 				}
-				//commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
 
 				cell.ContentView.AddSubview (commentImageView);
 				commentImageView.Frame = new RectangleF (baseXStart, yCoordStart-15, 20f, 20f);
@@ -269,17 +262,19 @@ namespace BlahguaMobile.IOS
 			}
 
 			if (historyType.Equals ("Blahs")) {
-
-				upVoteImageView.Image = UIImage.FromBundle ("arrow-up");
+                upVoteImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+				upVoteImageView.Image = UIImage.FromBundle ("arrow_up_dark");
+                cell.ContentView.AddSubview (upVoteImageView);
 				upVoteImageView.Frame = new RectangleF (baseXStart + 30, yCoordStart - 15, 10f, 20f);
-				cell.ContentView.AddSubview (upVoteImageView);
+				
 
 				labelXCoordStart += 40; 
 				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
 				SetLabelSize (upVotesLbl, cell);
 
-				downVoteImageView.Image = UIImage.FromBundle ("arrow-down");
-				downVoteImageView.Frame = new RectangleF (baseXStart + 60, yCoordStart - 15, 10f, 20f);
+				downVoteImageView.Image = UIImage.FromBundle ("arrow_down_dark");
+                downVoteImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+                downVoteImageView.Frame = new RectangleF (baseXStart + 60, yCoordStart - 15, 10f, 20f);
 				cell.ContentView.AddSubview (downVoteImageView);
 
 				labelXCoordStart += 20; 
@@ -288,20 +283,16 @@ namespace BlahguaMobile.IOS
 
 			} 
 
-			//if (!String.IsNullOrEmpty (userNameString)) {
-
-				//userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-				//SetLabelSize (userNameLbl, cell);
-			//}
 			
 		    if (!String.IsNullOrEmpty (conversionStirng)) {
 
-			    conversionImagView.Image = UIImage.FromBundle ("eye");
-			    conversionImagView.Frame = new RectangleF (baseXStart+100, yCoordStart-10, 20f, 10f);
+			    conversionImagView.Image = UIImage.FromBundle ("conversion");
+                conversionImagView.ContentMode = UIViewContentMode.ScaleAspectFit;
+			    conversionImagView.Frame = new RectangleF (baseXStart+100, yCoordStart-15, 20f, 20f);
 			    cell.ContentView.AddSubview (conversionImagView);
 			    labelXCoordStart += 30; 	
 
-				conversionRatioLbl.AttributedText = new NSAttributedString (conversionStirng, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				conversionRatioLbl.AttributedText = new NSAttributedString (conversionStirng, UIFont.FromName (BGAppearanceConstants.MediumFontName, 14), UIColor.Black);
 				SetLabelSize (conversionRatioLbl, cell);
 
 		    }
@@ -309,12 +300,13 @@ namespace BlahguaMobile.IOS
 			
 			if (commentsCount >= 0) {
 
-				commentIconImageView.Image = UIImage.FromBundle ("commentss");
-				commentIconImageView.Frame = new RectangleF (baseXStart+195, yCoordStart-10, 20f, 10f);
+				commentIconImageView.Image = UIImage.FromBundle ("comments_dark");
+                commentIconImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+				commentIconImageView.Frame = new RectangleF (baseXStart+205, yCoordStart-10, 22f, 19f);
 				cell.ContentView.AddSubview (commentIconImageView);
-			    labelXCoordStart += 40; 	
+			    labelXCoordStart += 45; 	
 
-				commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
+				commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.MediumFontName, 14), UIColor.Black);
 				SetLabelSize (commentsCountLbl, cell);
 			}
 

@@ -73,7 +73,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/icon_conversion"
+                android:src="@drawable/conversion"
                 android:scaleType="fitCenter"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
@@ -85,7 +85,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/btn_comments_pressed"
+                android:src="@drawable/comments_filled_64x64"
                 android:scaleType="fitCenter"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
