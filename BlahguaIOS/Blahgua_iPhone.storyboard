@@ -1410,7 +1410,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="165" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1434,6 +1434,7 @@
                                         <rect key="frame" x="0.0" y="207" width="165" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Profile">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1443,6 +1444,7 @@
                                         <rect key="frame" x="0.0" y="252" width="165" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Badges">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1452,6 +1454,7 @@
                                         <rect key="frame" x="0.0" y="285" width="165" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Demographics">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1461,6 +1464,7 @@
                                         <rect key="frame" x="0.0" y="318" width="165" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="History">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1470,6 +1474,7 @@
                                         <rect key="frame" x="0.0" y="363" width="165" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Stats">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1501,6 +1506,7 @@
                         <outlet property="m_btnStats" destination="fBW-u7-uYv" id="w69-fF-UYQ"/>
                         <outlet property="m_imgAvatar" destination="IpY-0b-Slo" id="0qd-hp-JqD"/>
                         <outlet property="m_lblUserName" destination="x66-nx-jLb" id="kpV-dk-686"/>
+                        <outlet property="m_menuHeader" destination="Ivb-Hg-asl" id="s8q-es-YkI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO6-zR-l9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1743,7 +1749,7 @@
                                             <constraint firstAttribute="height" constant="21" id="LU7-Hn-2VF"/>
                                             <constraint firstAttribute="width" constant="129" id="X2z-ha-Ncs"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1755,28 +1761,36 @@
                                             <constraint firstAttribute="height" constant="21" id="KSA-aa-WQf"/>
                                             <constraint firstAttribute="width" constant="130" id="XiR-GT-LZ2"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0.48" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="400">
-                                        <rect key="frame" x="10" y="144" width="62" height="39"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="33.48%" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="400">
+                                        <rect key="frame" x="10" y="144" width="130" height="39"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="8BR-1Z-CzD"/>
+                                            <constraint firstAttribute="width" constant="130" id="Rbg-cq-Fre"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <color key="textColor" red="0.37647058820000001" green="0.74901960779999999" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="50%" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="401">
-                                        <rect key="frame" x="162" y="144" width="67" height="39"/>
+                                        <rect key="frame" x="162" y="144" width="130" height="39"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="BgT-8p-neb"/>
+                                            <constraint firstAttribute="width" constant="130" id="q8e-Gi-Hfa"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <color key="textColor" red="0.37647058820000001" green="0.74901960779999999" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Opened/Impressions" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="402">
-                                        <rect key="frame" x="10" y="188" width="160" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Opened/Impressions" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="402">
+                                        <rect key="frame" x="10" y="188" width="143" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -2035,9 +2049,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="389" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="2FP-MG-4I9"/>
-                            <constraint firstItem="f5K-ra-HTn" firstAttribute="top" secondItem="389" secondAttribute="bottom" id="4TP-89-I0C"/>
                             <constraint firstItem="102" firstAttribute="top" secondItem="f5K-ra-HTn" secondAttribute="bottom" id="VGq-V1-Wo0"/>
                             <constraint firstAttribute="trailing" secondItem="389" secondAttribute="trailing" id="aFh-yw-t9T"/>
+                            <constraint firstItem="f5K-ra-HTn" firstAttribute="top" secondItem="389" secondAttribute="bottom" id="arL-Mf-HF1"/>
                             <constraint firstAttribute="centerX" secondItem="f5K-ra-HTn" secondAttribute="centerX" id="c6w-JE-jNs"/>
                             <constraint firstItem="389" firstAttribute="top" secondItem="100" secondAttribute="top" id="hvu-Ac-UQq"/>
                             <constraint firstItem="f5K-ra-HTn" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="tmZ-df-axe"/>

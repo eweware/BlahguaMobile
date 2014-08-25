@@ -142,7 +142,7 @@ namespace BlahguaMobile.IOS
             InvokeOnMainThread(  () =>
                 {
                     scrollView.ScrollEnabled = true;
-                    scrollView.ContentSize = new SizeF(320f, 1024f);
+                    scrollView.ContentSize = new SizeF(320f, 540f);
                 });
 
 		}

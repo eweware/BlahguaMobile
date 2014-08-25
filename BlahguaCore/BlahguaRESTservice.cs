@@ -233,20 +233,12 @@ namespace BlahguaMobile.BlahguaCore
             apiClient.ExecuteAsync(request, (response) =>
             {
                 CommentList commentList = null;
-                try
-                {
-					commentList = response.Content.FromJson<CommentList>();
-                }
-                catch (SerializationException)
-                {
-                    commentList = new CommentList();
-                    // serialization failed - make some BS comments
-                    commentList.Add(new Comment() { _id = "d13cf41v", T = "Test comment 1", A = "author1", DownVoteCount = 0, UpVoteCount = 1 });
-                    commentList.Add(new Comment() { _id = "dd1233fd", T = "serialization failed", A = "anthony", DownVoteCount = 10, UpVoteCount = 321 });
-                    commentList.Add(new Comment() { _id = "df2dfh2d", T = "Great news! I want more!!!", A = "roger", DownVoteCount = 12, UpVoteCount = 7 });
-                    commentList.Add(new Comment() { _id = "dghsedr3", T = "Stability issues founded! Restart olease!", A = "ben", DownVoteCount = 555, UpVoteCount = 444 });
-                }
 
+                string resStr = response.Content;
+                resStr = resStr.Replace("\"D\":", "\"Downvotes\":");
+                resStr = resStr.Replace("\"U\":", "\"Upvotes\":");
+                commentList = resStr.FromJson<CommentList>();
+                
                 callback(commentList);
             });
         }

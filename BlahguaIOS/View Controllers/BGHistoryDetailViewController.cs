@@ -36,7 +36,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
-			Title = "History Detail";
+			Title = "History";
 
 			TableView.BackgroundColor = UIColor.White;
 			//TableView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
@@ -239,8 +239,9 @@ namespace BlahguaMobile.IOS
 
 				textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 				textView.Editable = false;
+                textView.TextAlignment = UITextAlignment.Left;
 				var newSize = textView.SizeThatFits (new SizeF (320 - baseXStart * 2, 568));
-				textView.Frame = new RectangleF (baseXStart, yCoordStart, 320 - baseXStart * 2, newSize.Height);
+				textView.Frame = new RectangleF (baseXStart-6, yCoordStart, 320 - baseXStart * 2, newSize.Height);
 			    cell.ContentView.AddSubview (textView);
 				yCoordStart += textView.Frame.Height + space;
 			}
@@ -282,7 +283,7 @@ namespace BlahguaMobile.IOS
 				cell.ContentView.AddSubview (downVoteImageView);
 
 				labelXCoordStart += 20; 
-				downVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
+				downVotesLbl.AttributedText = new NSAttributedString (downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
 				SetLabelSize (downVotesLbl, cell);
 
 			} 
@@ -319,7 +320,7 @@ namespace BlahguaMobile.IOS
 
 		    yCoordStart += downVotesLbl.Frame.Height + space;
 		    labelXCoordStart = baseXStart;
-		    daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 12), UIColor.Black);
+		    daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.MediumItalicFontName, 10), UIColor.Black);
 		    SetLabelSize (daysAgoLbl,cell);
 		    
 		    if(historyType.Equals ("Comments")) {
@@ -328,7 +329,7 @@ namespace BlahguaMobile.IOS
 				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),UIColor. FromRGB(115/255.0f,195/255.0f,173/255.0f));
 				SetLabelSize (upVotesLbl, cell);
 
-				downVotesLbl.AttributedText = new NSAttributedString ("/"+upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
+				downVotesLbl.AttributedText = new NSAttributedString ("/"+downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
 				SetLabelSize (downVotesLbl, cell);
 		    }
 
@@ -483,16 +484,8 @@ namespace BlahguaMobile.IOS
 				UIColor.Black
 			);
 			headerView.AddSubview (label);
-
-			UILabel titleLbl = new UILabel (new RectangleF (20, 25, 280, 21));
-			titleLbl.AttributedText = new NSAttributedString(
-				"What you've sent into the network",
-				UIFont.FromName(BGAppearanceConstants.FontName, 10),
-				UIColor.Black
-			);
-
-			headerView.AddSubview (titleLbl);
-			return headerView;
+            return headerView;
+			
 		}
 
 		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)

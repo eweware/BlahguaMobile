@@ -19,7 +19,7 @@ namespace BlahguaMobile.IOS
         public static void SetButtonFont(UIButton theBtn, string theFontName)
         {
             var buttonsTextAttributes = new UIStringAttributes {
-                Font = UIFont.FromName ("Merriweather", theBtn.Font.PointSize),
+                Font = UIFont.FromName (theFontName, theBtn.Font.PointSize),
                 ForegroundColor = theBtn.CurrentTitleColor
             };
 

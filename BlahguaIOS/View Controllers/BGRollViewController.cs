@@ -240,7 +240,7 @@ namespace BlahguaMobile.IOS
 				if (NavigationItem.RightBarButtonItems == null) {
 					NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Log in", UIBarButtonItemStyle.Plain, LoginButtonClicked);
 					NavigationItem.RightBarButtonItem.SetTitleTextAttributes  (new UITextAttributes () {
-						Font = UIFont.FromName ("Merriweather", 20),
+						Font = UIFont.FromName ("Merriweather", 16),
 						TextColor = UIColor.FromRGB (96, 191, 164)
 					}, UIControlState.Normal);
 				}
