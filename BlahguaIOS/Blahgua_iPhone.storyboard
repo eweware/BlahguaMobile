@@ -2274,6 +2274,10 @@
                                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQW-lJ-qsj">
                                         <rect key="frame" x="8" y="186" width="152" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="152" id="nyN-Pb-Jor"/>
+                                            <constraint firstAttribute="height" constant="34" id="sl4-dL-944"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Select Image">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

@@ -124,12 +124,12 @@ namespace BlahguaMobile.IOS
 			if(NewComment.M == null || NewComment.M.Count == 0)
 				sheet = new UIActionSheet (chooseFromText, null, cancelText, null, new string[] {
 					fromCameraText,
-					fromGalleryText,
-					deleteCurrentPhotoText
+					fromGalleryText
 				});
 			else
 				sheet = new UIActionSheet(chooseFromText, null, cancelText, null, new string[] {
-					fromCameraText, fromGalleryText
+                    fromCameraText, fromGalleryText, 
+                    deleteCurrentPhotoText
 				});
 			sheet.ShowInView(View);
 			sheet.Clicked += FileChooseActionSheetClicked;
