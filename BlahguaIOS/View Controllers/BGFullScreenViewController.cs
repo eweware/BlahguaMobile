@@ -45,7 +45,7 @@ namespace BlahguaMobile.IOS
 				m_imageView.Image = m_image;
 
 			NSAction dismissView = () => {
-				this.NavigationController.PopViewControllerAnimated(false);
+				this.NavigationController.PopViewControllerAnimated(true);
 			};
 
 			UITapGestureRecognizer imageTapRecognizer = new UITapGestureRecognizer (dismissView);

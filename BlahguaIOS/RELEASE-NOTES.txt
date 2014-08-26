@@ -1,19 +1,11 @@
-Friday Build
+Monday Build
 ==========
 Please install and test as this is a release candidate!
 
 Fixes:
-  - comment layout improvements
-  - sign in screen layout fixes, especially on iPhone 4
-  - font, color, layout fixes
-  - better layout for poll/predict authoring
-  - keyboard hanging around too often
-  - open post button on comment now opens the post
-  - fix where scrolling would sometimes pause/not resume
-  - badges now deselect from posts as well as select
-  - vote buttons now update when I vote
-  - new comments are displayed immediately
-  - sign out and sign in as a different users was not updating menu
-  - better indication of no badges being available
-  - layout improvements on signature panel
+  - fixed many layout areas
+  - image post was not obeying rotation
+  - improved view of posts and comment history
+
+
 

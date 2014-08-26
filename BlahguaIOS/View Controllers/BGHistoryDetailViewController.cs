@@ -47,6 +47,18 @@ namespace BlahguaMobile.IOS
 			TableView.ReloadData ();
 			TableView.Source = new BGHistoryDetailTableSource(this);
 			//TableView.Source = new Source (this);
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
+
+
 
 		 }
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -274,7 +286,7 @@ namespace BlahguaMobile.IOS
 
 				downVoteImageView.Image = UIImage.FromBundle ("arrow_down_dark");
                 downVoteImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-                downVoteImageView.Frame = new RectangleF (baseXStart + 60, yCoordStart - 15, 10f, 20f);
+                downVoteImageView.Frame = new RectangleF (baseXStart + 65, yCoordStart - 15, 10f, 20f);
 				cell.ContentView.AddSubview (downVoteImageView);
 
 				labelXCoordStart += 20; 

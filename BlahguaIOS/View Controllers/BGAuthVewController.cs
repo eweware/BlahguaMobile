@@ -166,12 +166,23 @@ namespace BlahguaMobile.IOS
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
-            //Synsoft on 9 July 2014 for inactive color  #bcbcbc
+            NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal  );
             NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(188, 188, 188);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
-            //Synsoft on 9 July 2014 for active color  #1FBBD1
-			NavigationItem.LeftBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
 
+
+			NavigationItem.LeftBarButtonItem.TintColor =  UIColor.FromRGB(96, 191, 164);
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal  );
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
 				NavigationController.PopViewControllerAnimated(true);
 			};
@@ -360,12 +371,12 @@ namespace BlahguaMobile.IOS
 
 		private void SignIn()
 		{
-			BlahguaAPIObject.Current.SignIn (usernameOrEmail.Text, password.Text, true, AuthenticationResultCallback);
+            BlahguaAPIObject.Current.SignIn (usernameOrEmail.Text.Trim(), password.Text.Trim(), true, AuthenticationResultCallback);
 		}
 
 		private void SignUp ()
 		{
-			BlahguaAPIObject.Current.Register (usernameOrEmail.Text, password.Text, true, AuthenticationResultCallback);
+            BlahguaAPIObject.Current.Register (usernameOrEmail.Text.Trim(), password.Text.Trim(), true, AuthenticationResultCallback);
 		}
 
 		private void InputsEditingHandler(object sender, EventArgs e) {

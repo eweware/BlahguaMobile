@@ -16,10 +16,12 @@ namespace BlahguaMobile.IOS
 
 		#region Properties
 
-        public static void SetButtonFont(UIButton theBtn, string theFontName)
+        public static void SetButtonFont(UIButton theBtn, string theFontName, float fontSize = 0f )
         {
+            if (fontSize == 0f)
+                fontSize = theBtn.Font.PointSize;
             var buttonsTextAttributes = new UIStringAttributes {
-                Font = UIFont.FromName (theFontName, theBtn.Font.PointSize),
+                Font = UIFont.FromName (theFontName, fontSize),
                 ForegroundColor = theBtn.CurrentTitleColor
             };
 

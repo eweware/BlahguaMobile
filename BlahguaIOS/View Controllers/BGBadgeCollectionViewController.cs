@@ -27,8 +27,28 @@ namespace BlahguaMobile.IOS
 
 			View.BackgroundColor = UIColor.White;
 
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
+
+
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Add", UIBarButtonItemStyle.Plain, NewBadge);
 			CollectionView.BackgroundColor = UIColor.White;
+           
+            NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal  );
+
 
 			CollectionView.DataSource = new BGBadgeCollectionSource ();
             noBadgeLabel.Hidden = true;

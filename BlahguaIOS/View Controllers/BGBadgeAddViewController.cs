@@ -22,6 +22,18 @@ namespace BlahguaMobile.IOS
 		{
             base.ViewDidLoad ();
 
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Badges", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
+
+
             View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 
 			// page one

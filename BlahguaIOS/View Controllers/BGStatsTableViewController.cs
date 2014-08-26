@@ -39,25 +39,21 @@ namespace BlahguaMobile.IOS
 
         }
 
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-            this.Title = "Statistics";
-            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
-                Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = UIColor.FromRGB (96, 191, 164)
-            });
-        }
+      
         public override void ViewDidLoad()
         {
-
+            Console.WriteLine("view did load");
             try
             {
                
                 base.ViewDidLoad();
 
 				this.NavigationController.SetNavigationBarHidden(false, true);
-
+                this.Title = "Statistics";
+                this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                    Font = UIFont.FromName ("Merriweather", 20),
+                    TextColor = BGAppearanceConstants.TealGreen
+                });
                 //Synsoft on 14 July 2014 for swipping between screens                
                 UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentsController);
                 objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
@@ -134,6 +130,10 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidAppear(bool animated)
 		{
+            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                Font = UIFont.FromName ("Merriweather", 20),
+                TextColor = BGAppearanceConstants.TealGreen
+            });
 			base.ViewDidAppear (animated);
 			//scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
 			if(CurrentBlah != null)

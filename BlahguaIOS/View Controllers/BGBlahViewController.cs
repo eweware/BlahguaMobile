@@ -173,15 +173,7 @@ namespace BlahguaMobile.IOS
             SetAuthorName();
             SetAuthorDescription();
 
-            //badgeImage.Frame = new RectangleF(new PointF(author.Frame.Right + 8, badgeImage.Frame.Top), badgeImage.Frame.Size);
 
-            //badgeImage.SetImage(UIImage.FromBundle("badge_icon"), UIControlState.Normal);
-            /*
-            badgeImage.TouchUpInside += (sender, e) =>
-            {
-                AdjustBadgesTableView();
-            };
-            */
             badgesTableView.Source = new BGBlahBadgesTableSource();
             if (CurrentBlah.B != null && CurrentBlah.B.Any())
             {
@@ -620,7 +612,7 @@ namespace BlahguaMobile.IOS
         private void SetAuthorName()
         {
             author.AttributedText = new NSAttributedString(CurrentBlah.UserName,
-                UIFont.FromName(BGAppearanceConstants.BoldFontName, 10),
+                UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
                 UIColor.Black);
         }
 

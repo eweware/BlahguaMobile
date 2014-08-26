@@ -198,26 +198,28 @@ namespace BlahguaMobile.IOS
 			bottomToolbar.TintColor = UIColor.Clear;
 			//SetUpVotesButtons ();
 			if (BlahguaAPIObject.Current.CurrentUser == null) {
-				var btnSignInRect = new RectangleF (0, 0, 80, 60);
+				var btnSignInRect = new RectangleF (0, 0, 100, 60);
 				var btnSignIn = new UIButton (UIButtonType.Custom);
 				btnSignIn.Frame = btnSignInRect;
 				btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
-                BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather");
+                BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather", 17);
 				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
 					this.PerformSegue ("fromCommentsToLogin", this);
 				};
 
 				btnComment.CustomView = btnSignIn;
 			} else {
-				var btnSignInRect = new RectangleF (0, 0, 80, 60);
+				var btnSignInRect = new RectangleF (0, 0, 100, 60);
 				var btnSignIn = new UIButton (UIButtonType.Custom);
 				btnSignIn.Frame = btnSignInRect;
 				btnSignIn.SetTitle ("Comment", UIControlState.Normal);
+                BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather", 17);
 				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
 					WriteCommentAction();
 				};
 
 				btnComment.CustomView = btnSignIn;
+
 			}
 
 			SetUpModesButtons ();

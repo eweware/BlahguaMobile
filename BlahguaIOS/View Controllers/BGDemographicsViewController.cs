@@ -41,12 +41,30 @@ namespace BlahguaMobile.IOS
 			TableView.Source = new BGDemographicsTableSource (this);
 			TableView.ReloadData ();
 
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
+
+
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Done, (s, e) => {
 				BlahguaAPIObject.Current.UpdateUserProfile((result) => {
 					Console.WriteLine(result);
 					InvokeOnMainThread(() => NavigationController.PopViewControllerAnimated(true));
 				});
 			});
+            NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
 
             AppDelegate.analytics.PostPageView("/self/demographics");
 		}

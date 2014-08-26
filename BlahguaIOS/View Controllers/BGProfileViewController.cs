@@ -71,11 +71,20 @@ namespace BlahguaMobile.IOS
 			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
 			this.NavigationController.SetNavigationBarHidden (false, true);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
-            //Synsoft on 9 July 2014 for active color  #1FBBD1
-            NavigationItem.LeftBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal  );
+
             NavigationItem.RightBarButtonItem = new UIBarButtonItem("Done", UIBarButtonItemStyle.Plain, DoneHandler);
-            //Synsoft on 9 July 2014 for active color  #1FBBD1
-            NavigationItem.RightBarButtonItem.TintColor = UIColor.FromRGB(31, 187, 209);
+            NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal  );
 
 			profileView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("profileInfoBack"));
 

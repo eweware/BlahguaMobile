@@ -46,6 +46,18 @@ namespace BlahguaMobile.IOS
 			BlahguaAPIObject.Current.LoadUserPosts (BlahsLoaded);
 			BlahguaAPIObject.Current.LoadUserComments (CommentsLoaded);
             AppDelegate.analytics.PostPageView("/self/history");
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
+
+
 		}
 
 		public override void ViewWillAppear (bool animated)

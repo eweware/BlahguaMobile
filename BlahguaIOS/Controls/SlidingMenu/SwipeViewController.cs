@@ -134,6 +134,12 @@ namespace MonoTouch.SlideMenu
 			this.NavigationItem.Title = @"Summary";
 
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, BackHandler);
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
 		}
 
 		// - (void)viewWillAppear:(BOOL)animated
@@ -144,7 +150,7 @@ namespace MonoTouch.SlideMenu
 		}
 		private void BackHandler(object sender, EventArgs args)
 		{
-			this.NavigationController.PopViewControllerAnimated(false);
+			this.NavigationController.PopViewControllerAnimated(true);
 		}
 		// - (void)viewDidAppear:(BOOL)animated
 		public override void ViewDidAppear (bool animated)
@@ -180,7 +186,7 @@ namespace MonoTouch.SlideMenu
 				commentViewController.View.Frame = centerFrame;
 
 				view_type = VIEW_TYPE.COMMENT_VIEW;
-				this.NavigationItem.Title = "Comment";
+				this.NavigationItem.Title = "Comments";
 
 			} else if (view_type == VIEW_TYPE.COMMENT_VIEW) {
 				commentViewController.View.Frame = leftFrame;
@@ -188,7 +194,7 @@ namespace MonoTouch.SlideMenu
 
 				view_type = VIEW_TYPE.STATS_VIEW;
 
-				this.NavigationItem.Title = "Stats";
+				this.NavigationItem.Title = "Statistics";
 			}
 		}
 
@@ -201,7 +207,7 @@ namespace MonoTouch.SlideMenu
 
 				view_type = VIEW_TYPE.COMMENT_VIEW;
 
-				this.NavigationItem.Title = "Comment";
+				this.NavigationItem.Title = "Comments";
 
 			} else if (view_type == VIEW_TYPE.COMMENT_VIEW) {
 
@@ -220,7 +226,7 @@ namespace MonoTouch.SlideMenu
 				statsViewController.View.Frame = centerFrame;
 
 				view_type = VIEW_TYPE.STATS_VIEW;
-				this.NavigationItem.Title = "Stats";
+                this.NavigationItem.Title = "Statistics";
 			}
 		}
 		public void SwipeFromStatsToSummary()
