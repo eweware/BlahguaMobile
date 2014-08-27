@@ -93,8 +93,7 @@ namespace BlahguaMobile.IOS
 		{
 		
 			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
-			List<Comment> _cmtList;
-			List<Blah> _blhList;
+
 			float CellHeight;
 
 				var leftView = new UIButton ();
@@ -108,16 +107,13 @@ namespace BlahguaMobile.IOS
                         if (vc.ParentViewController.isBlahs)
                         {
                             int blahIndex = indexPath.Row;
-                            BlahList list = vc.ParentViewController.UserBlahs; 
-                            _blhList = list.OrderByDescending(b => b.CreationDate).ToList();
-                            blahID = _blhList[blahIndex]._id;
+                            
+                            blahID = vc.ParentViewController.UserBlahs[blahIndex]._id;
                         }
                         else
-                            {
+                        {
                             int commentIndex = indexPath.Row;
-                            CommentList list = vc.ParentViewController.UserComments; 
-                            _cmtList = list.OrderByDescending(c => c.CreationDate).ToList();
-                        blahID = _cmtList[commentIndex].B;
+                            blahID = vc.ParentViewController.UserComments[commentIndex].B;
                         }
                         
 
@@ -141,33 +137,30 @@ namespace BlahguaMobile.IOS
     				    });
 
                 };
-			//}
+
 					
-				var buttons = new System.Collections.Generic.List<UIButton> ();
+            var buttons = new System.Collections.Generic.List<UIButton> ();
 
-				if (vc.ParentViewController.isBlahs) {
+            if (vc.ParentViewController.isBlahs) 
+            {       
+                UIButton deleteBtn = buttons.AddUtilityButton ("Delete", UIColor.FromRGB(231, 61, 80));
 
-                    buttons.AddUtilityButton ("Delete", UIColor.FromRGB(231, 61, 80));
-
-				} else {}
+            }
 
 				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
 
-				if (vc.ParentViewController.isBlahs) {
-				
 
-					BlahList list = vc.ParentViewController.UserBlahs; 
-					_blhList = list.OrderByDescending(b => b.CreationDate).ToList();
+            if (vc.ParentViewController.isBlahs) 
+            {
+                CellHeight = 0f;
+                CellHeight= getHeight (vc.ParentViewController.UserBlahs[indexPath.Row].T);
 
-				    CellHeight = 0f;
-					CellHeight= getHeight (_blhList[indexPath.Row].T);
-
-				} else {
-					CommentList list = vc.ParentViewController.UserComments; 
-					_cmtList = list.OrderByDescending(b => b.CreationDate).ToList();
+            } 
+            else 
+            {
 
 					CellHeight = 0f;
-					CellHeight= getHeight (_cmtList[indexPath.Row].T);
+                CellHeight= getHeight (vc.ParentViewController.UserComments[indexPath.Row].T);
 					
 				}
 			
@@ -189,15 +182,9 @@ namespace BlahguaMobile.IOS
 			cell.SetNeedsDisplay ();
 
 			int commentCountVal;
-			if (vc.ParentViewController.isBlahs) {
-
-				//cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
-
-				List<Blah> _list;
-				BlahList list = vc.ParentViewController.UserBlahs; 
-				_list = list.OrderByDescending(b => b.CreationDate).ToList();
-
-				Blah userBlah = _list [indexPath.Row];
+			if (vc.ParentViewController.isBlahs) 
+            {
+                Blah userBlah = vc.ParentViewController.UserBlahs [indexPath.Row];
 				commentCountVal = userBlah.C;
 				string historyType = "Blahs";
 				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
@@ -206,12 +193,7 @@ namespace BlahguaMobile.IOS
 			} 
             else 
             {
-
-				List<Comment> _list;
-				CommentList list = vc.ParentViewController.UserComments; 
-				_list = list.OrderByDescending(b => b.CreationDate).ToList();
-
-				Comment userComment = _list[indexPath.Row];
+                Comment userComment = vc.ParentViewController.UserComments[indexPath.Row];
 				string historyType = "Comments";
 				commentCountVal = -1;
 				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (),
@@ -374,10 +356,11 @@ namespace BlahguaMobile.IOS
 
 				new UIAlertView("Pressed", "You pressed the edit button!", null, null, new[] {"OK"}).Show();
 			}
-			else if(e.UtilityButtonIndex == 0) {
-
-				var blah = vc.ParentViewController.UserBlahs[e.IndexPath.Row];
+			else if(e.UtilityButtonIndex == 0) 
+            {
+                var blah = vc.ParentViewController.UserBlahs[e.IndexPath.Row];
 				vc.ParentViewController.UserBlahs.Remove (blah);
+                BlahguaAPIObject.Current.DeleteBlah (blah._id, BlahDeleted);
 				this.vc.TableView.ReloadData ();
 			}
 		}
@@ -401,40 +384,14 @@ namespace BlahguaMobile.IOS
 
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-		
-			/*var cell = (BGHistoryDetailCell)tableView.DequeueReusableCell ("historyDetailCell");
+            float height = 0f;
+
 			if (vc.ParentViewController.isBlahs)
-				cell.SetUp (vc.ParentViewController.UserBlahs [indexPath.Row]);
-			else
-				cell.SetUp (vc.ParentViewController.UserComments [indexPath.Row]);
-			return cell.ContentView.Frame.Height;*/
-
-			if (vc.ParentViewController.isBlahs) {
-
-				float height = 0f;
-				List<Blah> _list;
-				BlahList list = vc.ParentViewController.UserBlahs; 
-				_list = list.OrderByDescending(b => b.CreationDate).ToList();
-				Console.WriteLine (_list [indexPath.Row].ElapsedTimeString);
-				height = getHeight (_list [indexPath.Row].T);
-				return height;
-
-
-			} else {
-
-				float height = 0f;
-				List<Comment> _list;
-				CommentList list = vc.ParentViewController.UserComments; 
-				_list = list.OrderByDescending(b => b.CreationDate).ToList();
-				height = getHeight (_list [indexPath.Row].T);
-				return height;
-				//return getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
-			}
-			
-		   
-			//Console.WriteLine ("this is cell " + cell);
-
-			//return 100.0f;
+                height = getHeight (vc.ParentViewController.UserBlahs [indexPath.Row].T);
+            else
+                height = getHeight (vc.ParentViewController.UserComments [indexPath.Row].T);
+				
+            return height;
 
 		}
 
@@ -500,24 +457,7 @@ namespace BlahguaMobile.IOS
 				return false;
 		}
 
-		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
-		{
-			if(editingStyle == UITableViewCellEditingStyle.Delete)
-			{
-				if(vc.ParentViewController.isBlahs)
-				{
-					var blah = vc.ParentViewController.UserBlahs[indexPath.Row];
-					vc.ParentViewController.UserBlahs.Remove (blah);
-					tableView.DeleteRows (new NSIndexPath [] { indexPath }, UITableViewRowAnimation.Left);
-					BlahguaAPIObject.Current.DeleteBlah (blah._id, BlahDeleted);
-				}
-			} 
-			else if(editingStyle == UITableViewCellEditingStyle.None)
-			{
-				return;
-			}
-
-		}
+		
 
 		public void BlahDeleted (string status)
 		{

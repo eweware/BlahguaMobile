@@ -348,7 +348,7 @@ namespace BlahguaMobile.IOS
 
 	public static class SWButtonCellExtensions
 	{
-		public static void AddUtilityButton(this List<UIButton> list,  string title, UIColor color)
+        public static UIButton AddUtilityButton(this List<UIButton> list,  string title, UIColor color)
 		{
 			var button = new UIButton (UIButtonType.Custom);
 			button.BackgroundColor = color;
@@ -356,6 +356,7 @@ namespace BlahguaMobile.IOS
 			button.SetTitleColor (UIColor.White, UIControlState.Normal);
 			list.Add (button);
 
+            return button;
 		}
 	}
 }

@@ -7,6 +7,9 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Linq;
+
+using System.Collections.Generic;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,13 +18,13 @@ namespace BlahguaMobile.IOS
 		public bool isComments;
 		public bool isBlahs;
 
-		public BlahList UserBlahs 
+        public List<Blah> UserBlahs 
 		{
 			get;
 			set;
 		}
 
-		public CommentList UserComments 
+        public List<Comment> UserComments 
 		{
 			get;
 			set;
@@ -85,7 +88,7 @@ namespace BlahguaMobile.IOS
 
 		private void BlahsLoaded(BlahList blahs)
 		{
-			UserBlahs = blahs;
+            UserBlahs = blahs.OrderByDescending(b => b.CreationDate).ToList();
 			InvokeOnMainThread (() => {
 				TableView.ReloadData();
 			});
@@ -93,7 +96,7 @@ namespace BlahguaMobile.IOS
 
 		private void CommentsLoaded(CommentList comments)
 		{
-			UserComments = comments;
+            UserComments = comments.OrderByDescending(b => b.CreationDate).ToList();;
 			InvokeOnMainThread (() => {
 				TableView.ReloadData();
 			});

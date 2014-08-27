@@ -327,6 +327,7 @@ namespace BlahguaMobile.BlahguaCore
 								newList.Add(curBlah);
 							}
                         }
+                            
 
 						theList = newList;
                     }
