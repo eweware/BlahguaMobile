@@ -571,6 +571,9 @@ namespace BlahguaMobile.IOS
 
                 case "predicts":
                     DateTime expDate;
+                    if (String.IsNullOrEmpty(NewPost.T) || (NewPost.T.Length < 3))
+                        return "Predictions must have a headline of at least 3 letters";
+
                     if (DateTime.TryParse(expirationDateInput.Text, out expDate))
                     {
                         TimeSpan timeDif = expDate - DateTime.Now;

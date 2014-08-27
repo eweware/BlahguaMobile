@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp()
 		{
-			SetUp ("+ Add more options", UIFont.FromName (BGAppearanceConstants.BoldFontName, 14));
+            SetUp ("+ Add more options", UIFont.FromName (BGAppearanceConstants.MediumFontName, 14));
 			pollItemText.Enabled = false;
 		}
 
