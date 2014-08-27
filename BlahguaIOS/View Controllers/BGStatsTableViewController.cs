@@ -66,13 +66,13 @@ namespace BlahguaMobile.IOS
                 if (CurrentBlah != null)
                 {
                     AppDelegate.analytics.PostPageView("/blah/stats");
-                    lblConversionRatio.Text = CurrentBlah.ConversionString.ToString();
+                    lblConversionRatio.Text = CurrentBlah.ConversionString;
                     lblOpen.Text = CurrentBlah.O.ToString();
                     lblDemotes.Text = CurrentBlah.D.ToString();
                     lblPromotes.Text = CurrentBlah.P.ToString();
                     lblComment.Text = CurrentBlah.C.ToString();
                     lblImpression.Text = CurrentBlah.V.ToString();
-                    lblHeardRatio.Text = CurrentBlah.S.ToString("0.00") + "%";
+                    lblHeardRatio.Text = CurrentBlah.StrengthString;
                     lblOpenedImpression.Text = CurrentBlah.O.ToString() + "/" + CurrentBlah.V.ToString();
                 }
                 else if (BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)

@@ -47,6 +47,16 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad()
 		{
 			scrollView.ViewForZoomingInScrollView += (UIScrollView sv) => { return imageView; };
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
+                {
+                    this.NavigationController.PopViewControllerAnimated(true);
+                });
+            NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
+                { 
+                    TextColor = BGAppearanceConstants.TealGreen, 
+                    TextShadowColor = UIColor.Clear, 
+                    Font = UIFont.FromName("Merriweather", 16) 
+                }, UIControlState.Normal);
 		}
 
 	}

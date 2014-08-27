@@ -353,6 +353,27 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+        public BadgeList Badges
+        {
+            get
+            {
+                if (BD == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    BadgeList badges = new BadgeList();
+                    foreach (string badgeId in BD)
+                    {
+                        badges.Add(new BadgeReference(badgeId));
+                    }
+
+                    return badges;
+                }
+            }
+        }
+
     }
 
 

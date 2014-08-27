@@ -13,6 +13,7 @@ namespace BlahguaMobile.IOS
 	public partial class BGDemographicsDropDownCell : UITableViewCell
 	{
 		public BGDemographicsViewController viewController;
+
 		private int index;
 		private bool isPublic;
 
@@ -26,29 +27,30 @@ namespace BlahguaMobile.IOS
 
 			ContentView.BackgroundColor = UIColor.FromRGB (248, 248, 248);
 
-			ddButton.SetAttributedTitle (new NSAttributedString ("Select", UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.White), UIControlState.Normal);
+            string title = "Select";
+            title = viewController.GetValue(section);
+			ddButton.SetAttributedTitle (new NSAttributedString (title, UIFont.FromName (BGAppearanceConstants.BoldFontName, 15), UIColor.White), UIControlState.Normal);
             //ddButton.SetBackgroundImage (UIImage.FromBundle ("short_button_normal"), UIControlState.Normal);
 			publicLabel.AttributedText = new NSAttributedString ("", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
             isPublicButton.SetBackgroundImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 
+            publicLabel.AttributedText = new NSAttributedString ("Public", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+
 			if(viewController.GetPermission(index))
 			{
-				publicLabel.AttributedText = new NSAttributedString ("Public", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
                 isPublicButton.SetImage(UIImage.FromBundle("signupRadioButton"), UIControlState.Normal);
 				isPublic = true;
 			}
 			else
 			{
-				publicLabel.AttributedText = new NSAttributedString ("Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
                 isPublicButton.SetImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 				isPublic = false;
 			}
 			isPublicButton.TouchUpInside += (object sender, EventArgs e) => {
 				isPublic = !isPublic;
 				viewController.SetPermission(index, isPublic);
-				publicLabel.AttributedText = new NSAttributedString (isPublic ? "Public" : "Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-                isPublicButton.SetImage(UIImage.FromBundle(isPublic ? "signupRadioButton" : "signupRadioButtonUn"), UIControlState.Normal);
+               isPublicButton.SetImage(UIImage.FromBundle(isPublic ? "signupRadioButton" : "signupRadioButtonUn"), UIControlState.Normal);
 			};
 			ddButton.TouchUpInside += (sender, e) => {
 				viewController.PushSelectingTable(index);

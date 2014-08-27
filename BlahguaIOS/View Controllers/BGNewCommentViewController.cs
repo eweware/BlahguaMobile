@@ -45,6 +45,12 @@ namespace BlahguaMobile.IOS
 
 		}
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            clearAllFields();
+        }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -98,6 +104,7 @@ namespace BlahguaMobile.IOS
 			cancel.TouchUpInside += (object sender, EventArgs e) => {
 				this.View.RemoveFromSuperview();
 			};
+
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -152,10 +159,29 @@ namespace BlahguaMobile.IOS
 				ParentViewController.PresentViewController (filePicker, true, 
 					() => UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide));
 			} else if (eventArgs.ButtonIndex == 2) {
-				if (NewComment.M != null)
-					NewComment.M.Clear();
+                if (NewComment.M != null)
+                {
+                    NewComment.M.Clear();
+                    selectImageButton.SetImage(null, UIControlState.Normal);
+                    selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+                }
 			}
 		}
+
+        public void clearAllFields()
+        {
+            input.Text = "";
+            selectImageButton.SetImage (null, UIControlState.Normal);
+            selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+
+
+            NewComment.M = null;
+            NewComment.B = null;
+            NewComment.BD = null;
+            NewComment.UseProfile = false;
+            done.Enabled = false;
+
+        }
 
 		private void FileChooseFinished(object sender, UIImagePickerMediaPickedEventArgs eventArgs)
 		{

@@ -9,6 +9,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Drawing;
 
 namespace BlahguaMobile.IOS
 {
@@ -24,9 +25,32 @@ namespace BlahguaMobile.IOS
 		{
 		}
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+        }
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+ 
+            this.navBar .SetTitleTextAttributes  (new UITextAttributes () {
+                Font = UIFont.FromName ("Merriweather", 20),
+                TextColor = UIColor.FromRGB (96, 191, 164)
+            });
+             
+            foreach (var theItem in navBar)
+            {
+                if (theItem is UIButton)
+                {
+                    UIButton theBtn = (UIButton)theItem;
+                    theBtn.SetAttributedTitle(
+                        new NSAttributedString(theBtn.Title(UIControlState.Normal).Replace("xx", ""), UIFont.FromName("Merriweather", 16) , BGAppearanceConstants.TealGreen)
+                        , UIControlState.Normal);
+
+                }
+            }
+
 			TableView.TableFooterView = new UIView ();
 			TableView.Source = new BGSignaturesTableSource (this);
 		}

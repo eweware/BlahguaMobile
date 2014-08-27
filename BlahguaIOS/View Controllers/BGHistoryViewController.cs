@@ -36,7 +36,6 @@ namespace BlahguaMobile.IOS
 			base.ViewDidLoad ();
 
 			this.NavigationController.SetNavigationBarHidden(false, true);
-
 			Title = "History";
 			isComments = false;
 			isBlahs = false;

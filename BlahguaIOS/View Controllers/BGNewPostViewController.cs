@@ -50,12 +50,12 @@ namespace BlahguaMobile.IOS
 
 					expirationDateInput.AttributedPlaceholder = new NSAttributedString(
 						"will happen by (mm/dd/yyyy)",
-						UIFont.FromName(BGAppearanceConstants.FontName, 12),
+						UIFont.FromName(BGAppearanceConstants.FontName, 10),
 						UIColor.Black
 					);
 					expirationDateInput.AttributedText = new NSAttributedString(
 						String.Empty, 
-						UIFont.FromName(BGAppearanceConstants.FontName, 12),
+						UIFont.FromName(BGAppearanceConstants.FontName, 10),
 						UIColor.Black
 					);
 
@@ -230,6 +230,7 @@ namespace BlahguaMobile.IOS
 
 			done.TranslatesAutoresizingMaskIntoConstraints = false;
 			containerScrollView.TranslatesAutoresizingMaskIntoConstraints=  false;
+            clearAllFields();
 		}
 
 

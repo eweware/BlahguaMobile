@@ -1130,8 +1130,32 @@ namespace BlahguaMobile.BlahguaCore
 
                 if (theRate > 1)
                     theRate = 1;
+                theRate *= 100;
+                if (theRate > 1)
+                {
+                    int newRate = (int)Math.Round(theRate);
+                    if (newRate > 100)
+                        newRate = 100;
+                    return newRate.ToString() + "%";
+                }
+                else
+                    return "< 1%";
+                    
+            }
+        }
 
-                return theRate.ToString("p2");
+        public string StrengthString
+        {
+            get
+            {
+                int theStr = (int)(S * 100);
+                if (theStr < 0)
+                    theStr = 0;
+                else if (theStr > 100)
+                    theStr = 100;
+
+                return theStr.ToString();
+
             }
         }
 

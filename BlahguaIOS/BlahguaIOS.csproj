@@ -381,6 +381,7 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
+    <InterfaceDefinition Include="Resources\Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>

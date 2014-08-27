@@ -27,6 +27,39 @@ namespace BlahguaMobile.IOS
         {
         }
 
+        private class BGCommentBadgesTableSource : UITableViewSource
+        {
+            public Comment linkedComment { get; set;}
+
+            public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+            {
+                var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
+                if (linkedComment != null)
+                    cell.SetUp(
+                        linkedComment.Badges[indexPath.Row].BadgeName,
+                        linkedComment.Badges[indexPath.Row].BadgeImage
+                    );
+                else
+                    cell.SetUp("unknown badge", null);
+                return cell;
+            }
+
+            public override int RowsInSection(UITableView tableview, int section)
+            {
+                if ((linkedComment != null) && (linkedComment.BD != null))
+                    return linkedComment.BD.Count;
+                else
+                    return 0;
+            }
+
+            public override int NumberOfSections(UITableView tableView)
+            {
+                return 1;
+            }
+
+
+        }
+
 		public void SetUp(Comment comment, UITableView tableView)
         {
 			parentTableView = tableView;
@@ -66,6 +99,21 @@ namespace BlahguaMobile.IOS
 			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
 			imageTapRecognizer.NumberOfTapsRequired = 1;
 			commentImageView.AddGestureRecognizer (imageTapRecognizer);
+
+            BGCommentBadgesTableSource newSource = new BGCommentBadgesTableSource();
+            newSource.linkedComment = comment;
+            badgeTable.Source = newSource;
+
+            if ((comment.BD != null) && (comment.BD.Count > 0))
+            {
+                badgeTable.Hidden = false;
+
+                badgeTable.ReloadData();
+            }
+            else
+            {
+                badgeTable.Hidden = true;
+            }
 
 			if (!String.IsNullOrEmpty(comment.AuthorImage))
 			{
@@ -354,6 +402,7 @@ namespace BlahguaMobile.IOS
             ResetToStartPosition(false);
         }
     }
+
 
     public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
     {

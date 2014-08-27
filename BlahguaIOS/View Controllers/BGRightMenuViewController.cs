@@ -26,18 +26,35 @@ namespace BlahguaMobile.IOS
 			// Release any cached data, images, etc that aren't in use.
 		}
 
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
+            // Get the current touch
+            UITouch touch = touches.AnyObject as UITouch;
+            if (touch != null)
+            {
+                // Check to see if any of the images have been touched
+                if (m_imgAvatar.Frame.Contains(touch.LocationInView(this.View)))
+                {
+                    ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+                    BGProfileViewController vc = (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController");
+                    vc.IsEditMode = true;
+                    ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(vc, true);
+                }
+            }
+        }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-            m_menuHeader.AttributedText = new NSAttributedString("profile", UIFont.FromName(BGAppearanceConstants.BoldFontName, 17), UIColor.White);
-            m_menuHeader.BackgroundColor = BGAppearanceConstants.HeaderBlue;
-			m_imgAvatar.Image = GetProfileImage ();
-
+            m_imgAvatar.Image = GetProfileImage ();
+          
 			m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
 
             BGAppearanceHelper.SetButtonFont(m_btnProfile, BGAppearanceConstants.MediumFontName); 
+
 
 			m_btnProfile.TouchUpInside += (sender, e) => {
 

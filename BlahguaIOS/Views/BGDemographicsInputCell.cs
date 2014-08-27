@@ -32,22 +32,21 @@ namespace BlahguaMobile.IOS
 
             isPublicButton.SetBackgroundImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 
-			if(viewController.GetPermission(index))
+            publicLabel.AttributedText = new NSAttributedString ("Public", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+
+            if(viewController.GetPermission(index))
 			{
-				publicLabel.AttributedText = new NSAttributedString ("Public", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-                isPublicButton.SetImage(UIImage.FromBundle("signupRadioButton"), UIControlState.Normal);
+               isPublicButton.SetImage(UIImage.FromBundle("signupRadioButton"), UIControlState.Normal);
 				isPublic = true;
 			}
 			else
 			{
-				publicLabel.AttributedText = new NSAttributedString ("Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
                 isPublicButton.SetImage(UIImage.FromBundle("signupRadioButtonUn"), UIControlState.Normal);
 				isPublic = false;
 			}
 			isPublicButton.TouchUpInside += (object sender, EventArgs e) => {
 				isPublic = !isPublic;
 				viewController.SetPermission(index, isPublic);
-				publicLabel.AttributedText = new NSAttributedString (isPublic ? "Public" : "Private", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
                 isPublicButton.SetImage(UIImage.FromBundle(isPublic ? "signupRadioButton" : "signupRadioButtonUn"), UIControlState.Normal);
 			};
 			input.AttributedPlaceholder = new NSAttributedString ("Type here", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
