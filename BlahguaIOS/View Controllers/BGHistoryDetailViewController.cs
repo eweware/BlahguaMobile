@@ -296,9 +296,9 @@ namespace BlahguaMobile.IOS
 
 				commentIconImageView.Image = UIImage.FromBundle ("comments_dark");
                 commentIconImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-				commentIconImageView.Frame = new RectangleF (baseXStart+205, yCoordStart-10, 22f, 19f);
+				commentIconImageView.Frame = new RectangleF (baseXStart+175, yCoordStart-12, 22f, 19f);
 				cell.ContentView.AddSubview (commentIconImageView);
-			    labelXCoordStart += 45; 	
+			    labelXCoordStart = baseXStart + 200; 	
 
 				commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.MediumFontName, 14), UIColor.Black);
 				SetLabelSize (commentsCountLbl, cell);
@@ -316,13 +316,14 @@ namespace BlahguaMobile.IOS
 				SetLabelSize (upVotesLbl, cell);
 
 				downVotesLbl.AttributedText = new NSAttributedString ("/"+downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
-				SetLabelSize (downVotesLbl, cell);
+                labelXCoordStart -= space;
+                SetLabelSize (downVotesLbl, cell);
 		    }
 
 		    //cell.ContentView.Frame = new RectangleF (0, 0, 320, 50);
 		}
 
-		private void SetLabelSize(UILabel label,UITableViewCell cell)
+		    private void SetLabelSize(UILabel label,UITableViewCell cell)
 		{
 			label.RemoveFromSuperview ();
 			var newSize = label.SizeThatFits(baseSizeForFitting);

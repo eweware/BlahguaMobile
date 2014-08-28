@@ -40,7 +40,7 @@ namespace BlahguaMobile.IOS
 				if(BlahguaCore.BlahguaAPIObject.Current.CurrentChannel == null || 
 					channel._id == BlahguaCore.BlahguaAPIObject.Current.CurrentChannel._id)
 				{
-					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = channel;
+					//BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = channel;
 					cell.SelectRow ();
 					tableView.SelectRow (indexPath, true, UITableViewScrollPosition.None);
 				}
@@ -112,7 +112,8 @@ namespace BlahguaMobile.IOS
 				cell.SelectRow ();
 				if(type == BGLeftMenuType.Channels)
 				{
-					BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList[indexPath.Row];
+                    BlahguaCore.BlahguaAPIObject.Current.CurrentChannel = BlahguaCore.BlahguaAPIObject.Current.CurrentChannelList[indexPath.Row];
+                    ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.ToggleMenuAnimated();
 				}
 				
 			}

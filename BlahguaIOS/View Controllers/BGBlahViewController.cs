@@ -744,7 +744,7 @@ namespace BlahguaMobile.IOS
                     if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
                         return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
                     else
-                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
+                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate, true);
                 }
                 else
                     return null;

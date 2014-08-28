@@ -19,7 +19,7 @@ namespace BlahguaMobile.IOS
 
         private PointF panStartPoint;
         private float startingLayoutRight = 0;
-        private Comment comment;
+        private Comment userComment;
 		private UITableView parentTableView;
 
         public BGCommentTableCell(IntPtr handle)
@@ -70,21 +70,30 @@ namespace BlahguaMobile.IOS
 
         }
 
-		public void SetUp(Comment comment, UITableView tableView)
+		public void SetUp(Comment theComment, UITableView tableView)
         {
+            string userId = BlahguaAPIObject.Current.CurrentUser._id;
+            this.userComment = theComment;
+            bool isUserBlah = userId.Equals(BlahguaAPIObject.Current.CurrentBlah.A);
+            bool isUserComment = userId.Equals(userComment.A);
+
 			parentTableView = tableView;
-            this.comment = comment;
             panRecognizer = new UIPanGestureRecognizer(PanThisCell);
             panRecognizer.Delegate = new PanGestureRecognizerDelegate();
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
             //containerView.AddGestureRecognizer(panRecognizer);
 
 			NSAction action = () => {
+                UIView.BeginAnimations ("AnimateForVote");
+                UIView.SetAnimationBeginsFromCurrentState (true);
+                UIView.SetAnimationDuration(.25);
+                UIView.SetAnimationCurve(UIViewAnimationCurve.EaseIn);
 				if (rightPosition.Constant == voteView.Frame.Width) {
 					rightPosition.Constant = 0;
 				} else {
 					rightPosition.Constant = voteView.Frame.Width;
 				}
+                UIView.CommitAnimations();
 			};
 
 			tapRecognizer = new UITapGestureRecognizer (action );
@@ -111,12 +120,12 @@ namespace BlahguaMobile.IOS
 			commentImageView.AddGestureRecognizer (imageTapRecognizer);
 
             BGCommentBadgesTableSource newSource = new BGCommentBadgesTableSource();
-            newSource.LinkedComment = comment;
+            newSource.LinkedComment = userComment;
             badgeTable.Source = newSource;
 
-            if ((comment.BD != null) && (comment.BD.Count > 0))
+            if ((userComment.BD != null) && (userComment.BD.Count > 0))
             {
-                int count = comment.BD.Count;
+                int count = userComment.BD.Count;
                 badgeTable.Hidden = false;
                 badgeTableHeight.Constant = count * 28;
                 badgeTable.ReloadData();
@@ -126,14 +135,14 @@ namespace BlahguaMobile.IOS
                 badgeTable.Hidden = true;
             }
 
-			if (!String.IsNullOrEmpty(comment.AuthorImage))
+            if (!String.IsNullOrEmpty(userComment.AuthorImage))
 			{
-				imgAvatar.Image = ImageLoader.DefaultRequestImage(new Uri(comment.AuthorImage), new ImageUpdateDelegate(imgAvatar));
+                imgAvatar.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.AuthorImage), new ImageUpdateDelegate(imgAvatar));
 			}
 
-            if (!String.IsNullOrEmpty(comment.ImageURL))
+            if (!String.IsNullOrEmpty(userComment.ImageURL))
             {
-                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), this);
+                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
 
                 if (commentImageView.Image != null)
                 {
@@ -147,25 +156,25 @@ namespace BlahguaMobile.IOS
                 imageViewHeight.Constant = 0;
             }
 
-            if (!String.IsNullOrEmpty(comment.T))
+            if (!String.IsNullOrEmpty(userComment.T))
             {
-                text.AttributedText = new NSAttributedString(comment.T, UIFont.FromName(BGAppearanceConstants.FontName, 14), UIColor.Black);
+                text.AttributedText = new NSAttributedString(userComment.T, UIFont.FromName(BGAppearanceConstants.FontName, 14), UIColor.Black);
                 text.ScrollEnabled = false;
             }
 
 			lblUserType.AttributedText = new NSAttributedString(
-				comment.DescriptionString,
+                userComment.DescriptionString,
 				UIFont.FromName(BGAppearanceConstants.MediumItalicFontName, 12),
 				UIColor.Black
 			);
 
             author.AttributedText = new NSAttributedString(
-                comment.AuthorName,
+                userComment.AuthorName,
                 UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
 				BGAppearanceConstants.TealGreen
             );
 
-            string timeAgo= Utilities.ElapsedDateString(comment.CreationDate);
+            string timeAgo= Utilities.ElapsedDateString(userComment.CreationDate);
 
             timespan.AttributedText = new NSAttributedString(
 				timeAgo,
@@ -174,59 +183,96 @@ namespace BlahguaMobile.IOS
             );
 
             upAndDownVotes.AttributedText = new NSAttributedString(
-                comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
+                userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
                 UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
                 UIColor.Black
             );
 
             voteView.BackgroundColor = BGAppearanceConstants.TealGreen;
-            if (comment.uv == -1)
-            {
-                downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
-                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
-            }
-            else if (comment.uv == 1)
+
+            if (isUserBlah || isUserComment)
             {
                 downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
-                upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+                upVoteButton.Enabled = false;
+                downVoteButton.Enabled = false;
             }
-                
-
-            downVoteButton.TouchUpInside += (sender, e) =>
+            else
             {
-				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
-				{
-                    AppDelegate.analytics.PostCommentVote(-1);
-                	BlahguaAPIObject.Current.SetCommentVote(this.comment, -1, (v) => Console.WriteLine(v));
-                	downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
-                	upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
-
-					comment.DownVoteCount += 1;
-					upAndDownVotes.AttributedText = new NSAttributedString(
-						comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
-						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
-						UIColor.Black
-					);
-				}
-            };
+                if (userComment.uv == -1)
+                {
+                    downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
+                    upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+                    upVoteButton.Enabled = false;
+                    downVoteButton.Enabled = false;
+                }
+                else if (userComment.uv == 1)
+                {
+                    downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
+                    upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+                    upVoteButton.Enabled = false;
+                    downVoteButton.Enabled = false;
+                }
+                else
+                {
+                    upVoteButton.Enabled = true;
+                    downVoteButton.Enabled = true;
+                }
+            }
+            
+                
+            downVoteButton.TouchUpInside += (sender, e) =>
+                {
+                    SetCommentVote(-1);
+                };
 
             upVoteButton.TouchUpInside += (sender, e) =>
-            {
-				if(BlahguaAPIObject.Current.CurrentUser != null && (comment.uv != -1 && comment.uv != 1))
-				{
-                    AppDelegate.analytics.PostCommentVote(1);
-                	BlahguaAPIObject.Current.SetCommentVote(this.comment, 1, (v) => Console.WriteLine(v));
-                	downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
-                	upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+                {
+                    SetCommentVote(1);
+                };
+        }
 
-					comment.UpVoteCount += 1;
-					upAndDownVotes.AttributedText = new NSAttributedString(
-						comment.UpVoteCount.ToString() + "/" + comment.DownVoteCount.ToString(),
-						UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
-						UIColor.Black
-					);
-				}
-            };
+        private void SetCommentVote(int theVote)
+        {
+            if((BlahguaAPIObject.Current.CurrentUser != null) && 
+                (userComment.uv != -1) && 
+                (userComment.uv != 1))
+            {
+                BlahguaAPIObject.Current.SetCommentVote(userComment, theVote, (v) =>
+                    {
+                        if (v != theVote)
+                        {
+                            // something happend
+                        }
+                        else if (v != userComment.uv)
+                        {
+                            userComment.uv = v;
+                            InvokeOnMainThread( () => 
+                                {
+                                    if (v == 1)
+                                    {
+                                        downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
+                                        upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
+                                        userComment.UpVoteCount++;
+                                    }
+                                    else
+                                    {
+                                        downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
+                                        upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
+                                        userComment.DownVoteCount++;
+                                    }
+                                    upVoteButton.Enabled = false;
+                                    downVoteButton.Enabled = false;
+
+                                    upAndDownVotes.AttributedText = new NSAttributedString(
+                                        userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
+                                        UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                                        UIColor.Black);
+                                    rightPosition.Constant = 0;
+                                });
+                        }
+                    });
+            }
         }
 
 		#region IImageUpdated implementation

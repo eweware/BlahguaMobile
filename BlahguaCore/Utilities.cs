@@ -79,23 +79,36 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
-        public static string ElapsedDateString(DateTime theDate)
+        public static string ElapsedDateString(DateTime theDate, bool shouldBeFuture = false)
         {
             string tailStr;
             long nowTicks = DateTime.Now.Ticks;
             long dateTicks = theDate.Ticks;
             long timeSpan;
 
-            if (dateTicks > nowTicks)
+            if (shouldBeFuture)
             {
-                timeSpan = (dateTicks - nowTicks) / TimeSpan.TicksPerSecond; 
-                tailStr = " from now";
+                if (dateTicks > nowTicks)
+                {
+                    timeSpan = (dateTicks - nowTicks) / TimeSpan.TicksPerSecond; 
+                    tailStr = " from now";
+                }
+                else
+                    return "any time now";
+
             }
             else
             {
-                timeSpan = (nowTicks - dateTicks) / TimeSpan.TicksPerSecond;
-                tailStr = " ago";
+                if (dateTicks > nowTicks)
+                    return "just now";
+                else
+                {
+                    timeSpan = (nowTicks - dateTicks) / TimeSpan.TicksPerSecond;
+                    tailStr = " ago";
+                }
             }
+
+
 
             long curYears = timeSpan / 31536000;
             if (curYears > 0)
@@ -157,7 +170,10 @@ namespace BlahguaMobile.BlahguaCore
 
             if (timeSpan <= 1)
             {
-                return "just now";
+                if (shouldBeFuture)
+                    return "any time now";
+                else
+                    return "just now";
             }
             else
             {

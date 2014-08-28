@@ -450,18 +450,8 @@ namespace BlahguaMobile.IOS
 			
 		public void displayAlert()
 		{
-
-			/*Console.WriteLine ("Authentication failed in display function");
-
-			UIAlertView alert = new UIAlertView ();
-							alert.Title = "Error";
-							alert.AddButton ("OK");
-							alert.Message = "This should be an error message";
-
-			alert.Show ();*/
-
-			int clicked = -1;
-			var x = new UIAlertView ("Error", "Authentication failure",  null, "OK");
+            int clicked = -1;
+			var x = new UIAlertView ("Error", "Authentication failed.  Check your username and password.",  null, "OK");
 			x.Show ();
 			//bool done = false;
 			x.Clicked += (sender, buttonArgs) => {
@@ -472,8 +462,6 @@ namespace BlahguaMobile.IOS
 				NSRunLoop.Current.RunUntil (NSDate.FromTimeIntervalSinceNow (0.5));
 				Console.WriteLine ("Waiting for another 0.5 seconds");
 			}
-			Console.WriteLine ("The user clicked {0}", clicked);
-			//return clicked;
 			
 		}
 

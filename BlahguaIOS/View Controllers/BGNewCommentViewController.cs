@@ -61,6 +61,7 @@ namespace BlahguaMobile.IOS
 				ForegroundColor = UIColor.Black
 			};
 
+
 			selectSignature.SetAttributedTitle (new NSAttributedString ("Signature", buttonsTextAttributes), UIControlState.Normal);
             //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
 			//selectSignature.TouchUpInside += ChooseSignature;
@@ -69,7 +70,7 @@ namespace BlahguaMobile.IOS
             //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
-			input.ReturnKeyType = UIReturnKeyType.Default;
+			input.ReturnKeyType = UIReturnKeyType.Done;
             input.Changed += (object sender, EventArgs e) => {
 				if(String.IsNullOrEmpty(input.Text))
 					done.Enabled = false;
@@ -288,6 +289,8 @@ namespace BlahguaMobile.IOS
                     {
                         progressIndicator.StopAnimating();
                         selectImageButton.Hidden = false;
+                        selectImageButton.SetImage(null, UIControlState.Normal);
+                        selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
 
                     });
             }

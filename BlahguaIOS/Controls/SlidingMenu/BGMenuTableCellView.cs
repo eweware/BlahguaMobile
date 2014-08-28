@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 			{
 				if(label.Text != value)
 				{
-                    label.Lines = 0;
+                    label.Lines = 2;
                     label.LineBreakMode = UILineBreakMode.WordWrap;
 					label.AttributedText = new NSAttributedString(
 						value, 

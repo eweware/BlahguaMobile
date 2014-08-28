@@ -368,7 +368,7 @@ namespace BlahguaMobile.IOS
 			UIView view = new UIView (new RectangleF (0, 0, 320, GetHeightForHeader (tableView, section)));
 			view.BackgroundColor = UIColor.FromRGB (255, 255, 248);
 
-			UILabel label = new UILabel (new RectangleF (20, 7, 280, 21));
+			UILabel label = new UILabel (new RectangleF (8, 7, 280, 21));
 			string labelText = String.Empty;
 			switch(section)
 			{
@@ -414,7 +414,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			}
-			label.AttributedText = new NSAttributedString (labelText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 17), UIColor.Black);
+			label.AttributedText = new NSAttributedString (labelText, UIFont.FromName (BGAppearanceConstants.MediumFontName, 17), UIColor.Black);
 			view.AddSubview (label);
 			return view;
 		}

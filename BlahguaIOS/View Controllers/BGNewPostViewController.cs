@@ -697,16 +697,25 @@ namespace BlahguaMobile.IOS
 				filePicker.DismissViewController(true, 
 					() => {});
 			};
-			if (eventArgs.ButtonIndex == 1) {
+			if (eventArgs.ButtonIndex == 1) 
+            {
 				filePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
 				ParentViewController.PresentViewController(filePicker, true, null);
-			} else if (eventArgs.ButtonIndex == 0) {
+			} 
+            else if (eventArgs.ButtonIndex == 0) 
+            {
 				filePicker.SourceType = UIImagePickerControllerSourceType.Camera;
 				ParentViewController.PresentViewController (filePicker, true, 
 					() => UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide));
-			} else if (eventArgs.ButtonIndex == 2) {
+			} 
+            else if (eventArgs.ButtonIndex == 2) 
+            {
 				if (NewPost.M != null)
 					NewPost.M.Clear();
+                selectImageButton.Hidden = false;
+                selectImageButton.SetImage(null, UIControlState.Normal);
+                selectImageButton.SetTitle("Select Image", UIControlState.Normal);
+
 			}
 		}
 
@@ -834,6 +843,10 @@ namespace BlahguaMobile.IOS
                     {
                         progressIndicator.StopAnimating();
                         selectImageButton.Hidden = false;
+                        progressIndicator.StopAnimating();
+                        selectImageButton.Hidden = false;
+                        selectImageButton.SetImage(null, UIControlState.Normal);
+                        selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
                         UpdatePostBtn();
                     });
             }

@@ -71,13 +71,6 @@ namespace BlahguaMobile.IOS
 
 			SetLabelSize (upAndDownVotes);
 
-			// TO DO:  add these to the storyboard
-			//userNameLbl.AttributedText = new NSAttributedString (userNameString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-			//SetLabelSize (userNameLbl);
-
-			//daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-			//SetLabelSize (daysAgoLbl);
-
 			ContentView.Frame = new RectangleF (0, 0, 320, yCoordStart + upAndDownVotes.Frame.Height + space);
 		}
 

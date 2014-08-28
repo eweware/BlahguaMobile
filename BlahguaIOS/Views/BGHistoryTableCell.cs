@@ -17,11 +17,9 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(string name, string count)
 		{
-			var attr = new NSAttributedString ("", UIFont.FromName (BGAppearanceConstants.FontName, 17), UIColor.Black);
-			this.name.AttributedText = attr;
-			this.count.AttributedText = attr;
-			this.name.Text = name;
-			this.count.Text = count;
+            this.name.AttributedText = new NSAttributedString (name, UIFont.FromName (BGAppearanceConstants.FontName, 17), BGAppearanceConstants.DarkBrown);;
+            this.count.AttributedText = new NSAttributedString (count, UIFont.FromName (BGAppearanceConstants.FontName, 17), BGAppearanceConstants.DarkBrown);;
+			
 		}
 	}
 }
