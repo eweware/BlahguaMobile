@@ -73,6 +73,7 @@ namespace BlahguaMobile.IOS
 						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
 						NSDateFormatter dateFormatter = new NSDateFormatter();
 						dateFormatter.DateFormat = "MM/dd/yyyy";
+                        datePicker.DatePicker.MinimumDate = DateTime.Today.AddDays (3);
 					
 						datePicker.DatePicker.ValueChanged += (s, e) => {
 

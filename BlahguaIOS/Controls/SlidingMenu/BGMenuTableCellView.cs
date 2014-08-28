@@ -25,6 +25,8 @@ namespace BlahguaMobile.IOS
 			{
 				if(label.Text != value)
 				{
+                    label.Lines = 0;
+                    label.LineBreakMode = UILineBreakMode.WordWrap;
 					label.AttributedText = new NSAttributedString(
 						value, 
 						UIFont.FromName(BGAppearanceConstants.MediumFontName, 14), 
@@ -39,6 +41,7 @@ namespace BlahguaMobile.IOS
 		public BGMenuTableCellView (IntPtr handle) : base (handle)
 		{
 			ContentView.BackgroundColor = BGAppearanceConstants.DarkBrown;
+
 		}
 
 		#region Methods
@@ -52,6 +55,7 @@ namespace BlahguaMobile.IOS
 		{
 			selectedImage.Hidden = true;
 		}
+
 
 		#endregion
 	}

@@ -19,6 +19,9 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UITableView badgeTable { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.NSLayoutConstraint badgeTableHeight { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIImageView commentImageView { get; set; }
 
 		[Outlet]
@@ -59,14 +62,19 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (badgeTable != null) {
-				badgeTable.Dispose ();
-				badgeTable = null;
+			if (badgeTableHeight != null) {
+				badgeTableHeight.Dispose ();
+				badgeTableHeight = null;
 			}
 
 			if (author != null) {
 				author.Dispose ();
 				author = null;
+			}
+
+			if (badgeTable != null) {
+				badgeTable.Dispose ();
+				badgeTable = null;
 			}
 
 			if (commentImageView != null) {

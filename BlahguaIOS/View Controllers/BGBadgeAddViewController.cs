@@ -22,7 +22,7 @@ namespace BlahguaMobile.IOS
 		{
             base.ViewDidLoad ();
 
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Badges", UIBarButtonItemStyle.Plain, (s, e)=> 
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
                     this.NavigationController.PopViewControllerAnimated(true);
                 });
@@ -126,6 +126,11 @@ namespace BlahguaMobile.IOS
 
 		private void ClickBadgeSubmitBtn(object sender, EventArgs e)
 		{
+            InvokeOnMainThread(() =>
+                {
+                    doneButton.Enabled = false;
+                });
+
 			ticketString = "";
 			emailTextField.ResignFirstResponder();
 			BlahguaAPIObject.Current.GetBadgeAuthorities((authorities) =>{
@@ -164,6 +169,10 @@ namespace BlahguaMobile.IOS
 
 		private void ClickBadgeVerifyBtn(object sender, EventArgs args)
 		{
+            InvokeOnMainThread(() =>
+                {
+                    verifyButton.Enabled = false;
+                });
 			BlahguaAPIObject.Current.VerifyEmailBadge (verifyCodeTextField.Text, ticketString, (result) => {
 				InvokeOnMainThread (() => {
 					if (result == "fail") {
@@ -190,6 +199,10 @@ namespace BlahguaMobile.IOS
 
 		private void ClickBadgeRequestBtn(object sender, EventArgs args)
 		{
+            InvokeOnMainThread(() =>
+                {
+                    requestButton.Enabled = false;
+                });
 			var addr = new System.Net.Mail.MailAddress(emailTextField.Text);
 			string emailAddr = addr.Address;
 			string domainName = addr.Host;

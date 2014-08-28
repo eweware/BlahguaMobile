@@ -29,19 +29,29 @@ namespace BlahguaMobile.IOS
 
         private class BGCommentBadgesTableSource : UITableViewSource
         {
-            public Comment linkedComment { get; set;}
+            private Comment linkedComment;
 
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
                 var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
-                if (linkedComment != null)
-                    cell.SetUp(
-                        linkedComment.Badges[indexPath.Row].BadgeName,
-                        linkedComment.Badges[indexPath.Row].BadgeImage
-                    );
-                else
-                    cell.SetUp("unknown badge", null);
+                cell.SetUp(linkedComment.Badges[indexPath.Row]);
                 return cell;
+            }
+
+            public Comment LinkedComment
+            {
+                get { return linkedComment; }
+                set
+                {
+                    linkedComment = value;
+                    if (linkedComment.Badges != null)
+                    {
+                        foreach (BadgeReference curBadge in linkedComment.Badges)
+                        {
+                            curBadge.UpdateBadge();
+                        }
+                    }
+                }
             }
 
             public override int RowsInSection(UITableView tableview, int section)
@@ -101,13 +111,14 @@ namespace BlahguaMobile.IOS
 			commentImageView.AddGestureRecognizer (imageTapRecognizer);
 
             BGCommentBadgesTableSource newSource = new BGCommentBadgesTableSource();
-            newSource.linkedComment = comment;
+            newSource.LinkedComment = comment;
             badgeTable.Source = newSource;
 
             if ((comment.BD != null) && (comment.BD.Count > 0))
             {
+                int count = comment.BD.Count;
                 badgeTable.Hidden = false;
-
+                badgeTableHeight.Constant = count * 28;
                 badgeTable.ReloadData();
             }
             else
@@ -122,12 +133,18 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(comment.ImageURL))
             {
-				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), this);
+                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(comment.ImageURL), this);
 
-				if (commentImageView.Image != null) {
-					UIImage img = commentImageView.Image;
-					imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
-				}
+                if (commentImageView.Image != null)
+                {
+                    UIImage img = commentImageView.Image;
+                    imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+                }
+            }
+            else
+            {
+                commentImageView.Image = null;
+                imageViewHeight.Constant = 0;
             }
 
             if (!String.IsNullOrEmpty(comment.T))
@@ -173,6 +190,7 @@ namespace BlahguaMobile.IOS
                 downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
                 upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
             }
+                
 
             downVoteButton.TouchUpInside += (sender, e) =>
             {

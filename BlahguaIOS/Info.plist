@@ -18,7 +18,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>0.0.0.39</string>
+	<string>0.0.0.40</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>

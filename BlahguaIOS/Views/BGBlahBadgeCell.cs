@@ -5,6 +5,7 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
+using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.IOS
 {
@@ -13,6 +14,38 @@ namespace BlahguaMobile.IOS
 		public BGBlahBadgeCell (IntPtr handle) : base (handle)
 		{
 		}
+
+        public void SetUp(BadgeReference theBadge)
+        {
+            SetUp(theBadge.BadgeName, theBadge.BadgeImage);
+            if (String.IsNullOrEmpty(theBadge.BadgeName))
+            {
+                BlahguaAPIObject.Current.GetBadgeInfo(theBadge.ID, (badgeResult) =>
+                    {
+                        if (badgeResult != null)
+                        {
+                            theBadge.BadgeName = badgeResult.N;
+                            theBadge.CreationDate = badgeResult.CreationDate;
+                            theBadge.ExpirationDate = badgeResult.ExpirationDate;
+                            theBadge.AuthorityDisplayName = badgeResult.D;
+                            theBadge.AuthorityEndpoint = badgeResult.A;
+                            DecorateBadge(theBadge.BadgeName);
+                        }
+
+
+                    }
+                );
+            }
+        }
+
+        private void DecorateBadge (string badgeName)
+        {
+            this.badgeName.AttributedText = new NSAttributedString (
+                badgeName, 
+                UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
+                UIColor.Black
+            );
+        }
 
 		public void SetUp(string badgeName, string badgeImageUrl)
 		{
@@ -27,11 +60,7 @@ namespace BlahguaMobile.IOS
 			else
                 badgeImage.Image = UIImage.FromBundle ("badges");
 
-			this.badgeName.AttributedText = new NSAttributedString (
-				badgeName, 
-				UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
-				UIColor.Black
-			);
+            DecorateBadge(badgeName);
 		}
 	}
 }

@@ -1,11 +1,5 @@
-Monday Build
-==========
-Please install and test as this is a release candidate!
-
-Fixes:
-  - fixed many layout areas
-  - image post was not obeying rotation
-  - improved view of posts and comment history
-
-
-
+Wednesday Build
+===========
+Lots of cosmetic fixes and also more input checking.
+overall stability should be better.
+We also have some debugging images in the background so don't be alarmed about the weird colors and any large X you see across your screens.  

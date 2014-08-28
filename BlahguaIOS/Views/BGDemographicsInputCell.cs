@@ -61,34 +61,44 @@ namespace BlahguaMobile.IOS
 				{
 					input.Text = String.IsNullOrEmpty (viewController.GetValue (index)) ? String.Empty : viewController.GetValue (index);
 
-					input.ShouldBeginEditing = delegate {
-						viewController.BirthDatePicker = new ActionSheetDatePicker (viewController.View);
-						viewController.BirthDatePicker.Title = "Choose Date";
-						viewController.BirthDatePicker.DatePicker.Mode = UIDatePickerMode.Date;
-						NSDateFormatter dateFormatter = new NSDateFormatter();
-						dateFormatter.DateFormat = "MM/dd/yyyy";
+					input.ShouldBeginEditing = delegate 
+                            {
+                                DateTime curTime = DateTime.Now - TimeSpan.FromDays(365 * 25);
+        						viewController.BirthDatePicker = new ActionSheetDatePicker (viewController.View);
+        						viewController.BirthDatePicker.Title = "Choose Date";
+                                if (!String.IsNullOrEmpty(input.Text))
+                                    DateTime.TryParse(input.Text, out curTime);
 
-						//input.Text = DateTime.Now.ToString();
+                                viewController.BirthDatePicker.DatePicker.Date = curTime;
+                                
+        						viewController.BirthDatePicker.DatePicker.Mode = UIDatePickerMode.Date;
+                                viewController.BirthDatePicker.DatePicker.MaximumDate = DateTime.Now - TimeSpan.FromDays(365 * 18);
+                                viewController.BirthDatePicker.DatePicker.MinimumDate = DateTime.Now - TimeSpan.FromDays(365 * 145);
+        						NSDateFormatter dateFormatter = new NSDateFormatter();
+        						dateFormatter.DateFormat = "MM/dd/yyyy";
 
-						viewController.BirthDatePicker.DatePicker.ValueChanged += (s, e) => {
+        						//input.Text = DateTime.Now.ToString();
 
-							NSDate dateValue = (s as UIDatePicker).Date;
-							input.Text = new NSString(dateFormatter.ToString(dateValue));
-							viewController.SetValue(index, input.Text);
-						};
+        						viewController.BirthDatePicker.DatePicker.ValueChanged += (s, e) => 
+                                    {
+            							NSDate dateValue = (s as UIDatePicker).Date;
+            							input.Text = new NSString(dateFormatter.ToString(dateValue));
+            							viewController.SetValue(index, input.Text);
+        						    };
 
-						viewController.BirthDatePicker.Show ();
-						NSDate dv = viewController.BirthDatePicker.DatePicker.Date;
-						if(input.Text.Length == 0)
-							input.Text = new NSString(dateFormatter.ToString(dv));
+        						viewController.BirthDatePicker.Show ();
+        						NSDate dv = viewController.BirthDatePicker.DatePicker.Date;
+        						if(input.Text.Length == 0)
+        							input.Text = new NSString(dateFormatter.ToString(dv));
 
-						return false;
-					};
+        						return false;
+        					};
 
-					input.ShouldReturn = delegate {
-						DateTime dt;
-						return DateTime.TryParse (input.Text, new DateTimeFormatInfo() { FullDateTimePattern = "mm/dd/yyyy"}, DateTimeStyles.None, out dt);
-					};
+					input.ShouldReturn = delegate 
+                            {
+        						DateTime dt;
+        						return DateTime.TryParse (input.Text, new DateTimeFormatInfo() { FullDateTimePattern = "mm/dd/yyyy"}, DateTimeStyles.None, out dt);
+        					};
 					input.AttributedPlaceholder = new NSAttributedString ("mm/dd/yyyy", UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 					return;
 				}
