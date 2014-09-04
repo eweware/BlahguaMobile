@@ -72,6 +72,13 @@ namespace BlahguaMobile.IOS
 
 		#region View Controller Overriden Methods
 
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+            BlahguaAPIObject.Current.FlushImpressionList();
+        }
+
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();

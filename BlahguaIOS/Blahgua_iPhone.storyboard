@@ -378,7 +378,7 @@
                                     <barButtonItem title="Sign In" width="86" id="11h-VH-Fe8">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
-                                    <barButtonItem width="24" style="plain" systemItem="fixedSpace" id="5rt-zX-r4K"/>
+                                    <barButtonItem width="50" style="plain" systemItem="fixedSpace" id="5rt-zX-r4K"/>
                                     <barButtonItem image="summary.png" width="26" style="plain" id="cCK-ra-fk9">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
@@ -887,7 +887,7 @@
                                     <barButtonItem title="Comment" width="86" id="XFu-Jm-oQJ">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
-                                    <barButtonItem width="98" style="plain" systemItem="fixedSpace" id="TC4-SD-Ch1"/>
+                                    <barButtonItem width="100" style="plain" systemItem="fixedSpace" id="TC4-SD-Ch1"/>
                                     <barButtonItem image="summary.png" width="26" style="plain" id="IZb-ik-KRr">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
@@ -935,7 +935,7 @@
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-3w-3mZ">
+                                                        <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-3w-3mZ">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="63"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" image="arrow_up.png">
@@ -998,7 +998,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="28" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qWv-GJ-qrR">
+                                                        <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="28" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qWv-GJ-qrR">
                                                             <rect key="frame" x="68" y="36" width="244" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1010,11 +1010,11 @@
                                                                     <rect key="frame" x="0.0" y="22" width="244" height="28"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3s4-68-JxM" id="KOO-cb-Qqy">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="244" height="27"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="244" height="28"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <subviews>
                                                                             <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="badge_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1o0-dN-B8o">
-                                                                                <rect key="frame" x="8" y="4" width="0.0" height="18"/>
+                                                                                <rect key="frame" x="8" y="4" width="0.0" height="19"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="18" id="0Or-BH-UdA"/>
@@ -1039,7 +1039,7 @@
                                                                             <constraint firstItem="VPu-zq-ynj" firstAttribute="leading" secondItem="1o0-dN-B8o" secondAttribute="trailing" constant="8" id="3nP-j2-v7n"/>
                                                                             <constraint firstAttribute="centerY" secondItem="VPu-zq-ynj" secondAttribute="centerY" id="94T-tK-WCg"/>
                                                                             <constraint firstAttribute="centerY" secondItem="1o0-dN-B8o" secondAttribute="centerY" id="lKN-hO-Hy1"/>
-                                                                            <constraint firstItem="1o0-dN-B8o" firstAttribute="leading" secondItem="KOO-cb-Qqy" secondAttribute="leading" constant="8" id="vCD-9R-g6f"/>
+                                                                            <constraint firstItem="1o0-dN-B8o" firstAttribute="leading" secondItem="KOO-cb-Qqy" secondAttribute="leading" id="vCD-9R-g6f"/>
                                                                             <constraint firstAttribute="centerY" secondItem="HQr-cB-rsJ" secondAttribute="centerY" id="vJH-bI-wtL"/>
                                                                             <constraint firstItem="HQr-cB-rsJ" firstAttribute="leading" secondItem="VPu-zq-ynj" secondAttribute="trailing" constant="5" id="yRt-X3-EbD"/>
                                                                         </constraints>
@@ -1096,7 +1096,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="9iZ-p4-BnT" secondAttribute="trailing" constant="10" id="Ws1-uI-ght"/>
                                                         <constraint firstItem="Xba-FQ-VUN" firstAttribute="top" secondItem="j8I-z1-LIZ" secondAttribute="top" constant="4" id="Y0t-9k-rhp"/>
                                                         <constraint firstAttribute="trailing" secondItem="qWv-GJ-qrR" secondAttribute="trailing" constant="8" id="bDe-FQ-q0T"/>
-                                                        <constraint firstItem="qWv-GJ-qrR" firstAttribute="top" secondItem="wWb-yB-CaV" secondAttribute="bottom" constant="7" id="bGV-eO-Gni"/>
+                                                        <constraint firstItem="qWv-GJ-qrR" firstAttribute="top" secondItem="wWb-yB-CaV" secondAttribute="bottom" id="bGV-eO-Gni"/>
                                                         <constraint firstItem="9vp-zH-bhf" firstAttribute="top" secondItem="j8I-z1-LIZ" secondAttribute="top" constant="4" id="fCc-8H-zrr"/>
                                                         <constraint firstItem="qWv-GJ-qrR" firstAttribute="leading" secondItem="pvr-4R-ZKR" secondAttribute="trailing" constant="10" id="imX-Pn-bjI"/>
                                                         <constraint firstAttribute="trailing" secondItem="wWb-yB-CaV" secondAttribute="trailing" constant="10" id="jEP-XQ-qye"/>
@@ -1399,7 +1399,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="65">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65">
                                 <rect key="frame" x="7" y="53" width="306" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>

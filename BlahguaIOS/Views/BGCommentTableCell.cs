@@ -72,7 +72,9 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(Comment theComment, UITableView tableView)
         {
-            string userId = BlahguaAPIObject.Current.CurrentUser._id;
+            string userId = "0";  // signed out user
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+                userId = BlahguaAPIObject.Current.CurrentUser._id;
             this.userComment = theComment;
             bool isUserBlah = userId.Equals(BlahguaAPIObject.Current.CurrentBlah.A);
             bool isUserComment = userId.Equals(userComment.A);
@@ -96,12 +98,17 @@ namespace BlahguaMobile.IOS
                 UIView.CommitAnimations();
 			};
 
-			tapRecognizer = new UITapGestureRecognizer (action );
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+            {
+                tapRecognizer = new UITapGestureRecognizer(action);
 
-			tapRecognizer.Delegate = new PanGestureRecognizerDelegate ();
-			containerView.TranslatesAutoresizingMaskIntoConstraints = false;
-			tapRecognizer.NumberOfTapsRequired = 1;
-			containerView.AddGestureRecognizer (tapRecognizer);
+                tapRecognizer.Delegate = new PanGestureRecognizerDelegate();
+
+                tapRecognizer.NumberOfTapsRequired = 1;
+                containerView.AddGestureRecognizer(tapRecognizer);
+            }
+
+            containerView.TranslatesAutoresizingMaskIntoConstraints = false;
 
 			NSAction showFullScreen = () => {
 				if(commentImageView.Image != null)

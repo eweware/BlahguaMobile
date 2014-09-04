@@ -1,5 +1,6 @@
-Wednesday Build
+Thursday Build
 ===========
-Lots of cosmetic fixes and also more input checking.
-overall stability should be better.
-We also have some debugging images in the background so don't be alarmed about the weird colors and any large X you see across your screens.  
+- removed debugging backgrounds
+- fixed voting feedback for your own votes and comments
+- fixed display of badged comments
+- numerous font & style fixes

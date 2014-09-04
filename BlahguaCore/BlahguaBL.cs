@@ -33,7 +33,7 @@ namespace BlahguaMobile.BlahguaCore
         private UserDescription _userDescription = null;
         Timer signinTimer;
         private string _recoveryEmail;
-
+        Dictionary<string, int> ImpressionMap = new Dictionary<string, int>();
         string badgeEndpoint;
 
 
@@ -815,6 +815,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (currentChannel != value)
                 {
+                    FlushImpressionList();
                     currentChannel = value;
                     OnPropertyChanged("CurrentChannel");
                 }
@@ -838,6 +839,25 @@ namespace BlahguaMobile.BlahguaCore
                 curIndex =  0;
             CurrentChannel = curChannelList[curIndex];
         }
+
+        public void AddImpression(string blahId)
+        {
+            if (!ImpressionMap.ContainsKey(blahId))
+            {
+                ImpressionMap[blahId] = 1;
+            }
+            else
+                ImpressionMap[blahId]++;
+        }
+
+        public void FlushImpressionList()
+        {
+            if (ImpressionMap.Count > 0)
+                RecordImpressions(ImpressionMap);
+
+            ImpressionMap.Clear();
+        }
+
 
         public void SetCurrentBlahFromId(string blahId, Blah_callback callback)
         {

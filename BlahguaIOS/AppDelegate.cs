@@ -163,9 +163,10 @@ namespace BlahguaMobile.IOS
 			if (BlahguaAPIObject.Current.CurrentUser != null)
 				BlahguaAPIObject.Current.EnsureSignin ();
 		}
-
+            
         public override void DidEnterBackground(UIApplication application)
         {
+            BlahguaAPIObject.Current.FlushImpressionList();
             if (appIsDead)
                 throw new Exception("App hit terminal error");
         }

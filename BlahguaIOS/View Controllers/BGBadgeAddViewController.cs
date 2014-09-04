@@ -12,6 +12,7 @@ namespace BlahguaMobile.IOS
 	public partial class BGBadgeAddViewController : UIViewController
 	{
 		private string ticketString;
+        private bool submitted;
 
 		public BGBadgeAddViewController (IntPtr handle) : base (handle)
 		{
@@ -22,6 +23,7 @@ namespace BlahguaMobile.IOS
 		{
             base.ViewDidLoad ();
 
+            submitted = false;
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
                     this.NavigationController.PopViewControllerAnimated(true);
@@ -126,6 +128,9 @@ namespace BlahguaMobile.IOS
 
 		private void ClickBadgeSubmitBtn(object sender, EventArgs e)
 		{
+            if (submitted)
+                return;
+            submitted = true;
             InvokeOnMainThread(() =>
                 {
                     doneButton.Enabled = false;
@@ -135,7 +140,10 @@ namespace BlahguaMobile.IOS
 			emailTextField.ResignFirstResponder();
 			BlahguaAPIObject.Current.GetBadgeAuthorities((authorities) =>{
                 if (authorities == null)
+                {
+                    submitted = false;
                     return;
+                }
 				InvokeOnMainThread(() => {
 					string authId = authorities[0]._id;
 					string emailAddr = emailTextField.Text;

@@ -96,6 +96,7 @@ namespace BlahguaMobile.IOS
 				imageView.Hidden = true;
 			}
 
+            BlahguaAPIObject.Current.AddImpression(blah.I);
 			if(!String.IsNullOrEmpty(blah.T))
 			{
 				label.Frame = new RectangleF(new PointF(8, 7), new SizeF(size.Width - 24.0f, size.Height - 33.0f));
