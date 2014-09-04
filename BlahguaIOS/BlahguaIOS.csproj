@@ -45,7 +45,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>True</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -53,6 +53,7 @@
     </IpaPackageName>
     <MtouchSdkVersion>7.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <CodesignProvision>65278e24-6ca7-4db6-b2e1-4b6e5d731ace</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -90,8 +91,7 @@
     <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
-    <BuildIpa>true</BuildIpa>
-    <CodesignProvision>674796aa-e5ea-42bf-a5c7-4e5f5f9a39ef</CodesignProvision>
+    <CodesignProvision>4bb2a41c-3c07-4882-a652-20df21395692</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
