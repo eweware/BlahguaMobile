@@ -76,9 +76,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>c7d4fca5-ee4c-4c8e-892e-078a3b5a867e</CodesignProvision>
+    <CodesignProvision>674796aa-e5ea-42bf-a5c7-4e5f5f9a39ef</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>

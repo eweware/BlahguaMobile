@@ -1,6 +1,6 @@
-Thursday Build
-===========
-- removed debugging backgrounds
-- fixed voting feedback for your own votes and comments
-- fixed display of badged comments
-- numerous font & style fixes
+Wednesday Build
+==========
++ app store release!
++ fixed crash in comments when not signed in
++ added impression tracking
++ minor cosmetic fixes
