@@ -193,6 +193,16 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+        public void ReportPost(int reportType)
+        {
+            BlahguaRest.ReportPost(currentBlah._id, reportType);
+        }
+
+        public void ReportComment(string commentId, int reportType)
+        {
+            BlahguaRest.ReportComment(commentId, reportType);
+        }
+
         void timer_callback(object state)
         {
             EnsureSignin();

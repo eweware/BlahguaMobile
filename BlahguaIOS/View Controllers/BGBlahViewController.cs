@@ -13,6 +13,7 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog.Utilities;
+using MonoTouch.MessageUI;
 
 namespace BlahguaMobile.IOS
 {
@@ -26,6 +27,9 @@ namespace BlahguaMobile.IOS
 
         private UIButton upVoteButton;
         private UIButton downVoteButton;
+
+        private UIButton sharePostButton;
+        private UIButton reportPostButton;
 
         private UIButton summaryButton;
         private UIButton commentsButton;
@@ -415,20 +419,23 @@ namespace BlahguaMobile.IOS
             bottomToolbar.TintColor = UIColor.Clear;
 
 			if (BlahguaAPIObject.Current.CurrentUser != null) {
-				UIBarButtonItem[] items = new UIBarButtonItem[6];// (7);
+				UIBarButtonItem[] items = new UIBarButtonItem[8];// (7);
 
 				items [0] = upVote;
 				items [1] = downVote;
+                items[2] = sharePostBtn;
+                items[3] = reportPostBtn;
 
-				items [2] = new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace);
+				items [4] = new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace);
 
-				items [3] = summaryView;
-				items [4] = commentsView;
-				items [5] = statsView;
+				items [5] = summaryView;
+				items [6] = commentsView;
+				items [7] = statsView;
 
 				bottomToolbar.SetItems (items, true);
 
 				SetUpVotesButtons();
+                SetUpPostButtons();
 			} else {
 				UIBarButtonItem[] items = new UIBarButtonItem[5];// (7);
 
@@ -561,6 +568,90 @@ namespace BlahguaMobile.IOS
             downVoteButton.SetImage(downVoteImage
                 .ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
                 UIControlState.Normal);
+        }
+
+        private void SetUpPostButtons()
+        {
+            sharePostButton = new UIButton(UIButtonType.Custom);
+            sharePostButton.Frame = new RectangleF(0, 0, 20, 16);
+            sharePostButton.SetImage(UIImage.FromBundle("summary_dark"), UIControlState.Normal);
+            sharePostButton.TouchUpInside += (object sender, EventArgs e) =>
+                {
+                    // to do:  show the share UI
+                    var postURL = new NSUrl(CurrentBlah.URL);
+                    var textItem = UIActivity.FromObject(CurrentBlah.T.ToString());
+                    var urlItem = UIActivity.FromObject(postURL);
+                    NSObject[] activityItems = null;
+
+                    if ((CurrentBlah.M != null) && (CurrentBlah.M.Count > 0))
+                    {
+                        // share an image
+                        var imageItem = blahImage.Image;
+
+                        activityItems  = new NSObject[] {textItem, imageItem, urlItem }; 
+                    }
+                    else
+                        activityItems  = new NSObject[] {textItem, urlItem };
+
+                    var activityController = new UIActivityViewController (activityItems, null) {
+                        // ExcludedActivityTypes = new NSString[] { UIActivityType.Print}  // add types to exclude, if any, here
+                    };
+
+                    PresentViewController (activityController, true, null);
+                };
+            sharePostBtn.CustomView = sharePostButton;
+
+            reportPostButton = new UIButton(UIButtonType.Custom);
+            reportPostButton.Frame = new RectangleF(0, 0, 22, 19);
+            reportPostButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
+            reportPostButton.TouchUpInside += (object sender, EventArgs e) =>
+                {
+                    UIActionSheet actionSheet = new UIActionSheet("Report Post to eweware");
+                    actionSheet.AddButton ("Inappropriate / offensive ");
+                    actionSheet.AddButton ("Spam / misleading");
+                    actionSheet.AddButton ("infringes my rights");
+                    actionSheet.AddButton ("Cancel");
+                    actionSheet.DestructiveButtonIndex = 0; // red
+                    actionSheet.CancelButtonIndex = 3;  // black
+                    actionSheet.Clicked += delegate(object a, UIButtonEventArgs b) {
+                        switch (b.ButtonIndex)
+                        {
+                            case 0:
+                                // inappropriate
+                                BlahguaAPIObject.Current.ReportPost(0);
+                                break;
+                            case 1:
+                                // spam
+                                BlahguaAPIObject.Current.ReportPost(1);
+                                break;
+                            case 2:
+                                // report rights infringement
+                                if(MFMailComposeViewController.CanSendMail)
+                                {
+                                    MFMailComposeViewController mailComposer = new MFMailComposeViewController();
+                                    mailComposer.SetToRecipients(new string[] { "admin@goheard.com" });
+                                    mailComposer.SetSubject("Rights Violation report");
+                                    mailComposer.SetMessageBody("I am the owner of the following item that is being used on Heard without my permission.  " + CurrentBlah._id, false);
+                                    mailComposer.Finished += (s, ev) => {
+                                        ev.Controller.DismissViewController(true, null);
+                                    };
+                                    PresentViewController(mailComposer, true, null);
+                                }
+                                else
+                                {
+                                    var alert = new UIAlertView("Information", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
+                                    alert.Show();
+                                }
+                                break;
+
+                        }
+                    };
+                    actionSheet.ShowInView (View);
+
+
+                };
+            reportPostBtn.CustomView = reportPostButton;
+
         }
 
         private void SetUpModesButtons()

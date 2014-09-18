@@ -1082,6 +1082,17 @@ namespace BlahguaMobile.BlahguaCore
             L = null;
         }
 
+        // 
+
+        public string URL
+        {
+            get
+            {
+                return "http://app.goheard.com/?blahId=" + _id;
+
+            }
+        }
+
         public bool IsPredictionExpired
         {
             get
