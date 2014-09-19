@@ -100,9 +100,6 @@
     <Compile Include="..\BlahguaCore\BlahguaBL.cs">
       <Link>BlahguaCore\BlahguaBL.cs</Link>
     </Compile>
-    <Compile Include="..\BlahguaCore\BlahguaRESTservice.cs">
-      <Link>BlahguaCore\BlahguaRESTservice.cs</Link>
-    </Compile>
     <Compile Include="..\BlahguaCore\Channel.cs">
       <Link>BlahguaCore\Channel.cs</Link>
     </Compile>
@@ -133,6 +130,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BlahguaCore\BlahguaRESTservice.cs" />
     <Compile Include="Controls\BadgeElement.xaml.cs">
       <DependentUpon>BadgeElement.xaml</DependentUpon>
     </Compile>

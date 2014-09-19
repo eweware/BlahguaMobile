@@ -326,11 +326,12 @@ namespace BlahguaMobile.Winphone
             BlahguaAPIObject.Current.GetUserPredictionVote((theVote) =>
                 {
                     Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                    if (curBlah.E > DateTime.Now)
+                    DateTime expDate = DateTime.Parse(curBlah.E);
+                    if (expDate > DateTime.Now)
                     {
                         // still has time
-                        PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
-                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+                        PredictDateBox.Text = "happening by " + expDate.ToShortDateString();
+                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(expDate) + ")";
                         WillHappenItems.Visibility = Visibility.Visible;
                         AlreadyHappenedItems.Visibility = Visibility.Collapsed;
                         WillHappenItems.ItemsSource = curBlah.PredictionItems;
@@ -338,8 +339,8 @@ namespace BlahguaMobile.Winphone
                     else
                     {
                         // expired
-                        PredictDateBox.Text = "should have happened on " + curBlah.E.ToShortDateString();
-                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
+                        PredictDateBox.Text = "should have happened on " + expDate.ToShortDateString();
+                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(expDate) + ")";
                         WillHappenItems.Visibility = Visibility.Visible;
                         AlreadyHappenedItems.Visibility = Visibility.Collapsed;
                         AlreadyHappenedItems.ItemsSource = curBlah.ExpPredictionItems;
