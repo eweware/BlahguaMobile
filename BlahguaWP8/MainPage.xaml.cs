@@ -27,7 +27,7 @@ namespace BlahguaMobile.Winphone
         int inboxCounter = 0;
         private readonly String rowSequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
 
-        int screenMargin = 24;
+        int screenMargin = 12;
         int blahMargin = 12;
         double smallBlahSize, mediumBlahSize, largeBlahSize;
         bool AtScrollEnd = false;
@@ -261,7 +261,7 @@ namespace BlahguaMobile.Winphone
             double curTop = screenMargin;
             smallBlahSize = (480 - ((screenMargin * 2) + (blahMargin * 2))) / 3;
             mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
-            largeBlahSize = 432; // mediumBlahSize + mediumBlahSize + blahMargin;
+            largeBlahSize = 456; // mediumBlahSize + mediumBlahSize + blahMargin;
 
             foreach (char rowType in rowSequence)
             {

@@ -81,6 +81,7 @@ namespace BlahguaMobile.BlahguaCore
         public double S { get; set; }
         public double K { get; set; }
         public string _id { get; set; }
+        public bool XXX { get; set; }
 
 		public string c { get; set; }
 		private DateTime _createDate = DateTime.MinValue;
@@ -99,6 +100,7 @@ namespace BlahguaMobile.BlahguaCore
         public User()
         {
             _theProfile = null;
+            XXX = false;
         }
 
         protected void OnPropertyChanged(string name)
@@ -183,6 +185,16 @@ namespace BlahguaMobile.BlahguaCore
                 if (BlahguaAPIObject.Current.CurrentUserDescription != null)
                     BlahguaAPIObject.Current.CurrentUserDescription.K = value;
                 OnPropertyChanged("UserName");
+            }
+        }
+
+        public bool WantsMatureContent
+        {
+            get { return XXX; }
+            set 
+            { 
+                XXX = value;
+                OnPropertyChanged("WantsMatureContent");
             }
         }
 

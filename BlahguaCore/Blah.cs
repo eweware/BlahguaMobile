@@ -26,6 +26,8 @@ namespace BlahguaMobile.BlahguaCore
 
         public bool RR { get; set; }
 
+        public bool XXX {get; set;}
+
         public InboxBlah()
         {
         }
@@ -42,6 +44,7 @@ namespace BlahguaMobile.BlahguaCore
             B = otherBlah.B;
             S = otherBlah.S;
             RR = otherBlah.RR;
+            XXX = otherBlah.XXX;
             displaySize = otherBlah.displaySize;
         }
 
@@ -59,6 +62,7 @@ namespace BlahguaMobile.BlahguaCore
             G = otherBlah.G;
             A = otherBlah.A;
             M = otherBlah.M;
+            XXX = otherBlah.XXX;
             if ((otherBlah.B != null) && (otherBlah.B.Count > 0))
                 B = "B";
             displaySize = 2;
@@ -380,11 +384,13 @@ namespace BlahguaMobile.BlahguaCore
         public string T { get; set; } // blah text
         public string Y { get; set; } // type ID
         public bool XX { get; set; } // wehter or not the blah is private
+        public bool XXX { get; set;  } // whether or not the blah is mature
        
 
         public BlahCreateRecord()
         {
             XX = true;
+            XXX = false;
             Y = BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
             G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == "Public")._id;
             ExpirationDate = DateTime.Now + new TimeSpan(30, 0, 0, 0);
@@ -401,6 +407,15 @@ namespace BlahguaMobile.BlahguaCore
             set
             {
                 XX = (!value);
+            }
+        }
+
+        public bool IsMature
+        {
+            get { return XXX; }
+            set
+            {
+                XXX = (!value);
             }
         }
 
@@ -1036,6 +1051,9 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
         public bool XX { get; set; }
 
+         [DataMember]
+        public bool XXX { get; set; }
+
         [DataMember]
         public DemographicRecord _d { get; set; }
 
@@ -1073,6 +1091,7 @@ namespace BlahguaMobile.BlahguaCore
             C = 0;
             D = 0;
             P = 0;
+            XXX = false;
             _1 = 0;
             _2 = 0;
             _3 = 0;

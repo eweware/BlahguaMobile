@@ -11,15 +11,20 @@ using System.ComponentModel;
 using Microsoft.Phone.Tasks;
 using Telerik.Windows.Controls;
 using BlahguaMobile.BlahguaCore;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace BlahguaMobile.Winphone
 {
     public partial class Signin : PhoneApplicationPage
     {
         bool createNewAccount = false;
+        private string currentPage;
 
         public Signin()
         {
+            currentPage = "sign in";
             InitializeComponent();
             DataContext = BlahguaAPIObject.Current;
         }
@@ -98,6 +103,21 @@ namespace BlahguaMobile.Winphone
         }
 
 
+        void sbWrap_Completed(object sender, EventArgs e)
+        {
+            BackgroundImage2.Visibility = Visibility.Collapsed;
+            Canvas.SetLeft(BackgroundImage2, 480);
+            Canvas.SetLeft(BackgroundImage, 0);
+        }
+
+        void sbBackWrap_Completed(object sender, EventArgs e)
+        {
+            BackgroundImage2.Visibility = Visibility.Collapsed;
+            Canvas.SetLeft(BackgroundImage2, 480);
+            Canvas.SetLeft(BackgroundImage, -320);
+        }
+
+
 
         private void HandleUserSignIn()
         {
@@ -152,6 +172,113 @@ namespace BlahguaMobile.Winphone
             MarketplaceReviewTask rev = new MarketplaceReviewTask();
             rev.Show();
             
+        }
+
+        private void HandlePivotLoaded(object sender, PivotItemEventArgs e)
+        {
+            currentPage = e.Item.Header.ToString();
+        }
+
+        private void OnPivotLoading(object sender, PivotItemEventArgs e)
+        {
+            string newItem = e.Item.Header.ToString();
+            App.analytics.PostPageView("/signup/" + newItem);
+
+
+            // backgrounds
+            if ((newItem == "sign in") && (currentPage == "help"))
+            {
+                // wrap around
+                BackgroundImage2.Visibility = Visibility.Visible;
+
+                Storyboard sb = new Storyboard();
+                DoubleAnimation db1 = new DoubleAnimation();
+                DoubleAnimation db2 = new DoubleAnimation();
+                ExponentialEase ease = new ExponentialEase();
+                ease.Exponent = 5;
+                ease.EasingMode = EasingMode.EaseIn;
+
+                db1.EasingFunction = ease;
+                db1.BeginTime = TimeSpan.FromSeconds(0);
+                db1.Duration = TimeSpan.FromSeconds(.5);
+                db1.To = -800;
+                Storyboard.SetTarget(db1, BackgroundImage);
+                Storyboard.SetTargetProperty(db1, new PropertyPath("(Canvas.Left)"));
+                sb.Children.Add(db1);
+
+                db2.EasingFunction = ease;
+                db2.BeginTime = TimeSpan.FromSeconds(0);
+                db2.Duration = TimeSpan.FromSeconds(.5);
+                db2.To = 0;
+                Storyboard.SetTarget(db2, BackgroundImage2);
+                Storyboard.SetTargetProperty(db2, new PropertyPath("(Canvas.Left)"));
+                sb.Children.Add(db2);
+
+                sb.Completed += sbWrap_Completed;
+                sb.Begin();
+            }
+            else if ((newItem == "help") && (currentPage == "sign in"))
+            {
+                // back up
+                // wrap around
+                BackgroundImage2.Visibility = Visibility.Visible;
+
+                Storyboard sb = new Storyboard();
+                DoubleAnimation db1 = new DoubleAnimation();
+                DoubleAnimation db2 = new DoubleAnimation();
+                ExponentialEase ease = new ExponentialEase();
+                ease.Exponent = 5;
+                ease.EasingMode = EasingMode.EaseIn;
+
+                db1.EasingFunction = ease;
+                db1.BeginTime = TimeSpan.FromSeconds(0);
+                db1.Duration = TimeSpan.FromSeconds(.5);
+                db1.From = -800;
+                db1.To = -320;
+                Storyboard.SetTarget(db1, BackgroundImage);
+                Storyboard.SetTargetProperty(db1, new PropertyPath("(Canvas.Left)"));
+                sb.Children.Add(db1);
+
+                db2.EasingFunction = ease;
+                db2.BeginTime = TimeSpan.FromSeconds(0);
+                db2.Duration = TimeSpan.FromSeconds(.5);
+                db2.From = 0;
+                db2.To = 480;
+                Storyboard.SetTarget(db2, BackgroundImage2);
+                Storyboard.SetTargetProperty(db2, new PropertyPath("(Canvas.Left)"));
+                sb.Children.Add(db2);
+
+                sb.Completed += sbBackWrap_Completed;
+                sb.Begin();
+
+            }
+            else
+            {
+                // do the background
+                Storyboard sb = new Storyboard();
+                DoubleAnimation db = new DoubleAnimation();
+                double targetVal = 0;
+                double maxScroll = -320;
+                double offset;
+
+                if (SignInPivot.Items.Count() > 1)
+                    offset = maxScroll / (SignInPivot.Items.Count() - 1);
+                else
+                    offset = 0;
+                ExponentialEase ease = new ExponentialEase();
+                ease.Exponent = 5;
+                ease.EasingMode = EasingMode.EaseIn;
+
+                targetVal = offset * SignInPivot.Items.IndexOf(e.Item);
+                db.EasingFunction = ease;
+                db.BeginTime = TimeSpan.FromSeconds(0);
+                db.Duration = TimeSpan.FromSeconds(.5);
+                db.To = targetVal;
+                Storyboard.SetTarget(db, BackgroundImage);
+                Storyboard.SetTargetProperty(db, new PropertyPath("(Canvas.Left)"));
+                sb.Children.Add(db);
+                sb.Begin();
+            }
         }
     }
 }

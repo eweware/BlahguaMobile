@@ -183,6 +183,30 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
+        public void ReportPost(string contentId, int reportType)
+        {
+            RestRequest request = new RestRequest("blahs/" + contentId + "/report", Method.POST);
+            string jsonString = "{\"type\": " + reportType + "}";
+
+            request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+
+            });
+        }
+
+        public void ReportComment(string contentId, int reportType)
+        {
+            RestRequest request = new RestRequest("comments/" + contentId + "/report", Method.POST);
+            string jsonString = "{\"type\": " + reportType + "}";
+
+            request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+
+            });
+        }
+
         public void CreateBadgeForUser(string authorityId, string badgeTypeId, string_callback callback)
         {
             RestRequest request = new RestRequest("badges", Method.POST);

@@ -423,7 +423,7 @@ namespace BlahguaMobile.Winphone
                 }
             }
             
-            shareLinkTask.Title = "Shared from Blahgua";
+            shareLinkTask.Title = "Shared from Heard";
             shareLinkTask.LinkUri = new Uri(blahURL, UriKind.Absolute);
             shareLinkTask.Message = msgStr; ;
 
@@ -1039,7 +1039,7 @@ namespace BlahguaMobile.Winphone
                     }
                     else
                     {
-                        MessageBox.Show("unable to load blah.  Sorry!");
+                        MessageBox.Show("unable to load post.  Sorry!");
                         App.analytics.PostSessionError("loadblahfailed");
                         NavigationService.GoBack();
                     }
