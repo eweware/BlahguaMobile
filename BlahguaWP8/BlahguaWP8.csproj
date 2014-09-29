@@ -252,6 +252,9 @@
     <Content Include="Images\activeblah.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Icons\ask_icon.png" />
+    <Content Include="Images\Icons\badge_icon.png" />
+    <Content Include="Images\Icons\activity_icon.png" />
     <Content Include="Images\Icons\icon_createpost.png" />
     <Content Include="Images\Icons\icon_speechact_ask.png" />
     <Content Include="Images\Icons\icon_speechact_ask_teal.png" />
@@ -265,6 +268,12 @@
     <Content Include="Images\Icons\icon_speechact_say_teal.png" />
     <Content Include="Images\bkgnds\texture_01.png" />
     <Content Include="Images\bkgnds\signin.jpg" />
+    <Content Include="Images\Icons\leak_icon.png" />
+    <Content Include="Images\Icons\pen_bw.png" />
+    <Content Include="Images\Icons\new_icon.png" />
+    <Content Include="Images\Icons\poll_icon.png" />
+    <Content Include="Images\Icons\predict_icon.png" />
+    <Content Include="Images\Icons\say_icon.png" />
     <Content Include="Images\postBtn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
