@@ -32,11 +32,11 @@ namespace BlahguaMobile.Winphone
             BlahImage.Loaded += BlahImage_Loaded;
             if (saysImage == null)
             {
-                saysImage = new BitmapImage(new Uri("/Images/Icons/say_icon.png"));
-                asksImage = new BitmapImage(new Uri("/Images/Icons/ask_icon.png"));
-                pollsImage = new BitmapImage(new Uri("/Images/Icons/poll_icon.png"));
-                leaksImage = new BitmapImage(new Uri("/Images/Icons/leak_icon.png"));
-                predictsImage = new BitmapImage(new Uri("/Images/Icons/predict_icon.png"));
+                saysImage = new BitmapImage(new Uri("/Images/Icons/say_icon.png", UriKind.Relative));
+                asksImage = new BitmapImage(new Uri("/Images/Icons/ask_icon.png", UriKind.Relative));
+                pollsImage = new BitmapImage(new Uri("/Images/Icons/poll_icon.png", UriKind.Relative));
+                leaksImage = new BitmapImage(new Uri("/Images/Icons/leak_icon.png", UriKind.Relative));
+                predictsImage = new BitmapImage(new Uri("/Images/Icons/predict_icon.png", UriKind.Relative));
 
             }
             
