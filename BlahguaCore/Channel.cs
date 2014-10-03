@@ -60,7 +60,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get 
             {
-                string baseURL = "https://s3-us-west-2.amazonaws.com/beta.blahgua.com/images/groups/";
+                string baseURL = "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/groups/";
                 return baseURL + ChannelName + ".png";
             }
         }

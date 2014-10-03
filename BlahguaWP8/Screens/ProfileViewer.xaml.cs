@@ -119,7 +119,20 @@ namespace BlahguaMobile.Winphone
 
             UserHeader.BadgeListArea.Visibility = Visibility.Collapsed;
 
+            BlahguaAPIObject.Current.CurrentUser.PropertyChanged += CurrentUser_PropertyChanged;
 
+
+        }
+
+        void CurrentUser_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "WantsMatureContent")
+            {
+                BlahguaAPIObject.Current.UpdateMatureFlag(BlahguaAPIObject.Current.CurrentUser.WantsMatureContent, (result) =>
+                    {
+                        // to do - check result
+                    });
+            }
         }
 
         void sortMenuItem_Click(object sender, EventArgs e)
@@ -1364,9 +1377,9 @@ namespace BlahguaMobile.Winphone
         {
             EmailComposeTask emailComposeTask = new EmailComposeTask();
 
-            emailComposeTask.Subject = "feedback on blahgua";
+            emailComposeTask.Subject = "feedback on Heard";
             emailComposeTask.Body = "";
-            emailComposeTask.To = "admin@blahgua.com";
+            emailComposeTask.To = "admin@goheard.com";
 
             emailComposeTask.Show();
         }

@@ -277,6 +277,7 @@
     <Content Include="Images\postBtn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <ITunesArtwork Include="iTunesArtwork%402x.png" />
     <Content Include="Resources\fontawesome-webfont.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

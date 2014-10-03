@@ -218,7 +218,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (M != null)
                     return BlahguaAPIObject.Current.GetImageURL(M[0], "A");
                 else
-					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
+                    return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
             }
         }
 
