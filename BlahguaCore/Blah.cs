@@ -227,9 +227,15 @@ namespace BlahguaMobile.BlahguaCore
         {
             int curIndex = 0;
 
+            
             while (this.Count < 100)
             {
                 this.Add(new InboxBlah(this[curIndex++]));
+            }
+
+            while (this.Count > 100)
+            {
+                this.RemoveAt(this.Count - 1);
             }
         }
 

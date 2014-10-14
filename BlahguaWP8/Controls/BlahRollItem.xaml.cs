@@ -100,7 +100,7 @@ namespace BlahguaMobile.Winphone
    
         void BlahImage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (BlahData.M != null)
+            if ((BlahData.M != null) && (BlahData.M.Count > 0))
             {
                 BlahImage.ImageOpened += Image_loaded;
                 string imageBase = BlahData.M[0];
