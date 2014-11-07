@@ -281,7 +281,6 @@
     <Content Include="Resources\fontawesome-webfont.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Store Assets\promo.pdn" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png" />

@@ -618,11 +618,19 @@ namespace BlahguaMobile.IOS
                         {
                             case 0:
                                 // inappropriate
-                                BlahguaAPIObject.Current.ReportPost(0);
+                                {
+                                    BlahguaAPIObject.Current.ReportPost(1);
+                                    UIAlertView alert = new UIAlertView("Heard", "Post reported.", null, "OK");
+                                    alert.Show();
+                                }
                                 break;
                             case 1:
                                 // spam
-                                BlahguaAPIObject.Current.ReportPost(1);
+                                {
+                                    BlahguaAPIObject.Current.ReportPost(2);
+                                    UIAlertView alert = new UIAlertView("Heard", "Post reported.", null, "OK");
+                                    alert.Show();
+                                }
                                 break;
                             case 2:
                                 // report rights infringement
