@@ -7,7 +7,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.ActionSheetDatePicker;
+using SharpMobileCode.ModalPicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -64,6 +64,35 @@ namespace BlahguaMobile.IOS
 					input.ShouldBeginEditing = delegate 
                             {
                                 DateTime curTime = DateTime.Now - TimeSpan.FromDays(365 * 25);
+
+                                var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Select A Date", viewController)
+                                    {
+                                        HeaderBackgroundColor = UIColor.Red,
+                                        HeaderTextColor = UIColor.White,
+                                        TransitioningDelegate = new ModalPickerTransitionDelegate(),
+                                        ModalPresentationStyle = UIModalPresentationStyle.Custom
+                                    };
+                    
+                                modalPicker.DatePicker.Date = curTime;
+                                modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+                                modalPicker.DatePicker.MaximumDate = DateTime.Now - TimeSpan.FromDays(365 * 18);
+                                modalPicker.DatePicker.MinimumDate = DateTime.Now - TimeSpan.FromDays(365 * 145);
+
+
+                                modalPicker.OnModalPickerDismissed += (s, ea) => 
+                                {
+                                    var dateFormatter = new NSDateFormatter()
+                                        {
+                                                DateFormat ="MM/dd/yyyy"
+                                        };
+                                                    
+                                        input.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
+                                        viewController.SetValue(index, input.Text);
+                                };
+
+                                viewController.PresentViewController(modalPicker, true, null);
+
+                                /*
         						viewController.BirthDatePicker = new ActionSheetDatePicker (viewController.View);
         						viewController.BirthDatePicker.Title = "Choose Date";
                                 if (!String.IsNullOrEmpty(input.Text))
@@ -90,7 +119,7 @@ namespace BlahguaMobile.IOS
         						NSDate dv = viewController.BirthDatePicker.DatePicker.Date;
         						if(input.Text.Length == 0)
         							input.Text = new NSString(dateFormatter.ToString(dv));
-
+*/
         						return false;
         					};
 

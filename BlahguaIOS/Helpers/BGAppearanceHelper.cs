@@ -70,7 +70,7 @@ namespace BlahguaMobile.IOS
 
 		private static void GetDeviceType ()
 		{
-			float height = UIScreen.MainScreen.Bounds.Height;
+            float height = UIScreen.MainScreen.Bounds.Height;
 
 			switch((int)height)
 			{
@@ -89,6 +89,16 @@ namespace BlahguaMobile.IOS
 					type = DeviceType.iPad;
 					break;
 				}
+            case 1136:
+                {
+                    type = DeviceType.iPhone6;
+                    break;
+                }
+            case 1704:
+                {
+                    type = DeviceType.iPhone6plus;
+                    break;
+                }
 			case 2048:
 				{
 					type = DeviceType.iPadRetina;

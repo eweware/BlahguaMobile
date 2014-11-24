@@ -7,6 +7,8 @@ namespace BlahguaMobile.IOS
 		Undefined,
 		iPhone4,
 		iPhone5,
+        iPhone6,
+        iPhone6plus,
 		iPad,
 		iPadRetina
 	}

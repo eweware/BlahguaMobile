@@ -9,22 +9,13 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.ActionSheetDatePicker;
 
 namespace BlahguaMobile.IOS
 {
 	public partial class BGDemographicsViewController : UITableViewController
 	{
 		public int index;
-		private ActionSheetDatePicker datePicker = null;
-		public ActionSheetDatePicker BirthDatePicker{
-			get{ 
-				return datePicker;
-			}
-			set{
-				datePicker = value;
-			}
-		}
+       
 
 		public BGDemographicsViewController (IntPtr handle) : base (handle)
 		{

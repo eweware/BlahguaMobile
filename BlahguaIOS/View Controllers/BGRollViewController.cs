@@ -213,12 +213,22 @@ namespace BlahguaMobile.IOS
 				CollectionView.CollectionViewLayout = new BGRollViewLayout (manager, this);
 				CollectionView.Delegate = new BGRollViewLayoutDelegate (manager, this);
 				InboxLoadingCompleted (theList);
-                if (firstTime)
-                {
-                    ShowToast("Check out what's being said today!");
-                }
+
 			});
 
+            if (firstTime)
+            {
+                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                    {
+                        string whatsNewString = "";
+
+                        whatsNewString = whatsNew.SummaryString;
+                        InvokeOnMainThread (() => {
+                            ShowToast(whatsNewString);
+                        });
+                    });
+
+            }
 
 
 

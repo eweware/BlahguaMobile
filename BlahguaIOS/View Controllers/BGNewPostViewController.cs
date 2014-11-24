@@ -11,8 +11,8 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.ActionSheetDatePicker;
 using MonoTouch.SlideMenu;
+using SharpMobileCode.ModalPicker;
 
 namespace BlahguaMobile.IOS
 {
@@ -36,7 +36,6 @@ namespace BlahguaMobile.IOS
 
 		private RectangleF doneFrame;
 
-		private ActionSheetDatePicker datePicker = null;
 
 		private UITextField expirationDateInput;
 		private UITextField ExpirationDateInput
@@ -68,6 +67,31 @@ namespace BlahguaMobile.IOS
 						{
 							containerScrollView.SetContentOffset(new PointF(0, 100), true);
 						}
+
+
+                        var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Select A Date", this)
+                            {
+                                HeaderBackgroundColor = UIColor.Red,
+                                HeaderTextColor = UIColor.White,
+                                TransitioningDelegate = new ModalPickerTransitionDelegate(),
+                                ModalPresentationStyle = UIModalPresentationStyle.Custom
+                            };
+                        modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+
+                        modalPicker.OnModalPickerDismissed += (s, ea) => 
+                            {
+                                var dateFormatter = new NSDateFormatter()
+                                    {
+                                        DateFormat = "MM/dd/yyyy"
+                                    };
+
+                                expirationDateInput.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
+
+                            };
+                        modalPicker.DatePicker.MinimumDate = DateTime.Today.AddDays (3);
+                        PresentViewController(modalPicker, true, null);
+
+                        /*
 						datePicker = new ActionSheetDatePicker (this.View);
 						datePicker.Title = "Choose Date";
 						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
@@ -88,7 +112,7 @@ namespace BlahguaMobile.IOS
 							};
 						}
 						datePicker.Show ();
-
+                        */
 						return false;
 					};
 
