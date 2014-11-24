@@ -188,6 +188,13 @@ namespace BlahguaMobile.Winphone
              
         }
 
+        private void IsMature_Checked(object sender, RoutedEventArgs e)
+        {
+            AuthorHeader.DataContext = null;
+            BlahguaAPIObject.Current.CreateRecord.IsMature = (bool)((CheckBox)sender).IsChecked;
+            AuthorHeader.DataContext = BlahguaAPIObject.Current.CreateRecord;
+        }
+
         private void DoAddImage(object sender, System.Windows.Input.GestureEventArgs e)
         {
             PhotoChooserTask photoChooserTask;

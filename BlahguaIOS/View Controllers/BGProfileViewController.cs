@@ -8,6 +8,7 @@ using BlahguaMobile.BlahguaCore;
 using MonoTouch.Foundation;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.UIKit;
+using MonoTouch.MessageUI;
 
 namespace BlahguaMobile.IOS
 {
@@ -26,6 +27,7 @@ namespace BlahguaMobile.IOS
 		private NSObject keyboardShowObserver;
 		private NSObject keyboardHideObserver;
 		UIImage profile_image;
+        private MFMailComposeViewController mailComposer;
 		private bool keyboardHidden;
 
 		private UIActivityIndicatorView progressIndicator;
@@ -91,6 +93,26 @@ namespace BlahguaMobile.IOS
 			nicknameTextField.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 			nicknameTextField.SetNeedsDisplay ();
 
+            showMatureBtn.Enabled = true;
+            showMatureBtn.On = BlahguaAPIObject.Current.CurrentUser.WantsMatureContent;
+
+            ReportBugButton.TouchUpInside +=(object sender, EventArgs e) => {
+                if(MFMailComposeViewController.CanSendMail)
+                {
+                    mailComposer = new MFMailComposeViewController();
+                    mailComposer.SetToRecipients(new string[] { "admin@goheard.com" });
+                    mailComposer.SetSubject("Report issue on Heard for iOS");
+                    mailComposer.Finished += (s, ev) => {
+                        ev.Controller.DismissViewController(true, null);
+                    };
+                    PresentViewController(mailComposer, true, null);
+                }
+                else
+                {
+                    var alert = new UIAlertView("Information", "There are no email accounts on this iPhone. Please add email account and try again.", null, "OK");
+                    alert.Show();
+                }
+            };
 
 			if(!IsEditMode)
 			{
@@ -114,6 +136,8 @@ namespace BlahguaMobile.IOS
 			var url = BlahguaAPIObject.Current.CurrentUser.UserImage;
 			if (url != null)
 				selectImage.Hidden = true;
+
+
 
 			if(!String.IsNullOrEmpty(url))
 			{
@@ -166,7 +190,7 @@ namespace BlahguaMobile.IOS
 		private void DoneHandler(object sender, EventArgs args)
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
-
+            BlahguaAPIObject.Current.UpdateMatureFlag(showMatureBtn.On, null);
 
 
 			NavigationController.PopToRootViewController (true);
@@ -181,6 +205,7 @@ namespace BlahguaMobile.IOS
 		{
 			InvokeOnMainThread (() => {
 				BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserName = nicknameTextField.Text;
+                BlahguaAPIObject.Current.CurrentUser.WantsMatureContent = showMatureBtn.On;
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.UpdateProfileImage ();
 			});
 			Console.WriteLine (result);

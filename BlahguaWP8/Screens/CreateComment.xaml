@@ -154,6 +154,7 @@
                         <TextBlock x:Name="NoImageText" Margin="0 0 0 16" Text="no images" HorizontalAlignment="Center" FontStyle="Italic" Foreground="#FF8F8F8F" />
                     </toolkit:WrapPanel>
                     <Button Width="200" HorizontalAlignment="Right" Tap="DoAddImage">Add Image</Button>
+                    <CheckBox IsChecked="{Binding CreateCommentRecord.IsMature, Mode=TwoWay}" Unchecked="IsMature_Checked" Checked="IsMature_Checked"  >contains mature content</CheckBox>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Orientation="Vertical">

@@ -17,6 +17,7 @@ namespace BlahguaMobile.BlahguaCore
         public bool XX { get; set; }
         public List<string> M { get; set; }
         public string CID { get; set; }
+        public bool XXX { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,6 +27,7 @@ namespace BlahguaMobile.BlahguaCore
             B = null;
             BD = null;
             M = null;
+            XXX = false;
         }
 
         protected void OnPropertyChanged(string name)
@@ -64,6 +66,16 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+        public bool IsMature
+        {
+            get { return XXX; }
+            set
+            {
+                XXX = (value);
+                OnPropertyChanged("IsMature");
+            }
+        }
+
         public string UserName
         {
             get
@@ -84,7 +96,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
+                    return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
                 }
                 else
                 {
@@ -170,6 +182,8 @@ namespace BlahguaMobile.BlahguaCore
 
         public bool XX { get; set; }
 
+        public bool XXX { get; set; }
+
         public int Upvotes { get; set; }
 
         public int Downvotes { get; set; }
@@ -213,12 +227,24 @@ namespace BlahguaMobile.BlahguaCore
             get { return ((subComments != null) && (subComments.Count > 0)); }
         }
 
+        public bool IsMature
+        {
+            get { return XXX; }
+            set
+            {
+                XXX = (value);
+                OnPropertyChanged("IsMature");
+            }
+        }
+
+
         public Comment()
         {
             Upvotes = 0;
             Downvotes = 0;
             uv = 0;
             _indentLevel = 0;
+            XXX = false;
         }
 
 		public DateTime CreationDate {
@@ -277,7 +303,7 @@ namespace BlahguaMobile.BlahguaCore
                     return BlahguaAPIObject.Current.GetImageURL(_m[0], "A");
                 }
                 else
-					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
             }
         }
 

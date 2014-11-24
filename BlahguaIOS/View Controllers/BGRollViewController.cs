@@ -40,6 +40,7 @@ namespace BlahguaMobile.IOS
 		private bool isNewPostMode;
 		private Timer toastTimer;
 		private UIAlertView toast;
+        private bool firstTime = true;
 
 
 		#endregion
@@ -213,6 +214,11 @@ namespace BlahguaMobile.IOS
 				CollectionView.Delegate = new BGRollViewLayoutDelegate (manager, this);
 				InboxLoadingCompleted (theList);
 			});
+
+            if (firstTime)
+            {
+                ShowToast("Here is what's new in the stream!");
+            }
 		}
 
 		private void InboxLoadingCompleted (Inbox inbox)

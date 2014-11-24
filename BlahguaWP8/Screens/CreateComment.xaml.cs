@@ -56,7 +56,13 @@ namespace BlahguaMobile.Winphone
             AuthorHeader.DataContext = null;
             BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = (bool)((CheckBox)sender).IsChecked;
             AuthorHeader.DataContext = BlahguaAPIObject.Current.CreateCommentRecord;
+        }
 
+        private void IsMature_Checked(object sender, RoutedEventArgs e)
+        {
+            AuthorHeader.DataContext = null;
+            BlahguaAPIObject.Current.CreateCommentRecord.IsMature = (bool)((CheckBox)sender).IsChecked;
+            AuthorHeader.DataContext = BlahguaAPIObject.Current.CreateRecord;
         }
 
         private void DoAddImage(object sender, System.Windows.Input.GestureEventArgs e)

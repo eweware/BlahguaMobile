@@ -51,7 +51,7 @@
     <MtouchArch>ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
-    <MtouchSdkVersion>7.1</MtouchSdkVersion>
+    <MtouchSdkVersion>8.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -380,7 +380,9 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
-    <InterfaceDefinition Include="Resources\Blahgua_iPhone.storyboard" />
+    <InterfaceDefinition Include="View Controllers\Blahgua_iPhone.storyboard">
+      <DependentUpon>BGBadgeAddViewController.cs</DependentUpon>
+    </InterfaceDefinition>
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>

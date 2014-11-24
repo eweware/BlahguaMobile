@@ -51,7 +51,7 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock MaxWidth="210" Grid.Column="0" VerticalAlignment="Center" Foreground="White" Text="{Binding ChannelName}" Margin="0" Padding="0" TextWrapping="Wrap" FontStretch="UltraCondensed"/>
+                <TextBlock MaxWidth="210" Grid.Column="0" VerticalAlignment="Center" Foreground="{StaticResource BrushHeardTeal}" Text="{Binding ChannelName}" Margin="0" Padding="0" TextWrapping="Wrap" FontStretch="UltraCondensed"/>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="White" Text="&#xf0d7;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
             </Grid>
         </DataTemplate>
@@ -201,30 +201,30 @@
 
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" >
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFC9CCD0" Offset="0"/>
-                <GradientStop Color="#FFE5E4EA" Offset="1"/>
-            </LinearGradientBrush>
+            <ImageBrush Stretch="UniformToFill" ImageSource="/Images/bkgnds/texture_01.png" />
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <ScrollViewer x:Name="BlahScroller" ManipulationStarted="HandleScrollStart">
+            <ScrollViewer.Background>
+                <ImageBrush Stretch="Fill"/>
+            </ScrollViewer.Background>
             <Canvas x:Name="BlahContainer">
             </Canvas>
         </ScrollViewer>
 
-        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2" Background="{StaticResource BrandBrush}">
+        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2" Background="{StaticResource BrushHeardBlack}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
 
-            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" Grid.Column="1" Margin="0 -10 0 0"
+            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" Grid.Column="0" Margin="0 -10 0 0"
                                 FontSize="29.333" ExpansionMode="FullScreenOnly" Height="98"
                                  ItemTemplate="{StaticResource ChannelItemTemplate}"  
                                 Background="Transparent"
@@ -235,6 +235,9 @@
                                 ItemsSource="{Binding CurrentChannelList}"
                                 SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" FontFamily="Segoe WP Semibold">
             </toolkit:ListPicker>
+            <Image x:Name="NewBlahBtn" Grid.Column="1" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
+               Source="Images/Icons/icon_createpost.png" Width="80" Height="80" Canvas.ZIndex="10"
+               Tap="NewBlahBtn_Tap"  />
             <Button x:Name="SignInBtn"  Grid.Column="2" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="1" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" 
                      Content="&#xf090;"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"
                                 Foreground="White" FontSize="48" Width="80" Height="80"  Click="DoSignIn"/>
@@ -246,11 +249,8 @@
 
 
         </Grid>
-        <Image x:Name="NewBlahBtn" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
-               Source="/Images/postBtn.png" Width="80" Height="120" Canvas.ZIndex="10"
-               Tap="NewBlahBtn_Tap"
-               />
-        <TextBlock IsHitTestVisible="False" Text="b" Foreground="{StaticResource BrushBlahguaWhite}" FontSize="72" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 -12 0 0" Canvas.ZIndex="12" />
+
+
 
 
 
@@ -264,7 +264,7 @@
             <Rectangle Fill="#80000000"  />
             <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8" Background="#80000000" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock x:Name="ErrorMessageBox" Text="Sorry, we were unable to connect to the blahgua servers." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ErrorMessageBox" Text="Sorry, we were unable to connect to the Heard servers." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
                     <TextBlock Margin="0 24" Text="Please exit the application and try again later." Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
@@ -275,9 +275,9 @@
                 <TranslateTransform x:Name="WelcomeTransform" Y="350" />
             </Grid.RenderTransform>
 
-            <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8"  Background="{StaticResource BrandBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8"  Background="{StaticResource BrushHeardRed}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock x:Name="WelcomeTextBox" FontSize="24" Text="Welcome to blahgua beta!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="WelcomeTextBox" FontSize="24" Text="Welcome to Heard!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
                     <TextBlock x:Name="NewMessageBox" FontSize="18" Text="Here is a personal message for you!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
                     <Border x:Name="UserStatsBox" Margin="0 16 0 0">
                         <StackPanel Orientation="Vertical">
