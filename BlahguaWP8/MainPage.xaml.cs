@@ -545,7 +545,7 @@ namespace BlahguaMobile.Winphone
                 this.DataContext = BlahguaAPIObject.Current;
                 BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
-                        if ((whatsNew != null) && (whatsNew.message != ""))
+                        if ((whatsNew != null))
                         {
                             ShowNewsFloater(whatsNew);
                         }

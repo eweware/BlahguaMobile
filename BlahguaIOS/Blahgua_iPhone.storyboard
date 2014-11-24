@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a9o-ej-vLC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a9o-ej-vLC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -149,7 +149,7 @@
                             <constraint firstAttribute="trailing" secondItem="pFo-3I-Cuh" secondAttribute="trailing" id="CZk-2N-bdj"/>
                             <constraint firstItem="T9V-Bs-zlv" firstAttribute="top" secondItem="2" secondAttribute="top" id="FJM-cm-1p5"/>
                             <constraint firstItem="pFo-3I-Cuh" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="VhX-rM-aCQ"/>
-                            <constraint firstItem="pFo-3I-Cuh" firstAttribute="top" secondItem="T9V-Bs-zlv" secondAttribute="bottom" constant="72" id="Zae-Se-mEt"/>
+                            <constraint firstItem="pFo-3I-Cuh" firstAttribute="top" secondItem="T9V-Bs-zlv" secondAttribute="bottom" id="Zae-Se-mEt"/>
                             <constraint firstItem="T9V-Bs-zlv" firstAttribute="leading" secondItem="pFo-3I-Cuh" secondAttribute="leading" id="pfN-jP-8Nh"/>
                             <constraint firstItem="4" firstAttribute="top" secondItem="pFo-3I-Cuh" secondAttribute="bottom" id="x4F-56-uJC"/>
                         </constraints>
@@ -1341,7 +1341,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PiF-Kq-0o4">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PiF-Kq-0o4">
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="65">
@@ -1364,8 +1364,8 @@
                                                     <constraint firstAttribute="height" constant="128" id="Z5u-zM-2VA"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TYPE NICKNAME" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                                                <rect key="frame" x="10" y="186" width="300" height="30"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TYPE NICKNAME" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67">
+                                                <rect key="frame" x="11" y="186" width="300" height="30"/>
                                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="MAC-eh-H5D"/>
@@ -1391,32 +1391,37 @@
                                             <constraint firstItem="67" firstAttribute="leading" secondItem="65" secondAttribute="leading" constant="11" id="sTd-uw-hz7"/>
                                         </constraints>
                                     </view>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOk-ne-a0n">
-                                        <rect key="frame" x="250" y="229" width="51" height="31"/>
-                                    </switch>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="show mature content" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRC-cE-7Ip">
-                                        <rect key="frame" x="20" y="234" width="173" height="21"/>
+                                        <rect key="frame" x="20" y="234" width="162" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="5DA-Au-1zp"/>
-                                            <constraint firstAttribute="width" constant="173" id="X5M-z7-1an"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elk-Tg-ziF">
-                                        <rect key="frame" x="69" y="283" width="183" height="45"/>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="right" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GOk-ne-a0n">
+                                        <rect key="frame" x="250" y="229" width="51" height="31"/>
+                                    </switch>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elk-Tg-ziF">
+                                        <rect key="frame" x="60" y="283" width="183" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="NGU-HD-TOD"/>
+                                            <constraint firstAttribute="width" constant="183" id="jgu-e6-RMh"/>
+                                        </constraints>
                                         <state key="normal" title="Report a bug" backgroundImage="short_button_normal.png"/>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="GOk-ne-a0n" firstAttribute="top" secondItem="65" secondAttribute="bottom" constant="13" id="3Up-xS-6yG"/>
+                                    <constraint firstAttribute="trailing" secondItem="GOk-ne-a0n" secondAttribute="trailing" constant="21" id="6f5-h0-NVp"/>
                                     <constraint firstItem="GOk-ne-a0n" firstAttribute="leading" secondItem="PiF-Kq-0o4" secondAttribute="leading" constant="250" id="HBm-r2-JQL"/>
                                     <constraint firstItem="xRC-cE-7Ip" firstAttribute="top" secondItem="65" secondAttribute="bottom" constant="18" id="IpN-U7-xze"/>
+                                    <constraint firstItem="elk-Tg-ziF" firstAttribute="leading" secondItem="PiF-Kq-0o4" secondAttribute="leading" constant="60" id="WKg-sV-Uf0"/>
                                     <constraint firstItem="65" firstAttribute="leading" secondItem="PiF-Kq-0o4" secondAttribute="leading" constant="5" id="agf-hv-ng0"/>
                                     <constraint firstAttribute="bottom" secondItem="65" secondAttribute="bottom" constant="20" symbolic="YES" id="cWz-20-VYT"/>
                                     <constraint firstItem="65" firstAttribute="top" secondItem="PiF-Kq-0o4" secondAttribute="top" id="mW6-Ud-g5y"/>
+                                    <constraint firstItem="elk-Tg-ziF" firstAttribute="top" secondItem="xRC-cE-7Ip" secondAttribute="bottom" constant="28" id="mzT-6t-l5n"/>
                                     <constraint firstItem="xRC-cE-7Ip" firstAttribute="leading" secondItem="PiF-Kq-0o4" secondAttribute="leading" constant="20" id="swP-RM-X1D"/>
-                                    <constraint firstItem="xRC-cE-7Ip" firstAttribute="centerX" secondItem="GOk-ne-a0n" secondAttribute="centerX" id="vEp-id-bUD"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -1432,6 +1437,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="50"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="ReportBugButton" destination="elk-Tg-ziF" id="8ij-4W-qp0"/>
                         <outlet property="nicknameTextField" destination="67" id="name-outlet-67"/>
                         <outlet property="profileImageView" destination="zsf-MC-ufR" id="lmO-eg-RNB"/>
                         <outlet property="profileView" destination="65" id="name-outlet-65"/>
