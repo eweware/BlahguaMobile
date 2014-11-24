@@ -282,17 +282,9 @@
                     <Border x:Name="UserStatsBox" Margin="0 16 0 0">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Since your last sign-in:" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
-                            <StackPanel Orientation="Horizontal" x:Name="NewCommentsArea">
-                                <TextBlock x:Name="NewCommentCount" Text="35"  FontSize="18" />
-                                <TextBlock  FontSize="18" Text=" new comments on your posts" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" x:Name="PostOpensArea">
-                                <TextBlock FontSize="18" Text="Your posts were opened " />
-                                <TextBlock FontSize="18" x:Name="PostOpenCount" Text="35" />
-                                <TextBlock FontSize="18" Text=" times" />
-                            </StackPanel>
-
-                            <TextBlock x:Name="PostUpVotesString" FontSize="18" TextWrapping="Wrap" Text="Your content received 10 promotes and 5 demotes" />
+                            <TextBlock FontSize="18" x:Name="PostViewOpenCount" Text="Your posts were viewed 45 times and opened 23 times" TextWrapping="Wrap" />
+                            <TextBlock x:Name="NewCommentCount" Text="Your posts received 12 new comments"  FontSize="18" TextWrapping="Wrap" />
+                            <TextBlock x:Name="PostVotesString" FontSize="18" TextWrapping="Wrap" Text="Your posts received 10 promotes and 5 demotes" />
 
                             <StackPanel Orientation="Horizontal" x:Name="MessagesArea">
                                 <TextBlock FontSize="18" Text="You have " />
