@@ -705,20 +705,6 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
-
-        public void UpdateMatureFlag(bool wantsMature, string_callback callback)
-        {
-            RestRequest request = new RestRequest("users/update/mature", Method.PUT);
-            request.RequestFormat = DataFormat.Json;
-            request.AddBody(new { XXX = wantsMature });
-
-            apiClient.ExecuteAsync(request, (response) =>
-            {
-                callback(response.Content);
-            });
-        }
-
-
         public void RecoverUser(string userName, string email, string_callback callback)
         {
             RestRequest request = new RestRequest("users/recover/user", Method.POST);

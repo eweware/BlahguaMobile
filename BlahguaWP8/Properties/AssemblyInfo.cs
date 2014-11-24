@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Heard")]
+[assembly: AssemblyTitle("blahgua beta")]
 [assembly: AssemblyDescription("it's not who you are, it's what you say!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("eweware")]
-[assembly: AssemblyProduct("Heard")]
+[assembly: AssemblyProduct("blahgua")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

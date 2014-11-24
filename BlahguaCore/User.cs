@@ -16,45 +16,23 @@ namespace BlahguaMobile.BlahguaCore
         public int newUpVotes { get; set; }
         public int newDownVotes { get; set; }
         public int newMessages { get; set; }
-        public int newViews { get; set; }
-        public int newPosts { get; set; }
-        public int newCommentUpVotes { get; set; }
-        public int newCommentDownVotes { get; set; }
 
         public string SummaryString
         {
             get
             {
                 string theStr = "";
-
-                if ((newViews  > 0) || (newOpens > 0))
+                if (newComments > 0)
                 {
-                    bool didIt = false;
-
-                    if (newViews > 0)
-                    {
-                        theStr += "Your posts have been viewed " + newViews.ToString() + " time";
-                        if (newViews > 1)
-                            theStr += "s";
-                        didIt = true;
-                    }
-
-                    if (newOpens > 0)
-                    {
-                        if (didIt)
-                            theStr += "Your posts have been opened ";
-                        else
-                            theStr += " and opened ";
-                        theStr += newOpens.ToString() + " time";
-                        if (newOpens > 1)
-                            theStr += "s";
-                    }
+                    theStr += "Your posts have " + newComments.ToString() + " new comment";
+                    if (newComments > 1)
+                        theStr += "s";
                     theStr += ".  ";
                 }
 
-                if (newComments > 0)
+                if (newOpens > 0)
                 {
-                    theStr += "Your posts have received " + newComments.ToString() + " new comment";
+                    theStr += "Your posts have been opened " + newOpens.ToString() + " time";
                     if (newComments > 1)
                         theStr += "s";
                     theStr += ".  ";
@@ -86,33 +64,7 @@ namespace BlahguaMobile.BlahguaCore
                     theStr += ".  ";
                 }
 
-
-                if ((newCommentUpVotes > 0) || (newCommentDownVotes > 0))
-                {
-                    bool didIt = false;
-                    theStr += "Your comments have been ";
-                    if (newUpVotes > 0)
-                    {
-                        theStr += "promoted ";
-                        theStr += newUpVotes.ToString() + " time";
-                        if (newUpVotes > 1)
-                            theStr += "s";
-                        didIt = true;
-                    }
-
-                    if (newDownVotes > 0)
-                    {
-                        if (didIt)
-                            theStr += " and ";
-                        theStr += "demoted ";
-                        theStr += newDownVotes.ToString() + " time";
-                        if (newUpVotes > 1)
-                            theStr += "s";
-                    }
-
-                    theStr += ".  ";
-                }
-            
+                    
 
                 return theStr;
                 
@@ -266,7 +218,7 @@ namespace BlahguaMobile.BlahguaCore
                 if (M != null)
                     return BlahguaAPIObject.Current.GetImageURL(M[0], "A");
                 else
-                    return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 

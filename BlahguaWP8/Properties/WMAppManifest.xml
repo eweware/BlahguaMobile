@@ -19,9 +19,9 @@
     <Tokens>
       <PrimaryToken TokenID="BlahguaWP8Token" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">iTunesArtwork@2x.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">ApplicationIcon.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">iTunesArtwork@2x.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">ApplicationIcon.png</BackgroundImageURI>
           <Title>Heard</Title>
           <BackContent>
           </BackContent>

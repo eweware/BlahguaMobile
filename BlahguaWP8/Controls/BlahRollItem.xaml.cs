@@ -18,8 +18,6 @@ namespace BlahguaMobile.Winphone
         private static float smallText = 16;
         private static float medText = 36;
         private static float largeText = 52;
-        private static BitmapImage saysImage = null, asksImage, pollsImage, predictsImage, leaksImage;
-
         public InboxBlah BlahData {get; set;}
 
         public bool IsAnimating { get; set; }
@@ -30,52 +28,22 @@ namespace BlahguaMobile.Winphone
             IsAnimating = false;
             BlahData = null;
             BlahImage.Loaded += BlahImage_Loaded;
-            if (saysImage == null)
-            {
-                saysImage = new BitmapImage(new Uri("/Images/Icons/say_icon.png", UriKind.Relative));
-                asksImage = new BitmapImage(new Uri("/Images/Icons/ask_icon.png", UriKind.Relative));
-                pollsImage = new BitmapImage(new Uri("/Images/Icons/poll_icon.png", UriKind.Relative));
-                leaksImage = new BitmapImage(new Uri("/Images/Icons/leak_icon.png", UriKind.Relative));
-                predictsImage = new BitmapImage(new Uri("/Images/Icons/predict_icon.png", UriKind.Relative));
-
-            }
             
         }
 
         public void Initialize(InboxBlah theBlah)
         {
             BlahData = theBlah;
-            BitmapImage postTypeImage = null;
-            
-            switch (theBlah.TypeName)
-            {
-                case "says":
-                    postTypeImage =saysImage;
-                    break;
-                case "leaks":
-                     postTypeImage =leaksImage;
-                    break;
-                case "polls":
-                     postTypeImage = pollsImage;
-                    break;
-                case "predicts":
-                     postTypeImage = predictsImage;
-                    break;
-                case "asks":
-                     postTypeImage = asksImage;
-                    break;
-
-            }
-
-            BlahTypeIcon.Source = postTypeImage;
-
+            //BlahBackground.Fill = GetBlahFrameBrush(BlahData);
+            TopBorder.Fill = GetBlahFrameBrush(BlahData);
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 
             if ((curUser != null) && (curUser._id == theBlah.A))
-                OwnBlahIcon.Visibility = Visibility.Visible;
+            {
+                OwnedBlahIndicator.Stroke = TopBorder.Fill;
+            }
             else
-                OwnBlahIcon.Visibility = Visibility.Collapsed;
-
+                ((Grid)OwnedBlahIndicator.Parent).Children.Remove(OwnedBlahIndicator);
             //BlahBackground.Opacity = .4;
             if (theBlah.B == null)
                 BadgeIcon.Visibility = Visibility.Collapsed;
@@ -100,7 +68,7 @@ namespace BlahguaMobile.Winphone
    
         void BlahImage_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((BlahData.M != null) && (BlahData.M.Count > 0))
+            if (BlahData.M != null)
             {
                 BlahImage.ImageOpened += Image_loaded;
                 string imageBase = BlahData.M[0];
@@ -128,7 +96,60 @@ namespace BlahguaMobile.Winphone
             }
         }
 
-        
+        private Brush GetBlahBrush(InboxBlah theBlah)
+        {
+            Brush newBrush;
+
+
+            switch (BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(theBlah.Y))
+            {
+                case "leaks":
+                    newBrush = (Brush)App.Current.Resources["BaseBrushLeaks"];
+                    break;
+                case "polls":
+                    newBrush =  (Brush)App.Current.Resources["BaseBrushPolls"];
+                    break;
+                case "asks":
+                    newBrush =  (Brush)App.Current.Resources["BaseBrushAsks"];
+                    break;
+                case "predicts":
+                    newBrush =  (Brush)App.Current.Resources["BaseBrushPredicts"];
+                    break;
+                default:
+                    newBrush =  (Brush)App.Current.Resources["BaseBrushSays"];
+                    break;
+            }
+
+            return newBrush;
+        }
+
+        private Brush GetBlahFrameBrush(InboxBlah theBlah)
+        {
+            Brush newBrush;
+
+
+            switch (BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(theBlah.Y))
+            {
+                case "leaks":
+                    newBrush =  (Brush)App.Current.Resources["HighlightBrushLeaks"];
+                    break;
+                case "polls":
+                    newBrush =  (Brush)App.Current.Resources["HighlightBrushPolls"];
+                    break;
+                case "asks":
+                    newBrush =  (Brush)App.Current.Resources["HighlightBrushAsks"];
+                    break;
+                case "predicts":
+                    newBrush =  (Brush)App.Current.Resources["HighlightBrushPredicts"];
+                    break;
+                default:
+                    newBrush =  (Brush)App.Current.Resources["HighlightBrushSays"];
+                    break;
+            }
+
+
+            return newBrush;
+        }
 
 
         public void ScaleTextToFit()

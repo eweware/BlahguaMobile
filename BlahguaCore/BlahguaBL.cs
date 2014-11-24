@@ -96,6 +96,17 @@ namespace BlahguaMobile.BlahguaCore
 
 
 
+        public bool FilterFlaggedContent
+        {
+            get { return _filterFlaggedContent; }
+            set
+            {
+                _filterFlaggedContent = value;
+                OnPropertyChanged("FilterFlaggedContent");
+            }
+        }
+
+
 
 
 
@@ -219,6 +230,7 @@ namespace BlahguaMobile.BlahguaCore
 			System.Console.WriteLine ("Loading Settings");
             AutoLogin = (bool)SafeLoadSetting("AutoLogin", true);
             FilterProfanity = (bool)SafeLoadSetting("FilterProfanity", true);
+            FilterFlaggedContent = (bool)SafeLoadSetting("FilterFlaggedContent", true);
         }
 
         void SaveSettings()
@@ -226,6 +238,7 @@ namespace BlahguaMobile.BlahguaCore
 			System.Console.WriteLine ("Saving Settings");
             SafeSaveSetting("AutoLogin", AutoLogin);
             SafeSaveSetting("FilterProfanity", FilterProfanity);
+            SafeSaveSetting("FilterFlaggedContent", FilterFlaggedContent);
         }
 
         public object SafeLoadSetting(string setting, object defVal)
@@ -941,14 +954,9 @@ namespace BlahguaMobile.BlahguaCore
 
                         foreach (Comment theComment in sortedList)
                         {
-                            if ((theComment.XXX == false) || 
-                                ((CurrentUser != null) && (CurrentUser.WantsMatureContent == true)))
-                            {
-                                theComment.T = UnprocessText(theComment.T);
-                                comments.Add(theComment);
-                            }
+                            theComment.T = UnprocessText(theComment.T);
+                            comments.Add(theComment);
                         }
-
                         List<string> authorIds = GetCommentAuthorIds(comments);
                         BlahguaRest.GetCommentAuthorDescriptions(authorIds, (descList) =>
                             {
@@ -1439,15 +1447,6 @@ namespace BlahguaMobile.BlahguaCore
         public void UpdatePassword(string newPassword, string_callback callback)
         {
             BlahguaRest.UpdatePassword(newPassword, (resultStr) =>
-            {
-                callback(resultStr);
-            }
-           );
-        }
-
-        public void UpdateMatureFlag(bool matureFlag, string_callback callback)
-        {
-            BlahguaRest.UpdateMatureFlag(matureFlag, (resultStr) =>
             {
                 callback(resultStr);
             }

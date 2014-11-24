@@ -227,15 +227,9 @@ namespace BlahguaMobile.BlahguaCore
         {
             int curIndex = 0;
 
-            
             while (this.Count < 100)
             {
                 this.Add(new InboxBlah(this[curIndex++]));
-            }
-
-            while (this.Count > 100)
-            {
-                this.RemoveAt(this.Count - 1);
             }
         }
 
@@ -421,8 +415,7 @@ namespace BlahguaMobile.BlahguaCore
             get { return XXX; }
             set
             {
-                XXX = value;
-                
+                XXX = (!value);
             }
         }
 
@@ -445,7 +438,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if (XX)
                 {
-					return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";    
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";    
                 }
                 else
                 {
@@ -1379,7 +1372,7 @@ namespace BlahguaMobile.BlahguaCore
                 if ((!XX) && (Description != null) && (Description.m != null))
                     return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
                 else
-                    return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
+					return "https://s3-us-west-2.amazonaws.com/beta2.blahgua.com/images/unknown-user.png";
             }
         }
 

@@ -75,7 +75,7 @@ namespace BlahguaMobile.BlahguaCore
                 request.AddParameter("el", eventLabel);
             if (eventValue != 0)
                 request.AddParameter("ev", eventValue);
-            request.AddParameter("dl", "https://app.goheard.com/");
+            request.AddParameter("dl", "https://beta.blahgua.com/");
             request.AddParameter("_s", counter++);
 
             restClient.ExecuteAsync(request, (response) =>
@@ -98,7 +98,7 @@ namespace BlahguaMobile.BlahguaCore
             request.AddParameter("cid", clientId);
             request.AddParameter("sc", "start");
             request.AddParameter("t", "pageview");
-            request.AddParameter("dl", "https://app.goheard.com/");
+            request.AddParameter("dl", "https://beta.blahgua.com/");
             request.AddParameter("_s", counter++);
 
             restClient.ExecuteAsync(request, (response) =>
@@ -120,7 +120,7 @@ namespace BlahguaMobile.BlahguaCore
              request.AddParameter("cid", clientId);
              request.AddParameter("sc", "end");
              request.AddParameter("t", "pageview");
-             request.AddParameter("dl", "https://app.goheard.com/");
+             request.AddParameter("dl", "https://beta.blahgua.com/");
              request.AddParameter("_s", counter++);
 
              restClient.ExecuteAsync(request, (response) =>

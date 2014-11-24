@@ -5,7 +5,6 @@ using System.CodeDom.Compiler;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.MessageUI;
-using MonoTouch.Dialog;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -113,19 +112,6 @@ namespace BlahguaMobile.IOS
 				CenterViewInScroll(activeView, authScroller, keyboardHeight);
 		}
 
-        public class RecoverDetails
-        {
-            [Section("Recovery Details")]
-
-            [Entry("Enter username")]
-            public string Name;
-
-            [Entry("Enter email address")]
-            public string Email;
-
-           
-        }
-
 		protected void CenterViewInScroll(UIView viewToCenter, UIScrollView scrollView, float keyboardHeight)
 		{
 			var contentInsets = new UIEdgeInsets(0.0f, 0.0f, keyboardHeight, 0.0f);
@@ -177,7 +163,6 @@ namespace BlahguaMobile.IOS
 			}
 
 			authScroller.ContentSize = new SizeF (320, 640);
-
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
 			NavigationItem.RightBarButtonItem.Enabled = false;
@@ -257,22 +242,6 @@ namespace BlahguaMobile.IOS
 				return true;
 			};
 
-            recoverAccountBtn.TouchUpInside += (object sender, EventArgs e) => 
-                {
-                    string username = "";
-                    string email = "";
-
-                    var details = new RecoverDetails ();
-                    var bctx = new BindingContext (null, details, "Recover your account");
-                    var dvc = new DialogViewController (bctx.Root);
-
-
-                    BlahguaAPIObject.Current.RecoverUser(username, email, (resultStr) => 
-                        {
-
-                        });
-                };
-
 			recoveryEmail.ReturnKeyType = UIReturnKeyType.Done;
 
 
@@ -297,7 +266,7 @@ namespace BlahguaMobile.IOS
 				}
 				else
 				{
-					var alert = new UIAlertView("Information", "There are no email accounts on this iPhone. Please add email account and try again.", null, "OK");
+					var alert = new UIAlertView("Inforamtion", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
 					alert.Show();
 				}
 			};
@@ -315,7 +284,7 @@ namespace BlahguaMobile.IOS
 				}
 				else
 				{
-                    var alert = new UIAlertView("Information", "There are no email accounts on this iPhone. Please add email account and try again.", null, "OK");
+					var alert = new UIAlertView("Inforamtion", "There are not email accounts on this iPhone. Please add email account and try again.", null, "OK");
 					alert.Show();
 				}
 			};

@@ -692,9 +692,6 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
-
-
-
         public void UpdateMatureFlag(bool wantsMature, string_callback callback)
         {
             RestRequest request = new RestRequest("users/update/mature", Method.PUT);
