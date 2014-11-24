@@ -573,8 +573,8 @@ namespace BlahguaMobile.IOS
         private void SetUpPostButtons()
         {
             sharePostButton = new UIButton(UIButtonType.Custom);
-            sharePostButton.Frame = new RectangleF(0, 0, 20, 16);
-            sharePostButton.SetImage(UIImage.FromBundle("summary_dark"), UIControlState.Normal);
+            sharePostButton.Frame = new RectangleF(0, 0, 14, 20);
+            sharePostButton.SetImage(UIImage.FromBundle("share_button"), UIControlState.Normal);
             sharePostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
                     // to do:  show the share UI
@@ -602,8 +602,8 @@ namespace BlahguaMobile.IOS
             sharePostBtn.CustomView = sharePostButton;
 
             reportPostButton = new UIButton(UIButtonType.Custom);
-            reportPostButton.Frame = new RectangleF(0, 0, 22, 19);
-            reportPostButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
+            reportPostButton.Frame = new RectangleF(0, 0, 22, 20);
+            reportPostButton.SetImage(UIImage.FromBundle("report_button_active"), UIControlState.Normal);
             reportPostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
                     UIActionSheet actionSheet = new UIActionSheet("Report Post to eweware");

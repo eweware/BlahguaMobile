@@ -375,6 +375,8 @@
     <BundleResource Include="Resources\conversion.png" />
     <BundleResource Include="Resources\comments_filled_64x64.png" />
     <BundleResource Include="Resources\conversion%402x.png" />
+    <BundleResource Include="Resources\report_button_active%402x.png" />
+    <BundleResource Include="Resources\share_button%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
