@@ -128,9 +128,9 @@ namespace BlahguaMobile.Winphone
         {
             EmailComposeTask emailComposeTask = new EmailComposeTask();
 
-            emailComposeTask.Subject = "feedback on blahgua";
+            emailComposeTask.Subject = "feedback on Heard";
             emailComposeTask.Body = "";
-            emailComposeTask.To = "admin@blahgua.com";
+            emailComposeTask.To = "admin@goheard.com";
 
             emailComposeTask.Show();    
         }
