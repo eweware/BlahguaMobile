@@ -22,6 +22,9 @@ namespace BlahguaMobile.IOS
 		MonoTouch.UIKit.UIView profileView { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIButton ReportBugButton { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton selectImage { get; set; }
 
 		[Outlet]
@@ -29,6 +32,11 @@ namespace BlahguaMobile.IOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ReportBugButton != null) {
+				ReportBugButton.Dispose ();
+				ReportBugButton = null;
+			}
+
 			if (nicknameTextField != null) {
 				nicknameTextField.Dispose ();
 				nicknameTextField = null;
