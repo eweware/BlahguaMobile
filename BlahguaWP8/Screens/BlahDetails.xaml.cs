@@ -30,8 +30,6 @@ namespace BlahguaMobile.Winphone
         ApplicationBarIconButton shareBtn;
         ApplicationBarIconButton commentBtn;
         ApplicationBarMenuItem reportItem;
-        ApplicationBarMenuItem spamItem;
-        ApplicationBarMenuItem infringeItem;
 
         SortMenu sortByDateAsc;
         SortMenu sortByDateDesc;
@@ -85,12 +83,6 @@ namespace BlahguaMobile.Winphone
 
             reportItem = new ApplicationBarMenuItem("flag post as inappropriate");
             reportItem.Click += HandleReportItem;
-
-            spamItem = new ApplicationBarMenuItem("flag post as spam");
-            spamItem.Click += HandleSpamItem;
-
-            infringeItem = new ApplicationBarMenuItem("report rights infringement");
-            infringeItem.Click += HandleInfringeItem;
 
             sortByDateAsc = new SortMenu("oldest first", "byDateAsc");
             sortByDateAsc.Click += sortMenuItem_Click;
@@ -334,12 +326,11 @@ namespace BlahguaMobile.Winphone
             BlahguaAPIObject.Current.GetUserPredictionVote((theVote) =>
                 {
                     Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                    DateTime expDate = DateTime.Parse(curBlah.E);
-                    if (expDate > DateTime.Now)
+                    if (curBlah.E > DateTime.Now)
                     {
                         // still has time
-                        PredictDateBox.Text = "happening by " + expDate.ToShortDateString();
-                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(expDate) + ")";
+                        PredictDateBox.Text = "happening by " + curBlah.E.ToShortDateString();
+                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
                         WillHappenItems.Visibility = Visibility.Visible;
                         AlreadyHappenedItems.Visibility = Visibility.Collapsed;
                         WillHappenItems.ItemsSource = curBlah.PredictionItems;
@@ -347,8 +338,8 @@ namespace BlahguaMobile.Winphone
                     else
                     {
                         // expired
-                        PredictDateBox.Text = "should have happened on " + expDate.ToShortDateString();
-                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(expDate) + ")";
+                        PredictDateBox.Text = "should have happened on " + curBlah.E.ToShortDateString();
+                        PredictElapsedTimeBox.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
                         WillHappenItems.Visibility = Visibility.Visible;
                         AlreadyHappenedItems.Visibility = Visibility.Collapsed;
                         AlreadyHappenedItems.ItemsSource = curBlah.ExpPredictionItems;
@@ -431,7 +422,7 @@ namespace BlahguaMobile.Winphone
                 }
             }
             
-            shareLinkTask.Title = "Shared from Heard";
+            shareLinkTask.Title = "Shared from Blahgua";
             shareLinkTask.LinkUri = new Uri(blahURL, UriKind.Absolute);
             shareLinkTask.Message = msgStr; ;
 
@@ -466,64 +457,8 @@ namespace BlahguaMobile.Winphone
 
         private void HandleReportItem(object target, EventArgs theArgs)
         {
-            if (currentPage == "summary")
-            {
-                BlahguaAPIObject.Current.ReportPost(1);
-            }
-            else
-            {
-                Comment curComment = (Comment)AllCommentList.SelectedItem;
 
-                if (curComment != null)
-                {
-                    BlahguaAPIObject.Current.ReportComment(curComment._id, 1);
-                }
-            }
-           
-            MessageBox.Show("Report sent.");
         }
-
-        private void HandleInfringeItem(object target, EventArgs theArgs)
-        {
-
-            EmailComposeTask emailComposeTask = new EmailComposeTask();
-
-            emailComposeTask.Subject = "report reights infringement";
-            if (currentPage == "summary")
-                emailComposeTask.Body = "Hello, I am the owner of copyrighted material that is used without my permission in post id#" + BlahguaAPIObject.Current.CurrentBlah._id;
-            else
-            {
-                Comment curComment = (Comment)AllCommentList.SelectedItem;
-                if (curComment != null)
-                    emailComposeTask.Body = "Hello, I am the owner of copyrighted material that is used without my permission in comment id#" + curComment._id;
-            }
-                
-
-            emailComposeTask.To = "admin@goheard.com";
-
-            emailComposeTask.Show();
-        }
-
-        private void HandleSpamItem(object target, EventArgs theArgs)
-        {
-            if (currentPage == "summary")
-            {
-                BlahguaAPIObject.Current.ReportPost(2);
-            }
-            else
-            {
-                Comment curComment = (Comment)AllCommentList.SelectedItem;
-
-                if (curComment != null)
-                {
-                    BlahguaAPIObject.Current.ReportComment(curComment._id, 2);
-                }
-            }
-
-            MessageBox.Show("Report sent.");
-        }
-
-        
 
         private void HandleDeleteItem(object target, EventArgs theArgs)
         {
@@ -938,11 +873,8 @@ namespace BlahguaMobile.Winphone
                         ApplicationBar.Buttons.Add(demoteBtn);
                         ApplicationBar.Buttons.Add(commentBtn);
                         ApplicationBar.Buttons.Add(shareBtn);
-                        reportItem.Text = "flag post as inappropriate";
-                        spamItem.Text = "flag post as spam";
+
                         ApplicationBar.MenuItems.Add(reportItem);
-                        ApplicationBar.MenuItems.Add(spamItem);
-                        ApplicationBar.MenuItems.Add(infringeItem);
                         ApplicationBar.IsVisible = true;
                         UpdateSummaryButtons();
                         break;
@@ -956,11 +888,7 @@ namespace BlahguaMobile.Winphone
                         ApplicationBar.MenuItems.Add(sortByStrength);
                         ApplicationBar.MenuItems.Add(sortByUpVote);
                         ApplicationBar.MenuItems.Add(sortByDownVote);
-                        reportItem.Text = "flag comment as inappropriate";
-                        spamItem.Text = "flag comment as spam";
                         ApplicationBar.MenuItems.Add(reportItem);
-                        ApplicationBar.MenuItems.Add(spamItem);
-                        ApplicationBar.MenuItems.Add(infringeItem);
                         ApplicationBar.IsVisible = true;
                         UpdateCommentButtons();
                         break;
@@ -1110,7 +1038,7 @@ namespace BlahguaMobile.Winphone
                     }
                     else
                     {
-                        MessageBox.Show("unable to load post.  Sorry!");
+                        MessageBox.Show("unable to load blah.  Sorry!");
                         App.analytics.PostSessionError("loadblahfailed");
                         NavigationService.GoBack();
                     }

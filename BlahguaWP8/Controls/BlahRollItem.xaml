@@ -12,32 +12,30 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="24" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Border Padding="0,0,0,0"  BorderThickness="0" BorderBrush="Red" Background="{StaticResource BrushBlahguaWhite}">
+            <Grid>
 
                 <Image x:Name="BlahImage" Stretch="UniformToFill"/>
                 <Rectangle x:Name="BlahBackground"  Fill="{StaticResource BrushBlahguaWhite}"/>
+                <Rectangle x:Name="TopBorder" Fill="Red"  Height="6" HorizontalAlignment="Stretch"  VerticalAlignment="Top" />
+                <Line x:Name="OwnedBlahIndicator" X1="0" X2="100" Y1="1" Y2="1" Stroke="Green" Stretch="Fill" StrokeDashArray="1 1 1 1" StrokeThickness="12" VerticalAlignment="Bottom" />
                 <TextBlock  x:Name="TextArea" Margin="0 6 0 0" Padding="4 0 4 8" TextWrapping="Wrap" TextTrimming="WordEllipsis" VerticalAlignment="Top" FontFamily="Segoe WP SemiLight" Foreground="{StaticResource BrushBlahguaBlack}" Text="This is a  So that sucks!! " RenderTransformOrigin="0.5,0.5">
 
                 </TextBlock>
 
             </Grid>
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Image x:Name="BadgeIcon" Source="/Images/Icons/badge_icon.png" Margin="4 0 0 4" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-            <Image x:Name="ActiveIcon" Source="/Images/Icons/activity_icon.png" Margin="4 0 0 4" Width="20" Height="20" />
-            <Image x:Name="NewBlahIcon" Source="/Images/Icons/new_icon.png" Margin="4 0 0 4" Width="20" Height="20" />
+        </Border>
+
+        <Image x:Name="BadgeIcon" Source="/Images/badge_standalone_30x31.png" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+            <Image x:Name="NewBlahIcon" Source="/Images/newblah.png" Width="24" Height="24" />
+            <Ellipse x:Name="ActiveIcon" Width="16" Height="16" Margin="4" Fill="#8000FF00" />
 
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-            <Image x:Name="OwnBlahIcon" Source="/Images/Icons/pen_bw.png" Margin="0 0 4 4" Width="20" Height="20" />
-            <Image x:Name="BlahTypeIcon" Source="/Images/Icons/say_icon.png" Margin="0 0 4 4" Width="20" Height="20" />
-        </StackPanel>
-        
 
 
     </Grid>

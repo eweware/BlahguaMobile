@@ -18,20 +18,6 @@
     android:layout_width="match_parent"
     android:layout_height="5dp" />
   <TextView
-    android:id="@+id/views"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textColor="#000"
-    android:textSize="12sp"/>
-  <TextView
-    android:id="@+id/opens"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textColor="#000"
-    android:textSize="12sp"/>
-  <TextView
     android:id="@+id/comments"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -53,25 +39,17 @@
     android:textColor="#000"
     android:textSize="12sp"/>
   <TextView
-  android:id="@+id/commentupvotes"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:gravity="center"
-  android:textColor="#000"
-  android:textSize="12sp"/>
-  <TextView
-  android:id="@+id/commentdownvotes"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:gravity="center"
-  android:textColor="#000"
-  android:textSize="12sp"/>
-  <TextView
     android:id="@+id/messages"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textColor="#000"
     android:textSize="12sp"/>
-
+  <TextView
+    android:id="@+id/opens"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="#000"
+    android:textSize="12sp"/>
 </LinearLayout>

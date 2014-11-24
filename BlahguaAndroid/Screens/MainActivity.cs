@@ -441,7 +441,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     //this.DataContext = BlahguaAPIObject.Current;
                     BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
-                        if ((whatsNew != null))
+                        if ((whatsNew != null) && (whatsNew.message != ""))
                         {
                             ShowNewsFloater(whatsNew);
                         }

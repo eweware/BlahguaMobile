@@ -42,24 +42,15 @@
     
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" >
-        <Canvas Width="480" Height="800" VerticalAlignment="Top" IsHitTestVisible="False" Grid.RowSpan="2">
-            <Image  Width="800" Height="800"  x:Name="BackgroundImage" Canvas.Top="0"  Canvas.Left="0"   Stretch="UniformToFill"  Source="/Images/bkgnds/signin.jpg" />
-            <Image  Width="800" Height="800"  x:Name="BackgroundImage2" Canvas.Top="0"  Canvas.Left="480"  Stretch="UniformToFill" Visibility="Collapsed" Source="/Images/bkgnds/signin.jpg" />
-            <Rectangle x:Name="BackgroundScreen" Width="480" Height="800" Canvas.Top="0" Canvas.Left="0">
-                <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#7F000000" Offset="0"/>
-                        <GradientStop Color="#7FFFFFFF" Offset="1"/>
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
-
-        </Canvas>
-
-
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF7DBFE3" Offset="0.55"/>
+                <GradientStop Color="#FF7AD000" Offset="0.734"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <controls:Pivot x:Name="SignInPivot" Title="Heard" LoadedPivotItem="HandlePivotLoaded" LoadingPivotItem="OnPivotLoading">
+        <controls:Pivot x:Name="SignInPivot" Title="blahgua" >
             <!--Pivot item one-->
             <controls:PivotItem Header="sign in">
                 <!--ContentPanel - place additional content here-->
@@ -78,6 +69,7 @@
                             <PasswordBox Password="{Binding UserPassword2, Mode=TwoWay}"></PasswordBox>
                         </StackPanel>
                         <CheckBox x:Name="NewAccountBox" Unchecked="CheckBox_Checked" Checked="CheckBox_Checked" >Create new Account</CheckBox>
+                        <toolkit:ToggleSwitch IsChecked="{Binding Path=AutoLogin, Mode=TwoWay}" Header="remember me" />
                         
                     </StackPanel>
                     <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
@@ -92,7 +84,7 @@
                 <!--ContentPanel - place additional content here-->
                 <ScrollViewer >
                 <StackPanel >
-                    <TextBlock Text="Why should I use Heard?" FontSize="30" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Why should I use Blahgua?" FontSize="30" HorizontalAlignment="Center"/>
                     <TextBlock TextWrapping="Wrap">
                         <TextBlock.Text>
                             Given all of the other content sharing networks, we know what you are thinking... But you are here so you must be at least open to something new. Here's our case:
@@ -112,19 +104,19 @@
                     <TextBlock Text="Respects your privacy" Margin="10 10 0 0" TextDecorations="Underline" />
                     <TextBlock TextWrapping="Wrap" Margin="10 0 0 0">
                         <TextBlock.Text>
-                            Unlike other sites, Heard doesn't require personal information to function. You dont have to worry about crazy sharing permissions or changing privacy policies.
+                            Unlike other sites, blahgua doesn't require personal information to function. You dont have to worry about crazy sharing permissions or changing privacy policies.
 
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock Text="How is this different?" Margin="0 16 0 0" FontSize="30" HorizontalAlignment="Center"/>
                     <TextBlock TextWrapping="Wrap">
                         <TextBlock.Text>
-                            Our unique, patent-pending badging service provides you with a way to add credibility to your posts while remaining unidentified. For example, you can use badges to verify that you work at a specific company or attend a particular school. However, no one (not even us!) can tell what employee or student you are. This type of semi-anonymous identity allows for authentic communication and makes it easier to make trust decisions. We call it "verified, not identified."
+                            Our unique, patent-pending badging service provides you with a way to add credibility to your posts while remaining unidentified. For example, you can use badges to verify that you work at a specific company or attend a particular school. However, no one (not even us!) can tell what employee or student you are. This type of semi-anonymous identity allows for authentic communication and makes it easier to make trust decisions. We call it "verified, but not identified."
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock TextWrapping="Wrap" Margin="0 10 0 0">
                         <TextBlock.Text>
-                            In addition, and unlike anonymous sites, users in Heard have a reputation in the system. This enables those with compelling content to find a large audience, while those with uninteresting or disruptive behavior soon find themselves talking to no one.
+                            In addition, and unlike anonymous sites, users in blahgua have a reputation in the system. This enables those with compelling content to find a large audience, while those with uninteresting or disruptive behavior soon find themselves talking to no one.
 
                         </TextBlock.Text>
                     </TextBlock>
@@ -136,8 +128,8 @@
                 <!--ContentPanel - place additional content here-->
                 <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="Questions, comments, feedback?  Use the feedback channel in Heard itself, or send us an email.  We are making this for YOU so let us know what we can do better." TextWrapping="Wrap" />
-                    <TextBlock Margin="0 20 0 0" FontSize="24" HorizontalAlignment="Center" TextDecorations="Underline" Text="admin@goheard.com" Tap="HyperlinkButton_Tap" />
+                    <TextBlock Text="Questions, comments, feedback?  Use the feedback channel in blahgua itself, or send us an email.  We are making this for YOU so let us know what we can do better." TextWrapping="Wrap" />
+                    <TextBlock Margin="0 20 0 0" FontSize="24" HorizontalAlignment="Center" TextDecorations="Underline" Text="admin@blahgua.com" Tap="HyperlinkButton_Tap" />
                     <TextBlock Margin="0 40 0 0" FontSize="24" HorizontalAlignment="Left">
                         <TextBlock.Text>Forgot Password?</TextBlock.Text>
                     </TextBlock>
@@ -146,7 +138,7 @@
                     <TextBlock Margin="0 40 0 0" FontSize="24" HorizontalAlignment="Left">
                         <TextBlock.Text>Rate and Review</TextBlock.Text>
                     </TextBlock>
-                    <TextBlock Text="Help us make Heard better by spreading the word.  Share the app with friends and give it a review on the app store.  Your support is much appreciated!" TextWrapping="Wrap" />
+                    <TextBlock Text="Help us make blahgua better by spreading the word.  Share the app with friends and give it a review on the app store.  Your support is much appreciated!" TextWrapping="Wrap" />
                     <Button Margin="0 20" HorizontalAlignment="Center" Content="Rate and Review" Tap="RateReview_Tap"/>
 
 

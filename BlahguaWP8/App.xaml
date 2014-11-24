@@ -80,14 +80,8 @@
 
     		<Color x:Key="ColorBlahguaWhite">#ffF5F4F0</Color>
     		<Color x:Key="ColorBlahguaBlack">#ff202020</Color>
-            
-            <Color x:Key="HeardRed">#FFE54154</Color>
-            <Color x:Key="HeardBlack">#FF3F2B2F</Color>
-            <Color x:Key="HeardBlue">#FF1FBBD1</Color>
-            <Color x:Key="HeardTeal">#FF60BFA4</Color>
-            <Color x:Key="HeardGreen">#FF96C648</Color>
-
-            <SolidColorBrush x:Key="BaseBrushSays" Color="{StaticResource BaseColorSays}" />
+        
+    		<SolidColorBrush x:Key="BaseBrushSays" Color="{StaticResource BaseColorSays}" />
     		<SolidColorBrush x:Key="BaseBrushLeaks" Color="{StaticResource BaseColorLeaks}" />
     		<SolidColorBrush x:Key="BaseBrushPolls" Color="{StaticResource BaseColorPolls}" />
     		<SolidColorBrush x:Key="BaseBrushPredicts" Color="{StaticResource BaseColorPredicts}" />
@@ -102,16 +96,10 @@
     		<SolidColorBrush x:Key="BrushBlahguaWhite" Color="{StaticResource ColorBlahguaWhite}" />
     		<SolidColorBrush x:Key="BrushBlahguaBlack" Color="{StaticResource ColorBlahguaBlack}" />
 
-            <SolidColorBrush x:Key="BrushHeardRed" Color="{StaticResource HeardRed}" />
-            <SolidColorBrush x:Key="BrushHeardBlack" Color="{StaticResource HeardBlack}" />
-            <SolidColorBrush x:Key="BrushHeardBlue" Color="{StaticResource HeardBlue}" />
-            <SolidColorBrush x:Key="BrushHeardTeal" Color="{StaticResource HeardTeal}" />
-            <SolidColorBrush x:Key="BrushHeardGreen" Color="{StaticResource HeardGreen}" />
 
 
 
-
-        </ResourceDictionary>
+    	</ResourceDictionary>
 
 
 

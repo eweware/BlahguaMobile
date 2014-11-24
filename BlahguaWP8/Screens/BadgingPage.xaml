@@ -36,7 +36,7 @@
                 <TextBlock TextWrapping="Wrap" FontStyle="Italic" >
                 	<Run Text="Badges add credibility to content by letting users attach verified facts about themselves (e.g. I work at Microsoft, I am in Chicago, etc.). "/>
                 	<LineBreak/>
-                	<Run Text="Badges are issued by third-party sources and our technology ensures that the information used to get your badges is not shared with Heard. "/>
+                	<Run Text="Badges are issued by third-party sources and our technology ensures that the information used to get your badges is not shared with blahgua. "/>
                 	<LineBreak/>
                 	<Run Text="Currently only email-based badges are issued, but there are more to come!"/>
                 	<LineBreak/>

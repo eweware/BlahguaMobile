@@ -182,7 +182,7 @@ namespace BlahguaMobile.Winphone
 
                     foreach (PollItem curItem in curBlah.I)
                     {
-                        if ((curItem.G == null) || (curItem.G.Length == 0))
+                        if ((curItem.T == null) || (curItem.T.Length == 0))
                             return "Each poll response requires a title.";
                     }
                     break;

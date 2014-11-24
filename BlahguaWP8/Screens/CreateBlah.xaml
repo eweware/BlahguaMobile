@@ -230,7 +230,7 @@
                     <StackPanel Grid.Row="3" Orientation="Vertical" Visibility="Visible">
                         <TextBlock Text="body"/>
                         <TextBox MinHeight="128" InputScope="Text" Text="{Binding CreateRecord.F, Mode=TwoWay}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" MaxLength="1022" AcceptsReturn="True"></TextBox>
-                    <CheckBox IsChecked="{Binding CreateRecord.IsMature, Mode=TwoWay}" Unchecked="IsMature_Checked" Checked="IsMature_Checked"  >contains mature content</CheckBox>
+
                     </StackPanel>
                     <StackPanel Grid.Row="4" x:Name="PollOptionArea" Orientation="Vertical" Opacity="0">
                         <StackPanel.RenderTransform>

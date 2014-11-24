@@ -186,7 +186,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public void ReportPost(string contentId, int reportType)
         {
-            RestRequest request = new RestRequest("blahs/" + contentId + "/report", Method.POST);
+            RestRequest request = new RestRequest("blahs/" + contentId + "/report", Method.PUT);
             string jsonString = "{\"type\": " + reportType + "}";
 
             request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
@@ -198,7 +198,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public void ReportComment(string contentId, int reportType)
         {
-            RestRequest request = new RestRequest("comments/" + contentId + "/report", Method.POST);
+            RestRequest request = new RestRequest("comments/" + contentId + "/report", Method.PUT);
             string jsonString = "{\"type\": " + reportType + "}";
 
             request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
@@ -685,21 +685,6 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("users/update/password", Method.PUT);
             request.RequestFormat = DataFormat.Json;
             request.AddBody(new { P = newPassword });
-
-            apiClient.ExecuteAsync(request, (response) =>
-            {
-                callback(response.Content);
-            });
-        }
-
-
-
-
-        public void UpdateMatureFlag(bool wantsMature, string_callback callback)
-        {
-            RestRequest request = new RestRequest("users/update/mature", Method.PUT);
-            request.RequestFormat = DataFormat.Json;
-            request.AddBody(new { XXX = wantsMature });
 
             apiClient.ExecuteAsync(request, (response) =>
             {

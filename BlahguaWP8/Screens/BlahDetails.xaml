@@ -243,7 +243,7 @@
                     </ScrollViewer>
                     <Border x:Name="BlahLoadingBox"  Margin="8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8" Background="#80000000" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock  Text="loading post..." HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <TextBlock  Text="loading blah..." HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
                             <ProgressBar  Width="200" Height="15" IsIndeterminate="True" />
                         </StackPanel>
                     </Border>
@@ -282,14 +282,14 @@
                         <toolkit:ExpanderView Header="audience response" Margin="0 0 0 16" IsExpanded="True"
                                               HeaderTemplate="{StaticResource LargeHeaderTemplate}">
 
-                            <TextBlock FontSize="11" TextWrapping="Wrap" Text="Key statistical data for this post.  The Heard score is an overall rating computed by assigning weights to different data metrics." />
+                            <TextBlock FontSize="11" TextWrapping="Wrap" Text="Key statistical data for this post.  The blahgua score is an overall rating computed by assigning different weights to different data metrics." />
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Conversion Ratio: " FontSize="26" />
                                 <TextBlock Text="{Binding ConversionString}" FontSize="26" />
                             </StackPanel>
                             <TextBlock Text="{Binding ImpressionString}" FontSize="16" FontStyle="Italic"/>
                             
-                                <TextBlock Text="Heard score" Margin="0 16 0 0"/>
+                                <TextBlock Text="blahgua score" Margin="0 16 0 0"/>
                                 <chart:RadCartesianChart x:Name="ScoreChart" Height="150">
                                     <chart:RadCartesianChart.HorizontalAxis>
                                         <chart:LinearAxis Maximum="1" LabelFormat="P0" LabelInterval="2" />
