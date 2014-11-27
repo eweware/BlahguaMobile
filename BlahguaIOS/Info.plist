@@ -17,7 +17,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.42</string>
+	<string>1.0.46</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>
@@ -64,7 +64,7 @@
 		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>1</string>
+	<string>1.0.46</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon</string>
