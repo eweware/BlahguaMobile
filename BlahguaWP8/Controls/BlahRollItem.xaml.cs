@@ -114,7 +114,7 @@ namespace BlahguaMobile.Winphone
         void Image_loaded(object sender, RoutedEventArgs e)
         {
             BlahImage.Opacity = 1;
-            if ((BlahData.T != null) && (BlahData.T != ""))
+            if (!String.IsNullOrEmpty(BlahData.T) )
             {
                 BlahBackground.Opacity = .8;
                 TextArea.Foreground = (Brush)App.Current.Resources["BrushBlahguaBlack"];
@@ -143,38 +143,12 @@ namespace BlahguaMobile.Winphone
                     break;
                 case 1:
                     TextArea.FontSize = largeText;
+                    TextArea.FontFamily = new FontFamily("/Resources/GothamRounded-Bold.otf#Gotham Rounded Bold");
                     break;
 
             }
             TextArea.TextTrimming = TextTrimming.WordEllipsis;
-            /*
-            float curFontSize = minTextSize;
-            double lastSize = 0;
-            TextArea.FontSize = curFontSize;
-            
-            TextArea.Measure(new Size(this.Width, Double.PositiveInfinity));
-            double curSize = TextArea.DesiredSize.Height;
-
-            while ((curSize < this.Height)) 
-            {
-                curFontSize++;
-                if (curFontSize > maxTextSize)
-                {
-                    curFontSize--;
-                    break;
-                }
-                else
-                {
-                    TextArea.FontSize = curFontSize;
-                    lastSize = curSize;
-                    TextArea.Measure(new Size(this.Width, Double.PositiveInfinity));
-                    curSize = TextArea.DesiredSize.Height;
-                }
-            }
-            curFontSize--;
-            TextArea.FontSize = curFontSize;
-            TextArea.TextTrimming = TextTrimming.WordEllipsis;
-             */
+          
 
         }
     }

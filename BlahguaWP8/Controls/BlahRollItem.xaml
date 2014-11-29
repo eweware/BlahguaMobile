@@ -22,7 +22,8 @@
 
                 <Image x:Name="BlahImage" Stretch="UniformToFill"/>
                 <Rectangle x:Name="BlahBackground"  Fill="{StaticResource BrushBlahguaWhite}"/>
-                <TextBlock  x:Name="TextArea" Margin="0 6 0 0" Padding="4 0 4 8" TextWrapping="Wrap" TextTrimming="WordEllipsis" VerticalAlignment="Top" FontFamily="Segoe WP SemiLight" Foreground="{StaticResource BrushBlahguaBlack}" Text="This is a  So that sucks!! " RenderTransformOrigin="0.5,0.5">
+                <TextBlock  x:Name="TextArea" Margin="0 6 0 0" Padding="4 0 4 8" TextWrapping="Wrap" TextTrimming="WordEllipsis" VerticalAlignment="Top"  Foreground="{StaticResource BrushBlahguaBlack}" 
+                            FontFamily="/Resources/GothamRounded-Book.otf#Gotham Rounded Book" Text="This is a  So that sucks!! " RenderTransformOrigin="0.5,0.5">
 
                 </TextBlock>
 

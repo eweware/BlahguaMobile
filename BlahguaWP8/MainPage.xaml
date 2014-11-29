@@ -227,13 +227,14 @@
             <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" Grid.Column="0" Margin="0 -10 0 0"
                                 FontSize="29.333" ExpansionMode="FullScreenOnly" Height="98"
                                  ItemTemplate="{StaticResource ChannelItemTemplate}"  
+                                FontFamily="/Resources/Merriweather.otf#Merriweather"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 HeaderTemplate="{StaticResource EmptyTemplate}"
                                 FullModeItemTemplate="{StaticResource ChannelFullModeItemTemplate}"  
                                 FullModeHeader="Choose a channel:" Padding="0" 
                                 ItemsSource="{Binding CurrentChannelList}"
-                                SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" FontFamily="Segoe WP Semibold">
+                                SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" >
             </toolkit:ListPicker>
             <Image x:Name="NewBlahBtn" Grid.Column="1" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
                Source="Images/Icons/icon_createpost.png" Width="80" Height="80" Canvas.ZIndex="10"
@@ -282,15 +283,8 @@
                     <Border x:Name="UserStatsBox" Margin="0 16 0 0">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Since your last sign-in:" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" />
-                            <TextBlock FontSize="18" x:Name="PostViewOpenCount" Text="Your posts were viewed 45 times and opened 23 times" TextWrapping="Wrap" />
-                            <TextBlock x:Name="NewCommentCount" Text="Your posts received 12 new comments"  FontSize="18" TextWrapping="Wrap" />
-                            <TextBlock x:Name="PostVotesString" FontSize="18" TextWrapping="Wrap" Text="Your posts received 10 promotes and 5 demotes" />
-
-                            <StackPanel Orientation="Horizontal" x:Name="MessagesArea">
-                                <TextBlock FontSize="18" Text="You have " />
-                                <TextBlock FontSize="18" x:Name="MessagesCount" Text="35" />
-                                <TextBlock FontSize="18" Text=" new messages" />
-                            </StackPanel>
+                            <TextBlock FontSize="18" x:Name="WhatsNewSummaryBox" Text="Your posts were viewed 45 times and opened 23 times" TextWrapping="Wrap" />
+                            
                             <Button Tap="ShareStats_Tap" Content="Share these stats!" Width="Auto" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>

@@ -146,7 +146,7 @@ namespace BlahguaMobile.BlahguaCore
             RestRequest request = new RestRequest("badges/authorities", Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
             {
-                    BadgeAuthorityList theList = response.Content.FromJson<BadgeAuthorityList>();
+                BadgeAuthorityList theList = response.Content.FromJson<BadgeAuthorityList>();
                     callback(theList);
             });
         }

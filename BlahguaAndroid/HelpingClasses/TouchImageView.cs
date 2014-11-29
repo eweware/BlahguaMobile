@@ -1194,8 +1194,9 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     	bool isPreGingerbread;
     	
     	public CompatScroller(Context context) {
-            
-            if (Build.VERSION.SdkInt < Build.VERSION_CODES.Gingerbread) {
+
+            if (Build.VERSION.SdkInt < BuildVersionCodes.Gingerbread)
+            {
                 isPreGingerbread = true;
                 scroller = new Scroller(context);
     			

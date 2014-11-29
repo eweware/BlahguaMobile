@@ -594,7 +594,7 @@ namespace BlahguaMobile.Winphone
         private void ShowNewsFloater(WhatsNewInfo newInfo)
         {
             _savedNewInfo = newInfo;
-            if ((newInfo.message != null) && (newInfo.message != ""))
+            if (!String.IsNullOrEmpty(newInfo.message))
             {
                 NewMessageBox.Text = newInfo.message;
                 NewMessageBox.Visibility = Visibility.Visible;
@@ -602,56 +602,11 @@ namespace BlahguaMobile.Winphone
             else
                 NewMessageBox.Visibility = Visibility.Collapsed;
 
-            bool statShown = false;
+            //bool statShown = false;
 
-            if (newInfo.newComments > 0)
-            {
-                NewCommentCount.Text = newInfo.newComments.ToString();
-                NewCommentsArea.Visibility = Visibility.Visible;
-                statShown = true;
-            }
-            else NewCommentsArea.Visibility = Visibility.Collapsed;
+            WhatsNewSummaryBox.Text = newInfo.SummaryString;
 
-            if (newInfo.newOpens > 0)
-            {
-                PostOpenCount.Text = newInfo.newOpens.ToString();
-                PostOpensArea.Visibility = Visibility.Visible;
-                statShown = true;
-            }
-            else PostOpensArea.Visibility = Visibility.Collapsed;
-
-            if ((newInfo.newUpVotes > 0) || (newInfo.newDownVotes > 0))
-            {
-                bool andNeeded = false;
-                string textStr = "Your posts received ";
-                if (newInfo.newUpVotes > 0)
-                {
-                    textStr += newInfo.newUpVotes.ToString() + " promotes ";
-                    andNeeded = true;
-                }
-
-                if (newInfo.newDownVotes > 0)
-                {
-                    if (andNeeded)
-                        textStr += "and ";
-                    textStr += newInfo.newDownVotes.ToString() + " demotes";
-                }
-
-                PostUpVotesString.Text = textStr;
-                PostUpVotesString.Visibility = Visibility.Visible;
-                statShown = true;
-            }
-            else PostUpVotesString.Visibility = Visibility.Collapsed;
-
-            if (newInfo.newMessages > 0)
-            {
-                MessagesCount.Text = newInfo.newMessages.ToString();
-                MessagesArea.Visibility = Visibility.Visible;
-                statShown = true;
-            }
-            else MessagesArea.Visibility = Visibility.Collapsed;
-
-            if (statShown)
+            if (!String.IsNullOrEmpty(WhatsNewSummaryBox.Text))
                 UserStatsBox.Visibility = Visibility.Visible;
             else
                 UserStatsBox.Visibility = Visibility.Collapsed;
@@ -1121,7 +1076,7 @@ namespace BlahguaMobile.Winphone
                         }
 
                     }
-                    while ((newItem.BlahData.M == null) || (newItem.BlahData.T == "") || (curTop < top) || (curTop > bottom) || (targetBlah == newItem));
+                    while ((newItem.BlahData.M == null) || (String.IsNullOrEmpty(newItem.BlahData.T)) || (curTop < top) || (curTop > bottom) || (targetBlah == newItem));
 
                     if (newItem != null)
                     {
