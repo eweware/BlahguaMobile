@@ -51,8 +51,9 @@
     <MtouchArch>ARMv7</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
-    <MtouchSdkVersion>7.1</MtouchSdkVersion>
+    <MtouchSdkVersion>8.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -296,7 +297,6 @@
     <Compile Include="Controls\SlidingMenu\SwipeViewController.cs" />
     <Compile Include="Controls\SlidingMenu\SlideMenuController.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
-    <Compile Include="Views\SWTableViewCell.cs" />
     <Compile Include="View Controllers\BGFullScreenViewController.cs" />
     <Compile Include="View Controllers\BGFullScreenViewController.designer.cs">
       <DependentUpon>BGFullScreenViewController.cs</DependentUpon>
@@ -321,6 +321,10 @@
       <Version>104.4.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+    <XamarinComponentReference Include="swtableviewcell">
+      <Version>0.3.6.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -338,6 +342,9 @@
       <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="SWTableViewCell">
+      <HintPath>..\Components\swtableviewcell-0.3.6.0\lib\ios\SWTableViewCell.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton.png" />

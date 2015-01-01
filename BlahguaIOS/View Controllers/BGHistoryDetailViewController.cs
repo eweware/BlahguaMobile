@@ -11,6 +11,8 @@ using MonoTouch.Dialog.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using MonoTouch.SlideMenu;
+using SWTableViewCell;
+using nint = global::System.Int32; // so that the same code can work in a unified build
 
 namespace BlahguaMobile.IOS
 {
@@ -71,6 +73,125 @@ namespace BlahguaMobile.IOS
 	
 	}
 
+    class CellDelegate : SWTableViewCellDelegate
+    {
+        private BGHistoryDetailViewController vc;
+
+        public CellDelegate(BGHistoryDetailViewController theVC)
+        {
+            vc = theVC;
+        }
+
+        public override void ScrollingToState(SWTableViewCell.SWTableViewCell cell, SWCellState state)
+        {
+            switch (state)
+            {
+                case SWCellState.Center:
+                    Console.WriteLine("utility buttons closed");
+                    break;
+                case SWCellState.Left:
+                    Console.WriteLine("left utility buttons open");
+                    break;
+                case SWCellState.Right:
+                    Console.WriteLine("right utility buttons open");
+                    break;
+            }
+        }
+
+        public override void DidTriggerRightUtilityButton(SWTableViewCell.SWTableViewCell cell, nint index)
+        {
+            Console.WriteLine("Left button {0} was pressed.", index);
+
+            switch (index)
+            {
+                case 0:
+                    UITableView tableView = (UITableView)vc.View;
+                    NSIndexPath indexPath = tableView.IndexPathForCell(cell);
+
+                    var blah = vc.ParentViewController.UserBlahs[indexPath.Row];
+                    vc.ParentViewController.UserBlahs.Remove (blah);
+                    BlahguaAPIObject.Current.DeleteBlah (blah._id, BlahDeleted);
+                    this.vc.TableView.ReloadData ();
+                    break;
+            }
+        }
+
+        public void BlahDeleted (string status)
+        {
+            Console.WriteLine (status);
+        }
+
+        public override void DidTriggerLeftUtilityButton(SWTableViewCell.SWTableViewCell cell, nint index)
+        {
+            Console.WriteLine("Right button {0} was pressed.", index);
+
+            switch (index)
+            {
+                case 0:
+                    {
+                        string blahID;
+                        UITableView tableView = (UITableView)vc.View;
+                        NSIndexPath indexPath = tableView.IndexPathForCell(cell);
+
+                        if (vc.ParentViewController.isBlahs)
+                        {
+                            int blahIndex = indexPath.Row;
+
+                            blahID = vc.ParentViewController.UserBlahs[blahIndex]._id;
+                        }
+                        else
+                        {
+                            int commentIndex = indexPath.Row;
+                            blahID = vc.ParentViewController.UserComments[commentIndex].B;
+                        }
+
+
+                        BlahguaAPIObject.Current.SetCurrentBlahFromId (blahID, (blah) => 
+                            {
+                                InvokeOnMainThread(() => 
+                                    {
+                                        ((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+
+                                        var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+                                        BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
+                                        BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
+                                        BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+
+                                        ((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+                                        SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
+                                        ((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
+                                        ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
+
+                                    });
+                            });
+                    }
+                    break;
+            }
+        }
+
+        public override bool ShouldHideUtilityButtonsOnSwipe(SWTableViewCell.SWTableViewCell cell)
+        {
+            // allow just one cell's utility button to be open at once
+            return true;
+        }
+
+        public override bool CanSwipeToState(SWTableViewCell.SWTableViewCell cell, SWCellState state)
+        {
+            switch (state)
+            {
+                case SWCellState.Left:
+                    // set to false to disable all left utility buttons appearing
+                    return true;
+                case SWCellState.Right:
+                    // set to false to disable all right utility buttons appearing
+                    return true;
+            }
+            return true;
+        }
+    }
+
+
+
 	public class BGHistoryDetailTableSource : UITableViewSource
 	{
 		private BGHistoryDetailViewController vc;
@@ -80,75 +201,39 @@ namespace BlahguaMobile.IOS
 		private const float space = 8f;
 		private SizeF baseSizeForFitting = new SizeF (240, 21);
 
-
+        private readonly CellDelegate cellDelegate;
 
 
 
 		public BGHistoryDetailTableSource(BGHistoryDetailViewController vc) : base()
 		{
 			this.vc = vc;
+            cellDelegate = new CellDelegate(vc);
+
+
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 		
-			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell;
+			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell.SWTableViewCell;
 
 			float CellHeight;
 
-				var leftView = new UIButton ();
-				leftView.Frame = new RectangleF (0, 0, 120, tableView.RowHeight); 
-                leftView.BackgroundColor = UIColor.FromRGB(31,187, 209);
-				leftView.SetTitle ("OPEN POST", UIControlState.Normal);
-				leftView.TouchUpInside += (object sender, EventArgs e) => 
-                    {
-                        string blahID;
-
-                        if (vc.ParentViewController.isBlahs)
-                        {
-                            int blahIndex = indexPath.Row;
-                            
-                            blahID = vc.ParentViewController.UserBlahs[blahIndex]._id;
-                        }
-                        else
-                        {
-                            int commentIndex = indexPath.Row;
-                            blahID = vc.ParentViewController.UserComments[commentIndex].B;
-                        }
-                        
-
-    				    BlahguaAPIObject.Current.SetCurrentBlahFromId (blahID, (blah) => 
-                        {
-        					InvokeOnMainThread(() => 
-                                {
-            						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
-
-            						var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-            						BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
-            						BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
-            						BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
-
-            						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
-            						SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
-            						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
-            						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
-
-            					});
-    				    });
-
-                };
+			
 
 					
-            var buttons = new System.Collections.Generic.List<UIButton> ();
+           // var buttons = new System.Collections.Generic.List<UIButton> ();
+            NSMutableArray rightUtilityButtons = new NSMutableArray();
+            NSMutableArray leftUtilityButtons = new NSMutableArray();
+
+            leftUtilityButtons.AddUtilityButton(UIColor.FromRGB(36, 187, 209), "Open Post");
 
             if (vc.ParentViewController.isBlahs) 
             {       
-                UIButton deleteBtn = buttons.AddUtilityButton ("Delete", UIColor.FromRGB(231, 61, 80));
-
+                rightUtilityButtons.AddUtilityButton (UIColor.FromRGB(231, 61, 80), "Delete");
             }
-
-				//buttons.AddUtilityButton ("Edit", UIColor.Blue);
-
+                
 
             if (vc.ParentViewController.isBlahs) 
             {
@@ -158,28 +243,25 @@ namespace BlahguaMobile.IOS
             } 
             else 
             {
-
-					CellHeight = 0f;
+				CellHeight = 0f;
                 CellHeight= getHeight (vc.ParentViewController.UserComments[indexPath.Row].T);
-					
-				}
-			
-			    cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, CellHeight, "C", tableView, buttons, leftView);
-//				cell = new SWTableViewCell (UITableViewCellStyle.Subtitle, "C", tableView, buttons, leftView);
-				cell.Scrolling += OnScrolling;
-				cell.UtilityButtonPressed += OnButtonPressed;
-
-				
-			if (cell.ContentView.Subviews!=null) {
-
-				foreach(UIView sub in cell.ContentView.Subviews)
-				{
-					sub.RemoveFromSuperview();
-				}
 			}
+			
+            //cell = new SWTableViewCell.SWTableViewCell(UITableViewCellStyle.Subtitle, CellHeight, "C", tableView, rightUtilityButtons, leftView);
+            cell = new SWTableViewCell.SWTableViewCell(UITableViewCellStyle.Subtitle, "C");
+            cell.SetLeftUtilityButtons( NSArray.FromArray<UIButton>(leftUtilityButtons), 120f);
+            cell.SetRightUtilityButtons( NSArray.FromArray<UIButton>(rightUtilityButtons), 120f);
+            cell.Delegate = cellDelegate;
 
-			cell.HideSwipedContent (false);//reset cell state
-			cell.SetNeedsDisplay ();
+
+
+            //tableView, rightUtilityButtons, leftView);
+            // TO DO - wire up events
+			//cell.Scrolling += OnScrolling;
+			//cell.UtilityButtonPressed += OnButtonPressed;
+
+			//cell.HideSwipedContent (false);//reset cell state
+			//cell.SetNeedsDisplay ();
 
 			int commentCountVal;
 			if (vc.ParentViewController.isBlahs) 
@@ -188,7 +270,7 @@ namespace BlahguaMobile.IOS
 				commentCountVal = userBlah.C;
 				string historyType = "Blahs";
 				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
-					userBlah.ConversionString,commentCountVal);
+				    userBlah.ConversionString,commentCountVal);
 
 			} 
             else 
@@ -223,6 +305,7 @@ namespace BlahguaMobile.IOS
 			labelXCoordStart = baseXStart;
 
 			textView.RemoveFromSuperview ();
+
 			if(!String.IsNullOrEmpty(text)) {
 
 				textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
@@ -332,6 +415,8 @@ namespace BlahguaMobile.IOS
 			labelXCoordStart += newSize.Width + space;
 		}
 
+        /*
+
 		void OnScrolling (object sender, ScrollingEventArgs e)
 		{
 			//uncomment to close any other cells that are open when another cell is swiped
@@ -365,6 +450,7 @@ namespace BlahguaMobile.IOS
 				this.vc.TableView.ReloadData ();
 			}
 		}
+  */      
 			
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -460,9 +546,6 @@ namespace BlahguaMobile.IOS
 
 		
 
-		public void BlahDeleted (string status)
-		{
-			Console.WriteLine (status);
-		}
+		
 	}
 }
