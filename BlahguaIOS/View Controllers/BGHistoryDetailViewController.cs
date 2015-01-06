@@ -195,11 +195,8 @@ namespace BlahguaMobile.IOS
 	public class BGHistoryDetailTableSource : UITableViewSource
 	{
 		private BGHistoryDetailViewController vc;
-		private float yCoordStart; 
-		private float labelXCoordStart;
-		private const float baseXStart = 30f;
-		private const float space = 8f;
-		private SizeF baseSizeForFitting = new SizeF (240, 21);
+
+		
 
         private readonly CellDelegate cellDelegate;
 
@@ -209,249 +206,64 @@ namespace BlahguaMobile.IOS
 		{
 			this.vc = vc;
             cellDelegate = new CellDelegate(vc);
-
-
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-		
-			var cell = tableView.DequeueReusableCell ("C") as SWTableViewCell.SWTableViewCell;
+            SWTableViewCell.SWTableViewCell cell;
 
-			float CellHeight;
-
-			
-
-					
-           // var buttons = new System.Collections.Generic.List<UIButton> ();
-            NSMutableArray rightUtilityButtons = new NSMutableArray();
-            NSMutableArray leftUtilityButtons = new NSMutableArray();
-
-            leftUtilityButtons.AddUtilityButton(UIColor.FromRGB(36, 187, 209), "Open Post");
-
-            if (vc.ParentViewController.isBlahs) 
-            {       
-                rightUtilityButtons.AddUtilityButton (UIColor.FromRGB(231, 61, 80), "Delete");
-            }
-                
-
-            if (vc.ParentViewController.isBlahs) 
+            if (vc.ParentViewController.isBlahs)
             {
-                CellHeight = 0f;
-                CellHeight= getHeight (vc.ParentViewController.UserBlahs[indexPath.Row].T);
+                BGBlahHistoryCell blahCell = tableView.DequeueReusableCell("B") as BGBlahHistoryCell;
+                if (blahCell == null)
+                {
+                    NSMutableArray rightUtilityButtons = new NSMutableArray();
+                    NSMutableArray leftUtilityButtons = new NSMutableArray();
 
-            } 
-            else 
-            {
-				CellHeight = 0f;
-                CellHeight= getHeight (vc.ParentViewController.UserComments[indexPath.Row].T);
-			}
-			
-            //cell = new SWTableViewCell.SWTableViewCell(UITableViewCellStyle.Subtitle, CellHeight, "C", tableView, rightUtilityButtons, leftView);
-            cell = new SWTableViewCell.SWTableViewCell(UITableViewCellStyle.Subtitle, "C");
-            cell.SetLeftUtilityButtons( NSArray.FromArray<UIButton>(leftUtilityButtons), 120f);
-            cell.SetRightUtilityButtons( NSArray.FromArray<UIButton>(rightUtilityButtons), 120f);
-            cell.Delegate = cellDelegate;
-
-
-
-            //tableView, rightUtilityButtons, leftView);
-            // TO DO - wire up events
-			//cell.Scrolling += OnScrolling;
-			//cell.UtilityButtonPressed += OnButtonPressed;
-
-			//cell.HideSwipedContent (false);//reset cell state
-			//cell.SetNeedsDisplay ();
-
-			int commentCountVal;
-			if (vc.ParentViewController.isBlahs) 
-            {
+                    leftUtilityButtons.AddUtilityButton(UIColor.FromRGB(36, 187, 209), "Open");
+   
+                    blahCell = BGBlahHistoryCell.Create();
+                    rightUtilityButtons.AddUtilityButton(UIColor.FromRGB(231, 61, 80), "Delete");
+                    blahCell.Delegate = cellDelegate;
+                    blahCell.SetLeftUtilityButtons(NSArray.FromArray<UIButton>(leftUtilityButtons), 120f);
+                    blahCell.SetRightUtilityButtons(NSArray.FromArray<UIButton>(rightUtilityButtons), 120f);
+                }
                 Blah userBlah = vc.ParentViewController.UserBlahs [indexPath.Row];
-				commentCountVal = userBlah.C;
-				string historyType = "Blahs";
-				SetUp (cell,historyType, userBlah.TypeName,userBlah.T, userBlah.P.ToString (),userBlah.D.ToString (),userBlah.ElapsedTimeString,
-				    userBlah.ConversionString,commentCountVal);
-
-			} 
-            else 
+                blahCell.SetupBlah(userBlah);
+                cell = blahCell;
+            }
+            else
             {
-                Comment userComment = vc.ParentViewController.UserComments[indexPath.Row];
-				string historyType = "Comments";
-				commentCountVal = -1;
-				SetUp (cell,historyType,null,userComment.T, userComment.UpVoteCount.ToString (),userComment.DownVoteCount.ToString (),
-					userComment.ElapsedTimeString,null,commentCountVal);
+                BGCommentHistoryCell commentCell = tableView.DequeueReusableCell("C") as BGCommentHistoryCell;
+                if (commentCell == null)
+                {
+                    NSMutableArray rightUtilityButtons = new NSMutableArray();
+                    NSMutableArray leftUtilityButtons = new NSMutableArray();
 
-			}	
+                    leftUtilityButtons.AddUtilityButton(UIColor.FromRGB(36, 187, 209), "Open Post");
+                    commentCell = BGCommentHistoryCell.Create();
+                    commentCell.Delegate = cellDelegate;
+                    commentCell.SetLeftUtilityButtons(NSArray.FromArray<UIButton>(leftUtilityButtons), 120f);
+                    commentCell.SetRightUtilityButtons(NSArray.FromArray<UIButton>(rightUtilityButtons), 120f);
+
+                }
+
+                Comment userComment = vc.ParentViewController.UserComments[indexPath.Row];
+                commentCell.SetupComment(userComment);
+
+                cell = commentCell;
+            }
+			
+
+
 				
 			return cell;
 		}
-			
-		private void SetUp(UITableViewCell cell,string historyType,string type,string text, string upVotesText,string downVotesText,string timeString,string conversionStirng,int commentsCount)
-		{
-
-			var textView = new UITextView ();
-			var upVotesLbl = new UILabel ();
-			var downVotesLbl = new UILabel ();
-			//var userNameLbl = new UILabel ();
-			var daysAgoLbl = new UILabel ();
-			var conversionRatioLbl = new UILabel ();
-			var commentsCountLbl = new UILabel ();
-			var upVoteImageView = new UIImageView ();
-			var downVoteImageView = new UIImageView ();
-			var conversionImagView = new UIImageView ();
-			var commentIconImageView = new UIImageView ();
-
-			yCoordStart = space;
-			labelXCoordStart = baseXStart;
-
-			textView.RemoveFromSuperview ();
-
-			if(!String.IsNullOrEmpty(text)) {
-
-				textView.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				textView.Editable = false;
-                textView.TextAlignment = UITextAlignment.Left;
-				var newSize = textView.SizeThatFits (new SizeF (320 - baseXStart * 2, 568));
-				textView.Frame = new RectangleF (baseXStart-6, yCoordStart, 320 - baseXStart * 2, newSize.Height);
-			    cell.ContentView.AddSubview (textView);
-				yCoordStart += textView.Frame.Height + space;
-			}
-
-			if(!String.IsNullOrEmpty(type)) {
-
-				var commentImageView = new UIImageView ();
-
-				if (type.Equals("says")) {
-					commentImageView.Image = UIImage.FromBundle ("icon_speechact_say");
-				} else if(type.Equals("predicts")){
-					commentImageView.Image = UIImage.FromBundle ("icon_speechact_predict");
-				} else if(type.Equals("polls")) {
-					commentImageView.Image = UIImage.FromBundle ("icon_speechact_poll");
-				} else if(type.Equals("asks")) {
-					commentImageView.Image = UIImage.FromBundle ("icon_speechact_ask");
-				} else {
-					commentImageView.Image = UIImage.FromBundle ("icon_speechact_leak");
-				}
-
-				cell.ContentView.AddSubview (commentImageView);
-				commentImageView.Frame = new RectangleF (baseXStart, yCoordStart-15, 20f, 20f);
-			   
-			}
-
-			if (historyType.Equals ("Blahs")) {
-                upVoteImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-				upVoteImageView.Image = UIImage.FromBundle ("arrow_up_dark");
-                cell.ContentView.AddSubview (upVoteImageView);
-				upVoteImageView.Frame = new RectangleF (baseXStart + 30, yCoordStart - 15, 10f, 20f);
-				
-
-				labelXCoordStart += 40; 
-				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
-				SetLabelSize (upVotesLbl, cell);
-
-				downVoteImageView.Image = UIImage.FromBundle ("arrow_down_dark");
-                downVoteImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-                downVoteImageView.Frame = new RectangleF (baseXStart + 65, yCoordStart - 15, 10f, 20f);
-				cell.ContentView.AddSubview (downVoteImageView);
-
-				labelXCoordStart += 20; 
-				downVotesLbl.AttributedText = new NSAttributedString (downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
-				SetLabelSize (downVotesLbl, cell);
-
-			} 
-
-			
-		    if (!String.IsNullOrEmpty (conversionStirng)) {
-
-			    conversionImagView.Image = UIImage.FromBundle ("conversion");
-                conversionImagView.ContentMode = UIViewContentMode.ScaleAspectFit;
-			    conversionImagView.Frame = new RectangleF (baseXStart+100, yCoordStart-15, 20f, 20f);
-			    cell.ContentView.AddSubview (conversionImagView);
-			    labelXCoordStart += 30; 	
-
-				conversionRatioLbl.AttributedText = new NSAttributedString (conversionStirng, UIFont.FromName (BGAppearanceConstants.MediumFontName, 14), UIColor.Black);
-				SetLabelSize (conversionRatioLbl, cell);
-
-		    }
-
-			
-			if (commentsCount >= 0) {
-
-				commentIconImageView.Image = UIImage.FromBundle ("comments_dark");
-                commentIconImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-				commentIconImageView.Frame = new RectangleF (baseXStart+175, yCoordStart-12, 22f, 19f);
-				cell.ContentView.AddSubview (commentIconImageView);
-			    labelXCoordStart = baseXStart + 200; 	
-
-				commentsCountLbl.AttributedText = new NSAttributedString (commentsCount.ToString (), UIFont.FromName (BGAppearanceConstants.MediumFontName, 14), UIColor.Black);
-				SetLabelSize (commentsCountLbl, cell);
-			}
-
-		    yCoordStart += downVotesLbl.Frame.Height + space;
-		    labelXCoordStart = baseXStart;
-		    daysAgoLbl.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.MediumItalicFontName, 10), UIColor.Black);
-		    SetLabelSize (daysAgoLbl,cell);
-		    
-		    if(historyType.Equals ("Comments")) {
-
-				labelXCoordStart = 260;
-				upVotesLbl.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),UIColor. FromRGB(115/255.0f,195/255.0f,173/255.0f));
-				SetLabelSize (upVotesLbl, cell);
-
-				downVotesLbl.AttributedText = new NSAttributedString ("/"+downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
-                labelXCoordStart -= space;
-                SetLabelSize (downVotesLbl, cell);
-		    }
-
-		    //cell.ContentView.Frame = new RectangleF (0, 0, 320, 50);
-		}
-
-		    private void SetLabelSize(UILabel label,UITableViewCell cell)
-		{
-			label.RemoveFromSuperview ();
-			var newSize = label.SizeThatFits(baseSizeForFitting);
-			label.Frame = new RectangleF (labelXCoordStart, yCoordStart-10,newSize.Width, newSize.Height);
-			cell.ContentView.AddSubview (label);
-			labelXCoordStart += newSize.Width + space;
-		}
-
-        /*
-
-		void OnScrolling (object sender, ScrollingEventArgs e)
-		{
-			//uncomment to close any other cells that are open when another cell is swiped
-
-				if (e.CellState != SWCellState.Center) {
-				var paths = this.vc.TableView.IndexPathsForVisibleRows;
-					foreach (var path in paths) {
-						if(path.Equals(e.IndexPath))
-						   continue;
-					var cell = (SWTableViewCell)this.vc.TableView.CellAt (path);
-						if (cell.State != SWCellState.Center) {
-							cell.HideSwipedContent (true);
-						}
-					}
-				}
-				
-		}
 
 
-		void OnButtonPressed (object sender, CellUtilityButtonClickedEventArgs e)
-		{
-			if (e.UtilityButtonIndex ==  1) {
+		
 
-				new UIAlertView("Pressed", "You pressed the edit button!", null, null, new[] {"OK"}).Show();
-			}
-			else if(e.UtilityButtonIndex == 0) 
-            {
-                var blah = vc.ParentViewController.UserBlahs[e.IndexPath.Row];
-				vc.ParentViewController.UserBlahs.Remove (blah);
-                BlahguaAPIObject.Current.DeleteBlah (blah._id, BlahDeleted);
-				this.vc.TableView.ReloadData ();
-			}
-		}
-  */      
-			
+       
 		public override int RowsInSection (UITableView tableview, int section)
 		{
 			if(vc.ParentViewController.isBlahs)
@@ -502,10 +314,7 @@ namespace BlahguaMobile.IOS
 		}
 
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
-		{
-			//cell.Scrolling += OnScrolling;
-		}
+		
 
 		public override float GetHeightForHeader (UITableView tableView, int section)
 		{

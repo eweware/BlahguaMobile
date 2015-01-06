@@ -20,7 +20,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
@@ -311,6 +311,14 @@
     <Compile Include="Controls\SharpMobileCode.ModalPicker\ModalPickerAnimatedTransitioning.cs" />
     <Compile Include="Controls\SharpMobileCode.ModalPicker\ModalPickerTransitionDelegate.cs" />
     <Compile Include="Controls\SharpMobileCode.ModalPicker\ModalPickerViewController.cs" />
+    <Compile Include="Views\BGBlahHistoryCell.cs" />
+    <Compile Include="Views\BGBlahHistoryCell.designer.cs">
+      <DependentUpon>BGBlahHistoryCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BGCommentHistoryCell.cs" />
+    <Compile Include="Views\BGCommentHistoryCell.designer.cs">
+      <DependentUpon>BGCommentHistoryCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -389,12 +397,15 @@
     <BundleResource Include="Resources\conversion%402x.png" />
     <BundleResource Include="Resources\report_button_active%402x.png" />
     <BundleResource Include="Resources\share_button%402x.png" />
+    <BundleResource Include="Resources\.DS_Store" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
+    <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
+    <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
