@@ -153,8 +153,7 @@
                 android:textColor="#000"
                 android:text="@string/userprofile_recent_header"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
-                android:visibility="invisible" />
+                android:textStyle="bold" />
         <!-- VIEWS -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,16 +166,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="@string/viewpost_stats_views_count"
-                    android:visibility="invisible" />
+                    android:text="@string/viewpost_stats_views_count" />
                 <TextView
                     android:id="@+id/views"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="0"
-                    android:visibility="invisible" />
+                    android:text="0" />
             </LinearLayout>
         <!-- OPENS -->
             <LinearLayout
@@ -190,16 +187,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="@string/viewpost_stats_opens_count"
-                    android:visibility="invisible" />
+                    android:text="@string/viewpost_stats_opens_count" />
                 <TextView
                     android:id="@+id/opens"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="0"
-                    android:visibility="invisible" />
+                    android:text="0" />
             </LinearLayout>
         <!-- COMMENTS -->
             <LinearLayout
@@ -213,16 +208,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="@string/viewpost_stats_comments_count"
-                    android:visibility="invisible" />
+                    android:text="@string/viewpost_stats_comments_count" />
                 <TextView
                     android:id="@+id/comments"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
-                    android:text="0"
-                    android:visibility="invisible" />
+                    android:text="0" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

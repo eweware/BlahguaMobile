@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Android.Animation;
+using Android.OS;
 
 using BlahguaMobile.BlahguaCore;
 using SlidingMenuSharp;
@@ -19,7 +20,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity : IUrlImageViewCallback, View.IOnTouchListener
+    public partial class MainFragment : IUrlImageViewCallback, View.IOnTouchListener
     {
         enum MyBlahType
         {
@@ -40,8 +41,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageSay, imagePredict, imagePoll, imageAsk, imageLeak;
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
-
-        protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+		/*
+		public override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
             if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
             {
@@ -56,7 +57,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
-                            RunOnUiThread(() =>
+						this.Activity.RunOnUiThread(() =>
                             {
                                 if ((photoString != null) && (photoString.Length > 0))
                                 {
@@ -82,12 +83,94 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             base.OnActivityResult(requestCode, resultCode, data);
         }
+*/
+		private void initCreateBlahUi()
+		{
+			// speech act btns
+			imageSay = fragment.FindViewById<View>(Resource.Id.btn_speechact_say) as ImageView;
+			imagePredict = fragment.FindViewById<View>(Resource.Id.btn_speechact_predict) as ImageView;
+			imagePoll = fragment.FindViewById<View>(Resource.Id.btn_speechact_poll) as ImageView;
+			imageAsk = fragment.FindViewById<View>(Resource.Id.btn_speechact_ask) as ImageView;
+			imageLeak = fragment.FindViewById<View>(Resource.Id.btn_speechact_leak) as ImageView;
+
+			imageSay.Click += SpeechActBtn_Click;
+			imagePredict.Click += SpeechActBtn_Click;
+			imagePoll.Click += SpeechActBtn_Click;
+			imageAsk.Click += SpeechActBtn_Click;
+			imageLeak.Click += SpeechActBtn_Click;
+			currentSpeechAct = imageSay;
+
+			blayGrayed = fragment.FindViewById<View>(Resource.Id.BlahGrayed);
+			blayGrayed.Visibility = ViewStates.Gone;
+			blayGrayed.SetOnTouchListener(this);
+			additionalfields_layout = fragment.FindViewById<View>(Resource.Id.additionalfields_layout);
+			create_post_block = fragment.FindViewById<View>(Resource.Id.create_post_block);
+			/*
+			btn_newpost.Click += (sender, args) =>
+			{
+				triggerCreateBlock();
+			};
+			*/
+			Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
+			btn_select_image.Click += (sender, args) =>
+			{
+				var imageIntent = new Intent();
+				imageIntent.SetType("image/*");
+				imageIntent.SetAction(Intent.ActionGetContent);
+
+				StartActivityForResult(
+					Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+			};
+			Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
+			btn_signature.Click += (sender, args) => {
+				//initiateSignaturePopUp();
+			};
+			btn_create_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
+			btn_create_done.Click += (sender, args) =>
+			{
+				if (DoCreateClick())
+				{
+					triggerCreateBlock();
+				}
+			};
+			btn_create_done.Enabled = false;
+			newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
+			newPostTitle.TextChanged += editCreate_TextChanged;
+			newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
+
+			imageCreateBlah = create_post_block.FindViewById<ImageView>(Resource.Id.createblah_image);
+			imageCreateBlahLayout = create_post_block.FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
+			progressBarImageLoading = create_post_block.FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
+			progressBarImageLoading.Visibility = ViewStates.Gone;
+
+			editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
+			editPrediction.TextChanged += editCreate_TextChanged;
+			editPrediction.Focusable = false;
+			setDatePicker(editPrediction);
+
+			editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
+			editPoll1.TextChanged += editCreate_TextChanged;
+			editPoll2 = create_post_block.FindViewById<EditText>(Resource.Id.poll2);
+			editPoll2.TextChanged += editCreate_TextChanged;
+			editPoll3 = create_post_block.FindViewById<EditText>(Resource.Id.poll3);
+			editPoll4 = create_post_block.FindViewById<EditText>(Resource.Id.poll4);
+			editPoll5 = create_post_block.FindViewById<EditText>(Resource.Id.poll5);
+			editPoll6 = create_post_block.FindViewById<EditText>(Resource.Id.poll6);
+			editPoll7 = create_post_block.FindViewById<EditText>(Resource.Id.poll7);
+			editPoll8 = create_post_block.FindViewById<EditText>(Resource.Id.poll8);
+			editPoll9 = create_post_block.FindViewById<EditText>(Resource.Id.poll9);
+			editPoll10 = create_post_block.FindViewById<EditText>(Resource.Id.poll10);
+			btnAddOption = create_post_block.FindViewById<Button>(Resource.Id.btn_add_poll_option);
+			btnAddOption.Click += DoAddPollChoice;
+
+			setAsksCreateBlahType();
+		}
 
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
         {
             if (imageCreateBlah == imageView)
             {
-                RunOnUiThread(() =>
+				this.Activity.RunOnUiThread(() =>
                 {
                     progressBarImageLoading.Visibility = ViewStates.Gone;
                 });
@@ -113,88 +196,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             return true;
         }
-
-        ///////// init
-        private void initCreateBlahUi()
-        {
-            // speech act btns
-            imageSay = FindViewById<View>(Resource.Id.btn_speechact_say) as ImageView;
-            imagePredict = FindViewById<View>(Resource.Id.btn_speechact_predict) as ImageView;
-            imagePoll = FindViewById<View>(Resource.Id.btn_speechact_poll) as ImageView;
-            imageAsk = FindViewById<View>(Resource.Id.btn_speechact_ask) as ImageView;
-            imageLeak = FindViewById<View>(Resource.Id.btn_speechact_leak) as ImageView;
-
-            imageSay.Click += SpeechActBtn_Click;
-            imagePredict.Click += SpeechActBtn_Click;
-            imagePoll.Click += SpeechActBtn_Click;
-            imageAsk.Click += SpeechActBtn_Click;
-            imageLeak.Click += SpeechActBtn_Click;
-            currentSpeechAct = imageSay;
-
-            blayGrayed = FindViewById<View>(Resource.Id.BlahGrayed);
-            blayGrayed.Visibility = ViewStates.Gone;
-            blayGrayed.SetOnTouchListener(this);
-            additionalfields_layout = FindViewById<View>(Resource.Id.additionalfields_layout);
-            create_post_block = FindViewById<View>(Resource.Id.create_post_block);
-            btn_newpost.Click += (sender, args) =>
-            {
-                triggerCreateBlock();
-            };
-            Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
-            btn_select_image.Click += (sender, args) =>
-            {
-                var imageIntent = new Intent();
-                imageIntent.SetType("image/*");
-                imageIntent.SetAction(Intent.ActionGetContent);
-
-                StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
-            };
-            Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
-            btn_signature.Click += (sender, args) => {
-                initiateSignaturePopUp();
-            };
-            btn_create_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
-            btn_create_done.Click += (sender, args) =>
-            {
-                if (DoCreateClick())
-                {
-                    triggerCreateBlock();
-                }
-            };
-            btn_create_done.Enabled = false;
-            newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
-            newPostTitle.TextChanged += editCreate_TextChanged;
-            newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
-
-            imageCreateBlah = create_post_block.FindViewById<ImageView>(Resource.Id.createblah_image);
-            imageCreateBlahLayout = create_post_block.FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
-            progressBarImageLoading = create_post_block.FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
-            progressBarImageLoading.Visibility = ViewStates.Gone;
-
-            editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
-            editPrediction.TextChanged += editCreate_TextChanged;
-            editPrediction.Focusable = false;
-            setDatePicker(editPrediction);
-
-            editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
-            editPoll1.TextChanged += editCreate_TextChanged;
-            editPoll2 = create_post_block.FindViewById<EditText>(Resource.Id.poll2);
-            editPoll2.TextChanged += editCreate_TextChanged;
-            editPoll3 = create_post_block.FindViewById<EditText>(Resource.Id.poll3);
-            editPoll4 = create_post_block.FindViewById<EditText>(Resource.Id.poll4);
-            editPoll5 = create_post_block.FindViewById<EditText>(Resource.Id.poll5);
-            editPoll6 = create_post_block.FindViewById<EditText>(Resource.Id.poll6);
-            editPoll7 = create_post_block.FindViewById<EditText>(Resource.Id.poll7);
-            editPoll8 = create_post_block.FindViewById<EditText>(Resource.Id.poll8);
-            editPoll9 = create_post_block.FindViewById<EditText>(Resource.Id.poll9);
-            editPoll10 = create_post_block.FindViewById<EditText>(Resource.Id.poll10);
-            btnAddOption = create_post_block.FindViewById<Button>(Resource.Id.btn_add_poll_option);
-            btnAddOption.Click += DoAddPollChoice;
-
-            setAsksCreateBlahType();
-        }
-
+			
         void SpeechActBtn_Click(object sender, EventArgs e)
         {
             ImageView   newBtn = sender as ImageView;
@@ -214,31 +216,31 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (someBtn == imageSay)
             {
-                TextView    theText = FindViewById(Resource.Id.text_speechact_say) as TextView;
+				TextView    theText = fragment.FindViewById(Resource.Id.text_speechact_say) as TextView;
                 imageSay.SetImageResource(Resource.Drawable.icon_speechact_say);
                 theText.SetTextColor(new Android.Graphics.Color(63,43,47));
             }
             else if (someBtn == imagePredict)
             {
-                TextView    theText = FindViewById(Resource.Id.text_speechact_predict) as TextView;
+				TextView    theText = fragment.FindViewById(Resource.Id.text_speechact_predict) as TextView;
                 imagePredict.SetImageResource(Resource.Drawable.icon_speechact_predict);
                 theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
             }
             else if (someBtn == imagePoll)
             {
-                TextView    theText = FindViewById(Resource.Id.text_speechact_poll) as TextView;
+				TextView    theText = fragment.FindViewById(Resource.Id.text_speechact_poll) as TextView;
                 imagePoll.SetImageResource(Resource.Drawable.icon_speechact_poll);
                 theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
             }
             else if (someBtn == imageAsk)
             {
-                TextView    theText = FindViewById(Resource.Id.text_speechact_ask) as TextView;
+				TextView    theText = fragment.FindViewById(Resource.Id.text_speechact_ask) as TextView;
                 imageAsk.SetImageResource(Resource.Drawable.icon_speechact_ask);
                 theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
             }
             else if (someBtn == imageLeak)
             {
-                TextView    theText = FindViewById(Resource.Id.text_speechact_leak) as TextView;
+				TextView    theText = fragment.FindViewById(Resource.Id.text_speechact_leak) as TextView;
                 imageLeak.SetImageResource(Resource.Drawable.icon_speechact_leak);
                 theText.SetTextColor(new Android.Graphics.Color(63, 43, 47));
             }
@@ -249,7 +251,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (someBtn == imageSay)
             {
-                TextView theText = FindViewById(Resource.Id.text_speechact_say) as TextView;
+				TextView theText = fragment.FindViewById(Resource.Id.text_speechact_say) as TextView;
                 imageSay.SetImageResource(Resource.Drawable.icon_speechact_say_teal);
                 theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
@@ -259,7 +261,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else if (someBtn == imagePredict)
             {
-                TextView theText = FindViewById(Resource.Id.text_speechact_predict) as TextView;
+				TextView theText =fragment. FindViewById(Resource.Id.text_speechact_predict) as TextView;
                 imagePredict.SetImageResource(Resource.Drawable.icon_speechact_predict_teal);
                 theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
@@ -269,7 +271,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else if (someBtn == imagePoll)
             {
-                TextView theText = FindViewById(Resource.Id.text_speechact_poll) as TextView;
+				TextView theText = fragment.FindViewById(Resource.Id.text_speechact_poll) as TextView;
                 imagePoll.SetImageResource(Resource.Drawable.icon_speechact_poll_teal);
                 theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
@@ -279,7 +281,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else if (someBtn == imageAsk)
             {
-                TextView theText = FindViewById(Resource.Id.text_speechact_ask) as TextView;
+				TextView theText = fragment.FindViewById(Resource.Id.text_speechact_ask) as TextView;
                 imageAsk.SetImageResource(Resource.Drawable.icon_speechact_ask_teal);
                 theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
@@ -289,7 +291,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else if (someBtn == imageLeak)
             {
-                TextView theText = FindViewById(Resource.Id.text_speechact_leak) as TextView;
+				TextView theText = fragment.FindViewById(Resource.Id.text_speechact_leak) as TextView;
                 imageLeak.SetImageResource(Resource.Drawable.icon_speechact_leak_teal);
                 theText.SetTextColor(new Android.Graphics.Color(96, 191, 164));
                 BlahguaAPIObject.Current.CreateRecord.BlahType =
@@ -321,8 +323,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void initBlahCreationSlidingMenu()
         {
-            SetBehindContentView(Resource.Layout.sidemenu_blahcreate);
-            View leftMenu = SlidingMenu.GetMenu();
+            //SetBehindContentView(Resource.Layout.sidemenu_blahcreate);
 
             String[] types = new String[] {
                                 GetString(Resource.String.sidemenu_blahcreate_asks),
@@ -330,12 +331,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 GetString(Resource.String.sidemenu_blahcreate_polls),
                                 GetString(Resource.String.sidemenu_blahcreate_predicts),
                                 GetString(Resource.String.sidemenu_blahcreate_says) };
-            ListView listChannels = leftMenu.FindViewById<ListView>(Resource.Id.list);
-            listChannels.ChoiceMode = ChoiceMode.Single;
-            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, types);
-            listChannels.SetItemChecked(0, true);
+            
+			homeActivity.LeftMenu.Adapter = new ArrayAdapter(homeActivity, Resource.Layout.listitem_check, types);
+			homeActivity.LeftMenu.SetItemChecked(0, true);
 
-            listChannels.ItemClick += listChannels_ItemClick;
+			homeActivity.LeftMenu.ItemClick += listChannels_ItemClick;
         }
 
         private void listChannels_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -513,7 +513,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (create_post_block.Visibility.Equals(ViewStates.Gone))
             {
-                SlidingMenu.TouchModeAbove = TouchMode.None;
+                //SlidingMenu.TouchModeAbove = TouchMode.None;
                 blayGrayed.Visibility = ViewStates.Visible;
                 BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
                 // reset fields state
@@ -522,7 +522,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 ClearImages();
 
                 triggerExpand();
-                SlidingMenu.Enabled = false;
+                //SlidingMenu.Enabled = false;
 
                 //initBlahCreationSlidingMenu();
             }
@@ -536,7 +536,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 }
 
-                SlidingMenu.TouchModeAbove = TouchMode.Margin;
+                //SlidingMenu.TouchModeAbove = TouchMode.Margin;
                 //collapse
                 blayGrayed.Visibility = ViewStates.Gone;
                 int finalHeight = create_post_block.Height;
@@ -565,16 +565,26 @@ namespace BlahguaMobile.AndroidClient.Screens
                     ViewStates.Gone;
                 };
 
-                initSlidingMenu();
+                //initSlidingMenu();
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    SlidingMenu.Mode = MenuMode.LeftRight;
+                    //SlidingMenu.Mode = MenuMode.LeftRight;
                 }
 
                 lastCreateBlockHeight = 0;
                 StartTimers();
 
-                populateChannelMenu();
+				if (BlahguaAPIObject.Current.CurrentChannelList != null) {
+					String[] channels = new String[BlahguaAPIObject.Current.CurrentChannelList.Count];
+					int channelIndex = 0;
+
+					foreach (Channel curChannel in BlahguaAPIObject.Current.CurrentChannelList) {
+						channels [channelIndex++] = curChannel.ChannelName;
+					}
+					//Sections = channels;
+					//Create Adapter for drawer List
+					homeActivity.LeftMenu.Adapter = new ArrayAdapter<string> (homeActivity, Resource.Layout.item_menu, channels);
+				}
             }
         }
 
@@ -633,7 +643,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     string imageBase = theBlah.M[0];
                     string imageSize = "B";
                     string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-                    RunOnUiThread(() =>
+                    homeActivity.RunOnUiThread(() =>
                     {
                         image.SetUrlDrawable(imageURL);
                         if (!String.IsNullOrEmpty(theBlah.T))
@@ -648,7 +658,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 
                 ///////
-                RunOnUiThread(() =>
+				homeActivity.RunOnUiThread(() =>
                 {
                     var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
                     var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
@@ -833,7 +843,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                Toast.MakeText(this, valStr, ToastLength.Short).Show();
+				Toast.MakeText(homeActivity, valStr, ToastLength.Short).Show();
                 return false;
             }
         }
@@ -845,18 +855,18 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
                 MainActivity.analytics.PostCreateBlah(newBlah.Y);
 
-                RunOnUiThread(() =>
+				homeActivity.RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+						Toast.MakeText(homeActivity, "Blah posted", ToastLength.Short).Show();
                     triggerCreateBlock();
                 });
                 //NavigationService.GoBack();
             }
             else
             {
-                RunOnUiThread(() =>
+				homeActivity.RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+						Toast.MakeText(homeActivity, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 });
                 MainActivity.analytics.PostFormatError("blah create failed");
             }
@@ -934,7 +944,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     myCalendar.Set(Calendar.DayOfMonth, arg.DayOfMonth);
                     updateLabel(edit);
                 };
-                new DatePickerDialog(this, handle, myCalendar
+				new DatePickerDialog(homeActivity, handle, myCalendar
                         .Get(Calendar.Year), myCalendar.Get(Calendar.Month),
                         myCalendar.Get(Calendar.DayOfMonth)).Show();
             };

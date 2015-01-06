@@ -58,7 +58,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 
-            double scoreAmount = curUser.S;
+            double scoreAmount = curUser.K;
 
             score.Text = (Math.Floor(scoreAmount * 10000) / 100).ToString() + "%";
 

@@ -48,8 +48,8 @@
                 android:id="@+id/blahtype"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:scaleType="fitCenter"
-                android:layout_marginRight="5dp" />
+                android:src="@drawable/icon_speechact_say"
+                android:scaleType="fitCenter" />
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -73,10 +73,8 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/conversion"
-                android:scaleType="fitCenter"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:src="@drawable/icon_conversion"
+                android:scaleType="fitCenter" />
             <TextView
                 android:id="@+id/conversion"
                 android:layout_width="wrap_content"
@@ -85,10 +83,8 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/comments_filled_64x64"
-                android:scaleType="fitCenter"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:src="@drawable/btn_comments_pressed"
+                android:scaleType="fitCenter" />
             <TextView
                 android:id="@+id/comments"
                 android:layout_width="wrap_content"

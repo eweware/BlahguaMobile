@@ -346,12 +346,12 @@
     <Reference Include="ServiceStack.Text.MonoTouch">
       <HintPath>..\Components\servicestacktext-3.9.60.0\lib\ios\ServiceStack.Text.MonoTouch.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="SWTableViewCell">
       <HintPath>..\Components\swtableviewcell-0.3.6.0\lib\ios\SWTableViewCell.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
