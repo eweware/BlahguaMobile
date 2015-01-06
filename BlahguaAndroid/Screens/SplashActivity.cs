@@ -35,7 +35,8 @@ namespace BlahguaMobile.AndroidClient
         void aaa()
         {
             Finish();
-            StartActivity(typeof(MainActivity));
+            //StartActivity(typeof(MainActivity));
+			StartActivity(typeof(HomeActivity));
         }
 
         public override void OnBackPressed()

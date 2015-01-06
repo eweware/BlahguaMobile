@@ -86,7 +86,7 @@ namespace BlahguaMobile.AndroidClient
             btn_stats.Click += btn_stats_Click;
 
             btn_summary_Click(null, null);
-            MainActivity.analytics.PostPageView("/blah");
+			HomeActivity.analytics.PostPageView("/blah");
         }
 
         private void swipeLeftEvent(MotionEvent first, MotionEvent second)

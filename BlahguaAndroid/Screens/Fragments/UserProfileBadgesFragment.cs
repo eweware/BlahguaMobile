@@ -279,6 +279,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             Toast.MakeText(Activity, "The authority currently has no badges for that email address.", ToastLength.Short).Show();
                             emailField.Enabled = true;
                             btn_submit.Visibility = ViewStates.Visible;
+                            MainActivity.analytics.PostRequestBadge(badgeId);
                             MainActivity.analytics.PostBadgeNoEmail(emailAddr);
                             submitSection.Visibility = ViewStates.Gone;
                             requestSection.Visibility = ViewStates.Visible;
@@ -286,7 +287,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                         else
                         {
                             // success
-                            MainActivity.analytics.PostRequestBadge(badgeId);
                             emailField.Text = "";
                             ticketStr = ticket;
                             submitSection.Visibility = ViewStates.Gone;
@@ -382,13 +382,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             string domainName = addr.Host;
             BlahguaAPIObject.Current.RequestBadgeForDomain(emailAddr, domainName, (resultStr) =>
                 {
-					Activity.RunOnUiThread(() =>
-						{
-							triggerNewBlock();
-		                    if (resultStr == "ok")
-		                    Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
-						});
-
+                    if (resultStr == "ok")
+                    {
+                        Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
+                    }
                 });
         }
 

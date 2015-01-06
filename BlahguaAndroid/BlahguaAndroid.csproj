@@ -30,7 +30,6 @@
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
-    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -57,14 +56,14 @@
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Controls.BarChart.Android">
-      <HintPath>..\Components\barchart-1.1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp.MonoDroid">
-      <HintPath>..\Components\restsharp-104.4.0.1\lib\android\RestSharp.MonoDroid.dll</HintPath>
+      <HintPath>..\Components\restsharp-104.4.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text.XamarinAndrod">
-      <HintPath>..\Components\servicestacktext-3.9.61.0\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+    <Reference Include="Xamarin.Controls.BarChart.Android">
+      <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +124,18 @@
     <Compile Include="HelpingClasses\StreamHelper.cs" />
     <Compile Include="HelpingClasses\StringHelper.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
-    <Compile Include="Screens\Fragments\TutorialDialog.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\LRUCache.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReference.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReferenceHashTable.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageCache.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewCallback.cs" />
+    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewHelper.cs" />
+    <Compile Include="HelpingClasses\BGActionBarDrawerToggle.cs" />
     <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
     <Compile Include="Screens\MainActivity.Signature.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
@@ -143,20 +153,17 @@
     <Compile Include="Screens\ViewPostActivity.cs" />
     <Compile Include="Screens\LoginActivity.cs" />
     <Compile Include="Screens\MainActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\Fragments\ViewPostCommentsFragment.cs" />
     <Compile Include="Screens\Fragments\ViewPostStatsFragment.cs" />
     <Compile Include="Screens\Fragments\ViewPostSummaryFragment.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\DownloaderAsyncTask.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\ExtensionMethods.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\Hashset.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\LRUCache.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReference.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\SoftReferenceHashTable.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageCache.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewCallback.cs" />
-    <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewHelper.cs" />
+    <Compile Include="Screens\HomeActivity.cs" />
+    <Compile Include="Screens\Fragments\TestFragment.cs" />
+    <Compile Include="Screens\LoginFragment.cs" />
+    <Compile Include="Screens\MainFragment.cs" />
+    <Compile Include="Screens\MainFragment.BlahList.cs" />
+    <Compile Include="Screens\MainFragment.BlahCreate.cs" />
+    <Compile Include="Screens\MainFragment.Signature.cs" />
+    <Compile Include="Screens\UserProfileFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -190,17 +197,44 @@
     <AndroidResource Include="Resources\layout\empty_channel_warning.xml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\dialog_tutorial.xml">
-      <SubType>AndroidResource</SubType>
+    <AndroidResource Include="Resources\layout\page_home_view.axml" />
+    <AndroidResource Include="Resources\layout\item_menu.axml" />
+    <AndroidResource Include="Resources\menu\home_menu_actions.axml" />
+    <AndroidResource Include="Resources\layout\actionbar_progress.axml" />
+    <AndroidResource Include="Resources\layout\fragment_login.xml">
+      <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable-xhdpi\conversion.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\comments_filled_64x64.png" />
+    <AndroidResource Include="Resources\layout\fragment_main.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\btn_login.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\action_login_button2.axml" />
+    <AndroidResource Include="Resources\layout\action_login_button.axml" />
+    <AndroidResource Include="Resources\layout\fragment_userprofile.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="barchart">
+      <Version>1.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="restsharp">
+      <Version>104.4.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Version>3.9.60.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\bg_gray_gradient.xml" />
@@ -692,38 +726,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_conversion.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_3.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\tutorial_android_screen_5.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\logo_white.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\signup_2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="servicestacktext">
-      <Version>3.9.61.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="restsharp">
-      <Version>104.4.0.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="barchart">
-      <Version>1.1.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
 </Project>

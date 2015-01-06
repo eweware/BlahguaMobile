@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Android.App;
+using Android.Support.V4.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -19,7 +19,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileProfileFragment : Fragment, IUrlImageViewCallback
+	class TestFragment : Fragment, IUrlImageViewCallback
     {
         public static UserProfileProfileFragment NewInstance()
         {
@@ -35,7 +35,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-			HomeActivity.analytics.PostPageView("/self/profile");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_profile, null);
 
             EventHandler click = (sender, args) =>
@@ -92,46 +91,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void initUi()
         {
-            nickname.Text = BlahguaAPIObject.Current.CurrentUser.Profile.Nickname;
-            if (!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
-            {
-                btn_avatar.Visibility = ViewStates.Gone;
-                avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
-            }
+
         }
 
-        public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            if (resultCode == Result.Ok)
-            {
-                progress.Visibility = ViewStates.Visible;
-                btn_avatar.Visibility = ViewStates.Gone;
-                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
-                String fileName = StreamHelper.GetFileName(Activity, data.Data);
-                //String fileName = data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1);
-                avatar.SetUrlDrawable(null);
-                BlahguaAPIObject.Current.UploadUserImage(inputStream, fileName, (photoString) =>
-                {
-                    Activity.RunOnUiThread(() =>
-                    {
-                        if ((photoString != null) && (photoString.Length > 0))
-                        {
-                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-									HomeActivity.analytics.PostUploadUserImage();
-                            avatar.SetUrlDrawable(photoURL, this);
-                        }
-                        else
-                        {
-                            btn_avatar.Visibility = ViewStates.Visible;
-                            Toast.MakeText(Activity, "Uploading failed", ToastLength.Short).Show();
-									HomeActivity.analytics.PostSessionError("userimageuploadfailed");
-                        }
-                    });
-                }
-                );
-            }
-        }
 
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
         {
