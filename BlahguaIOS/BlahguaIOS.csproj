@@ -319,6 +319,22 @@
     <Compile Include="Views\BGCommentHistoryCell.designer.cs">
       <DependentUpon>BGCommentHistoryCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="View Controllers\BGSignUpPage01.cs" />
+    <Compile Include="View Controllers\BGSignUpPage01.designer.cs">
+      <DependentUpon>BGSignUpPage01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGSignUpPage03.cs" />
+    <Compile Include="View Controllers\BGSignUpPage03.designer.cs">
+      <DependentUpon>BGSignUpPage03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGSignOnPageViewController.cs" />
+    <Compile Include="View Controllers\BGSignOnPageViewController.designer.cs">
+      <DependentUpon>BGSignOnPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View Controllers\BGSignUpPage02.cs" />
+    <Compile Include="View Controllers\BGSignUpPage02.designer.cs">
+      <DependentUpon>BGSignUpPage02.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -398,6 +414,8 @@
     <BundleResource Include="Resources\report_button_active%402x.png" />
     <BundleResource Include="Resources\share_button%402x.png" />
     <BundleResource Include="Resources\.DS_Store" />
+    <BundleResource Include="Resources\Logo_master_red.png" />
+    <BundleResource Include="Resources\Heard_Smile_Only_red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -406,6 +424,7 @@
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
+    <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
