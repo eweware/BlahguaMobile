@@ -447,12 +447,20 @@ namespace BlahguaMobile.BlahguaCore
             request.AddBody(new { N = userName, pwd = passWord });
 
             apiClient.ExecuteAsync(request, (response) =>
-            {
-                if (response.Content == "")
-                    callback("");
-                else
-                    callback(response.StatusDescription);
-            });
+                {
+                    if (response.StatusCode == HttpStatusCode.Accepted)
+                        callback("");
+                    else
+                    {
+                        string resultStr = "Error";
+
+                        if (!String.IsNullOrEmpty(response.StatusDescription))
+                            resultStr = response.StatusDescription;
+                        else if (!String.IsNullOrEmpty(response.ErrorMessage))
+                            resultStr = response.ErrorMessage;
+                        callback(resultStr);
+                    }
+                });
 
         }
 
@@ -488,8 +496,16 @@ namespace BlahguaMobile.BlahguaCore
             request.AddBody(new { N = userName, pwd = passWord });
             apiClient.ExecuteAsync<User>(request, (response) =>
             {
-                if (response.Data == null)
-                    callback(response.StatusDescription);
+                if (response.StatusCode != HttpStatusCode.Created)
+                {
+                    string resultStr = "Error";
+
+                    if (!String.IsNullOrEmpty(response.StatusDescription))
+                        resultStr = response.StatusDescription;
+                    else if (!String.IsNullOrEmpty(response.ErrorMessage))
+                        resultStr = response.ErrorMessage;
+                    callback(resultStr);
+                }
                 else
                     callback("");
             });

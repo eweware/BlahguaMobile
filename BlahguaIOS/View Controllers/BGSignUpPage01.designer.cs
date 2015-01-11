@@ -32,6 +32,10 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIScrollView Scroller { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton signInBtn { get; set; }
 
 		[Outlet]
@@ -63,6 +67,10 @@ namespace BlahguaMobile.IOS
 			if (passwordField != null) {
 				passwordField.Dispose ();
 				passwordField = null;
+			}
+			if (Scroller != null) {
+				Scroller.Dispose ();
+				Scroller = null;
 			}
 			if (signInBtn != null) {
 				signInBtn.Dispose ();

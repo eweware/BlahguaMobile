@@ -18,12 +18,14 @@ namespace BlahguaMobile.IOS
             this.techBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
                     // we are done - dismiss it
+                    SetDefaultChannel("Tech Industry");
                     ((BGSignOnPageViewController)ParentViewController).GoToNext();
                 };
 
             this.entertainmentBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
                     // we are done - dismiss it
+                    SetDefaultChannel("Entertainment Industry");
                     ((BGSignOnPageViewController)ParentViewController).GoToNext();
                 };
 
@@ -35,6 +37,12 @@ namespace BlahguaMobile.IOS
                 };
 
 
+        }
+
+        private void SetDefaultChannel(string channelName)
+        {
+            BlahguaCore.BlahguaAPIObject.Current.SavedChannel = channelName;
+            BlahguaCore.BlahguaAPIObject.Current.SafeSaveSetting("SavedChannel", channelName);
         }
 	}
 }

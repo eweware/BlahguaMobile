@@ -50,6 +50,7 @@ namespace BlahguaMobile.BlahguaCore
         public Blah NewBlahToInsert { get; set; }
         private Dictionary<string, BadgeRecord> intBadgeMap = new Dictionary<string, BadgeRecord>();
         private ProfileSchema _profileSchema = null;
+        private string _savedChannel = "";
         private bool _filterProfanity = true;
         private bool _filterFlaggedContent = true;
         public InboxBlah CurrentInboxBlah { get; set; }
@@ -80,6 +81,16 @@ namespace BlahguaMobile.BlahguaCore
             {
                 _filterProfanity = value;
                 OnPropertyChanged("FilterProfanity");
+            }
+        }
+
+        public string SavedChannel
+        {
+            get { return _savedChannel; }
+            set
+            {
+                _savedChannel = value;
+                OnPropertyChanged("SavedChannel");
             }
         }
 
@@ -219,6 +230,7 @@ namespace BlahguaMobile.BlahguaCore
 			System.Console.WriteLine ("Loading Settings");
             AutoLogin = (bool)SafeLoadSetting("AutoLogin", true);
             FilterProfanity = (bool)SafeLoadSetting("FilterProfanity", true);
+            SavedChannel = (string)SafeLoadSetting("SavedChannel", "Public");
         }
 
         void SaveSettings()
@@ -226,6 +238,7 @@ namespace BlahguaMobile.BlahguaCore
 			System.Console.WriteLine ("Saving Settings");
             SafeSaveSetting("AutoLogin", AutoLogin);
             SafeSaveSetting("FilterProfanity", FilterProfanity);
+            SafeSaveSetting("SavedChannel", SavedChannel);
         }
 
         public object SafeLoadSetting(string setting, object defVal)
@@ -365,19 +378,25 @@ namespace BlahguaMobile.BlahguaCore
                         request.AddHeader("Accept", "*/*");
 
                         apiClient.ExecuteAsync(request, (response) =>
-                        {
-                            string step2HTML = response.Content;
-                            int theLoc = step2HTML.IndexOf("Request Domain");
-                            if (theLoc != -1)
                             {
-                                callback("");
+                                string step2HTML = response.Content;
+                                int theLoc = step2HTML.IndexOf("Request Domain");
+                                if (theLoc != -1)
+                                {
+                                    callback("");
+                                }
+                                
+                                theLoc = step2HTML.IndexOf("granted in the past");
+                                if (theLoc != -1)
+                                {
+                                    callback("existing");
+                                }
+                                else
+                                {
+                                    string tk2 = GetTicket(step2HTML);
+                                    callback(tk2);
+                                }
                             }
-                            else
-                            {
-                                string tk2 = GetTicket(step2HTML);
-                                callback(tk2);
-                            }
-                        }
                         );
                     }
                     
@@ -458,51 +477,57 @@ namespace BlahguaMobile.BlahguaCore
             if (!inited)
             {
                 BlahguaRest.GetChannelTypes((cTypeList) =>
-                {
-                    System.Diagnostics.Debug.WriteLine("Loaded Channels");
-                    if (cTypeList != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("Channels OK");
-                        curChannelTypes = cTypeList;
-
-                        BlahguaRest.GetBlahTypes((bTypeList) =>
+                        System.Diagnostics.Debug.WriteLine("Loaded Channels");
+                        if (cTypeList != null)
                         {
-                            System.Diagnostics.Debug.WriteLine("Loaded Blah Types");
-                            blahTypeList = bTypeList;
-                            blahTypeList.Remove(blahTypeList.First(i => i.N == "ad"));
+                            System.Diagnostics.Debug.WriteLine("Channels OK");
+                            curChannelTypes = cTypeList;
 
-                            if (AutoLogin)
-                            {
-								System.Console.WriteLine("Doing autologin");
-                                System.Diagnostics.Debug.WriteLine("Doing auto login");
-                                SavedUserInfo info = GetSavedUserInfo();
-                                if (info.UserName != "")
+                            BlahguaRest.GetBlahTypes((bTypeList) =>
                                 {
-                                    SignIn(info.UserName, info.Password, true, (theErrStr) =>
-                                        {
-                                            if (theErrStr == null)
-                                            {
-                                                inited = true;
-                                                callBack(true);
-                                            }
-                                            else
-                                                CompletePublicSignin(defaultChannel, callBack);
-                                        }
-                                    );
-                                }
-                                else
-                                    CompletePublicSignin(defaultChannel, callBack);
-                            }
-                            else
-                                CompletePublicSignin(defaultChannel, callBack);
+                                    System.Diagnostics.Debug.WriteLine("Loaded Blah Types");
+                                    blahTypeList = bTypeList;
+                                    blahTypeList.Remove(blahTypeList.First(i => i.N == "ad"));
 
-                        });
-                    }
-                    else
-                    {
-                        callBack(false);
-                    }
-                });
+                                    if (AutoLogin)
+                                    {
+        								System.Console.WriteLine("Doing autologin");
+                                        System.Diagnostics.Debug.WriteLine("Doing auto login");
+                                        SavedUserInfo info = GetSavedUserInfo();
+                                        if (!String.IsNullOrEmpty(SavedChannel))
+                                        {
+                                            defaultChannel = SavedChannel;
+                                            Console.WriteLine("restoring channel " + SavedChannel);
+                                        }
+
+                                        if (info.UserName != "")
+                                        {
+                                            SignIn(info.UserName, info.Password, true, (theErrStr) =>
+                                                {
+                                                    if (theErrStr == null)
+                                                    {
+                                                        inited = true;
+                                                        callBack(true);
+                                                    }
+                                                    else
+                                                        CompletePublicSignin(defaultChannel, callBack);
+                                                }
+                                            );
+                                        }
+                                        else
+                                            CompletePublicSignin(defaultChannel, callBack);
+                                    }
+                                    else
+                                        CompletePublicSignin(defaultChannel, callBack);
+
+                                });
+                        }
+                        else
+                        {
+                            callBack(false);
+                        }
+                    });
             }
             else
             {
@@ -815,6 +840,8 @@ namespace BlahguaMobile.BlahguaCore
                     FlushImpressionList();
                     currentChannel = value;
                     OnPropertyChanged("CurrentChannel");
+                    SavedChannel = value.ChannelName;
+                    SafeSaveSetting("SavedChannel", SavedChannel);
                 }
             }
         }
@@ -1355,7 +1382,10 @@ namespace BlahguaMobile.BlahguaCore
             GetOrAddUserChannels((chanList) =>
                 {
                     CurrentChannelList = chanList;
-                    CurrentChannel = curChannelList[0];
+                    if (!String.IsNullOrEmpty(SavedChannel))
+                        CurrentChannel = curChannelList.ChannelFromName(SavedChannel);
+                    else
+                        CurrentChannel = curChannelList[0];
 
                     BlahguaRest.GetUserInfo((newUser) =>
                         {

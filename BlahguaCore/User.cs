@@ -41,7 +41,7 @@ namespace BlahguaMobile.BlahguaCore
 
                     if (newOpens > 0)
                     {
-                        if (didIt)
+                        if (!didIt)
                             theStr += "Your posts have been opened ";
                         else
                             theStr += " and opened ";
