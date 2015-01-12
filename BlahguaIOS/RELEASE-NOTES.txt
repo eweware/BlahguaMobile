@@ -4,4 +4,8 @@ This version has a new flow for sign-in.
 
 In the final app, the new sign in will only happen on first use.
 
-The layout is also not using constraints yet, since we want to finalize text changes.
+- updated the layout
+- put in the fonts
+- added sign in on its own screen mode
+- made it work on ios 7
+

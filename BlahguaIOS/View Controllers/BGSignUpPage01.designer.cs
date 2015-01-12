@@ -32,6 +32,14 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton PrepSignIn { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel recoveryLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIScrollView Scroller { get; set; }
 
 		[Outlet]
@@ -67,6 +75,14 @@ namespace BlahguaMobile.IOS
 			if (passwordField != null) {
 				passwordField.Dispose ();
 				passwordField = null;
+			}
+			if (PrepSignIn != null) {
+				PrepSignIn.Dispose ();
+				PrepSignIn = null;
+			}
+			if (recoveryLabel != null) {
+				recoveryLabel.Dispose ();
+				recoveryLabel = null;
 			}
 			if (Scroller != null) {
 				Scroller.Dispose ();

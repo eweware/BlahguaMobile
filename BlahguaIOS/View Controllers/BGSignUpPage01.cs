@@ -57,6 +57,12 @@ namespace BlahguaMobile.IOS
             AddObservers();
         }
 
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+            Scroller.ContentSize = new SizeF(320, 568);
+        }
+
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
@@ -76,9 +82,9 @@ namespace BlahguaMobile.IOS
             base.ViewDidLoad();
 
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-
+            Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
             Scroller.Frame = new RectangleF(0, 0, this.View.Frame.Width, this.View.Frame.Height);
-            Scroller.ContentSize = new SizeF(320, 600);
+            Scroller.ContentSize = new SizeF(320, 568);
             HandleTextValueChanged(null, null);
 
             indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
@@ -148,6 +154,11 @@ namespace BlahguaMobile.IOS
                     ((BGSignOnPageViewController)ParentViewController).Finish();
 
 
+                };
+
+            PrepSignIn.TouchUpInside += (object sender, EventArgs e) => 
+                {
+                    PrepForSignIn();
                 };
 
         }
@@ -224,9 +235,19 @@ namespace BlahguaMobile.IOS
             InvokeOnMainThread(() => 
                 {
                     UIAlertController alert = UIAlertController.Create(titleString, descString, UIAlertControllerStyle.Alert);
-                    alert.AddAction(UIAlertAction.Create("ok", UIAlertActionStyle.Default, null));
 
-                    PresentViewController(alert, true, null);
+                    if (alert != null)
+                    {
+                        alert.AddAction(UIAlertAction.Create("ok", UIAlertActionStyle.Default, null));
+
+                        PresentViewController(alert, true, null);
+                    }
+                    else
+                    {
+                        // use UI AlertView
+                        UIAlertView oldAlert = new UIAlertView(titleString, descString, null, "ok", null);
+                        oldAlert.Show();
+                    }
                 });
 
         }
@@ -300,6 +321,19 @@ namespace BlahguaMobile.IOS
                 else
                     createAccountBtn.Enabled = false;
             }
+        }
+
+        void PrepForSignIn()
+        {
+            PrepSignIn.Hidden = true;
+            createAccountBtn.Hidden = true;
+            emailField.Hidden = true;
+            confirmPassword.Hidden = true;
+            signInBtn.Hidden = false;
+            recoveryLabel.Hidden = true;
+            skipButton.Frame.Offset(new PointF(0, -124));
+            passwordField.ReturnKeyType = UIReturnKeyType.Default;
+
         }
 	}
 }

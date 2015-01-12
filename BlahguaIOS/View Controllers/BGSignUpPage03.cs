@@ -66,6 +66,12 @@ namespace BlahguaMobile.IOS
             UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
         }
 
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+            Scroller.ContentSize = new SizeF(320, 568);
+        }
+
         private void OnKeyboardHideNotification (NSNotification notification)
         {
             UIEdgeInsets contentInsets = UIEdgeInsets.Zero;
@@ -82,6 +88,7 @@ namespace BlahguaMobile.IOS
             base.ViewDidLoad();
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 
+            Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
             Scroller.ContentSize = new SizeF(320, 568);
             Scroller.Frame = new RectangleF(0, 0, this.View.Frame.Width, this.View.Frame.Height);
             HandleTextValueChanged(null, null);
@@ -131,39 +138,31 @@ namespace BlahguaMobile.IOS
                     BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, emailAddr, (ticket) => {
                         InvokeOnMainThread(() => {
                             indicator.StopAnimating();
-                            UIAlertController alert;
                             if(ticket == String.Empty)
                             {
-                                AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
-                                alert = UIAlertController.Create("No Result", "No badges are available for your domain.  You can try again from your profile page.", UIAlertControllerStyle.Alert);
-                                alert.AddAction(UIAlertAction.Create("got it", UIAlertActionStyle.Default,
-                                    Action =>
+                                DisplayAlert("No Result", "No badges are available for your domain.  You can try again later from your profile page.", "got it", () =>
                                     {
                                         ((BGSignOnPageViewController)this.ParentViewController).Finish();
-                                    }));
+                                    });
+
                             }
                             else if (ticket == "existing")
                             {
                                 AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
-                                alert = UIAlertController.Create("Issued", "A badge has previously been issued to this email address.", UIAlertControllerStyle.Alert);
-                                alert.AddAction(UIAlertAction.Create("got it", UIAlertActionStyle.Default,
-                                    Action =>
+                                DisplayAlert("Issued", "A badge has previously been issued to this email address.", "got it", () =>
                                     {
                                         ((BGSignOnPageViewController)this.ParentViewController).Finish();
-                                    }));
+                                    });
                             }
                             else
                             {
                                 AppDelegate.analytics.PostRequestBadge(authId);
                                 currentTicket = ticket;
-                                alert = UIAlertController.Create("Badges Success", "Badges are available for your email address.", UIAlertControllerStyle.Alert);
-                                alert.AddAction(UIAlertAction.Create("next", UIAlertActionStyle.Default,
-                                    Action =>
+                                DisplayAlert("Badges Success", "Badges are available for your email address.", "next", () => 
                                     {
                                         PrepPhaseTwo();
-                                    }));
+                                    });
                             }
-                            PresentViewController(alert, true, null);
                         });
                     });
                 };
@@ -180,31 +179,23 @@ namespace BlahguaMobile.IOS
                     BlahguaAPIObject.Current.VerifyEmailBadge (verificationField.Text, currentTicket, (result) => {
                         InvokeOnMainThread (() => 
                             {
-                                UIAlertController alert;
-
                                 if (result == "fail") 
                                 {
                                     AppDelegate.analytics.PostBadgeValidateFailed();
-                                    alert = UIAlertController.Create("Verification Failure", "That validation code was not valid.  Please retry your badging attempt.", UIAlertControllerStyle.Alert);
-                                    alert.AddAction(UIAlertAction.Create("retry", UIAlertActionStyle.Default, 
-                                        Action =>
+                                    DisplayAlert("Verification Failure", "That validation code was not valid.  Please retry your badging attempt.", "retry", () =>
                                         {
                                             verificationField.SelectAll(this);
-                                        }));
+                                        });
                                 } 
                                 else 
                                 {
                                     AppDelegate.analytics.PostGotBadge();
                                     BlahguaAPIObject.Current.RefreshUserBadges(null);
-                                    alert = UIAlertController.Create("Verified", "You are ready to use badges in Heard.", UIAlertControllerStyle.Alert);
-                                    alert.AddAction(UIAlertAction.Create("let's go", UIAlertActionStyle.Default, 
-                                        Action =>
+                                    DisplayAlert("Verified", "You are ready to use badges in Heard.", "let's go", () =>
                                         {
                                             ((BGSignOnPageViewController)this.ParentViewController).Finish();
-                                        }));
+                                        });
                                 }
-
-                                PresentViewController(alert, true, null);
                         });
                     });
 
@@ -219,6 +210,7 @@ namespace BlahguaMobile.IOS
                 {
                     // we are done - dismiss it
                     verificationField.Text = "";
+                    skipBtn.Enabled = true;
                     PrepPhaseOne();
                 };
 
@@ -345,5 +337,24 @@ namespace BlahguaMobile.IOS
             else
                 verifyBtn.Enabled = true;
         }
+
+        public void DisplayAlert(string titleString, string descString, string buttonName = "ok", Action action = null)
+        {
+            InvokeOnMainThread(() =>
+                {
+                    UIAlertView oldAlert = new UIAlertView(titleString, descString, null, buttonName, null);
+
+                    if (action != null)
+                    {
+                        oldAlert.Clicked += (object sender, UIButtonEventArgs e) =>
+                        {
+                            action.Invoke();
+                        };
+                    }
+
+                    oldAlert.Show();
+                });
+        }
+
 	}
 }
