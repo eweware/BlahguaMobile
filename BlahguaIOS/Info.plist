@@ -17,7 +17,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.50</string>
+	<string>1.0.60</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>
@@ -38,33 +38,25 @@
 	<string>Heard</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>fonts/GothamRnd-Bold.otf</string>
-		<string>fonts/GothamRnd-BoldItal.otf</string>
-		<string>fonts/GothamRnd-Book.otf</string>
-		<string>fonts/GothamRnd-BookItal.otf</string>
-		<string>fonts/GothamRnd-Light.otf</string>
-		<string>fonts/GothamRnd-LightItal.otf</string>
-		<string>fonts/GothamRnd-MedItal.otf</string>
-		<string>fonts/GothamRnd-Medium.otf</string>
-		<string>fonts/GothamRounded-Bold.otf</string>
-		<string>fonts/GothamRounded-BoldItalic.otf</string>
-		<string>fonts/GothamRounded-Book.otf</string>
-		<string>fonts/GothamRounded-BookItalic.otf</string>
-		<string>fonts/GothamRounded-Light.otf</string>
-		<string>fonts/GothamRounded-LightItalic.otf</string>
-		<string>fonts/GothamRounded-Medium.otf</string>
-		<string>fonts/GothamRounded-MediumItalic.otf</string>
-		<string>fonts/Merriweather.otf</string>
-		<string>fonts/Merriweather-Bold.otf</string>
-		<string>fonts/Merriweather-BoldItalic.otf</string>
-		<string>fonts/Merriweather-Heavy.otf</string>
-		<string>fonts/Merriweather-HeavyItalic.otf</string>
-		<string>fonts/Merriweather-Italic.otf</string>
-		<string>fonts/Merriweather-Light.otf</string>
-		<string>fonts/Merriweather-LightItalic.otf</string>
+		<string>GothamRounded-Bold.otf</string>
+		<string>GothamRounded-BoldItalic.otf</string>
+		<string>GothamRounded-Book.otf</string>
+		<string>GothamRounded-BookItalic.otf</string>
+		<string>GothamRounded-Light.otf</string>
+		<string>GothamRounded-LightItalic.otf</string>
+		<string>GothamRounded-Medium.otf</string>
+		<string>GothamRounded-MediumItalic.otf</string>
+		<string>Merriweather.otf</string>
+		<string>Merriweather-Bold.otf</string>
+		<string>Merriweather-BoldItalic.otf</string>
+		<string>Merriweather-Heavy.otf</string>
+		<string>Merriweather-HeavyItalic.otf</string>
+		<string>Merriweather-Italic.otf</string>
+		<string>Merriweather-Light.otf</string>
+		<string>Merriweather-LightItalic.otf</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.50</string>
+	<string>1.0.60</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon</string>

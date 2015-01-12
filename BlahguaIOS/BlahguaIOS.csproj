@@ -96,6 +96,7 @@
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchUseLlvm>true</MtouchUseLlvm>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
@@ -142,7 +143,6 @@
     </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\DeviceType.cs" />
     <Compile Include="View Controllers\BGProfileViewController.cs" />
@@ -335,6 +335,7 @@
     <Compile Include="View Controllers\BGSignUpPage02.designer.cs">
       <DependentUpon>BGSignUpPage02.cs</DependentUpon>
     </Compile>
+    <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -416,6 +417,8 @@
     <BundleResource Include="Resources\.DS_Store" />
     <BundleResource Include="Resources\Logo_master_red.png" />
     <BundleResource Include="Resources\Heard_Smile_Only_red.png" />
+    <BundleResource Include="Resources\Heard_Smile_Only_teal.png" />
+    <BundleResource Include="Resources\Logo_master_teal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -496,30 +499,6 @@
     <BundleResource Include="Resources\Default-Landscape.png" />
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\Default-Landscape%402x.png" />
-    <BundleResource Include="Resources\fonts\GothamRnd-Bold.otf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-BoldItal.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-Book.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-BookItal.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-Light.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-LightItal.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-MedItal.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="Resources\fonts\GothamRnd-Medium.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
     <BundleResource Include="Resources\fonts\GothamRounded-Bold.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>

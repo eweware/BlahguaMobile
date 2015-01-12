@@ -43,12 +43,12 @@ namespace BlahguaMobile.IOS
             Scroller.ContentInset = contentInsets;
             Scroller.ScrollIndicatorInsets = contentInsets;
 
+            float currentScroll = Scroller.ContentOffset.Y;
+            float minScroll = (activeField.Frame.Bottom + 4) - keyboardSize.Height;
 
-            RectangleF viewRect = this.View.Frame;
-            viewRect.Height -= keyboardSize.Height;
-            if (!viewRect.Contains(activeField.Frame.Location))
+            if (currentScroll < minScroll)
             {
-                Scroller.ScrollRectToVisible(viewRect, true);
+                Scroller.SetContentOffset(new PointF(0, minScroll), true);
             }
 
         }
@@ -82,7 +82,8 @@ namespace BlahguaMobile.IOS
             base.ViewDidLoad();
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 
-            Scroller.ContentSize = this.View.Frame.Size;
+            Scroller.ContentSize = new SizeF(320, 568);
+            Scroller.Frame = new RectangleF(0, 0, this.View.Frame.Width, this.View.Frame.Height);
             HandleTextValueChanged(null, null);
 
             indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);

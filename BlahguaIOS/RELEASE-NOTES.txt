@@ -1,6 +1,7 @@
-Wednesday Build
-==========
-+ app store release!
-+ fixed crash in comments when not signed in
-+ added impression tracking
-+ minor cosmetic fixes
+New Signin Flow
+=============
+This version has a new flow for sign-in.  
+
+In the final app, the new sign in will only happen on first use.
+
+The layout is also not using constraints yet, since we want to finalize text changes.
