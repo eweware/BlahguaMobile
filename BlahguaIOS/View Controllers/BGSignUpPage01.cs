@@ -13,6 +13,7 @@ namespace BlahguaMobile.IOS
         UITextField activeField = null;
         NSObject hideObserver;
         NSObject showObserver;
+        UIActivityIndicatorView indicator = null;
 
 		public BGSignUpPage01 (IntPtr handle) : base (handle)
 		{
@@ -59,6 +60,7 @@ namespace BlahguaMobile.IOS
         {
             base.ViewWillDisappear(animated);
             RemoveObservers();
+            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
         }
 
         private void OnKeyboardHideNotification (NSNotification notification)
@@ -76,6 +78,13 @@ namespace BlahguaMobile.IOS
 
             Scroller.ContentSize = this.View.Frame.Size;
             HandleTextValueChanged(null, null);
+
+            indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
+            indicator.Frame = new RectangleF(0, 0, 40, 40);
+            indicator.Center = this.View.Center;
+            this.View.AddSubview(indicator);
+            indicator.BringSubviewToFront(this.View);
+            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 
             usernameField.EditingDidEnd += HandleTextValueChanged;
             usernameField.ShouldReturn += TextFieldShouldReturn;
@@ -103,8 +112,12 @@ namespace BlahguaMobile.IOS
 
             signInBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
+                    indicator.StartAnimating();
                     string userName = usernameField.Text.Trim();
                     string password = passwordField.Text;
+                    signInBtn.Enabled = false;
+                    createAccountBtn.Enabled = false;
+                    skipButton.Enabled = false;
 
                     // sign in
                     BlahguaAPIObject.Current.SignIn(userName, password, true, SiginInResultCallback);
@@ -112,8 +125,13 @@ namespace BlahguaMobile.IOS
 
             createAccountBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
+                    indicator.StartAnimating();
                     string userName = usernameField.Text.Trim();
                     string password = passwordField.Text;
+                    signInBtn.Enabled = false;
+                    createAccountBtn.Enabled = false;
+                    skipButton.Enabled = false;
+
 
                     // sign in
                     BlahguaAPIObject.Current.Register(userName, password, true, CreateAccountResultCallback);
@@ -138,13 +156,25 @@ namespace BlahguaMobile.IOS
             if (result == null)
             {
                 AppDelegate.analytics.PostLogin();
-                InvokeOnMainThread(() => ((BGSignOnPageViewController)ParentViewController).Finish());
+                InvokeOnMainThread(() =>
+                    {
+                        indicator.StopAnimating();
+                        ((BGSignOnPageViewController)ParentViewController).Finish();
+                    });
             }
             else
             {
                 AppDelegate.analytics.PostSessionError("signinfailed-" + result);
 
                 DisplayAlert(result, "Unable to sign in.  Check username and password");
+                InvokeOnMainThread(() =>
+                    {
+                        indicator.StopAnimating();
+                        signInBtn.Enabled = true;
+                        createAccountBtn.Enabled = true;
+                        skipButton.Enabled = true;
+                        HandleTextValueChanged(null, null);
+                    });
             }
 
         }
@@ -156,6 +186,7 @@ namespace BlahguaMobile.IOS
                 AppDelegate.analytics.PostRegisterUser();
                 InvokeOnMainThread(() =>
                     {
+                        indicator.StopAnimating();
                         string emailAddr = emailField.Text.Trim();
 
                         if (!String.IsNullOrEmpty(emailAddr))
@@ -175,6 +206,14 @@ namespace BlahguaMobile.IOS
                 AppDelegate.analytics.PostSessionError("registerfailed-" + result);
 
                 DisplayAlert(result, "Unable to create account.  Check username");
+                InvokeOnMainThread(() =>
+                    {
+                        indicator.StopAnimating();
+                        signInBtn.Enabled = true;
+                        createAccountBtn.Enabled = true;
+                        skipButton.Enabled = true;
+                        HandleTextValueChanged(null, null);
+                    });
             }
         }
 

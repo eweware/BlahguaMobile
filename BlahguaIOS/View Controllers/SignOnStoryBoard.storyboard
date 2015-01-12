@@ -212,7 +212,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Heard uses “Verified Not Identified”™ badges." lineBreakMode="tailTruncation" minimumFontSize="10" id="81" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="0">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="111" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
+                                <subviews>
+                                	<label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Heard uses “Verified Not Identified”™ badges." lineBreakMode="tailTruncation" minimumFontSize="10" id="81" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="0">
                                 <rect key="frame" x="10" y="35" width="300" height="51"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -289,6 +292,8 @@ This process is double blind, so your email is not saved or discoverable.
                                 <state key="selected"/>
                                 <state key="disabled"/>
                             </button>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                     </view>
                     <connections>
@@ -301,6 +306,7 @@ This process is double blind, so your email is not saved or discoverable.
                         <outlet property="verificationField" destination="87" id="name-outlet-87"/>
                         <outlet property="verifyBtn" destination="89" id="name-outlet-89"/>
                         <outlet property="noCodeBtn" destination="90" id="name-outlet-90"/>
+                        <outlet property="Scroller" destination="111" id="name-outlet-111"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -36,6 +36,10 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIScrollView Scroller { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIView SiginUpPage03View { get; set; }
 
 		[Outlet]
@@ -71,6 +75,10 @@ namespace BlahguaMobile.IOS
 			if (preBadgeLabel != null) {
 				preBadgeLabel.Dispose ();
 				preBadgeLabel = null;
+			}
+			if (Scroller != null) {
+				Scroller.Dispose ();
+				Scroller = null;
 			}
 			if (SiginUpPage03View != null) {
 				SiginUpPage03View.Dispose ();
