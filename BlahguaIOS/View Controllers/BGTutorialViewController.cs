@@ -66,6 +66,8 @@ namespace BlahguaMobile.IOS
 			public BGTutorialDataSource(RectangleF frame):base()
 			{
 				m_frame = frame;
+
+
 			}
 			public override int NumberOfPages()
 			{

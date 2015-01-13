@@ -41,7 +41,7 @@ namespace BlahguaMobile.BlahguaCore
 
                     if (newOpens > 0)
                     {
-                        if (didIt)
+                        if (!didIt)
                             theStr += "Your posts have been opened ";
                         else
                             theStr += " and opened ";
@@ -49,7 +49,7 @@ namespace BlahguaMobile.BlahguaCore
                         if (newOpens > 1)
                             theStr += "s";
                     }
-                    theStr += ".  ";
+                    theStr += ".\n";
                 }
 
                 if (newComments > 0)
@@ -57,7 +57,8 @@ namespace BlahguaMobile.BlahguaCore
                     theStr += "Your posts have received " + newComments.ToString() + " new comment";
                     if (newComments > 1)
                         theStr += "s";
-                    theStr += ".  ";
+                    theStr += ".\n";
+
                 }
 
                 if ((newUpVotes > 0) || (newDownVotes > 0))
@@ -83,7 +84,7 @@ namespace BlahguaMobile.BlahguaCore
                             theStr += "s";
                     }
 
-                    theStr += ".  ";
+                    theStr += ".\n";
                 }
 
 

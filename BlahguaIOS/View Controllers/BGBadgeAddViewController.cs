@@ -149,31 +149,68 @@ namespace BlahguaMobile.IOS
 					string emailAddr = emailTextField.Text;
                     BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, emailAddr, (ticket) => {
 						InvokeOnMainThread(() => {
-							if(ticket == String.Empty)
-							{
-								doneButton.Enabled = false;
-								requestButton.Enabled = true;
-								BadgeRequestView.Hidden = false;
-								BadgeSubmitView.Hidden = true;
+                            if(ticket == String.Empty)
+                            {
+                                doneButton.Enabled = false;
+                                requestButton.Enabled = true;
+                                BadgeRequestView.Hidden = false;
+                                BadgeSubmitView.Hidden = true;
                                 AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
 
-							}
-							else
-							{
+                            }
+                            else if (ticket == "existing")
+                            {
+                                AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
+                                DisplayAlert("Issued", "A badge has previously been issued to this email address.", "got it", () =>
+                                    {
+                                        doneButton.Enabled = true;
+                                        submitted = false;
+                                    });
+                            }
+                            else if (ticket == "invalid")
+                            {
+                                AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
+                                DisplayAlert("Invalid email", "We were not able to send mail to that email address.", "try again", () =>
+                                    {
+                                        submitted = false;
+                                        doneButton.Enabled = true;
+                                    });
+                            }
+                            else
+                            {
                                 AppDelegate.analytics.PostRequestBadge(authId);
-								ticketString = ticket;
-								doneButton.Enabled = false;
-								emailTextField.Text = String.Empty;
-								verifyCodeTextField.Text = String.Empty;
-								verifyButton.Enabled = false;
-								BadgeVerifyView.Hidden = false;
-								BadgeSubmitView.Hidden = true;
-							}
+                                ticketString = ticket;
+                                doneButton.Enabled = false;
+                                emailTextField.Text = String.Empty;
+                                verifyCodeTextField.Text = String.Empty;
+                                verifyButton.Enabled = false;
+                                BadgeVerifyView.Hidden = false;
+                                BadgeSubmitView.Hidden = true;
+                            }
+
 						});
 					});
 				});
 			});
 		}
+
+        public void DisplayAlert(string titleString, string descString, string buttonName = "ok", Action action = null)
+        {
+            InvokeOnMainThread(() =>
+                {
+                    UIAlertView oldAlert = new UIAlertView(titleString, descString, null, buttonName, null);
+
+                    if (action != null)
+                    {
+                        oldAlert.Clicked += (object sender, UIButtonEventArgs e) =>
+                            {
+                                action.Invoke();
+                            };
+                    }
+
+                    oldAlert.Show();
+                });
+        }
 
 		private void ClickBadgeVerifyBtn(object sender, EventArgs args)
 		{

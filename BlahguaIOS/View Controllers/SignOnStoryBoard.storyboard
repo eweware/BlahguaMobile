@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sign On Page View Controller-->
+        <scene sceneID="2">
+            <objects>
+                <pageViewController storyboardIdentifier="SignOnViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="min" id="3" customClass="BGSignOnPageViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="134" y="59"/>
+        </scene>
+        <!--Sign Up Page01-->
+        <scene sceneID="8">
+            <objects>
+                <viewController restorationIdentifier="SignUpPage01" storyboardIdentifier="SignUpPage01" id="9" customClass="BGSignUpPage01" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6"/>
+                        <viewControllerLayoutGuide type="bottom" id="7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="10">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="104" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome!  Get started with an account:" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39" fixedFrame="YES">
+                                        <rect key="frame" x="8" y="130" width="304" height="20"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="43" fixedFrame="YES">
+                                        <rect key="frame" x="16" y="158" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44" fixedFrame="YES">
+                                        <rect key="frame" x="16" y="196" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" returnKeyType="next"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="45" fixedFrame="YES" tag="3">
+                                        <rect key="frame" x="16" y="234" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="59" fixedFrame="YES">
+                                        <rect key="frame" x="16" y="318" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46" fixedFrame="YES">
+                                        <rect key="frame" x="50" y="364" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Create Account" backgroundImage="short_button_normal.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47" fixedFrame="YES" buttonType="custom" hidden="YES">
+                                        <rect key="frame" x="50" y="234" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Sign In" backgroundImage="short_button_normal.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48" fixedFrame="YES">
+                                        <rect key="frame" x="50" y="406" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Skip for now" backgroundImage="short_button_pressed.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Logo_master_teal.png" translatesAutoresizingMaskIntoConstraints="NO" id="40" fixedFrame="YES">
+                                        <rect key="frame" x="13" y="16" width="295" height="106"/>
+                                    </imageView>
+                                    <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No email address is required, but your password cannot be reset without one." lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60" fixedFrame="YES">
+                                        <rect key="frame" x="8" y="278" width="304" height="32"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="163" fixedFrame="YES" buttonType="roundedRect">
+                                        <rect key="frame" x="50" y="448" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="already have an account?" backgroundImage="">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="Scroller" destination="104" id="name-outlet-104"/>
+                        <outlet property="SignupPage01View" destination="10" id="name-outlet-10"/>
+                        <outlet property="confirmPassword" destination="45" id="name-outlet-45"/>
+                        <outlet property="createAccountBtn" destination="46" id="name-outlet-46"/>
+                        <outlet property="emailField" destination="59" id="name-outlet-59"/>
+                        <outlet property="passwordField" destination="44" id="name-outlet-44"/>
+                        <outlet property="signInBtn" destination="47" id="name-outlet-47"/>
+                        <outlet property="skipButton" destination="48" id="name-outlet-48"/>
+                        <outlet property="usernameField" destination="43" id="name-outlet-43"/>
+                        <outlet property="PrepSignIn" destination="163" id="name-outlet-163"/>
+                        <outlet property="recoveryLabel" destination="60" id="name-outlet-60"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="11" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="565" y="58"/>
+        </scene>
+        <!--Sign Up Page02-->
+        <scene sceneID="15">
+            <objects>
+                <viewController restorationIdentifier="SignUpPage02" storyboardIdentifier="SignUpPage02" id="16" customClass="BGSignUpPage02" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="13"/>
+                        <viewControllerLayoutGuide type="bottom" id="14"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="17">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="69" alpha="0.2">
+                                <rect key="frame" x="20" y="60" width="280" height="280"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Pick a channel to get started.  You  will be able to see more later." lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                                <rect key="frame" x="8" y="16" width="304" height="62"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73">
+                                <rect key="frame" x="50" y="157" width="220" height="34"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                <state key="normal" title="Tech Industry" backgroundImage="short_button_normal.png">
+                                    <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76">
+                                <rect key="frame" x="50" y="381" width="220" height="34"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                <state key="normal" title="Public" backgroundImage="short_button_normal.png">
+                                    <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77" text="Connect with verified tech employees, VCs and press.">
+                                <rect key="frame" x="16" y="120" width="304" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="78">
+                                <rect key="frame" x="50" y="259" width="220" height="34"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                <state key="normal" title="Entertainment Industry" backgroundImage="short_button_normal.png">
+                                    <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79" text="Engage with verified entertainment studio employees, agents and media.">
+                                <rect key="frame" x="16" y="210" width="304" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="80" text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world’s water cooler.">
+                                <rect key="frame" x="16" y="320" width="304" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="SignUpPage02View" destination="17" id="name-outlet-17"/>
+                        <outlet property="entertainmentBtn" destination="78" id="name-outlet-78"/>
+                        <outlet property="publicBtn" destination="76" id="name-outlet-76"/>
+                        <outlet property="techBtn" destination="73" id="name-outlet-73"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="18" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="968" y="55"/>
+        </scene>
+        <!--Sign Up Page03-->
+        <scene sceneID="22">
+            <objects>
+                <viewController restorationIdentifier="SignUpPage03" storyboardIdentifier="SignUpPage03" id="23" customClass="BGSignUpPage03" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="20"/>
+                        <viewControllerLayoutGuide type="bottom" id="21"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="24">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="111">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="172" alpha="0.2">
+                                        <rect key="frame" x="20" y="60" width="280" height="280"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Heard uses “Verified Not Identified”™ badges." lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
+                                        <rect key="frame" x="8" y="16" width="304" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="82" text="Badges let you show your credentials with or without revealing your full identity.">
+                                        <rect key="frame" x="8" y="72" width="304" height="70"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="83">
+                                        <rect key="frame" x="8" y="150" width="304" height="80"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <string key="text">Enter your email address to see if badges are available for your domain.  This process is double blind, so your email is not saved or discoverable.</string>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84" hidden="YES">
+                                        <rect key="frame" x="16" y="238" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85" hidden="YES">
+                                        <rect key="frame" x="50" y="284" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Check for Badges" backgroundImage="short_button_normal.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86" hidden="YES">
+                                        <rect key="frame" x="49" y="326" width="221" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Skip for now" backgroundImage="short_button_pressed.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88" text="Badges are available!  A verification code has been emailed to you.  Enter the code in the field below to continue." hidden="YES">
+                                        <rect key="frame" x="8" y="150" width="300" height="55"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="verification code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="87" hidden="YES">
+                                        <rect key="frame" x="16" y="213" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89" hidden="YES">
+                                        <rect key="frame" x="50" y="270" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Verifiy" backgroundImage="short_button_normal.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90" hidden="YES">
+                                        <rect key="frame" x="50" y="312" width="220" height="34"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                        <state key="normal" title="Try Again" backgroundImage="short_button_pressed.png">
+                                            <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="Scroller" destination="111" id="name-outlet-111"/>
+                        <outlet property="SiginUpPage03View" destination="24" id="name-outlet-24"/>
+                        <outlet property="badgeReceivedLabel" destination="88" id="name-outlet-88"/>
+                        <outlet property="checkBtn" destination="85" id="name-outlet-85"/>
+                        <outlet property="emailAddrField" destination="84" id="name-outlet-84"/>
+                        <outlet property="noCodeBtn" destination="90" id="name-outlet-90"/>
+                        <outlet property="preBadgeLabel" destination="83" id="name-outlet-83"/>
+                        <outlet property="skipBtn" destination="86" id="name-outlet-86"/>
+                        <outlet property="verificationField" destination="87" id="name-outlet-87"/>
+                        <outlet property="verifyBtn" destination="89" id="name-outlet-89"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="25" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1384" y="72"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Heard_Smile_Only_red.png" width="280" height="240"/>
+        <image name="Logo_master_red.png" width="516" height="265"/>
+        <image name="short_button_normal.png" width="459" height="73"/>
+        <image name="short_button_pressed.png" width="459" height="73"/>
+        <image name="signupRadioButton.png" width="18" height="18"/>
+        <image name="icon_speechact_ask_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_ask.png" width="267" height="267"/>
+        <image name="icon_speechact_leak_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_leak.png" width="267" height="267"/>
+        <image name="icon_speechact_poll_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_poll.png" width="267" height="267"/>
+        <image name="icon_speechact_predict_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_predict.png" width="267" height="267"/>
+        <image name="icon_speechact_say_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_say.png" width="267" height="267"/>
+        <image name="icon_createpost.png" width="533" height="533"/>
+        <image name="BackgroundImage.png" width="320" height="480"/>
+        <image name="texture.png" width="320" height="480"/>
+        <image name="texture-568h.png" width="320" height="568"/>
+        <image name="Background-portrait.png" width="768" height="1024"/>
+        <image name="BackgroundImage_4inch.png" width="320" height="568"/>
+        <image name="hamburger_teal.png" width="49" height="39"/>
+        <image name="tutorial_screen_1.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_2.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_3.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_4.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_5.jpg" width="640" height="1096"/>
+        <image name="tutorial_close.png" width="20" height="20"/>
+        <image name="login_background.jpg" width="264" height="352"/>
+        <image name="logo_white.png" width="189" height="99"/>
+        <image name="signup_2.jpg" width="363" height="545"/>
+        <image name="ios_signin_3x4.jpg" width="320" height="480"/>
+        <image name="ios_signin_2x3.jpg" width="640" height="1136"/>
+        <image name="conversion.png" width="105" height="105"/>
+        <image name="comments_filled_64x64.png" width="64" height="64"/>
+        <image name="report_button_active.png" width="128" height="112"/>
+        <image name="share_button.png" width="59" height="83"/>
+        <image name="rememberMeRadioButton.png" width="28" height="28"/>
+        <image name="signinBckg-4.png" width="640" height="960"/>
+        <image name="signinBckg-5.png" width="640" height="1136"/>
+        <image name="signupRadioButtonUn.png" width="18" height="18"/>
+        <image name="navigationBar.png" width="640" height="128"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="profileImageSelectLogo.png" width="208" height="41"/>
+        <image name="profileInfoBack.png" width="611" height="431"/>
+        <image name="darkGrayBack.png" width="13" height="14"/>
+        <image name="grayBack.png" width="10" height="10"/>
+        <image name="greenBack.png" width="9" height="12"/>
+        <image name="blahsChannelCheck.png" width="19" height="16"/>
+        <image name="newBlahImage.png" width="45" height="45"/>
+        <image name="leftMenuButton.png" width="49" height="39"/>
+        <image name="leftMenuButtonPressed.png" width="48" height="39"/>
+        <image name="rememberMeRadioButton_un.png" width="36" height="36"/>
+        <image name="arrow_down_dark.png" width="22" height="38"/>
+        <image name="arrow_down.png" width="22" height="38"/>
+        <image name="arrow_up_dark.png" width="25" height="38"/>
+        <image name="arrow_up.png" width="25" height="38"/>
+        <image name="comments_dark.png" width="44" height="38"/>
+        <image name="comments.png" width="44" height="38"/>
+        <image name="stats_dark.png" width="52" height="34"/>
+        <image name="stats.png" width="52" height="34"/>
+        <image name="summary_dark.png" width="40" height="32"/>
+        <image name="summary.png" width="40" height="32"/>
+        <image name="badges.png" width="28" height="28"/>
+        <image name="hot.png" width="28" height="28"/>
+        <image name="no_coments.png" width="96" height="79"/>
+        <image name="signature_ico.png" width="30" height="18"/>
+        <image name="arrow_blue.png" width="28" height="28"/>
+        <image name="arrow_gray.png" width="28" height="28"/>
+        <image name="arrow_green.png" width="28" height="28"/>
+        <image name="arrow_red.png" width="28" height="28"/>
+        <image name="arrow_yellow.png" width="28" height="28"/>
+        <image name="input_field_bottom.png" width="610" height="80"/>
+        <image name="input_field_middle.png" width="610" height="80"/>
+        <image name="input_field_top.png" width="610" height="80"/>
+        <image name="new_post_tap.png" width="89" height="104"/>
+        <image name="recent.png" width="28" height="28"/>
+        <image name="image_select.png" width="34" height="22"/>
+        <image name="new_comment.png" width="610" height="357"/>
+        <image name="dropdown_arrow.png" width="15" height="10"/>
+        <image name="input_back.png" width="610" height="80"/>
+        <image name="long_button.png" width="610" height="88"/>
+        <image name="short_button_gray.png" width="459" height="73"/>
+        <image name="new_post.png" width="610" height="443"/>
+        <image name="short_button.png" width="459" height="73"/>
+        <image name="long_button_gray.png" width="610" height="88"/>
+        <image name="newblah.png" width="133" height="133"/>
+        <image name="ask_icon.png" width="32" height="32"/>
+        <image name="badge_icon.png" width="32" height="32"/>
+        <image name="leak_icon.png" width="32" height="32"/>
+        <image name="poll_icon.png" width="32" height="32"/>
+        <image name="predict_icon.png" width="32" height="32"/>
+        <image name="say_icon.png" width="32" height="32"/>
+        <image name="pen_bw.png" width="32" height="32"/>
+        <image name="ico_hot.png" width="32" height="32"/>
+        <image name="ico_new.png" width="32" height="32"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Heard_Smile_Only_teal.png" width="280" height="240"/>
+        <image name="Logo_master_teal.png" width="516" height="265"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

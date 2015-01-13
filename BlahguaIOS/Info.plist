@@ -17,7 +17,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.46</string>
+	<string>1.0.62</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>
@@ -38,14 +38,6 @@
 	<string>Heard</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>fonts/GothamRnd-Bold.otf</string>
-		<string>fonts/GothamRnd-BoldItal.otf</string>
-		<string>fonts/GothamRnd-Book.otf</string>
-		<string>fonts/GothamRnd-BookItal.otf</string>
-		<string>fonts/GothamRnd-Light.otf</string>
-		<string>fonts/GothamRnd-LightItal.otf</string>
-		<string>fonts/GothamRnd-MedItal.otf</string>
-		<string>fonts/GothamRnd-Medium.otf</string>
 		<string>fonts/GothamRounded-Bold.otf</string>
 		<string>fonts/GothamRounded-BoldItalic.otf</string>
 		<string>fonts/GothamRounded-Book.otf</string>
@@ -64,7 +56,7 @@
 		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.46</string>
+	<string>1.0.62</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon</string>
