@@ -27,8 +27,8 @@ namespace BlahguaMobile.AndroidClient
 
             RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_splash);
+			Handler h = new Handler();
 
-            Handler h = new Handler();
             h.PostDelayed(aaa, 3000);
         }
 

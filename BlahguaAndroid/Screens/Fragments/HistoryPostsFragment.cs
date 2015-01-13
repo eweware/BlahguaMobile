@@ -39,7 +39,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/history");
+			HomeActivity.analytics.PostPageView("/self/history");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
 
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);

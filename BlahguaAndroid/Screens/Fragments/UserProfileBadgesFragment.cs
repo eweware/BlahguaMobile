@@ -40,7 +40,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/badges");
+			HomeActivity.analytics.PostPageView("/self/badges");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_badges, null);
            
             list = fragment.FindViewById<LinearLayout>(Resource.Id.list);
@@ -208,7 +208,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             var control = Activity.LayoutInflater.Inflate(Resource.Layout.uiitem_badge, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             var image = control.FindViewById<ImageView>(Resource.Id.image);
             image.LayoutParameters = imageParams;
 
@@ -279,8 +279,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                             Toast.MakeText(Activity, "The authority currently has no badges for that email address.", ToastLength.Short).Show();
                             emailField.Enabled = true;
                             btn_submit.Visibility = ViewStates.Visible;
-                            MainActivity.analytics.PostRequestBadge(badgeId);
-                            MainActivity.analytics.PostBadgeNoEmail(emailAddr);
+										HomeActivity.analytics.PostRequestBadge(badgeId);
+										HomeActivity.analytics.PostBadgeNoEmail(emailAddr);
                             submitSection.Visibility = ViewStates.Gone;
                             requestSection.Visibility = ViewStates.Visible;
                         }
@@ -321,13 +321,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                         codeField.SelectAll();
                         btn_verify.Visibility = ViewStates.Visible;
                     });
-                    MainActivity.analytics.PostBadgeValidateFailed();
+						HomeActivity.analytics.PostBadgeValidateFailed();
                 }
                 else
                 {
                     // success
 
-                    MainActivity.analytics.PostGotBadge();
+						HomeActivity.analytics.PostGotBadge();
                     BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
                     {
                         Activity.RunOnUiThread(() =>

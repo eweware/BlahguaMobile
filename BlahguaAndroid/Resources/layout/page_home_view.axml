@@ -17,6 +17,38 @@
         android:choiceMode="singleChoice"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="left"
         android:background="#111" />
+    <LinearLayout
+        android:id="@+id/right_menu"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/rightmenu_avatar"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/img_avatar_sample"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+        <TextView
+            android:id="@+id/rightmenu_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#1FBBD1"
+            android:background="#ff000000"
+            android:text="" />
+        <ListView
+            android:id="@+id/right_drawer"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:choiceMode="singleChoice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#111" />
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

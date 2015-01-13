@@ -12,6 +12,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
 using BlahguaMobile.AndroidClient;
 using BlahguaMobile.AndroidClient.HelpingClasses;
@@ -21,7 +22,7 @@ using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (Label = "Home", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher")]
+	[Activity (Label = "Public", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher")]
 	public class HomeActivity : FragmentActivity
 	{
 
@@ -32,12 +33,18 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private IMenu optionsMenu; 
 		MainFragment mainFragment = null;
 
+		public static Typeface gothamFont = null;
+		public static Typeface merriweatherFont = null;
+
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
+
+		private ListView rightListView;
+		private LinearLayout rightMenu;
 		//private  string[] Sections;
-		private static readonly string[] Sections = new[] {
-			"Browse", "Friends", "Profile"
-		};
+
+		private String[] profile_items;
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
@@ -45,11 +52,21 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			this.title = this.drawerTitle = this.Title;
 
+			profile_items= new String[]{
+				GetString(Resource.String.profilemenu_profile),
+				GetString(Resource.String.profilemenu_badges),
+				GetString(Resource.String.profilemenu_demographics),
+				GetString(Resource.String.profilemenu_history),
+				GetString(Resource.String.profilemenu_stats) };
+
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
+			this.rightListView = this.FindViewById<ListView> (Resource.Id.right_drawer);
+			this.rightMenu = this.FindViewById<LinearLayout> (Resource.Id.right_menu);
 
 			//Set click handler when item is selected
 			this.drawerListView.ItemClick += (sender, args) => ListItemClicked (args.Position);
+			this.rightListView.ItemClick += (sender, args) => RightMenuItemClicked (args.Position);
 
 			//Set Drawer Shadow
 			//this.drawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow_dark, (int)GravityFlags.Start);
@@ -57,7 +74,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 
 			populateChannelMenu ();
-
+			populateRightMenu ();
 
 			//DrawerToggle is the animation that happens with the indicator next to the actionbar
 			this.drawerToggle = new BGActionBarDrawerToggle (this, this.drawerLayout,
@@ -90,6 +107,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 			this.ActionBar.SetHomeButtonEnabled (true);
 			this.ActionBar.SetDisplayShowHomeEnabled (false);
 
+
+			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
+			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+
 		}
 		private void populateChannelMenu()
 		{
@@ -103,6 +124,22 @@ namespace BlahguaMobile.AndroidClient.Screens
 				//Sections = channels;
 				//Create Adapter for drawer List
 				this.drawerListView.Adapter = new ArrayAdapter<string> (this, Resource.Layout.item_menu, channels);
+			}
+		}
+			
+		private void populateRightMenu()
+		{
+			if (BlahguaAPIObject.Current.CurrentUser != null) {
+
+
+				rightListView.Adapter = new ArrayAdapter<String> (this, Resource.Layout.rightmenu_item, profile_items);
+
+				ImageView avatarView = (ImageView)FindViewById (Resource.Id.rightmenu_avatar);
+				avatarView.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, Resource.Drawable.img_avatar_sample);
+
+				TextView tvUser = (TextView)FindViewById (Resource.Id.rightmenu_username);
+				tvUser.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
+
 			}
 		}
 		public ListView LeftMenu {
@@ -136,11 +173,79 @@ namespace BlahguaMobile.AndroidClient.Screens
 			}
 		}
 
+		private void RightMenuItemClicked (int position)
+		{
+			if (mainFragment == null) {
+				mainFragment = new MainFragment ();
+				SupportFragmentManager.BeginTransaction ()
+					.Replace (Resource.Id.content_frame, mainFragment)
+					.Commit ();
+
+
+			}
+
+			this.rightListView.SetItemChecked (position, true);
+			if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
+				ActionBar.Title = this.title = profile_items[position];
+			this.drawerLayout.CloseDrawers ();
+
+			Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+			UserProfileFragment profileFragment = new UserProfileFragment ();
+			var intent = new Intent (this, typeof(UserProfileFragment));
+			switch (position) {
+			case 0:
+
+				intent.PutExtra ("Page", 0);
+				profileFragment.Arguments = intent.Extras;
+				fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
+				fragmentTx.AddToBackStack (null);
+				fragmentTx.Commit ();
+				break;
+			case 1:
+
+				intent.PutExtra ("Page", 1);
+				profileFragment.Arguments = intent.Extras;
+				fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
+				fragmentTx.AddToBackStack (null);
+				fragmentTx.Commit ();
+				break;
+			case 2:
+
+				intent.PutExtra ("Page", 2);
+				profileFragment.Arguments = intent.Extras;
+				fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
+				fragmentTx.AddToBackStack (null);
+				fragmentTx.Commit ();
+				break;
+			case 3:
+				/*
+				Android.App.FragmentTransaction tx = this.FragmentManager.BeginTransaction ();
+				HistoryFragment historyFragment = new HistoryFragment ();
+				var history_intent = new Intent (this, typeof(HistoryFragment));
+				historyFragment.Arguments = intent.Extras;
+				tx.Replace (Resource.Id.content_frame, historyFragment);
+				tx.AddToBackStack (null);
+				tx.Commit ();
+				break;*/
+				var intent_history = new Intent (this, typeof(HistoryActivity));
+				StartActivity (intent_history);
+				break;
+			case 4:
+				intent.PutExtra ("Page", 4);
+				profileFragment.Arguments = intent.Extras;
+				fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
+				fragmentTx.AddToBackStack (null);
+				fragmentTx.Commit ();
+				break;
+
+			}
+		}
 		public override bool OnPrepareOptionsMenu (IMenu menu)
 		{
 			this.optionsMenu = menu;
 			this.MenuInflater.Inflate (Resource.Menu.home_menu_actions, menu);
 			var drawerOpen = this.drawerLayout.IsDrawerOpen((int)GravityFlags.Left);
+
 			//when open don't show anything
 
 			for (int i = 0; i < menu.Size (); i++) {
@@ -157,27 +262,46 @@ namespace BlahguaMobile.AndroidClient.Screens
 			return base.OnPrepareOptionsMenu (menu);
 		}
 
+		public bool IsMenuOpened
+		{
+			get{
+				if (this.drawerLayout.IsDrawerOpen (this.rightMenu) || this.drawerLayout.IsDrawerOpen (this.drawerListView))
+					return true;
+				else
+					return false;
+			}
+		}
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			if (this.drawerToggle.OnOptionsItemSelected (item))
+			if (this.drawerToggle.OnOptionsItemSelected (item)) {
+				this.drawerLayout.CloseDrawer (this.rightListView);
 				return true;
+			}
 			switch(item.ItemId )
 			{
 			case Resource.Id.action_login:
-				Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
-				LoginFragment loginFragment = new LoginFragment ();
+				if (BlahguaAPIObject.Current.CurrentUser == null) {
+					Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+					LoginFragment loginFragment = new LoginFragment ();
 
-				fragmentTx.Replace (Resource.Id.content_frame, loginFragment);
-				fragmentTx.AddToBackStack (null);
-				fragmentTx.Commit ();
+					fragmentTx.Replace (Resource.Id.content_frame, loginFragment);
+					fragmentTx.AddToBackStack (null);
+					fragmentTx.Commit ();
+				} else {
+					if (this.drawerLayout.IsDrawerOpen (this.rightMenu))
+						this.drawerLayout.CloseDrawer (this.rightMenu);
+					else {
+						this.drawerLayout.OpenDrawer (this.rightMenu);
+						this.drawerLayout.CloseDrawer (this.drawerListView);
+					}
+				}
 				break;
 			case Resource.Id.action_newpost:
-				mainFragment.triggerCreateBlock ();
+				if (!IsMenuOpened)
+					mainFragment.triggerCreateBlock ();
 				break;
-				return true;
-
 			}
 			return base.OnOptionsItemSelected (item);
 		}
@@ -198,27 +322,32 @@ namespace BlahguaMobile.AndroidClient.Screens
 			if (optionsMenu != null) {
 				IMenuItem refreshItem = optionsMenu.FindItem (Resource.Id.action_login);
 				if (refreshItem != null) {
-					refreshItem.SetActionView (resID);
+					//refreshItem.SetIcon
+					ImageView loginImv = new ImageView (this);
+					loginImv.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, Resource.Drawable.img_avatar_sample);
+					loginImv.LayoutParameters = new LinearLayout.LayoutParams(20, 20);
+					loginImv.SetScaleType (ImageView.ScaleType.FitCenter);
+					refreshItem.SetIcon (loginImv.Drawable);
+					//refreshItem.SetActionView (resID);
+					//refreshItem.SetOnMenuItemClickListener(new IMeneItemOnMenuItemClickListener(
 				}
 			}
+			/*
 			if (BlahguaAPIObject.Current.CurrentUser.UserName != null) {
 				ImageView loginImv = (ImageView)FindViewById (Resource.Id.action_login_button);
 
-				loginImv.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, loginImv.Drawable);
-
 				if (loginImv != null) {
+					loginImv.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, loginImv.Drawable);
 					loginImv.Click += (object sender, EventArgs e) => {
-						Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
-						UserProfileFragment profileFragment = new UserProfileFragment ();
-						var intent = new Intent (this, typeof(UserProfileFragment));
-						intent.PutExtra ("Page", 0);
-						profileFragment.Arguments = intent.Extras;
-						fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
-						fragmentTx.AddToBackStack (null);
-						fragmentTx.Commit ();
+						/*
+
+
+
 					};
 				}
+
 			}
+*/
 		}
 
 		public void SetCreateButtonVisible(bool visible)
@@ -301,6 +430,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 						if(mainFragment!= null)
 							mainFragment.InitLayouts();
 						populateChannelMenu();
+						populateRightMenu();
 					});
 				if (BlahguaAPIObject.Current.CurrentUser != null)
 				{
