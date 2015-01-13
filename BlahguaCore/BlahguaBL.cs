@@ -380,14 +380,16 @@ namespace BlahguaMobile.BlahguaCore
                         apiClient.ExecuteAsync(request, (response) =>
                             {
                                 string step2HTML = response.Content;
-                                int theLoc = step2HTML.IndexOf("Request Domain");
-                                if (theLoc != -1)
+
+                                if (step2HTML.IndexOf("invalid email") != -1)
+                                {
+                                    callback("invalid");
+                                }
+                                else if (step2HTML.IndexOf("Request Domain") != -1)
                                 {
                                     callback("");
                                 }
-                                
-                                theLoc = step2HTML.IndexOf("granted in the past");
-                                if (theLoc != -1)
+                                else if (step2HTML.IndexOf("granted in the past") != -1)
                                 {
                                     callback("existing");
                                 }
@@ -396,6 +398,7 @@ namespace BlahguaMobile.BlahguaCore
                                     string tk2 = GetTicket(step2HTML);
                                     callback(tk2);
                                 }
+
                             }
                         );
                     }
@@ -539,8 +542,10 @@ namespace BlahguaMobile.BlahguaCore
         {
             bool bIncludeHidden = false;
 
-            if (defaultChannel != null)
-                bIncludeHidden = true;
+            if (defaultChannel != "Public")
+            {
+                //bIncludeHidden = true;
+            }
 
             BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
                            {

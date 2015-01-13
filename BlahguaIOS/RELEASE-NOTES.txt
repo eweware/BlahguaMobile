@@ -1,11 +1,1 @@
-New Signin Flow
-=============
-This version has a new flow for sign-in.  
-
-In the final app, the new sign in will only happen on first use.
-
-- updated the layout
-- put in the fonts
-- added sign in on its own screen mode
-- made it work on ios 7
-
+better button sizes

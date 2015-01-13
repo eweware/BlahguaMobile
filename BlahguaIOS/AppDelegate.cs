@@ -245,7 +245,7 @@ namespace BlahguaMobile.IOS
 						UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 						bool isSecond = NSUserDefaults.StandardUserDefaults.BoolForKey("isSecond");
-                        if (true)//(!isSecond)
+                        if (!isSecond)
 						{
                             UIStoryboard signUpSB = UIStoryboard.FromName("SignOnStoryBoard", null);
                             BGSignOnPageViewController signUpVC = (BGSignOnPageViewController)signUpSB.InstantiateViewController("SignOnViewController");

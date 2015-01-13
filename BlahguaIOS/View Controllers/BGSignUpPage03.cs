@@ -154,6 +154,15 @@ namespace BlahguaMobile.IOS
                                         ((BGSignOnPageViewController)this.ParentViewController).Finish();
                                     });
                             }
+                            else if (ticket == "invalid")
+                            {
+                                AppDelegate.analytics.PostBadgeNoEmail(emailAddr);
+                                DisplayAlert("Invalid email", "We were not able to send mail to that email address.", "try again", () =>
+                                    {
+                                        PrepPhaseOne();
+                                        skipBtn.Enabled = true;
+                                    });
+                            }
                             else
                             {
                                 AppDelegate.analytics.PostRequestBadge(authId);
