@@ -259,18 +259,58 @@ namespace BlahguaMobile.IOS
 
             recoverAccountBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
-                    string username = "";
-                    string email = "";
+                    EntryElement username, email;
+                    DialogViewController dvc = null;
 
-                    var details = new RecoverDetails ();
-                    var bctx = new BindingContext (null, details, "Recover your account");
-                    var dvc = new DialogViewController (bctx.Root);
-
-
-                    BlahguaAPIObject.Current.RecoverUser(username, email, (resultStr) => 
+                    RootElement recoveryBase = new RootElement("Recover Account")
                         {
+                            new Section("Account Info") 
+                            {
+                                (username = new EntryElement("username", "enter username", "")),
+                                (email = new EntryElement("email", "enter email address", ""))
+                            },
+                            new Section() 
+                            {
+                                new StringElement("Recover", delegate {
+                                    Console.WriteLine("Recovering " + email.Value);
+                                    BlahguaAPIObject.Current.RecoverUser(username.Value, email.Value, (resultStr) => 
+                                        {
+                                            Console.WriteLine("result: " + resultStr);
+                                            if (resultStr == "Not Found")
+                                            {
+                                                DisplayAlert("Not Found", "Could not find recovery info for that account.  Please try again.");
+                                            }
+                                            else if (resultStr == "No Content")
+                                            {
+                                                DisplayAlert("Success", "Recovery information has been sent to the email address associated with that account.", "ok", () =>
+                                                    {
+                                                        dvc.DismissViewController(true, null);
+                                                    });
+                                            }
+                                            else
+                                            {
+                                                DisplayAlert("Error", "We had a problem recovering that account.  Please try again later.", "ok", ()=>
+                                                    {
+                                                        dvc.DismissViewController(true, null);
+                                                    });
+                                            }
+                                        });
+                                }),
+                                new StringElement("cancel", delegate {
+                                    Console.WriteLine("canceling");
+                                    dvc.DismissViewController(true, null);
+                                })
+                            }
+                        };
 
-                        });
+                   dvc = new DialogViewController(recoveryBase, true);
+
+
+                    //this.ShowDetailViewController(dvc, this);
+                    this.PresentViewController(dvc, true,null);
+
+
+
                 };
 
 			recoveryEmail.ReturnKeyType = UIReturnKeyType.Done;
@@ -474,11 +514,12 @@ namespace BlahguaMobile.IOS
 
 				Console.WriteLine ("Authentication failed");
 
-				InvokeOnMainThread (()=> displayAlert());
+                DisplayAlert("Authentication failed", "Check your username and password.");
 			
 			}
 		}
 			
+        /*
 		public void displayAlert()
 		{
             int clicked = -1;
@@ -495,6 +536,25 @@ namespace BlahguaMobile.IOS
 			}
 			
 		}
+        */      
+
+        public void DisplayAlert(string titleString, string descString, string buttonName = "ok", Action action = null)
+        {
+            InvokeOnMainThread(() =>
+                {
+                    UIAlertView oldAlert = new UIAlertView(titleString, descString, null, buttonName, null);
+
+                    if (action != null)
+                    {
+                        oldAlert.Clicked += (object sender, UIButtonEventArgs e) =>
+                            {
+                                action.Invoke();
+                            };
+                    }
+
+                    oldAlert.Show();
+                });
+        }
 
 		private UIImage GetModeBackgroundImage()
 		{

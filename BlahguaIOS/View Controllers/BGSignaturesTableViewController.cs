@@ -93,7 +93,15 @@ namespace BlahguaMobile.IOS
 
 				if (indexPath.Section == 0) 
 				{
-					cell.SetUp ("use public profile");
+                    switch (indexPath.Item)
+                    {
+                        case 0:
+                            cell.SetUp("use public profile");
+                            break;
+                        case 1:
+                            cell.SetUp("mature content");
+                            break;
+                    }
 				}
 				else
 				{
@@ -113,10 +121,23 @@ namespace BlahguaMobile.IOS
 				{
 					if(indexPath.Section == 0)
 					{
-						if (BlahguaAPIObject.Current.CreateRecord.UseProfile)
-							cell.Accessory = UITableViewCellAccessory.Checkmark;
-						else
-							cell.Accessory = UITableViewCellAccessory.None;
+                        switch (indexPath.Item)
+                        {
+                            case 0:
+                                if (BlahguaAPIObject.Current.CreateRecord.UseProfile)
+                                    cell.Accessory = UITableViewCellAccessory.Checkmark;
+                                else
+                                    cell.Accessory = UITableViewCellAccessory.None;
+                                break;
+                            case 1:
+                                if (BlahguaAPIObject.Current.CreateRecord.IsMature)
+                                    cell.Accessory = UITableViewCellAccessory.Checkmark;
+                                else
+                                    cell.Accessory = UITableViewCellAccessory.None;
+                                break;
+                        }
+
+						
 					}
 					else if (decorate)
 					{
@@ -133,10 +154,21 @@ namespace BlahguaMobile.IOS
 				{
 					if(indexPath.Section == 0)
 					{
-						if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile)
-							cell.Accessory = UITableViewCellAccessory.Checkmark;
-						else
-							cell.Accessory = UITableViewCellAccessory.None;
+                        switch (indexPath.Item)
+                        {
+                            case 0:
+                                if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile)
+                                    cell.Accessory = UITableViewCellAccessory.Checkmark;
+                                else
+                                    cell.Accessory = UITableViewCellAccessory.None;
+                                break;
+                            case 1:
+                                if (BlahguaAPIObject.Current.CreateCommentRecord.IsMature)
+                                    cell.Accessory = UITableViewCellAccessory.Checkmark;
+                                else
+                                    cell.Accessory = UITableViewCellAccessory.None;
+                                break;
+                        }
 					}
 					else if (decorate)
 					{
@@ -157,7 +189,7 @@ namespace BlahguaMobile.IOS
 			{
 				if (section == 0)
 				{
-					return 1;
+					return 2;
 				}
 				else
 				{
@@ -200,16 +232,33 @@ namespace BlahguaMobile.IOS
 				{
 					if (indexPath.Section == 0) 
 					{
-						if (BlahguaAPIObject.Current.CreateRecord.UseProfile) 
-						{
-							BlahguaAPIObject.Current.CreateRecord.UseProfile = false;
-							curCell.Accessory = UITableViewCellAccessory.None;
-						} 
-						else 
-						{
-							BlahguaAPIObject.Current.CreateRecord.UseProfile = true;
-							curCell.Accessory = UITableViewCellAccessory.Checkmark;
-						}
+                        switch (indexPath.Item)
+                        {
+                            case 0:
+                                if (BlahguaAPIObject.Current.CreateRecord.UseProfile)
+                                {
+                                    BlahguaAPIObject.Current.CreateRecord.UseProfile = false;
+                                    curCell.Accessory = UITableViewCellAccessory.None;
+                                }
+                                else
+                                {
+                                    BlahguaAPIObject.Current.CreateRecord.UseProfile = true;
+                                    curCell.Accessory = UITableViewCellAccessory.Checkmark;
+                                }
+                                break;
+                            case 1:
+                                if (BlahguaAPIObject.Current.CreateRecord.IsMature)
+                                {
+                                    BlahguaAPIObject.Current.CreateRecord.IsMature = false;
+                                    curCell.Accessory = UITableViewCellAccessory.None;
+                                }
+                                else
+                                {
+                                    BlahguaAPIObject.Current.CreateRecord.IsMature = true;
+                                    curCell.Accessory = UITableViewCellAccessory.Checkmark;
+                                }
+                                break;
+                        }
 					} 
 					else 
 					{
@@ -242,16 +291,33 @@ namespace BlahguaMobile.IOS
 				{
 					if (indexPath.Section == 0) 
 					{
-						if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile) 
-						{
-							BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
-							curCell.Accessory = UITableViewCellAccessory.None;
-						} 
-						else 
-						{
-							BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = true;
-							curCell.Accessory = UITableViewCellAccessory.Checkmark;
-						}
+                        switch (indexPath.Item)
+                        {
+                            case 0:
+                                if (BlahguaAPIObject.Current.CreateCommentRecord.UseProfile)
+                                {
+                                    BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = false;
+                                    curCell.Accessory = UITableViewCellAccessory.None;
+                                }
+                                else
+                                {
+                                    BlahguaAPIObject.Current.CreateCommentRecord.UseProfile = true;
+                                    curCell.Accessory = UITableViewCellAccessory.Checkmark;
+                                }
+                                break;
+                            case 1:
+                                if (BlahguaAPIObject.Current.CreateCommentRecord.IsMature)
+                                {
+                                    BlahguaAPIObject.Current.CreateCommentRecord.IsMature = false;
+                                    curCell.Accessory = UITableViewCellAccessory.None;
+                                }
+                                else
+                                {
+                                    BlahguaAPIObject.Current.CreateCommentRecord.IsMature = true;
+                                    curCell.Accessory = UITableViewCellAccessory.Checkmark;
+                                }
+                                break;
+                        }
 					} 
 					else 
 					{

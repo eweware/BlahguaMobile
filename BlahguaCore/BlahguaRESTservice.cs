@@ -731,7 +731,7 @@ namespace BlahguaMobile.BlahguaCore
 
             apiClient.ExecuteAsync(request, (response) =>
             {
-                callback(response.Content);
+                callback(response.StatusDescription);
             });
         }
 
