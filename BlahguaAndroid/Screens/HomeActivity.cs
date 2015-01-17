@@ -22,7 +22,7 @@ using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (Label = "Public", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher")]
+	[Activity (MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher")]
 	public class HomeActivity : FragmentActivity
 	{
 
@@ -41,6 +41,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private ListView rightListView;
 		private LinearLayout rightMenu;
+		private string _actionBarTitle;
 		//private  string[] Sections;
 
 		private String[] profile_items;
@@ -112,6 +113,27 @@ namespace BlahguaMobile.AndroidClient.Screens
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
 
 		}
+
+		public int GetContentPositionY()
+		{
+			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
+			return contentFrame.Top;
+		}
+
+		public void SetTitle(string title)
+		{
+			if (this.ActionBar != null) {
+				_actionBarTitle = this.ActionBar.Title;
+				this.ActionBar.Title = title;
+			}
+		}
+
+		public void RestoreTitle()
+		{
+			if (_actionBarTitle != null && this.ActionBar != null)
+				this.ActionBar.Title = _actionBarTitle;
+		}
+
 		private void populateChannelMenu()
 		{
 			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
@@ -128,7 +150,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 			
 		private void populateRightMenu()
-		{
+		{ 
 			if (BlahguaAPIObject.Current.CurrentUser != null) {
 
 
@@ -150,11 +172,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private void ListItemClicked (int position)
 		{
 			if (mainFragment == null) {
-				mainFragment = new MainFragment ();
-				SupportFragmentManager.BeginTransaction ()
-					.Replace (Resource.Id.content_frame, mainFragment)
-					.Commit ();
 
+				mainFragment = new MainFragment ();
+				Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
+				transaction.Add (Resource.Id.content_frame, mainFragment);
+				transaction.AddToBackStack (null);
+				transaction.Commit ();
+				var count = SupportFragmentManager.BackStackEntryCount;
 				this.drawerListView.SetItemChecked (position, true);
 				if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
 					ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
@@ -176,12 +200,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private void RightMenuItemClicked (int position)
 		{
 			if (mainFragment == null) {
+
 				mainFragment = new MainFragment ();
-				SupportFragmentManager.BeginTransaction ()
-					.Replace (Resource.Id.content_frame, mainFragment)
-					.Commit ();
-
-
+				Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
+				transaction.Add (Resource.Id.content_frame, mainFragment);
+				transaction.Commit ();
 			}
 
 			this.rightListView.SetItemChecked (position, true);
@@ -189,7 +212,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 				ActionBar.Title = this.title = profile_items[position];
 			this.drawerLayout.CloseDrawers ();
 
-			Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+			Android.Support.V4.App.FragmentTransaction fragmentTx = SupportFragmentManager.BeginTransaction ();
+			var count = SupportFragmentManager.BackStackEntryCount;
 			UserProfileFragment profileFragment = new UserProfileFragment ();
 			var intent = new Intent (this, typeof(UserProfileFragment));
 			switch (position) {
@@ -198,6 +222,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				intent.PutExtra ("Page", 0);
 				profileFragment.Arguments = intent.Extras;
 				fragmentTx.Replace (Resource.Id.content_frame, profileFragment);
+				fragmentTx.SetTransition (Android.Support.V4.App.FragmentTransaction.TransitFragmentOpen);
 				fragmentTx.AddToBackStack (null);
 				fragmentTx.Commit ();
 				break;
@@ -218,7 +243,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				fragmentTx.Commit ();
 				break;
 			case 3:
-				/*
+
 				Android.App.FragmentTransaction tx = this.FragmentManager.BeginTransaction ();
 				HistoryFragment historyFragment = new HistoryFragment ();
 				var history_intent = new Intent (this, typeof(HistoryFragment));
@@ -226,10 +251,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 				tx.Replace (Resource.Id.content_frame, historyFragment);
 				tx.AddToBackStack (null);
 				tx.Commit ();
-				break;*/
+				break;
+				/*
 				var intent_history = new Intent (this, typeof(HistoryActivity));
 				StartActivity (intent_history);
 				break;
+				*/
 			case 4:
 				intent.PutExtra ("Page", 4);
 				profileFragment.Arguments = intent.Extras;
@@ -276,19 +303,19 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
 			if (this.drawerToggle.OnOptionsItemSelected (item)) {
-				this.drawerLayout.CloseDrawer (this.rightListView);
+				this.drawerLayout.CloseDrawer (this.rightMenu);
 				return true;
 			}
 			switch(item.ItemId )
 			{
 			case Resource.Id.action_login:
 				if (BlahguaAPIObject.Current.CurrentUser == null) {
-					Android.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
 					LoginFragment loginFragment = new LoginFragment ();
+					Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
+					transaction.AddToBackStack (null);
+					transaction.Replace (Resource.Id.content_frame, loginFragment).Commit ();
+					SetTitle ("LogIn");
 
-					fragmentTx.Replace (Resource.Id.content_frame, loginFragment);
-					fragmentTx.AddToBackStack (null);
-					fragmentTx.Commit ();
 				} else {
 					if (this.drawerLayout.IsDrawerOpen (this.rightMenu))
 						this.drawerLayout.CloseDrawer (this.rightMenu);
@@ -299,7 +326,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				}
 				break;
 			case Resource.Id.action_newpost:
-				if (!IsMenuOpened)
+				if (IsMenuOpened == false && mainFragment != null)
 					mainFragment.triggerCreateBlock ();
 				break;
 			}
@@ -326,7 +353,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					ImageView loginImv = new ImageView (this);
 					loginImv.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, Resource.Drawable.img_avatar_sample);
 					loginImv.LayoutParameters = new LinearLayout.LayoutParams(20, 20);
-					loginImv.SetScaleType (ImageView.ScaleType.FitCenter);
+					loginImv.SetScaleType (ImageView.ScaleType.FitXy);
 					refreshItem.SetIcon (loginImv.Drawable);
 					//refreshItem.SetActionView (resID);
 					//refreshItem.SetOnMenuItemClickListener(new IMeneItemOnMenuItemClickListener(

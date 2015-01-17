@@ -267,7 +267,10 @@ namespace BlahguaMobile.BlahguaCore
     {
         public string GetTypeName(string typeId)
         {
-            return this.First(i => i._id == typeId).N;
+			if (typeId != null)
+				return this.First (i => i._id == typeId).N;
+			else
+				return null;
         }
     }
 

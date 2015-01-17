@@ -13,7 +13,8 @@ using System;
 using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
-using Android.App;
+//using Android.App;
+using Android.Support.V4.App;
 using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
@@ -70,6 +71,7 @@ namespace BlahguaMobile.AndroidClient
 
                         badgesFragment = UserProfileBadgesFragment.NewInstance();
                         var fragmentTransaction = FragmentManager.BeginTransaction();
+
                         fragmentTransaction.Replace(Resource.Id.content_fragment, badgesFragment);
                         fragmentTransaction.Commit();
                     }

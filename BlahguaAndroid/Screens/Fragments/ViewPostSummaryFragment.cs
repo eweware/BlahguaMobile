@@ -19,7 +19,7 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class ViewPostSummaryFragment : Fragment
+	class ViewPostSummaryFragment : Android.Support.V4.App.Fragment
     {
         public static ViewPostSummaryFragment NewInstance()
         {
@@ -216,11 +216,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
                 });
-                MainActivity.analytics.PostSessionError("loadblahfailed");
+				HomeActivity.analytics.PostSessionError("loadblahfailed");
                 // Finish();
             }
 
-            ((ViewPostActivity)Activity).UpdateSummaryButtons();
+            //((ViewPostActivity)Activity).UpdateSummaryButtons();
+
         }
 
         #region Handles

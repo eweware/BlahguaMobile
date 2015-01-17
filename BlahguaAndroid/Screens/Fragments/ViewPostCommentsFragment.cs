@@ -20,7 +20,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class ViewPostCommentsFragment : Fragment, IUrlImageViewCallback
+	class ViewPostCommentsFragment : Android.Support.V4.App.Fragment, IUrlImageViewCallback
     {
         private readonly int SELECTIMAGE_REQUEST = 777;
 
@@ -63,9 +63,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             return path;
         }
 
-        public override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
-            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+			if (requestCode == SELECTIMAGE_REQUEST && resultCode == (int)Android.App.Result.Ok)
             {
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateCommentLayout.Visibility = ViewStates.Visible;
@@ -88,13 +88,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                             BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
                             BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
                             //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                            MainActivity.analytics.PostUploadBlahImage();
+									HomeActivity.analytics.PostUploadBlahImage();
                         }
                         else
                         {
                             progressBarImageLoading.Visibility = ViewStates.Gone;
                             ClearImages();
-                            MainActivity.analytics.PostSessionError("blahimageuploadfailed");
+									HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
                         }
                     });
                 }
@@ -124,7 +124,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/blah/comments");
+			HomeActivity.analytics.PostPageView("/blah/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
 
             create_comment_block = fragment.FindViewById<LinearLayout>(Resource.Id.create_comment_block);
@@ -242,7 +242,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (newComment != null)
             {
-                MainActivity.analytics.PostCreateComment();
+				HomeActivity.analytics.PostCreateComment();
                 // might want to resort the comments...
                 //NavigationService.GoBack();
                 Activity.RunOnUiThread(() =>
@@ -253,7 +253,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                MainActivity.analytics.PostSessionError("commentcreatefailed");
+				HomeActivity.analytics.PostSessionError("commentcreatefailed");
                 // handle create comment failed
                 Toast.MakeText(Activity, "Your comment was not created.  Please try again or come back another time.", ToastLength.Short).Show();
                 btn_done.Enabled = true;

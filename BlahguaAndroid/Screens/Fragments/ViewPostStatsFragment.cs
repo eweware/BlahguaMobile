@@ -16,7 +16,7 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class ViewPostStatsFragment : Fragment
+	class ViewPostStatsFragment : Android.Support.V4.App.Fragment
     {
         public static ViewPostStatsFragment NewInstance()
         {
@@ -28,7 +28,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         TextView views, opens, comments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/blah/stats");
+			HomeActivity.analytics.PostPageView("/blah/stats");
 
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_stats, null);
 

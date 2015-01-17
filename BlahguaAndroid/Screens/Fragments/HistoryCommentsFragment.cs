@@ -33,13 +33,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ListView list;
         private LinearLayout no_comments;
 
-        private HistoryActivity activity;
+		private HomeActivity activity;
 
         private HistoryCommentsAdapter adapter;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/comments");
+			HomeActivity.analytics.PostPageView("/self/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
@@ -56,7 +56,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            activity = (HistoryActivity)Activity;
+			activity = (HomeActivity)Activity;
             base.OnActivityCreated(savedInstanceState);
         }
 

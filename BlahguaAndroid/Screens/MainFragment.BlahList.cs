@@ -153,7 +153,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 						inboxCounter++;
 					}
 
-					MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+					HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
 				});
 		}
@@ -169,7 +169,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			var control = this.Activity.LayoutInflater.Inflate(Resource.Layout.empty_channel_warning, null);
 			var title = control.FindViewById<TextView>(Resource.Id.title);
-			title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 			control.LayoutParameters = layoutParams;
 			BlahContainerLayout.LayoutParameters = layoutParams2;
 
@@ -197,10 +197,20 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void OpenBlahItem(InboxBlah curBlah)
 		{
+			/*
 			StopTimers();
 			BlahguaAPIObject.Current.CurrentInboxBlah = curBlah;
 			App.BlahIdToOpen = curBlah.I;
 			this.Activity.StartActivity(typeof(ViewPostActivity));
+			*/
+			Android.Support.V4.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+			ViewPostFragment fragment = new ViewPostFragment ();
+			App.BlahIdToOpen = curBlah.I;
+			fragmentTx.Replace (Resource.Id.content_frame, fragment);
+			fragmentTx.AddToBackStack (null);
+			fragmentTx.Commit ();
+
+			homeActivity.SetTitle ("Summary");
 
 		}
 
@@ -366,7 +376,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			else
 			{
 				control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible ;
-				title.SetTypeface (MainActivity.gothamFont, TypefaceStyle.Normal);
+				title.SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 
 				title.Text = theBlah.T;
 

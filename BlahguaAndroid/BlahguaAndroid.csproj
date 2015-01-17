@@ -164,6 +164,8 @@
     <Compile Include="Screens\MainFragment.BlahCreate.cs" />
     <Compile Include="Screens\MainFragment.Signature.cs" />
     <Compile Include="Screens\UserProfileFragment.cs" />
+    <Compile Include="Screens\HistoryFragment.cs" />
+    <Compile Include="Screens\ViewPostFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -216,6 +218,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\rightmenu_item.axml" />
+    <AndroidResource Include="Resources\layout\fragment_history.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -429,11 +434,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\include_create_comment.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_history.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

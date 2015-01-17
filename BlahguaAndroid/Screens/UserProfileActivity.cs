@@ -33,7 +33,7 @@ namespace BlahguaMobile.AndroidClient
 		{
             base.OnCreate(bundle);
 
-            MainActivity.analytics.PostPageView("/self");
+			HomeActivity.analytics.PostPageView("/self");
             RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
@@ -55,7 +55,7 @@ namespace BlahguaMobile.AndroidClient
             //btn_right.Visibility = ViewStates.Gone;
 
             int page = Intent.GetIntExtra("Page", 1);
-
+			/*
             switch (page)
             {
                 case 1:
@@ -69,9 +69,11 @@ namespace BlahguaMobile.AndroidClient
                         btn_right.Text = "New";
 
                         badgesFragment = UserProfileBadgesFragment.NewInstance();
+
                         var fragmentTransaction = FragmentManager.BeginTransaction();
-                        fragmentTransaction.Replace(Resource.Id.content_fragment, badgesFragment);
+					fragmentTransaction.Replace(Resource.Id.content_fragment, badgesFragment);
                         fragmentTransaction.Commit();
+                        
                     }
                     break;
                 case 2:
@@ -117,7 +119,9 @@ namespace BlahguaMobile.AndroidClient
                         fragmentTransaction.Commit();
                     }
                     break;
+
             }
+            */
         }
 
         private void btn_right_Click(object sender, EventArgs e)

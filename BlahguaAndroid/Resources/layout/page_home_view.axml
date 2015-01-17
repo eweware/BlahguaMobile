@@ -24,6 +24,7 @@
         android:layout_width="160dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
+        android:background="#111"
         android:orientation="vertical">
         <ImageView
             android:id="@+id/rightmenu_avatar"

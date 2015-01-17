@@ -548,22 +548,22 @@ namespace BlahguaMobile.BlahguaCore
             }
 
             BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
-                           {
-                               curChannelList = chanList;
+               {
+                   curChannelList = chanList;
 
-                               if (defaultChannel == null)
-                                CurrentChannel = curChannelList[0];
-                               else
-                               {
-                                   Channel curChan = curChannelList.ChannelFromName(defaultChannel);
-                                   if (curChan != null)
-                                       CurrentChannel = curChan;
-                                   else
-                                       CurrentChannel = curChannelList[0];
-                               }
-                               inited = true;
-                               callback(true);
-                           });
+                   if (defaultChannel == null)
+                    CurrentChannel = curChannelList[0];
+                   else
+                   {
+                       Channel curChan = curChannelList.ChannelFromName(defaultChannel);
+                       if (curChan != null)
+                           CurrentChannel = curChan;
+                       else
+                           CurrentChannel = curChannelList[0];
+                   }
+                   inited = true;
+                   callback(true);
+               });
         }
 
         

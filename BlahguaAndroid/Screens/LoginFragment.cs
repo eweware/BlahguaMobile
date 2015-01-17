@@ -1,5 +1,6 @@
 using System;
 using Android.App;
+using Android.Support.V4.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
@@ -17,8 +18,8 @@ using BlahguaMobile.AndroidClient.Screens;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-	public class LoginFragment : Fragment
+    //[Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+	public class LoginFragment : Android.Support.V4.App.Fragment
 	{
         private EditText login, password, passwordConfirm, recoveryEmail;
         private ProgressBar progress;
@@ -206,8 +207,13 @@ namespace BlahguaMobile.AndroidClient
 			this.Activity.RunOnUiThread(() =>
             {
                 progress.Visibility = ViewStates.Invisible;
+					//Android.Support.V4.App.FragmentManager 
 					if(FragmentManager.BackStackEntryCount >0)
+					{
 						FragmentManager.PopBackStack();
+						HomeActivity homeActivity = (HomeActivity)this.Activity;
+						homeActivity.RestoreTitle();
+					}
 					dialog.Hide();
 				//this.Activity.Finish();
             });
@@ -260,12 +266,12 @@ namespace BlahguaMobile.AndroidClient
                 {
                     if (errMsg == null)
                     {
-                        MainActivity.analytics.PostRegisterUser();
+							HomeActivity.analytics.PostRegisterUser();
                         HandleUserSignIn();
                     }
                     else
                     {
-                        MainActivity.analytics.PostSessionError("registerfailed-" + errMsg);
+							HomeActivity.analytics.PostSessionError("registerfailed-" + errMsg);
 							this.Activity.RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;

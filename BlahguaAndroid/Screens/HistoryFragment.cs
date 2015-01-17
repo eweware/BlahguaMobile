@@ -20,7 +20,7 @@ using Android.Graphics;
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class HistoryActivity : Activity
+	public class HistoryFragment : Fragment
     {
         private TextView title;
 
@@ -33,47 +33,43 @@ namespace BlahguaMobile.AndroidClient
         private FrameLayout contentFragment;
         private static Typeface titleFont = null;
 
-		protected override void OnCreate (Bundle bundle)
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-            base.OnCreate(bundle);
+			base.OnCreateView (inflater, container, savedInstanceState);
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
-            SetContentView(Resource.Layout.fragment_history);
+			View fragment = inflater.Inflate (Resource.Layout.fragment_history, null);
 
-            title = FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            //title = fragment.FindViewById<TextView>(Resource.Id.title);
+			//title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
 
             _gestureListener = new GestureListener();
-            _gestureDetector = new GestureDetector(this, _gestureListener);
+           // _gestureDetector = new GestureDetector(this, _gestureListener);
 
-            Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
-            btn_back.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            btn_back.Click += delegate
-            {
-                Finish();
-			};
 
-            contentFragment = FindViewById<FrameLayout>(Resource.Id.content_fragment);
+			contentFragment = fragment.FindViewById<FrameLayout>(Resource.Id.content_fragment);
 
-            Button btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
-            Button btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
+			Button btn_summary = fragment.FindViewById<Button>(Resource.Id.btn_summary);
+			Button btn_comments = fragment.FindViewById<Button>(Resource.Id.btn_comments);
 
             btn_comments.Click += btn_comments_Click;
             btn_summary.Click += btn_summary_Click;
             btn_summary_Click(null, null);
+
+			return fragment;
         }
 
         public int GetContentPositionY()
         {
             return contentFragment.Top;
         }
-
+			
+		/*
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
             base.DispatchTouchEvent(ev);
             return _gestureDetector.OnTouchEvent(ev);
         }
-
+*/
         private void btn_summary_Click(object sender, EventArgs e)
         {
             commentsFragment = null;

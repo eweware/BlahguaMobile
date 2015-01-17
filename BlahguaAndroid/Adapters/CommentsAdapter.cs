@@ -153,7 +153,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             {
                 _fragment.LoadComments();
                 UpdateVoteButtons(l, c);
-                MainActivity.analytics.PostCommentVote(1);
+					HomeActivity.analytics.PostCommentVote(1);
             });
 
             collapseComment(l);
@@ -170,7 +170,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             {
                 _fragment.LoadComments();
                 UpdateVoteButtons(l, c);
-                MainActivity.analytics.PostCommentVote(-1);
+					HomeActivity.analytics.PostCommentVote(-1);
             });
 
             collapseComment(l);
