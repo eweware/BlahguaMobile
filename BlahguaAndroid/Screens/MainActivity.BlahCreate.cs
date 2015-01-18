@@ -143,12 +143,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) =>
             {
+                /*
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
 
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                 */
+                Intent imageIntent;// = new Intent();
+                imageIntent = new Intent(Intent.ActionPick, Android.Provider.MediaStore.Images.Media.ExternalContentUri);
+                StartActivityForResult(imageIntent, SELECTIMAGE_REQUEST);
             };
             Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
             btn_signature.Click += (sender, args) => {

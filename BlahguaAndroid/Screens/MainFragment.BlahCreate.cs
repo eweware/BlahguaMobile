@@ -41,49 +41,51 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageSay, imagePredict, imagePoll, imageAsk, imageLeak;
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
-		/*
-		public override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+
+        private Uri fileUri;
+        public static int MEDIA_TYPE_IMAGE = 1;
+        public static int MEDIA_TYPE_VIDEO = 2;
+
+
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
-            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            if (requestCode == SELECTIMAGE_REQUEST && resultCode == (int)Android.App.Result.Ok)
             {
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
 
-                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
-                String fileName = StreamHelper.GetFileName(this, data.Data);
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this.Activity, data.Data);
+                String fileName = StreamHelper.GetFileName(this.Activity, data.Data);
                 if (fileStream != null)
                 {
-                    //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
+                    {
+                        this.Activity.RunOnUiThread(() =>
                         {
-						this.Activity.RunOnUiThread(() =>
+                            if ((photoString != null) && (photoString.Length > 0))
                             {
-                                if ((photoString != null) && (photoString.Length > 0))
-                                {
-                                    //    newImage.Tag = photoString;
-                                    string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                                    //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
-                                    //    ImagesPanel.Children.Remove(newBar);
-                                    imageCreateBlah.SetUrlDrawable(photoURL, this);
-                                    BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
-                                    BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
-                                    //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                                    //    App.analytics.PostUploadBlahImage();
-                                }
-                                else
-                                {
-                                    ClearImages();
-                                    //App.analytics.PostSessionError("blahimageuploadfailed");
-                                }
-                            });
-                        }
+                                string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
+                                imageCreateBlah.SetUrlDrawable(photoURL, this);
+                                BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
+                                BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
+
+                            }
+                            else
+                            {
+                                ClearImages();
+                                //App.analytics.PostSessionError("blahimageuploadfailed");
+                            }
+                        });
+                    }
                     );
                 }
             }
             base.OnActivityResult(requestCode, resultCode, data);
         }
-*/
+
+        
+
 		private void initCreateBlahUi()
 		{
 			// speech act btns
@@ -115,11 +117,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 			btn_select_image.Click += (sender, args) =>
 			{
 				var imageIntent = new Intent();
+                imageIntent = new Intent(Intent.ActionGetContent, Android.Provider.MediaStore.Images.Media.ExternalContentUri);
+                imageIntent.SetType("image/*");
+                //fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                StartActivityForResult(Intent.CreateChooser(imageIntent, "Select Image"), 777);
+                /*
 				imageIntent.SetType("image/*");
-				imageIntent.SetAction(Intent.ActionGetContent);
+				imageIntent.SetAction(Intent,A);
 
 				StartActivityForResult(
 					Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                 */
 			};
 			Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
 			btn_signature.Click += (sender, args) => {
@@ -165,6 +173,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			setAsksCreateBlahType();
 		}
+
+      
+
 
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
         {
