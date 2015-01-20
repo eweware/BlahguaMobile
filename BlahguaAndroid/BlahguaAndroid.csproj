@@ -166,6 +166,9 @@
     <Compile Include="Screens\UserProfileFragment.cs" />
     <Compile Include="Screens\HistoryFragment.cs" />
     <Compile Include="Screens\ViewPostFragment.cs" />
+    <Compile Include="Screens\HomeActivity.BlahList.cs" />
+    <Compile Include="Screens\HomeActivity.BlahCreate.cs" />
+    <Compile Include="Screens\HomeActivity.Signature.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

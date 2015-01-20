@@ -1,6 +1,8 @@
 using System;
 using System.IO.IsolatedStorage;
 using System.ComponentModel;
+using System.Timers;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -19,11 +21,12 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Screens;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.BlahguaCore;
+using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
 	[Activity (MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher")]
-	public class HomeActivity : FragmentActivity
+	public partial class  HomeActivity : FragmentActivity
 	{
 
 		private BGActionBarDrawerToggle drawerToggle;
@@ -45,6 +48,36 @@ namespace BlahguaMobile.AndroidClient.Screens
 		//private  string[] Sections;
 
 		private String[] profile_items;
+
+		//mainactivity
+		private Button btn_login;
+		private ImageView btn_newpost;
+		private ImageView avatarBar, avatar;
+		private TextView userName;
+
+		//Fragment
+		Inbox blahList;
+		Timer loadTimer = new Timer();
+		Timer scrollTimer = new Timer();
+		Timer BlahAnimateTimer = new Timer();
+		int inboxCounter = 0;
+
+		int FramesPerSecond = 60;
+
+		int screenMargin = 24;
+		int blahMargin = 12;
+		double smallBlahSize, mediumBlahSize, largeBlahSize;
+
+		private readonly String sequence = "ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA";
+
+		private LinearLayout BlahContainerLayout = null;
+		private ScrollView BlahScroller = null;
+		private BlahFrameLayout CurrentBlahContainer = null;
+
+		//protected ListFragment Frag;
+		private ProgressBar progress_main;
+
+		private static Typeface titleFont = null;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -112,6 +145,26 @@ namespace BlahguaMobile.AndroidClient.Screens
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
 
+
+			BlahContainerLayout = FindViewById<LinearLayout> (Resource.Id.BlahContainer);
+			BlahScroller = FindViewById<ScrollView> (Resource.Id.BlahScroller);
+
+			progress_main = FindViewById<ProgressBar> (Resource.Id.loader_main);
+
+			scrollTimer.Interval = 1000 / FramesPerSecond;
+			scrollTimer.Elapsed += ScrollBlahRoll;
+
+			BlahAnimateTimer.Interval = 1000;
+			BlahAnimateTimer.Elapsed += BlahAnimateTimer_Elapsed;
+
+			//this.Activity.initCreateBlahUi ();
+
+			BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler (On_API_PropertyChanged);
+
+			// create the fonts
+			//FetchInitialBlahList();
+
+			initCreateBlahUi();
 		}
 
 		public int GetContentPositionY()
@@ -171,6 +224,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 		private void ListItemClicked (int position)
 		{
+			/*
 			if (mainFragment == null) {
 
 				mainFragment = new MainFragment ();
@@ -184,6 +238,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
 				this.drawerLayout.CloseDrawers ();
 			}
+			*/
 			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
 				ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList [position].ChannelName;
 				BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
@@ -498,15 +553,244 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//LoadingBox.Visibility = Visibility.Visible;
 			//StopTimers();
 			//ClearBlahs();
-			//FetchInitialBlahList();
+			FetchInitialBlahList();
+			/*
 			if (mainFragment != null)
 				mainFragment.FetchInitialBlahs();
+				*/
 			HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
 			RunOnUiThread(() => {
 				//main_title.Text = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 			});
 		}
+
+		private void StartTimers()
+		{
+			//targetBlah = null;
+			scrollTimer.Start();
+			BlahAnimateTimer.Start();
+		}
+
+
+		private void StopTimers()
+		{
+			scrollTimer.Stop();
+			BlahAnimateTimer.Stop();
+			//AnimateTextFadeIn.Stop();
+			//AnimateTextFadeOut.Stop();
+			//targetBlah = null;
+		}
+
+		private static long fadeDuration = 2000;
+		private static Random rnd = new Random();
+		private View lastAnimatedBlah;
+
+		private void MaybeAnimateElement()
+		{
+			View targetView = null;
+			Rect scrollBounds = new Rect();
+
+			List<View> targetList = new List<View>();
+			bool isDone = false;
+
+			for (int curContainer = 0; curContainer < BlahContainerLayout.ChildCount; curContainer++)
+			{
+				BlahScroller.GetHitRect(scrollBounds);
+				BlahFrameLayout curContainerView = BlahContainerLayout.GetChildAt(curContainer) as BlahFrameLayout;
+				bool isVisible = curContainerView.GetLocalVisibleRect(scrollBounds);
+
+				for (int curBlahCount = 0; curBlahCount < curContainerView.ChildCount; curBlahCount++)
+				{
+
+					View curBlahView = curContainerView.GetChildAt(curBlahCount);
+					var image = curBlahView.FindViewById<ImageView>(Resource.Id.image);
+					if ((curBlahView != lastAnimatedBlah) && (image.Tag != null))
+					{
+						// it wants animation
+						BlahScroller.GetHitRect(scrollBounds);
+						if (curBlahView.GetLocalVisibleRect(scrollBounds))
+						{
+							targetList.Add(curBlahView);
+						}
+						else
+						{
+							if (targetList.Count > 0)
+							{
+								isDone = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (isDone)
+					break;
+			}
+
+			if (targetList.Count > 0)
+				targetView = targetList[rnd.Next(targetList.Count)];
+
+			if (targetView != null)
+			{
+				lastAnimatedBlah = targetView;
+				var title = targetView.FindViewById<LinearLayout>(Resource.Id.textLayout);
+				float targetAlpha = 0f;
+				if (title.Alpha == 0f)
+					targetAlpha = 0.9f;
+
+
+				title.Animate().Alpha(targetAlpha).SetDuration(fadeDuration);
+
+			}
+
+		}
+
+		void BlahAnimateTimer_Elapsed(object sender, EventArgs e)
+		{
+			//BlahAnimateTimer.Stop();
+			MaybeAnimateElement();
+		}
+
+		private void OnAnimationEnd(object sender, EventArgs e)
+		{
+			MaybeAnimateElement();
+		}
+
+		private void ScrollBlahRoll(object sender, EventArgs e)
+		{
+
+			int curOffset = BlahScroller.ScrollY;
+			curOffset += 1;
+			BlahScroller.ScrollTo(0, curOffset);
+
+			DetectScrollAtEnd();
+		}
+
+		bool AtScrollEnd = false;
+		private void DetectScrollAtEnd()
+		{
+			int bottom = BlahContainerLayout.GetChildAt(BlahContainerLayout.ChildCount - 1).Bottom - BlahScroller.MeasuredHeight;
+			if (BlahScroller.ScrollY == bottom)
+			{
+				if (!AtScrollEnd)
+				{
+					AtScrollEnd = true;
+					//FetchNextBlahList();
+				}
+			}
+
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			//if (create_post_block.Visibility != ViewStates.Visible)
+			StartTimers();
+			initLayouts();
+		}
+
+		protected override void OnPause()
+		{
+			base.OnPause();
+			StopTimers();
+		}
+		/*
+		private void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+			case "CurrentChannel":
+				//OnChannelChanged();
+				break;
+			}
+		}
+		*/
+		bool firstInit = true;
+		public void InitLayouts()
+		{
+			initLayouts ();
+		}
+		private void initLayouts()
+		{
+			if (GetRefreshActionButtonState() == false)
+			{
+
+				if (BlahguaAPIObject.Current.CurrentUser != null)
+				{
+					HomeActivity.analytics.PostAutoLogin();
+					//UserInfoBtn.Visibility = Visibility.Visible;
+					//NewBlahBtn.Visibility = Visibility.Visible;
+					//SignInBtn.Visibility = Visibility.Collapsed;
+
+					//userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
+
+					SetLoginButtonActionView (Resource.Layout.action_login_button);
+					SetCreateButtonVisible (true);
+					firstInit = false;
+
+				}
+				else
+				{
+
+				}
+			}
+
+			//avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
+		}
+
+		/*
+		private void DoServiceInited(bool didIt)
+		{
+			this.Activity.RunOnUiThread(() =>
+				{
+					homeActivity.setRefreshActionButtonState(false);// progress_actionbar.Visibility = ViewStates.Gone;
+				});
+			loadTimer.Stop();
+			if (didIt)
+			{
+				this.Activity.RunOnUiThread(() =>
+					{
+						initLayouts();
+					});
+				if (BlahguaAPIObject.Current.CurrentUser != null)
+				{
+					//this.DataContext = BlahguaAPIObject.Current;
+					BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+						{
+							if ((whatsNew != null) && (whatsNew.message != ""))
+							{
+								ShowNewsFloater(whatsNew);
+							}
+						});
+				}
+			}
+			else
+			{
+				this.Activity.RunOnUiThread(() =>
+					{
+						Toast.MakeText(this.Activity, "server connection failure", ToastLength.Short).Show();
+					});
+				//LoadingBox.Visibility = Visibility.Collapsed;
+				//ConnectFailure.Visibility = Visibility.Visible;
+			}
+		}
+		*/
+		private DateTime whatsNewTimestamp = DateTime.MinValue;
+		private void ShowNewsFloater(WhatsNewInfo newInfo)
+		{
+			if (whatsNewTimestamp == DateTime.MinValue ||
+				DateTime.Now - whatsNewTimestamp > TimeSpan.FromSeconds(5))
+			{
+				whatsNewTimestamp = DateTime.Now;
+				//var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
+				//new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
+			}
+		}
+
+
+		private bool secondaryMenuInitiated = false;
+
 	}
 }
 
