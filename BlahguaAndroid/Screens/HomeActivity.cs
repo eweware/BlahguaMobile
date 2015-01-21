@@ -159,12 +159,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//this.Activity.initCreateBlahUi ();
 
-			BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler (On_API_PropertyChanged);
+			//BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler (On_API_PropertyChanged);
 
 			// create the fonts
 			//FetchInitialBlahList();
 
-			initCreateBlahUi();
+			//initCreateBlahUi();
 		}
 
 		public int GetContentPositionY()
@@ -224,12 +224,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 		private void ListItemClicked (int position)
 		{
-			/*
+
 			if (mainFragment == null) {
 
 				mainFragment = new MainFragment ();
 				Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
-				transaction.Add (Resource.Id.content_frame, mainFragment);
+				transaction.Add (Resource.Id.main_frame, mainFragment);
 				transaction.AddToBackStack (null);
 				transaction.Commit ();
 				var count = SupportFragmentManager.BackStackEntryCount;
@@ -238,7 +238,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
 				this.drawerLayout.CloseDrawers ();
 			}
-			*/
+
 			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
 				ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList [position].ChannelName;
 				BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
@@ -254,15 +254,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void RightMenuItemClicked (int position)
 		{
-			/*
+
 			if (mainFragment == null) {
 
 				mainFragment = new MainFragment ();
 				Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
-				transaction.Add (Resource.Id.content_frame, mainFragment);
+				transaction.Add (Resource.Id.main_frame, mainFragment);
 				transaction.Commit ();
 			}
-*/
+
 			this.rightListView.SetItemChecked (position, true);
 			if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
 				ActionBar.Title = this.title = profile_items[position];
@@ -383,8 +383,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			case Resource.Id.action_newpost:
 				if (IsMenuOpened == false && mainFragment != null)
-					triggerCreateBlock ();
-					//mainFragment.triggerCreateBlock ();
+					//triggerCreateBlock ();
+					mainFragment.triggerCreateBlock ();
 				break;
 			}
 			return base.OnOptionsItemSelected (item);
@@ -554,13 +554,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			//FlushImpressionList();
 			//LoadingBox.Visibility = Visibility.Visible;
-			//StopTimers();
+			StopTimers();
 			//ClearBlahs();
-			FetchInitialBlahList();
-			/*
+			//FetchInitialBlahList();
+
 			if (mainFragment != null)
 				mainFragment.FetchInitialBlahs();
-				*/
+				
 			HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
 			RunOnUiThread(() => {

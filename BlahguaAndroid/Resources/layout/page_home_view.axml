@@ -8,47 +8,7 @@
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include
-            layout="@layout/include_create_post"
-            android:id="@+id/create_post_block"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="false"
-            android:visibility="gone" />
-    <!-- MAIN AREA -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ScrollView
-                android:id="@+id/BlahScroller"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/texture_01"
-                android:tileMode="repeat">
-                <LinearLayout
-                    android:id="@+id/BlahContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </ScrollView>
-            <View
-                android:id="@+id/BlahGrayed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#99000000" />
-            <ProgressBar
-                android:id="@+id/loader_main"
-                android:indeterminate="true"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminateDrawable="@drawable/progress_smiley"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-        </FrameLayout>
-    </FrameLayout>
+        android:layout_height="match_parent" />
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
