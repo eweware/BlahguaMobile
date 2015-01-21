@@ -150,7 +150,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     inboxCounter++;
                 }
 
-                MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+					HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
         }
@@ -166,7 +166,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             var control = LayoutInflater.Inflate(Resource.Layout.empty_channel_warning, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             control.LayoutParameters = layoutParams;
             BlahContainerLayout.LayoutParameters = layoutParams2;
 
@@ -363,7 +363,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible ;
-			    title.SetTypeface (MainActivity.gothamFont, TypefaceStyle.Normal);
+				title.SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 
                 title.Text = theBlah.T;
 

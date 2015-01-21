@@ -254,6 +254,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void RightMenuItemClicked (int position)
 		{
+			/*
 			if (mainFragment == null) {
 
 				mainFragment = new MainFragment ();
@@ -261,7 +262,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				transaction.Add (Resource.Id.content_frame, mainFragment);
 				transaction.Commit ();
 			}
-
+*/
 			this.rightListView.SetItemChecked (position, true);
 			if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
 				ActionBar.Title = this.title = profile_items[position];
@@ -382,7 +383,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			case Resource.Id.action_newpost:
 				if (IsMenuOpened == false && mainFragment != null)
-					mainFragment.triggerCreateBlock ();
+					triggerCreateBlock ();
+					//mainFragment.triggerCreateBlock ();
 				break;
 			}
 			return base.OnOptionsItemSelected (item);
@@ -509,8 +511,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 			{
 				RunOnUiThread(() =>
 					{
-						if(mainFragment!= null)
-							mainFragment.InitLayouts();
+						//if(mainFragment!= null)
+						//	mainFragment.InitLayouts();
+						InitLayouts();
 						populateChannelMenu();
 						populateRightMenu();
 					});
