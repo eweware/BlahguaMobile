@@ -54,7 +54,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-			HomeActivity.analytics.PostPageView("/blah/summary");
+            MainActivity.analytics.PostPageView("/blah/summary");
             parent = (Activity)inflater.Context;
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_summary, null);
 

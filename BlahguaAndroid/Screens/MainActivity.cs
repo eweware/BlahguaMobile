@@ -159,7 +159,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             string model = Build.Model;
             string version = ApplicationContext.PackageManager.GetPackageInfo(ApplicationContext.PackageName, 0).VersionName;
             string platform = "ANDROID";
-            string userAgent = "Mozilla/5.0 (Lonux; Android; Mobile) ";
+            string userAgent = "Mozilla/5.0 (Linux; Android; Mobile) ";
 
             analytics = new GoogleAnalytics(userAgent, maker, model, version, platform, uniqueId);
             analytics.StartSession();
@@ -288,6 +288,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (create_post_block.Visibility != ViewStates.Visible)
                 StartTimers();
             initLayouts();
+			// check for re-signin
+			if (BlahguaAPIObject.Current.CurrentUser != null) {
+				BlahguaAPIObject.Current.EnsureSignin ();
+			}
         }
 
         protected override void OnPause()
@@ -408,6 +412,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                     //SignInBtn.Visibility = Visibility.Visible;
                     btn_login.Visibility = ViewStates.Visible;
                     registered_layout.Visibility = ViewStates.Gone;
+                    ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+                    String seenIt = _sharedPref.GetString("sawtutorial", "");
+                    if (String.IsNullOrEmpty(seenIt))
+                    {
+                        _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
+                        TutorialDialog.ShowDialog(FragmentManager);
+                    }
                 }
             }
         }
@@ -430,7 +441,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     //this.DataContext = BlahguaAPIObject.Current;
                     BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
-                        if ((whatsNew != null) && (whatsNew.message != ""))
+                        if ((whatsNew != null))
                         {
                             ShowNewsFloater(whatsNew);
                         }

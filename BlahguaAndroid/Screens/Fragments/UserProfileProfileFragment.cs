@@ -35,7 +35,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-			HomeActivity.analytics.PostPageView("/self/profile");
+            MainActivity.analytics.PostPageView("/self/profile");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_profile, null);
 
             EventHandler click = (sender, args) =>
@@ -107,7 +107,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;
-                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
+                System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data, 512);
                 String fileName = StreamHelper.GetFileName(Activity, data.Data);
                 //String fileName = data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1);
                 avatar.SetUrlDrawable(null);
@@ -118,14 +118,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                         if ((photoString != null) && (photoString.Length > 0))
                         {
                             string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-									HomeActivity.analytics.PostUploadUserImage();
+                            MainActivity.analytics.PostUploadUserImage();
                             avatar.SetUrlDrawable(photoURL, this);
                         }
                         else
                         {
                             btn_avatar.Visibility = ViewStates.Visible;
                             Toast.MakeText(Activity, "Uploading failed", ToastLength.Short).Show();
-									HomeActivity.analytics.PostSessionError("userimageuploadfailed");
+                            MainActivity.analytics.PostSessionError("userimageuploadfailed");
                         }
                     });
                 }
