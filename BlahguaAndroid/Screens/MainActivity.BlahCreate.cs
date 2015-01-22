@@ -49,31 +49,28 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
 
-                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data, 1024);
                 String fileName = StreamHelper.GetFileName(this, data.Data);
                 if (fileStream != null)
                 {
-                    //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
+
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
                             RunOnUiThread(() =>
                             {
                                 if ((photoString != null) && (photoString.Length > 0))
                                 {
-                                    //    newImage.Tag = photoString;
                                     string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                                    //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
-                                    //    ImagesPanel.Children.Remove(newBar);
+
                                     imageCreateBlah.SetUrlDrawable(photoURL, this);
                                     BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
                                     BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
-                                    //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                                    //    App.analytics.PostUploadBlahImage();
+                                    MainActivity.analytics.PostUploadBlahImage();
                                 }
                                 else
                                 {
                                     ClearImages();
-                                    //App.analytics.PostSessionError("blahimageuploadfailed");
+                                    MainActivity.analytics.PostSessionError("blahimageuploadfailed");
                                 }
                             });
                         }
@@ -847,7 +844,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Post created", ToastLength.Short).Show();
                     triggerCreateBlock();
                 });
                 //NavigationService.GoBack();
@@ -856,7 +853,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Unable to create the post.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 });
                 MainActivity.analytics.PostFormatError("blah create failed");
             }
@@ -895,10 +892,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 case "asks":
                     if (curBlah.T.IndexOf("?") == -1)
-                        return "Asks must contain a question.";
+                        return "Asks must contain a question mark.";
                     break;
 
                 case "polls":
+					if (curBlah.T.Length < 3)
+						return "Polls must have a headline of at least 3 letters";
+
                     if ((curBlah.I == null) || (curBlah.I.Count < 2))
                         return "Polls require at least two choices.";
 

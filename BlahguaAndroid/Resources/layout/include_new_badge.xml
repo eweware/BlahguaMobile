@@ -103,7 +103,7 @@
                 android:background="@drawable/btn_green"
                 android:textColor="@drawable/btn_colored_text"
                 android:textStyle="bold"
-                android:text="string/btn_requesttext" />
+                android:text="@string/btn_requesttext" />
         </LinearLayout>
         <ProgressBar
             android:id="@+id/progressBar1"

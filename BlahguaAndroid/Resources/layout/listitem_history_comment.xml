@@ -1,111 +1,91 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:orientation="horizontal">
-  <LinearLayout
-    android:id="@+id/left_layout"
-    android:layout_width="60dp"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:background="#00BCD2"
-    android:visibility="gone">
-    <Button
-      android:id="@+id/btn_open"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@null"
-      android:textColor="#FFF"
-      android:text="OPEN POST" />
-  </LinearLayout>
-  
-  <LinearLayout
-    android:layout_width="0dp"
-    android:layout_weight="1"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:padding="10dp">
-    <TextView
-      android:id="@+id/text"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textColor="#3C3C3C"
-      android:paddingBottom="3dp"/>
-    <ImageView
-      android:id="@+id/image"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:scaleType="fitCenter"
-      android:paddingBottom="3dp"/>
+    android:orientation="horizontal">
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
-
-      <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textStyle="bold"
-        android:text="author" />
-      <ImageView
-        android:id="@+id/author_avatar"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_margin="5dp"
-        android:layout_gravity="center_vertical"
-        android:background="#AAA"/>
-      <TextView
-        android:id="@+id/time_ago"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textSize="10sp"
-        android:layout_gravity="center_vertical"
-        android:text="some time ago"/>
-      
-      <View
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-      
-      <TextView
-        android:id="@+id/upvoted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#60BFA4"/>
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:text="/"/>
-      <TextView
-        android:id="@+id/downvoted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"/>
-      
-    </LinearLayout>
-  </LinearLayout>
-  <LinearLayout
-    android:id="@+id/right_layout"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:background="#E73E53"
-    android:padding="10dp"
-    android:visibility="gone">
-
-    <Button
-        android:id="@+id/btn_delete"
-        android:layout_width="match_parent"
+        android:id="@+id/left_layout"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
-        android:background="@null"
-        android:textColor="#FFF"
-        android:text="DELETE" />
-  </LinearLayout>
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#00BCD2"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btn_open"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textColor="#FFF"
+            android:text="OPEN POST" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#3C3C3C"
+            android:paddingBottom="3dp" />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:paddingBottom="3dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/time_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:textSize="10sp"
+                android:layout_gravity="center_vertical"
+                android:text="some time ago" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/upvoted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#60BFA4" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C"
+                android:text="/" />
+            <TextView
+                android:id="@+id/downvoted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3C3C3C" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#E73E53"
+        android:padding="10dp"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textColor="#FFF"
+            android:text="DELETE" />
+    </LinearLayout>
 </LinearLayout>
