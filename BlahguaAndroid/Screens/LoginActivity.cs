@@ -34,7 +34,7 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
-            MainActivity.analytics.PostPageView("/signup");
+			HomeActivity.analytics.PostPageView("/signup");
 
             instance = this;
 
@@ -208,7 +208,7 @@ namespace BlahguaMobile.AndroidClient
             }
 
             // do the rest
-            MainActivity.analytics.PostLogin();
+			HomeActivity.analytics.PostLogin();
             RunOnUiThread(() =>
             {
                 progress.Visibility = ViewStates.Invisible;
@@ -263,12 +263,12 @@ namespace BlahguaMobile.AndroidClient
                 {
                     if (errMsg == null)
                     {
-                        MainActivity.analytics.PostRegisterUser();
+							HomeActivity.analytics.PostRegisterUser();
                         HandleUserSignIn();
                     }
                     else
                     {
-                        MainActivity.analytics.PostSessionError("registerfailed-" + errMsg);
+							HomeActivity.analytics.PostSessionError("registerfailed-" + errMsg);
                         RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;

@@ -8,6 +8,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Util;
 
 using SlidingMenuSharp;
 using SlidingMenuSharp.App;
@@ -88,7 +89,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			return fragment;
 		}
 
-        private void StartTimers()
+		public void StartTimers()
         {
             //targetBlah = null;
             scrollTimer.Start();
@@ -96,7 +97,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
 
 
-        private void StopTimers()
+		public void StopTimers()
         {
             scrollTimer.Stop();
             BlahAnimateTimer.Stop();
@@ -145,6 +146,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             }
                         }
                     }
+					Log.Debug ("MaybeAnimageElement", curBlahCount.ToString());
                 }
 
                 if (isDone)
@@ -199,7 +201,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (!AtScrollEnd)
                 {
                     AtScrollEnd = true;
-                    //FetchNextBlahList();
+                    FetchNextBlahList();
                 }
             }
             

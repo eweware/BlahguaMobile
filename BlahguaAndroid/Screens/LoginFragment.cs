@@ -213,6 +213,7 @@ namespace BlahguaMobile.AndroidClient
 						FragmentManager.PopBackStack();
 						HomeActivity homeActivity = (HomeActivity)this.Activity;
 						homeActivity.RestoreTitle();
+						homeActivity.ResumeScrolling();
 					}
 					dialog.Hide();
 				//this.Activity.Finish();

@@ -15,6 +15,7 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics;
+using Android.Util;
 
 using BlahguaMobile.AndroidClient;
 using BlahguaMobile.AndroidClient.HelpingClasses;
@@ -150,13 +151,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 			BlahScroller = FindViewById<ScrollView> (Resource.Id.BlahScroller);
 
 			progress_main = FindViewById<ProgressBar> (Resource.Id.loader_main);
-
+			/*
 			scrollTimer.Interval = 1000 / FramesPerSecond;
 			scrollTimer.Elapsed += ScrollBlahRoll;
 
 			BlahAnimateTimer.Interval = 1000;
 			BlahAnimateTimer.Elapsed += BlahAnimateTimer_Elapsed;
-
+*/
 			//this.Activity.initCreateBlahUi ();
 
 			//BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler (On_API_PropertyChanged);
@@ -360,24 +361,37 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			if (this.drawerToggle.OnOptionsItemSelected (item)) {
 				this.drawerLayout.CloseDrawer (this.rightMenu);
+				if (this.drawerLayout.IsDrawerOpen (this.drawerListView))
+					ResumeScrolling ();
+				else
+					StopScrolling ();
 				return true;
 			}
 			switch(item.ItemId )
 			{
 			case Resource.Id.action_login:
 				if (BlahguaAPIObject.Current.CurrentUser == null) {
+					/*
 					LoginFragment loginFragment = new LoginFragment ();
 					Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
 					transaction.AddToBackStack (null);
 					transaction.Replace (Resource.Id.content_frame, loginFragment).Commit ();
 					SetTitle ("LogIn");
+					*/
+					var intent = new Intent(this, typeof(LoginActivity));
 
+					StartActivity(intent);
+
+					StopScrolling ();
 				} else {
-					if (this.drawerLayout.IsDrawerOpen (this.rightMenu))
+					if (this.drawerLayout.IsDrawerOpen (this.rightMenu)) {
 						this.drawerLayout.CloseDrawer (this.rightMenu);
+						ResumeScrolling ();
+					}
 					else {
 						this.drawerLayout.OpenDrawer (this.rightMenu);
 						this.drawerLayout.CloseDrawer (this.drawerListView);
+						StopScrolling ();
 					}
 				}
 				break;
@@ -388,6 +402,18 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			}
 			return base.OnOptionsItemSelected (item);
+		}
+
+		public void StopScrolling()
+		{
+			if (mainFragment != null)
+				mainFragment.StopTimers ();
+		}
+
+		public void ResumeScrolling()
+		{
+			if (mainFragment != null)
+				mainFragment.StartTimers ();
 		}
 		public void setRefreshActionButtonState(bool refreshing){
 			if (optionsMenu != null) {
@@ -554,12 +580,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			//FlushImpressionList();
 			//LoadingBox.Visibility = Visibility.Visible;
-			StopTimers();
+			//StopTimers();
 			//ClearBlahs();
 			//FetchInitialBlahList();
 
-			if (mainFragment != null)
-				mainFragment.FetchInitialBlahs();
+			if (mainFragment != null) {
+				mainFragment.StopTimers ();
+				mainFragment.ClearBlahs ();
+				mainFragment.FetchInitialBlahs ();
+			}
 				
 			HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
@@ -583,6 +612,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//AnimateTextFadeIn.Stop();
 			//AnimateTextFadeOut.Stop();
 			//targetBlah = null;
+
 		}
 
 		private static long fadeDuration = 2000;
@@ -689,7 +719,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			base.OnResume();
 			//if (create_post_block.Visibility != ViewStates.Visible)
-			StartTimers();
+			//StartTimers();
 			initLayouts();
 		}
 

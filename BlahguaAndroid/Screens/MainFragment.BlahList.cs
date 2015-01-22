@@ -1,5 +1,6 @@
 using Android.Views;
 using Android.Widget;
+using Android.Util;
 
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
@@ -63,7 +64,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			{
 				this.Activity.RunOnUiThread(() =>
 					{
-						//Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
+						Toast.MakeText(this.Activity, "still loading...", ToastLength.Short).Show();
 					});
 				//LoadingMessageBox.Text = "still loading...";
 			};
@@ -185,7 +186,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				});
 
 		}
-		private void ClearBlahs()
+		public void ClearBlahs()
 		{
 			this.Activity.RunOnUiThread(() =>
 				{
@@ -263,7 +264,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				newTop = InsertRowTypeF(topLoc);
 				break;
 			}
-
+			Log.Debug ("INERT ROW", newTop.ToString());
 			return newTop;
 		}
 
