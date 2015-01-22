@@ -201,7 +201,6 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\page_home_view.axml" />
     <AndroidResource Include="Resources\layout\item_menu.axml" />
-    <AndroidResource Include="Resources\menu\home_menu_actions.axml" />
     <AndroidResource Include="Resources\layout\actionbar_progress.axml" />
     <AndroidResource Include="Resources\layout\fragment_login.xml">
       <SubType>Designer</SubType>
@@ -221,6 +220,8 @@
     <AndroidResource Include="Resources\layout\fragment_history.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\menu\login_menu.axml" />
+    <AndroidResource Include="Resources\menu\loggedin_menu.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">

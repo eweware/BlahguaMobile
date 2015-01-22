@@ -17,7 +17,6 @@
             android:textSize="14sp"
             android:textColor="@drawable/color_white_button_text"
             android:padding="10dp"
-            android:visibility="gone"
             android:text="@string/cancel_titlebar_btn" />
         <TextView
             android:id="@+id/login_title"

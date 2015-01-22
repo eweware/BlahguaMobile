@@ -76,10 +76,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 			BlahAnimateTimer.Interval = 1000;
 			BlahAnimateTimer.Elapsed += BlahAnimateTimer_Elapsed;
 
-			//this.Activity.initCreateBlahUi ();
-
-			BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler (On_API_PropertyChanged);
-
 			homeActivity = (HomeActivity)this.Activity;
 			// create the fonts
 			//FetchInitialBlahList();
@@ -93,7 +89,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             //targetBlah = null;
             scrollTimer.Start();
-            BlahAnimateTimer.Start();
+            //BlahAnimateTimer.Start();
         }
 
 
@@ -146,7 +142,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             }
                         }
                     }
-					Log.Debug ("MaybeAnimageElement", curBlahCount.ToString());
+					Log.Debug ("MaybeAnimateElement", curBlahCount.ToString());
                 }
 
                 if (isDone)
@@ -250,7 +246,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     //userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
-					homeActivity.SetLoginButtonActionView (Resource.Layout.action_login_button);
 					homeActivity.SetCreateButtonVisible (true);
                 	firstInit = false;
                     

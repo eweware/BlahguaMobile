@@ -198,12 +198,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void OpenBlahItem(InboxBlah curBlah)
 		{
-			/*
+
 			StopTimers();
 			BlahguaAPIObject.Current.CurrentInboxBlah = curBlah;
 			App.BlahIdToOpen = curBlah.I;
 			this.Activity.StartActivity(typeof(ViewPostActivity));
-			*/
+
+
+			/*
 			Android.Support.V4.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
 			ViewPostFragment fragment = new ViewPostFragment ();
 			App.BlahIdToOpen = curBlah.I;
@@ -212,6 +214,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			fragmentTx.Commit ();
 
 			homeActivity.SetTitle ("Summary");
+			*/
 
 		}
 

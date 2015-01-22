@@ -56,7 +56,7 @@ namespace BlahguaMobile.AndroidClient
             //btn_right.Visibility = ViewStates.Gone;
 			int page = this.Arguments.GetInt ("Page");
 			//int page = Activity.Intent.GetIntExtra("Page", 1);
-
+			/*
             switch (page)
             {
                 case 1:
@@ -120,6 +120,7 @@ namespace BlahguaMobile.AndroidClient
                     }
                     break;
             }
+            */
 			return fragment;
         }
 

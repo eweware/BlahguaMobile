@@ -55,18 +55,19 @@ namespace BlahguaMobile.AndroidClient
                 Finish();
 			};
 
-            title = FindViewById<TextView>(Resource.Id.title);
+            //title = FindViewById<TextView>(Resource.Id.title);
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
-            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+			//title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
+			this.ActionBar.Title = "";
+			btn_right.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 
-            title.Visibility = ViewStates.Gone;
+            //title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
-            btn_login.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+			btn_login.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
             btn_login.Click += delegate
             {
                 StartActivity(typeof(LoginActivity));
@@ -171,8 +172,9 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Text = "Statistics";
-            title.Visibility = ViewStates.Visible;
+            //title.Text = "Statistics";
+			this.ActionBar.Title = "Statistics";
+            //title.Visibility = ViewStates.Visible;
             btn_right.Visibility = ViewStates.Gone;
 
             summaryFragment = null;
@@ -194,8 +196,11 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Text = "Summary";
-            title.Visibility = ViewStates.Visible;
+            //title.Text = "Summary";
+
+           // title.Visibility = ViewStates.Visible;
+
+			this.ActionBar.Title = "Summary";
             btn_right.Visibility = ViewStates.Gone;
 
             commentsFragment = null;
@@ -221,8 +226,9 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
 
             // do the rest
-            title.Text = "Comments";
-            title.Visibility = ViewStates.Visible;
+            //title.Text = "Comments";
+            //title.Visibility = ViewStates.Visible;
+			this.ActionBar.Title = "Comments";
             //if (BlahguaAPIObject.Current.CurrentUser != null)
             //{
                 btn_right.Visibility = ViewStates.Visible;
