@@ -57,14 +57,14 @@
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text.XamarinAndrod">
+      <HintPath>..\Components\servicestacktext-3.9.61.0\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp.MonoDroid">
       <HintPath>..\Components\restsharp-104.4.0.1\lib\android\RestSharp.MonoDroid.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text.XamarinAndrod">
-      <HintPath>..\Components\servicestacktext-3.9.61.0\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +142,9 @@
     <Compile Include="Screens\HistoryActivity.cs" />
     <Compile Include="Screens\Fragments\UserProfileDemographicsFragment.cs" />
     <Compile Include="Screens\Fragments\UserProfileProfileFragment.cs" />
-    <Compile Include="Screens\MainActivity.BlahList.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
     <Compile Include="Screens\ViewPostActivity.cs" />
+    <Compile Include="Screens\MainActivity.BlahList.cs" />
     <Compile Include="Screens\LoginActivity.cs" />
     <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageCache.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewCallback.cs" />
     <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewHelper.cs" />
+    <Compile Include="HelpingClasses\NonSwipeViewPager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -487,14 +488,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <AndroidAsset Include="Assets\fonts\GothamRnd-Bold.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-BoldItal.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-Book.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-BookItal.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-Light.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-LightItal.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-MedItal.otf" />
-    <AndroidAsset Include="Assets\fonts\GothamRnd-Medium.otf" />
     <AndroidAsset Include="Assets\fonts\GothamRounded-Bold.otf" />
     <AndroidAsset Include="Assets\fonts\GothamRounded-BoldItalic.otf" />
     <AndroidAsset Include="Assets\fonts\GothamRounded-Book.otf" />

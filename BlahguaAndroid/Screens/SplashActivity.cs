@@ -14,6 +14,7 @@ using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -43,6 +44,7 @@ namespace BlahguaMobile.AndroidClient
 
             Handler h = new Handler();
             h.PostDelayed(aaa, delayTime);
+
         }
 
         void aaa()
@@ -56,6 +58,8 @@ namespace BlahguaMobile.AndroidClient
             //base.OnBackPressed();
         }
     }
+
+
 }
 
 

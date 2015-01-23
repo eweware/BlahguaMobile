@@ -26,17 +26,18 @@
             android:padding="8dp">
             <TextView
                 android:text="Pick a channel to get started.  You will be able to add more later."
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView1"
+                android:id="@+id/titleText"
                 android:textColor="@color/heard_black" />
             <TextView
                 android:text="Connect with verified tech employees, VCs, and press."
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/heard_black"
+                android:id="@+id/textView1"
                 android:layout_marginTop="32dp" />
             <Button
                 android:text="Tech Industry"
@@ -50,7 +51,7 @@
                 android:layout_marginBottom="16dp" />
             <TextView
                 android:text="Engage with verified entertainment studio employees, agents, and media."
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/heard_black"
@@ -68,11 +69,11 @@
                 android:layout_marginBottom="16dp" />
             <TextView
                 android:text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world's watercooler."
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/heard_black"
-                android:id="@+id/textView2"
+                android:id="@+id/textView3"
                 android:layout_marginTop="32dp" />
             <Button
                 android:text="Public"

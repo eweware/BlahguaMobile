@@ -61,7 +61,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView main_title;
 
         public static GoogleAnalytics analytics = null;
-        private static Typeface titleFont = null;
+        public static Typeface titleFont = null;
+		public static Typeface bodyFont = null;
 
 
 		protected override void OnCreate (Bundle bundle)
@@ -78,6 +79,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             TextView mainTitle = FindViewById<TextView>(Resource.Id.main_title);
             if (titleFont == null)
                 titleFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
+			if (bodyFont == null)
+				bodyFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
             mainTitle.SetTypeface(titleFont, TypefaceStyle.Normal);
             FindViewById<TextView>(Resource.Id.btn_login).SetTypeface(titleFont, TypefaceStyle.Normal);
 

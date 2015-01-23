@@ -19,7 +19,7 @@ namespace BlahguaMobile.AndroidClient
     public class FirstRunActivity : FragmentActivity
     {
         private static int NUM_PAGES = 3;
-        private ViewPager mPager;
+        private NonSwipeViewPager mPager;
         private PagerAdapter mPagerAdapter;
 
 
@@ -30,14 +30,11 @@ namespace BlahguaMobile.AndroidClient
 
             // Create your application here
             SetContentView(Resource.Layout.ViewPager);
-            mPager = FindViewById<ViewPager>(Resource.Id.pager);
+			mPager = FindViewById<NonSwipeViewPager>(Resource.Id.pager);
             mPagerAdapter = new ScreenSlidePageAdapter(SupportFragmentManager);
             mPager.Adapter = mPagerAdapter;
 
-            mPager.Touch += ( v,  m) =>
-                    {
-                        m.Handled =  true;
-                    };
+           
         }
 
         public override void OnBackPressed()

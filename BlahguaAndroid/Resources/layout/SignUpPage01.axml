@@ -23,11 +23,12 @@
             android:layout_marginBottom="16dp" />
         <TextView
             android:text="@string/mediumText"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
-            android:textColor="@color/heard_black" />
+            android:textColor="@color/heard_black"
+            android:typeface="normal"
+            android:textSize="18dp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,24 +51,25 @@
             android:hint="confirm password" />
         <TextView
             android:text="@string/smallText"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/heard_black"
             android:id="@+id/textView2"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:typeface="normal"
+            android:textSize="14dp" />
         <EditText
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText4"
+            android:id="@+id/emailAddrField"
             android:textColor="@color/heard_black"
             android:hint="email (optional)" />
         <Button
             android:text="@string/createAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button1"
+            android:id="@+id/createBtn"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
@@ -77,20 +79,20 @@
             android:text="@string/skipForNow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
+            android:id="@+id/skipBtn"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="16dp"
             android:background="@color/heard_black" />
         <TextView
             android:text="@string/mediumText"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView3"
+            android:id="@+id/loginBtn"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:gravity="center"
-            android:textColor="@color/heard_blue" />
+            android:textColor="@color/heard_blue"
+            android:textSize="18dp" />
     </LinearLayout>
 </ScrollView>
