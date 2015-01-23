@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/heard_white">
+    <ImageView
+        android:src="@drawable/Heard_Smile_Only_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView1"
+        android:layout_gravity="center_horizontal"
+        android:alpha="0.15"
+        android:layout_marginTop="32dp" />
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1"
+            android:padding="8dp">
+            <TextView
+                android:text="Pick a channel to get started.  You will be able to add more later."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textColor="@color/heard_black" />
+            <TextView
+                android:text="Connect with verified tech employees, VCs, and press."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/heard_black"
+                android:layout_marginTop="32dp" />
+            <Button
+                android:text="Tech Industry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TechBtn"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/heard_blue"
+                android:layout_marginBottom="16dp" />
+            <TextView
+                android:text="Engage with verified entertainment studio employees, agents, and media."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/heard_black"
+                android:id="@+id/textView2"
+                android:layout_marginTop="32dp" />
+            <Button
+                android:text="Entertainment Industry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EntBtn"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/heard_blue"
+                android:layout_marginBottom="16dp" />
+            <TextView
+                android:text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world's watercooler."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/heard_black"
+                android:id="@+id/textView2"
+                android:layout_marginTop="32dp" />
+            <Button
+                android:text="Public"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/PublicBtn"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/heard_blue"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

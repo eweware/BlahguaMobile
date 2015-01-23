@@ -118,6 +118,7 @@
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
+    <Compile Include="Screens\FirstRunActivity.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\UiHelper.cs" />
     <Compile Include="HelpingClasses\ImageLoader.cs" />
@@ -125,6 +126,9 @@
     <Compile Include="HelpingClasses\StreamHelper.cs" />
     <Compile Include="HelpingClasses\StringHelper.cs" />
     <Compile Include="HelpingClasses\TouchImageView.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage01Fragment.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage02Fragment.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage03Fragment.cs" />
     <Compile Include="Screens\Fragments\TutorialDialog.cs" />
     <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
     <Compile Include="Screens\MainActivity.Signature.cs" />
@@ -195,6 +199,18 @@
     </AndroidResource>
     <AndroidResource Include="Resources\drawable-xhdpi\conversion.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\comments_filled_64x64.png" />
+    <AndroidResource Include="Resources\layout\SignUpPage01.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SignUpPage02.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SignUpPage03.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ViewPager.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -725,5 +741,14 @@
       <Version>1.1.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Logo_master_teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Heard_Smile_Only_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
 </Project>

@@ -23,13 +23,26 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            int delayTime;
             base.OnCreate(bundle);
 
             RequestWindowFeature(WindowFeatures.NoTitle);
-			SetContentView (Resource.Layout.activity_splash);
+			
+            ISharedPreferences _sharedPref = Android.Preferences.PreferenceManager.GetDefaultSharedPreferences(this);
+            String seenIt = _sharedPref.GetString("firsttime", "");
+            if (String.IsNullOrEmpty(seenIt))
+            {
+                delayTime = 3000;
+                SetContentView (Resource.Layout.activity_splash);
+
+                _sharedPref.Edit().PutString("firsttime", "true").Commit();
+
+            }
+            else
+                delayTime = 1;
 
             Handler h = new Handler();
-            h.PostDelayed(aaa, 3000);
+            h.PostDelayed(aaa, delayTime);
         }
 
         void aaa()
