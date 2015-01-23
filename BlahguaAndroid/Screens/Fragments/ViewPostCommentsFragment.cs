@@ -20,7 +20,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	class ViewPostCommentsFragment : Android.Support.V4.App.Fragment, IUrlImageViewCallback
+	class ViewPostCommentsFragment : Fragment, IUrlImageViewCallback
     {
         private readonly int SELECTIMAGE_REQUEST = 777;
 
@@ -63,9 +63,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             return path;
         }
 
-        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
-			if (requestCode == SELECTIMAGE_REQUEST && resultCode == (int)Android.App.Result.Ok)
+			if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
             {
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateCommentLayout.Visibility = ViewStates.Visible;

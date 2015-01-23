@@ -247,7 +247,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 			case Resource.Id.action_newpost:
 				if (IsMenuOpened == false && mainFragment != null)
 					//triggerCreateBlock ();
-					mainFragment.triggerCreateBlock ();
+ {					//mainFragment.triggerCreateBlock ();
+					var create_intent = new Intent (this, typeof(BlahCreateActivity));
+					StartActivity (create_intent);
+				}
 				break;
 			case Resource.Id.action_profile:
 
@@ -291,6 +294,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 							populateChannelMenu ();
 							dialog.Cancel ();
+
+							optionsMenu.Clear();
+							this.MenuInflater.Inflate (Resource.Menu.login_menu, optionsMenu);
 						});
 					}
 
@@ -498,7 +504,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					this.MenuInflater.Inflate (Resource.Menu.loggedin_menu, this.optionsMenu);
 					IMenuItem avatarItem = optionsMenu.FindItem (Resource.Id.action_avatar);
 					if (avatarItem != null) {
-
+						avatarItem.SetActionView (Resource.Layout.action_login_button);
 					}
 
 					SetCreateButtonVisible (true);

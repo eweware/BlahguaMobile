@@ -165,7 +165,7 @@
     <Compile Include="Screens\MainFragment.Signature.cs" />
     <Compile Include="Screens\UserProfileFragment.cs" />
     <Compile Include="Screens\HistoryFragment.cs" />
-    <Compile Include="Screens\ViewPostFragment.cs" />
+    <Compile Include="Screens\BlahCreateActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -222,6 +222,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\menu\login_menu.axml" />
     <AndroidResource Include="Resources\menu\loggedin_menu.axml" />
+    <AndroidResource Include="Resources\layout\activity_create_post.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">

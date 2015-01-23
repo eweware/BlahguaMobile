@@ -80,8 +80,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 			// create the fonts
 			//FetchInitialBlahList();
 
-			initCreateBlahUi();
-
+			//initCreateBlahUi();
+			blayGrayed = fragment.FindViewById<View>(Resource.Id.BlahGrayed);
+			blayGrayed.Visibility = ViewStates.Gone;
+			//blayGrayed.SetOnTouchListener(this);
 			return fragment;
 		}
 

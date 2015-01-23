@@ -55,15 +55,15 @@ namespace BlahguaMobile.AndroidClient
                 Finish();
 			};
 
-            //title = FindViewById<TextView>(Resource.Id.title);
+            title = FindViewById<TextView>(Resource.Id.title);
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
-			//title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
-			this.ActionBar.Title = "";
+			title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
+
 			btn_right.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 
-            //title.Visibility = ViewStates.Gone;
+            title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
@@ -172,9 +172,9 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            //title.Text = "Statistics";
-			this.ActionBar.Title = "Statistics";
-            //title.Visibility = ViewStates.Visible;
+            title.Text = "Statistics";
+
+            title.Visibility = ViewStates.Visible;
             btn_right.Visibility = ViewStates.Gone;
 
             summaryFragment = null;
@@ -182,8 +182,8 @@ namespace BlahguaMobile.AndroidClient
 
             statsFragment = ViewPostStatsFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
-            //fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
-            //fragmentTransaction.Commit();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
+            fragmentTransaction.Commit();
         }
 
         private void btn_summary_Click(object sender, EventArgs e)
@@ -196,11 +196,9 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            //title.Text = "Summary";
+            title.Text = "Summary";
+           	title.Visibility = ViewStates.Visible;
 
-           // title.Visibility = ViewStates.Visible;
-
-			this.ActionBar.Title = "Summary";
             btn_right.Visibility = ViewStates.Gone;
 
             commentsFragment = null;
@@ -212,8 +210,8 @@ namespace BlahguaMobile.AndroidClient
             }
             summaryFragment = summaryInitFragment;
             var fragmentTransaction = FragmentManager.BeginTransaction();
-            //fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
-            //fragmentTransaction.Commit();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
+            fragmentTransaction.Commit();
         }
 
         private void btn_comments_Click(object sender, EventArgs e)
@@ -226,9 +224,8 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
 
             // do the rest
-            //title.Text = "Comments";
-            //title.Visibility = ViewStates.Visible;
-			this.ActionBar.Title = "Comments";
+            title.Text = "Comments";
+            title.Visibility = ViewStates.Visible;
             //if (BlahguaAPIObject.Current.CurrentUser != null)
             //{
                 btn_right.Visibility = ViewStates.Visible;
@@ -240,8 +237,8 @@ namespace BlahguaMobile.AndroidClient
 
             commentsFragment = ViewPostCommentsFragment.NewInstance();
             var fragmentTransaction = FragmentManager.BeginTransaction();
-            //fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
-            //fragmentTransaction.Commit();
+            fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
+            fragmentTransaction.Commit();
         }
         #endregion
 

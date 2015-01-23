@@ -19,7 +19,7 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	class ViewPostSummaryFragment : Android.Support.V4.App.Fragment
+	class ViewPostSummaryFragment : Fragment
     {
         public static ViewPostSummaryFragment NewInstance()
         {

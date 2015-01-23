@@ -5,8 +5,8 @@
 		android:title=""
 		android:showAsAction="always"/>
 	<item android:id="@+id/action_avatar"
-		android:icon="@drawable/icon_createpost"
-		android:title="Name"
+		android:icon="@drawable/ico_hot"
+		android:title=""
 		android:alphabeticShortcut="p"
 		android:orderInCategory="1"
 		android:showAsAction="never"/>

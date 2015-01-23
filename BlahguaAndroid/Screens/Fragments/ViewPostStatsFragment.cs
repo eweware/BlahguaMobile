@@ -16,7 +16,7 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	class ViewPostStatsFragment : Android.Support.V4.App.Fragment
+	class ViewPostStatsFragment : Fragment
     {
         public static ViewPostStatsFragment NewInstance()
         {

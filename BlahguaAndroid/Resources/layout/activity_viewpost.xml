@@ -18,6 +18,16 @@
             android:background="@null"
             android:textColor="#60BFA4"
             android:text=" Back" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:textColor="#60BFA4"
+            android:textSize="18sp"
+            android:text="Comments" />
         <Button
             android:id="@+id/btn_right"
             android:layout_width="wrap_content"

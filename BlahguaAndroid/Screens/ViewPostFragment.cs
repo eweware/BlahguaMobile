@@ -88,7 +88,7 @@ namespace BlahguaMobile.AndroidClient
 			btn_summary = fragment.FindViewById<Button>(Resource.Id.btn_summary);
 			btn_comments = fragment.FindViewById<Button>(Resource.Id.btn_comments);
 			btn_stats = fragment.FindViewById<Button>(Resource.Id.btn_stats);
-
+			/*
             btn_promote.Click += HandlePromoteBlah;
             btn_demote.Click += HandleDemoteBlah;
 
@@ -97,6 +97,7 @@ namespace BlahguaMobile.AndroidClient
             btn_stats.Click += btn_stats_Click;
 
             btn_summary_Click(null, null);
+            */
 			HomeActivity.analytics.PostPageView("/blah");
 
 
@@ -179,7 +180,7 @@ namespace BlahguaMobile.AndroidClient
                 }
             }
         }
-
+		/*
         #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
@@ -257,6 +258,7 @@ namespace BlahguaMobile.AndroidClient
             fragmentTransaction.Commit();
 
         }
+
         #endregion
 
         #region Handles
@@ -280,7 +282,7 @@ namespace BlahguaMobile.AndroidClient
             });
             
         }
-        #endregion
+        #endregion*/ 
 
         public void UpdateSummaryButtons()
         {
