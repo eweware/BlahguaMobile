@@ -38,16 +38,16 @@ namespace BlahguaMobile.AndroidClient
             base.OnCreate(bundle);
 
             RequestWindowFeature(WindowFeatures.NoTitle);
-            SetContentView(Resource.Layout.fragment_history);
+			SetContentView(Resource.Layout.activity_history);
 
             title = FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
 
             _gestureListener = new GestureListener();
             _gestureDetector = new GestureDetector(this, _gestureListener);
 
             Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
-            btn_back.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+			btn_back.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
             btn_back.Click += delegate
             {
                 Finish();

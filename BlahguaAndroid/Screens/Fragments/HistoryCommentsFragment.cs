@@ -33,7 +33,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ListView list;
         private LinearLayout no_comments;
 
-		private HomeActivity activity;
+		private HistoryActivity activity;
 
         private HistoryCommentsAdapter adapter;
 
@@ -56,7 +56,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-			activity = (HomeActivity)Activity;
+			activity = (HistoryActivity)Activity;
             base.OnActivityCreated(savedInstanceState);
         }
 
