@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout1"
+        android:animateLayoutChanges="true"
         android:padding="8dp">
         <ImageView
             android:src="@drawable/Logo_master_teal"
@@ -22,7 +23,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp" />
         <TextView
-            android:text="@string/mediumText"
+            android:text="Welcome!  Get started with an account:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
@@ -42,6 +43,16 @@
             android:textColor="@color/heard_black"
             android:id="@+id/password"
             android:hint="password" />
+        <Button
+            android:text="Sign In"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signInBtn"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/heard_blue"
+            android:layout_marginBottom="16dp" />
         <EditText
             android:inputType="textPassword"
             android:layout_width="match_parent"
@@ -54,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/heard_black"
-            android:id="@+id/textView2"
+            android:id="@+id/emailPrompt"
             android:layout_marginTop="16dp"
             android:typeface="normal"
             android:textSize="14dp" />
@@ -85,10 +96,10 @@
             android:layout_marginBottom="16dp"
             android:background="@color/heard_black" />
         <TextView
-            android:text="@string/mediumText"
+            android:text="already have an account?"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginBtn"
+            android:id="@+id/prepSignIn"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:gravity="center"

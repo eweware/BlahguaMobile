@@ -45,8 +45,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			enterEmailView = rootView.FindViewById<LinearLayout> (Resource.Id.enterEmailView);
 			verificationView = rootView.FindViewById<LinearLayout> (Resource.Id.verifyView);
- 
 
+            verificationView.Visibility = ViewStates.Gone;
 
             return rootView;
         }

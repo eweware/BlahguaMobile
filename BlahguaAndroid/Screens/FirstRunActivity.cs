@@ -18,7 +18,6 @@ namespace BlahguaMobile.AndroidClient
     [Activity(Label = "FirstRunActivity")]
     public class FirstRunActivity : FragmentActivity
     {
-        private static int NUM_PAGES = 3;
         private NonSwipeViewPager mPager;
         private PagerAdapter mPagerAdapter;
 
@@ -33,7 +32,7 @@ namespace BlahguaMobile.AndroidClient
 			mPager = FindViewById<NonSwipeViewPager>(Resource.Id.pager);
             mPagerAdapter = new ScreenSlidePageAdapter(SupportFragmentManager);
             mPager.Adapter = mPagerAdapter;
-
+            mPager.TouchEnabled = false;
            
         }
 
@@ -47,6 +46,16 @@ namespace BlahguaMobile.AndroidClient
             {
                 mPager.CurrentItem--;
             }
+        }
+
+        public void GoToNext()
+        {
+            mPager.CurrentItem++;
+        }
+
+        public void FinishSignin()
+        {
+            this.Finish();
         }
 
 
