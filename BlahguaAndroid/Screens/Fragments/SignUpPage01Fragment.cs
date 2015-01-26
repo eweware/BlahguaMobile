@@ -97,7 +97,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             prepSignIn = rootView.FindViewById<TextView>(Resource.Id.prepSignIn);
             prepSignIn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
 
-            skipButton.Click += (object sender, EventArgs e) =>
+            prepSignIn.Click += (object sender, EventArgs e) =>
             {
                 PrepForSignIn();
 
@@ -122,6 +122,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Current.SignIn(userName, password, true, SiginInResultCallback);
             };
 
+            createAccountBtn.Enabled = false;
+            signInBtn.Enabled = false;
 
             return rootView;
         }
@@ -188,11 +190,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 Activity.RunOnUiThread(() =>
                 {
                     progressDlg.Hide();
-                    string emailAddr = emailField.Text.Trim();
+                    FirstRunActivity.emailAddress = emailField.Text.Trim();
 
-                    if (!String.IsNullOrEmpty(emailAddr))
+                    if (!String.IsNullOrEmpty(FirstRunActivity.emailAddress))
                     {
-                        BlahguaAPIObject.Current.SetRecoveryEmail(emailAddr, (resultStr) =>
+                        BlahguaAPIObject.Current.SetRecoveryEmail(FirstRunActivity.emailAddress, (resultStr) =>
                         {
 
                             Activity.RunOnUiThread(() =>
@@ -243,6 +245,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             confirmPassword.Visibility = ViewStates.Gone;
             emailPrompt.Visibility = ViewStates.Gone;
             emailField.Visibility = ViewStates.Gone;
+            prepSignIn.Visibility = ViewStates.Gone;
             createAccountBtn.Visibility = ViewStates.Gone;
         }
 

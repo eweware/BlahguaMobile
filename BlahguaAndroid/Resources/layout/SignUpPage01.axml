@@ -6,6 +6,8 @@
     android:id="@+id/scrollView1"
     android:background="@color/heard_white">
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:minWidth="25px"
         android:minHeight="25px"

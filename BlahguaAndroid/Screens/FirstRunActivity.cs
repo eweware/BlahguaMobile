@@ -20,7 +20,7 @@ namespace BlahguaMobile.AndroidClient
     {
         private NonSwipeViewPager mPager;
         private PagerAdapter mPagerAdapter;
-
+        public static string emailAddress = "";
 
 
         protected override void OnCreate(Bundle bundle)

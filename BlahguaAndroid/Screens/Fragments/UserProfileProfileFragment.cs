@@ -32,6 +32,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView avatar;
         private EditText nickname;
         private Button btn_avatar;
+        private int SELECTIMAGE_REQUEST = 0x777;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -44,7 +45,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
                 StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select photo"), 0);
+                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
             };
 
             avatar = fragment.FindViewById<ImageView>(Resource.Id.avatar);
@@ -103,7 +104,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (resultCode == Result.Ok)
+            if ((requestCode == SELECTIMAGE_REQUEST) && (resultCode == Result.Ok))
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;

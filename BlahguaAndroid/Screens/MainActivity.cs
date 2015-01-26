@@ -34,6 +34,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         int inboxCounter = 0;
         public static Typeface gothamFont = null;
         public static Typeface merriweatherFont = null;
+        public static bool forceFirstTime = false;
+        private static int FIRST_RUN_RESULT = 0x1111;
+        private bool FirstTimeShowing = false;
 
         int FramesPerSecond = 60;
 
@@ -129,6 +132,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
             merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
 
+            
         }
 
         public override void OnBackPressed()
@@ -140,6 +144,23 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 base.OnBackPressed();
+            }
+        }
+
+        private void MaybeShowTutorial()
+        {
+            ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+            String seenIt = _sharedPref.GetString("sawtutorial", "");
+
+
+            if ((String.IsNullOrEmpty(seenIt) || forceFirstTime))
+            {
+                FirstTimeShowing = true;
+                _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
+                // TutorialDialog.ShowDialog(FragmentManager);
+                Intent firstRun = new Intent(this, typeof(FirstRunActivity));
+                StartActivityForResult(firstRun, FIRST_RUN_RESULT);
+                forceFirstTime = false;
             }
         }
 
@@ -170,9 +191,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void StartTimers()
         {
-            //targetBlah = null;
-            scrollTimer.Start();
-            BlahAnimateTimer.Start();
+            if (!FirstTimeShowing)
+            {
+                //targetBlah = null;
+                scrollTimer.Start();
+                BlahAnimateTimer.Start();
+            }
+
         }
 
 
@@ -333,19 +358,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             progress_actionbar.Visibility = ViewStates.Visible;
             btn_login.Visibility = ViewStates.Gone;
 
-            //Toast.MakeText(this, "looking for server...", ToastLength.Short).Show();
-
-            //loadTimer.Stop();
-            //loadTimer.Interval = 10000;
-            //loadTimer.Elapsed += delegate
-            //{
-            //    RunOnUiThread(() =>
-            //    {
-            //        Toast.MakeText(this, "still looking...", ToastLength.Short).Show();
-            //    });
-            //};
-            //loadTimer.Enabled = true;
-
             ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
             BlahguaAPIObject.Current.UserName = _sharedPref.GetString("username", "");
             BlahguaAPIObject.Current.UserPassword = _sharedPref.GetString("password", "");
@@ -363,9 +375,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     MainActivity.analytics.PostAutoLogin();
-                    //UserInfoBtn.Visibility = Visibility.Visible;
-                    //NewBlahBtn.Visibility = Visibility.Visible;
-                    //SignInBtn.Visibility = Visibility.Collapsed;
                     initSecondaryMenu();
 
                     btn_login.Visibility = ViewStates.Gone;
@@ -410,20 +419,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
                 else
                 {
-                    //UserInfoBtn.Visibility = Visibility.Collapsed;
-                    //NewBlahBtn.Visibility = Visibility.Collapsed;
-                    //SignInBtn.Visibility = Visibility.Visible;
                     btn_login.Visibility = ViewStates.Visible;
                     registered_layout.Visibility = ViewStates.Gone;
-                    ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
-                    String seenIt = _sharedPref.GetString("sawtutorial", "");
-                    if (true)//(String.IsNullOrEmpty(seenIt))
-                    {
-                        _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
-                       // TutorialDialog.ShowDialog(FragmentManager);
-                        StartActivity(typeof(FirstRunActivity));
-                    }
                 }
+                
             }
         }
 
@@ -451,6 +450,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                         }
                     });
                 }
+                else
+                    MaybeShowTutorial();
             }
             else
             {

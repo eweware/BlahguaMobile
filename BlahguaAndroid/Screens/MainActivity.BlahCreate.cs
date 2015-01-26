@@ -41,6 +41,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
 
+
         protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
             if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
@@ -76,6 +77,17 @@ namespace BlahguaMobile.AndroidClient.Screens
                         }
                     );
                 }
+            }
+            else if (requestCode == FIRST_RUN_RESULT)
+            {
+                string channelName = BlahguaAPIObject.Current.SavedChannel;
+                Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName(channelName);
+                if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                    BlahguaAPIObject.Current.CurrentChannel = newChannel;
+                else
+                    StartTimers();
+                FirstTimeShowing = false;
+
             }
             base.OnActivityResult(requestCode, resultCode, data);
         }
@@ -140,9 +152,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) =>
             {
-                var imageIntent = new Intent();
+                var imageIntent = new Intent(Intent.ActionGetContent, Android.Provider.MediaStore.Images.Media.ExternalContentUri);
+                
                 imageIntent.SetType("image/*");
-                imageIntent.SetAction(Intent.ActionGetContent);
 
                 StartActivityForResult(
                     Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
