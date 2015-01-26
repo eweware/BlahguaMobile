@@ -1,0 +1,9 @@
+﻿﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <color name="heard_red">#E74055</color>
+  <color name="heard_teal">#5FC0A5</color>
+  <color name="heard_blue">#24BBD1</color>
+  <color name="heard_green">#96C74A</color>
+  <color name="heard_white">#FFFFFF</color>
+  <color name="heard_black">#402B2E</color>
+</resources>
