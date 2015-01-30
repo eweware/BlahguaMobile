@@ -26,7 +26,7 @@ using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (MainLauncher = true, LaunchMode = LaunchMode.SingleTop, Icon = "@drawable/ic_launcher",ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity (ScreenOrientation = ScreenOrientation.Portrait)]
 	public partial class  HomeActivity : FragmentActivity
 	{
 

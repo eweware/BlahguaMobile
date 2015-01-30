@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AssemblyName>BlahguaAndroid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
     <MandroidI18n />
     <RootNamespace>BlahguaMobile.AndroidClient</RootNamespace>
@@ -137,22 +137,18 @@
     <Compile Include="ThirdParty\UrlImageViewHelper\UrlImageViewHelper.cs" />
     <Compile Include="HelpingClasses\BGActionBarDrawerToggle.cs" />
     <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
-    <Compile Include="Screens\MainActivity.Signature.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Screens\Fragments\UserProfileStatsFragment.cs" />
     <Compile Include="Screens\Fragments\UserProfileBadgesFragment.cs" />
-    <Compile Include="Screens\MainActivity.BlahCreate.cs" />
     <Compile Include="Screens\Fragments\HistoryCommentsFragment.cs" />
     <Compile Include="Screens\Fragments\HistoryPostsFragment.cs" />
     <Compile Include="Screens\HistoryActivity.cs" />
     <Compile Include="Screens\Fragments\UserProfileDemographicsFragment.cs" />
     <Compile Include="Screens\Fragments\UserProfileProfileFragment.cs" />
-    <Compile Include="Screens\MainActivity.BlahList.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
     <Compile Include="Screens\ViewPostActivity.cs" />
     <Compile Include="Screens\LoginActivity.cs" />
-    <Compile Include="Screens\MainActivity.cs" />
     <Compile Include="Screens\Fragments\ViewPostCommentsFragment.cs" />
     <Compile Include="Screens\Fragments\ViewPostStatsFragment.cs" />
     <Compile Include="Screens\Fragments\ViewPostSummaryFragment.cs" />
@@ -166,6 +162,11 @@
     <Compile Include="Screens\UserProfileFragment.cs" />
     <Compile Include="Screens\HistoryFragment.cs" />
     <Compile Include="Screens\BlahCreateActivity.cs" />
+    <Compile Include="Screens\FirstRunActivity.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage01Fragment.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage02Fragment.cs" />
+    <Compile Include="Screens\Fragments\SignUpPage03Fragment.cs" />
+    <Compile Include="HelpingClasses\NonSwipeViewPager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -226,6 +227,13 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\activity_history.xml" />
+    <AndroidResource Include="Resources\drawable\Heard_Smile_Only_red.png" />
+    <AndroidResource Include="Resources\drawable\Logo_master_teal.png" />
+    <AndroidResource Include="Resources\layout\SignUpPage01.axml" />
+    <AndroidResource Include="Resources\layout\SignUpPage02.axml" />
+    <AndroidResource Include="Resources\layout\SignUpPage03.axml" />
+    <AndroidResource Include="Resources\layout\ViewPager.axml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">

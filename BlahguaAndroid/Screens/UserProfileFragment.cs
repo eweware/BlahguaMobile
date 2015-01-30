@@ -47,8 +47,8 @@ namespace BlahguaMobile.AndroidClient
 
 			btn_right = fragment.FindViewById<Button>(Resource.Id.btn_right);
 
-            //title.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
-            btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            //title.SetTypeface(HomeActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
+            btn_right.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 

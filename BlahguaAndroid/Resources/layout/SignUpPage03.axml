@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/heard_white">
+    <ImageView
+        android:src="@drawable/Heard_Smile_Only_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView1"
+        android:layout_gravity="center_horizontal"
+        android:alpha="0.15"
+        android:layout_marginTop="32dp" />
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1"
+            android:padding="8dp">
+            <TextView
+                android:text="Heard uses &quot;Verified Not Identified&quot;™ badges."
+                android:textSize="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/titleText"
+                android:textColor="@color/heard_black" />
+            <TextView
+                android:text="Badges let you show your credentials with or without revealing your full identity."
+                android:textSize="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textColor="@color/heard_black" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/enterEmailView">
+                <TextView
+                    android:text="Enter your email address to see if badges are available for your domain.  This process is double blind, so your email is not saved or discoverable."
+                    android:textSize="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/heard_black"
+                    android:id="@+id/textView2"
+                    android:layout_marginTop="32dp" />
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emailAddrField"
+                    android:textColor="@color/heard_black"
+                    android:hint="email address" />
+                <Button
+                    android:text="Check for Badges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkbtn"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/heard_blue"
+                    android:layout_marginBottom="16dp" />
+                <Button
+                    android:text="Skip for now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/skipBtn"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/heard_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/verifyView">
+                <TextView
+                    android:text="Badges are available!  A verification code has been emailed to you.  Enter the code in the field below to continue."
+                    android:textSize="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/heard_black"
+                    android:id="@+id/textView3"
+                    android:layout_marginTop="32dp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verifyField"
+                    android:textColor="@color/heard_black"
+                    android:hint="verification code" />
+                <Button
+                    android:text="Verify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verifyBtn"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/heard_blue"
+                    android:layout_marginBottom="16dp" />
+                <Button
+                    android:text="Try Again"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tryAgainBtn"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/heard_black" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

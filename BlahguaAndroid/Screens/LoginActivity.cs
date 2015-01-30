@@ -48,9 +48,9 @@ namespace BlahguaMobile.AndroidClient
             Button buttonCancel = FindViewById<Button>(Resource.Id.btn_cancel);
             buttonDone = FindViewById<Button>(Resource.Id.btn_done);
             buttonDone.Enabled = false;
-            buttonDone.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            buttonCancel.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
-            loginTitle.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
+            buttonDone.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
+            buttonCancel.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
+            loginTitle.SetTypeface(HomeActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
 
             // BODY
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar1);
@@ -61,13 +61,13 @@ namespace BlahguaMobile.AndroidClient
             login.TextChanged += edit_TextChanged;
             password.TextChanged += edit_TextChanged;
             passwordConfirm.TextChanged += edit_TextChanged;
-            login.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            password.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            passwordConfirm.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            recoveryEmail.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            login.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+            password.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+            passwordConfirm.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+            recoveryEmail.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             check_create_acc = FindViewById<CheckBox>(Resource.Id.check_create_acc);
-            check_create_acc.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_create_acc.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             passwordConfirm.Visibility = ViewStates.Gone;
             recoveryEmail.Visibility = ViewStates.Gone;
@@ -114,7 +114,7 @@ namespace BlahguaMobile.AndroidClient
             // yes and no checkboxes
 
             check_remember_me = FindViewById<CheckBox>(Resource.Id.check_remember_me);
-            check_remember_me.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            check_remember_me.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             dialog = new ProgressDialog(this);
             dialog.SetMessage(GetString(Resource.String.signin_message_signing_in));
@@ -141,9 +141,9 @@ namespace BlahguaMobile.AndroidClient
                 emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.signin_report_email_subject));
                 StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_report_chooser_title)));
             };
-            btn_help.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            btn_about.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
-            btn_report.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+            btn_help.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+            btn_about.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+            btn_report.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 		}
 
         private void edit_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
@@ -184,7 +184,7 @@ namespace BlahguaMobile.AndroidClient
                         HandleUserSignIn();
                     else
                     {
-                        MainActivity.analytics.PostSessionError("signinfailed-" + errMsg);
+                        HomeActivity.analytics.PostSessionError("signinfailed-" + errMsg);
                         RunOnUiThread(() =>
                         {
                             progress.Visibility = ViewStates.Invisible;

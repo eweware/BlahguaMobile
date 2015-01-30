@@ -142,4 +142,8 @@
 		<item>United Kingdom</item>
 		<item>United States</item>
 	</string-array>
+	<string name="smallText">No email address is required, but your password cannot be reset without one.</string>
+	<string name="mediumText">already have an account?</string>
+	<string name="createAccount">Create Account</string>
+	<string name="skipForNow">Skip for now</string>
 </resources>

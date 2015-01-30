@@ -21,7 +21,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         {
             foreach (TextView view in views)
             {
-                view.SetTypeface(MainActivity.gothamFont, style);
+                view.SetTypeface(HomeActivity.gothamFont, style);
             }
         }
 

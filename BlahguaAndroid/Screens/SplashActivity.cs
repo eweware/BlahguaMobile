@@ -14,29 +14,42 @@ using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
+using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : Activity
     {
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            int delayTime;
             base.OnCreate(bundle);
 
             RequestWindowFeature(WindowFeatures.NoTitle);
-			SetContentView (Resource.Layout.activity_splash);
-			Handler h = new Handler();
+			
+            ISharedPreferences _sharedPref = Android.Preferences.PreferenceManager.GetDefaultSharedPreferences(this);
+            String seenIt = _sharedPref.GetString("firsttime", "");
+            if (String.IsNullOrEmpty(seenIt))
+            {
+                delayTime = 3000;
+                SetContentView (Resource.Layout.activity_splash);
 
-            h.PostDelayed(aaa, 3000);
+                _sharedPref.Edit().PutString("firsttime", "true").Commit();
+
+            }
+            else
+                delayTime = 1;
+
+            Handler h = new Handler();
+            h.PostDelayed(aaa, delayTime);
         }
 
         void aaa()
         {
             Finish();
-            //StartActivity(typeof(MainActivity));
-			StartActivity(typeof(HomeActivity));
+            StartActivity(typeof(HomeActivity));
         }
 
         public override void OnBackPressed()
@@ -44,6 +57,8 @@ namespace BlahguaMobile.AndroidClient
             //base.OnBackPressed();
         }
     }
+
+
 }
 
 
