@@ -207,12 +207,6 @@ namespace BlahguaMobile.IOS
                                 }
                         });
                     });
-
-
-
-
-
-
                 };
 
             this.noCodeBtn.TouchUpInside += (object sender, EventArgs e) => 

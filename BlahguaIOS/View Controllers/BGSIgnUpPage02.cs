@@ -32,6 +32,7 @@ namespace BlahguaMobile.IOS
 
             this.publicBtn.TouchUpInside += (object sender, EventArgs e) => 
                 {
+                    SetDefaultChannel("Public");
                     // we are done - dismiss it
                     ((BGSignOnPageViewController)ParentViewController).Finish();
                 };

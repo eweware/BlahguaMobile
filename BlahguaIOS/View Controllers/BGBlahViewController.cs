@@ -100,6 +100,8 @@ namespace BlahguaMobile.IOS
 			blahImage.AddGestureRecognizer (imageTapRecognizer);
         }
 
+
+
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear (animated);
@@ -109,6 +111,9 @@ namespace BlahguaMobile.IOS
 			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 
 			statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
+
+         
+
 
 		}
 
@@ -294,24 +299,14 @@ namespace BlahguaMobile.IOS
                         tableView.AllowsSelection = false;
                     }
 
+                    this.NavigationController.Delegate = new BlahViewDelegate(this);
 
 
-                    var width = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
-                    var height = NSLayoutConstraint.Create(
-                                 tableView,
-                                 NSLayoutAttribute.Height,
-                                 NSLayoutRelation.Equal,
-                                 null,
-                                 NSLayoutAttribute.NoAttribute,
-                                 1,
-                                (BlahExtraItemCount + 1 ) * 64.0f);
-                    var left = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, contentView, NSLayoutAttribute.Left, 1, 0);
 
-                    tableView.AddConstraints(new NSLayoutConstraint[] { width, height});
-                    var positionYTop = NSLayoutConstraint.Create(tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, blahBodyView, NSLayoutAttribute.Bottom, 1, 8);                  
-                    contentView.AddConstraints(new NSLayoutConstraint[] {left, positionYTop });
 
                     contentView.AddSubview(tableView);
+
+
 
                     if (CurrentBlah.TypeName == "polls")
                         BlahguaAPIObject.Current.GetUserPollVote(PollVoteFetched);
@@ -326,6 +321,44 @@ namespace BlahguaMobile.IOS
             }
             contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, bottom);
             contentView.ScrollEnabled = true;
+        }
+
+        private class BlahViewDelegate : UINavigationControllerDelegate
+        {
+            BGBlahViewController lastViewController = null;
+            bool setUp = false;
+
+            public BlahViewDelegate(BGBlahViewController bvc)
+            {
+                lastViewController = bvc;
+            }
+
+            public override void DidShowViewController(UINavigationController navigationController, UIViewController viewController, bool animated)
+            {
+                if (!setUp)
+                {
+                    if (lastViewController.CurrentBlah.TypeName == "polls" || lastViewController.CurrentBlah.TypeName == "predicts")
+                    {
+
+                        var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
+                        var height = NSLayoutConstraint.Create(
+                                         lastViewController.tableView,
+                                         NSLayoutAttribute.Height,
+                                         NSLayoutRelation.Equal,
+                                         null,
+                                         NSLayoutAttribute.NoAttribute,
+                                         1,
+                                         (lastViewController.BlahExtraItemCount + 1) * 64.0f);
+                        var left = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, lastViewController.contentView, NSLayoutAttribute.Left, 1, 0);
+
+                        lastViewController.tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
+                        var positionYTop = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, lastViewController.blahBodyView, NSLayoutAttribute.Bottom, 1, 8);                  
+                        lastViewController.contentView.AddConstraints(new NSLayoutConstraint[] { left, positionYTop });
+                        lastViewController.contentView.LayoutIfNeeded();
+                    }
+                    setUp = true;
+                }
+            }
         }
 
         private int BlahExtraItemCount
