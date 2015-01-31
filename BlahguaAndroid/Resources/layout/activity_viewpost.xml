@@ -9,49 +9,4 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#60BFA4"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@null"
-            android:textSize="14sp"
-            android:textColor="@drawable/color_white_button_text"
-            android:padding="10dp"
-            android:text="Sign In"
-            android:visibility="gone" />
-        <Button
-            android:id="@+id/btn_promote"
-            android:layout_width="19dp"
-            android:layout_height="25dp"
-            android:background="@drawable/btn_promote" />
-        <View
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn_demote"
-            android:layout_width="19dp"
-            android:layout_height="25dp"
-            android:background="@drawable/btn_demote" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-      <Button
-          android:id="@+id/btn_right"
-          android:layout_width="wrap_content"
-          android:layout_height="40dp"
-          android:layout_gravity="right"
-          android:background="@null"
-          android:textColor="#60BFA4"
-          android:text="Write" />
-    </LinearLayout>
 </LinearLayout>

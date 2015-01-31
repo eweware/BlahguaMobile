@@ -40,6 +40,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private CommentsAdapter adapter;
 
+        public bool shouldCreateComment = false;
+
         #region ImageUpload
 
         private FrameLayout imageCreateCommentLayout;
@@ -160,6 +162,15 @@ namespace BlahguaMobile.AndroidClient.Screens
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count, btn_done, btn_signature, btn_select_image);
 
             LoadComments();
+
+            if (shouldCreateComment)
+            {
+                shouldCreateComment = false;
+                this.Activity.RunOnUiThread(() =>
+                {
+                    triggerCreateBlock();
+                });
+            }
 
             return fragment;
         }

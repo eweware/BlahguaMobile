@@ -34,7 +34,7 @@ namespace BlahguaMobile.AndroidClient
             base.OnCreate(bundle);
 
 			HomeActivity.analytics.PostPageView("/self");
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
             Button btn_back = FindViewById<Button>(Resource.Id.btn_back);

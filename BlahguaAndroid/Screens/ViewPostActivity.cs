@@ -16,19 +16,19 @@ using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics;
+using Android.Text;
+using Android.Text.Style;
+
 
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(ScreenOrientation = ScreenOrientation.Portrait, UiOptions = Android.Content.PM.UiOptions.SplitActionBarWhenNarrow)]
     public class ViewPostActivity : Activity
     {
-        private Button btn_right;
-
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment;
         private ViewPostStatsFragment statsFragment;
 
-        private Button btn_promote, btn_demote, btn_login;
         private Fragment curFragment = null;
 
 
@@ -40,9 +40,15 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            ActionBar.SetDisplayShowTitleEnabled(false);
-            ActionBar.SetDisplayShowHomeEnabled(false);
+            //ActionBar.SetDisplayShowTitleEnabled(false);
+            //ActionBar.SetDisplayShowHomeEnabled(false);
             base.OnCreate(bundle);
+            this.ActionBar.SetDisplayHomeAsUpEnabled(true);
+            this.ActionBar.SetHomeButtonEnabled(true);
+            this.ActionBar.SetDisplayShowHomeEnabled(true);
+
+            this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+
 
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_viewpost);
@@ -52,23 +58,8 @@ namespace BlahguaMobile.AndroidClient
             _gestureListener.SwipeLeftEvent += swipeLeftEvent;
             _gestureListener.SwipeRightEvent += swipeRightEvent;
 
-          
-            btn_right = FindViewById<Button>(Resource.Id.btn_right);
-			btn_right.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
-            btn_right.Click += btn_right_Click;
-            btn_right.Visibility = ViewStates.Gone;
+            this.Title = "   back to Heard";
 
-            btn_login = FindViewById<Button>(Resource.Id.btn_login);
-			btn_login.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
-            btn_login.Click += delegate
-            {
-                StartActivity(typeof(LoginActivity));
-            };
-            btn_promote = FindViewById<Button>(Resource.Id.btn_promote);
-            btn_demote = FindViewById<Button>(Resource.Id.btn_demote);
-
-            btn_promote.Click += HandlePromoteBlah;
-            btn_demote.Click += HandleDemoteBlah;
 
             btn_summary_Click(null, null);
 			HomeActivity.analytics.PostPageView("/blah");
@@ -88,10 +79,118 @@ namespace BlahguaMobile.AndroidClient
             statsTab.SetIcon(Resource.Drawable.btn_stats);
             statsTab.TabSelected += btn_stats_Click;
             ActionBar.AddTab(statsTab);
-            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-
+            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
+            this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+            this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
 
         }
+
+        protected override void OnTitleChanged(Java.Lang.ICharSequence title, Color color)
+        {
+            SpannableString s = new SpannableString(title);
+            s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+            s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+
+            this.ActionBar.TitleFormatted = s;
+
+        }
+
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            if (BlahguaAPIObject.Current.CurrentUser == null)
+                MenuInflater.Inflate(Resource.Menu.blahmenu_signedout, menu);
+            else
+            {
+                MenuInflater.Inflate(Resource.Menu.BlahMenu, menu);
+                IMenuItem upVote = menu.FindItem(Resource.Id.action_upvote);
+                IMenuItem downVote = menu.FindItem(Resource.Id.action_downvote);
+
+                if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)
+                {
+                    // can't vote on own blah
+                    upVote.SetEnabled(false);
+                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                    downVote.SetEnabled(false);
+                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
+                }
+                else if (BlahguaAPIObject.Current.CurrentBlah.uv == 0)
+                {
+                    // user can still vote
+                    upVote.SetEnabled(true);
+                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
+                    downVote.SetEnabled(true);
+                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                }
+                else if (BlahguaAPIObject.Current.CurrentBlah.uv == 1)
+                {
+                    // user promoted it
+                    upVote.SetEnabled(false);
+                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
+                    downVote.SetEnabled(false);
+                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
+
+                }
+                else
+                {
+                    // user demoted it
+                    upVote.SetEnabled(false);
+                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                    downVote.SetEnabled(false);
+                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                }
+            }
+
+            
+
+            return base.OnPrepareOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.action_upvote:
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
+                    {
+                        HandlePromoteBlah();
+                    }
+                    break;
+                case Resource.Id.action_downvote:
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
+                    {
+                        HandleDemoteBlah();
+                    }
+                    break;
+                case Resource.Id.action_report:
+                    HandleReportPost();
+                    break;
+                case Resource.Id.action_share:
+                    HandleSharePost();
+                    break;
+                case Resource.Id.action_comment:
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
+                    {
+                        HandleAddComment();
+                    }
+                    break;
+
+                case Resource.Id.action_signin:
+                    if (BlahguaAPIObject.Current.CurrentUser == null)
+                    {
+                        StartActivity(typeof(LoginActivity));
+                    }
+                    break;
+
+                case 16908332:// the back button apparently...
+                    {
+                        Finish();
+                    }
+                    break;
+                
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
 
         private void swipeLeftEvent(MotionEvent first, MotionEvent second)
         {
@@ -115,48 +214,39 @@ namespace BlahguaMobile.AndroidClient
             return _gestureDetector.OnTouchEvent(ev);
         }
 
-        private void initUserUi()
-        {
-            if (BlahguaAPIObject.Current.CurrentUser != null)
-            {
-                btn_promote.Visibility = ViewStates.Visible;
-                btn_demote.Visibility = ViewStates.Visible;
-
-                btn_login.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                //btn_right.Visibility = ViewStates.Gone;
-
-                btn_promote.Visibility = ViewStates.Gone;
-                btn_demote.Visibility = ViewStates.Gone;
-
-                btn_login.Visibility = ViewStates.Visible;
-            }
-        }
+      
 
         protected override void OnResume()
         {
             base.OnResume();
 
-            initUserUi();
+            InvalidateOptionsMenu();
         }
 
-        private void btn_right_Click(object sender, EventArgs e)
+        private void HandleSharePost()
         {
-            if (commentsFragment != null) // that means it is active
-            {
-                if (BlahguaAPIObject.Current.CurrentUser != null)
-                {
-                    commentsFragment.triggerCreateBlock();
-                }
-                else
-                {
-                    StartActivity(typeof(LoginActivity));
-                }
-            }
+
         }
 
+        private void HandleReportPost()
+        { 
+        
+        }
+
+        private void HandleAddComment()
+        {
+            if (ActionBar.SelectedTab != commentTab)
+            {
+                if (commentsFragment == null)
+                    commentsFragment = ViewPostCommentsFragment.NewInstance();
+                commentsFragment.shouldCreateComment = true;
+                ActionBar.SelectTab(commentTab);
+            }
+            else
+                commentsFragment.triggerCreateBlock();
+        }
+
+       
         #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
@@ -166,7 +256,6 @@ namespace BlahguaMobile.AndroidClient
             if (curFragment != statsFragment)
             {
                 curFragment = statsFragment;
-                btn_right.Visibility = ViewStates.Gone;
 
                 var fragmentTransaction = FragmentManager.BeginTransaction();
                 fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
@@ -182,7 +271,7 @@ namespace BlahguaMobile.AndroidClient
             if (curFragment != summaryFragment)
             {
                 curFragment = summaryFragment;
-                btn_right.Visibility = ViewStates.Gone;
+
 
                 var fragmentTransaction = FragmentManager.BeginTransaction();
                 fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
@@ -198,7 +287,7 @@ namespace BlahguaMobile.AndroidClient
             if (curFragment != commentsFragment)
             {
                 curFragment = commentsFragment;
-                btn_right.Visibility = ViewStates.Visible;
+
 
                 var fragmentTransaction = FragmentManager.BeginTransaction();
                 fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
@@ -209,22 +298,22 @@ namespace BlahguaMobile.AndroidClient
 
         #region Handles
 
-        private void HandlePromoteBlah(object sender, EventArgs e)
+        private void HandlePromoteBlah()
         {
             BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
             {
                 UpdateSummaryButtons();
-					HomeActivity.analytics.PostBlahVote(1);
+				HomeActivity.analytics.PostBlahVote(1);
             });
             
         }
 
-        private void HandleDemoteBlah(object sender, EventArgs e)
+        private void HandleDemoteBlah()
         {
             BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
             {
                 UpdateSummaryButtons();
-					HomeActivity.analytics.PostBlahVote(-1);
+				HomeActivity.analytics.PostBlahVote(-1);
             });
             
         }
@@ -232,28 +321,7 @@ namespace BlahguaMobile.AndroidClient
 
         public void UpdateSummaryButtons()
         {
-            Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-
-            if (BlahguaAPIObject.Current.CurrentUser != null)
-            {
-				RunOnUiThread (() => {
-					if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id) {
-						btn_promote.Enabled = false;
-						btn_demote.Enabled = false;
-					} else if (curBlah.uv == 0) {
-						btn_promote.Enabled = true;
-						btn_demote.Enabled = true;
-					} else {
-						btn_promote.Enabled = false;
-						btn_demote.Enabled = false;
-						if (curBlah.uv == 1) {
-							btn_promote.SetBackgroundResource (Resource.Drawable.btn_promote_active);
-						} else {
-                            btn_demote.SetBackgroundResource(Resource.Drawable.btn_demote_active);
-						}
-					}
-				});
-            }
+            InvalidateOptionsMenu();
         }
     }
 }
