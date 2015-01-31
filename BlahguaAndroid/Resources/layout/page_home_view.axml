@@ -22,5 +22,5 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/heard_black" />
+        android:background="@color/heard_blue" />
 </android.support.v4.widget.DrawerLayout>

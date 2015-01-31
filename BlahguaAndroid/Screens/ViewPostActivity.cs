@@ -19,29 +19,32 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait, UiOptions = Android.Content.PM.UiOptions.SplitActionBarWhenNarrow)]
     public class ViewPostActivity : Activity
     {
         private Button btn_right;
-        private TextView title;
 
         private ViewPostCommentsFragment commentsFragment;
-        private ViewPostSummaryFragment summaryFragment, summaryInitFragment;
+        private ViewPostSummaryFragment summaryFragment;
         private ViewPostStatsFragment statsFragment;
 
         private Button btn_promote, btn_demote, btn_login;
-        private Button btn_summary, btn_comments, btn_stats;
+        private Fragment curFragment = null;
 
 
         private GestureDetector _gestureDetector;
         private GestureListener _gestureListener;
 
+        private ActionBar.Tab summaryTab, commentTab, statsTab;
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+            ActionBar.SetDisplayShowTitleEnabled(false);
+            ActionBar.SetDisplayShowHomeEnabled(false);
             base.OnCreate(bundle);
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_viewpost);
 
             _gestureListener = new GestureListener();
@@ -49,21 +52,10 @@ namespace BlahguaMobile.AndroidClient
             _gestureListener.SwipeLeftEvent += swipeLeftEvent;
             _gestureListener.SwipeRightEvent += swipeRightEvent;
 
-            Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
-            btn_back.Click += delegate
-            {
-                Finish();
-			};
-
-            title = FindViewById<TextView>(Resource.Id.title);
+          
             btn_right = FindViewById<Button>(Resource.Id.btn_right);
-			title.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
-
 			btn_right.SetTypeface(HomeActivity.merriweatherFont, TypefaceStyle.Normal);
-
             btn_right.Click += btn_right_Click;
-
-            title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
             btn_login = FindViewById<Button>(Resource.Id.btn_login);
@@ -75,42 +67,46 @@ namespace BlahguaMobile.AndroidClient
             btn_promote = FindViewById<Button>(Resource.Id.btn_promote);
             btn_demote = FindViewById<Button>(Resource.Id.btn_demote);
 
-            btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
-            btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
-            btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
-
             btn_promote.Click += HandlePromoteBlah;
             btn_demote.Click += HandleDemoteBlah;
 
-            btn_comments.Click += btn_comments_Click;
-            btn_summary.Click += btn_summary_Click;
-            btn_stats.Click += btn_stats_Click;
-
             btn_summary_Click(null, null);
 			HomeActivity.analytics.PostPageView("/blah");
+
+            // set up tabs
+            summaryTab = ActionBar.NewTab();
+            summaryTab.SetIcon(Resource.Drawable.btn_summary);
+            summaryTab.TabSelected += btn_summary_Click;
+            ActionBar.AddTab(summaryTab);
+
+            commentTab = ActionBar.NewTab();
+            commentTab.SetIcon(Resource.Drawable.btn_comments);
+            commentTab.TabSelected += btn_comments_Click;
+            ActionBar.AddTab(commentTab);
+
+            statsTab = ActionBar.NewTab();
+            statsTab.SetIcon(Resource.Drawable.btn_stats);
+            statsTab.TabSelected += btn_stats_Click;
+            ActionBar.AddTab(statsTab);
+            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+
+
         }
 
         private void swipeLeftEvent(MotionEvent first, MotionEvent second)
         {
-            if (summaryFragment != null)
-            {
-                btn_comments_Click(null, null);
-            }
-            else if (commentsFragment != null)
-            {
-                btn_stats_Click(null, null);
-            }
+            if (curFragment == summaryFragment)
+                ActionBar.SelectTab(commentTab);
+            else if (curFragment == commentsFragment)
+                ActionBar.SelectTab(statsTab);
+           
         }
         private void swipeRightEvent(MotionEvent first, MotionEvent second)
         {
-            if (commentsFragment != null)
-            {
-                btn_summary_Click(null, null);
-            }
-            else if (statsFragment != null)
-            {
-                btn_comments_Click(null, null);
-            }
+            if (curFragment == statsFragment)
+                ActionBar.SelectTab(commentTab);
+            else if (curFragment == commentsFragment)
+                ActionBar.SelectTab(summaryTab);
         }
 
         public override bool DispatchTouchEvent(MotionEvent ev)
@@ -164,81 +160,50 @@ namespace BlahguaMobile.AndroidClient
         #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
-            // disable stats button
-            if (statsFragment != null)
-                return;
-            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats_pressed);
-            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary);
-            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
+            if (statsFragment == null)
+                statsFragment = ViewPostStatsFragment.NewInstance();
 
-            // do the rest
-            title.Text = "Statistics";
+            if (curFragment != statsFragment)
+            {
+                curFragment = statsFragment;
+                btn_right.Visibility = ViewStates.Gone;
 
-            title.Visibility = ViewStates.Visible;
-            btn_right.Visibility = ViewStates.Gone;
-
-            summaryFragment = null;
-            commentsFragment = null;
-
-            statsFragment = ViewPostStatsFragment.NewInstance();
-            var fragmentTransaction = FragmentManager.BeginTransaction();
-            fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
-            fragmentTransaction.Commit();
+                var fragmentTransaction = FragmentManager.BeginTransaction();
+                fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
+                fragmentTransaction.Commit();
+            }
         }
 
         private void btn_summary_Click(object sender, EventArgs e)
         {
-            // disable summary button
-            if (summaryFragment != null)
-                return;
-            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats);
-            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary_pressed);
-            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
+            if (summaryFragment == null)
+                summaryFragment = ViewPostSummaryFragment.NewInstance();
 
-            // do the rest
-            title.Text = "Summary";
-           	title.Visibility = ViewStates.Visible;
-
-            btn_right.Visibility = ViewStates.Gone;
-
-            commentsFragment = null;
-            statsFragment = null;
-
-            if (summaryInitFragment == null)
+            if (curFragment != summaryFragment)
             {
-                summaryInitFragment = ViewPostSummaryFragment.NewInstance();
+                curFragment = summaryFragment;
+                btn_right.Visibility = ViewStates.Gone;
+
+                var fragmentTransaction = FragmentManager.BeginTransaction();
+                fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
+                fragmentTransaction.Commit();
             }
-            summaryFragment = summaryInitFragment;
-            var fragmentTransaction = FragmentManager.BeginTransaction();
-            fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
-            fragmentTransaction.Commit();
         }
 
         private void btn_comments_Click(object sender, EventArgs e)
         {
-            // disable comments button
-            if (commentsFragment != null)
-                return;
-            btn_stats.SetBackgroundResource(Resource.Drawable.btn_stats);
-            btn_summary.SetBackgroundResource(Resource.Drawable.btn_summary);
-            btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
+            if (commentsFragment == null)
+                commentsFragment = ViewPostCommentsFragment.NewInstance();
 
-            // do the rest
-            title.Text = "Comments";
-            title.Visibility = ViewStates.Visible;
-            //if (BlahguaAPIObject.Current.CurrentUser != null)
-            //{
+            if (curFragment != commentsFragment)
+            {
+                curFragment = commentsFragment;
                 btn_right.Visibility = ViewStates.Visible;
-                btn_right.Text = "Write";
-            //}
 
-            summaryFragment = null;
-            statsFragment = null;
-
-            commentsFragment = ViewPostCommentsFragment.NewInstance();
-            var fragmentTransaction = FragmentManager.BeginTransaction();
-            fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
-            fragmentTransaction.Commit();
+                var fragmentTransaction = FragmentManager.BeginTransaction();
+                fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
+                fragmentTransaction.Commit();
+            }
         }
         #endregion
 
@@ -267,8 +232,6 @@ namespace BlahguaMobile.AndroidClient
 
         public void UpdateSummaryButtons()
         {
-            //btn_promote.IconUri = new Uri("/Images/Icons/white_promote.png", UriKind.Relative);
-            //btn_demote.IconUri = new Uri("/Images/Icons/white_demote.png", UriKind.Relative);
             Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
 
             if (BlahguaAPIObject.Current.CurrentUser != null)

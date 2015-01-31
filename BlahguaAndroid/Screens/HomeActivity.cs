@@ -29,7 +29,7 @@ using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity (ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
 	public partial class  HomeActivity : FragmentActivity
 	{
 
@@ -299,16 +299,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 		// true, then it has handled the app icon touch event
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			/*
-			 * if (this.drawerToggle.OnOptionsItemSelected (item)) {
-
-				if (this.drawerLayout.IsDrawerOpen (this.drawerListView))
-					ResumeScrolling ();
-				else
-					StopScrolling ();
-				return true;
-			}
-			*/
+			if (this.drawerToggle.OnOptionsItemSelected (item)) 
+            {
+                /*
+			    if (this.drawerLayout.IsDrawerOpen (this.drawerListView))
+				    ResumeScrolling ();
+			    else
+				    StopScrolling ();
+                        */
+			    return true;
+		    }
+			
 			switch(item.ItemId )
 			{
 			case Resource.Id.action_login:

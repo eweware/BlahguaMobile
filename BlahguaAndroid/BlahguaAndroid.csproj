@@ -154,7 +154,6 @@
     <Compile Include="Screens\Fragments\ViewPostSummaryFragment.cs" />
     <Compile Include="Screens\HomeActivity.cs" />
     <Compile Include="Screens\Fragments\TestFragment.cs" />
-    <Compile Include="Screens\LoginFragment.cs" />
     <Compile Include="Screens\MainFragment.cs" />
     <Compile Include="Screens\MainFragment.BlahList.cs" />
     <Compile Include="Screens\MainFragment.BlahCreate.cs" />
@@ -740,7 +739,5 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_conversion.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\menu\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
