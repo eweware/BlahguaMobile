@@ -16,6 +16,9 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 using Android.Util;
+using Android.Text;
+using Android.Text.Style;
+using Android.Provider;
 
 using BlahguaMobile.AndroidClient;
 using BlahguaMobile.AndroidClient.HelpingClasses;
@@ -32,7 +35,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private BGActionBarDrawerToggle drawerToggle;
 		private string drawerTitle;
-		private string title;
+		//private string title;
 		public static GoogleAnalytics analytics = null;
 		private IMenu optionsMenu; 
 		MainFragment mainFragment = null;
@@ -48,12 +51,79 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private String[] profile_items;
 
+
+		// some helpers to get the fonts in there...
+		class TypefaceSpan : MetricAffectingSpan
+		{
+			private static LruCache sTypefaceCache = new LruCache(1024);
+
+			private Typeface mTypeface;
+
+			public TypefaceSpan(Context context, String typefaceName) 
+			{
+				mTypeface = (Typeface)sTypefaceCache.Get(typefaceName);
+
+				if (mTypeface == null)
+				{
+					mTypeface = Typeface.CreateFromAsset(context.Assets, string.Format("fonts/{0}", typefaceName));
+					sTypefaceCache.Put(typefaceName, mTypeface);
+				}
+			}
+
+			public override void UpdateMeasureState(TextPaint tp)
+			{
+				tp.SetTypeface(mTypeface);
+				tp.Flags = tp.Flags | PaintFlags.SubpixelText;
+			}
+
+			public override void UpdateDrawState(TextPaint tp)
+			{
+				tp.SetTypeface(mTypeface);
+				tp.Flags = tp.Flags | PaintFlags.SubpixelText;
+			}
+		}
+
+		class DrawerItemAdapter<T> : ArrayAdapter<T>
+		{
+			T[] _items;
+			Activity _context;
+
+			public DrawerItemAdapter(Context context, int textViewResourceId, T[] objects) :
+			base(context, textViewResourceId, objects)
+			{
+				_items = objects;
+				_context = (Activity)context;
+			}
+
+			public override View GetView(int position, View convertView, ViewGroup parent)
+			{
+				View mView = convertView;
+				if (mView == null)
+				{
+					mView = _context.LayoutInflater.Inflate(Resource.Layout.DrawerListItem, parent, false);
+
+				}
+
+				TextView text = mView.FindViewById<TextView>(Resource.Id.ItemName);
+
+				if (_items[position] != null)
+				{
+					text.Text = _items[position].ToString();
+					//text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_teal));
+					text.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+				}
+
+				return mView;
+			}
+		}
+
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.page_home_view);
 
-			this.title = this.drawerTitle = this.Title;
+			this.drawerTitle = this.Title;
 
 			profile_items= new String[]{
 				GetString(Resource.String.profilemenu_profile),
@@ -83,13 +153,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Display the current fragments title and update the options menu
 			this.drawerToggle.DrawerClosed += (o, args) => {
-				this.ActionBar.Title = this.title;
+				this.Title = this.Title;
 				this.InvalidateOptionsMenu ();
 			};
 
 			//Display the drawer title and update the options menu
 			this.drawerToggle.DrawerOpened += (o, args) => {
-				this.ActionBar.Title = this.drawerTitle;
+				this.ActionBar.Title = "choose channel";
+				StopScrolling();
 				this.InvalidateOptionsMenu ();
 			};
 
@@ -106,6 +177,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			this.ActionBar.SetHomeButtonEnabled (true);
 			this.ActionBar.SetDisplayShowHomeEnabled (false);
 
+			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable( Resources.GetColor(Resource.Color.heard_black)));
 
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
@@ -119,19 +191,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			return contentFrame.Top;
 		}
 
-		public void SetTitle(string title)
-		{
-			if (this.ActionBar != null) {
-				_actionBarTitle = this.ActionBar.Title;
-				this.ActionBar.Title = title;
-			}
-		}
 
-		public void RestoreTitle()
-		{
-			if (_actionBarTitle != null && this.ActionBar != null)
-				this.ActionBar.Title = _actionBarTitle;
-		}
 
 		private void populateChannelMenu()
 		{
@@ -144,7 +204,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				}
 				//Sections = channels;
 				//Create Adapter for drawer List
-				this.drawerListView.Adapter = new ArrayAdapter<string> (this, Resource.Layout.item_menu, channels);
+				this.drawerListView.Adapter = new DrawerItemAdapter<String> (this, Resource.Layout.item_menu, channels);
 			}
 		}
 			
@@ -166,13 +226,19 @@ namespace BlahguaMobile.AndroidClient.Screens
 				var count = SupportFragmentManager.BackStackEntryCount;
 				this.drawerListView.SetItemChecked (position, true);
 				if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
-					ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
+					this.Title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
 				this.drawerLayout.CloseDrawers ();
 			}
 
 			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
-				ActionBar.Title = this.title = BlahguaAPIObject.Current.CurrentChannelList [position].ChannelName;
-				BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
+				Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
+				if (newChannel != BlahguaAPIObject.Current.CurrentChannel) {
+					this.Title = BlahguaAPIObject.Current.CurrentChannelList [position].ChannelName;
+					BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
+				} else {
+					// start the blah roll going?
+					ResumeScrolling ();
+				}
 				this.drawerLayout.CloseDrawers ();
 			}
 
@@ -181,6 +247,16 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 				break;
 			}
+		}
+
+		protected override void OnTitleChanged (Java.Lang.ICharSequence title, Color color)
+		{
+			SpannableString s = new SpannableString(title);
+			s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+			s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+
+			this.ActionBar.TitleFormatted = s;
+
 		}
 
 		public override bool OnPrepareOptionsMenu (IMenu menu)
@@ -196,11 +272,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//when open don't show anything
 
 			for (int i = 0; i < menu.Size (); i++) {
-				menu.GetItem (i).SetVisible (!drawerOpen);
-				if (menu.GetItem (i).ItemId == Resource.Id.action_newpost) {
-					if (BlahguaAPIObject.Current.CurrentUser== null || BlahguaAPIObject.Current.CurrentUser.UserName.Equals("")) {
-						menu.GetItem (i).SetVisible (false);
+				IMenuItem curItem = menu.GetItem (i);
+				curItem.SetVisible (!drawerOpen);
+				if (BlahguaAPIObject.Current.CurrentUser == null) {
+					if (curItem.ItemId == Resource.Id.action_newpost) {
+						curItem.SetVisible (false);
 					}
+				}
+				else if (curItem.ItemId == Resource.Id.action_avatar) {
+					curItem.SetVisible (false);
 				}
 			}
 			InitAnalytics ();
@@ -219,7 +299,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 		// true, then it has handled the app icon touch event
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			if (this.drawerToggle.OnOptionsItemSelected (item)) {
+			/*
+			 * if (this.drawerToggle.OnOptionsItemSelected (item)) {
 
 				if (this.drawerLayout.IsDrawerOpen (this.drawerListView))
 					ResumeScrolling ();
@@ -227,17 +308,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 					StopScrolling ();
 				return true;
 			}
+			*/
 			switch(item.ItemId )
 			{
 			case Resource.Id.action_login:
 				if (BlahguaAPIObject.Current.CurrentUser == null) {
-					/*
-					LoginFragment loginFragment = new LoginFragment ();
-					Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
-					transaction.AddToBackStack (null);
-					transaction.Replace (Resource.Id.content_frame, loginFragment).Commit ();
-					SetTitle ("LogIn");
-					*/
 					var intent = new Intent(this, typeof(LoginActivity));
 					StartActivity(intent);
 
@@ -433,8 +508,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 					{
 						Toast.MakeText(this, "server connection failure", ToastLength.Short).Show();
 					});
-				//LoadingBox.Visibility = Visibility.Collapsed;
-				//ConnectFailure.Visibility = Visibility.Visible;
 			}
 		}
 
@@ -450,13 +523,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void OnChannelChanged()
 		{
-			//FlushImpressionList();
-			//LoadingBox.Visibility = Visibility.Visible;
-			//StopTimers();
-			//ClearBlahs();
-			//FetchInitialBlahList();
-
 			if (mainFragment != null) {
+				BlahguaAPIObject.Current.FlushImpressionList ();
 				mainFragment.StopTimers ();
 				mainFragment.ClearBlahs ();
 				mainFragment.FetchInitialBlahs ();
@@ -465,7 +533,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
 			RunOnUiThread(() => {
-				this.ActionBar.Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+				this.Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 			});
 		}
 

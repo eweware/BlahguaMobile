@@ -24,11 +24,12 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
+			RequestWindowFeature(WindowFeatures.NoTitle);
+
             int delayTime;
             base.OnCreate(bundle);
+		
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
-			
             ISharedPreferences _sharedPref = Android.Preferences.PreferenceManager.GetDefaultSharedPreferences(this);
             String seenIt = _sharedPref.GetString("firsttime", "");
             if (String.IsNullOrEmpty(seenIt))

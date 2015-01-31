@@ -36,7 +36,7 @@
 		android:orderInCategory="6"
 		android:showAsAction="never"/>
 	<item android:id="@+id/action_logout"
-		android:title="LOG OUT"
+		android:title="sign out"
 		android:alphabeticShortcut="o"
 		android:orderInCategory="7"
 		android:showAsAction="never"/>

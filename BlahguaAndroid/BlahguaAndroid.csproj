@@ -234,6 +234,7 @@
     <AndroidResource Include="Resources\layout\SignUpPage03.axml" />
     <AndroidResource Include="Resources\layout\ViewPager.axml" />
     <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\layout\DrawerListItem.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
