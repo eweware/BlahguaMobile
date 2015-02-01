@@ -90,6 +90,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.page_home_view);
 
@@ -154,7 +156,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             InitAnalytics();
             InitService();
-            MaybeShowTutorial();
+          
 		}
 
 		public int GetContentPositionY()
@@ -175,6 +177,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
                 // TutorialDialog.ShowDialog(FragmentManager);
                 Intent firstRun = new Intent(this, typeof(FirstRunActivity));
+                StopScrolling();
                 StartActivityForResult(firstRun, FIRST_RUN_RESULT);
                 forceFirstTime = false;
             }
@@ -194,6 +197,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				//Sections = channels;
 				//Create Adapter for drawer List
 				this.drawerListView.Adapter = new DrawerItemAdapter<String> (this, Resource.Layout.item_menu, channels);
+                MaybeShowTutorial();
 			}
 		}
 			
@@ -488,7 +492,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 						{
 							if ((whatsNew != null) && (whatsNew.message != ""))
 							{
-								//ShowNewsFloater(whatsNew);
+								ShowNewsFloater(whatsNew);
 							}
 						});
 				}

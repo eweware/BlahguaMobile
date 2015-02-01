@@ -43,6 +43,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="RestSharp.MonoDroid, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Components\restsharp-105.0.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text.XamarinAndrod">
+      <HintPath>..\Components\servicestacktext-3.9.61.1\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+    </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
@@ -56,14 +63,8 @@
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\android\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp.MonoDroid">
-      <HintPath>..\Components\restsharp-104.4.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -242,16 +243,16 @@
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="barchart">
-      <Version>1.1</Version>
       <Visible>False</Visible>
+      <Version>1.1.2.1</Version>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <Version>104.4.0</Version>
       <Visible>False</Visible>
+      <Version>105.0.1.0</Version>
     </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
-      <Version>3.9.60.0</Version>
       <Visible>False</Visible>
+      <Version>3.9.61.1</Version>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
@@ -406,7 +407,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_userprofile_profile.xml">
+    <AndroidResource Include="Resources\layout\fragment_userprofile_profile.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

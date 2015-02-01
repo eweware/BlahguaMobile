@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="8dp"
+      android:orientation="vertical">
+    <TextView
+        android:text="Edit your profile image and display name"
+        android:textColor="@color/heard_black"
+        android:typeface="normal"
+        android:textSize="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/headingPrompt" />
+    <TextView
+      android:text="username:"
+      android:textColor="@color/heard_black"
+      android:typeface="normal"
+      android:textSize="18dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/accountName" />
+    <LinearLayout
+          android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <TextView
+    android:text="display name: "
+    android:textColor="@color/heard_black"
+    android:typeface="normal"
+    android:textSize="14dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/text_displayname" />
+      <EditText
+      android:id="@+id/nickname"
+      android:textColorHint="#808080"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/heard_black"
+      android:hint="display name"/>
+    </LinearLayout>
+    <LinearLayout
+      android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+      <TextView
+    android:text="display name: "
+    android:textColor="@color/heard_black"
+    android:typeface="normal"
+    android:textSize="14dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/text_displayname" />
+      <EditText
+                    android:inputType="textPassword"
+      android:textColorHint="#808080"
+      android:id="@+id/password"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/heard_black"
+      android:hint="password"/>
+    </LinearLayout>
+    <LinearLayout
+      android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+      <TextView
+    android:text="confirm:"
+                android:inputType="textPassword"
+    android:textColor="@color/heard_black"
+    android:typeface="normal"
+    android:textSize="14dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/text_displayname" />
+      <EditText
+      android:id="@+id/confirmPassword"
+      android:textColorHint="#808080"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/heard_black"
+      android:hint="confirm password"/>
+    </LinearLayout>
+    <TextView
+  android:text="profile image"
+  android:textColor="@color/heard_black"
+  android:typeface="normal"
+  android:textSize="14dp"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:id="@+id/text_profileimage" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+      <ImageView
+          android:id="@+id/avatar"
+          android:layout_width="200dp"
+          android:layout_height="200dp"
+          android:layout_gravity="center" />
+      <Button
+          android:id="@+id/btn_avatar"
+          android:layout_width="wrap_content"
+          android:layout_height="15dp"
+          android:layout_gravity="center"
+          android:background="@drawable/btn_select_image" />
+      <ProgressBar
+          android:id="@+id/progressBar1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="8dp"
+          android:layout_gravity="center"
+          android:indeterminateDrawable="@drawable/progress_smiley"
+          android:layout_centerHorizontal="true" />
+    </FrameLayout>
+
+    <CheckBox
+        android:text="Show Mature Content"
+        android:layout_width="match_parent"
+        android:foreground="@color/heard_black"
+        android:layout_height="wrap_content"
+        android:textColor="@color/heard_black"
+        android:textSize="18dp"
+        android:id="@+id/matureContentCheck" />
+    <TextView
+      android:text="recovery email"
+      android:textColor="@color/heard_black"
+      android:typeface="normal"
+      android:textSize="14dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/text_recoveryemail" />
+    <EditText
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/heard_black"
+        android:id="@+id/recoveryEmail" />
+    <Button
+        android:text="Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/heard_blue"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/btn_save" />
+  </LinearLayout>
+</ScrollView>

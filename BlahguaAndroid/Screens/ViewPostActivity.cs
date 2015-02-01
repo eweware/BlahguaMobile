@@ -80,6 +80,33 @@ namespace BlahguaMobile.AndroidClient
            
         }
 
+        public override Android.Content.Res.Resources Resources
+        {
+            get
+            {
+                return new ResourceFix(base.Resources);
+            }
+        }
+
+        private class ResourceFix : Android.Content.Res.Resources
+        {
+            private int targetId = 0;
+
+            public ResourceFix(Android.Content.Res.Resources resources)
+                : base(resources.Assets, resources.DisplayMetrics, resources.Configuration)
+            {
+                
+                targetId = Android.Content.Res.Resources.System.GetIdentifier("split_action_bar_is_narrow", "bool", "android");
+
+            }
+
+            public override bool GetBoolean(int id)
+            {
+                return targetId == id || base.GetBoolean(id);
+            }
+
+        }
+
         protected override void OnTitleChanged(Java.Lang.ICharSequence title, Color color)
         {
             SpannableString s = new SpannableString(title);
