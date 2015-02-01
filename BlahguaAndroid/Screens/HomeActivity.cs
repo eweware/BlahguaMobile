@@ -46,11 +46,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
 
-		private string _actionBarTitle;
-		//private  string[] Sections;
-
 		private String[] profile_items;
-
+        public static bool forceFirstTime = false;
+        private static int FIRST_RUN_RESULT = 0x1111;
+        private bool FirstTimeShowing = false;
 
 		
 
@@ -153,7 +152,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
 
-
+            InitAnalytics();
+            InitService();
+            MaybeShowTutorial();
 		}
 
 		public int GetContentPositionY()
@@ -161,6 +162,23 @@ namespace BlahguaMobile.AndroidClient.Screens
 			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
 			return contentFrame.Top;
 		}
+
+        private void MaybeShowTutorial()
+        {
+            ISharedPreferences _sharedPref = PreferenceManager.GetDefaultSharedPreferences(this);
+            String seenIt = _sharedPref.GetString("sawtutorial", "");
+
+
+            if ((String.IsNullOrEmpty(seenIt) || forceFirstTime))
+            {
+                FirstTimeShowing = true;
+                _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
+                // TutorialDialog.ShowDialog(FragmentManager);
+                Intent firstRun = new Intent(this, typeof(FirstRunActivity));
+                StartActivityForResult(firstRun, FIRST_RUN_RESULT);
+                forceFirstTime = false;
+            }
+        }
 
 
 
@@ -233,6 +251,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override bool OnPrepareOptionsMenu (IMenu menu)
 		{
 			this.optionsMenu = menu;
+            menu.Clear();
 			if (BlahguaAPIObject.Current.CurrentUser == null) {
 				this.MenuInflater.Inflate (Resource.Menu.login_menu, menu);
 			} else
@@ -254,8 +273,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					curItem.SetVisible (false);
 				}
 			}
-			InitAnalytics ();
-			InitService ();
+
 
 			return base.OnPrepareOptionsMenu (menu);
 		}

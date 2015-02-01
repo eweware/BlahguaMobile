@@ -40,7 +40,7 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            //ActionBar.SetDisplayShowTitleEnabled(false);
+            ActionBar.SetDisplayShowTitleEnabled(true);
             //ActionBar.SetDisplayShowHomeEnabled(false);
             base.OnCreate(bundle);
             this.ActionBar.SetDisplayHomeAsUpEnabled(true);
@@ -101,38 +101,41 @@ namespace BlahguaMobile.AndroidClient
                 IMenuItem upVote = menu.FindItem(Resource.Id.action_upvote);
                 IMenuItem downVote = menu.FindItem(Resource.Id.action_downvote);
 
-                if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)
+                if (BlahguaAPIObject.Current.CurrentBlah != null)
                 {
-                    // can't vote on own blah
-                    upVote.SetEnabled(false);
-                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
-                    downVote.SetEnabled(false);
-                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
-                }
-                else if (BlahguaAPIObject.Current.CurrentBlah.uv == 0)
-                {
-                    // user can still vote
-                    upVote.SetEnabled(true);
-                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
-                    downVote.SetEnabled(true);
-                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
-                }
-                else if (BlahguaAPIObject.Current.CurrentBlah.uv == 1)
-                {
-                    // user promoted it
-                    upVote.SetEnabled(false);
-                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
-                    downVote.SetEnabled(false);
-                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
+                    if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)
+                    {
+                        // can't vote on own blah
+                        upVote.SetEnabled(false);
+                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                        downVote.SetEnabled(false);
+                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
+                    }
+                    else if (BlahguaAPIObject.Current.CurrentBlah.uv == 0)
+                    {
+                        // user can still vote
+                        upVote.SetEnabled(true);
+                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
+                        downVote.SetEnabled(true);
+                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                    }
+                    else if (BlahguaAPIObject.Current.CurrentBlah.uv == 1)
+                    {
+                        // user promoted it
+                        upVote.SetEnabled(false);
+                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
+                        downVote.SetEnabled(false);
+                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
 
-                }
-                else
-                {
-                    // user demoted it
-                    upVote.SetEnabled(false);
-                    upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
-                    downVote.SetEnabled(false);
-                    downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                    }
+                    else
+                    {
+                        // user demoted it
+                        upVote.SetEnabled(false);
+                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                        downVote.SetEnabled(false);
+                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                    }
                 }
             }
 

@@ -128,6 +128,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     parent.RunOnUiThread(() =>
                     {
                         dialog.Hide();
+                        Activity.InvalidateOptionsMenu();
                     });
                     populateFragment();
                 });
