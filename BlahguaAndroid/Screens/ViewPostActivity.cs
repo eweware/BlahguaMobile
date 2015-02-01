@@ -28,7 +28,7 @@ namespace BlahguaMobile.AndroidClient
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment;
         private ViewPostStatsFragment statsFragment;
-
+        private bool isFromCommentBtn = false;
         private Fragment curFragment = null;
 
 
@@ -39,13 +39,14 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            this.Window.SetUiOptions(UiOptions.SplitActionBarWhenNarrow);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            ActionBar.SetDisplayShowTitleEnabled(true);
-            //ActionBar.SetDisplayShowHomeEnabled(false);
             base.OnCreate(bundle);
             this.ActionBar.SetDisplayHomeAsUpEnabled(true);
-            this.ActionBar.SetHomeButtonEnabled(true);
-            this.ActionBar.SetDisplayShowHomeEnabled(true);
+            this.ActionBar.SetHomeButtonEnabled(false);
+            this.ActionBar.SetDisplayShowHomeEnabled(false);
 			SetContentView (Resource.Layout.activity_viewpost);
 
             _gestureListener = new GestureListener();
@@ -53,7 +54,7 @@ namespace BlahguaMobile.AndroidClient
             _gestureListener.SwipeLeftEvent += swipeLeftEvent;
             _gestureListener.SwipeRightEvent += swipeRightEvent;
 
-            this.Title = "   back to Heard";
+            this.Title = "";
 
 
             btn_summary_Click(null, null);
@@ -263,9 +264,7 @@ namespace BlahguaMobile.AndroidClient
         {
             if (ActionBar.SelectedTab != commentTab)
             {
-                if (commentsFragment == null)
-                    commentsFragment = ViewPostCommentsFragment.NewInstance();
-                commentsFragment.shouldCreateComment = true;
+                isFromCommentBtn = true;
                 ActionBar.SelectTab(commentTab);
             }
             else
@@ -312,6 +311,10 @@ namespace BlahguaMobile.AndroidClient
             {
                 commentsFragment = ViewPostCommentsFragment.NewInstance();
                 firstTime = true;
+                if (isFromCommentBtn)
+                {
+                    commentsFragment.shouldCreateComment = true;
+                }
             }
 
             SetCurrentFragment(commentsFragment, firstTime);
@@ -342,6 +345,15 @@ namespace BlahguaMobile.AndroidClient
 
             if (!String.IsNullOrEmpty(theTitle))
                 Title = theTitle;
+            if (isFromCommentBtn)
+            {
+                isFromCommentBtn = false;
+                if (firstTime)
+                    commentsFragment.shouldCreateComment = true;
+                else
+                    commentsFragment.triggerCreateBlock();
+            }
+
         }
 
         #endregion

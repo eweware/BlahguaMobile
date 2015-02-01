@@ -23,10 +23,12 @@ namespace BlahguaMobile.AndroidClient.Screens
         string imgPath;
         protected override void OnCreate(Bundle bundle)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             base.OnCreate(bundle);
 			HomeActivity.analytics.PostPageView("/ImageViewer");
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.activity_imageview);
 
             imgPath = Intent.GetStringExtra("image");

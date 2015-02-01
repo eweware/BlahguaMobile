@@ -176,7 +176,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 
                     }
 
-                    string selection = "_id?";
+                    string selection = "_id";
                     string[] selectionArgs = new string[] { split[1] };
 
                     return getDataColumn(activity, contentUri, selection, selectionArgs);
@@ -203,12 +203,15 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             ICursor cursor = null;
             string column = "_data";
             string[] projection = {
-                    column
+                    "_data", "_id"
             };
 
             try
             {
-                cursor = activity.ContentResolver.Query(uri, projection, null, null, null);
+                selection = "(_id = " + selectionArgs[0] + ")";
+                var loader = new CursorLoader(activity, uri, projection, selection, null, null);
+                cursor = (ICursor)loader.LoadInBackground();
+                //cursor = activity.ContentResolver.Query(uri, projection, selection, selectionArgs, null);
                 if (cursor != null && cursor.MoveToFirst())
                 {
                     int column_index = cursor.GetColumnIndexOrThrow(column);

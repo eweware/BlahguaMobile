@@ -35,10 +35,13 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            RequestWindowFeature(WindowFeatures.NoTitle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+
             base.OnCreate(bundle);
 			HomeActivity.analytics.PostPageView("/signup");
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_login);

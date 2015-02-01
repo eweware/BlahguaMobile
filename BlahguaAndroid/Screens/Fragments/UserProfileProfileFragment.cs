@@ -37,6 +37,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private CheckBox useMatureChk;
         private string oldUserName, oldEmail;
         private bool oldMatureSetting;
+        private readonly int SELECTIMAGE_REQUEST = 777;
         
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,7 +51,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
                 StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select photo"), 0);
+                    Intent.CreateChooser(imageIntent, "Select photo"), SELECTIMAGE_REQUEST);
             };
 
             avatar = fragment.FindViewById<ImageView>(Resource.Id.avatar);
@@ -65,7 +66,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, headingPrompt, useMatureChk, nickname, btn_avatar, btn_save, recoveryEmail);
             UiHelper.SetGothamTypeface(TypefaceStyle.Bold, accountName);
-
+            useMatureChk.SetBackgroundColor(Resources.GetColor(Resource.Color.heard_red));
             accountName.Text = "Account name:  " + BlahguaMobile.BlahguaCore.BlahguaAPIObject.Current.GetSavedUserInfo().UserName;
             progress.Visibility = ViewStates.Gone;
             btn_avatar.Click += click;
@@ -133,43 +134,58 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             oldUserName = nickname.Text;
             oldMatureSetting = BlahguaAPIObject.Current.CurrentUser.XXX;
+            useMatureChk.Checked = oldMatureSetting;
             BlahguaAPIObject.Current.GetRecoveryEmail((theMail) =>
                 {
                     oldEmail = theMail;
                     recoveryEmail.Text = theMail;
                 });
+
+            
         }
 
 		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-			if (resultCode == Android.App.Result.Ok)
+            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;
                 System.IO.Stream inputStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
                 String fileName = StreamHelper.GetFileName(Activity, data.Data);
-                //String fileName = data.DataString.Substring(data.DataString.LastIndexOf("\\") + 1);
                 avatar.SetUrlDrawable(null);
-                BlahguaAPIObject.Current.UploadUserImage(inputStream, fileName, (photoString) =>
+                if (inputStream != null)
+                {
+                    BlahguaAPIObject.Current.UploadUserImage(inputStream, fileName, (photoString) =>
+                        {
+                            Activity.RunOnUiThread(() =>
+                            {
+                                if ((photoString != null) && (photoString.Length > 0))
+                                {
+                                    string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "C");
+									HomeActivity.analytics.PostUploadUserImage();
+                                    avatar.SetUrlDrawable(photoURL, this);
+                                }
+                                else
+                                {
+                                    progress.Visibility = ViewStates.Gone;
+                                    btn_avatar.Visibility = ViewStates.Visible;
+                                    Toast.MakeText(Activity, "Uploading failed", ToastLength.Short).Show();
+									        HomeActivity.analytics.PostSessionError("userimageuploadfailed");
+                                }
+                            });
+                        });
+                }
+                else
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        if ((photoString != null) && (photoString.Length > 0))
-                        {
-                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-									HomeActivity.analytics.PostUploadUserImage();
-                            avatar.SetUrlDrawable(photoURL, this);
-                        }
-                        else
-                        {
-                            btn_avatar.Visibility = ViewStates.Visible;
-                            Toast.MakeText(Activity, "Uploading failed", ToastLength.Short).Show();
-									HomeActivity.analytics.PostSessionError("userimageuploadfailed");
-                        }
+                        var toast = Toast.MakeText(Activity, "Cannot upload this type of image", ToastLength.Long);
+                        toast.Show();
+                        progress.Visibility = ViewStates.Gone;
+                        btn_avatar.Visibility = ViewStates.Visible;
                     });
                 }
-                );
             }
         }
 

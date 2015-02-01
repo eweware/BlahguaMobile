@@ -62,31 +62,37 @@ namespace BlahguaMobile.AndroidClient.Screens
                 String fileName = StreamHelper.GetFileName(this, data.Data);
                 if (fileStream != null)
                 {
-                    //System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
                             RunOnUiThread(() =>
                             {
+                                progressBarImageLoading.Visibility = ViewStates.Gone;
                                 if ((photoString != null) && (photoString.Length > 0))
                                 {
-                                    //    newImage.Tag = photoString;
                                     string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                                    //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
-                                    //    ImagesPanel.Children.Remove(newBar);
                                     imageCreateBlah.SetUrlDrawable(photoURL, this);
                                     BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
                                     BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
-                                    //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-                                    //    App.analytics.PostUploadBlahImage();
+                                    HomeActivity.analytics.PostUploadBlahImage();
                                 }
                                 else
                                 {
                                     ClearImages();
-                                    //App.analytics.PostSessionError("blahimageuploadfailed");
+                                    HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
                                 }
                             });
                         }
                     );
+                }
+                else
+                {
+                    RunOnUiThread(() =>
+                       {
+                           var toast = Toast.MakeText(this, "Cannot upload this type of image", ToastLength.Long);
+                           toast.Show();
+                           progressBarImageLoading.Visibility = ViewStates.Gone;
+                           ClearImages();
+                       });
                 }
             }
             base.OnActivityResult(requestCode, resultCode, data);
@@ -123,9 +129,11 @@ namespace BlahguaMobile.AndroidClient.Screens
         ///////// init
 		protected override void OnCreate (Bundle bundle)
 		{
+             RequestWindowFeature(WindowFeatures.NoTitle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate(bundle);
 
-			RequestWindowFeature(WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.activity_create_post);

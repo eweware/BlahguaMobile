@@ -48,22 +48,6 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageCreateComment;
         private ProgressBar progressBarImageLoading;
 
-        private string GetPathToImage(Android.Net.Uri uri)
-        {
-            string path = null;
-            // The projection contains the columns we want to return in our query.
-            string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
-            using (ICursor cursor = Activity.ManagedQuery(uri, projection, null, null, null))
-            {
-                if (cursor != null)
-                {
-                    int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
-                    cursor.MoveToFirst();
-                    path = cursor.GetString(columnIndex);
-                }
-            }
-            return path;
-        }
 
 		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -72,35 +56,43 @@ namespace BlahguaMobile.AndroidClient.Screens
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateCommentLayout.Visibility = ViewStates.Visible;
                 imageCreateComment.SetImageDrawable(null);
-                Android.Net.Uri uri = data.Data;
-                string imgPath = GetPathToImage(uri);
-                //string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName);
-                System.IO.Stream fileStream = System.IO.File.OpenRead(imgPath);
-                BlahguaAPIObject.Current.UploadPhoto(fileStream, System.IO.Path.GetFileName(imgPath), (photoString) =>
+                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(Activity, data.Data);
+                String fileName = StreamHelper.GetFileName(Activity, data.Data);
+                if (fileStream != null)
+                {
+                    BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
+                    {
+                        Activity.RunOnUiThread(() =>
+                        {
+                            if ((photoString != null) && (photoString.Length > 0))
+                            {
+                                string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
+                                imageCreateComment.SetUrlDrawable(photoURL, this);
+                                BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
+                                BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
+                                HomeActivity.analytics.PostUploadBlahImage();
+                            }
+                            else
+                            {
+                                progressBarImageLoading.Visibility = ViewStates.Gone;
+                                ClearImages();
+                                HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
+                            }
+                        });
+                    });
+                }
+                else
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        if ((photoString != null) && (photoString.Length > 0))
-                        {
-                            //    newImage.Tag = photoString;
-                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                            //    newImage.Source = new BitmapImage(new Uri(photoURL, UriKind.Absolute));
-                            //    ImagesPanel.Children.Remove(newBar);
-                            imageCreateComment.SetUrlDrawable(photoURL, this);
-                            BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
-                            BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
-                            //    BackgroundImage.Source = new BitmapImage(new Uri(BlahguaAPIObject.Current.GetImageURL(photoString, "D"), UriKind.Absolute));
-									HomeActivity.analytics.PostUploadBlahImage();
-                        }
-                        else
-                        {
-                            progressBarImageLoading.Visibility = ViewStates.Gone;
-                            ClearImages();
-									HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
-                        }
+                        var toast = Toast.MakeText(Activity, "Cannot upload this type of image", ToastLength.Long);
+                        toast.Show();
+                        progressBarImageLoading.Visibility = ViewStates.Gone;
+                        ClearImages();
                     });
                 }
-                );
+
+                
             }
             base.OnActivityResult(requestCode, resultCode, data);
         }

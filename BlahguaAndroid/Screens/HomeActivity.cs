@@ -131,7 +131,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Display the drawer title and update the options menu
 			this.drawerToggle.DrawerOpened += (o, args) => {
-				this.ActionBar.Title = "choose channel";
+				this.ActionBar.Title = "channel";
 				StopScrolling();
 				this.InvalidateOptionsMenu ();
 			};
@@ -141,7 +141,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//if first time you will want to go ahead and click first item.
 			if (savedInstanceState == null) {
-				ListItemClicked (0);
+                int curChan = 0;
+                if (BlahguaAPIObject.Current.CurrentChannelList != null)
+                {
+                    curChan = BlahguaAPIObject.Current.CurrentChannelList.IndexOf(BlahguaAPIObject.Current.CurrentChannel);
+                    if (curChan < 0)
+                        curChan = 0;
+                }
+
+				ListItemClicked (curChan);
 			}
 
 

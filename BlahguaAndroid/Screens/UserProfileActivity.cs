@@ -39,11 +39,13 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             base.OnCreate(bundle);
             this.ActionBar.SetDisplayHomeAsUpEnabled(true);
-            this.ActionBar.SetHomeButtonEnabled(true);
-            this.ActionBar.SetDisplayShowHomeEnabled(true);
+            this.ActionBar.SetHomeButtonEnabled(false);
+            this.ActionBar.SetDisplayShowHomeEnabled(false);
 			HomeActivity.analytics.PostPageView("/self");
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
