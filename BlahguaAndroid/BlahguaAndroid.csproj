@@ -144,7 +144,6 @@
     <Compile Include="Screens\Fragments\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\Fragments\HistoryCommentsFragment.cs" />
     <Compile Include="Screens\Fragments\HistoryPostsFragment.cs" />
-    <Compile Include="Screens\HistoryActivity.cs" />
     <Compile Include="Screens\Fragments\UserProfileDemographicsFragment.cs" />
     <Compile Include="Screens\Fragments\UserProfileProfileFragment.cs" />
     <Compile Include="Screens\UserProfileActivity.cs" />
@@ -160,7 +159,6 @@
     <Compile Include="Screens\MainFragment.BlahCreate.cs" />
     <Compile Include="Screens\MainFragment.Signature.cs" />
     <Compile Include="Screens\UserProfileFragment.cs" />
-    <Compile Include="Screens\HistoryFragment.cs" />
     <Compile Include="Screens\BlahCreateActivity.cs" />
     <Compile Include="Screens\FirstRunActivity.cs" />
     <Compile Include="Screens\Fragments\SignUpPage01Fragment.cs" />

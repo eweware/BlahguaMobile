@@ -26,14 +26,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new HistoryPostsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "HistoryPostsFragment";
-
         private TextView posts_total_count;
 
         private ListView list;
         private LinearLayout no_entries;
-
-		private HistoryActivity activity;
 
         private PostsAdapter adapter;
 
@@ -66,28 +62,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-			activity = (HistoryActivity)Activity;
             base.OnActivityCreated(savedInstanceState);
-        }
-
-        public void GestureLeft(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, false, true);
-            }
-        }
-
-        public void GestureRight(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, true, false);
-            }
         }
 
         public void LoadUserPosts()

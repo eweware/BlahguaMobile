@@ -26,14 +26,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new HistoryCommentsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "HistoryCommentsFragment";
-
         private TextView comments_total_count;
 
         private ListView list;
         private LinearLayout no_comments;
 
-		private HistoryActivity activity;
 
         private HistoryCommentsAdapter adapter;
 
@@ -56,30 +53,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-			activity = (HistoryActivity)Activity;
-            base.OnActivityCreated(savedInstanceState);
-        }
-
-        public void GestureLeft(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, false, true);
-                View rightView = listItem.FindViewById<View>(Resource.Id.right_layout);
-                rightView.Visibility = ViewStates.Gone;
-            }
-        }
-
-        public void GestureRight(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, true, false);
-            }
+			base.OnActivityCreated(savedInstanceState);
         }
 
         public void LoadUserComments()

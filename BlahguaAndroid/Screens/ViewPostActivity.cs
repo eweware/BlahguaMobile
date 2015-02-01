@@ -46,11 +46,6 @@ namespace BlahguaMobile.AndroidClient
             this.ActionBar.SetDisplayHomeAsUpEnabled(true);
             this.ActionBar.SetHomeButtonEnabled(true);
             this.ActionBar.SetDisplayShowHomeEnabled(true);
-
-            this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-
-
-            //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_viewpost);
 
             _gestureListener = new GestureListener();
@@ -82,7 +77,7 @@ namespace BlahguaMobile.AndroidClient
             this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
             this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
             this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-
+           
         }
 
         protected override void OnTitleChanged(Java.Lang.ICharSequence title, Color color)
@@ -97,6 +92,7 @@ namespace BlahguaMobile.AndroidClient
 
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
+            menu.Clear();
             if (BlahguaAPIObject.Current.CurrentUser == null)
                 MenuInflater.Inflate(Resource.Menu.blahmenu_signedout, menu);
             else
@@ -250,50 +246,74 @@ namespace BlahguaMobile.AndroidClient
         #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
+            bool firstTime = false;
+
             if (statsFragment == null)
+            {
                 statsFragment = ViewPostStatsFragment.NewInstance();
 
-            if (curFragment != statsFragment)
-            {
-                curFragment = statsFragment;
-
-                var fragmentTransaction = FragmentManager.BeginTransaction();
-                fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
-                fragmentTransaction.Commit();
+                firstTime = true;
             }
+
+            SetCurrentFragment(statsFragment, firstTime);
+                
+            
         }
 
         private void btn_summary_Click(object sender, EventArgs e)
         {
+            bool firstTime = false;
+
             if (summaryFragment == null)
-                summaryFragment = ViewPostSummaryFragment.NewInstance();
-
-            if (curFragment != summaryFragment)
             {
-                curFragment = summaryFragment;
-
-
-                var fragmentTransaction = FragmentManager.BeginTransaction();
-                fragmentTransaction.Replace(Resource.Id.content_fragment, summaryFragment);
-                fragmentTransaction.Commit();
+                summaryFragment = ViewPostSummaryFragment.NewInstance();
+                firstTime = true;
             }
+
+            SetCurrentFragment(summaryFragment, firstTime);
         }
 
         private void btn_comments_Click(object sender, EventArgs e)
         {
+
+            bool firstTime = false;
+            
             if (commentsFragment == null)
-                commentsFragment = ViewPostCommentsFragment.NewInstance();
-
-            if (curFragment != commentsFragment)
             {
-                curFragment = commentsFragment;
-
-
-                var fragmentTransaction = FragmentManager.BeginTransaction();
-                fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
-                fragmentTransaction.Commit();
+                commentsFragment = ViewPostCommentsFragment.NewInstance();
+                firstTime = true;
             }
+
+            SetCurrentFragment(commentsFragment, firstTime);
         }
+
+
+        void SetCurrentFragment(Fragment newFrag, bool firstTime, string theTitle = null)
+        {
+            if (curFragment != newFrag)
+            {
+                var fragmentManager = this.FragmentManager;
+                var ft = fragmentManager.BeginTransaction();
+
+                if (curFragment != null)
+                    ft.Hide(curFragment);
+
+                curFragment = newFrag;
+
+                if (newFrag != null)
+                {
+                    if (firstTime)
+                        ft.Add(Resource.Id.content_fragment, curFragment);
+                    else
+                        ft.Show(curFragment);
+                    ft.Commit();
+                }
+            }
+
+            if (!String.IsNullOrEmpty(theTitle))
+                Title = theTitle;
+        }
+
         #endregion
 
         #region Handles

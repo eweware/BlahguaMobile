@@ -32,13 +32,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
         {
             var btn = (Button)sender;
             string id = (string)btn.Tag;
-            //BlahguaAPIObject.Current.Delete(id, (theString) =>
-            //{
-            //    if (theString == "ok")
-            //    {
-            //        _fragment.LoadUserComments();
-            //    }
-            //});
+
         };
 
         private static HistoryCommentsFragment _fragment;
@@ -84,6 +78,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+            
 
             // set fonts
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);

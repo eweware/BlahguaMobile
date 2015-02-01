@@ -318,8 +318,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 				StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_history:
-				var intent_history = new Intent (this, typeof(HistoryActivity));
-				StartActivity (intent_history);
+                intent_profile = new Intent(this, typeof(UserProfileActivity));
+                intent_profile.PutExtra("Page", 3);
+                StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_stats:
 				intent_profile = new Intent(this, typeof(UserProfileActivity));

@@ -13,7 +13,7 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahguaAPIObject : INotifyPropertyChanged
     {
-        class SavedUserInfo
+        public class SavedUserInfo
         {
             public string UserName { get; set; }
             public string Password { get; set; }
@@ -208,7 +208,7 @@ namespace BlahguaMobile.BlahguaCore
             EnsureSignin();
         }
 
-        SavedUserInfo GetSavedUserInfo()
+        public SavedUserInfo GetSavedUserInfo()
         {
             SavedUserInfo theInfo = new SavedUserInfo();
             theInfo.UserName = (string)SafeLoadSetting("username", UserName);

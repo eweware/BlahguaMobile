@@ -45,20 +45,6 @@
       android:orientation="horizontal">
 
       <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#3C3C3C"
-        android:textStyle="bold"
-        android:text="author" />
-      <ImageView
-        android:id="@+id/author_avatar"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_margin="5dp"
-        android:layout_gravity="center_vertical"
-        android:background="#AAA"/>
-      <TextView
         android:id="@+id/time_ago"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

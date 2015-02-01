@@ -1,52 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="#D9DADA"
-  android:orientation="vertical">
-  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+                      android:padding="8dp"
+    android:orientation="vertical">
+    <TextView
+        android:text="Edit your profile image and display name"
+        android:textColor="@color/heard_black"
+        android:typeface="normal"
+        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/headingPrompt" />
+  <TextView
+    android:text="username: "
+    android:textColor="@color/heard_black"
+    android:typeface="normal"
+    android:textSize="18dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    android:background="@drawable/bg_create_comment">
+    android:id="@+id/accountName" />
+  <EditText
+    android:id="@+id/nickname"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="@color/heard_black"
+    android:hint="display name"/>
     <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="10dp">
-
-      <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"/>
-      <Button
-        android:id="@+id/btn_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_select_image"/>
-      <ProgressBar
-        android:id="@+id/progressBar1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_gravity="center"
-        android:indeterminateDrawable="@drawable/progress_smiley"
-        android:layout_centerHorizontal="true" />
-
+        android:padding="10dp">
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+        <Button
+            android:id="@+id/btn_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_select_image" />
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/progress_smiley"
+            android:layout_centerHorizontal="true" />
     </FrameLayout>
-    <View
-      android:layout_width="match_parent"
-      android:layout_height="2px"
-      android:background="#E4E4E4" />
+
+    <CheckBox
+        android:text="Show Mature Content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/heard_black"
+        android:textSize="18dp"
+        android:id="@+id/matureContentCheck" />
     <EditText
-      android:id="@+id/text"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textColor="#3C3C3C"
-      android:hint="TYPE NICKNAME"
-      android:background="@null"
-      android:padding="5dp"/>
-  </LinearLayout>
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/heard_black"
+        android:id="@+id/recoveryEmail" />
+    <Button
+        android:text="Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/heard_blue"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/btn_save" />
 </LinearLayout>
