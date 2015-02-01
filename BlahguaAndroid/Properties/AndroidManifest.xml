@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".44" package="com.eweware.heard" android:installLocation="auto" android:versionCode="44">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".45" package="com.eweware.heard" android:installLocation="auto" android:versionCode="45">
 	<uses-sdk android:targetSdkVersion="21" />
 	<application android:icon="@drawable/ic_launcher" android:label="Heard"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
