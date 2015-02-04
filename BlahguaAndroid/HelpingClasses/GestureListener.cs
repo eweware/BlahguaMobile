@@ -37,10 +37,14 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
                 if (Math.Abs(e1.GetY() - e2.GetY()) > SWIPE_MAX_OFF_PATH)
                     return false;
                 // right to left swipe
-                if (e1.GetX() - e2.GetX() > SWIPE_MIN_DISTANCE && Math.Abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && SwipeLeftEvent /*LeftEvent*/ != null)
-                    SwipeLeftEvent(e1, e2); //LeftEvent(); //Toast.MakeText(view.Context, "Left Swipe", ToastLength.Short).Show();
-                else if (e2.GetX() - e1.GetX() > SWIPE_MIN_DISTANCE && Math.Abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && SwipeRightEvent /*RightEvent*/ != null)
-                    SwipeRightEvent(e1, e2); //RightEvent(); // Toast.MakeText(view.Context, "Right Swipe", ToastLength.Short).Show();
+				if (e1.GetX() - e2.GetX() > SWIPE_MIN_DISTANCE && Math.Abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && SwipeLeftEvent != null) {
+                    SwipeLeftEvent(e1, e2);
+					return true;
+				}
+				else if (e2.GetX() - e1.GetX() > SWIPE_MIN_DISTANCE && Math.Abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && SwipeRightEvent != null) {
+                    SwipeRightEvent(e1, e2);
+					return true;
+				}
             }
             catch (Exception e)
             {

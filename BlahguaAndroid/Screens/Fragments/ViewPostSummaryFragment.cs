@@ -96,8 +96,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
             pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, author, timeago, authorDescription, predictsElapsedtime);
-
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, authorDescription, predictsElapsedtime);
+			UiHelper.SetGothamTypeface (TypefaceStyle.Bold, author);
+			UiHelper.SetGothamTypeface (TypefaceStyle.Italic, timeago);
             initBlahPost();
 
             return fragment;
@@ -149,8 +150,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         progress_image.Visibility = ViewStates.Visible;
                     });
-                    ImageLoader.Instance.DownloadAsync(loadedBlah.ImageURL,
-                        image, (b) =>
+                    ImageLoader.Instance.DownloadAsync(loadedBlah.ImageURL,(b) =>
                         {
                             parent.RunOnUiThread(() =>
                             {

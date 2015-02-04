@@ -60,7 +60,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             publicBtn.Click += (object sender, EventArgs e) =>
             {
                 SetDefaultChannel("Public");
-                ((FirstRunActivity)this.Activity).Finish();
+                ((FirstRunActivity)this.Activity).FinishSignin();
             };
 
             return rootView;

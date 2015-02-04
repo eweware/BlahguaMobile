@@ -40,13 +40,14 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             this.Window.SetUiOptions(UiOptions.SplitActionBarWhenNarrow);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             base.OnCreate(bundle);
-            this.ActionBar.SetDisplayHomeAsUpEnabled(true);
-            this.ActionBar.SetHomeButtonEnabled(false);
-            this.ActionBar.SetDisplayShowHomeEnabled(false);
+			this.ActionBar.SetDisplayHomeAsUpEnabled(false);
+			this.ActionBar.SetHomeButtonEnabled(false);
+			this.ActionBar.SetDisplayShowHomeEnabled(false);
+			this.ActionBar.SetDisplayShowTitleEnabled (false);
 			SetContentView (Resource.Layout.activity_viewpost);
 
             _gestureListener = new GestureListener();
@@ -75,9 +76,9 @@ namespace BlahguaMobile.AndroidClient
             statsTab.SetIcon(Resource.Drawable.btn_stats);
             statsTab.TabSelected += btn_stats_Click;
             ActionBar.AddTab(statsTab);
-            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
-            this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-            this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+			this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+			this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
+			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
            
         }
 
@@ -108,15 +109,6 @@ namespace BlahguaMobile.AndroidClient
 
         }
 
-        protected override void OnTitleChanged(Java.Lang.ICharSequence title, Color color)
-        {
-            SpannableString s = new SpannableString(title);
-            s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
-            s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
-
-            this.ActionBar.TitleFormatted = s;
-
-        }
 
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
@@ -235,11 +227,11 @@ namespace BlahguaMobile.AndroidClient
                 ActionBar.SelectTab(summaryTab);
         }
 
-        public override bool DispatchTouchEvent(MotionEvent ev)
-        {
-            base.DispatchTouchEvent(ev);
-            return _gestureDetector.OnTouchEvent(ev);
-        }
+		public override bool DispatchTouchEvent(MotionEvent ev)
+		{
+			_gestureDetector.OnTouchEvent (ev);
+			return base.DispatchTouchEvent(ev);
+		}
 
       
 

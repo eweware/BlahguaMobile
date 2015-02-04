@@ -71,8 +71,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? _activity.LayoutInflater.Inflate(
-                Resource.Layout.listitem_history_comment, parent, false);
+			View view;
+
+			if (convertView == null)
+				view = _activity.LayoutInflater.Inflate (Resource.Layout.listitem_history_comment, parent, false);
+			else
+				view = convertView;
+
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);

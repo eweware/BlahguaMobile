@@ -76,7 +76,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 {
                                     DisplayAlert("No Result", "No badges are available for your domain.  You can try again later from your profile page.", "got it", () =>
                                     {
-                                        ((FirstRunActivity)this.Activity).Finish();
+												((FirstRunActivity)this.Activity).FinishSignin();
                                     });
 
                                 }
@@ -85,7 +85,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                                     HomeActivity.analytics.PostBadgeNoEmail(FirstRunActivity.emailAddress);
                                     DisplayAlert("Issued", "A badge has previously been issued to this email address.", "got it", () =>
                                     {
-                                        ((FirstRunActivity)this.Activity).Finish();
+												((FirstRunActivity)this.Activity).FinishSignin();
                                     });
                                 }
                                 else if (ticket == "invalid")
@@ -115,7 +115,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			skipBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             skipBtn.Click += (s, e) =>
             {
-                ((FirstRunActivity)this.Activity).Finish();
+				((FirstRunActivity)this.Activity).FinishSignin();
             };
 
 			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
@@ -146,7 +146,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             BlahguaAPIObject.Current.RefreshUserBadges(null);
                             DisplayAlert("Verified", "You are ready to use badges in Heard.", "let's go", () =>
                             {
-                                ((FirstRunActivity)this.Activity).Finish();
+											((FirstRunActivity)this.Activity).FinishSignin();
                             });
                         }
                     });
@@ -187,7 +187,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         Console.WriteLine("Error:  no badge authories available");
 
-                        ((FirstRunActivity)this.Activity).Finish();
+                        ((FirstRunActivity)this.Activity).FinishSignin();
                     }
                     else
                     {

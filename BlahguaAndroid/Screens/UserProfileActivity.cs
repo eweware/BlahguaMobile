@@ -19,6 +19,8 @@ using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
 
+using BlahguaMobile.AndroidClient.HelpingClasses;
+
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -32,6 +34,8 @@ namespace BlahguaMobile.AndroidClient
         private UserProfileStatsFragment statsFragment;
         private HistoryPostsFragment postsFragment;
         private HistoryCommentsFragment commentsFragment;
+		private GestureDetector _gestureDetector;
+		private GestureListener _gestureListener;
 
         private Fragment curFragment;
 
@@ -40,15 +44,22 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+
             base.OnCreate(bundle);
-            this.ActionBar.SetDisplayHomeAsUpEnabled(true);
+            this.ActionBar.SetDisplayHomeAsUpEnabled(false);
             this.ActionBar.SetHomeButtonEnabled(false);
             this.ActionBar.SetDisplayShowHomeEnabled(false);
+			this.ActionBar.SetDisplayShowTitleEnabled (false);
 			HomeActivity.analytics.PostPageView("/self");
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
+
+			_gestureListener = new GestureListener();
+			_gestureDetector = new GestureDetector(this, _gestureListener);
+			_gestureListener.SwipeLeftEvent += swipeLeftEvent;
+			_gestureListener.SwipeRightEvent += swipeRightEvent;
 
             // set up tabs
             profileTab = ActionBar.NewTab();
@@ -83,10 +94,8 @@ namespace BlahguaMobile.AndroidClient
 
 
             int page = Intent.GetIntExtra("Page", 1);
-            this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
-            this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-
+            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+            
             switch (page)
             {
                 case 1:
@@ -124,6 +133,41 @@ namespace BlahguaMobile.AndroidClient
             SetCurrentFragment(statsFragment, firstTime, "Statistics");
 
         }
+		private void swipeLeftEvent(MotionEvent first, MotionEvent second)
+		{
+
+			if (curFragment == profileFragment)
+				ActionBar.SelectTab(badgesTab);
+			else if (curFragment == badgesFragment)
+				ActionBar.SelectTab(demoTab);
+			else if (curFragment == demographicsFragment)
+				ActionBar.SelectTab(postsTab);
+			else if (curFragment == postsFragment)
+				ActionBar.SelectTab(commentsTab);
+			else if (curFragment == commentsFragment)
+				ActionBar.SelectTab(statsTab);
+
+		}
+		private void swipeRightEvent(MotionEvent first, MotionEvent second)
+		{
+
+			if (curFragment == statsFragment)
+				ActionBar.SelectTab(commentsTab);
+			else if (curFragment == commentsFragment)
+				ActionBar.SelectTab(postsTab);
+			else if (curFragment == postsFragment)
+				ActionBar.SelectTab(demoTab);
+			else if (curFragment == demographicsFragment)
+				ActionBar.SelectTab(badgesTab);
+			else if (curFragment == badgesFragment)
+				ActionBar.SelectTab(profileTab);
+	}
+
+		public override bool DispatchTouchEvent(MotionEvent ev)
+		{
+			_gestureDetector.OnTouchEvent (ev);
+			return base.DispatchTouchEvent(ev);
+		}
 
         protected void SelectBadges(object sender, EventArgs e)
         {

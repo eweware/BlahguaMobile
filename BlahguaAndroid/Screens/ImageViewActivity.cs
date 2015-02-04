@@ -25,7 +25,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             RequestWindowFeature(WindowFeatures.NoTitle);
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             base.OnCreate(bundle);
 			HomeActivity.analytics.PostPageView("/ImageViewer");
 
@@ -34,8 +35,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             imgPath = Intent.GetStringExtra("image");
             imageView = FindViewById<TouchImageView>(Resource.Id.image);
 
-            ImageLoader.Instance.DownloadAsync(imgPath,
-                imageView, (b) =>
+            ImageLoader.Instance.DownloadAsync(imgPath, (b) =>
                 {
                     RunOnUiThread(() =>
                     {

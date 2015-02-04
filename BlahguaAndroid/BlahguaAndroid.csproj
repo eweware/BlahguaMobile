@@ -43,13 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android.Export" />
-    <Reference Include="RestSharp.MonoDroid, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Components\restsharp-105.0.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text.XamarinAndrod">
-      <HintPath>..\Components\servicestacktext-3.9.61.1\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
-    </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
@@ -64,7 +57,13 @@
       <HintPath>..\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
-      <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
+      <HintPath>..\Components\barchart-1.1.2.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.MonoDroid">
+      <HintPath>..\Components\restsharp-105.0.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text.XamarinAndrod">
+      <HintPath>..\Components\servicestacktext-3.9.61.1\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +139,6 @@
     <Compile Include="HelpingClasses\BGActionBarDrawerToggle.cs" />
     <Compile Include="Screens\Fragments\WhatsNewDialog.cs" />
     <Compile Include="Screens\ImageViewActivity.cs" />
-    <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Screens\Fragments\UserProfileStatsFragment.cs" />
     <Compile Include="Screens\Fragments\UserProfileBadgesFragment.cs" />
     <Compile Include="Screens\Fragments\HistoryCommentsFragment.cs" />
@@ -234,6 +232,7 @@
     <AndroidResource Include="Resources\layout\ViewPager.axml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\layout\DrawerListItem.axml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\unknown_user.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -243,16 +242,16 @@
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="barchart">
-      <Visible>False</Visible>
       <Version>1.1.2.1</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
-      <Visible>False</Visible>
       <Version>105.0.1.0</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
-      <Visible>False</Visible>
       <Version>3.9.61.1</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>

@@ -28,7 +28,7 @@ namespace BlahguaMobile.AndroidClient
         {
 			RequestWindowFeature(WindowFeatures.NoTitle);
 			this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-			this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             base.OnCreate(bundle);
 
             // Create your application here
@@ -59,6 +59,7 @@ namespace BlahguaMobile.AndroidClient
 
         public void FinishSignin()
         {
+			this.SetResult (Result.Ok, new Intent());
             this.Finish();
         }
 

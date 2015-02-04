@@ -90,7 +90,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public void StartTimers()
         {
             //targetBlah = null;
-            scrollTimer.Start();
+			if (!scrollTimer.Enabled)
+            	scrollTimer.Start();
             //BlahAnimateTimer.Start();
         }
 

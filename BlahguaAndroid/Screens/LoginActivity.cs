@@ -37,8 +37,8 @@ namespace BlahguaMobile.AndroidClient
 		{
             RequestWindowFeature(WindowFeatures.NoTitle);
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
 
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             base.OnCreate(bundle);
 			HomeActivity.analytics.PostPageView("/signup");
 

@@ -15,6 +15,7 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Text;
 using Android.Text.Style;
@@ -47,7 +48,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private ListView drawerListView;
 
 		private String[] profile_items;
-        public static bool forceFirstTime = false;
+        public static bool forceFirstTime = true;
         private static int FIRST_RUN_RESULT = 0x1111;
         private bool FirstTimeShowing = false;
 
@@ -91,8 +92,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
+
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			SetContentView (Resource.Layout.page_home_view);
 
 			this.drawerTitle = this.Title;
@@ -109,6 +111,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Set click handler when item is selected
 			this.drawerListView.ItemClick += (sender, args) => ListItemClicked (args.Position);
+			this.drawerListView.Divider = new ColorDrawable (Resources.GetColor(Resource.Color.heard_white));
+			this.drawerListView.DividerHeight = 1;
 
 			//Set Drawer Shadow
 			//this.drawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow_dark, (int)GravityFlags.Start);
@@ -127,11 +131,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 			this.drawerToggle.DrawerClosed += (o, args) => {
 				this.Title = this.Title;
 				this.InvalidateOptionsMenu ();
+				this.ResumeScrolling();
 			};
 
 			//Display the drawer title and update the options menu
 			this.drawerToggle.DrawerOpened += (o, args) => {
-				this.ActionBar.Title = "channel";
+				this.ActionBar.Title = "Channel";
 				StopScrolling();
 				this.InvalidateOptionsMenu ();
 			};
@@ -281,13 +286,45 @@ namespace BlahguaMobile.AndroidClient.Screens
 						curItem.SetVisible (false);
 					}
 				}
-				else if (curItem.ItemId == Resource.Id.action_avatar) {
-					curItem.SetVisible (false);
+				else if (curItem.ItemId == Resource.Id.action_overflow) {
+					// to do - correct icon
+					SetMenuItemIconToUser (curItem);
 				}
 			}
 
 
 			return base.OnPrepareOptionsMenu (menu);
+		}
+
+		private void SetMenuItemIconToUser(IMenuItem curItem)
+		{
+			if (BlahguaAPIObject.Current.CurrentUser != null) {
+				string userImageURL = BlahguaAPIObject.Current.CurrentUser.UserImage;
+				ImageLoader.Instance.DownloadAsync (userImageURL, (newBitmap) => {
+					if (newBitmap != null) {
+						RunOnUiThread(() => {
+							BitmapDrawable bd = new BitmapDrawable(Resources, newBitmap);
+							curItem.SetIcon(bd);
+						});
+
+					}
+					return true;
+				});
+			}
+		}
+
+		public override bool OnKeyUp (Keycode keyCode, KeyEvent e)
+		{
+
+			switch(keyCode) {
+			case Keycode.Menu:
+				if (this.optionsMenu != null) {
+					optionsMenu.PerformIdentifierAction (Resource.Id.action_overflow, 0);
+				}
+				break;
+			}
+
+			return base.OnKeyUp (keyCode, e);
 		}
 
 		public bool IsMenuOpened
@@ -566,17 +603,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 				if (BlahguaAPIObject.Current.CurrentUser != null)
 				{
 					HomeActivity.analytics.PostAutoLogin();
-					//UserInfoBtn.Visibility = Visibility.Visible;
-					//NewBlahBtn.Visibility = Visibility.Visible;
-					//SignInBtn.Visibility = Visibility.Collapsed;
 
-					//userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 					this.optionsMenu.Clear ();
 					this.MenuInflater.Inflate (Resource.Menu.loggedin_menu, this.optionsMenu);
-					IMenuItem avatarItem = optionsMenu.FindItem (Resource.Id.action_avatar);
-					if (avatarItem != null) {
-						avatarItem.SetActionView (Resource.Layout.action_login_button);
-					}
+					SetMenuItemIconToUser(this.optionsMenu.FindItem(Resource.Id.action_overflow));
 
 					SetCreateButtonVisible (true);
 					firstInit = false;
@@ -605,6 +635,19 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 
 		private bool secondaryMenuInitiated = false;
+
+		protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
+		{
+			if (requestCode == FIRST_RUN_RESULT && resultCode == Android.App.Result.Ok) {
+				// to do - change the the correct channel?
+				if (!String.IsNullOrEmpty (BlahguaAPIObject.Current.SavedChannel)) {
+					Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName (BlahguaAPIObject.Current.SavedChannel);
+					if (newChannel != null) {
+						BlahguaAPIObject.Current.CurrentChannel = newChannel;
+					}
+				}
+			}
+		}
 
 	}
 }
