@@ -20,6 +20,7 @@ using Android.Util;
 using Android.Text;
 using Android.Text.Style;
 using Android.Provider;
+using Java.IO;
 
 using BlahguaMobile.AndroidClient;
 using BlahguaMobile.AndroidClient.HelpingClasses;
@@ -27,6 +28,8 @@ using BlahguaMobile.AndroidClient.Screens;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
+
+using File = Java.IO.File;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -51,6 +54,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         public static bool forceFirstTime = false;
         private static int FIRST_RUN_RESULT = 0x1111;
         private bool FirstTimeShowing = false;
+
+        private File _dir;
+        public static File _file;
 
 		
 
@@ -685,6 +691,18 @@ namespace BlahguaMobile.AndroidClient.Screens
 					});
 			}
 		}
+
+        public void TakeAPicture()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+            _file = new File(_dir, String.Format("PhotoTossPhoto_{0}.jpg", Guid.NewGuid()));
+
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(_file));
+
+            StartActivityForResult(intent, Utilities.PHOTO_CAPTURE_EVENT);
+        }
+
 
 	}
 }

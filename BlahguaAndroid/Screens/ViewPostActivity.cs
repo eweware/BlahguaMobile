@@ -181,7 +181,25 @@ namespace BlahguaMobile.AndroidClient
                     }
                     break;
                 case Resource.Id.action_report:
+                   
+                    break;
+                case Resource.Id.action_report_infringe:
+                    // send mail
                     HandleReportPost();
+                    break;
+                case Resource.Id.action_report_spam:
+                    BlahguaAPIObject.Current.ReportPost(2);
+                    RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(this, "Spam reported.", ToastLength.Short).Show();
+                    });
+                    break;
+                case Resource.Id.action_report_offensive:
+                    BlahguaAPIObject.Current.ReportPost(1);
+                    RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(this, "Post reported.", ToastLength.Short).Show();
+                    });
                     break;
                 case Resource.Id.action_share:
                     HandleSharePost();
@@ -248,8 +266,12 @@ namespace BlahguaMobile.AndroidClient
         }
 
         private void HandleReportPost()
-        { 
-        
+        {
+            Intent emailIntent = new Intent(Intent.ActionSendto,
+                        Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
+            emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.viewpost_report_email_subject));
+            emailIntent.PutExtra(Intent.ExtraText, GetString(Resource.String.viewpost_report_infringement_body));
+            StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_infringe_chooser_title)));
         }
 
         private void HandleAddComment()

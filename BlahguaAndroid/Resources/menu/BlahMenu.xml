@@ -8,10 +8,19 @@
    android:icon="@drawable/ic_thumb_down_white"
    android:title=""
    android:showAsAction="always"/>
-    <item android:id="@+id/action_report"
-   android:icon="@drawable/ic_report_problem_white"
-   android:title=""
-   android:showAsAction="always"/>
+  <item android:id="@+id/action_report"
+ android:icon="@drawable/ic_report_problem_white"
+ android:title=""
+ android:showAsAction="always">
+    <menu>
+      <item android:id="@+id/action_report_offensive"
+         android:title="Inappropriate / Offensive"/>
+      <item android:id="@+id/action_report_spam"
+   android:title="Spam / Misleading"/>
+      <item android:id="@+id/action_report_infringe"
+   android:title="Infringes my rights"/>
+    </menu>
+  </item>
   <item android:id="@+id/action_share"
    android:icon="@drawable/ic_action_share"
    android:title=""

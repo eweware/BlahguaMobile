@@ -38,7 +38,9 @@
             android:id="@+id/usernameField"
             android:textColor="@color/heard_black"
             android:textColorHint="#808080"
-            android:hint="username" />
+            android:hint="username"
+            android:background="@null"
+            android:padding="10dp" />
         <EditText
             android:inputType="textPassword"
             android:layout_width="match_parent"
@@ -46,7 +48,9 @@
             android:textColor="@color/heard_black"
             android:id="@+id/password"
             android:textColorHint="#808080"
-            android:hint="password" />
+            android:hint="password"
+            android:background="@null"
+            android:padding="10dp" />
         <Button
             android:text="Sign In"
             android:layout_width="match_parent"
@@ -64,7 +68,9 @@
             android:id="@+id/password2"
             android:textColorHint="#808080"
             android:textColor="@color/heard_black"
-            android:hint="confirm password" />
+            android:hint="confirm password"
+            android:padding="10dp"
+            android:background="@null" />
         <TextView
             android:text="@string/smallText"
             android:layout_width="match_parent"
@@ -81,7 +87,9 @@
             android:id="@+id/emailAddrField"
             android:textColor="@color/heard_black"
             android:textColorHint="#808080"
-            android:hint="email (optional)" />
+            android:hint="email (optional)"
+            android:background="@null"
+            android:padding="10dp" />
         <Button
             android:text="@string/createAccount"
             android:layout_width="match_parent"

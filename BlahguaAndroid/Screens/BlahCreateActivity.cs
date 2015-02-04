@@ -37,7 +37,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private MyBlahType currentType = MyBlahType.Says;
 
-        private readonly int SELECTIMAGE_REQUEST = 777;
+        private readonly int SELECTIMAGE_REQUEST = 777, USE_CAMERA_REQUEST = 666;
         private View create_post_block, additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
@@ -94,6 +94,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                            ClearImages();
                        });
                 }
+            }
+            else if (requestCode == USE_CAMERA_REQUEST && resultCode == Android.App.Result.Ok)
+            {
+
             }
             base.OnActivityResult(requestCode, resultCode, data);
         }
