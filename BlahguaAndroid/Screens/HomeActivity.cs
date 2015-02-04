@@ -48,7 +48,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private ListView drawerListView;
 
 		private String[] profile_items;
-        public static bool forceFirstTime = true;
+        public static bool forceFirstTime = false;
         private static int FIRST_RUN_RESULT = 0x1111;
         private bool FirstTimeShowing = false;
 
@@ -604,12 +604,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 				{
 					HomeActivity.analytics.PostAutoLogin();
 
-					this.optionsMenu.Clear ();
-					this.MenuInflater.Inflate (Resource.Menu.loggedin_menu, this.optionsMenu);
-					SetMenuItemIconToUser(this.optionsMenu.FindItem(Resource.Id.action_overflow));
+					if (this.optionsMenu != null) {
+						this.optionsMenu.Clear ();
+						this.MenuInflater.Inflate (Resource.Menu.loggedin_menu, this.optionsMenu);
+						SetMenuItemIconToUser (this.optionsMenu.FindItem (Resource.Id.action_overflow));
 
-					SetCreateButtonVisible (true);
-					firstInit = false;
+						SetCreateButtonVisible (true);
+						firstInit = false;
+					}
 
 				}
 				else
@@ -646,6 +648,41 @@ namespace BlahguaMobile.AndroidClient.Screens
 						BlahguaAPIObject.Current.CurrentChannel = newChannel;
 					}
 				}
+			}
+		}
+
+		private bool alreadyTapped = false;
+
+		public override void OnBackPressed ()
+		{
+			if (alreadyTapped)
+				Finish ();
+			else {
+				alreadyTapped = true;
+
+				RunOnUiThread(() =>
+					{
+						AlertDialog alert = new AlertDialog.Builder(this).Create() ;
+						alert.SetTitle("exit");
+						alert.SetMessage("exit from Heard?");
+						alert.SetCancelable(true);
+						alert.SetButton("ok", (sender, args) =>
+							{
+								alert.Dismiss();
+									this.Finish();
+							});
+							alert.SetButton2 ("cancel", (sender, args) =>
+								{
+									alreadyTapped = false;
+									alert.Dismiss();
+									
+								});
+						alert.CancelEvent += (object sender, EventArgs e) => {
+							if (alreadyTapped)
+								Finish();
+						};
+						alert.Show();
+					});
 			}
 		}
 

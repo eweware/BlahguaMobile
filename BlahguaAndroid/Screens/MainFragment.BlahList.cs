@@ -50,6 +50,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			FetchInitialBlahList ();
 		}
+
+
 		private void FetchInitialBlahList(bool secondTry = false)
 		{
 			this.Activity.RunOnUiThread(() =>
@@ -204,18 +206,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 			App.BlahIdToOpen = curBlah.I;
 			this.Activity.StartActivity(typeof(ViewPostActivity));
 
-
-			/*
-			Android.Support.V4.App.FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
-			ViewPostFragment fragment = new ViewPostFragment ();
-			App.BlahIdToOpen = curBlah.I;
-			fragmentTx.Replace (Resource.Id.content_frame, fragment);
-			fragmentTx.AddToBackStack (null);
-			fragmentTx.Commit ();
-
-			homeActivity.SetTitle ("Summary");
-			*/
-
 		}
 
 		#region InsertRows
@@ -230,7 +220,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			blahsToAdd = 100;
 
-			double curTop = blahMargin;// BlahScroller.ScrollY + BlahScroller.MeasuredHeight;// + Resources.DisplayMetrics.HeightPixels;
+			double curTop = blahMargin;
 
 			foreach (char rowType in sequence)
 			{
@@ -238,16 +228,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 				curTop += blahMargin;
 			}
 
-			//curTop = InsertAd(curTop);
-
-			//BlahContainer.Height = curTop + blahMargin;
 		}
 
 		private double InsertRow(char rowType, double topLoc)
 		{
 			double newTop = topLoc;
 			switch (rowType)
-			{//ABEAFADCADEACDAFAEBADADCAFABEAEBAFACDAEA
+			{
 			case 'A':
 				newTop = InsertRowTypeA(topLoc);
 				break;

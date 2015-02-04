@@ -47,14 +47,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         private LinearLayout BlahContainerLayout = null;
         private ScrollView BlahScroller = null;
         private BlahFrameLayout CurrentBlahContainer = null;
-
         protected ListFragment Frag;
-        private TextView userName;	
         private ProgressBar progress_main;
-
         public static GoogleAnalytics analytics = null;
-        private static Typeface titleFont = null;
-
 		private HomeActivity homeActivity;
 		private View fragment;
 
@@ -92,7 +87,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             //targetBlah = null;
 			if (!scrollTimer.Enabled)
             	scrollTimer.Start();
-            //BlahAnimateTimer.Start();
+            BlahAnimateTimer.Start();
         }
 
 
@@ -100,9 +95,6 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             scrollTimer.Stop();
             BlahAnimateTimer.Stop();
-            //AnimateTextFadeIn.Stop();
-            //AnimateTextFadeOut.Stop();
-            //targetBlah = null;
         }
 
         private static long fadeDuration = 2000;
@@ -121,8 +113,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 BlahScroller.GetHitRect(scrollBounds);
                 BlahFrameLayout curContainerView = BlahContainerLayout.GetChildAt(curContainer) as BlahFrameLayout;
-                bool isVisible = curContainerView.GetLocalVisibleRect(scrollBounds);
-
+ 
                 for (int curBlahCount = 0; curBlahCount < curContainerView.ChildCount; curBlahCount++)
                 {
 
@@ -155,24 +146,22 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (targetList.Count > 0)
                 targetView = targetList[rnd.Next(targetList.Count)];
 
-            if (targetView != null)
-            {
-                lastAnimatedBlah = targetView;
-                var title = targetView.FindViewById<LinearLayout>(Resource.Id.textLayout);
-                float targetAlpha = 0f;
-                if (title.Alpha == 0f)
-                    targetAlpha = 0.9f;
+			if (targetView != null) {
+				lastAnimatedBlah = targetView;
+				var title = targetView.FindViewById<LinearLayout> (Resource.Id.textLayout);
+				float targetAlpha = 0f;
+				if (title.Alpha == 0f)
+					targetAlpha = 0.9f;
+				title.Animate ().Alpha (targetAlpha).SetDuration (fadeDuration);
+			}
 
-
-                title.Animate().Alpha(targetAlpha).SetDuration(fadeDuration);
-                
-            }
+			BlahAnimateTimer.Start ();
 
         }
 
         void BlahAnimateTimer_Elapsed(object sender, EventArgs e)
         {
-            //BlahAnimateTimer.Stop();
+            BlahAnimateTimer.Stop();
             MaybeAnimateElement();
         }
 
@@ -209,8 +198,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override void OnResume()
         {
             base.OnResume();
-            //if (create_post_block.Visibility != ViewStates.Visible)
-                StartTimers();
+            StartTimers();
             initLayouts();
         }
 
@@ -230,7 +218,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        bool firstInit = true;
+       
 		public void InitLayouts()
 		{
 			initLayouts ();
@@ -243,24 +231,16 @@ namespace BlahguaMobile.AndroidClient.Screens
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
 					HomeActivity.analytics.PostAutoLogin();
-                    //UserInfoBtn.Visibility = Visibility.Visible;
-                    //NewBlahBtn.Visibility = Visibility.Visible;
-                    //SignInBtn.Visibility = Visibility.Collapsed;
-
-                    //userName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
 					homeActivity.SetCreateButtonVisible (true);
-                	firstInit = false;
-                    
                 }
                 else
                 {
 
                 }
             }
-
-			//avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
         }
+
 
         private void DoServiceInited(bool didIt)
         {
@@ -277,7 +257,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 });
                 if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
-                    //this.DataContext = BlahguaAPIObject.Current;
                     BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
                     {
                         if ((whatsNew != null) && (whatsNew.message != ""))
@@ -293,8 +272,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
 						Toast.MakeText(this.Activity, "server connection failure", ToastLength.Short).Show();
                 });
-                //LoadingBox.Visibility = Visibility.Collapsed;
-                //ConnectFailure.Visibility = Visibility.Visible;
             }
         }
         private DateTime whatsNewTimestamp = DateTime.MinValue;
@@ -304,13 +281,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 DateTime.Now - whatsNewTimestamp > TimeSpan.FromSeconds(5))
             {
                 whatsNewTimestamp = DateTime.Now;
-                //var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
-                //new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
+                var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
+                new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
             }
         }
-
-
-        private bool secondaryMenuInitiated = false;
 
     }
 
