@@ -118,6 +118,7 @@
     <Compile Include="Adapters\PostsAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
+    <Compile Include="HelpingClasses\BitmapHelper.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\TypefaceSpan.cs" />
     <Compile Include="HelpingClasses\UiHelper.cs" />
@@ -771,5 +772,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\cameramenu.xml" />
   </ItemGroup>
 </Project>

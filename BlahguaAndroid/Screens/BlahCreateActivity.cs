@@ -24,6 +24,10 @@ using BlahguaMobile.AndroidClient.Adapters;
 using System.IO.IsolatedStorage;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Provider;
+
+using File = Java.IO.File;
+using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -37,7 +41,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private MyBlahType currentType = MyBlahType.Says;
 
-        private readonly int SELECTIMAGE_REQUEST = 777, USE_CAMERA_REQUEST = 666;
+        private readonly int SELECTIMAGE_REQUEST = 777;
         private View create_post_block, additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
@@ -52,14 +56,29 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
-            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            if ((requestCode == SELECTIMAGE_REQUEST || requestCode == HomeActivity.PHOTO_CAPTURE_EVENT)
+                && resultCode == Android.App.Result.Ok)
             {
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
+                System.IO.Stream fileStream;
+                String fileName;
 
-                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
-                String fileName = StreamHelper.GetFileName(this, data.Data);
+                if (requestCode == SELECTIMAGE_REQUEST)
+                {
+                    fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
+                    fileName = StreamHelper.GetFileName(this, data.Data);
+                }
+                else
+                {
+                    Bitmap scaledBitmap = BitmapHelper.LoadAndResizeBitmap (HomeActivity._file.AbsolutePath, HomeActivity.MAX_IMAGE_SIZE);
+                    fileStream = new System.IO.MemoryStream ();
+                    scaledBitmap.Compress (Bitmap.CompressFormat.Jpeg, 90, fileStream);
+				    fileStream.Flush ();
+                    fileName = HomeActivity._file.Name;
+                }
+
                 if (fileStream != null)
                 {
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
@@ -83,6 +102,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                             });
                         }
                     );
+                    fileStream.Close();
                 }
                 else
                 {
@@ -95,10 +115,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                        });
                 }
             }
-            else if (requestCode == USE_CAMERA_REQUEST && resultCode == Android.App.Result.Ok)
-            {
-
-            }
+            
             base.OnActivityResult(requestCode, resultCode, data);
         }
 
@@ -112,6 +129,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 });
             }
         }
+
+
 
         private void ClearImages()
         {
@@ -168,12 +187,43 @@ namespace BlahguaMobile.AndroidClient.Screens
             Button btn_select_image =  FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) =>
             {
-                var imageIntent = new Intent();
-                imageIntent.SetType("image/*");
-                imageIntent.SetAction(Intent.ActionGetContent);
+                PopupMenu imageMenu = new PopupMenu(this, btn_select_image);
+                imageMenu.Inflate(Resource.Menu.cameramenu);
 
-                StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                if ((BlahguaAPIObject.Current.CreateRecord.M == null) ||
+                    (BlahguaAPIObject.Current.CreateRecord.M.Count == 0))
+                    imageMenu.Menu.RemoveItem(Resource.Id.action_removephoto);
+
+                imageMenu.MenuItemClick += (s1, arg1) =>
+                    {
+                        if (arg1.Item.ItemId == Resource.Id.action_takephoto)
+                        {
+                            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+                            HomeActivity._file = new File(HomeActivity._dir, String.Format("PhotoTossPhoto_{0}.jpg", Guid.NewGuid()));
+
+                            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(HomeActivity._file));
+
+                            StartActivityForResult(intent, HomeActivity.PHOTO_CAPTURE_EVENT);
+                        }
+                        else if (arg1.Item.ItemId == Resource.Id.action_selectphoto)
+                        {
+                            // select a photo
+                            var imageIntent = new Intent();
+                            imageIntent.SetType("image/*");
+                            imageIntent.SetAction(Intent.ActionGetContent);
+
+                            StartActivityForResult(
+                                Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                        }
+                        else if (arg1.Item.ItemId == Resource.Id.action_removephoto)
+                        {
+                            // remove a photo
+                            ClearImages();
+                        }
+                    };
+
+                imageMenu.Show();
             };
             Button btn_signature =  FindViewById<Button>(Resource.Id.btn_signature);
             btn_signature.Click += (sender, args) => {

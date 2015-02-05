@@ -133,7 +133,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         }
         public static string GetPathToImage(Activity activity, Android.Net.Uri uri)
         {
-            Boolean isKitKat = Build.VERSION.SdkInt >= Build.VERSION_CODES.Kitkat;
+            Boolean isKitKat = (int)Build.VERSION.SdkInt >= (int)Build.VERSION_CODES.Kitkat;
 
             if (isKitKat && DocumentsContract.IsDocumentUri(activity, uri))
             {
@@ -208,7 +208,10 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 
             try
             {
-                selection = "(_id = " + selectionArgs[0] + ")";
+                if (selectionArgs == null)
+                    selection = null;
+                else 
+                    selection = "(_id = " + selectionArgs[0] + ")";
                 var loader = new CursorLoader(activity, uri, projection, selection, null, null);
                 cursor = (ICursor)loader.LoadInBackground();
                 //cursor = activity.ContentResolver.Query(uri, projection, selection, selectionArgs, null);

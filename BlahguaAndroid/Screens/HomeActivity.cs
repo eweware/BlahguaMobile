@@ -30,6 +30,7 @@ using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
 
 using File = Java.IO.File;
+using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -52,17 +53,18 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private String[] profile_items;
         public static bool forceFirstTime = false;
-        private static int FIRST_RUN_RESULT = 0x1111;
+        public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
         private bool FirstTimeShowing = false;
 
-        private File _dir;
+        public static File _dir;
         public static File _file;
+        public static int MAX_IMAGE_SIZE = 1024;
 
 		
 
 		class DrawerItemAdapter<T> : ArrayAdapter<T>
 		{
-			T[] _items;
+            T[] _items;
 			Activity _context;
 
 			public DrawerItemAdapter(Context context, int textViewResourceId, T[] objects) :
@@ -175,8 +177,20 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             InitAnalytics();
             InitService();
+
+            CreateDirectoryForPictures();
           
 		}
+
+        private void CreateDirectoryForPictures()
+        {
+            _dir = new File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), "PhotoTossImages");
+            if (!_dir.Exists())
+            {
+                _dir.Mkdirs();
+            }
+        }
+
 
 		public int GetContentPositionY()
 		{
@@ -596,7 +610,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 			base.OnPause();
 		}
 
-		bool firstInit = true;
 		public void InitLayouts()
 		{
 			initLayouts ();
@@ -616,7 +629,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 						SetMenuItemIconToUser (this.optionsMenu.FindItem (Resource.Id.action_overflow));
 
 						SetCreateButtonVisible (true);
-						firstInit = false;
 					}
 
 				}
@@ -626,7 +638,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 				}
 			}
 
-			//avatar.SetUrlDrawable(BlahguaAPIObject.Current.CurrentUser.UserImage, avatar.Drawable);
 		}
 
 		private DateTime whatsNewTimestamp = DateTime.MinValue;
@@ -636,13 +647,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 				DateTime.Now - whatsNewTimestamp > TimeSpan.FromSeconds(5))
 			{
 				whatsNewTimestamp = DateTime.Now;
-				//var dialogToClose = WhatsNewDialog.ShowDialog(FragmentManager, newInfo);
-				//new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
+                var dialogToClose = WhatsNewDialog.ShowDialog(SupportFragmentManager, newInfo);
+				new Handler(Looper.MainLooper).PostDelayed(() => { dialogToClose.DismissAllowingStateLoss(); }, App.WhatsNewDialogCloseTimeMs);
 			}
 		}
 
-
-		private bool secondaryMenuInitiated = false;
 
 		protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
 		{
@@ -692,16 +701,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			}
 		}
 
-        public void TakeAPicture()
-        {
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
 
-            _file = new File(_dir, String.Format("PhotoTossPhoto_{0}.jpg", Guid.NewGuid()));
-
-            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(_file));
-
-            StartActivityForResult(intent, Utilities.PHOTO_CAPTURE_EVENT);
-        }
 
 
 	}
