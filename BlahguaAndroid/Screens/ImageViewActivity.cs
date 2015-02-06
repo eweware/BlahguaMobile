@@ -61,7 +61,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     InsertImage(ContentResolver, localPath, BlahguaAPIObject.Current.CurrentBlah.T, String.Empty);
                 Toast.MakeText(this, "image saved", ToastLength.Short).Show();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Toast.MakeText(this, "saving failed. check your sd card is accessible", ToastLength.Short).Show();
             }

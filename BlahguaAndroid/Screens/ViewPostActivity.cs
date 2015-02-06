@@ -32,8 +32,8 @@ namespace BlahguaMobile.AndroidClient
         private Fragment curFragment = null;
 
 
-        private GestureDetector _gestureDetector;
-        private GestureListener _gestureListener;
+        //private GestureDetector _gestureDetector;
+        //private GestureListener _gestureListener;
 
         private ActionBar.Tab summaryTab, commentTab, statsTab;
 
@@ -50,11 +50,12 @@ namespace BlahguaMobile.AndroidClient
 			this.ActionBar.SetDisplayShowTitleEnabled (false);
 			SetContentView (Resource.Layout.activity_viewpost);
 
+			/*
             _gestureListener = new GestureListener();
             _gestureDetector = new GestureDetector(this, _gestureListener);
             _gestureListener.SwipeLeftEvent += swipeLeftEvent;
             _gestureListener.SwipeRightEvent += swipeRightEvent;
-
+*/
             this.Title = "";
 
 
@@ -247,7 +248,7 @@ namespace BlahguaMobile.AndroidClient
 
 		public override bool DispatchTouchEvent(MotionEvent ev)
 		{
-			_gestureDetector.OnTouchEvent (ev);
+			//_gestureDetector.OnTouchEvent (ev);
 			return base.DispatchTouchEvent(ev);
 		}
 

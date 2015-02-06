@@ -24,8 +24,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileStatsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileStatsFragment";
-
         TextView views, opens, comments, userviews, useropens, usercreates, usercomments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

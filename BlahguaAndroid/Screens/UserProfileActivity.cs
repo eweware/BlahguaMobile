@@ -34,8 +34,8 @@ namespace BlahguaMobile.AndroidClient
         private UserProfileStatsFragment statsFragment;
         private HistoryPostsFragment postsFragment;
         private HistoryCommentsFragment commentsFragment;
-		private GestureDetector _gestureDetector;
-		private GestureListener _gestureListener;
+		//private GestureDetector _gestureDetector;
+		//private GestureListener _gestureListener;
 
         private Fragment curFragment;
 
@@ -56,10 +56,12 @@ namespace BlahguaMobile.AndroidClient
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
+			/*
 			_gestureListener = new GestureListener();
 			_gestureDetector = new GestureDetector(this, _gestureListener);
 			_gestureListener.SwipeLeftEvent += swipeLeftEvent;
 			_gestureListener.SwipeRightEvent += swipeRightEvent;
+			*/
 
             // set up tabs
             profileTab = ActionBar.NewTab();
@@ -165,7 +167,7 @@ namespace BlahguaMobile.AndroidClient
 
 		public override bool DispatchTouchEvent(MotionEvent ev)
 		{
-			_gestureDetector.OnTouchEvent (ev);
+			//_gestureDetector.OnTouchEvent (ev);
 			return base.DispatchTouchEvent(ev);
 		}
 

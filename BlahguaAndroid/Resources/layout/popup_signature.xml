@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/popUpView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    android:background="#a1a1a1">
-
-  <ListView android:id="@+id/dropDownList"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:divider="#000"
-	    android:dividerHeight="1dp"></ListView>
+    android:background="#FFFFFF">
+    <ListView
+        android:id="@+id/dropDownList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#808080"
+        android:dividerHeight="1dp" />
 </LinearLayout>

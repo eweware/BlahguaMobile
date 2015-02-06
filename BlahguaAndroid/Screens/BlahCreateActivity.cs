@@ -31,7 +31,7 @@ using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity(ScreenOrientation = ScreenOrientation.Portrait, Theme = "@android:style/Theme.Dialog")]
 	public class BlahCreateActivity : Activity, IUrlImageViewCallback, View.IOnTouchListener
     {
         enum MyBlahType
@@ -42,7 +42,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private MyBlahType currentType = MyBlahType.Says;
 
         private readonly int SELECTIMAGE_REQUEST = 777;
-        private View create_post_block, additionalfields_layout;
+        private View additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
         private Button btnAddOption;
@@ -152,9 +152,9 @@ namespace BlahguaMobile.AndroidClient.Screens
         ///////// init
 		protected override void OnCreate (Bundle bundle)
 		{
-             RequestWindowFeature(WindowFeatures.NoTitle);
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+			RequestWindowFeature(WindowFeatures.NoTitle);
+			this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			base.OnCreate(bundle);
 
 
@@ -174,15 +174,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             imageLeak.Click += SpeechActBtn_Click;
             currentSpeechAct = imageSay;
 
-			Button btn_back = (Button)FindViewById (Resource.Id.btn_back);
-			btn_back.Click+= (object sender, EventArgs e) => {
-				Finish();
-			};
-            //blayGrayed = FindViewById<View>(Resource.Id.BlahGrayed);
-           // blayGrayed.Visibility = ViewStates.Gone;
-            //blayGrayed.SetOnTouchListener(this);
+
+
             additionalfields_layout = FindViewById<View>(Resource.Id.additionalfields_layout);
-            create_post_block = FindViewById<View>(Resource.Id.create_post_block);
 
             Button btn_select_image =  FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) =>
@@ -232,17 +226,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             btn_create_done =  FindViewById<Button>(Resource.Id.btn_done);
             btn_create_done.Click += (sender, args) =>
             {
-                if (DoCreateClick())
-                {
-                    //triggerCreateBlock();
-					Finish();
-					if (BlahguaAPIObject.Current.NewBlahToInsert != null)
-					{
-						//InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
-						BlahguaAPIObject.Current.NewBlahToInsert = null;
-
-					}
-                }
+				DoCreateClick();
             };
             btn_create_done.Enabled = false;
             newPostTitle =  FindViewById<EditText>(Resource.Id.title);
@@ -501,49 +485,16 @@ namespace BlahguaMobile.AndroidClient.Screens
             editPoll10.Visibility = ViewStates.Gone;
             btnAddOption.Visibility = ViewStates.Gone;
         }
-        ///////// init
-
-        private int lastCreateBlockHeight = 0;
-		/*
-		private View blayGrayed;
-
-        private void triggerExpand()
-        {
-            int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-            int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-            ViewGroup.LayoutParams layoutParams =  LayoutParameters;
-            layoutParams.Height = ViewGroup.LayoutParams.WrapContent ;
-             LayoutParameters = layoutParams;
-             Measure(widthSpec, heightSpec);
-            int newHeight =  MeasuredHeight;// +( Width > 800 ? 0 : 50);
-
-            if (newHeight < Resources.DisplayMetrics.HeightPixels)
-            {
-                ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, newHeight, false);
-                lastCreateBlockHeight =  MeasuredHeight;
-                mAnimator.Start();
-            }
-            else
-            {
-                layoutParams.Height = ViewGroup.LayoutParams.MatchParent;
-                 LayoutParameters = layoutParams;
-            }
-
-            setTitleHint();
-        }	
-        */
+        
 
 
 		private void triggerCreateBlock()
         {
-
-                BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
-                // reset fields state
-                newPostTitle.Text = "";
-                newPostText.Text = "";
-                ClearImages();
-
-
+			BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
+            // reset fields state
+            newPostTitle.Text = "";
+            newPostText.Text = "";
+            ClearImages();
         }
 
         
@@ -699,19 +650,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 HomeActivity.analytics.PostCreateBlah(newBlah.Y);
 
                 RunOnUiThread(() =>
-                {
-                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
-                    //triggerCreateBlock();
+	                {
+	                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+						SetResult(Result.Ok, new Intent());
 						Finish();
-						if (BlahguaAPIObject.Current.NewBlahToInsert != null)
-						{
-							//InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
-							BlahguaAPIObject.Current.NewBlahToInsert = null;
-
-						}
-
-                });
-                //NavigationService.GoBack();
+	                });
             }
             else
             {
@@ -771,7 +714,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     break;
 
                 case "predicts":
-                    if ((curBlah.ExpirationDate == null) || (curBlah.ExpirationDate <= DateTime.Now.AddDays(1)))
+                    if (curBlah.ExpirationDate <= DateTime.Now.AddDays(1))
                         return "Predictions must be at least a day in the future.";
 
                     break;
@@ -790,14 +733,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 EventHandler<DatePickerDialog.DateSetEventArgs> handle = (s, arg) =>
                 {
-                    myCalendar.Set(Calendar.Year, arg.Year);
-                    myCalendar.Set(Calendar.Month, arg.MonthOfYear);
-                    myCalendar.Set(Calendar.DayOfMonth, arg.DayOfMonth);
+                    myCalendar.Set(CalendarField.Year, arg.Year);
+					myCalendar.Set(CalendarField.Month, arg.MonthOfYear);
+					myCalendar.Set(CalendarField.DayOfMonth, arg.DayOfMonth);
                     updateLabel(edit);
                 };
                 new DatePickerDialog(this, handle, myCalendar
-                        .Get(Calendar.Year), myCalendar.Get(Calendar.Month),
-                        myCalendar.Get(Calendar.DayOfMonth)).Show();
+					.Get(CalendarField.Year), myCalendar.Get(CalendarField.Month),
+					myCalendar.Get(CalendarField.DayOfMonth)).Show();
             };
         }
 

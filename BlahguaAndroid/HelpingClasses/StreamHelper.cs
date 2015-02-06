@@ -133,7 +133,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         }
         public static string GetPathToImage(Activity activity, Android.Net.Uri uri)
         {
-            Boolean isKitKat = (int)Build.VERSION.SdkInt >= (int)Build.VERSION_CODES.Kitkat;
+            Boolean isKitKat = (int)Build.VERSION.SdkInt >= (int)BuildVersionCodes.Kitkat;
 
             if (isKitKat && DocumentsContract.IsDocumentUri(activity, uri))
             {

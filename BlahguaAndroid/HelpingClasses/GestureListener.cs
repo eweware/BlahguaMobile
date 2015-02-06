@@ -46,7 +46,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 					return true;
 				}
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // nothing
             }

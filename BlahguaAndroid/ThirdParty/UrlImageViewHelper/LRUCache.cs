@@ -7,7 +7,6 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 {
 	public class LRUCache<TKey, TValue> : IDictionary<TKey, TValue>
 	{
-		object sync = new object();
 		Dictionary<TKey, TValue> data;
 		IndexedLinkedList<TKey> lruList = new IndexedLinkedList<TKey>();
 		ICollection<KeyValuePair<TKey, TValue>> dataAsCollection;

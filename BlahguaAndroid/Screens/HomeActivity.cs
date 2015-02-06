@@ -39,7 +39,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 	{
 
 		private BGActionBarDrawerToggle drawerToggle;
-		private string drawerTitle;
 		//private string title;
 		public static GoogleAnalytics analytics = null;
 		private IMenu optionsMenu; 
@@ -51,11 +50,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
 
-		private String[] profile_items;
-        public static bool forceFirstTime = false;
-        public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
-        private bool FirstTimeShowing = false;
-
+		public static bool forceFirstTime = false;
+        public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222, CREATE_BLAH_CODE = 0x3333;
+        
         public static File _dir;
         public static File _file;
         public static int MAX_IMAGE_SIZE = 1024;
@@ -104,15 +101,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			SetContentView (Resource.Layout.page_home_view);
-
-			this.drawerTitle = this.Title;
-
-			profile_items= new String[]{
-				GetString(Resource.String.profilemenu_profile),
-				GetString(Resource.String.profilemenu_badges),
-				GetString(Resource.String.profilemenu_demographics),
-				GetString(Resource.String.profilemenu_history),
-				GetString(Resource.String.profilemenu_stats) };
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
@@ -206,8 +194,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             if ((String.IsNullOrEmpty(seenIt) || forceFirstTime))
             {
-                FirstTimeShowing = true;
-                _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
+                 _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
                 // TutorialDialog.ShowDialog(FragmentManager);
                 Intent firstRun = new Intent(this, typeof(FirstRunActivity));
                 StopScrolling();
@@ -380,10 +367,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			case Resource.Id.action_newpost:
 				if (IsMenuOpened == false && mainFragment != null)
-					//triggerCreateBlock ();
- {					//mainFragment.triggerCreateBlock ();
+				{					
 					var create_intent = new Intent (this, typeof(BlahCreateActivity));
-					StartActivity (create_intent);
+					StartActivityForResult (create_intent, CREATE_BLAH_CODE);
 				}
 				break;
 			case Resource.Id.action_profile:
@@ -662,6 +648,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 					if (newChannel != null) {
 						BlahguaAPIObject.Current.CurrentChannel = newChannel;
 					}
+				}
+			} else if (requestCode == CREATE_BLAH_CODE && resultCode == Android.App.Result.Ok) {
+				// created a new blah!
+				if (BlahguaAPIObject.Current.NewBlahToInsert != null)
+				{
+					mainFragment.InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
+					BlahguaAPIObject.Current.NewBlahToInsert = null;
+
 				}
 			}
 		}

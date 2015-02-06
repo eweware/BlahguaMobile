@@ -31,8 +31,6 @@ namespace BlahguaMobile.AndroidClient
         private ProgressDialog progressDlg;
 
 
-        private bool createNewAccount = false;
-
 		protected override void OnCreate (Bundle bundle)
 		{
             RequestWindowFeature(WindowFeatures.NoTitle);

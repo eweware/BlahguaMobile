@@ -28,8 +28,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileBadgesFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileBadgesFragment";
-
         private LinearLayout list, no_badges;
         private ScrollView list_container;
 

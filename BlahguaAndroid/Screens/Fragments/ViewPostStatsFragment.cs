@@ -23,8 +23,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new ViewPostStatsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "ViewPostStatsFragment";
-
         TextView views, opens, comments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

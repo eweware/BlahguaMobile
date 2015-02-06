@@ -28,21 +28,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
             btn.Context.StartActivity(typeof(ViewPostActivity));
         };
 
-        private EventHandler deleteHandler = (sender, args) =>
-        {
-            var btn = (Button)sender;
-            string id = (string)btn.Tag;
 
-        };
-
-        private static HistoryCommentsFragment _fragment;
         Activity _activity;
         List<Comment> _list;
 
         public HistoryCommentsAdapter(HistoryCommentsFragment fragment, CommentList list)
         {
             _activity = fragment.Activity;
-            _fragment = fragment;
             _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 

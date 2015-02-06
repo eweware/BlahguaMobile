@@ -25,8 +25,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileDemographicsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileDemographicsFragment";
-
         private EditText dob, city, state, post_code;
         private Spinner spinnerGender, spinnerEthnicity, spinnerCountry;
         private CheckBox check_public_gender, check_public_dob, check_public_ethnicity, check_public_city, check_public_state, check_public_post_code, check_public_country;

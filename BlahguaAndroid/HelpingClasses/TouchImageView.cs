@@ -34,9 +34,6 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 {
     class TouchImageView : ImageView
     {
-	
-	private static readonly string DEBUG = "DEBUG";
-	
 	//
 	// SuperMin and SuperMax multipliers. Determine how much the image can be
 	// zoomed below or above the zoom boundaries, before animating back to the
@@ -130,7 +127,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         base.SetOnTouchListener(new PrivateOnTouchListener(this));
     }
 
-    public void SetOnTouchListener(View.IOnTouchListener l) {
+    public override void SetOnTouchListener(View.IOnTouchListener l) {
         userTouchListener = l;
     }
     
@@ -142,31 +139,31 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         doubleTapListener = l;
     }
     
-    public void SetImageResource(int resId) {
+    public override void SetImageResource(int resId) {
     	base.SetImageResource(resId);
     	SavePreviousImageValues();
     	FitImageToView();
     }
     
-    public void SetImageBitmap(Bitmap bm) {
+    public override void SetImageBitmap(Bitmap bm) {
     	base.SetImageBitmap(bm);
         SavePreviousImageValues();
     	FitImageToView();
     }
     
-    public void SetImageDrawable(Drawable drawable) {
+    public override void SetImageDrawable(Drawable drawable) {
     	base.SetImageDrawable(drawable);
     	SavePreviousImageValues();
     	FitImageToView();
     }
     
-    public void SetImageURI(Android.Net.Uri uri) {
+    public override void SetImageURI(Android.Net.Uri uri) {
     	base.SetImageURI(uri);
     	SavePreviousImageValues();
     	FitImageToView();
     }
     
-    public void SetScaleType(ScaleType type) {
+    public override void SetScaleType(ScaleType type) {
     	if (type == ScaleType.FitStart || type == ScaleType.FitEnd) {
     		throw new UnsupportedOperationException("TouchImageView does not support FIT_START or FIT_END");
     	}
@@ -185,7 +182,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     	}
     }
     
-    public ScaleType GetScaleType() {
+    public override ScaleType GetScaleType() {
     	return mScaleType;
     }
     
@@ -228,7 +225,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     	}
     }
 
-    public IParcelable OnSaveInstanceState()
+    protected override IParcelable OnSaveInstanceState()
     {
     	Bundle bundle = new Bundle();
     	bundle.PutParcelable("instanceState", base.OnSaveInstanceState());
@@ -243,7 +240,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     	return bundle;
     }
 
-    public void OnRestoreInstanceState(IParcelable state)
+    protected override void OnRestoreInstanceState(IParcelable state)
     {
       	if (state is Bundle) {
 	        Bundle bundle = (Bundle) state;
@@ -273,7 +270,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     	base.OnDraw(canvas);
     }
 
-    public void OnConfigurationChanged(Configuration newConfig)
+    protected override void OnConfigurationChanged(Configuration newConfig)
     {
     	base.OnConfigurationChanged(newConfig);
     	SavePreviousImageValues();
@@ -709,7 +706,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         return CanScrollHorizontally(direction);
     }
     
-    public bool CanScrollHorizontally(int direction) {
+    public override bool CanScrollHorizontally(int direction) {
     	matrix.GetValues(m);
     	float x = m[Matrix.MtransX];
     	

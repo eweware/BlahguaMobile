@@ -3,35 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#3F2B2F"
-        android:paddingLeft="6dp">
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="left"
-            android:drawableLeft="@drawable/btn_back"
-            android:background="@null"
-            android:textColor="#60BFA4"
-            android:text=" Back" />
-        <TextView
-            android:id="@+id/title_label"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:textColor="#60BFA4"
-            android:textSize="18sp"
-            android:text="Create Post" />
-    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -405,13 +380,13 @@
                     android:gravity="left|center_vertical"
                     android:text="@string/create_post_add_more_options_btn" />
             </LinearLayout>
-            <Button
-                android:id="@+id/btn_done"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_green"
-                android:textColor="@drawable/btn_colored_text"
-                android:text="@string/done_big_btn" />
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_green"
+        android:textColor="@drawable/btn_colored_text"
+        android:text="@string/done_big_btn" />
 </LinearLayout>

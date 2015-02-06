@@ -48,7 +48,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
                     Console.WriteLine("Image " + imageUrl + " loading task canceled! :(");
                     return;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Image " + imageUrl + " loading task failure! :(");
                     return;

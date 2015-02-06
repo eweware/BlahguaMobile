@@ -26,8 +26,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new ViewPostSummaryFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "ViewPostSummaryFragment";
-
         private Activity parent = null;
 
         // main block
@@ -40,13 +38,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView author, timeago;
         private TextView authorDescription;
         private ImageView authorAvatar, badgesIcon;
-        private ListView authorBadgesArea;
+		private ListView authorBadgeList;
 
         // predicts layout
         private ListView predictsVotes;
         private TextView predictsDatebox;
         private TextView predictsElapsedtime;
-        private LinearLayout predictsLayout;
+		private LinearLayout predictsLayout, authorDetailsArea;
 
         // predicts layout
         private ListView pollsVotes;
@@ -79,13 +77,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             authorDescription = fragment.FindViewById<TextView>(Resource.Id.author_description);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
             badgesIcon = fragment.FindViewById<ImageView>(Resource.Id.badges_icon);
-            authorBadgesArea = fragment.FindViewById<ListView>(Resource.Id.badges_block);
-            badgesIcon.Click += (sender, args) =>
+			authorDetailsArea = fragment.FindViewById<LinearLayout>(Resource.Id.details_block);
+			authorBadgeList = fragment.FindViewById<ListView>(Resource.Id.badges_list);
+			authorAvatar.Click += (sender, args) =>
             {
-                if (authorBadgesArea.Visibility == ViewStates.Visible)
-                    authorBadgesArea.Visibility = ViewStates.Gone;
+				if (authorDetailsArea.Visibility == ViewStates.Visible)
+					authorDetailsArea.Visibility = ViewStates.Gone;
                 else
-                    authorBadgesArea.Visibility = ViewStates.Visible;
+					authorDetailsArea.Visibility = ViewStates.Visible;
             };
 
             predictsVotes = fragment.FindViewById<ListView>(Resource.Id.predicts_votes);
@@ -195,9 +194,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                     if (loadedBlah.Badges != null)
                     {
                         badgesIcon.Visibility = ViewStates.Visible;
-                        authorBadgesArea.Visibility = ViewStates.Visible;
-                        authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
+						authorBadgeList.Visibility = ViewStates.Visible;
+						authorBadgeList.Adapter = new ViewPostBadgesAdapter(Activity);
                     }
+					else
+					{
+						badgesIcon.Visibility = ViewStates.Gone;
+						authorBadgeList.Visibility = ViewStates.Gone;
+					}
                 });
 
                 switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)

@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:background="#EAEAEA"
     android:orientation="vertical">
-<!-- TITLEBAR -->
-    <include
-        layout="@layout/include_create_post"
-        android:id="@+id/create_post_block"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:visibility="gone" />
 <!-- MAIN AREA -->
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,11 +20,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
         </ScrollView>
-        <View
-            android:id="@+id/BlahGrayed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#99000000" />
         <ProgressBar
             android:id="@+id/loader_main"
             android:indeterminate="true"

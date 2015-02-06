@@ -157,15 +157,14 @@
     <Compile Include="Screens\Fragments\TestFragment.cs" />
     <Compile Include="Screens\MainFragment.cs" />
     <Compile Include="Screens\MainFragment.BlahList.cs" />
-    <Compile Include="Screens\MainFragment.BlahCreate.cs" />
     <Compile Include="Screens\MainFragment.Signature.cs" />
-    <Compile Include="Screens\UserProfileFragment.cs" />
     <Compile Include="Screens\BlahCreateActivity.cs" />
     <Compile Include="Screens\FirstRunActivity.cs" />
     <Compile Include="Screens\Fragments\SignUpPage01Fragment.cs" />
     <Compile Include="Screens\Fragments\SignUpPage02Fragment.cs" />
     <Compile Include="Screens\Fragments\SignUpPage03Fragment.cs" />
     <Compile Include="HelpingClasses\NonSwipeViewPager.cs" />
+    <Compile Include="Adapters\ViewCommentBadgesAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -187,9 +186,6 @@
     <AndroidResource Include="Resources\layout\fragment_viewpost_stats.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\activity_main.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\uiitem_badge.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -202,9 +198,6 @@
     <AndroidResource Include="Resources\layout\page_home_view.axml" />
     <AndroidResource Include="Resources\layout\item_menu.axml" />
     <AndroidResource Include="Resources\layout\actionbar_progress.axml" />
-    <AndroidResource Include="Resources\layout\fragment_login.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_main.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -213,19 +206,11 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\action_login_button2.axml" />
     <AndroidResource Include="Resources\layout\action_login_button.axml" />
-    <AndroidResource Include="Resources\layout\fragment_userprofile.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\rightmenu_item.axml" />
-    <AndroidResource Include="Resources\layout\fragment_history.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\menu\login_menu.axml" />
     <AndroidResource Include="Resources\menu\loggedin_menu.axml" />
     <AndroidResource Include="Resources\layout\activity_create_post.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\activity_history.xml" />
     <AndroidResource Include="Resources\drawable\Heard_Smile_Only_red.png" />
     <AndroidResource Include="Resources\drawable\Logo_master_teal.png" />
     <AndroidResource Include="Resources\layout\SignUpPage01.axml" />
@@ -287,14 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\edit.9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\sidemenu_sorting.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\sidemenu_profile.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
@@ -365,11 +342,6 @@
     <AndroidResource Include="Resources\drawable\check_list.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\listitem_check.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\check_no_mark.png" />
   </ItemGroup>
   <ItemGroup>
@@ -391,11 +363,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\btn_green.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\include_create_post.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -433,11 +400,6 @@
     <AndroidResource Include="Resources\drawable\btn_select_image.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\listitem_profile.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\list_item_selector.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -468,11 +430,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_history_comment.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\sidemenu_blahcreate.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -631,11 +588,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_splash.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\splash.jpg" />

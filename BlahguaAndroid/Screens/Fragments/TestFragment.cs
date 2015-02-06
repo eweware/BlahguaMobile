@@ -26,8 +26,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileProfileFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileProfileFragment";
-
         private ProgressBar progress;
         private ImageView avatar;
         private EditText nickname;

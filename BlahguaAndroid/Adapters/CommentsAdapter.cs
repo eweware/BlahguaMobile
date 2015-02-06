@@ -16,6 +16,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Animation;
 using BlahguaMobile.AndroidClient.Screens;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
@@ -72,8 +73,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? _activity.LayoutInflater.Inflate(
-                                 Resource.Layout.listitem_comment, parent, false);
+			View view;
+
+			if (convertView != null)
+				view = convertView;
+			else
+				view = _activity.LayoutInflater.Inflate( Resource.Layout.listitem_comment, parent, false);
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var author = view.FindViewById<TextView>(Resource.Id.author);
@@ -82,18 +87,21 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
             var badgeIcon = view.FindViewById<ImageView>(Resource.Id.comment_badged);
-            //LinearLayout authorDetailArea = view.FindViewById<LinearLayout>(Resource.Id.comment_author_details);
+			var detailsView = view.FindViewById<LinearLayout> (Resource.Id.comment_author_details);
+			var badgeList = view.FindViewById<ListView> (Resource.Id.comment_author_badgelist);
             TextView authorDesc = view.FindViewById<TextView>(Resource.Id.comment_author_desc);
-            TextView authorBadge = view.FindViewById<TextView>(Resource.Id.comment_author_badge);
+
+			detailsView.Visibility = ViewStates.Gone;
 
             // set fonts
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, upvoted, downvoted);
             UiHelper.SetGothamTypeface(TypefaceStyle.Bold, author);
-            UiHelper.SetGothamTypeface(TypefaceStyle.Italic, authorDesc);
+			UiHelper.SetGothamTypeface(TypefaceStyle.Italic, time_ago, authorDesc);
 
             Comment c = _list[position];
             if (!String.IsNullOrEmpty(c.ImageURL))
             {
+				image.Visibility = ViewStates.Visible;
                 image.SetUrlDrawable(c.ImageURL);
                 image.Tag = c.ImageURL;
                 image.Click -= imageClick;
@@ -103,11 +111,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
             {
                 image.Visibility = ViewStates.Gone;
             }
-
+			view.Background = new ColorDrawable (Color.White);
             text.Text = c.T;
             author.Text = c.AuthorName;
             author_avatar.SetUrlDrawable(c.AuthorImage);
+			author_avatar.Visibility = ViewStates.Visible;
             time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);
+
 
             upvoted.Text = c.UpVoteCount.ToString();
             downvoted.Text = c.DownVoteCount.ToString();
@@ -118,30 +128,49 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 authorDesc.Text = c.DescriptionString;
             else
                 authorDesc.Text = "an unidentified person";
+
+			if (c.XXX && ((BlahguaAPIObject.Current.CurrentUser == null) ||
+			    (BlahguaAPIObject.Current.CurrentUser.XXX == false))) {
+				view.Background = new ColorDrawable (Color.Red);
+				text.Text = "(mature content)";
+				image.Visibility = ViewStates.Gone;
+			} 
+
             
             // badges
             if ((c.BD == null) || (c.BD.Count == 0))
             {
                 badgeIcon.Visibility = ViewStates.Gone;
                 //authorBadge.Text = "no badges";
-                authorBadge.Visibility = ViewStates.Gone;
+				badgeList.Visibility = ViewStates.Gone;
+				badgeList.Adapter = null;
             }
             else
             {
                 badgeIcon.Visibility = ViewStates.Visible;
-                authorBadge.Text = c.BD.Count.ToString() + " badge(s)";
+				c.AwaitBadgeData ((didIt) => {
+					badgeList.Visibility = ViewStates.Visible;
+					badgeList.Adapter = new ViewCommentBadgesAdapter(_activity, c);
+				});
+
             }
             view.Tag = position;
 
-            if (BlahguaAPIObject.Current.CurrentUser != null)
+            if (convertView == null)
             {
-                view.Click -= view_Click;
-                view.Click += view_Click;
+				view.Click += view_Click;
+				author_avatar.Click += (object sender, EventArgs e) => {
+					if (detailsView.Visibility == ViewStates.Gone)
+						detailsView.Visibility = ViewStates.Visible;
+					else
+						detailsView.Visibility = ViewStates.Gone;
+				};
             }
             
             return view;
         }
-        
+       
+
         void evPromoteClick(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -272,7 +301,6 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public void UpdateVoteButtons(View item, Comment c)
         {
-            LinearLayout layout = item.FindViewById<LinearLayout>(Resource.Id.votes);
             Button btn_upvote = item.FindViewById<Button>(Resource.Id.btn_upvote);
             Button btn_downvote = item.FindViewById<Button>(Resource.Id.btn_downvote);
 
