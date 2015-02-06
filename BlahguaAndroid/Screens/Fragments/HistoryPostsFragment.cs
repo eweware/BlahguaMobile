@@ -56,8 +56,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             //list.SetOnTouchListener(Activity);
             no_entries = fragment.FindViewById<LinearLayout>(Resource.Id.no_entries);
             no_entries.Visibility = ViewStates.Visible;
-
-            LoadUserPosts();
+            posts_total_count.Text = "loading post history";
+          
 
             return fragment;
         }
@@ -65,46 +65,51 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
+            LoadUserPosts();
         }
 
         public void LoadUserPosts()
         {
-            posts_total_count.Text = "loading post history";
-            progressDlg.SetMessage("loading posts...");
-            progressDlg.Show();
-
-            BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
+            Activity.RunOnUiThread(() =>
                 {
-                    progressDlg.Hide();
-                    Activity.RunOnUiThread(() =>
-                    {
-                        string countMessage = "";
-                        if (theBlahs.Count > 0)
+                    
+                    progressDlg.SetMessage("loading posts...");
+                    progressDlg.Show();
+
+
+                    BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
                         {
-                            list.Visibility = ViewStates.Visible;
-                            no_entries.Visibility = ViewStates.Gone;
-                            foreach (Blah b in theBlahs.ToArray())
+                            Activity.RunOnUiThread(() =>
                             {
-                                if (!b.XX || b.S <= 0)
-                                    theBlahs.Remove(b);
-                            }
-                            adapter = new PostsAdapter(this, theBlahs);
-                            list.Adapter = adapter;
+                                progressDlg.Hide();
+                                string countMessage = "";
+                                if ((theBlahs != null) && (theBlahs.Count > 0))
+                                {
+                                    list.Visibility = ViewStates.Visible;
+                                    no_entries.Visibility = ViewStates.Gone;
+                                    foreach (Blah b in theBlahs.ToArray())
+                                    {
+                                        if (!b.XX || b.S <= 0)
+                                            theBlahs.Remove(b);
+                                    }
+                                    adapter = new PostsAdapter(this, theBlahs);
+                                    list.Adapter = adapter;
 
-                            countMessage = "Your Posts (" + theBlahs.Count + ")";
-                        }
-                        else
-                        {
-                            list.Visibility = ViewStates.Gone;
-                            no_entries.Visibility = ViewStates.Visible;
-                            list.Adapter = adapter = null;
+                                    countMessage = "Your Posts (" + theBlahs.Count + ")";
+                                }
+                                else
+                                {
+                                    list.Visibility = ViewStates.Gone;
+                                    no_entries.Visibility = ViewStates.Visible;
+                                    list.Adapter = adapter = null;
 
-                            countMessage = "No Posts yet";
+                                    countMessage = "No Posts yet";
+                                }
+                                posts_total_count.Text = countMessage;
+                            });
                         }
-                        posts_total_count.Text = countMessage;
-                    });
-                }
-            );
+                    );
+                });
         }
     }
 }

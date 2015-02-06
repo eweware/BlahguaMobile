@@ -84,8 +84,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             if (convertView != null)
             {
                 view = convertView;
-                view.FindViewById<TextView>(Resource.Id.left_layout).Visibility = ViewStates.Gone;
-                view.FindViewById<TextView>(Resource.Id.right_layout).Visibility = ViewStates.Gone;
+                view.FindViewById(Resource.Id.left_layout).Visibility = ViewStates.Gone;
+                view.FindViewById(Resource.Id.right_layout).Visibility = ViewStates.Gone;
             }
             else
             {

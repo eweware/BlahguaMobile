@@ -154,8 +154,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
 
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count, btn_done, btn_signature, btn_select_image);
-
-            LoadComments();
+            comments_total_count.Text = "loading comments";
+                    
+            //LoadComments();
 
             if (shouldCreateComment)
             {
@@ -252,43 +253,50 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            LoadComments();
+        }
+
+
         public void LoadComments()
         {
             Activity.RunOnUiThread(() =>
                 {
-                    comments_total_count.Text = "loading comments";
                     progressDlg.SetMessage("loading comments...");
                     progressDlg.Show();
-                });
-            BlahguaAPIObject.Current.LoadBlahComments((theList) =>
-            {
-                progressDlg.Hide();
-                Activity.RunOnUiThread(() =>
-                {
-                    if (theList.Count > 0)
-                    {
-                        string commentTextStr;
-                        if (theList.Count == 1)
-                            commentTextStr = "one comment";
-                        else
-                            commentTextStr = theList.Count.ToString() + " comments";
-                        comments_total_count.Text = commentTextStr;
 
-                        no_comments.Visibility = ViewStates.Gone;
-                        list.Visibility = ViewStates.Visible;
-                        adapter = new CommentsAdapter(this, theList);
-                        list.Adapter = adapter;
-                        //list.ItemClick += list_ItemClick;
-                    }
-                    else
+                    BlahguaAPIObject.Current.LoadBlahComments((theList) =>
                     {
-                        comments_total_count.Text = "No comments yet.  Add one now!";
-                        no_comments.Visibility = ViewStates.Visible;
-                        list.Visibility = ViewStates.Gone;
-                        list.Adapter = adapter = null;
-                    }
+                        Activity.RunOnUiThread(() =>
+                        {
+                            progressDlg.Hide();
+                            if (theList.Count > 0)
+                            {
+                                string commentTextStr;
+                                if (theList.Count == 1)
+                                    commentTextStr = "one comment";
+                                else
+                                    commentTextStr = theList.Count.ToString() + " comments";
+                                comments_total_count.Text = commentTextStr;
+
+                                no_comments.Visibility = ViewStates.Gone;
+                                list.Visibility = ViewStates.Visible;
+                                adapter = new CommentsAdapter(this, theList);
+                                list.Adapter = adapter;
+                                //list.ItemClick += list_ItemClick;
+                            }
+                            else
+                            {
+                                comments_total_count.Text = "No comments yet.  Add one now!";
+                                no_comments.Visibility = ViewStates.Visible;
+                                list.Visibility = ViewStates.Gone;
+                                list.Adapter = adapter = null;
+                            }
+                        });
+                    });
                 });
-            });
         }
 
         #region CreateCommentUI

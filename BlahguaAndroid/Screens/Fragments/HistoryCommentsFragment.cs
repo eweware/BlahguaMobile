@@ -43,20 +43,22 @@ namespace BlahguaMobile.AndroidClient.Screens
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
+            comments_total_count.Text = "loading comments...";
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count);
 
             list = fragment.FindViewById<ListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
 
-            LoadUserComments();
+           // LoadUserComments();
 
             return fragment;
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-			base.OnActivityCreated(savedInstanceState);
+            base.OnActivityCreated(savedInstanceState);
+            LoadUserComments();
         }
 
         public void LoadUserComments()
@@ -66,30 +68,31 @@ namespace BlahguaMobile.AndroidClient.Screens
                 comments_total_count.Text = "loading comments";
                 progressDlg.SetMessage("loading comments...");
                 progressDlg.Show();
-            });
-            BlahguaAPIObject.Current.LoadUserComments((theComments) =>
-                {
-                    progressDlg.Hide();
-                    Activity.RunOnUiThread(() =>
+
+                BlahguaAPIObject.Current.LoadUserComments((theComments) =>
                     {
-                        if (theComments.Count > 0)
+                        Activity.RunOnUiThread(() =>
                         {
-                            comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
-                            no_comments.Visibility = ViewStates.Gone;
-                            list.Visibility = ViewStates.Visible;
-                            adapter = new HistoryCommentsAdapter(this, theComments);
-                            list.Adapter = adapter;
-                        }
-                        else
-                        {
-                            comments_total_count.Text = "Your Comments (0)";
-                            no_comments.Visibility = ViewStates.Visible;
-                            list.Visibility = ViewStates.Gone;
-                            list.Adapter = adapter = null;
-                        }
-                    });
-                }
-            );
+                            progressDlg.Hide();
+                            if ((theComments != null) && (theComments.Count > 0))
+                            {
+                                comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
+                                no_comments.Visibility = ViewStates.Gone;
+                                list.Visibility = ViewStates.Visible;
+                                adapter = new HistoryCommentsAdapter(this, theComments);
+                                list.Adapter = adapter;
+                            }
+                            else
+                            {
+                                comments_total_count.Text = "Your Comments (0)";
+                                no_comments.Visibility = ViewStates.Visible;
+                                list.Visibility = ViewStates.Gone;
+                                list.Adapter = adapter = null;
+                            }
+                        });
+                    }
+                );
+            });
         }
     }
 }
