@@ -38,6 +38,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private EditText text;
 
         private CommentsAdapter adapter;
+        private ProgressDialog progressDlg;
 
         public bool shouldCreateComment = false;
 
@@ -119,6 +120,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
 			HomeActivity.analytics.PostPageView("/blah/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_comments, null);
+            progressDlg = new ProgressDialog(this.Activity);
+            progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
 
             create_comment_block = fragment.FindViewById<LinearLayout>(Resource.Id.create_comment_block);
             text = create_comment_block.FindViewById<EditText>(Resource.Id.text);
@@ -251,8 +254,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public void LoadComments()
         {
+            Activity.RunOnUiThread(() =>
+                {
+                    comments_total_count.Text = "loading comments";
+                    progressDlg.SetMessage("loading comments...");
+                    progressDlg.Show();
+                });
             BlahguaAPIObject.Current.LoadBlahComments((theList) =>
             {
+                progressDlg.Hide();
                 Activity.RunOnUiThread(() =>
                 {
                     if (theList.Count > 0)

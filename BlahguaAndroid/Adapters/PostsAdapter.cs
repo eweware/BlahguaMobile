@@ -79,8 +79,19 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? _activity.LayoutInflater.Inflate(
-                Resource.Layout.listitem_history_blah, parent, false);
+            View view;
+
+            if (convertView != null)
+            {
+                view = convertView;
+                view.FindViewById<TextView>(Resource.Id.left_layout).Visibility = ViewStates.Gone;
+                view.FindViewById<TextView>(Resource.Id.right_layout).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                view = _activity.LayoutInflater.Inflate(Resource.Layout.listitem_history_blah, parent, false);
+
+            }
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var type_mark = view.FindViewById<ImageView>(Resource.Id.blahtype);
@@ -136,12 +147,16 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             var btnOpenPost = view.FindViewById<Button>(Resource.Id.btn_open);
             btnOpenPost.Tag = b._id;
-            btnOpenPost.Click -= openHandler;
-            btnOpenPost.Click += openHandler;
+
             var btnDelete = view.FindViewById<Button>(Resource.Id.btn_delete);
             btnDelete.Tag = b._id;
-            btnDelete.Click -= deleteHandler;
-            btnDelete.Click += deleteHandler;
+
+            if (convertView == null)
+            {
+                // add events to new item
+                btnDelete.Click += deleteHandler;
+                btnOpenPost.Click += openHandler;
+            }
 
             return view;
         }

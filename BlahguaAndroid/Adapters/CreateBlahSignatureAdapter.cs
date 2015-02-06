@@ -108,7 +108,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
 				else
 					holder.chkbox.Checked = false;
 			}
-
+            holder.tv.Click += (sender, args) =>
+                {
+                    holder.chkbox.CallOnClick();
+                };
 			holder.chkbox.Click += (sender, args) =>
 			{
 				CheckBox cb = (CheckBox)sender;

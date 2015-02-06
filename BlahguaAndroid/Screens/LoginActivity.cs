@@ -176,6 +176,7 @@ namespace BlahguaMobile.AndroidClient
                 RunOnUiThread(() =>
                 {
                     progressDlg.Hide();
+                    this.SetResult(Result.Ok, new Intent());
                     Finish();
                 });
             }
@@ -209,11 +210,15 @@ namespace BlahguaMobile.AndroidClient
                     {
                         BlahguaAPIObject.Current.SetRecoveryEmail(FirstRunActivity.emailAddress, (resultStr) =>
                         {
+                            this.SetResult(Result.Ok, new Intent());
                             Finish();
                         });
                     }
                     else
+                    {
+                        this.SetResult(Result.Ok, new Intent());
                         Finish();
+                    }
                 });
             }
             else

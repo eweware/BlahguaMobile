@@ -765,8 +765,16 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//get the view to which drop-down layout is to be anchored
 			Button layout1 = (Button)FindViewById(Resource.Id.btn_signature);
+            int Width, Height;
+            int BadgeCount = 3;
 
-			signaturePopup = new PopupWindow(layout, (int)(Resources.DisplayMetrics.Density * 200), ViewGroup.LayoutParams.WrapContent, true);
+            if (BlahguaAPIObject.Current.CurrentUser.Badges != null)
+                BadgeCount += BlahguaAPIObject.Current.CurrentUser.Badges.Count;
+
+            Width = (int)(Resources.DisplayMetrics.WidthPixels - (Resources.DisplayMetrics.Density * 16));
+            Height = (int)(Resources.DisplayMetrics.Density * 40 * BadgeCount);
+
+            signaturePopup = new PopupWindow(layout, Width, Height, true);
 
 			//Pop-up window background cannot be null if we want the pop-up to listen touch events outside its window
 			signaturePopup.SetBackgroundDrawable(new BitmapDrawable());
@@ -774,26 +782,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//let pop-up be informed about touch events outside its window. This  should be done before setting the content of pop-up
 			signaturePopup.OutsideTouchable = true;
-			signaturePopup.Height = ViewGroup.LayoutParams.WrapContent;
-
-			//dismiss the pop-up i.e. drop-down when touched anywhere outside the pop-up
-			//pw.setTouchInterceptor(new OnTouchListener() {
-
-			//    public bool onTouch(View v, MotionEvent ev) {
-			//        // TODO Auto-generated method stub
-			//        if (ev.Action == MotionEventActions.Outside) {
-			//            pw.Dismiss();
-			//            return true;    				
-			//        }
-			//        return false;
-			//    }
-			//});
+            signaturePopup.Height = Height;
 
 			//provide the source layout for drop-down
 			signaturePopup.ContentView = layout;
 
 			//anchor the drop-down to bottom-left corner of 'layout1'
-			signaturePopup.ShowAsDropDown(layout1);
+            signaturePopup.ShowAsDropDown(layout1, 0, 0, GravityFlags.CenterHorizontal);
 
 			//populate the drop-down list
 			ListView list = (ListView)layout.FindViewById(Resource.Id.dropDownList);

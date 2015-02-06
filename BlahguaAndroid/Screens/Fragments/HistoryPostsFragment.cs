@@ -32,12 +32,14 @@ namespace BlahguaMobile.AndroidClient.Screens
         private LinearLayout no_entries;
 
         private PostsAdapter adapter;
+        private ProgressDialog progressDlg;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
 			HomeActivity.analytics.PostPageView("/self/history");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
-
+            progressDlg = new ProgressDialog(this.Activity);
+            progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, posts_total_count);
 
@@ -67,8 +69,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public void LoadUserPosts()
         {
+            posts_total_count.Text = "loading post history";
+            progressDlg.SetMessage("loading posts...");
+            progressDlg.Show();
+
             BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
                 {
+                    progressDlg.Hide();
                     Activity.RunOnUiThread(() =>
                     {
                         string countMessage = "";

@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/signatureRowLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="5dp">
+    android:layout_height="wrap_content"
+    android:padding="1dp">
     <CheckBox
         android:id="@+id/check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="5dp"
-        android:button="@null"
-        android:drawableLeft="@drawable/checkbox" />
+        android:paddingRight="5dp" />
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/heard_black" />
+        android:textColor="@color/heard_black"
+        android:text="Entertainment Industry"
+        android:textSize="16dp" />
 </LinearLayout>

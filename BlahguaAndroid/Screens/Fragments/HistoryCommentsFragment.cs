@@ -30,12 +30,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private ListView list;
         private LinearLayout no_comments;
-
+        private ProgressDialog progressDlg;
 
         private HistoryCommentsAdapter adapter;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            progressDlg = new ProgressDialog(this.Activity);
+            progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
+
 			HomeActivity.analytics.PostPageView("/self/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
@@ -58,8 +61,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public void LoadUserComments()
         {
+            Activity.RunOnUiThread(() =>
+            {
+                comments_total_count.Text = "loading comments";
+                progressDlg.SetMessage("loading comments...");
+                progressDlg.Show();
+            });
             BlahguaAPIObject.Current.LoadUserComments((theComments) =>
                 {
+                    progressDlg.Hide();
                     Activity.RunOnUiThread(() =>
                     {
                         if (theComments.Count > 0)

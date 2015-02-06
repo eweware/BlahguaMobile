@@ -12,8 +12,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/author_avatar"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="top|left"
                 android:src="@drawable/unknown_user" />

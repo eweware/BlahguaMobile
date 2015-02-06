@@ -51,7 +51,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 		private ListView drawerListView;
 
 		public static bool forceFirstTime = false;
-        public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222, CREATE_BLAH_CODE = 0x3333;
+        public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
+        public static int LOGIN_RESULT = 0x4444, CREATE_BLAH_CODE = 0x3333;
         
         public static File _dir;
         public static File _file;
@@ -346,12 +347,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
 			if (this.drawerToggle.OnOptionsItemSelected (item)) 
             {
-                /*
-			    if (this.drawerLayout.IsDrawerOpen (this.drawerListView))
-				    ResumeScrolling ();
-			    else
-				    StopScrolling ();
-                        */
+
 			    return true;
 		    }
 			
@@ -360,7 +356,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			case Resource.Id.action_login:
 				if (BlahguaAPIObject.Current.CurrentUser == null) {
 					var intent = new Intent(this, typeof(LoginActivity));
-					StartActivity(intent);
+					StartActivityForResult(intent, LOGIN_RESULT);
 
 				} 
 
@@ -369,7 +365,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				if (IsMenuOpened == false && mainFragment != null)
 				{					
 					var create_intent = new Intent (this, typeof(BlahCreateActivity));
-					StartActivityForResult (create_intent, CREATE_BLAH_CODE);
+					StartActivityForResult (create_intent, LOGIN_RESULT);
 				}
 				break;
 			case Resource.Id.action_profile:
@@ -589,6 +585,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//if (create_post_block.Visibility != ViewStates.Visible)
 			//StartTimers();
 			initLayouts();
+            BlahguaAPIObject.Current.EnsureSignin();
 		}
 
 		protected override void OnPause()
@@ -648,6 +645,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					if (newChannel != null) {
 						BlahguaAPIObject.Current.CurrentChannel = newChannel;
 					}
+                    this.populateChannelMenu();
 				}
 			} else if (requestCode == CREATE_BLAH_CODE && resultCode == Android.App.Result.Ok) {
 				// created a new blah!
@@ -657,7 +655,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 					BlahguaAPIObject.Current.NewBlahToInsert = null;
 
 				}
-			}
+			} 
+            else if (requestCode == LOGIN_RESULT && resultCode == Android.App.Result.Ok)
+            {
+                this.populateChannelMenu();
+            }
 		}
 
 		private bool alreadyTapped = false;
@@ -672,6 +674,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				RunOnUiThread(() =>
 					{
 						AlertDialog alert = new AlertDialog.Builder(this).Create() ;
+                        StopScrolling();
 						alert.SetTitle("exit");
 						alert.SetMessage("exit from Heard?");
 						alert.SetCancelable(true);
@@ -682,6 +685,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 							});
 							alert.SetButton2 ("cancel", (sender, args) =>
 								{
+                                    ResumeScrolling();
 									alreadyTapped = false;
 									alert.Dismiss();
 									
