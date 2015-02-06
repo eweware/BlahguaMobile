@@ -104,8 +104,6 @@ namespace BlahguaMobile.AndroidClient.Adapters
 				image.Visibility = ViewStates.Visible;
                 image.SetUrlDrawable(c.ImageURL);
                 image.Tag = c.ImageURL;
-                image.Click -= imageClick;
-                image.Click += imageClick;
             }
             else
             {
@@ -159,6 +157,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             if (convertView == null)
             {
 				view.Click += view_Click;
+
+				image.Click += imageClick;
 				author_avatar.Click += (object sender, EventArgs e) => {
 					if (detailsView.Visibility == ViewStates.Gone)
 						detailsView.Visibility = ViewStates.Visible;

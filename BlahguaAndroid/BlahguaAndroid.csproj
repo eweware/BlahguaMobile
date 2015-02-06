@@ -66,6 +66,9 @@
     <Reference Include="ServiceStack.Text.XamarinAndrod">
       <HintPath>..\Components\servicestacktext-3.9.61.1\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
+    <Reference Include="FortySevenDeg.SwipeListView">
+      <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
@@ -220,6 +223,11 @@
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\layout\DrawerListItem.axml" />
     <AndroidResource Include="Resources\drawable-xhdpi\unknown_user.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\comments_filled_64x64.png" />
+    <AndroidResource Include="Resources\drawable\icon_createpost.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_createpost.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_createpost.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icon_createpost.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -228,16 +236,16 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="barchart">
-      <Version>1.1.2.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>105.0.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="servicestacktext">
       <Version>3.9.61.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="android-swipelistview">
+      <Version>2.0.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -727,5 +735,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\cameramenu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-hdpi\" />
   </ItemGroup>
 </Project>

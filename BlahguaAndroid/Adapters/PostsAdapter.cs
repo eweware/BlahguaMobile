@@ -17,32 +17,13 @@ using BlahguaMobile.AndroidClient.Screens;
 using System.Reflection;
 using System.ComponentModel;
 using Android.Graphics;
+using FortySevenDeg.SwipeListView;
 
 namespace BlahguaMobile.AndroidClient.Adapters
 {
     class PostsAdapter : BaseAdapter
     {
-        private EventHandler openHandler = (sender, args) =>
-        {
-            var btn = (Button)sender;
-            string id = (string)btn.Tag;
-            App.BlahIdToOpen = id;
-            btn.Context.StartActivity(typeof(ViewPostActivity));
-        };
-
-        private EventHandler deleteHandler = (sender, args) =>
-        {
-            var btn = (Button)sender;
-            string id = (string)btn.Tag;
-            BlahguaAPIObject.Current.DeleteBlah(id, (theString) =>
-            {
-                if (theString == "ok")
-                {
-                    _fragment.LoadUserPosts();
-                }
-            });
-        };
-
+ 
         private static HistoryPostsFragment _fragment;
         private Activity _activity;
         private List<Blah> _list;
@@ -59,6 +40,20 @@ namespace BlahguaMobile.AndroidClient.Adapters
             _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
+		public void RemoveView(int position)
+		{
+			string id = _list[position]._id;
+
+			BlahguaAPIObject.Current.DeleteBlah(id, (theString) =>
+				{
+					this._activity.RunOnUiThread(() => {
+						Toast.MakeText(_activity, "post deleted", ToastLength.Short).Show();
+					});
+				});
+
+			_list.RemoveAt(position);
+			NotifyDataSetChanged();
+		}
 
         public override int Count
         {
@@ -84,14 +79,15 @@ namespace BlahguaMobile.AndroidClient.Adapters
             if (convertView != null)
             {
                 view = convertView;
-                view.FindViewById(Resource.Id.left_layout).Visibility = ViewStates.Gone;
-                view.FindViewById(Resource.Id.right_layout).Visibility = ViewStates.Gone;
             }
             else
             {
-                view = _activity.LayoutInflater.Inflate(Resource.Layout.listitem_history_blah, parent, false);
+                view = _activity.LayoutInflater.Inflate(Resource.Layout.listitem_history_blah, null);
 
             }
+
+			((SwipeListView)parent).Recycle(view, position);
+
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var type_mark = view.FindViewById<ImageView>(Resource.Id.blahtype);
@@ -102,11 +98,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
             var comments = view.FindViewById<TextView>(Resource.Id.comments);
 
             // set fonts
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, time_ago, upvoted, downvoted, convert, comments);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, upvoted, downvoted, convert, comments);
             UiHelper.SetGothamTypeface(TypefaceStyle.Bold, text);
+			UiHelper.SetGothamTypeface(TypefaceStyle.Italic, time_ago);
 
             Blah b = _list[position];
-            if (String.IsNullOrEmpty(b.ImageURL))
+
+            if (!String.IsNullOrEmpty(b.ImageURL))
             {
                 image.SetUrlDrawable(b.ImageURL);
                 image.Visibility = ViewStates.Visible;
@@ -124,19 +122,19 @@ namespace BlahguaMobile.AndroidClient.Adapters
             switch (b.TypeName)
             {
                 case "says":
-                    type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
+                    type_mark.SetImageResource(Resource.Drawable.icon_speechact_say);
                     break;
                 case "asks":
-                    type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
+					type_mark.SetImageResource(Resource.Drawable.icon_speechact_ask);
                     break;
                 case "leaks":
-                    type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
+					type_mark.SetImageResource(Resource.Drawable.icon_speechact_leak);
                     break;
                 case "polls":
-                    type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
+					type_mark.SetImageResource(Resource.Drawable.icon_speechact_poll);
                     break;
                 case "predicts":
-                    type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
+					type_mark.SetImageResource(Resource.Drawable.icon_speechact_predict);
                     break;
             }
 
@@ -147,15 +145,23 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             var btnOpenPost = view.FindViewById<Button>(Resource.Id.btn_open);
             btnOpenPost.Tag = b._id;
-
-            var btnDelete = view.FindViewById<Button>(Resource.Id.btn_delete);
-            btnDelete.Tag = b._id;
-
-            if (convertView == null)
+			var btnDeletePost = view.FindViewById<Button>(Resource.Id.btn_delete);
+			btnDeletePost.Tag = position;
+             if (convertView == null)
             {
                 // add events to new item
-                btnDelete.Click += deleteHandler;
-                btnOpenPost.Click += openHandler;
+				btnOpenPost.Click += (s, e) => {
+					var btn = (Button)s;
+					string id = (string)btn.Tag;
+					App.BlahIdToOpen = id;
+					_activity.StartActivity(typeof(ViewPostActivity));
+				};
+				btnDeletePost.Click += (s, e) =>
+				{
+					var btn = (Button)s;
+					int pos = (int)btn.Tag;
+					RemoveView(pos);
+				};
             }
 
             return view;

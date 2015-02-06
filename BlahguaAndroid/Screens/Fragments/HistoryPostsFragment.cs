@@ -16,6 +16,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
+using FortySevenDeg.SwipeListView;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -28,7 +29,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private TextView posts_total_count;
 
-        private ListView list;
+		private SwipeListView list;
         private LinearLayout no_entries;
 
         private PostsAdapter adapter;
@@ -43,24 +44,39 @@ namespace BlahguaMobile.AndroidClient.Screens
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, posts_total_count);
 
-            list = fragment.FindViewById<ListView>(Resource.Id.list);
+			list = fragment.FindViewById<SwipeListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;
-            list.ItemClick += (sender, args) => {
-                if (adapter != null)
-                {
-                    View listItem = UiHelper.GetViewByPosition(args.Position, list);
-                    UiHelper.ManageSwipe(listItem, true, false);
-                }
-            };
+    
             //list.SetOnTouchListener(Activity);
             no_entries = fragment.FindViewById<LinearLayout>(Resource.Id.no_entries);
             no_entries.Visibility = ViewStates.Visible;
             posts_total_count.Text = "loading post history";
+			list.FrontViewClicked += HandleFrontViewClicked;
+			list.BackViewClicked += HandleBackViewClicked;
+			list.Dismissed += HandleDismissed;
           
 
             return fragment;
         }
+
+		void HandleFrontViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.OpenAnimate(e.Position));
+		}
+
+		void HandleBackViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.CloseAnimate(e.Position));
+		}
+
+		void HandleDismissed (object sender, SwipeListViewDismissedEventArgs e)
+		{
+			foreach (var i in e.ReverseSortedPositions)
+			{
+				adapter.RemoveView(i);
+			}
+		}
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {

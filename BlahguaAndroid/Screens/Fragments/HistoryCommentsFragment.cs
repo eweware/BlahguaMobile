@@ -16,6 +16,7 @@ using Android.Animation;
 using BlahguaMobile.AndroidClient.Adapters;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics;
+using FortySevenDeg.SwipeListView;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -28,7 +29,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private TextView comments_total_count;
 
-        private ListView list;
+		private SwipeListView list;
         private LinearLayout no_comments;
         private ProgressDialog progressDlg;
 
@@ -46,14 +47,34 @@ namespace BlahguaMobile.AndroidClient.Screens
             comments_total_count.Text = "loading comments...";
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count);
 
-            list = fragment.FindViewById<ListView>(Resource.Id.list);
+			list = fragment.FindViewById<SwipeListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
-
+			list.FrontViewClicked += HandleFrontViewClicked;
+			list.BackViewClicked += HandleBackViewClicked;
+			list.Dismissed += HandleDismissed;
            // LoadUserComments();
 
             return fragment;
         }
+
+		void HandleFrontViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.OpenAnimate(e.Position));
+		}
+
+		void HandleBackViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.CloseAnimate(e.Position));
+		}
+
+		void HandleDismissed (object sender, SwipeListViewDismissedEventArgs e)
+		{
+			foreach (var i in e.ReverseSortedPositions)
+			{
+				adapter.RemoveView(i);
+			}
+		}
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {

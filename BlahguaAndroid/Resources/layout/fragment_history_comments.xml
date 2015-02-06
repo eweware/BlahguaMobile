@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="#D9DADA"
-  android:orientation="vertical">
-  <TextView
-    android:id="@+id/comments_total_count"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:textColor="#000"
-    android:textSize="14sp"
-    android:textStyle="bold"
-    android:background="#F3F3F3"
-    android:text="Your Comments (0)" />
-  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9DADA"
     android:orientation="vertical">
-    <!-- LIST -->
-    <ListView
-      android:id="@+id/list"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="#00000000"
-      android:visibility="gone"/>
-    <!-- NO ENTRIES BLOCK -->
-    <LinearLayout
-      android:id="@+id/no_comments"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:gravity="center"
-      android:background="#F3F3F3"
-      android:orientation="vertical">
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ico_comment_gray" />
-      <TextView
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/comments_total_count"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="#D9DADA"
+        android:textColor="#000"
         android:textSize="14sp"
-        android:text="You havenot created any comments yet!" />
+        android:textStyle="bold"
+        android:background="#F3F3F3"
+        android:text="Your Comments (0)" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <!-- LIST -->
+        <com.fortysevendeg.swipelistview.SwipeListView xmlns:swipe="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/list"
+            android:listSelector="#00000000"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            swipe:swipeFrontView="@+id/front"
+            swipe:swipeBackView="@+id/left_layout"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeMode="right"
+            swipe:swipeOffsetRight="160dp"
+            swipe:swipeActionRight="reveal"
+            swipe:swipeOpenOnLongPress="false" />
+    <!-- NO ENTRIES BLOCK -->
+        <LinearLayout
+            android:id="@+id/no_comments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="#F3F3F3"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_comment_gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#D9DADA"
+                android:textSize="14sp"
+                android:text="You havenot created any comments yet!" />
+        </LinearLayout>
     </LinearLayout>
-  </LinearLayout>
 </LinearLayout>
