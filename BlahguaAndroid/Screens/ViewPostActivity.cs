@@ -18,7 +18,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
-
+using System.Collections.Generic;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -31,9 +31,8 @@ namespace BlahguaMobile.AndroidClient
         private bool isFromCommentBtn = false;
         private Fragment curFragment = null;
 
-
-        //private GestureDetector _gestureDetector;
-        //private GestureListener _gestureListener;
+		private string[] badgeItemNames = null;
+		private bool[]	badgeItemBools = null;
 
         private ActionBar.Tab summaryTab, commentTab, statsTab;
 
@@ -82,6 +81,92 @@ namespace BlahguaMobile.AndroidClient
 			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
            
         }
+
+		private void MultiListClicked(object sender, DialogMultiChoiceClickEventArgs args)
+		{
+			if (args.Which == 0)
+				BlahguaAPIObject.Current.CreateCommentRecord.XX = !args.IsChecked;
+			else if (args.Which == 1)
+				BlahguaAPIObject.Current.CreateCommentRecord.XXX = args.IsChecked;
+			else {
+				int whichBadge = args.Which - 2;
+				string badgeId = BlahguaAPIObject.Current.CurrentUser.Badges [whichBadge].ID;
+				if (args.IsChecked) {
+					// add badge
+					if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
+						BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
+					BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (badgeId);
+				} else {
+					BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (badgeId);
+				}
+			}
+		}
+
+
+		private void BadgeOKClicked(Object sender, EventArgs args)
+		{
+			//Toast.MakeText(this, "Badge accepted!", ToastLength.Short).Show();
+		}
+
+		protected override Dialog OnCreateDialog(int id, Bundle args)
+		{
+			switch(id)
+			{
+			case HomeActivity.MultiChoiceDialog: 
+				{
+					UpdateBadgeInfo ();
+					var builder = new AlertDialog.Builder (this, Android.App.AlertDialog.ThemeHoloLight);
+					builder.SetIcon (Resource.Drawable.ic_launcher);
+					builder.SetTitle ("Sign your comment");
+					builder.SetMultiChoiceItems (badgeItemNames, badgeItemBools, MultiListClicked);
+					builder.SetPositiveButton ("Ok", BadgeOKClicked);
+
+					AlertDialog dlg = builder.Create ();
+
+					return dlg;
+				}
+				break;
+			}
+			return base.OnCreateDialog(id, args);
+		}
+
+		private void UpdateBadgeInfo()
+		{
+			BadgeList badges = BlahguaAPIObject.Current.CurrentUser.Badges;
+
+			if (badgeItemNames == null) {
+				List<string>	badgeNames = new List<string> ();
+				badgeNames.Add ("use profile");
+				badgeNames.Add ("mature content");
+
+				if (badges != null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeNames.Add (curBadge.BadgeName);
+					}
+				}
+				badgeItemNames = badgeNames.ToArray ();
+			}
+
+			// now create the bool list
+			badgeItemBools = new bool[badgeItemNames.Length];
+
+			badgeItemBools [0] = !BlahguaAPIObject.Current.CreateCommentRecord.XX;
+			badgeItemBools [1] = BlahguaAPIObject.Current.CreateCommentRecord.XXX;
+
+			if (badges != null) {
+				int i = 2;
+				if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = false;
+					}
+				} else {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains (curBadge.ID);
+					}
+				}
+			}
+
+		}
 
         public override Android.Content.Res.Resources Resources
         {

@@ -41,7 +41,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private MyBlahType currentType = MyBlahType.Says;
 
-        private readonly int SELECTIMAGE_REQUEST = 777;
+		private const int SELECTIMAGE_REQUEST = 777, MultiChoiceDialog = 0x03;
         private View additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
@@ -53,6 +53,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageSay, imagePredict, imagePoll, imageAsk, imageLeak;
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
+		private string[] badgeItemNames = null;
+		private bool[]	badgeItemBools = null;
 
         protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
@@ -221,7 +223,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
             Button btn_signature =  FindViewById<Button>(Resource.Id.btn_signature);
             btn_signature.Click += (sender, args) => {
-                initiateSignaturePopUp();
+				ShowDialog(MultiChoiceDialog);
             };
             btn_create_done =  FindViewById<Button>(Resource.Id.btn_done);
             btn_create_done.Click += (sender, args) =>
@@ -751,50 +753,93 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             edit.Text = sdf.Format(myCalendar.Time);
         }
-
-		private PopupWindow signaturePopup;
-		/*
-         * Function to set up the pop-up window which acts as drop-down list
-         * */
-		private void initiateSignaturePopUp()
+			
+		private void MultiListClicked(object sender, DialogMultiChoiceClickEventArgs args)
 		{
-			LayoutInflater inflater = (LayoutInflater)GetSystemService(Context.LayoutInflaterService);
-
-			//get the pop-up window i.e.  drop-down layout
-			LinearLayout layout = (LinearLayout)inflater.Inflate(Resource.Layout.popup_signature, (ViewGroup)FindViewById(Resource.Id.popUpView));
-
-			//get the view to which drop-down layout is to be anchored
-			Button layout1 = (Button)FindViewById(Resource.Id.btn_signature);
-            int Width, Height;
-            int BadgeCount = 3;
-
-            if (BlahguaAPIObject.Current.CurrentUser.Badges != null)
-                BadgeCount += BlahguaAPIObject.Current.CurrentUser.Badges.Count;
-
-            Width = (int)(Resources.DisplayMetrics.WidthPixels - (Resources.DisplayMetrics.Density * 16));
-            Height = (int)(Resources.DisplayMetrics.Density * 40 * BadgeCount);
-
-            signaturePopup = new PopupWindow(layout, Width, Height, true);
-
-			//Pop-up window background cannot be null if we want the pop-up to listen touch events outside its window
-			signaturePopup.SetBackgroundDrawable(new BitmapDrawable());
-			signaturePopup.Touchable = true;
-
-			//let pop-up be informed about touch events outside its window. This  should be done before setting the content of pop-up
-			signaturePopup.OutsideTouchable = true;
-            signaturePopup.Height = Height;
-
-			//provide the source layout for drop-down
-			signaturePopup.ContentView = layout;
-
-			//anchor the drop-down to bottom-left corner of 'layout1'
-            signaturePopup.ShowAsDropDown(layout1, 0, 0, GravityFlags.CenterHorizontal);
-
-			//populate the drop-down list
-			ListView list = (ListView)layout.FindViewById(Resource.Id.dropDownList);
-			CreateBlahSignatureAdapter adapter = new CreateBlahSignatureAdapter(this, BlahguaAPIObject.Current.CurrentUser.Badges);
-			list.Adapter = adapter;
+			if (args.Which == 0)
+				BlahguaAPIObject.Current.CreateRecord.XX = !args.IsChecked;
+			else if (args.Which == 1)
+				BlahguaAPIObject.Current.CreateRecord.XXX = args.IsChecked;
+			else {
+				int whichBadge = args.Which - 2;
+				string badgeId = BlahguaAPIObject.Current.CurrentUser.Badges [whichBadge].ID;
+				if (args.IsChecked) {
+					// add badge
+					if (BlahguaAPIObject.Current.CreateRecord.B == null)
+						BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
+					BlahguaAPIObject.Current.CreateRecord.B.Add (badgeId);
+				} else {
+					BlahguaAPIObject.Current.CreateRecord.B.Remove (badgeId);
+				}
+			}
 		}
+
+
+		private void BadgeOKClicked(Object sender, EventArgs args)
+		{
+			//Toast.MakeText(this, "Badge accepted!", ToastLength.Short).Show();
+		}
+
+		protected override Dialog OnCreateDialog(int id, Bundle args)
+		{
+			switch(id)
+			{
+			case MultiChoiceDialog: 
+				{
+					UpdateBadgeInfo ();
+					var builder = new AlertDialog.Builder (this, Android.App.AlertDialog.ThemeHoloLight);
+					builder.SetIcon (Resource.Drawable.ic_launcher);
+					builder.SetTitle ("Sign your post");
+					builder.SetMultiChoiceItems (badgeItemNames, badgeItemBools, MultiListClicked);
+					builder.SetPositiveButton ("Ok", BadgeOKClicked);
+
+					AlertDialog dlg = builder.Create ();
+
+					return dlg;
+				}
+				break;
+			}
+			return base.OnCreateDialog(id, args);
+		}
+
+		private void UpdateBadgeInfo()
+		{
+			BadgeList badges = BlahguaAPIObject.Current.CurrentUser.Badges;
+
+			if (badgeItemNames == null) {
+				List<string>	badgeNames = new List<string> ();
+				badgeNames.Add ("use profile");
+				badgeNames.Add ("mature content");
+
+				if (badges != null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeNames.Add (curBadge.BadgeName);
+					}
+				}
+				badgeItemNames = badgeNames.ToArray ();
+			}
+
+			// now create the bool list
+			badgeItemBools = new bool[badgeItemNames.Length];
+
+			badgeItemBools [0] = !BlahguaAPIObject.Current.CreateRecord.XX;
+			badgeItemBools [1] = BlahguaAPIObject.Current.CreateRecord.XXX;
+
+			if (badges != null) {
+				int i = 2;
+				if (BlahguaAPIObject.Current.CreateRecord.B == null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = false;
+					}
+				} else {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateRecord.B.Contains (curBadge.ID);
+					}
+				}
+			}
+
+		}
+
 
         #endregion
     }

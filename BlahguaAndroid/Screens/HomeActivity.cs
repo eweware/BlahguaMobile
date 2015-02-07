@@ -53,6 +53,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public static bool forceFirstTime = false;
         public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
         public static int LOGIN_RESULT = 0x4444, CREATE_BLAH_CODE = 0x3333;
+		public const int MultiChoiceDialog = 0x03;
         
         public static File _dir;
         public static File _file;
