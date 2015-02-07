@@ -105,7 +105,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                                     no_entries.Visibility = ViewStates.Gone;
                                     foreach (Blah b in theBlahs.ToArray())
                                     {
-                                        if (!b.XX || b.S <= 0)
+                                        if (b.S < 0)
                                             theBlahs.Remove(b);
                                     }
                                     adapter = new PostsAdapter(this, theBlahs);

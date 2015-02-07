@@ -366,7 +366,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				if (IsMenuOpened == false && mainFragment != null)
 				{					
 					var create_intent = new Intent (this, typeof(BlahCreateActivity));
-					StartActivityForResult (create_intent, LOGIN_RESULT);
+					StartActivityForResult (create_intent, CREATE_BLAH_CODE);
 				}
 				break;
 			case Resource.Id.action_profile:
