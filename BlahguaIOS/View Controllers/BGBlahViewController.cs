@@ -647,9 +647,9 @@ namespace BlahguaMobile.IOS
             reportPostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
                     UIActionSheet actionSheet = new UIActionSheet("Report Post to eweware");
-                    actionSheet.AddButton ("Inappropriate / offensive ");
-                    actionSheet.AddButton ("Spam / misleading");
-                    actionSheet.AddButton ("infringes my rights");
+                    actionSheet.AddButton ("Inappropriate / Offensive ");
+                    actionSheet.AddButton ("Spam / Misleading");
+                    actionSheet.AddButton ("Infringes my rights");
                     actionSheet.AddButton ("Cancel");
                     actionSheet.DestructiveButtonIndex = 0; // red
                     actionSheet.CancelButtonIndex = 3;  // black
