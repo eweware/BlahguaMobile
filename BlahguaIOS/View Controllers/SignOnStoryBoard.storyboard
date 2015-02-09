@@ -157,7 +157,7 @@
                                 </state>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77" text="Connect with verified tech employees, VCs and press.">
-                                <rect key="frame" x="16" y="120" width="304" height="40"/>
+                                <rect key="frame" x="16" y="120" width="288" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
@@ -178,7 +178,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="80" text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world’s water cooler.">
-                                <rect key="frame" x="16" y="320" width="304" height="60"/>
+                                <rect key="frame" x="16" y="320" width="288" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>

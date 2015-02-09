@@ -17,6 +17,7 @@ namespace BlahguaMobile.IOS
 
 		private BGRollViewCellsSizeManager manager;
 		private BGRollViewController viewController;
+		private bool _doingItemSelect = false;
 
 		#endregion
 
@@ -60,25 +61,30 @@ namespace BlahguaMobile.IOS
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)
 		{
-			var inboxBlah = ((BGRollViewDataSource)viewController.CollectionView.DataSource).DataSource.ElementAt (indexPath.Item);
+			if (!_doingItemSelect) {
+				_doingItemSelect = true;
+				viewController.NaturalScrollInProgress = true;
+				var inboxBlah = ((BGRollViewDataSource)viewController.CollectionView.DataSource).DataSource.ElementAt (indexPath.Item);
 
-			BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
-				InvokeOnMainThread(() => {
-					((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
+				BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
+					InvokeOnMainThread (() => {
+						((AppDelegate)UIApplication.SharedApplication.Delegate).CurrentBlah = BlahguaAPIObject.Current.CurrentBlah;
 
-					var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
-                    BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController("BGBlahViewController") as BGBlahViewController;
-					BGCommentsViewController commentView = myStoryboard.InstantiateViewController("BGCommentsViewController") as BGCommentsViewController;
-					BGStatsTableViewController statsView = myStoryboard.InstantiateViewController("BGStatsTableViewController") as BGStatsTableViewController;
+						var myStoryboard = ((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard;
+						BGBlahViewController objBGBlahViewController = myStoryboard.InstantiateViewController ("BGBlahViewController") as BGBlahViewController;
+						BGCommentsViewController commentView = myStoryboard.InstantiateViewController ("BGCommentsViewController") as BGCommentsViewController;
+						BGStatsTableViewController statsView = myStoryboard.InstantiateViewController ("BGStatsTableViewController") as BGStatsTableViewController;
 
 
-					SwipeViewController swipeView = new SwipeViewController(objBGBlahViewController, commentView, statsView);
-					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
-					((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(swipeView, false);
+						SwipeViewController swipeView = new SwipeViewController (objBGBlahViewController, commentView, statsView);
+						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController (swipeView, false);
 
-					viewController.NaturalScrollInProgress = true;
+
+						_doingItemSelect = false;
+					});
 				});
-			});
+			}
 		}
 
 		public override void DecelerationEnded (UIScrollView scrollView)

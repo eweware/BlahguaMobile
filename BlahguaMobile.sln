@@ -190,9 +190,6 @@ Global
 		{EAE192BE-641B-45C3-996A-8182F7657540}.Release|x86.Build.0 = Release|x86
 		{EAE192BE-641B-45C3-996A-8182F7657540}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BlahguaAndroid\BlahguaAndroid.csproj
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
