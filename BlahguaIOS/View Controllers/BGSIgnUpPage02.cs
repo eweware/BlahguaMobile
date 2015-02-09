@@ -2,6 +2,7 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
+using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.IOS
 {
@@ -42,8 +43,9 @@ namespace BlahguaMobile.IOS
 
         private void SetDefaultChannel(string channelName)
         {
-            BlahguaCore.BlahguaAPIObject.Current.SavedChannel = channelName;
-            BlahguaCore.BlahguaAPIObject.Current.SafeSaveSetting("SavedChannel", channelName);
+            BlahguaAPIObject.Current.SavedChannel = channelName;
+            BlahguaAPIObject.Current.SafeSaveSetting("SavedChannel", channelName);
+			BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName (channelName);
         }
 	}
 }

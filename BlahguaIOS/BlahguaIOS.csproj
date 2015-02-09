@@ -432,9 +432,7 @@
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
-    <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard">
-      <DependentUpon>BGSignUpPage01.cs</DependentUpon>
-    </InterfaceDefinition>
+    <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
