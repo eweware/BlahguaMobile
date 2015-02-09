@@ -88,6 +88,7 @@ namespace BlahguaMobile.IOS
 			this.path = path;
 			if (!String.IsNullOrEmpty (blah.ImageURL)) {
 				imageView.Frame = new RectangleF (new PointF (0, 0), size);
+				imageView.Image = null;
 				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), new ImageUpdateDelegate(imageView));
 				imageView.Hidden = false;
 			}

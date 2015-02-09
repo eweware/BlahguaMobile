@@ -123,10 +123,17 @@ namespace BlahguaMobile.IOS
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
         }
 
+
         //Synsoft on 11 July 2014            
         private void BackHandler(object sender, EventArgs args)
         {
-            DismissViewController(true, null);
+			MonoTouch.CoreAnimation.CATransition newTrans = new MonoTouch.CoreAnimation.CATransition ();
+			newTrans.Duration = 0.3;
+			newTrans.Type = MonoTouch.CoreAnimation.CATransition.TransitionFade;
+			newTrans.Subtype = MonoTouch.CoreAnimation.CATransition.TransitionFromTop;
+			NavigationController.View.Layer.AddAnimation (newTrans, null);
+
+            DismissViewController(false, null);
         }
 
         public override void ViewWillAppear(bool animated)

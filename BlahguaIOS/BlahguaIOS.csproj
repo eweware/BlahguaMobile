@@ -56,6 +56,7 @@
     <MtouchSdkVersion>8.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <CodesignProvision>658c4037-5e79-45c2-9639-d000cd4ccc5f</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -431,7 +432,9 @@
     <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
-    <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
+    <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard">
+      <DependentUpon>BGSignUpPage01.cs</DependentUpon>
+    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />

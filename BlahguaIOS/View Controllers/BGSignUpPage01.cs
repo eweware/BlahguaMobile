@@ -77,9 +77,10 @@ namespace BlahguaMobile.IOS
             Scroller.ScrollIndicatorInsets = contentInsets;
         }
 
+
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+			base.ViewDidLoad();
 
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
             Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -97,14 +98,17 @@ namespace BlahguaMobile.IOS
             usernameField.EditingDidEnd += HandleTextValueChanged;
             usernameField.ShouldReturn += TextFieldShouldReturn;
             usernameField.EditingDidBegin += SetCurrentField;
+			usernameField.EditingChanged += HandleTextValueChanged;
 
             passwordField.EditingDidEnd += HandleTextValueChanged;
             passwordField.ShouldReturn += TextFieldShouldReturn;
             passwordField.EditingDidBegin += SetCurrentField;
+			passwordField.EditingChanged += HandleTextValueChanged;
 
             confirmPassword.EditingDidEnd += HandleTextValueChanged;
             confirmPassword.EditingDidBegin += SetCurrentField;
-            confirmPassword.ShouldReturn += (textField) => 
+			confirmPassword.EditingChanged += HandleTextValueChanged;
+			confirmPassword.ShouldReturn += (textField) => 
                 { 
                     textField.ResignFirstResponder();
                     return false; 
