@@ -116,6 +116,7 @@ namespace BlahguaMobile.IOS
 
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
 				if (e.PropertyName == "CurrentChannel") {
+                    ImageLoader.Purge();
 					CollectionView.ScrollToItem (NSIndexPath.FromItemSection (0, 0), UICollectionViewScrollPosition.Top, true);
 					InvokeOnMainThread (() => {
 						Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
@@ -161,6 +162,9 @@ namespace BlahguaMobile.IOS
 			((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.SetGesturesState (false);
 			base.PrepareForSegue (segue, sender);
 		}
+
+
+
 
 		#endregion
 

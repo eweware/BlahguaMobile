@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+//using Android.Support.V4.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -24,15 +25,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileDemographicsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileDemographicsFragment";
-
         private EditText dob, city, state, post_code;
         private Spinner spinnerGender, spinnerEthnicity, spinnerCountry;
         private CheckBox check_public_gender, check_public_dob, check_public_ethnicity, check_public_city, check_public_state, check_public_post_code, check_public_country;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/demographics");
+			HomeActivity.analytics.PostPageView("/self/demographics");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_demographics, null);
             //if (container == null)
             //{

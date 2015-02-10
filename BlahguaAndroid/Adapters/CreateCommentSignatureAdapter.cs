@@ -39,7 +39,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
 	    public override int Count {
             get
             {
-                return mListItems.Count + 1;
+				if (mListItems.Count > 0)
+					return mListItems.Count + 3;
+				else
+					return 3;
             }
 	    }
 
@@ -63,6 +66,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
 			    convertView.Tag = holder;
 		    } else {
 			    holder = (ViewHolder) convertView.Tag;
+				holder.tv.SetTextColor (Color.Black);
+				holder.chkbox.Visibility = ViewStates.Visible;
+				UiHelper.SetGothamTypeface(TypefaceStyle.Normal, holder.tv);
 		    }
 
             if (position == 0)
@@ -71,9 +77,32 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 holder.tv.Text = "use profile";
                 holder.chkbox.Checked = !BlahguaAPIObject.Current.CreateCommentRecord.XX;
             }
-            else
+            else if (position == 1)
+			{
+				// userprofile option
+				holder.tv.Text = "mature content";
+				holder.chkbox.Checked = BlahguaAPIObject.Current.CreateCommentRecord.XXX;
+			}
+			else if (position == 2)
+			{
+				string badgesString;
+				// userprofile option
+				if (mListItems.Count == 0)
+					badgesString = "get badges to use them on a comment";
+				else if (mListItems.Count == 1)
+					badgesString = "available badge";
+				else
+					badgesString = "available badges";
+
+				holder.tv.Text = badgesString;
+				UiHelper.SetGothamTypeface(TypefaceStyle.Italic, holder.tv);
+				holder.tv.SetTextColor (Color.DarkGray);
+				holder.chkbox.Visibility = ViewStates.Gone;
+
+			}
+			else
             {
-                BadgeReference badge = (BadgeReference)mListItems[position - 1];
+                BadgeReference badge = (BadgeReference)mListItems[position - 3];
                 holder.tv.Text = badge.BadgeName;
                 if ((BlahguaAPIObject.Current.CreateCommentRecord.BD != null) &&
                     BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge.ID))
@@ -90,8 +119,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 {
                     BlahguaAPIObject.Current.CreateCommentRecord.XX = !cb.Checked;
                 }
-                else
+				else if (pos == 1)
+				{
+					BlahguaAPIObject.Current.CreateCommentRecord.XXX = cb.Checked;
+				}
+				else 
                 {
+					pos -= 3;
                     if (mListItems != null)
                     {
                         if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)

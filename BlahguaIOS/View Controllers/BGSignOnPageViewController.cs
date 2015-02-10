@@ -122,6 +122,8 @@ namespace BlahguaMobile.IOS
             }
 
             this.DismissViewController(true, null);
+			NSUserDefaults.StandardUserDefaults.SetBool(true,"isSecond");
+			NSUserDefaults.StandardUserDefaults.Synchronize();
         }
 
     }

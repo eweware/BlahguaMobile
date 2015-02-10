@@ -28,7 +28,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             return localPath;
         }
 
-        public async void DownloadAsync(string imageUrl, ImageView view, Func<Bitmap, bool> result)
+        public async void DownloadAsync(string imageUrl, Func<Bitmap, bool> result)
         {
             webClient = new WebClient();
             var url = new Uri(imageUrl);
@@ -48,7 +48,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
                     Console.WriteLine("Image " + imageUrl + " loading task canceled! :(");
                     return;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Image " + imageUrl + " loading task failure! :(");
                     return;
@@ -73,8 +73,6 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
 
             Bitmap bitmap = await BitmapFactory.DecodeFileAsync(localPath, options);
             
-            // done! applying to imageView
-            //view.SetImageBitmap(bitmap);
             result(bitmap);
         }
 	}

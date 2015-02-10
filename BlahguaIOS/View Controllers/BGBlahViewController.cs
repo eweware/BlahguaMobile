@@ -123,10 +123,17 @@ namespace BlahguaMobile.IOS
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
         }
 
+
         //Synsoft on 11 July 2014            
         private void BackHandler(object sender, EventArgs args)
         {
-            DismissViewController(true, null);
+			MonoTouch.CoreAnimation.CATransition newTrans = new MonoTouch.CoreAnimation.CATransition ();
+			newTrans.Duration = 0.3;
+			newTrans.Type = MonoTouch.CoreAnimation.CATransition.TransitionFade;
+			newTrans.Subtype = MonoTouch.CoreAnimation.CATransition.TransitionFromTop;
+			NavigationController.View.Layer.AddAnimation (newTrans, null);
+
+            DismissViewController(false, null);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -501,7 +508,7 @@ namespace BlahguaMobile.IOS
 
         private void SetUpVotesButtons()
         {
-            var votesButtonRect = new RectangleF(0, 0, 11, 19);
+            var votesButtonRect = new RectangleF(0, 0, 22, 22);
             upVoteButton = new UIButton(UIButtonType.Custom);
             upVoteButton.Frame = votesButtonRect;
             upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
@@ -577,17 +584,17 @@ namespace BlahguaMobile.IOS
             {
                 case 1:
                     {
-                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up_dark"), UIImage.FromBundle("arrow_down"));
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up_dark"), UIImage.FromBundle("arrow_down")); // arrow_up_dark, arrow_down
                         break;
                     }
                 case -1:
                     {
-                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down_dark"));
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down_dark")); // arrow_up, arrow_down_dark
                         break;
                     }
                 default:
                     {
-                        SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down"));
+					SetVoteButtonsImages(UIImage.FromBundle("arrow_up"), UIImage.FromBundle("arrow_down"));   // arrow_up, arrow_down
                         break;
                     }
             }
@@ -606,8 +613,8 @@ namespace BlahguaMobile.IOS
         private void SetUpPostButtons()
         {
             sharePostButton = new UIButton(UIButtonType.Custom);
-            sharePostButton.Frame = new RectangleF(0, 0, 14, 20);
-            sharePostButton.SetImage(UIImage.FromBundle("share_button"), UIControlState.Normal);
+            sharePostButton.Frame = new RectangleF(0, 0, 22, 22);
+			sharePostButton.SetImage(UIImage.FromBundle("share_button"), UIControlState.Normal); //share_button
             sharePostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
                     // to do:  show the share UI
@@ -635,14 +642,14 @@ namespace BlahguaMobile.IOS
             sharePostBtn.CustomView = sharePostButton;
 
             reportPostButton = new UIButton(UIButtonType.Custom);
-            reportPostButton.Frame = new RectangleF(0, 0, 22, 20);
-            reportPostButton.SetImage(UIImage.FromBundle("report_button_active"), UIControlState.Normal);
+            reportPostButton.Frame = new RectangleF(0, 0, 22, 22);
+			reportPostButton.SetImage(UIImage.FromBundle("report_button_active"), UIControlState.Normal); //report_button_active
             reportPostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
                     UIActionSheet actionSheet = new UIActionSheet("Report Post to eweware");
-                    actionSheet.AddButton ("Inappropriate / offensive ");
-                    actionSheet.AddButton ("Spam / misleading");
-                    actionSheet.AddButton ("infringes my rights");
+                    actionSheet.AddButton ("Inappropriate / Offensive ");
+                    actionSheet.AddButton ("Spam / Misleading");
+                    actionSheet.AddButton ("Infringes my rights");
                     actionSheet.AddButton ("Cancel");
                     actionSheet.DestructiveButtonIndex = 0; // red
                     actionSheet.CancelButtonIndex = 3;  // black
@@ -698,7 +705,7 @@ namespace BlahguaMobile.IOS
         private void SetUpModesButtons()
         {
             summaryButton = new UIButton(UIButtonType.Custom);
-            summaryButton.Frame = new RectangleF(0, 0, 20, 16);
+            summaryButton.Frame = new RectangleF(0, 0, 22, 22);
             summaryButton.SetImage(UIImage.FromBundle("summary_dark"), UIControlState.Normal);
             summaryButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -707,7 +714,7 @@ namespace BlahguaMobile.IOS
             summaryView.CustomView = summaryButton;
 
             commentsButton = new UIButton(UIButtonType.Custom);
-            commentsButton.Frame = new RectangleF(0, 0, 22, 19);
+            commentsButton.Frame = new RectangleF(0, 0, 22, 22);
             commentsButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
             commentsButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -717,7 +724,7 @@ namespace BlahguaMobile.IOS
             commentsView.CustomView = commentsButton;
 
             statsButton = new UIButton(UIButtonType.Custom);
-            statsButton.Frame = new RectangleF(0, 0, 26, 17);
+            statsButton.Frame = new RectangleF(0, 0, 22, 22);
             statsButton.SetImage(UIImage.FromBundle("stats"), UIControlState.Normal);
             statsButton.TouchUpInside += (object sender, EventArgs e) =>
             {

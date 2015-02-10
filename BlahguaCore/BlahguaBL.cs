@@ -13,7 +13,7 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahguaAPIObject : INotifyPropertyChanged
     {
-        class SavedUserInfo
+        public class SavedUserInfo
         {
             public string UserName { get; set; }
             public string Password { get; set; }
@@ -174,6 +174,13 @@ namespace BlahguaMobile.BlahguaCore
             signinTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
+		public void ForceCurrentChannel()
+		{
+			if (CurrentChannel != null) {
+				OnPropertyChanged("CurrentChannel");
+			}
+		}
+
         public void EnsureSignin()
         {
             if (CurrentUser != null)
@@ -208,7 +215,7 @@ namespace BlahguaMobile.BlahguaCore
             EnsureSignin();
         }
 
-        SavedUserInfo GetSavedUserInfo()
+        public SavedUserInfo GetSavedUserInfo()
         {
             SavedUserInfo theInfo = new SavedUserInfo();
             theInfo.UserName = (string)SafeLoadSetting("username", UserName);
@@ -548,22 +555,22 @@ namespace BlahguaMobile.BlahguaCore
             }
 
             BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
-                           {
-                               curChannelList = chanList;
+               {
+                   curChannelList = chanList;
 
-                               if (defaultChannel == null)
-                                CurrentChannel = curChannelList[0];
-                               else
-                               {
-                                   Channel curChan = curChannelList.ChannelFromName(defaultChannel);
-                                   if (curChan != null)
-                                       CurrentChannel = curChan;
-                                   else
-                                       CurrentChannel = curChannelList[0];
-                               }
-                               inited = true;
-                               callback(true);
-                           });
+                   if (defaultChannel == null)
+                    CurrentChannel = curChannelList[0];
+                   else
+                   {
+                       Channel curChan = curChannelList.ChannelFromName(defaultChannel);
+                       if (curChan != null)
+                           CurrentChannel = curChan;
+                       else
+                           CurrentChannel = curChannelList[0];
+                   }
+                   inited = true;
+                   callback(true);
+               });
         }
 
         

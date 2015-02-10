@@ -12,10 +12,11 @@ using Android.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using BlahguaMobile.AndroidClient.Screens;
+using Android.Content.PM;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(Label = "FirstRunActivity")]
+	[Activity(Label = "FirstRunActivity", ScreenOrientation = ScreenOrientation.Portrait )]
     public class FirstRunActivity : FragmentActivity
     {
         private NonSwipeViewPager mPager;
@@ -25,6 +26,9 @@ namespace BlahguaMobile.AndroidClient
 
         protected override void OnCreate(Bundle bundle)
         {
+			RequestWindowFeature(WindowFeatures.NoTitle);
+			this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             base.OnCreate(bundle);
 
             // Create your application here
@@ -55,6 +59,7 @@ namespace BlahguaMobile.AndroidClient
 
         public void FinishSignin()
         {
+			this.SetResult (Result.Ok, new Intent());
             this.Finish();
         }
 

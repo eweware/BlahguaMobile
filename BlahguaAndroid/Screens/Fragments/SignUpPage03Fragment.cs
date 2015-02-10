@@ -44,17 +44,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             ViewGroup rootView = (ViewGroup)inflater.Inflate(Resource.Layout.SignUpPage03, container, false);
 
-			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
-			rootView.FindViewById<TextView> (Resource.Id.textView2).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView2).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 
-			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
             emailAddrField = rootView.FindViewById<EditText>(Resource.Id.emailAddrField);
-            emailAddrField.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			emailAddrField.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             emailAddrField.AfterTextChanged += HandleTextValueChanged;
 
 
             checkBtn = rootView.FindViewById<Button>(Resource.Id.checkbtn);
-            checkBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			checkBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             checkBtn.Click += (s, e) =>
                 {
                     {
@@ -76,21 +76,21 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 {
                                     DisplayAlert("No Result", "No badges are available for your domain.  You can try again later from your profile page.", "got it", () =>
                                     {
-                                        ((FirstRunActivity)this.Activity).Finish();
+												((FirstRunActivity)this.Activity).FinishSignin();
                                     });
 
                                 }
                                 else if (ticket == "existing")
                                 {
-                                    MainActivity.analytics.PostBadgeNoEmail(FirstRunActivity.emailAddress);
+                                    HomeActivity.analytics.PostBadgeNoEmail(FirstRunActivity.emailAddress);
                                     DisplayAlert("Issued", "A badge has previously been issued to this email address.", "got it", () =>
                                     {
-                                        ((FirstRunActivity)this.Activity).Finish();
+												((FirstRunActivity)this.Activity).FinishSignin();
                                     });
                                 }
                                 else if (ticket == "invalid")
                                 {
-                                    MainActivity.analytics.PostBadgeNoEmail(FirstRunActivity.emailAddress);
+                                    HomeActivity.analytics.PostBadgeNoEmail(FirstRunActivity.emailAddress);
                                     DisplayAlert("Invalid email", "We were not able to send mail to that email address.", "try again", () =>
                                     {
                                         PrepPhaseOne();
@@ -99,7 +99,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 }
                                 else
                                 {
-                                    MainActivity.analytics.PostRequestBadge(authId);
+                                    HomeActivity.analytics.PostRequestBadge(authId);
                                     currentTicket = ticket;
                                     DisplayAlert("Badges Success", "Badges are available for your email address.", "next", () =>
                                     {
@@ -112,20 +112,20 @@ namespace BlahguaMobile.AndroidClient.Screens
                 };
 
             skipBtn = rootView.FindViewById<Button>(Resource.Id.skipBtn);
-            skipBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			skipBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             skipBtn.Click += (s, e) =>
             {
-                ((FirstRunActivity)this.Activity).Finish();
+				((FirstRunActivity)this.Activity).FinishSignin();
             };
 
-			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
             verifyField = rootView.FindViewById<EditText>(Resource.Id.verifyField);
-            verifyField.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			verifyField.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             verifyField.AfterTextChanged += HandleTextValueChanged;
 
             verifyBtn = rootView.FindViewById<Button>(Resource.Id.verifyBtn);
-            verifyBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			verifyBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             verifyBtn.Click += (s, e) =>
             {
                 BlahguaAPIObject.Current.VerifyEmailBadge(verifyField.Text, currentTicket, (result) =>
@@ -134,7 +134,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         if (result == "fail")
                         {
-                            MainActivity.analytics.PostBadgeValidateFailed();
+                            HomeActivity.analytics.PostBadgeValidateFailed();
                             DisplayAlert("Verification Failure", "That validation code was not valid.  Please retry your badging attempt.", "retry", () =>
                             {
                                 verifyField.SelectAll();
@@ -142,11 +142,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                         }
                         else
                         {
-                            MainActivity.analytics.PostGotBadge();
+                            HomeActivity.analytics.PostGotBadge();
                             BlahguaAPIObject.Current.RefreshUserBadges(null);
                             DisplayAlert("Verified", "You are ready to use badges in Heard.", "let's go", () =>
                             {
-                                ((FirstRunActivity)this.Activity).Finish();
+											((FirstRunActivity)this.Activity).FinishSignin();
                             });
                         }
                     });
@@ -154,7 +154,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
 
             tryAgainBtn = rootView.FindViewById<Button>(Resource.Id.tryAgainBtn);
-            tryAgainBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			tryAgainBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             tryAgainBtn.Click += (s, e) =>
             {
                 verifyField.Text = "";
@@ -187,7 +187,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         Console.WriteLine("Error:  no badge authories available");
 
-                        ((FirstRunActivity)this.Activity).Finish();
+                        ((FirstRunActivity)this.Activity).FinishSignin();
                     }
                     else
                     {

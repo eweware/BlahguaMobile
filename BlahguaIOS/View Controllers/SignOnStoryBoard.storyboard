@@ -93,7 +93,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="163" fixedFrame="YES" buttonType="roundedRect">
                                         <rect key="frame" x="50" y="448" width="220" height="34"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
-                                        <state key="normal" title="already have an account?" backgroundImage="">
+                                        <state key="normal" title="Already have an account?" backgroundImage="">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
@@ -157,7 +157,7 @@
                                 </state>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77" text="Connect with verified tech employees, VCs and press.">
-                                <rect key="frame" x="16" y="120" width="304" height="40"/>
+                                <rect key="frame" x="16" y="120" width="288" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
@@ -178,7 +178,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="80" text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world’s water cooler.">
-                                <rect key="frame" x="16" y="320" width="304" height="60"/>
+                                <rect key="frame" x="16" y="320" width="288" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
@@ -216,7 +216,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="172" alpha="0.2">
                                         <rect key="frame" x="20" y="60" width="280" height="280"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Heard uses “Verified Not Identified”™ badges." lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Verified Not Identified™" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
                                         <rect key="frame" x="8" y="16" width="304" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
@@ -417,6 +417,7 @@
         <image name="Icon-Small-50.png" width="50" height="50"/>
         <image name="Heard_Smile_Only_teal.png" width="280" height="240"/>
         <image name="Logo_master_teal.png" width="516" height="265"/>
+        <image name="ICON_TEST.png" width="72" height="72"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -203,6 +203,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public int uv { get; set; }
         private int _indentLevel;
+		private BadgeList _badgeList = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -381,26 +382,72 @@ namespace BlahguaMobile.BlahguaCore
 
         public BadgeList Badges
         {
-            get
-            {
-                if (BD == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    BadgeList badges = new BadgeList();
-                    foreach (string badgeId in BD)
-                    {
-                        badges.Add(new BadgeReference(badgeId));
-                    }
-
-                    return badges;
-                }
-            }
+			get
+			{
+				return _badgeList;
+			}
+			set
+			{
+				if ((value == null) || (value.Count == 0))
+				{
+					BD = null;
+				}
+				else
+				{
+					BD = new List<string>();
+					foreach (BadgeReference curBadge in value)
+					{
+						BD.Add(curBadge.ID);
+					}
+				}
+			}
         }
 
-    }
+		public void AwaitBadgeData(bool_callback callback)
+		{
+			if (BD == null)
+			{
+				callback(true);
+			}
+			else
+			{
+				_badgeList = new BadgeList();
+				List<string> idList = new List<string>(BD);
+				FetchBadgeSerially(idList, callback);
+
+			}
+		}
+
+
+		protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
+		{
+			BadgeReference newBadge = new BadgeReference();
+			newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
+				{
+					if (didIt)
+					{
+						if (_badgeList.Contains(newBadge))
+						{
+							System.Diagnostics.Debug.WriteLine("Duplicate call!");
+							return;
+						}
+
+						_badgeList.Add(newBadge);
+					}
+
+					if (badgeIdList.Count > 0)
+						badgeIdList.RemoveAt(0);
+
+					if (badgeIdList.Count > 0)
+						FetchBadgeSerially(badgeIdList, callback);
+					else
+						callback(true);
+				}
+			);
+		}
+	}
+
+
 
 
 

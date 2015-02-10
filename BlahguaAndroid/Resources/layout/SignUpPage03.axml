@@ -59,6 +59,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/emailAddrField"
                     android:textColor="@color/heard_black"
+                    android:background="@null"
+                    android:padding="10dp"
                     android:hint="email address" />
                 <Button
                     android:text="Check for Badges"
@@ -99,6 +101,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/verifyField"
+                    android:background="@null"
+                    android:padding="10dp"
                     android:textColor="@color/heard_black"
                     android:hint="verification code" />
                 <Button

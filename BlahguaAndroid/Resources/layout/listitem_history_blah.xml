@@ -1,124 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/heard_white">
     <LinearLayout
         android:id="@+id/left_layout"
-        android:layout_width="60dp"
+        android:tag="back"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="#00BCD2"
-        android:visibility="gone">
+        android:background="#A0A0A0">
         <Button
             android:id="@+id/btn_open"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:textColor="#FFF"
-            android:text="OPEN POST" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#3C3C3C"
-            android:paddingBottom="3dp" />
-        <ImageView
-            android:id="@+id/image"
+            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:paddingBottom="3dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <ImageView
-                android:id="@+id/blahtype"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:scaleType="fitCenter"
-                android:layout_marginRight="5dp" />
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/btn_promote" />
-            <TextView
-                android:id="@+id/upvoted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#60BFA4" />
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/btn_demote"
-                android:scaleType="fitCenter" />
-            <TextView
-                android:id="@+id/downvoted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#60BFA4" />
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/conversion"
-                android:scaleType="fitCenter"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
-            <TextView
-                android:id="@+id/conversion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#60BFA4" />
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/comments_filled_64x64"
-                android:scaleType="fitCenter"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
-            <TextView
-                android:id="@+id/comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#60BFA4" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/time_ago"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#3C3C3C"
-            android:textSize="10sp"
-            android:layout_gravity="center_vertical"
-            android:text="some time ago" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/right_layout"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="#E73E53"
-        android:padding="10dp"
-        android:visibility="gone">
+            android:background="@color/heard_blue"
+            android:textColor="@color/heard_white"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:text="open post" />
         <Button
             android:id="@+id/btn_delete"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:textColor="#FFF"
-            android:text="DELETE" />
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/heard_red"
+            android:textColor="@color/heard_white"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:text="delete post" />
     </LinearLayout>
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/front"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:tag="front"
+        android:background="@color/heard_white">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/image"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"
+                android:text="This is the title of the post!"
+                android:id="@+id/text"
+                android:textSize="16dp"
+                android:textColor="@color/heard_black"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp" />
+            <BlahguaMobile.AndroidClient.HelpingClasses.ResizableImageView
+                android:id="@+id/image"
+                android:src="@drawable/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/heard_white"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="left">
+                <ImageView
+                    android:id="@+id/blahtype"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_speechact_say"
+                    android:scaleType="fitCenter" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_thumb_up_grey"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp" />
+                <TextView
+                    android:id="@+id/upvoted"
+                    android:text="3"
+                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/heard_black" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_thumb_down_grey"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp" />
+                <TextView
+                    android:id="@+id/downvoted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13"
+                    android:textSize="12dp"
+                    android:textColor="@color/heard_black" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_conversion"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp" />
+                <TextView
+                    android:id="@+id/conversion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="33%"
+                    android:textSize="12dp"
+                    android:textColor="@color/heard_black" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/comments_filled_64x64"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp" />
+                <TextView
+                    android:id="@+id/comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    android:textColor="@color/heard_black"
+                    android:textSize="12dp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/time_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/heard_black"
+                android:textSize="12dp"
+                android:layout_gravity="right"
+                android:text="some time ago"
+                android:textStyle="italic"
+                android:layout_marginRight="8dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

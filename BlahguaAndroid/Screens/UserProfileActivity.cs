@@ -16,108 +16,281 @@ using BlahguaMobile.AndroidClient.Screens;
 using Android.App;
 using Android.Graphics;
 
+using Android.Text;
+using Android.Text.Style;
+
+using BlahguaMobile.AndroidClient.HelpingClasses;
+
+
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(WindowSoftInputMode=SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
     public class UserProfileActivity : Activity
     {
-        private Button btn_right;
-        private TextView title;
 
         private UserProfileProfileFragment profileFragment;
         private UserProfileDemographicsFragment demographicsFragment;
         private UserProfileBadgesFragment badgesFragment;
         private UserProfileStatsFragment statsFragment;
+        private HistoryPostsFragment postsFragment;
+        private HistoryCommentsFragment commentsFragment;
+		//private GestureDetector _gestureDetector;
+		//private GestureListener _gestureListener;
+
+        private Fragment curFragment;
+
+        private ActionBar.Tab profileTab, badgesTab, demoTab, postsTab, commentsTab, statsTab;
 
 		protected override void OnCreate (Bundle bundle)
 		{
-            base.OnCreate(bundle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
-            MainActivity.analytics.PostPageView("/self");
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            base.OnCreate(bundle);
+            this.ActionBar.SetDisplayHomeAsUpEnabled(false);
+            this.ActionBar.SetHomeButtonEnabled(false);
+            this.ActionBar.SetDisplayShowHomeEnabled(false);
+			this.ActionBar.SetDisplayShowTitleEnabled (false);
+			HomeActivity.analytics.PostPageView("/self");
+            //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
-            Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
-            btn_back.Click += delegate
-            {
-                Finish();
-			};
+			/*
+			_gestureListener = new GestureListener();
+			_gestureDetector = new GestureDetector(this, _gestureListener);
+			_gestureListener.SwipeLeftEvent += swipeLeftEvent;
+			_gestureListener.SwipeRightEvent += swipeRightEvent;
+			*/
 
-            title = FindViewById<TextView>(Resource.Id.title);
-            btn_right = FindViewById<Button>(Resource.Id.btn_right);
+            // set up tabs
+            profileTab = ActionBar.NewTab();
+            profileTab.SetText("Profile");
+            profileTab.TabSelected += SelectProfile;
+            ActionBar.AddTab(profileTab);
 
-            title.SetTypeface(MainActivity.merriweatherFont, Android.Graphics.TypefaceStyle.Normal);
-            btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+            badgesTab = ActionBar.NewTab();
+            badgesTab.SetText("Badges");
+            badgesTab.TabSelected += SelectBadges;
+            ActionBar.AddTab(badgesTab);
 
-            btn_right.Click += btn_right_Click;
+            demoTab = ActionBar.NewTab();
+            demoTab.SetText("Demographics");
+            demoTab.TabSelected += SelectDemo;
+            ActionBar.AddTab(demoTab);
 
-            //title.Visibility = ViewStates.Gone;
-            //btn_right.Visibility = ViewStates.Gone;
+            postsTab = ActionBar.NewTab();
+            postsTab.SetText("Posts");
+            postsTab.TabSelected += SelectPosts;
+            ActionBar.AddTab(postsTab);
+
+            commentsTab = ActionBar.NewTab();
+            commentsTab.SetText("Comments");
+            commentsTab.TabSelected += SelectComments;
+            ActionBar.AddTab(commentsTab);
+
+            statsTab = ActionBar.NewTab();
+            statsTab.SetText("Stats");
+            statsTab.TabSelected += SelectStats;
+            ActionBar.AddTab(statsTab);
+
 
             int page = Intent.GetIntExtra("Page", 1);
-
+            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
+            
             switch (page)
             {
                 case 1:
-                    {
-                        profileFragment = null;
-                        demographicsFragment = null;
-                        statsFragment = null;
-
-                        title.Text = "Badges";
-                        btn_right.Visibility = ViewStates.Visible;
-                        btn_right.Text = "New";
-
-                        badgesFragment = UserProfileBadgesFragment.NewInstance();
-                        var fragmentTransaction = FragmentManager.BeginTransaction();
-                        fragmentTransaction.Replace(Resource.Id.content_fragment, badgesFragment);
-                        fragmentTransaction.Commit();
-                    }
+                    ActionBar.SelectTab(badgesTab);
                     break;
+                   
                 case 2:
-                    {
-                        badgesFragment = null;
-                        profileFragment = null;
-                        statsFragment = null;
-
-                        title.Text = "Demographics";
-                        btn_right.Visibility = ViewStates.Visible;
-                        btn_right.Text = "Done";
-
-                        demographicsFragment = UserProfileDemographicsFragment.NewInstance();
-                        var fragmentTransaction = FragmentManager.BeginTransaction();
-                        fragmentTransaction.Replace(Resource.Id.content_fragment, demographicsFragment);
-                        fragmentTransaction.Commit();
-                    }
+                    ActionBar.SelectTab(demoTab);
                     break;
+
+                case 3:
+                    ActionBar.SelectTab(postsTab);
+                    break;
+
                 case 4:
-                    {
-                        badgesFragment = null;
-                        profileFragment = null;
-                        demographicsFragment = null;
-
-                        title.Text = "Statistics";
-                        btn_right.Visibility = ViewStates.Gone;
-
-                        statsFragment = UserProfileStatsFragment.NewInstance();
-                        var fragmentTransaction = FragmentManager.BeginTransaction();
-                        fragmentTransaction.Replace(Resource.Id.content_fragment, statsFragment);
-                        fragmentTransaction.Commit();
-                    }
+                    ActionBar.SelectTab(statsTab);
                     break;
-                default:
-                    {
-                        badgesFragment = null;
-                        demographicsFragment = null;
-                        statsFragment = null;
 
-                        profileFragment = UserProfileProfileFragment.NewInstance();
-                        var fragmentTransaction = FragmentManager.BeginTransaction();
-                        fragmentTransaction.Replace(Resource.Id.content_fragment, profileFragment);
-                        fragmentTransaction.Commit();
-                    }
+                default:
+                    ActionBar.SelectTab(profileTab);
                     break;
             }
+        }
+
+        protected void SelectStats(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (statsFragment == null)
+            {
+                statsFragment = UserProfileStatsFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(statsFragment, firstTime, "Statistics");
+
+        }
+		private void swipeLeftEvent(MotionEvent first, MotionEvent second)
+		{
+
+			if (curFragment == profileFragment)
+				ActionBar.SelectTab(badgesTab);
+			else if (curFragment == badgesFragment)
+				ActionBar.SelectTab(demoTab);
+			else if (curFragment == demographicsFragment)
+				ActionBar.SelectTab(postsTab);
+			else if (curFragment == postsFragment)
+				ActionBar.SelectTab(commentsTab);
+			else if (curFragment == commentsFragment)
+				ActionBar.SelectTab(statsTab);
+
+		}
+		private void swipeRightEvent(MotionEvent first, MotionEvent second)
+		{
+
+			if (curFragment == statsFragment)
+				ActionBar.SelectTab(commentsTab);
+			else if (curFragment == commentsFragment)
+				ActionBar.SelectTab(postsTab);
+			else if (curFragment == postsFragment)
+				ActionBar.SelectTab(demoTab);
+			else if (curFragment == demographicsFragment)
+				ActionBar.SelectTab(badgesTab);
+			else if (curFragment == badgesFragment)
+				ActionBar.SelectTab(profileTab);
+	}
+
+		public override bool DispatchTouchEvent(MotionEvent ev)
+		{
+			//_gestureDetector.OnTouchEvent (ev);
+			return base.DispatchTouchEvent(ev);
+		}
+
+        protected void SelectBadges(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (badgesFragment == null)
+            {
+                badgesFragment = UserProfileBadgesFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(badgesFragment, firstTime, "Badges");
+
+        }
+
+        protected void SelectDemo(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (demographicsFragment == null)
+            {
+                demographicsFragment = UserProfileDemographicsFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(demographicsFragment, firstTime, "Demographics");
+
+        }
+
+        protected void SelectProfile(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (profileFragment == null)
+            {
+                profileFragment = UserProfileProfileFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(profileFragment, firstTime, "Profile");
+
+        }
+
+        protected void SelectComments(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (commentsFragment == null)
+            {
+                commentsFragment = HistoryCommentsFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(commentsFragment, firstTime, "Comment History");
+
+        }
+
+        protected void SelectPosts(object sender, EventArgs e)
+        {
+            bool firstTime = false;
+
+            if (postsFragment == null)
+            {
+                postsFragment = HistoryPostsFragment.NewInstance();
+                firstTime = true;
+            }
+
+            SetCurrentFragment(postsFragment, firstTime, "Post History");
+        }
+
+        void SetCurrentFragment(Fragment newFrag, bool firstTime, string theTitle = null)
+        {
+            if (curFragment != newFrag)
+            {
+                var fragmentManager = this.FragmentManager;
+                var ft = fragmentManager.BeginTransaction();
+
+                if (curFragment != null)
+                    ft.Hide(curFragment);
+
+                curFragment = newFrag;
+
+                if (newFrag != null)
+                {
+                    if (firstTime)
+                        ft.Add(Resource.Id.content_fragment, curFragment);
+                    else
+                        ft.Show(curFragment);
+                    ft.Commit();
+                }
+            }
+
+            if (!String.IsNullOrEmpty(theTitle))
+                Title = theTitle;
+        }
+
+
+
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case 16908332:// the back button apparently...
+                    {
+                        Finish();
+                    }
+                    break;
+
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        protected override void OnTitleChanged(Java.Lang.ICharSequence title, Color color)
+        {
+            SpannableString s = new SpannableString(title);
+            s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+            s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+
+            this.ActionBar.TitleFormatted = s;
+
         }
 
         private void btn_right_Click(object sender, EventArgs e)

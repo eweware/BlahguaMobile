@@ -11,7 +11,7 @@ using BlahguaMobile.AndroidClient.Adapters;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity
+    public partial class HomeActivity
     {
         private readonly int BlahSetsAmountToRemove = 3;
         int blahsToAdd = 0;
@@ -60,7 +60,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 RunOnUiThread(() =>
                 {
-                    //Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
+                    Toast.MakeText(this, "still loading...", ToastLength.Short).Show();
                 });
                 //LoadingMessageBox.Text = "still loading...";
             };
@@ -150,7 +150,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     inboxCounter++;
                 }
 
-                MainActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+					HomeActivity.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
             });
         }
@@ -166,7 +166,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             var control = LayoutInflater.Inflate(Resource.Layout.empty_channel_warning, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             control.LayoutParameters = layoutParams;
             BlahContainerLayout.LayoutParameters = layoutParams2;
 
@@ -250,7 +250,6 @@ namespace BlahguaMobile.AndroidClient.Screens
                     newTop = InsertRowTypeF(topLoc);
                     break;
             }
-
             return newTop;
         }
 
@@ -363,7 +362,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible ;
-			    title.SetTypeface (MainActivity.gothamFont, TypefaceStyle.Normal);
+				title.SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 
                 title.Text = theBlah.T;
 

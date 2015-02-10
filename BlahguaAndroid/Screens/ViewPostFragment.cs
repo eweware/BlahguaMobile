@@ -13,17 +13,17 @@ using System;
 using SlidingMenuSharp.App;
 using SlidingMenuSharp;
 using BlahguaMobile.AndroidClient.Screens;
-using Android.App;
+//using Android.App;
+using Android.Support.V4.App;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ViewPostActivity : Activity
+    //[Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+	public class ViewPostFragment : Fragment
     {
         private Button btn_right;
-        private TextView title;
 
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment, summaryInitFragment;
@@ -36,48 +36,59 @@ namespace BlahguaMobile.AndroidClient
         private GestureDetector _gestureDetector;
         private GestureListener _gestureListener;
 
+		HomeActivity homeActivity = null;
 
-		protected override void OnCreate (Bundle bundle)
+
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-            base.OnCreate(bundle);
+			base.OnCreateView (inflater, container, savedInstanceState);
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
-			SetContentView (Resource.Layout.activity_viewpost);
+			View fragment = inflater.Inflate (Resource.Layout.activity_viewpost, null);
+
+			homeActivity = (HomeActivity)this.Activity;
 
             _gestureListener = new GestureListener();
-            _gestureDetector = new GestureDetector(this, _gestureListener);
+            //_gestureDetector = new GestureDetector(this, _gestureListener);
             _gestureListener.SwipeLeftEvent += swipeLeftEvent;
             _gestureListener.SwipeRightEvent += swipeRightEvent;
 
-            Button btn_back = FindViewById<Button>(Resource.Id.btn_back);
+			Button btn_back = fragment.FindViewById<Button>(Resource.Id.btn_back);
             btn_back.Click += delegate
             {
-                Finish();
+				if(FragmentManager.BackStackEntryCount >0)
+				{
+					FragmentManager.PopBackStack();
+					homeActivity.RestoreTitle();
+				}
 			};
 
-            title = FindViewById<TextView>(Resource.Id.title);
-            btn_right = FindViewById<Button>(Resource.Id.btn_right);
-            title.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
+			btn_right = fragment.FindViewById<Button>(Resource.Id.btn_right);
             btn_right.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
 
             btn_right.Click += btn_right_Click;
 
-            title.Visibility = ViewStates.Gone;
             btn_right.Visibility = ViewStates.Gone;
 
-            btn_login = FindViewById<Button>(Resource.Id.btn_login);
+			btn_login = fragment.FindViewById<Button>(Resource.Id.btn_login);
             btn_login.SetTypeface(MainActivity.merriweatherFont, TypefaceStyle.Normal);
             btn_login.Click += delegate
             {
-                StartActivity(typeof(LoginActivity));
+                //StartActivity(typeof(LoginActivity));
+				FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+				LoginFragment loginFragment = new LoginFragment ();
+
+				fragmentTx.Replace (Resource.Id.content_frame, loginFragment);
+				fragmentTx.AddToBackStack (null);
+				fragmentTx.Commit ();
             };
-            btn_promote = FindViewById<Button>(Resource.Id.btn_promote);
-            btn_demote = FindViewById<Button>(Resource.Id.btn_demote);
+			btn_promote = fragment.FindViewById<Button>(Resource.Id.btn_promote);
+			btn_demote = fragment.FindViewById<Button>(Resource.Id.btn_demote);
 
-            btn_summary = FindViewById<Button>(Resource.Id.btn_summary);
-            btn_comments = FindViewById<Button>(Resource.Id.btn_comments);
-            btn_stats = FindViewById<Button>(Resource.Id.btn_stats);
-
+			btn_summary = fragment.FindViewById<Button>(Resource.Id.btn_summary);
+			btn_comments = fragment.FindViewById<Button>(Resource.Id.btn_comments);
+			btn_stats = fragment.FindViewById<Button>(Resource.Id.btn_stats);
+			/*
             btn_promote.Click += HandlePromoteBlah;
             btn_demote.Click += HandleDemoteBlah;
 
@@ -86,7 +97,11 @@ namespace BlahguaMobile.AndroidClient
             btn_stats.Click += btn_stats_Click;
 
             btn_summary_Click(null, null);
-            MainActivity.analytics.PostPageView("/blah");
+            */
+			HomeActivity.analytics.PostPageView("/blah");
+
+
+			return fragment;
         }
 
         private void swipeLeftEvent(MotionEvent first, MotionEvent second)
@@ -111,13 +126,13 @@ namespace BlahguaMobile.AndroidClient
                 btn_comments_Click(null, null);
             }
         }
-
+		/*
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
             base.DispatchTouchEvent(ev);
             return _gestureDetector.OnTouchEvent(ev);
         }
-
+		*/
         private void initUserUi()
         {
             if (BlahguaAPIObject.Current.CurrentUser != null)
@@ -138,7 +153,7 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
-        protected override void OnResume()
+		public override void OnResume()
         {
             base.OnResume();
 
@@ -155,11 +170,17 @@ namespace BlahguaMobile.AndroidClient
                 }
                 else
                 {
-                    StartActivity(typeof(LoginActivity));
+                    //StartActivity(typeof(LoginActivity));
+					FragmentTransaction fragmentTx = this.FragmentManager.BeginTransaction ();
+					LoginFragment loginFragment = new LoginFragment ();
+
+					fragmentTx.Replace (Resource.Id.content_frame, loginFragment);
+					fragmentTx.AddToBackStack (null);
+					fragmentTx.Commit ();
                 }
             }
         }
-
+		/*
         #region TabBar buttons
         private void btn_stats_Click(object sender, EventArgs e)
         {
@@ -171,8 +192,7 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Text = "Statistics";
-            title.Visibility = ViewStates.Visible;
+			homeActivity.SetTitle ("Statistics");
             btn_right.Visibility = ViewStates.Gone;
 
             summaryFragment = null;
@@ -194,8 +214,9 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments);
 
             // do the rest
-            title.Text = "Summary";
-            title.Visibility = ViewStates.Visible;
+
+			homeActivity.SetTitle ("Summary");
+
             btn_right.Visibility = ViewStates.Gone;
 
             commentsFragment = null;
@@ -221,8 +242,7 @@ namespace BlahguaMobile.AndroidClient
             btn_comments.SetBackgroundResource(Resource.Drawable.btn_comments_pressed);
 
             // do the rest
-            title.Text = "Comments";
-            title.Visibility = ViewStates.Visible;
+			homeActivity.SetTitle ("Comments");
             //if (BlahguaAPIObject.Current.CurrentUser != null)
             //{
                 btn_right.Visibility = ViewStates.Visible;
@@ -236,7 +256,9 @@ namespace BlahguaMobile.AndroidClient
             var fragmentTransaction = FragmentManager.BeginTransaction();
             fragmentTransaction.Replace(Resource.Id.content_fragment, commentsFragment);
             fragmentTransaction.Commit();
+
         }
+
         #endregion
 
         #region Handles
@@ -246,7 +268,7 @@ namespace BlahguaMobile.AndroidClient
             BlahguaAPIObject.Current.SetBlahVote(1, (newVote) =>
             {
                 UpdateSummaryButtons();
-                MainActivity.analytics.PostBlahVote(1);
+					HomeActivity.analytics.PostBlahVote(1);
             });
             
         }
@@ -256,11 +278,11 @@ namespace BlahguaMobile.AndroidClient
             BlahguaAPIObject.Current.SetBlahVote(-1, (newVote) =>
             {
                 UpdateSummaryButtons();
-                MainActivity.analytics.PostBlahVote(-1);
+					HomeActivity.analytics.PostBlahVote(-1);
             });
             
         }
-        #endregion
+        #endregion*/ 
 
         public void UpdateSummaryButtons()
         {
@@ -270,7 +292,7 @@ namespace BlahguaMobile.AndroidClient
 
             if (BlahguaAPIObject.Current.CurrentUser != null)
             {
-				RunOnUiThread (() => {
+				Activity.RunOnUiThread (() => {
 					if (curBlah.A == BlahguaAPIObject.Current.CurrentUser._id) {
 						btn_promote.Enabled = false;
 						btn_demote.Enabled = false;

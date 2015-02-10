@@ -16,6 +16,7 @@ using Android.Animation;
 using BlahguaMobile.AndroidClient.Adapters;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics;
+using FortySevenDeg.SwipeListView;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -26,86 +27,93 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new HistoryCommentsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "HistoryCommentsFragment";
-
         private TextView comments_total_count;
 
-        private ListView list;
+		private SwipeListView list;
         private LinearLayout no_comments;
-
-        private HistoryActivity activity;
+        private ProgressDialog progressDlg;
 
         private HistoryCommentsAdapter adapter;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/comments");
+            progressDlg = new ProgressDialog(this.Activity);
+            progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
+
+			HomeActivity.analytics.PostPageView("/self/comments");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_comments, null);
 
             comments_total_count = fragment.FindViewById<TextView>(Resource.Id.comments_total_count);
+            comments_total_count.Text = "loading comments...";
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, comments_total_count);
 
-            list = fragment.FindViewById<ListView>(Resource.Id.list);
+			list = fragment.FindViewById<SwipeListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             no_comments = fragment.FindViewById<LinearLayout>(Resource.Id.no_comments);
-
-            LoadUserComments();
+			list.FrontViewClicked += HandleFrontViewClicked;
+			list.BackViewClicked += HandleBackViewClicked;
+			list.Dismissed += HandleDismissed;
+           // LoadUserComments();
 
             return fragment;
         }
 
+		void HandleFrontViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.OpenAnimate(e.Position));
+		}
+
+		void HandleBackViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.CloseAnimate(e.Position));
+		}
+
+		void HandleDismissed (object sender, SwipeListViewDismissedEventArgs e)
+		{
+			foreach (var i in e.ReverseSortedPositions)
+			{
+				adapter.RemoveView(i);
+			}
+		}
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            activity = (HistoryActivity)Activity;
             base.OnActivityCreated(savedInstanceState);
-        }
-
-        public void GestureLeft(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, false, true);
-                View rightView = listItem.FindViewById<View>(Resource.Id.right_layout);
-                rightView.Visibility = ViewStates.Gone;
-            }
-        }
-
-        public void GestureRight(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - comments_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, true, false);
-            }
+            LoadUserComments();
         }
 
         public void LoadUserComments()
         {
-            BlahguaAPIObject.Current.LoadUserComments((theComments) =>
-                {
-                    Activity.RunOnUiThread(() =>
+            Activity.RunOnUiThread(() =>
+            {
+                comments_total_count.Text = "loading comments";
+                progressDlg.SetMessage("loading comments...");
+                progressDlg.Show();
+
+                BlahguaAPIObject.Current.LoadUserComments((theComments) =>
                     {
-                        if (theComments.Count > 0)
+                        Activity.RunOnUiThread(() =>
                         {
-                            comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
-                            no_comments.Visibility = ViewStates.Gone;
-                            list.Visibility = ViewStates.Visible;
-                            adapter = new HistoryCommentsAdapter(this, theComments);
-                            list.Adapter = adapter;
-                        }
-                        else
-                        {
-                            comments_total_count.Text = "Your Comments (0)";
-                            no_comments.Visibility = ViewStates.Visible;
-                            list.Visibility = ViewStates.Gone;
-                            list.Adapter = adapter = null;
-                        }
-                    });
-                }
-            );
+                            progressDlg.Hide();
+                            if ((theComments != null) && (theComments.Count > 0))
+                            {
+                                comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
+                                no_comments.Visibility = ViewStates.Gone;
+                                list.Visibility = ViewStates.Visible;
+                                adapter = new HistoryCommentsAdapter(this, theComments);
+                                list.Adapter = adapter;
+                            }
+                            else
+                            {
+                                comments_total_count.Text = "Your Comments (0)";
+                                no_comments.Visibility = ViewStates.Visible;
+                                list.Visibility = ViewStates.Gone;
+                                list.Adapter = adapter = null;
+                            }
+                        });
+                    }
+                );
+            });
         }
     }
 }

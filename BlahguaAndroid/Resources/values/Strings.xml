@@ -22,6 +22,7 @@
 	<string name="signin_help_btn">HELP</string>
 	<string name="signin_report_btn">REPORT BUG</string>
 	<string name="signin_report_chooser_title">Sending a bug report</string>
+  <string name="signin_infringe_chooser_title">Reporting a rights infringement</string>
 	<string name="signin_help_chooser_title">Send email...</string>
 	<string name="signin_report_email_subject">Bug Report</string>
 	<string name="signin_help_email_subject">Help Me</string>
@@ -80,6 +81,8 @@
 	<string name="viewpost_stats_promotes">Promotes:</string>
 	<string name="viewpost_stats_demotes">Demotes:</string>
 	<string name="userprofile_recent_header">Activity in the last week for your posts</string>
+  <string name="viewpost_report_email_subject">Rights Infringement in Heard</string>
+  <string name="viewpost_report_infringement_body">I am the owner of the following item that is being used on Heard without my permission.  </string>
 	<!-- USER STATS SCREEN -->
 	<string name="userprofile_stats_info">Key statistical data for this user. The user score is an overall rating computed by assigning different weights to different data metrics.</string>
 	<string name="userprofile_stats_user_score">User Score:</string>

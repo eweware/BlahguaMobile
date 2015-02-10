@@ -24,7 +24,7 @@ using Android.Graphics.Drawables;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity
+    public partial class HomeActivity
     {
 
         private PopupWindow signaturePopup;

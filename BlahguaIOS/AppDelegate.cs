@@ -162,6 +162,8 @@ namespace BlahguaMobile.IOS
 		{
 			if (BlahguaAPIObject.Current.CurrentUser != null)
 				BlahguaAPIObject.Current.EnsureSignin ();
+			BlahguaAPIObject.Current.ForceCurrentChannel ();
+
 		}
             
         public override void DidEnterBackground(UIApplication application)
@@ -249,12 +251,7 @@ namespace BlahguaMobile.IOS
 						{
                             UIStoryboard signUpSB = UIStoryboard.FromName("SignOnStoryBoard", null);
                             BGSignOnPageViewController signUpVC = (BGSignOnPageViewController)signUpSB.InstantiateViewController("SignOnViewController");
-							//var c = new BGTutorialViewController();
-							//Window.RootViewController = c;
                             Window.RootViewController = signUpVC;
-
-							NSUserDefaults.StandardUserDefaults.SetBool(true,"isSecond");
-							NSUserDefaults.StandardUserDefaults.Synchronize();
 						}
 						else
 						{

@@ -1,1 +1,1 @@
-better button sizes
+bug fixes for double-opening posts, etc.

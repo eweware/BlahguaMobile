@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+//using Android.Support.V4.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -27,8 +28,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileBadgesFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileBadgesFragment";
-
         private LinearLayout list, no_badges;
         private ScrollView list_container;
 
@@ -40,7 +39,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/badges");
+			HomeActivity.analytics.PostPageView("/self/badges");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_badges, null);
            
             list = fragment.FindViewById<LinearLayout>(Resource.Id.list);
@@ -113,17 +112,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
             {
                 btn_verify.Enabled = true;
-            }
-        }
-
-
-
-        public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            if (resultCode == Result.Ok)
-            {
-
             }
         }
 
@@ -208,7 +196,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             var control = Activity.LayoutInflater.Inflate(Resource.Layout.uiitem_badge, null);
             var title = control.FindViewById<TextView>(Resource.Id.title);
-            title.SetTypeface(MainActivity.gothamFont, TypefaceStyle.Normal);
+			title.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             var image = control.FindViewById<ImageView>(Resource.Id.image);
             image.LayoutParameters = imageParams;
 
@@ -279,14 +267,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                             Toast.MakeText(Activity, "The authority currently has no badges for that email address.", ToastLength.Short).Show();
                             emailField.Enabled = true;
                             btn_submit.Visibility = ViewStates.Visible;
-                            MainActivity.analytics.PostBadgeNoEmail(emailAddr);
+										HomeActivity.analytics.PostRequestBadge(badgeId);
+										HomeActivity.analytics.PostBadgeNoEmail(emailAddr);
                             submitSection.Visibility = ViewStates.Gone;
                             requestSection.Visibility = ViewStates.Visible;
                         }
                         else
                         {
                             // success
-                            MainActivity.analytics.PostRequestBadge(badgeId);
                             emailField.Text = "";
                             ticketStr = ticket;
                             submitSection.Visibility = ViewStates.Gone;
@@ -321,13 +309,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                         codeField.SelectAll();
                         btn_verify.Visibility = ViewStates.Visible;
                     });
-                    MainActivity.analytics.PostBadgeValidateFailed();
+						HomeActivity.analytics.PostBadgeValidateFailed();
                 }
                 else
                 {
                     // success
 
-                    MainActivity.analytics.PostGotBadge();
+						HomeActivity.analytics.PostGotBadge();
                     BlahguaAPIObject.Current.RefreshUserBadges((theStr) =>
                     {
                         Activity.RunOnUiThread(() =>
@@ -382,13 +370,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             string domainName = addr.Host;
             BlahguaAPIObject.Current.RequestBadgeForDomain(emailAddr, domainName, (resultStr) =>
                 {
-					Activity.RunOnUiThread(() =>
-						{
-							triggerNewBlock();
-		                    if (resultStr == "ok")
-		                    Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
-						});
-
+                    if (resultStr == "ok")
+                    {
+                        Toast.MakeText(Activity, "Domain Requested", ToastLength.Short).Show();
+                    }
                 });
         }
 

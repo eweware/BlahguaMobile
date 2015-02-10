@@ -21,7 +21,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
         {
             foreach (TextView view in views)
             {
-                view.SetTypeface(MainActivity.gothamFont, style);
+                view.SetTypeface(HomeActivity.gothamFont, style);
             }
         }
 
@@ -61,125 +61,7 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             }
         }
 
-        public static void ManageSwipe(View listItem, bool left, bool right)
-        {
-            View leftView = listItem.FindViewById<View>(Resource.Id.left_layout);
-            View rightView = listItem.FindViewById<View>(Resource.Id.right_layout);
-
-            bool leftNeedsToBeHidden = left == false && right == true && leftView.Visibility == ViewStates.Visible;
-            bool rightNeedsToBeHidden = left == true && right == false && rightView.Visibility == ViewStates.Visible;
-
-            if (!rightNeedsToBeHidden)
-            {
-                if (left)
-                {
-                    if (leftView.Visibility == ViewStates.Gone)
-                    {
-                        // show left view
-                        leftView.Visibility = ViewStates.Visible;
-                        int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                        int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                        leftView.Measure(widthSpec, heightSpec);
-
-                        ValueAnimator mAnimator = slideAnimator(leftView, 0, leftView.MeasuredWidth, true);
-                        mAnimator.Start();
-
-                        EventHandler ev = (s, args) =>
-                        {
-                            //collapse();
-                            int finalWidth = leftView.Width;
-
-                            ValueAnimator Animator = slideAnimator(leftView, finalWidth, 0, true);
-                            Animator.Start();
-                            Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                            {
-                                leftView.Visibility = ViewStates.Gone;
-                            };
-                        };
-                        ((Button)leftView.FindViewById<Button>(Resource.Id.btn_open)).Click += ev;
-                    }
-                    else
-                    {
-                        // ignore
-                    }
-                }
-                else
-                {
-                    if (leftView.Visibility == ViewStates.Gone)
-                    {
-                        // ignore
-                    }
-                    else
-                    {
-                        // hide left view
-                        int finalWidth = leftView.Width;
-
-                        ValueAnimator Animator = slideAnimator(leftView, finalWidth, 0, true);
-                        Animator.Start();
-                        Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                        {
-                            leftView.Visibility = ViewStates.Gone;
-                        };
-                    }
-                }
-            }
-
-            if (!leftNeedsToBeHidden)
-            {
-                if (right)
-                {
-                    if (rightView.Visibility == ViewStates.Gone)
-                    {
-                        // show right view
-                        rightView.Visibility = ViewStates.Visible;
-                        int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                        int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-                        rightView.Measure(widthSpec, heightSpec);
-
-                        ValueAnimator mAnimator = slideAnimator(rightView, 0, rightView.MeasuredWidth, true);
-                        mAnimator.Start();
-
-                        EventHandler ev = (s, args) =>
-                        {
-                            //collapse();
-                            int finalWidth = rightView.Width;
-
-                            ValueAnimator Animator = slideAnimator(rightView, finalWidth, 0, true);
-                            Animator.Start();
-                            Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                            {
-                                rightView.Visibility = ViewStates.Gone;
-                            };
-                        };
-                        ((Button)rightView.FindViewById<Button>(Resource.Id.btn_delete)).Click += ev;
-                    }
-                    else
-                    {
-                        // ignore
-                    }
-                }
-                else
-                {
-                    if (rightView.Visibility == ViewStates.Gone)
-                    {
-                        // ignore
-                    }
-                    else
-                    {
-                        // hide right view
-                        int finalWidth = rightView.Width;
-
-                        ValueAnimator Animator = slideAnimator(rightView, finalWidth, 0, true);
-                        Animator.Start();
-                        Animator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                        {
-                            rightView.Visibility = ViewStates.Gone;
-                        };
-                    }
-                }
-            }
-
-        }
+       
 
         /////////////////////////////
 

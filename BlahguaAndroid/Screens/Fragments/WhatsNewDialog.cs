@@ -12,10 +12,11 @@ using Android.Widget;
 using BlahguaMobile.BlahguaCore;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class WhatsNewDialog : DialogFragment
+	class WhatsNewDialog : Android.Support.V4.App.DialogFragment
     {
         private WhatsNewInfo newInfo;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -38,11 +39,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             var downvotes = view.FindViewById<TextView>(Resource.Id.downvotes);
             var messages = view.FindViewById<TextView>(Resource.Id.messages);
             var opens = view.FindViewById<TextView>(Resource.Id.opens);
-            var views = view.FindViewById<TextView>(Resource.Id.views);
-            var commentUpVotes = view.FindViewById<TextView>(Resource.Id.commentupvotes);
-            var commentDownVotes = view.FindViewById<TextView>(Resource.Id.commentdownvotes);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, title, comments, upvotes, downvotes, messages, opens, views, commentDownVotes, commentUpVotes);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, title, comments, upvotes, downvotes, messages, opens);
 
             if ((newInfo.message != null) && (newInfo.message != ""))
             {
@@ -52,23 +50,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
                 title.Visibility = ViewStates.Gone;
 
-
-            if (newInfo.newViews > 0)
-            {
-                views.Text = newInfo.newViews.ToString() + " new views";
-                views.Visibility = ViewStates.Visible;
-            }
-            else
-                views.Visibility = ViewStates.Gone;
-
-            if (newInfo.newOpens > 0)
-            {
-                opens.Text = newInfo.newOpens.ToString() + " new opens";
-                opens.Visibility = ViewStates.Visible;
-            }
-            else
-                opens.Visibility = ViewStates.Gone;
-
             if (newInfo.newComments > 0)
             {
                 comments.Text = newInfo.newComments.ToString() + " new comments";
@@ -77,6 +58,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
                 comments.Visibility = ViewStates.Gone;
 
+            if (newInfo.newOpens > 0)
+            {
+                opens.Text = newInfo.newOpens.ToString() + " new opens";
+                opens.Visibility = ViewStates.Visible;
+            }
+            else
+                opens.Visibility = ViewStates.Gone;
 
             if (newInfo.newUpVotes > 0)
             {
@@ -101,28 +89,12 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
                 messages.Visibility = ViewStates.Gone;
-
-            if (newInfo.newCommentUpVotes > 0)
-            {
-                commentUpVotes.Text = newInfo.newCommentUpVotes.ToString() + " new comment upvotes";
-                commentUpVotes.Visibility = ViewStates.Visible;
-            }
-            else
-                commentUpVotes.Visibility = ViewStates.Gone;
-
-            if (newInfo.newCommentDownVotes > 0)
-            {
-                commentDownVotes.Text = newInfo.newCommentDownVotes.ToString() + " new comment downvotes";
-                commentDownVotes.Visibility = ViewStates.Visible;
-            }
-            else
-                commentDownVotes.Visibility = ViewStates.Gone;
         }
 
-        public static WhatsNewDialog ShowDialog(FragmentManager manager, WhatsNewInfo newInfo)
+		public static WhatsNewDialog ShowDialog(Android.Support.V4.App.FragmentManager manager, WhatsNewInfo newInfo)
         {
             WhatsNewDialog f = new WhatsNewDialog();
-            f.SetStyle(DialogFragmentStyle.NoTitle, 0);
+			f.SetStyle((int)DialogFragmentStyle.NoTitle, 0);
             f.newInfo = newInfo;
             try
             {

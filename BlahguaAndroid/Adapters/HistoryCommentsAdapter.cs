@@ -20,35 +20,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
     class HistoryCommentsAdapter : BaseAdapter
     {
-        private EventHandler openHandler = (sender, args) =>
-        {
-            var btn = (Button)sender;
-            string id = (string)btn.Tag;
-            App.BlahIdToOpen = id;
-            btn.Context.StartActivity(typeof(ViewPostActivity));
-        };
-
-        private EventHandler deleteHandler = (sender, args) =>
-        {
-            var btn = (Button)sender;
-            string id = (string)btn.Tag;
-            //BlahguaAPIObject.Current.Delete(id, (theString) =>
-            //{
-            //    if (theString == "ok")
-            //    {
-            //        _fragment.LoadUserComments();
-            //    }
-            //});
-        };
-
-        private static HistoryCommentsFragment _fragment;
         Activity _activity;
         List<Comment> _list;
 
         public HistoryCommentsAdapter(HistoryCommentsFragment fragment, CommentList list)
         {
             _activity = fragment.Activity;
-            _fragment = fragment;
             _list = list.OrderByDescending(b => b.CreationDate).ToList();
         }
 
@@ -75,24 +52,50 @@ namespace BlahguaMobile.AndroidClient.Adapters
             return position;// _list[position]._id;
         }
 
+		public void RemoveView(int position)
+		{
+			string id = _list[position]._id;
+
+			/*
+			BlahguaAPIObject.Current.DeleteC(id, (theString) =>
+				{
+					this._activity.RunOnUiThread(() => {
+						Toast.MakeText(_activity, "post deleted", ToastLength.Short).Show();
+					});
+				});
+			*/
+			_list.RemoveAt(position);
+			NotifyDataSetChanged();
+		}
+
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? _activity.LayoutInflater.Inflate(
-                Resource.Layout.listitem_history_comment, parent, false);
+			View view;
+
+			if (convertView == null)
+				view = _activity.LayoutInflater.Inflate (Resource.Layout.listitem_history_comment, parent, false);
+			else
+				view = convertView;
+
             var text = view.FindViewById<TextView>(Resource.Id.text);
             var image = view.FindViewById<ImageView>(Resource.Id.image);
             var time_ago = view.FindViewById<TextView>(Resource.Id.time_ago);
             var upvoted = view.FindViewById<TextView>(Resource.Id.upvoted);
             var downvoted = view.FindViewById<TextView>(Resource.Id.downvoted);
+            
 
             // set fonts
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, time_ago, upvoted, downvoted);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, text, upvoted, downvoted);
+			UiHelper.SetGothamTypeface(TypefaceStyle.Italic, time_ago);
 
             Comment c = _list[position];
-            if (String.IsNullOrEmpty(c.ImageURL))
+            if (!String.IsNullOrEmpty(c.ImageURL))
             {
+				image.Visibility = ViewStates.Visible;
                 image.SetUrlDrawable(c.ImageURL);
             }
+			else
+				image.Visibility = ViewStates.Gone;
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
 
@@ -106,8 +109,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             var btnOpenPost = view.FindViewById<Button>(Resource.Id.btn_open);
             btnOpenPost.Tag = c.B;
-            btnOpenPost.Click -= openHandler;
-            btnOpenPost.Click += openHandler;
+			if (convertView == null) {
+				btnOpenPost.Click += (s, e) => {
+					var btn = (Button)s;
+					string id = (string)btn.Tag;
+					App.BlahIdToOpen = id;
+					_activity.StartActivity (typeof(ViewPostActivity));
+				};
+			}
 
             return view;
         }

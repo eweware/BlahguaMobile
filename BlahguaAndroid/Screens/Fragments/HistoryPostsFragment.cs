@@ -16,6 +16,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
+using FortySevenDeg.SwipeListView;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -26,99 +27,105 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new HistoryPostsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "HistoryPostsFragment";
-
         private TextView posts_total_count;
 
-        private ListView list;
+		private SwipeListView list;
         private LinearLayout no_entries;
 
-        private HistoryActivity activity;
-
         private PostsAdapter adapter;
+        private ProgressDialog progressDlg;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/history");
+			HomeActivity.analytics.PostPageView("/self/history");
             View fragment = inflater.Inflate(Resource.Layout.fragment_history_posts, null);
-
+            progressDlg = new ProgressDialog(this.Activity);
+            progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
             posts_total_count = fragment.FindViewById<TextView>(Resource.Id.posts_total_count);
             UiHelper.SetGothamTypeface(TypefaceStyle.Normal, posts_total_count);
 
-            list = fragment.FindViewById<ListView>(Resource.Id.list);
+			list = fragment.FindViewById<SwipeListView>(Resource.Id.list);
             list.ChoiceMode = ListView.ChoiceModeNone;
             list.Visibility = ViewStates.Gone;
-            list.ItemClick += (sender, args) => {
-                if (adapter != null)
-                {
-                    View listItem = UiHelper.GetViewByPosition(args.Position, list);
-                    UiHelper.ManageSwipe(listItem, true, false);
-                }
-            };
+    
             //list.SetOnTouchListener(Activity);
             no_entries = fragment.FindViewById<LinearLayout>(Resource.Id.no_entries);
             no_entries.Visibility = ViewStates.Visible;
-
-            LoadUserPosts();
+            posts_total_count.Text = "loading post history";
+			list.FrontViewClicked += HandleFrontViewClicked;
+			list.BackViewClicked += HandleBackViewClicked;
+			list.Dismissed += HandleDismissed;
+          
 
             return fragment;
         }
 
+		void HandleFrontViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.OpenAnimate(e.Position));
+		}
+
+		void HandleBackViewClicked (object sender, SwipeListViewClickedEventArgs e)
+		{
+			Activity.RunOnUiThread(() => list.CloseAnimate(e.Position));
+		}
+
+		void HandleDismissed (object sender, SwipeListViewDismissedEventArgs e)
+		{
+			foreach (var i in e.ReverseSortedPositions)
+			{
+				adapter.RemoveView(i);
+			}
+		}
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            activity = (HistoryActivity)Activity;
             base.OnActivityCreated(savedInstanceState);
-        }
-
-        public void GestureLeft(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, false, true);
-            }
-        }
-
-        public void GestureRight(MotionEvent first, MotionEvent second)
-        {
-            int position = list.PointToPosition((int)first.GetX(), (int)first.GetY() - activity.GetContentPositionY() - posts_total_count.Bottom);
-            if (adapter != null)
-            {
-                View listItem = UiHelper.GetViewByPosition(position, list);
-                UiHelper.ManageSwipe(listItem, true, false);
-            }
+            LoadUserPosts();
         }
 
         public void LoadUserPosts()
         {
-            BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
+            Activity.RunOnUiThread(() =>
                 {
-                    Activity.RunOnUiThread(() =>
-                    {
-                        string countMessage = "";
-                        if (theBlahs.Count > 0)
-                        {
-                            list.Visibility = ViewStates.Visible;
-                            no_entries.Visibility = ViewStates.Gone;
-                            
-                            adapter = new PostsAdapter(this, theBlahs);
-                            list.Adapter = adapter;
+                    
+                    progressDlg.SetMessage("loading posts...");
+                    progressDlg.Show();
 
-                            countMessage = "Your Posts (" + theBlahs.Count + ")";
-                        }
-                        else
-                        {
-                            list.Visibility = ViewStates.Gone;
-                            no_entries.Visibility = ViewStates.Visible;
-                            list.Adapter = adapter = null;
 
-                            countMessage = "No Posts yet";
+                    BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
+                        {
+                            Activity.RunOnUiThread(() =>
+                            {
+                                progressDlg.Hide();
+                                string countMessage = "";
+                                if ((theBlahs != null) && (theBlahs.Count > 0))
+                                {
+                                    list.Visibility = ViewStates.Visible;
+                                    no_entries.Visibility = ViewStates.Gone;
+                                    foreach (Blah b in theBlahs.ToArray())
+                                    {
+                                        if (b.S < 0)
+                                            theBlahs.Remove(b);
+                                    }
+                                    adapter = new PostsAdapter(this, theBlahs);
+                                    list.Adapter = adapter;
+
+                                    countMessage = "Your Posts (" + theBlahs.Count + ")";
+                                }
+                                else
+                                {
+                                    list.Visibility = ViewStates.Gone;
+                                    no_entries.Visibility = ViewStates.Visible;
+                                    list.Adapter = adapter = null;
+
+                                    countMessage = "No Posts yet";
+                                }
+                                posts_total_count.Text = countMessage;
+                            });
                         }
-                        posts_total_count.Text = countMessage;
-                    });
-                }
-            );
+                    );
+                });
         }
     }
 }

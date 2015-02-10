@@ -19,14 +19,12 @@ using Android.Graphics;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class ViewPostSummaryFragment : Fragment
+	class ViewPostSummaryFragment : Fragment
     {
         public static ViewPostSummaryFragment NewInstance()
         {
             return new ViewPostSummaryFragment { Arguments = new Bundle() };
         }
-
-        private readonly string TAG = "ViewPostSummaryFragment";
 
         private Activity parent = null;
 
@@ -40,13 +38,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         private TextView author, timeago;
         private TextView authorDescription;
         private ImageView authorAvatar, badgesIcon;
-        private ListView authorBadgesArea;
+		private ListView authorBadgeList;
 
         // predicts layout
         private ListView predictsVotes;
         private TextView predictsDatebox;
         private TextView predictsElapsedtime;
-        private LinearLayout predictsLayout;
+		private LinearLayout predictsLayout, authorDetailsArea;
 
         // predicts layout
         private ListView pollsVotes;
@@ -54,7 +52,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/blah/summary");
+			HomeActivity.analytics.PostPageView("/blah/summary");
             parent = (Activity)inflater.Context;
             View fragment = inflater.Inflate(Resource.Layout.fragment_viewpost_summary, null);
 
@@ -79,13 +77,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             authorDescription = fragment.FindViewById<TextView>(Resource.Id.author_description);
             authorAvatar = fragment.FindViewById<ImageView>(Resource.Id.author_avatar);
             badgesIcon = fragment.FindViewById<ImageView>(Resource.Id.badges_icon);
-            authorBadgesArea = fragment.FindViewById<ListView>(Resource.Id.badges_block);
-            badgesIcon.Click += (sender, args) =>
+			authorDetailsArea = fragment.FindViewById<LinearLayout>(Resource.Id.details_block);
+			authorBadgeList = fragment.FindViewById<ListView>(Resource.Id.badges_list);
+			authorAvatar.Click += (sender, args) =>
             {
-                if (authorBadgesArea.Visibility == ViewStates.Visible)
-                    authorBadgesArea.Visibility = ViewStates.Gone;
+				if (authorDetailsArea.Visibility == ViewStates.Visible)
+					authorDetailsArea.Visibility = ViewStates.Gone;
                 else
-                    authorBadgesArea.Visibility = ViewStates.Visible;
+					authorDetailsArea.Visibility = ViewStates.Visible;
             };
 
             predictsVotes = fragment.FindViewById<ListView>(Resource.Id.predicts_votes);
@@ -96,8 +95,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
             pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, author, timeago, authorDescription, predictsElapsedtime);
-
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, authorDescription, predictsElapsedtime);
+			UiHelper.SetGothamTypeface (TypefaceStyle.Bold, author);
+			UiHelper.SetGothamTypeface (TypefaceStyle.Italic, timeago);
             initBlahPost();
 
             return fragment;
@@ -128,6 +128,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     parent.RunOnUiThread(() =>
                     {
                         dialog.Hide();
+                        Activity.InvalidateOptionsMenu();
                     });
                     populateFragment();
                 });
@@ -148,8 +149,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         progress_image.Visibility = ViewStates.Visible;
                     });
-                    ImageLoader.Instance.DownloadAsync(loadedBlah.ImageURL,
-                        image, (b) =>
+                    ImageLoader.Instance.DownloadAsync(loadedBlah.ImageURL,(b) =>
                         {
                             parent.RunOnUiThread(() =>
                             {
@@ -194,9 +194,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                     if (loadedBlah.Badges != null)
                     {
                         badgesIcon.Visibility = ViewStates.Visible;
-                        authorBadgesArea.Visibility = ViewStates.Visible;
-                        authorBadgesArea.Adapter = new ViewPostBadgesAdapter(Activity);
+						authorBadgeList.Visibility = ViewStates.Visible;
+						authorBadgeList.Adapter = new ViewPostBadgesAdapter(Activity);
                     }
+					else
+					{
+						badgesIcon.Visibility = ViewStates.Gone;
+						authorBadgeList.Visibility = ViewStates.Gone;
+					}
                 });
 
                 switch (BlahguaAPIObject.Current.CurrentBlah.TypeName)
@@ -216,11 +221,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     Toast.MakeText(parent, "unable to load blah.  Sorry!", ToastLength.Long).Show();
                 });
-                MainActivity.analytics.PostSessionError("loadblahfailed");
+				HomeActivity.analytics.PostSessionError("loadblahfailed");
                 // Finish();
             }
 
-            ((ViewPostActivity)Activity).UpdateSummaryButtons();
+            //((ViewPostActivity)Activity).UpdateSummaryButtons();
+
         }
 
         #region Handles

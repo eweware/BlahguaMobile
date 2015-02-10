@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+//using Android.Support.V4.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -23,12 +24,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             return new UserProfileStatsFragment { Arguments = new Bundle() };
         }
 
-        private readonly string TAG = "UserProfileStatsFragment";
-
         TextView views, opens, comments, userviews, useropens, usercreates, usercomments;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            MainActivity.analytics.PostPageView("/self/stats");
+			HomeActivity.analytics.PostPageView("/self/stats");
             View fragment = inflater.Inflate(Resource.Layout.fragment_userprofile_stats, null);
             views = fragment.FindViewById<TextView>(Resource.Id.views);
             opens = fragment.FindViewById<TextView>(Resource.Id.opens);
@@ -58,7 +57,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 
-            double scoreAmount = curUser.S;
+            double scoreAmount = curUser.K;
 
             score.Text = (Math.Floor(scoreAmount * 10000) / 100).ToString() + "%";
 

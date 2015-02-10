@@ -34,13 +34,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             ViewGroup rootView = (ViewGroup)inflater.Inflate(Resource.Layout.SignUpPage02, container, false);
 
-			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
-			rootView.FindViewById<TextView> (Resource.Id.textView2).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
-			rootView.FindViewById<TextView> (Resource.Id.textView3).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
-			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView2).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView3).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.titleText).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             techBtn = rootView.FindViewById<Button>(Resource.Id.TechBtn);
-            techBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			techBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             techBtn.Click += (object sender, EventArgs e) =>
                 {
                     SetDefaultChannel("Tech Industry");
@@ -48,7 +48,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 };
 
             entBtn = rootView.FindViewById<Button>(Resource.Id.EntBtn);
-            entBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			entBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             entBtn.Click += (object sender, EventArgs e) =>
             {
                 SetDefaultChannel("Entertainment Industry");
@@ -56,11 +56,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
 
             publicBtn = rootView.FindViewById<Button>(Resource.Id.PublicBtn);
-            publicBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			publicBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             publicBtn.Click += (object sender, EventArgs e) =>
             {
                 SetDefaultChannel("Public");
-                ((FirstRunActivity)this.Activity).Finish();
+                ((FirstRunActivity)this.Activity).FinishSignin();
             };
 
             return rootView;

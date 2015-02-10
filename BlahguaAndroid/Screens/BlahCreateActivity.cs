@@ -4,7 +4,9 @@ using System.Linq;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
+using Android.OS;
 using Android.Animation;
+using Android.Content.PM;
 
 using BlahguaMobile.BlahguaCore;
 using SlidingMenuSharp;
@@ -17,9 +19,20 @@ using Android.App;
 using Java.Text;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 
+using Android.Preferences;
+using BlahguaMobile.AndroidClient.Adapters;
+using System.IO.IsolatedStorage;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Provider;
+
+using File = Java.IO.File;
+using Uri = Android.Net.Uri;
+
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    public partial class MainActivity : IUrlImageViewCallback, View.IOnTouchListener
+	[Activity(ScreenOrientation = ScreenOrientation.Portrait, Theme = "@android:style/Theme.Dialog")]
+	public class BlahCreateActivity : Activity, IUrlImageViewCallback, View.IOnTouchListener
     {
         enum MyBlahType
         {
@@ -28,8 +41,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private MyBlahType currentType = MyBlahType.Says;
 
-        private readonly int SELECTIMAGE_REQUEST = 777;
-        private View create_post_block, additionalfields_layout;
+		private const int SELECTIMAGE_REQUEST = 777, MultiChoiceDialog = 0x03;
+        private View additionalfields_layout;
         private EditText newPostTitle, newPostText;
         private EditText editPrediction, editPoll1, editPoll2, editPoll3, editPoll4, editPoll5, editPoll6, editPoll7, editPoll8, editPoll9, editPoll10;
         private Button btnAddOption;
@@ -40,55 +53,71 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageSay, imagePredict, imagePoll, imageAsk, imageLeak;
         private ProgressBar progressBarImageLoading;
         private ImageView currentSpeechAct;
-
+		private string[] badgeItemNames = null;
+		private bool[]	badgeItemBools = null;
 
         protected override void OnActivityResult(int requestCode, Android.App.Result resultCode, Intent data)
         {
-            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            if ((requestCode == SELECTIMAGE_REQUEST || requestCode == HomeActivity.PHOTO_CAPTURE_EVENT)
+                && resultCode == Android.App.Result.Ok)
             {
                 progressBarImageLoading.Visibility = ViewStates.Visible;
                 imageCreateBlahLayout.Visibility = ViewStates.Visible;
                 imageCreateBlah.SetImageDrawable(null);
+                System.IO.Stream fileStream;
+                String fileName;
 
-                System.IO.Stream fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data, 1024);
-                String fileName = StreamHelper.GetFileName(this, data.Data);
+                if (requestCode == SELECTIMAGE_REQUEST)
+                {
+                    fileStream = StreamHelper.GetStreamFromFileUri(this, data.Data);
+                    fileName = StreamHelper.GetFileName(this, data.Data);
+                }
+                else
+                {
+                    Bitmap scaledBitmap = BitmapHelper.LoadAndResizeBitmap (HomeActivity._file.AbsolutePath, HomeActivity.MAX_IMAGE_SIZE);
+                    fileStream = new System.IO.MemoryStream ();
+                    scaledBitmap.Compress (Bitmap.CompressFormat.Jpeg, 90, fileStream);
+				    fileStream.Flush ();
+                    fileName = HomeActivity._file.Name;
+                }
+
                 if (fileStream != null)
                 {
-
                     BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                         {
                             RunOnUiThread(() =>
                             {
+                                progressBarImageLoading.Visibility = ViewStates.Gone;
                                 if ((photoString != null) && (photoString.Length > 0))
                                 {
                                     string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-
                                     imageCreateBlah.SetUrlDrawable(photoURL, this);
                                     BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
                                     BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
-                                    MainActivity.analytics.PostUploadBlahImage();
+                                    HomeActivity.analytics.PostUploadBlahImage();
                                 }
                                 else
                                 {
                                     ClearImages();
-                                    MainActivity.analytics.PostSessionError("blahimageuploadfailed");
+                                    HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
                                 }
                             });
                         }
                     );
+                    fileStream.Close();
+                }
+                else
+                {
+                    RunOnUiThread(() =>
+                       {
+                           var toast = Toast.MakeText(this, "Cannot upload this type of image", ToastLength.Long);
+                           toast.Show();
+                           progressBarImageLoading.Visibility = ViewStates.Gone;
+                           ClearImages();
+                       });
                 }
             }
-            else if (requestCode == FIRST_RUN_RESULT)
-            {
-                string channelName = BlahguaAPIObject.Current.SavedChannel;
-                Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName(channelName);
-                if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
-                    BlahguaAPIObject.Current.CurrentChannel = newChannel;
-                else
-                    StartTimers();
-                FirstTimeShowing = false;
-
-            }
+            
             base.OnActivityResult(requestCode, resultCode, data);
         }
 
@@ -103,6 +132,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
+
+
         private void ClearImages()
         {
             progressBarImageLoading.Visibility = ViewStates.Gone;
@@ -115,17 +146,22 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (ev.Action == MotionEventActions.Up)
             {
-                if (create_post_block.Visibility == ViewStates.Visible)
-                {
-                    triggerCreateBlock();
-                }
+
             }
             return true;
         }
 
         ///////// init
-        private void initCreateBlahUi()
-        {
+		protected override void OnCreate (Bundle bundle)
+		{
+			RequestWindowFeature(WindowFeatures.NoTitle);
+			this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+			base.OnCreate(bundle);
+
+
+			// Set our view from the "main" layout resource
+			SetContentView (Resource.Layout.activity_create_post);
             // speech act btns
             imageSay = FindViewById<View>(Resource.Id.btn_speechact_say) as ImageView;
             imagePredict = FindViewById<View>(Resource.Id.btn_speechact_predict) as ImageView;
@@ -140,68 +176,93 @@ namespace BlahguaMobile.AndroidClient.Screens
             imageLeak.Click += SpeechActBtn_Click;
             currentSpeechAct = imageSay;
 
-            blayGrayed = FindViewById<View>(Resource.Id.BlahGrayed);
-            blayGrayed.Visibility = ViewStates.Gone;
-            blayGrayed.SetOnTouchListener(this);
+
+
             additionalfields_layout = FindViewById<View>(Resource.Id.additionalfields_layout);
-            create_post_block = FindViewById<View>(Resource.Id.create_post_block);
-            btn_newpost.Click += (sender, args) =>
-            {
-                triggerCreateBlock();
-            };
-            Button btn_select_image = create_post_block.FindViewById<Button>(Resource.Id.btn_image);
+
+            Button btn_select_image =  FindViewById<Button>(Resource.Id.btn_image);
             btn_select_image.Click += (sender, args) =>
             {
-                var imageIntent = new Intent(Intent.ActionGetContent, Android.Provider.MediaStore.Images.Media.ExternalContentUri);
-                
-                imageIntent.SetType("image/*");
+                PopupMenu imageMenu = new PopupMenu(this, btn_select_image);
+                imageMenu.Inflate(Resource.Menu.cameramenu);
 
-                StartActivityForResult(
-                    Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                if ((BlahguaAPIObject.Current.CreateRecord.M == null) ||
+                    (BlahguaAPIObject.Current.CreateRecord.M.Count == 0))
+                    imageMenu.Menu.RemoveItem(Resource.Id.action_removephoto);
+
+                imageMenu.MenuItemClick += (s1, arg1) =>
+                    {
+                        if (arg1.Item.ItemId == Resource.Id.action_takephoto)
+                        {
+                            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+                            HomeActivity._file = new File(HomeActivity._dir, String.Format("PhotoTossPhoto_{0}.jpg", Guid.NewGuid()));
+
+                            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(HomeActivity._file));
+
+                            StartActivityForResult(intent, HomeActivity.PHOTO_CAPTURE_EVENT);
+                        }
+                        else if (arg1.Item.ItemId == Resource.Id.action_selectphoto)
+                        {
+                            // select a photo
+                            var imageIntent = new Intent();
+                            imageIntent.SetType("image/*");
+                            imageIntent.SetAction(Intent.ActionGetContent);
+
+                            StartActivityForResult(
+                                Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                        }
+                        else if (arg1.Item.ItemId == Resource.Id.action_removephoto)
+                        {
+                            // remove a photo
+                            ClearImages();
+                        }
+                    };
+
+                imageMenu.Show();
             };
-            Button btn_signature = create_post_block.FindViewById<Button>(Resource.Id.btn_signature);
+            Button btn_signature =  FindViewById<Button>(Resource.Id.btn_signature);
             btn_signature.Click += (sender, args) => {
-                initiateSignaturePopUp();
+				ShowDialog(MultiChoiceDialog);
             };
-            btn_create_done = create_post_block.FindViewById<Button>(Resource.Id.btn_done);
+            btn_create_done =  FindViewById<Button>(Resource.Id.btn_done);
             btn_create_done.Click += (sender, args) =>
             {
-                if (DoCreateClick())
-                {
-                    triggerCreateBlock();
-                }
+				DoCreateClick();
             };
             btn_create_done.Enabled = false;
-            newPostTitle = create_post_block.FindViewById<EditText>(Resource.Id.title);
+            newPostTitle =  FindViewById<EditText>(Resource.Id.title);
             newPostTitle.TextChanged += editCreate_TextChanged;
-            newPostText = create_post_block.FindViewById<EditText>(Resource.Id.text);
+            newPostText =  FindViewById<EditText>(Resource.Id.text);
 
-            imageCreateBlah = create_post_block.FindViewById<ImageView>(Resource.Id.createblah_image);
-            imageCreateBlahLayout = create_post_block.FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
-            progressBarImageLoading = create_post_block.FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
+            imageCreateBlah =  FindViewById<ImageView>(Resource.Id.createblah_image);
+            imageCreateBlahLayout =  FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
+            progressBarImageLoading =  FindViewById<ProgressBar>(Resource.Id.progress_image_loading);
             progressBarImageLoading.Visibility = ViewStates.Gone;
 
-            editPrediction = create_post_block.FindViewById<EditText>(Resource.Id.prediction);
+            editPrediction =  FindViewById<EditText>(Resource.Id.prediction);
             editPrediction.TextChanged += editCreate_TextChanged;
             editPrediction.Focusable = false;
             setDatePicker(editPrediction);
 
-            editPoll1 = create_post_block.FindViewById<EditText>(Resource.Id.poll1);
+            editPoll1 =  FindViewById<EditText>(Resource.Id.poll1);
             editPoll1.TextChanged += editCreate_TextChanged;
-            editPoll2 = create_post_block.FindViewById<EditText>(Resource.Id.poll2);
+            editPoll2 =  FindViewById<EditText>(Resource.Id.poll2);
             editPoll2.TextChanged += editCreate_TextChanged;
-            editPoll3 = create_post_block.FindViewById<EditText>(Resource.Id.poll3);
-            editPoll4 = create_post_block.FindViewById<EditText>(Resource.Id.poll4);
-            editPoll5 = create_post_block.FindViewById<EditText>(Resource.Id.poll5);
-            editPoll6 = create_post_block.FindViewById<EditText>(Resource.Id.poll6);
-            editPoll7 = create_post_block.FindViewById<EditText>(Resource.Id.poll7);
-            editPoll8 = create_post_block.FindViewById<EditText>(Resource.Id.poll8);
-            editPoll9 = create_post_block.FindViewById<EditText>(Resource.Id.poll9);
-            editPoll10 = create_post_block.FindViewById<EditText>(Resource.Id.poll10);
-            btnAddOption = create_post_block.FindViewById<Button>(Resource.Id.btn_add_poll_option);
+            editPoll3 =  FindViewById<EditText>(Resource.Id.poll3);
+            editPoll4 =  FindViewById<EditText>(Resource.Id.poll4);
+            editPoll5 =  FindViewById<EditText>(Resource.Id.poll5);
+            editPoll6 =  FindViewById<EditText>(Resource.Id.poll6);
+            editPoll7 =  FindViewById<EditText>(Resource.Id.poll7);
+            editPoll8 =  FindViewById<EditText>(Resource.Id.poll8);
+            editPoll9 =  FindViewById<EditText>(Resource.Id.poll9);
+            editPoll10 =  FindViewById<EditText>(Resource.Id.poll10);
+            btnAddOption =  FindViewById<Button>(Resource.Id.btn_add_poll_option);
             btnAddOption.Click += DoAddPollChoice;
 
             setAsksCreateBlahType();
+
+			triggerCreateBlock ();
         }
 
         void SpeechActBtn_Click(object sender, EventArgs e)
@@ -215,7 +276,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 currentSpeechAct = newBtn;
                 setTitleHint();
 
-                triggerExpand();
+                //triggerExpand();
             }
         }
 
@@ -328,65 +389,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-        private void initBlahCreationSlidingMenu()
-        {
-            SetBehindContentView(Resource.Layout.sidemenu_blahcreate);
-            View leftMenu = SlidingMenu.GetMenu();
-
-            String[] types = new String[] {
-                                GetString(Resource.String.sidemenu_blahcreate_asks),
-                                GetString(Resource.String.sidemenu_blahcreate_leaks),
-                                GetString(Resource.String.sidemenu_blahcreate_polls),
-                                GetString(Resource.String.sidemenu_blahcreate_predicts),
-                                GetString(Resource.String.sidemenu_blahcreate_says) };
-            ListView listChannels = leftMenu.FindViewById<ListView>(Resource.Id.list);
-            listChannels.ChoiceMode = ChoiceMode.Single;
-            listChannels.Adapter = new ArrayAdapter(this, Resource.Layout.listitem_check, types);
-            listChannels.SetItemChecked(0, true);
-
-            listChannels.ItemClick += listChannels_ItemClick;
-        }
-
-        private void listChannels_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            if (e.Position == 0) // asks
-            {
-                BlahguaAPIObject.Current.CreateRecord.BlahType =
-                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "asks");
-                currentType = MyBlahType.Asks;
-                setAsksCreateBlahType();
-            }
-            else if (e.Position == 1) // leaks
-            {
-                BlahguaAPIObject.Current.CreateRecord.BlahType =
-                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "leaks");
-                currentType = MyBlahType.Leaks;
-                setAsksCreateBlahType();
-            }
-            else if (e.Position == 2) // polls
-            {
-                BlahguaAPIObject.Current.CreateRecord.BlahType =
-                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "polls");
-                currentType = MyBlahType.Polls;
-                setPollCreateBlahType();
-            }
-            else if (e.Position == 3) // predicts
-            {
-                BlahguaAPIObject.Current.CreateRecord.BlahType =
-                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "predicts");
-                currentType = MyBlahType.Predicts;
-                setPredictCreateBlahType();
-            }
-            else if (e.Position == 4) // says
-            {
-                BlahguaAPIObject.Current.CreateRecord.BlahType =
-                    BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says");
-                currentType = MyBlahType.Says;
-                setAsksCreateBlahType();
-            }
-            triggerExpand();
-        }
-
         private void setTitleHint()
         {
             switch (currentType)
@@ -485,224 +487,19 @@ namespace BlahguaMobile.AndroidClient.Screens
             editPoll10.Visibility = ViewStates.Gone;
             btnAddOption.Visibility = ViewStates.Gone;
         }
-        ///////// init
+        
 
-        private int lastCreateBlockHeight = 0;
-        private void triggerExpand()
+
+		private void triggerCreateBlock()
         {
-            //set Visible
-            create_post_block.Visibility = ViewStates.Visible;
-            int widthSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-            int heightSpec = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
-            ViewGroup.LayoutParams layoutParams = create_post_block.LayoutParameters;
-            layoutParams.Height = ViewGroup.LayoutParams.WrapContent ;
-            create_post_block.LayoutParameters = layoutParams;
-            create_post_block.Measure(widthSpec, heightSpec);
-            int newHeight = create_post_block.MeasuredHeight;// +(create_post_block.Width > 800 ? 0 : 50);
-
-            if (newHeight < Resources.DisplayMetrics.HeightPixels)
-            {
-                ValueAnimator mAnimator = slideAnimator(create_post_block, lastCreateBlockHeight, newHeight, false);
-                lastCreateBlockHeight = create_post_block.MeasuredHeight;
-                mAnimator.Start();
-            }
-            else
-            {
-                layoutParams.Height = ViewGroup.LayoutParams.MatchParent;
-                create_post_block.LayoutParameters = layoutParams;
-            }
-
-            setTitleHint();
-
-            StopTimers();
+			BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
+            // reset fields state
+            newPostTitle.Text = "";
+            newPostText.Text = "";
+            ClearImages();
         }
 
-        private View blayGrayed;
-        public void triggerCreateBlock()
-        {
-            if (create_post_block.Visibility.Equals(ViewStates.Gone))
-            {
-                SlidingMenu.TouchModeAbove = TouchMode.None;
-                blayGrayed.Visibility = ViewStates.Visible;
-                BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord();
-                // reset fields state
-                newPostTitle.Text = "";
-                newPostText.Text = "";
-                ClearImages();
-
-                triggerExpand();
-                SlidingMenu.Enabled = false;
-
-                //initBlahCreationSlidingMenu();
-            }
-            else
-            {
-                // inser the blah into the stream
-                if (BlahguaAPIObject.Current.NewBlahToInsert != null)
-                {
-                    InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
-                    BlahguaAPIObject.Current.NewBlahToInsert = null;
-
-                }
-
-                SlidingMenu.TouchModeAbove = TouchMode.Margin;
-                //collapse
-                blayGrayed.Visibility = ViewStates.Gone;
-                int finalHeight = create_post_block.Height;
-
-                ValueAnimator mAnimator = slideAnimator(create_post_block, finalHeight, 0, false);
-                mAnimator.Start();
-                mAnimator.AnimationEnd += (object IntentSender, EventArgs arg) =>
-                {
-                    create_post_block.Visibility = ViewStates.Gone;
-
-                    // reset views
-                    if (imageSay != currentSpeechAct)
-                    {
-                        DisableSpeechActBtn(currentSpeechAct);
-                        EnableSpeechActBtn(imageSay);
-                        currentSpeechAct = imageSay;
-                        setTitleHint();
-                    }
-                    imageCreateBlahLayout.Visibility = ViewStates.Gone;
-                    editPrediction.Text = newPostTitle.Text = newPostText.Text =
-                    editPoll1.Text = editPoll2.Text = editPoll3.Text = editPoll4.Text =
-                    editPoll5.Text = editPoll6.Text = editPoll7.Text = editPoll8.Text =
-                    editPoll9.Text = editPoll10.Text = "";
-                    editPoll3.Visibility = editPoll4.Visibility = editPoll5.Visibility = editPoll6.Visibility =
-                    editPoll7.Visibility = editPoll8.Visibility = editPoll9.Visibility = editPoll10.Visibility =
-                    ViewStates.Gone;
-                };
-
-                initSlidingMenu();
-                if (BlahguaAPIObject.Current.CurrentUser != null)
-                {
-                    SlidingMenu.Mode = MenuMode.LeftRight;
-                }
-
-                lastCreateBlockHeight = 0;
-                StartTimers();
-
-                populateChannelMenu();
-            }
-        }
-
-        void InsertBlahInStream(Blah theBlah)
-        {
-            View control = null;
-            double scrollTop = BlahScroller.ScrollY + BlahScroller.Height;
-
-            for (int i = 0; i < CurrentBlahContainer.ChildCount; i++)
-            {
-                control = CurrentBlahContainer.GetChildAt(i);
-                if ((control.Top > scrollTop) &&
-                    (control.Height == mediumBlahSize) &&
-                    (control.Width == mediumBlahSize))
-                    break;
-            }
-
-            if (control != null)
-            {
-                // conform to view
-                var title = control.FindViewById<TextView>(Resource.Id.title);
-
-                if (String.IsNullOrEmpty(theBlah.T))
-                    control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Invisible;
-                else
-                {
-                    double width = control.Width;
-                    double height = control.Height;
-                    control.FindViewById<LinearLayout>(Resource.Id.textLayout).Visibility = ViewStates.Visible;
-
-                    title.Text = theBlah.T;
-
-                    if (width == smallBlahSize && height == smallBlahSize)
-                    {
-                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 14);
-                    }
-                    else if (width == mediumBlahSize && height == smallBlahSize)
-                    {
-                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
-                    }
-                    else if (width == mediumBlahSize && height == mediumBlahSize)
-                    {
-                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 24);
-                    }
-                    else if (width == largeBlahSize && height == mediumBlahSize)
-                    {
-                        title.SetTextSize(Android.Util.ComplexUnitType.Sp, 32);
-                    }
-                }
-
-                ImageView image = control.FindViewById<ImageView>(Resource.Id.image);
-                image.Tag = null;
-                if (theBlah.M != null)
-                {
-                    image.Visibility = ViewStates.Visible;
-                    string imageBase = theBlah.M[0];
-                    string imageSize = "B";
-                    string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-                    RunOnUiThread(() =>
-                    {
-                        image.SetUrlDrawable(imageURL);
-                        if (!String.IsNullOrEmpty(theBlah.T))
-                        {
-                            image.Tag = true;   // animate this
-                            control.FindViewById<LinearLayout>(Resource.Id.textLayout).Alpha = 0.9f;
-                        }
-                    });
-                }
-                else
-                    image.Visibility = ViewStates.Invisible;
-
-
-                ///////
-                RunOnUiThread(() =>
-                {
-                    var type_mark = control.FindViewById<View>(Resource.Id.type_mark);
-                    var badges_mark = control.FindViewById<View>(Resource.Id.badges_mark);
-                    var hot_mark = control.FindViewById<View>(Resource.Id.hot_mark);
-                    var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
-                    var user_mark = control.FindViewById<View>(Resource.Id.user_mark);
-
-                    switch (theBlah.TypeName)
-                    {
-                        case "says":
-                            type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
-                            break;
-                        case "asks":
-                            type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
-                            break;
-                        case "leaks":
-                            type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
-                            break;
-                        case "polls":
-                            type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
-                            break;
-                        case "predicts":
-                            type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
-                            break;
-                    }
-
-                    // icons
-                    new_mark.Visibility = ViewStates.Visible;
-                    hot_mark.Visibility = ViewStates.Gone;
-
-                    if ((theBlah.B == null) || (theBlah.B.Count == 0))
-                        badges_mark.Visibility = ViewStates.Gone;
-                    else
-                        badges_mark.Visibility = ViewStates.Visible;
-
-                    user_mark.Visibility = ViewStates.Visible;
-                });
-                InboxBlah inboxItem = new InboxBlah(theBlah);
-                control.Click += delegate
-                {
-                    OpenBlahItem(inboxItem);
-                };
-            }
-
-        }
+        
 
 
         private ValueAnimator slideAnimator(View layout, int start, int end, bool animatingWidth)
@@ -737,7 +534,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 BlahguaAPIObject.Current.CreateRecord.I.Add(new PollItem("choice " + (count + 1)));
                 MaybeEnableAddPollBtns();
-                triggerExpand();
+                //triggerExpand();
             }
         }
 
@@ -852,22 +649,22 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (newBlah != null)
             {
                 BlahguaAPIObject.Current.NewBlahToInsert = newBlah;
-                MainActivity.analytics.PostCreateBlah(newBlah.Y);
+                HomeActivity.analytics.PostCreateBlah(newBlah.Y);
 
                 RunOnUiThread(() =>
-                {
-                    Toast.MakeText(this, "Post created", ToastLength.Short).Show();
-                    triggerCreateBlock();
-                });
-                //NavigationService.GoBack();
+	                {
+	                    Toast.MakeText(this, "Blah posted", ToastLength.Short).Show();
+						SetResult(Result.Ok, new Intent());
+						Finish();
+	                });
             }
             else
             {
                 RunOnUiThread(() =>
                 {
-                    Toast.MakeText(this, "Unable to create the post.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Unable to create the blah.  Please try again.  If the problem persists, please try at a different time.", ToastLength.Short).Show();
                 });
-                MainActivity.analytics.PostFormatError("blah create failed");
+				HomeActivity.analytics.PostFormatError("blah create failed");
             }
         }
 
@@ -904,13 +701,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 case "asks":
                     if (curBlah.T.IndexOf("?") == -1)
-                        return "Asks must contain a question mark.";
+                        return "Asks must contain a question.";
                     break;
 
                 case "polls":
-					if (curBlah.T.Length < 3)
-						return "Polls must have a headline of at least 3 letters";
-
                     if ((curBlah.I == null) || (curBlah.I.Count < 2))
                         return "Polls require at least two choices.";
 
@@ -922,7 +716,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     break;
 
                 case "predicts":
-                    if ((curBlah.ExpirationDate == null) || (curBlah.ExpirationDate <= DateTime.Now.AddDays(1)))
+                    if (curBlah.ExpirationDate <= DateTime.Now.AddDays(1))
                         return "Predictions must be at least a day in the future.";
 
                     break;
@@ -941,14 +735,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 EventHandler<DatePickerDialog.DateSetEventArgs> handle = (s, arg) =>
                 {
-                    myCalendar.Set(Calendar.Year, arg.Year);
-                    myCalendar.Set(Calendar.Month, arg.MonthOfYear);
-                    myCalendar.Set(Calendar.DayOfMonth, arg.DayOfMonth);
+                    myCalendar.Set(CalendarField.Year, arg.Year);
+					myCalendar.Set(CalendarField.Month, arg.MonthOfYear);
+					myCalendar.Set(CalendarField.DayOfMonth, arg.DayOfMonth);
                     updateLabel(edit);
                 };
                 new DatePickerDialog(this, handle, myCalendar
-                        .Get(Calendar.Year), myCalendar.Get(Calendar.Month),
-                        myCalendar.Get(Calendar.DayOfMonth)).Show();
+					.Get(CalendarField.Year), myCalendar.Get(CalendarField.Month),
+					myCalendar.Get(CalendarField.DayOfMonth)).Show();
             };
         }
 
@@ -959,6 +753,94 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             edit.Text = sdf.Format(myCalendar.Time);
         }
+			
+		private void MultiListClicked(object sender, DialogMultiChoiceClickEventArgs args)
+		{
+			if (args.Which == 0)
+				BlahguaAPIObject.Current.CreateRecord.XX = !args.IsChecked;
+			else if (args.Which == 1)
+				BlahguaAPIObject.Current.CreateRecord.XXX = args.IsChecked;
+			else {
+				int whichBadge = args.Which - 2;
+				string badgeId = BlahguaAPIObject.Current.CurrentUser.Badges [whichBadge].ID;
+				if (args.IsChecked) {
+					// add badge
+					if (BlahguaAPIObject.Current.CreateRecord.B == null)
+						BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
+					BlahguaAPIObject.Current.CreateRecord.B.Add (badgeId);
+				} else {
+					BlahguaAPIObject.Current.CreateRecord.B.Remove (badgeId);
+				}
+			}
+		}
+
+
+		private void BadgeOKClicked(Object sender, EventArgs args)
+		{
+			//Toast.MakeText(this, "Badge accepted!", ToastLength.Short).Show();
+		}
+
+		protected override Dialog OnCreateDialog(int id, Bundle args)
+		{
+			switch(id)
+			{
+			case MultiChoiceDialog: 
+				{
+					UpdateBadgeInfo ();
+					var builder = new AlertDialog.Builder (this, Android.App.AlertDialog.ThemeHoloLight);
+					builder.SetIcon (Resource.Drawable.ic_launcher);
+					builder.SetTitle ("Sign your post");
+					builder.SetMultiChoiceItems (badgeItemNames, badgeItemBools, MultiListClicked);
+					builder.SetPositiveButton ("Ok", BadgeOKClicked);
+
+					AlertDialog dlg = builder.Create ();
+
+					return dlg;
+				}
+				break;
+			}
+			return base.OnCreateDialog(id, args);
+		}
+
+		private void UpdateBadgeInfo()
+		{
+			BadgeList badges = BlahguaAPIObject.Current.CurrentUser.Badges;
+
+			if (badgeItemNames == null) {
+				List<string>	badgeNames = new List<string> ();
+				badgeNames.Add ("use profile");
+				badgeNames.Add ("mature content");
+
+				if (badges != null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeNames.Add (curBadge.BadgeName);
+					}
+				}
+				badgeItemNames = badgeNames.ToArray ();
+			}
+
+			// now create the bool list
+			badgeItemBools = new bool[badgeItemNames.Length];
+
+			badgeItemBools [0] = !BlahguaAPIObject.Current.CreateRecord.XX;
+			badgeItemBools [1] = BlahguaAPIObject.Current.CreateRecord.XXX;
+
+			if (badges != null) {
+				int i = 2;
+				if (BlahguaAPIObject.Current.CreateRecord.B == null) {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = false;
+					}
+				} else {
+					foreach (BadgeReference curBadge in badges) {
+						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateRecord.B.Contains (curBadge.ID);
+					}
+				}
+			}
+
+		}
+
+
         #endregion
     }
 }

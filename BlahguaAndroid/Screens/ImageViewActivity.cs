@@ -23,17 +23,19 @@ namespace BlahguaMobile.AndroidClient.Screens
         string imgPath;
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);
-            MainActivity.analytics.PostPageView("/ImageViewer");
-
             RequestWindowFeature(WindowFeatures.NoTitle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+
+			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+            base.OnCreate(bundle);
+			HomeActivity.analytics.PostPageView("/ImageViewer");
+
             SetContentView(Resource.Layout.activity_imageview);
 
             imgPath = Intent.GetStringExtra("image");
             imageView = FindViewById<TouchImageView>(Resource.Id.image);
 
-            ImageLoader.Instance.DownloadAsync(imgPath,
-                imageView, (b) =>
+            ImageLoader.Instance.DownloadAsync(imgPath, (b) =>
                 {
                     RunOnUiThread(() =>
                     {
@@ -59,7 +61,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     InsertImage(ContentResolver, localPath, BlahguaAPIObject.Current.CurrentBlah.T, String.Empty);
                 Toast.MakeText(this, "image saved", ToastLength.Short).Show();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Toast.MakeText(this, "saving failed. check your sd card is accessible", ToastLength.Short).Show();
             }

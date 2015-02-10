@@ -46,27 +46,27 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressDlg = new ProgressDialog(this.Activity);
             progressDlg.SetProgressStyle(ProgressDialogStyle.Spinner);
 
-			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			rootView.FindViewById<TextView> (Resource.Id.textView1).SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
 			usernameField = rootView.FindViewById<EditText> (Resource.Id.usernameField);
-            usernameField.SetTypeface (MainActivity.bodyFont, TypefaceStyle.Normal);
+			usernameField.SetTypeface (HomeActivity.gothamFont, TypefaceStyle.Normal);
             usernameField.AfterTextChanged += HandleTextValueChanged;
 
             passwordField = rootView.FindViewById<EditText>(Resource.Id.password);
-            passwordField.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			passwordField.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             passwordField.AfterTextChanged += HandleTextValueChanged;
 
             confirmPassword = rootView.FindViewById<EditText>(Resource.Id.password2);
-            confirmPassword.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			confirmPassword.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             confirmPassword.AfterTextChanged += HandleTextValueChanged;
 
             emailPrompt = rootView.FindViewById<TextView>(Resource.Id.emailPrompt);
-            emailPrompt.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			emailPrompt.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             emailField = rootView.FindViewById<EditText>(Resource.Id.emailAddrField);
-            emailField.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			emailField.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             createAccountBtn =rootView.FindViewById<Button>(Resource.Id.createBtn);
-            createAccountBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			createAccountBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             createAccountBtn.Click += (snder, e) =>
                 {
@@ -85,7 +85,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 };
 
             skipButton = rootView.FindViewById<Button>(Resource.Id.skipBtn);
-            skipButton.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			skipButton.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             skipButton.Click += (object sender, EventArgs e) =>
             {
@@ -95,7 +95,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
             
             prepSignIn = rootView.FindViewById<TextView>(Resource.Id.prepSignIn);
-            prepSignIn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			prepSignIn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
 
             prepSignIn.Click += (object sender, EventArgs e) =>
             {
@@ -105,7 +105,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             };
 
             signInBtn = rootView.FindViewById<Button>(Resource.Id.signInBtn);
-            signInBtn.SetTypeface(MainActivity.bodyFont, TypefaceStyle.Normal);
+			signInBtn.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
             signInBtn.Visibility = ViewStates.Gone;
 
             signInBtn.Click += (object sender, EventArgs e) =>
@@ -158,7 +158,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             if (result == null)
             {
-                MainActivity.analytics.PostLogin();
+                HomeActivity.analytics.PostLogin();
                 Activity.RunOnUiThread(() =>
                     {
                         progressDlg.Hide();
@@ -167,7 +167,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                MainActivity.analytics.PostSessionError("signinfailed-" + result);
+                HomeActivity.analytics.PostSessionError("signinfailed-" + result);
 
                 DisplayAlert(result, "Unable to sign in.  Check username and password");
                 Activity.RunOnUiThread(() =>
@@ -186,7 +186,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (result == null)
             {
-                MainActivity.analytics.PostRegisterUser();
+                HomeActivity.analytics.PostRegisterUser();
                 Activity.RunOnUiThread(() =>
                 {
                     progressDlg.Hide();
@@ -209,7 +209,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
             else
             {
-                MainActivity.analytics.PostSessionError("registerfailed-" + result);
+                HomeActivity.analytics.PostSessionError("registerfailed-" + result);
 
                 DisplayAlert(result, "Unable to create account.  Check username");
                 Activity.RunOnUiThread(() =>

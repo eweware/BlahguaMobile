@@ -48,14 +48,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             BadgeReference b = BlahguaAPIObject.Current.CurrentBlah.Badges[position];
 
-            var badgeImage = convertView.FindViewById<ImageView>(Resource.Id.image);
+            //var badgeImage = convertView.FindViewById<ImageView>(Resource.Id.image);
             var badgeName = convertView.FindViewById<TextView>(Resource.Id.text);
-            var verifiedText = convertView.FindViewById<TextView>(Resource.Id.verified_text);
+            //var verifiedText = convertView.FindViewById<TextView>(Resource.Id.verified_text);
             // TO DO:  For some reason this does not load the image correctly
             //badgeImage.SetUrlDrawable(b.BadgeImage);
             badgeName.Text = b.BadgeName;
             UiHelper.SetGothamTypeface(TypefaceStyle.Bold, badgeName);
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, verifiedText);
+            //UiHelper.SetGothamTypeface(TypefaceStyle.Normal, verifiedText);
 		    return convertView;
 	    }
     }
