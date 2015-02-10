@@ -91,28 +91,6 @@ namespace BlahguaMobile.IOS
                         modalPicker.DatePicker.MinimumDate = DateTime.Today.AddDays (3);
                         PresentViewController(modalPicker, true, null);
 
-                        /*
-						datePicker = new ActionSheetDatePicker (this.View);
-						datePicker.Title = "Choose Date";
-						datePicker.DatePicker.Mode = UIDatePickerMode.Date;
-						NSDateFormatter dateFormatter = new NSDateFormatter();
-						dateFormatter.DateFormat = "MM/dd/yyyy";
-                        datePicker.DatePicker.MinimumDate = DateTime.Today.AddDays (3);
-					
-						datePicker.DatePicker.ValueChanged += (s, e) => {
-
-							NSDate dateValue = (s as UIDatePicker).Date;
-							expirationDateInput.Text = new NSString(dateFormatter.ToString(dateValue));
-						};
-					
-						if(UIScreen.MainScreen.Bounds.Height == 480)
-						{
-							datePicker.WillDismiss += (s, e) =>{
-								containerScrollView.SetContentOffset(new PointF(0, 0), true);
-							};
-						}
-						datePicker.Show ();
-                        */
 						return false;
 					};
 
@@ -151,14 +129,7 @@ namespace BlahguaMobile.IOS
 		public override void TouchesBegan (NSSet touches, UIEvent evt)
 		{
             HideKeyboard();
-            /*
-			UITouch curTouch = (UITouch)evt.AllTouches.AnyObject;
-
-			if (!((curTouch.View is UITextView) || (curTouch.View is UITextField)))
-				this.View.EndEditing (true);
-
-			base.TouchesBegan (touches, evt);
-   */         
+            
 		}
 
 		public override void ViewDidLoad ()
@@ -171,8 +142,6 @@ namespace BlahguaMobile.IOS
 				Font = UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),
 				ForegroundColor = UIColor.Black
 			};
-
-            //View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("  Signature", buttonsTextAttributes), UIControlState.Normal);
 
@@ -188,7 +157,6 @@ namespace BlahguaMobile.IOS
 
             bodyInput.ReturnKeyType = UIReturnKeyType.Default;
 
-            //done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			done.SetAttributedTitle (new NSAttributedString (
 				"Done", 
@@ -509,18 +477,7 @@ namespace BlahguaMobile.IOS
 
         protected virtual void OnKeyboardChanged (bool visible, float keyboardHeight)
         {
-            /*
-            var activeView = KeyboardGetActiveView();
-            if (activeView == null)
-                return;
-
-
-
-            if (!visible)
-                RestoreScrollPosition(containerScrollView);
-            else
-                CenterViewInScroll(activeView, containerScrollView, keyboardHeight);
-                */
+           // TODO: this method does nothing, why is it here??
         }
 
         protected void CenterViewInScroll(UIView viewToCenter, UIScrollView scrollView, float keyboardHeight)
@@ -629,6 +586,7 @@ namespace BlahguaMobile.IOS
 
 		public void Done()
 		{
+			done.Enabled = false;
             string errString = ValidateCreateRecord();
 			Console.WriteLine (errString);
 
@@ -646,19 +604,7 @@ namespace BlahguaMobile.IOS
                         break;
 
                     case "polls":
-                        // should not have to remove empty items
-                        /*
-                        if (NewPost.I != null && NewPost.I.Count > 0)
-                        {
-                            foreach (var pi in NewPost.I)
-                            {
-                                if (String.IsNullOrEmpty(pi.G))
-                                {
-                                    NewPost.I.Remove(pi);
-                                }
-                            }
-                        }
-                        */
+                        
                         break;
                 }
 
@@ -671,6 +617,7 @@ namespace BlahguaMobile.IOS
 				BGMainNavigationController bgCont = (BGMainNavigationController)slide.ContentViewController;
 				BGRollViewController roll = (BGRollViewController)bgCont.ViewControllers [0];
                 roll.ShowToast(errString);  
+				done.Enabled = true;
             }
 			this.View.EndEditing (true);
 		}
