@@ -132,13 +132,17 @@ namespace BlahguaMobile.IOS
 
             if ((userComment.BD != null) && (userComment.BD.Count > 0))
             {
-                int count = userComment.BD.Count;
-                badgeTable.Hidden = false;
-                badgeTableHeight.Constant = count * 28;
-                badgeTable.ReloadData();
+				badgeTable.Hidden = false;
+				userComment.AwaitBadgeData ((didIt) => {
+					int count = userComment.Badges.Count;
+					badgeTableHeight.Constant = count * 28;
+					badgeTable.ReloadData();
+				});
+                
             }
             else
             {
+				badgeTableHeight.Constant = 0;
                 badgeTable.Hidden = true;
             }
 
@@ -149,6 +153,7 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(userComment.ImageURL))
             {
+				commentImageView.LayoutIfNeeded ();
                 commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
 
                 if (commentImageView.Image != null)
