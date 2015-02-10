@@ -417,6 +417,7 @@
         <image name="Icon-Small-50.png" width="50" height="50"/>
         <image name="Heard_Smile_Only_teal.png" width="280" height="240"/>
         <image name="Logo_master_teal.png" width="516" height="265"/>
+        <image name="ICON_TEST.png" width="72" height="72"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

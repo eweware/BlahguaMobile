@@ -424,6 +424,7 @@
     <BundleResource Include="Resources\Heard_Smile_Only_red.png" />
     <BundleResource Include="Resources\Heard_Smile_Only_teal.png" />
     <BundleResource Include="Resources\Logo_master_teal.png" />
+    <BundleResource Include="Resources\ICON_TEST.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>

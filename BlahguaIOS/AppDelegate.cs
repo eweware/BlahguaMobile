@@ -162,6 +162,8 @@ namespace BlahguaMobile.IOS
 		{
 			if (BlahguaAPIObject.Current.CurrentUser != null)
 				BlahguaAPIObject.Current.EnsureSignin ();
+			BlahguaAPIObject.Current.ForceCurrentChannel ();
+
 		}
             
         public override void DidEnterBackground(UIApplication application)

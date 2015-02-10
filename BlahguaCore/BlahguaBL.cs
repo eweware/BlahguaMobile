@@ -174,6 +174,13 @@ namespace BlahguaMobile.BlahguaCore
             signinTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
+		public void ForceCurrentChannel()
+		{
+			if (CurrentChannel != null) {
+				OnPropertyChanged("CurrentChannel");
+			}
+		}
+
         public void EnsureSignin()
         {
             if (CurrentUser != null)
