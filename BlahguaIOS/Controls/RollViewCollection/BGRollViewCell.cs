@@ -12,7 +12,7 @@ using MonoTouch.CoreAnimation;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGRollViewCell : UICollectionViewCell
+	public partial class BGRollViewCell : UICollectionViewCell, IImageUpdated
 	{
 		private InboxBlah blah;
 		private UIImageView imageView;
@@ -82,6 +82,13 @@ namespace BlahguaMobile.IOS
 
 		}
 
+        public void UpdatedImage(Uri uri)
+        {
+            imageView.Image = ImageLoader.DefaultRequestImage(uri, this);
+
+        }
+
+
 		public void SetCellProperties(InboxBlah blah, string reusableId, SizeF size, NSIndexPath path)
 		{
 			this.blah = blah;
@@ -89,7 +96,7 @@ namespace BlahguaMobile.IOS
 			if (!String.IsNullOrEmpty (blah.ImageURL)) {
 				imageView.Frame = new RectangleF (new PointF (0, 0), size);
 				imageView.Image = null;
-				imageView.Image = ImageLoader.DefaultRequestImage (new Uri(blah.ImageURL), new ImageUpdateDelegate(imageView));
+                imageView.Image = ImageLoader.DefaultRequestImage(new Uri(blah.ImageURL), this);
 				imageView.Hidden = false;
 			}
 			else

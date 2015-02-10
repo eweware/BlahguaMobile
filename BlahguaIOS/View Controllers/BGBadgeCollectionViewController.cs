@@ -41,7 +41,7 @@ namespace BlahguaMobile.IOS
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Add", UIBarButtonItemStyle.Plain, NewBadge);
 			CollectionView.BackgroundColor = UIColor.White;
-           
+          
             NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
                 { 
                     TextColor = BGAppearanceConstants.TealGreen, 
@@ -58,10 +58,11 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewWillAppear (animated);
             this.Title = "Badges";
-            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
-                Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = UIColor.FromRGB (96, 191, 164)
-            });
+            this.NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
+            {
+                Font = UIFont.FromName("Merriweather", 20),
+                    ForegroundColor = UIColor.FromRGB(96, 191, 164)
+            };
 
 			CollectionView.ReloadData ();
             if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||

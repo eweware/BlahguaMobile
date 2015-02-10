@@ -58,6 +58,7 @@ namespace BlahguaMobile.IOS
 			var cell = (BGRollViewCell)collectionView.DequeueReusableCell (new NSString(reusableId), indexPath);
 			InboxBlah inboxBlah = dataSource [indexPath.Item];
 			var size = manager.GetCellSizeF (reusableId);
+
 			cell.SetCellProperties (inboxBlah, reusableId, size, indexPath);
 
 
@@ -65,6 +66,7 @@ namespace BlahguaMobile.IOS
 			{
 				DeleteFirst350Items ();
 			}
+
 			return cell;
 		}
 
