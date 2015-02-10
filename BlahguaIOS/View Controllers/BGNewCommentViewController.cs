@@ -63,11 +63,8 @@ namespace BlahguaMobile.IOS
 
 
 			selectSignature.SetAttributedTitle (new NSAttributedString ("Signature", buttonsTextAttributes), UIControlState.Normal);
-            //selectSignature.SetImage (UIImage.FromBundle ("signature_ico"), UIControlState.Normal);
-			//selectSignature.TouchUpInside += ChooseSignature;
 
 			selectImageButton.SetAttributedTitle (new NSAttributedString ("Select Image", buttonsTextAttributes), UIControlState.Normal);
-            //selectImageButton.SetImage (UIImage.FromBundle ("image_select"), UIControlState.Normal);
 			selectImageButton.TouchUpInside += ActionForImage;
 
 			input.ReturnKeyType = UIReturnKeyType.Done;
@@ -78,7 +75,6 @@ namespace BlahguaMobile.IOS
 					done.Enabled = true;
 			};
 
-            //done.SetBackgroundImage (UIImage.FromBundle ("long_button"), UIControlState.Normal);
             done.SetBackgroundImage (UIImage.FromBundle ("long_button_gray"), UIControlState.Disabled);
 			done.SetAttributedTitle (new NSAttributedString (
 				"Done", 
@@ -119,6 +115,7 @@ namespace BlahguaMobile.IOS
 		{
 			if(!String.IsNullOrEmpty(input.Text))
 			{
+				done.Enabled = false;
 				NewComment.Text = input.Text;
 				BlahguaAPIObject.Current.CreateComment (CommentCreated);
 			}
