@@ -48,6 +48,7 @@ namespace BlahguaMobile.IOS
 			TableView.SeparatorInset = new UIEdgeInsets (0, 0, 0, 0);
 			TableView.ReloadData ();
 			TableView.Source = new BGHistoryDetailTableSource(this);
+
 			//TableView.Source = new Source (this);
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
@@ -200,7 +201,13 @@ namespace BlahguaMobile.IOS
 
         private readonly CellDelegate cellDelegate;
 
-
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			SWTableViewCell.SWTableViewCell theCell = (SWTableViewCell.SWTableViewCell)tableView.CellAt (indexPath);
+			if (theCell != null) {
+				theCell.ShowLeftUtilityButtons (true);
+			}
+		}
 
 		public BGHistoryDetailTableSource(BGHistoryDetailViewController vc) : base()
 		{
@@ -227,6 +234,7 @@ namespace BlahguaMobile.IOS
                     blahCell.Delegate = cellDelegate;
                     blahCell.SetLeftUtilityButtons(NSArray.FromArray<UIButton>(leftUtilityButtons), 120f);
                     blahCell.SetRightUtilityButtons(NSArray.FromArray<UIButton>(rightUtilityButtons), 120f);
+
                 }
                 Blah userBlah = vc.ParentViewController.UserBlahs [indexPath.Row];
                 blahCell.SetupBlah(userBlah);
