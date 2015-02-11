@@ -1353,7 +1353,7 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65">
-                                        <rect key="frame" x="5" y="352" width="310" height="216"/>
+                                        <rect key="frame" x="5" y="44" width="310" height="216"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66">
                                                 <rect key="frame" x="91" y="98" width="128" height="20"/>
@@ -1400,7 +1400,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="show mature content" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRC-cE-7Ip">
-                                        <rect key="frame" x="20" y="586" width="162" height="21"/>
+                                        <rect key="frame" x="20" y="278" width="162" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="5DA-Au-1zp"/>
                                         </constraints>
@@ -1408,15 +1408,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GOk-ne-a0n">
-                                        <rect key="frame" x="250" y="581" width="51" height="31"/>
+                                        <rect key="frame" x="250" y="273" width="51" height="31"/>
                                     </switch>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elk-Tg-ziF">
-                                        <rect key="frame" x="60" y="635" width="183" height="45"/>
+                                        <rect key="frame" x="60" y="327" width="183" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="NGU-HD-TOD"/>
                                             <constraint firstAttribute="width" constant="183" id="jgu-e6-RMh"/>
                                         </constraints>
-                                        <state key="normal" title="Report a bug" backgroundImage="short_button_normal.png"/>
+                                        <state key="normal" title="Report a bug" backgroundImage="">
+                                            <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
+                                        </state>
                                     </button>
                                 </subviews>
                                 <constraints>
