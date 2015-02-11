@@ -62,7 +62,7 @@ namespace BlahguaMobile.IOS
                 
 
             this.CommentElapsedTimeLabel.AttributedText = new NSAttributedString (timeString, UIFont.FromName (BGAppearanceConstants.MediumItalicFontName, 10), UIColor.Black);
-            this.CommentUpVotesLabel.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14),UIColor. FromRGB(115/255.0f,195/255.0f,173/255.0f));
+			this.CommentUpVotesLabel.AttributedText = new NSAttributedString (upVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black);
             this.CommentDownVotesLabel.AttributedText = new NSAttributedString (downVotesText, UIFont.FromName (BGAppearanceConstants.BoldFontName, 14), UIColor.Black); 
 
         }

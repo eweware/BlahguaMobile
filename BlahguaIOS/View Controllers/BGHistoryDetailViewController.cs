@@ -83,6 +83,7 @@ namespace BlahguaMobile.IOS
             vc = theVC;
         }
 
+		/*
         public override void ScrollingToState(SWTableViewCell.SWTableViewCell cell, SWCellState state)
         {
             switch (state)
@@ -98,11 +99,10 @@ namespace BlahguaMobile.IOS
                     break;
             }
         }
+        */
 
         public override void DidTriggerRightUtilityButton(SWTableViewCell.SWTableViewCell cell, nint index)
         {
-            Console.WriteLine("Left button {0} was pressed.", index);
-
             switch (index)
             {
                 case 0:
