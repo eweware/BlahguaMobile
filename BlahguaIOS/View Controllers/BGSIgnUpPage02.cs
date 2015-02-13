@@ -20,6 +20,8 @@ namespace BlahguaMobile.IOS
                 {
                     // we are done - dismiss it
                     SetDefaultChannel("Tech Industry");
+					NSUserDefaults.StandardUserDefaults.SetInt(3,"signupStage");
+					NSUserDefaults.StandardUserDefaults.Synchronize();
                     ((BGSignOnPageViewController)ParentViewController).GoToNext();
                 };
 
@@ -27,6 +29,8 @@ namespace BlahguaMobile.IOS
                 {
                     // we are done - dismiss it
                     SetDefaultChannel("Entertainment Industry");
+					NSUserDefaults.StandardUserDefaults.SetInt(3,"signupStage");
+					NSUserDefaults.StandardUserDefaults.Synchronize();
                     ((BGSignOnPageViewController)ParentViewController).GoToNext();
                 };
 

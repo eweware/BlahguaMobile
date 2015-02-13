@@ -33,7 +33,11 @@ namespace BlahguaMobile.IOS
 
             this.DataSource = null;// new MyDataSource();
 
-            GoToPage(0, UIPageViewControllerNavigationDirection.Forward, false);
+			int lastPage = NSUserDefaults.StandardUserDefaults.IntForKey("signupStage");
+			if (lastPage > 0)
+				lastPage--;
+
+            GoToPage(lastPage, UIPageViewControllerNavigationDirection.Forward, false);
 
 
 

@@ -203,6 +203,8 @@ namespace BlahguaMobile.IOS
                 AppDelegate.analytics.PostRegisterUser();
                 InvokeOnMainThread(() =>
                     {
+						NSUserDefaults.StandardUserDefaults.SetInt(2,"signupStage");
+						NSUserDefaults.StandardUserDefaults.Synchronize();
                         indicator.StopAnimating();
                         string emailAddr = emailField.Text.Trim();
 
