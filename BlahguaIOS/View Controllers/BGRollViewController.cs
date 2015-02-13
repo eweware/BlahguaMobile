@@ -60,7 +60,7 @@ namespace BlahguaMobile.IOS
 
 		private void StartToastTimer()
 		{
-			toastTimer.Change (4000, -1);
+			toastTimer.Change (3000, -1);
 		}
 
 
@@ -227,6 +227,10 @@ namespace BlahguaMobile.IOS
                         string whatsNewString = "";
 
                         whatsNewString = whatsNew.SummaryString;
+						if (String.IsNullOrEmpty(whatsNewString))
+						{
+							whatsNewString = "Check out what is new in the stream today!";
+						}
                         InvokeOnMainThread (() => {
                             ShowToast(whatsNewString);
                         });
