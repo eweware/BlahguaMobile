@@ -70,10 +70,10 @@ namespace BlahguaMobile.IOS
             switch (userBlah.TypeName)
             {
                 case "says":
-                    typeBundle = "icon_speechact_predict";
+					typeBundle = "icon_speechact_say";
                     break;
                 case "predicts":
-                    typeBundle = "icon_speechact_say";
+					typeBundle = "icon_speechact_predict";
                     break;
                 case "polls":
                     typeBundle = "icon_speechact_poll";
@@ -82,7 +82,7 @@ namespace BlahguaMobile.IOS
                     typeBundle = "icon_speechact_ask";
                     break;
                 case "leaks":
-                    typeBundle = "icon_speechact_leakß";
+                    typeBundle = "icon_speechact_leak";
                     break;
             }
             this.BlahTypeImage.Image = UIImage.FromBundle(typeBundle);
