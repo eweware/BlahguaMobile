@@ -11,6 +11,8 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGRightMenuViewController : UIViewController, IImageUpdated
 	{
+		private bool _isProcessing = false;
+
 		public BGRightMenuViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -28,21 +30,33 @@ namespace BlahguaMobile.IOS
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
-            base.TouchesBegan(touches, evt);
-            // Get the current touch
-            UITouch touch = touches.AnyObject as UITouch;
-            if (touch != null)
-            {
-                // Check to see if any of the images have been touched
-                if (m_imgAvatar.Frame.Contains(touch.LocationInView(this.View)))
-                {
-                    ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
-                    BGProfileViewController vc = (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController");
-                    vc.IsEditMode = true;
-                    ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(vc, true);
-                }
-            }
+			if (!_isProcessing) {
+				_isProcessing = true;
+
+				base.TouchesBegan(touches, evt);
+				// Get the current touch
+				UITouch touch = touches.AnyObject as UITouch;
+				if (touch != null)
+				{
+					// Check to see if any of the images have been touched
+					if (m_imgAvatar.Frame.Contains(touch.LocationInView(this.View)))
+					{
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
+						BGProfileViewController vc = (BGProfileViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGProfileViewController");
+						vc.IsEditMode = true;
+						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(vc, true);
+					}
+				}
+			}
+
+            
         }
+
+		public override void ViewDidAppear (bool animated)
+		{
+			_isProcessing = false;
+			base.ViewDidAppear (animated);
+		}
 
 		public override void ViewDidLoad ()
 		{
