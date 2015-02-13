@@ -61,10 +61,10 @@ namespace BlahguaMobile.IOS
 			});
 
             // change header font
-            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+			this.NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes() { 
                 Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = UIColor.FromRGB (96, 191, 164)
-            });
+                ForegroundColor = UIColor.FromRGB (96, 191, 164)
+            };
 		}
 
 		public override void ViewDidLoad ()
@@ -349,7 +349,7 @@ namespace BlahguaMobile.IOS
 
 		public BGImagePickerController() : base() 
 		{
-			NavigationBar.SetTitleTextAttributes(new UITextAttributes { TextColor = UIColor.White });
+			NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
 		}
 	}
 }

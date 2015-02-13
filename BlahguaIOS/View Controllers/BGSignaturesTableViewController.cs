@@ -34,10 +34,10 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
  
-            this.navBar .SetTitleTextAttributes  (new UITextAttributes () {
+            this.navBar.TitleTextAttributes  = new UIStringAttributes () {
                 Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = UIColor.FromRGB (96, 191, 164)
-            });
+                ForegroundColor = UIColor.FromRGB (96, 191, 164)
+            };
              
             foreach (var theItem in navBar)
             {

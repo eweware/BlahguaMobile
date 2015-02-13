@@ -312,7 +312,6 @@
     <None Include="RELEASE-NOTES.txt" />
     <Compile Include="View Controllers\FullScreenView.cs" />
     <Compile Include="Controls\SlidingMenu\TutorialSwipeViewController.cs" />
-    <Compile Include="View Controllers\BGTutorialViewController.cs" />
     <Compile Include="Helpers\reachability.cs" />
     <Compile Include="Controls\SharpMobileCode.ModalPicker\CustomPickerModel.cs" />
     <Compile Include="Controls\SharpMobileCode.ModalPicker\ModalPickerAnimatedDismissed.cs" />

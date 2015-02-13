@@ -259,7 +259,7 @@ namespace MonoTouch.SlideMenu
 		}
 
 		// - (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers
-		[Obsolete]
+
 		public override bool AutomaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
 			get {
 				return false;

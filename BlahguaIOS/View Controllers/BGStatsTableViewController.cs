@@ -50,10 +50,10 @@ namespace BlahguaMobile.IOS
 
 				this.NavigationController.SetNavigationBarHidden(false, true);
                 this.Title = "Statistics";
-                this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+                this.NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () {
                     Font = UIFont.FromName ("Merriweather", 20),
-                    TextColor = BGAppearanceConstants.TealGreen
-                });
+                    ForegroundColor = BGAppearanceConstants.TealGreen
+                };
                 //Synsoft on 14 July 2014 for swipping between screens                
                 UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentsController);
                 objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
@@ -130,12 +130,12 @@ namespace BlahguaMobile.IOS
 
 		public override void ViewDidAppear(bool animated)
 		{
-            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+            this.NavigationController.NavigationBar.TitleTextAttributes  = new UIStringAttributes () {
                 Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = BGAppearanceConstants.TealGreen
-            });
+                ForegroundColor = BGAppearanceConstants.TealGreen
+            };
 			base.ViewDidAppear (animated);
-			//scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
+
 			if(CurrentBlah != null)
 				SetModeButtonsImages(UIImage.FromBundle("summary"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats_dark"));
                 
@@ -153,14 +153,12 @@ namespace BlahguaMobile.IOS
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
 
 			if (CurrentBlah != null) {
-				//bottomToolBar.TranslatesAutoresizingMaskIntoConstraints = true;
-
 				bottomToolBar.BackgroundColor = BGAppearanceConstants.TealGreen;
 				bottomToolBar.BarTintColor = BGAppearanceConstants.TealGreen;
 			}
 		}
 
-        //Synsoft on 14 July 2014
+  
         private void SwipeToCommentsController()
         {
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();

@@ -24,18 +24,9 @@ namespace BlahguaMobile.IOS
 		private UIButton newBlah;
 
 		public UIPanGestureRecognizer RightMenuPanRecognizer;
-		private PointF panStartPoint;
-		private float startingLayoutRight = 0;
-		private NSLayoutConstraint rightViewContainerXConstraint;
 
 		public bool NaturalScrollInProgress = false;
 		public bool IsAutoScrollingEnabled = false;
-
-		private UIView rightViewContainer;
-		private UIView rightView;
-		private UIImageView profileImage;
-
-		private bool isOpened = false;
 
 		private bool isNewPostMode;
 		private Timer toastTimer;
@@ -45,11 +36,7 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
-		#region Properties
 
-		private BGNewPostViewController newPostViewController;
-
-		#endregion
 
 		public BGRollViewController (IntPtr handle) : base (handle)
 		{
@@ -104,10 +91,10 @@ namespace BlahguaMobile.IOS
 			CollectionView.BackgroundColor = UIColor.Clear;
 
 			leftSlidingMenu = ((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu;
-			this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+			this.NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () {
 				Font = UIFont.FromName ("Merriweather", 20),
-				TextColor = UIColor.FromRGB (96, 191, 164)
-			});
+				ForegroundColor = UIColor.FromRGB (96, 191, 164)
+			};
 
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem (UIImage.FromBundle ("hamburger_teal"), UIBarButtonItemStyle.Plain, MenuButtonClicked);
 			NavigationItem.LeftBarButtonItem.SetBackgroundImage (UIImage.FromBundle ("leftMenuButton"), UIControlState.Highlighted, UIBarMetrics.Default);
@@ -149,10 +136,10 @@ namespace BlahguaMobile.IOS
 			base.ViewDidAppear (animated);
             if (CollectionView.NumberOfItemsInSection (0) > 0)
             {
-                if (!IsNewPostMode)
-                    NaturalScrollInProgress = false;
-                else
-                    NaturalScrollInProgress = NaturalScrollInProgress;
+				if (!IsNewPostMode)
+					NaturalScrollInProgress = false;
+				else
+					NaturalScrollInProgress = true;
     		}
         }
 
@@ -314,18 +301,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public void HideNewBlahDialog()
-		{
-			UIView.BeginAnimations (null);
-			UIView.SetAnimationDuration (0.5f);
-			isNewPostMode = false;
-            NaturalScrollInProgress = false;
-			newPostViewController.View.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
-			UIView.CommitAnimations ();
-			SetSrollingAvailability (true);
 
-			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
-		}
 
 		public void AddNewBlahToView(Blah newBlah)
 		{
@@ -386,118 +362,7 @@ namespace BlahguaMobile.IOS
 			leftSlidingMenu.ToggleRightMenuAnimated ();
 		}
 
-		public void PanRightView (UIPanGestureRecognizer recognizer)
-		{
-			switch (recognizer.State) {
-
-			case UIGestureRecognizerState.Began:
-				panStartPoint = recognizer.TranslationInView (rightViewContainer);
-				break;
-			case UIGestureRecognizerState.Changed:
-				PointF currentPoint = recognizer.TranslationInView (rightViewContainer);
-				float deltaX = currentPoint.X - panStartPoint.X;
-				bool panningLeft = false; 
-				if (currentPoint.X < panStartPoint.X) { 
-					panningLeft = true;
-				}
-
-				if (startingLayoutRight == 0) { 
-					if (!panningLeft) {
-						float constant = Math.Max (-deltaX, 0);
-						if (constant == 0) {
-							ResetToStartPosition (true);
-						} else { 
-							rightViewContainerXConstraint.Constant = -constant;
-						}
-					} else {
-						float constant = Math.Min (-deltaX, BGAppearanceConstants.RightViewFrame.Width);
-						if (constant == BGAppearanceConstants.RightViewFrame.Width) {
-							SetFinalContainerViewPosition (true);
-						} else {
-							rightViewContainerXConstraint.Constant = -constant;
-						}
-					}
-				} else {
-					float adjustment = startingLayoutRight - deltaX;
-					if (!panningLeft) {
-						float constant = Math.Max (adjustment, 0);
-						if (constant == 0) {
-							ResetToStartPosition (true);
-						} else {
-							rightViewContainerXConstraint.Constant = -constant;
-						}
-					} else {
-						float constant = Math.Min (adjustment, BGAppearanceConstants.RightViewFrame.Width);
-						if (constant == BGAppearanceConstants.RightViewFrame.Width) {
-							SetFinalContainerViewPosition (true);
-						} else {
-							rightViewContainerXConstraint.Constant = -constant;
-						}
-					}
-				}
-				break;
-			case UIGestureRecognizerState.Ended:
-				if (startingLayoutRight == 0) {
-					float position = BGAppearanceConstants.RightViewFrame.Width / 2 - 1;
-					if (rightViewContainer.Frame.X < position) {
-						SetFinalContainerViewPosition (true);
-					} else {
-						ResetToStartPosition (true);
-					}
-				} else {
-					float position = BGAppearanceConstants.RightViewFrame.Width / 2;
-					if (rightViewContainer.Frame.X < position) {
-						SetFinalContainerViewPosition (true);
-					} else {
-						ResetToStartPosition (true);
-					}
-				}
-				break;
-			case UIGestureRecognizerState.Cancelled:
-				if (startingLayoutRight == 0) {
-					ResetToStartPosition (true);
-				} else {
-					SetFinalContainerViewPosition (true);
-				}
-				break;
-			default:
-				break;
-			}
-		}
-
-		public void ResetToStartPosition (bool animated)
-		{
-			if (startingLayoutRight == 0 &&
-			    rightViewContainer.Frame.X == 0) {
-				return;
-			}
-
-			rightViewContainerXConstraint.Constant = 0;
-
-			UpdateConstraintsIfNeeded (animated, () => {
-				CollectionView.UserInteractionEnabled = true;
-				leftSlidingMenu.SetGesturesState (true);
-				startingLayoutRight = rightViewContainerXConstraint.Constant;
-			});
-		}
-
-		public void SetFinalContainerViewPosition (bool animated)
-		{
-			if (startingLayoutRight == BGAppearanceConstants.RightViewFrame.Width &&
-			    rightViewContainer.Frame.X == BGAppearanceConstants.RightViewFrame.Width) {
-				return;
-			}
-
-			rightViewContainerXConstraint.Constant = -320;
-
-			UpdateConstraintsIfNeeded (animated, () => {
-				CollectionView.UserInteractionEnabled = false;
-				View.BringSubviewToFront (rightViewContainer);
-				leftSlidingMenu.SetGesturesState (false);
-				startingLayoutRight = -rightViewContainerXConstraint.Constant;
-			});
-		}
-
+	
 		private void UpdateConstraintsIfNeeded (bool animated, NSAction completionHandler)
 		{
 			float duration = 0;
@@ -532,8 +397,6 @@ namespace BlahguaMobile.IOS
 			{
 				if (profile != null)
 					profile.SetImage(image, UIControlState.Normal);
-				if (profileImage != null)
-					profileImage.Image = image;
 			}
 		}
 

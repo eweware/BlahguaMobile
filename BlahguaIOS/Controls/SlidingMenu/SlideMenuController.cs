@@ -41,7 +41,7 @@ namespace MonoTouch.SlideMenu
 		RectangleF contentViewControllerFrame;
 		bool menuWasOpenAtPanBegin;
         bool statusBarHidden = false;
-        bool scaleEnabled = true;
+        //bool scaleEnabled = true;
 
         bool contentViewScaled = false;
 
@@ -273,7 +273,7 @@ namespace MonoTouch.SlideMenu
 		}
 
 		// - (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers
-		[Obsolete]
+
 		public override bool AutomaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
 			get {
 				return false;
@@ -296,7 +296,7 @@ namespace MonoTouch.SlideMenu
 		}
 
 		// - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-		[Obsolete]
+
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
 			return menuViewController.ShouldAutorotateToInterfaceOrientation(toInterfaceOrientation) && 
@@ -657,7 +657,6 @@ namespace MonoTouch.SlideMenu
 
 			float offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
 
-			float offsetXWhenRightMenuIsOpen = OffsetXWhenRightMenuIsOpen ();
 
 
 			currentScale = 1.0f-(1.0f-SCALE)*(frame.X/offsetXWhenMenuIsOpen);

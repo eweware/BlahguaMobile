@@ -10,9 +10,9 @@ namespace BlahguaMobile.IOS
 {
     partial class BGSignOnPageViewController : UIPageViewController
 	{
-        UIPageControl pageControl;
+        //UIPageControl pageControl;
 
-        int totalPages = 3;
+        //int totalPages = 3;
         int curPage = 0;
 
         private BGSignUpPage01 page01 = null;
@@ -20,7 +20,7 @@ namespace BlahguaMobile.IOS
         private BGSignUpPage03 page03 = null;
 
 
-        private RectangleF m_Frame;
+        //private RectangleF m_Frame;
 
        
 		public BGSignOnPageViewController (IntPtr handle) : base (handle)
@@ -31,7 +31,6 @@ namespace BlahguaMobile.IOS
         {
             base.ViewDidLoad();
 
-            m_Frame = this.View.Bounds;
             this.DataSource = null;// new MyDataSource();
 
             GoToPage(0, UIPageViewControllerNavigationDirection.Forward, false);

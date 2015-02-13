@@ -64,10 +64,10 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewWillAppear(animated);
             this.Title = "Demographics";
-            this.NavigationController.NavigationBar .SetTitleTextAttributes  (new UITextAttributes () {
+            this.NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () {
                 Font = UIFont.FromName ("Merriweather", 20),
-                TextColor = UIColor.FromRGB (96, 191, 164)
-            });
+                ForegroundColor = UIColor.FromRGB (96, 191, 164)
+            };
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
