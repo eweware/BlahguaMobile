@@ -168,6 +168,8 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+
+
         public void DescriptionUpdated()
         {
             OnPropertyChanged("DescriptionString");
@@ -296,41 +298,56 @@ namespace BlahguaMobile.BlahguaCore
 
         public BadgeList Badges
         {
-            get
-            {
-                if (B == null)
-                    return null;
-                else if (_intBadgeList != null)
-                    return _intBadgeList;
-                else
-                {
-                    _intBadgeList = new BadgeList();
-                    foreach (string badgeId in B)
-                    {
-                        _intBadgeList.Add(new BadgeReference(badgeId));
-                    }
-
-                    return _intBadgeList;
-                }
-            }
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
-                    B = null;
-                }
-                else
-                {
-                    B = new List<string>();
-                    foreach (BadgeReference curBadge in value)
-                    {
-                        B.Add(curBadge.ID);
-                    }
-                }
-            }
+            get {
+				return _intBadgeList;
+			}
         }
 
+		public void AwaitBadgeData(bool_callback callback)
+		{
+			if (B == null)
+			{
+				callback(true);
+			}
+			else
+			{
+				_intBadgeList = new BadgeList();
+				List<string> idList = new List<string>(B);
+				FetchBadgeSerially(idList, callback);
+
+			}
+		}
+
+
+		protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
+		{
+			BadgeReference newBadge = new BadgeReference();
+			newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
+				{
+					if (didIt)
+					{
+						if (_intBadgeList.Contains(newBadge))
+						{
+							System.Diagnostics.Debug.WriteLine("Duplicate call!");
+							return;
+						}
+
+						_intBadgeList.Add(newBadge);
+					}
+
+					if (badgeIdList.Count > 0)
+						badgeIdList.RemoveAt(0);
+
+					if (badgeIdList.Count > 0)
+						FetchBadgeSerially(badgeIdList, callback);
+					else
+						callback(true);
+				}
+			);
+		}
     }
+
+
 
     public class UserDescription
     {

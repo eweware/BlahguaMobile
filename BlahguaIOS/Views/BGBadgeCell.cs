@@ -8,7 +8,7 @@ using MonoTouch.Dialog.Utilities;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGBadgeCell : UICollectionViewCell
+	public partial class BGBadgeCell : UICollectionViewCell, IImageUpdated
 	{
 		public BGBadgeCell (IntPtr handle) : base (handle)
 		{
@@ -17,7 +17,13 @@ namespace BlahguaMobile.IOS
 		public void SetUp(string imageUrl, string text)
 		{
 			name.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 15), UIColor.Black);
-			badgeImage.Image = ImageLoader.DefaultRequestImage (new Uri (imageUrl), new ImageUpdateDelegate (badgeImage));
+			badgeImage.Image = ImageLoader.DefaultRequestImage (new Uri (imageUrl), this);
 		}
+
+		public void UpdatedImage (Uri uri)
+		{
+			badgeImage.Image = ImageLoader.DefaultRequestImage (uri, this);
+		}
+
 	}
 }

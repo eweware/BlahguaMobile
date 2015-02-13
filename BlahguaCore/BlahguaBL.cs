@@ -1319,16 +1319,13 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
-        public void RefreshUserBadges(string_callback callback)
+        public void RefreshUserBadges(bool_callback callback)
         {
             BlahguaRest.GetUserInfo((newUser) =>
                 {
                     CurrentUser.B = newUser.B;
-                    foreach (BadgeReference curBadge in CurrentUser.Badges)
-                    {
-                        //curBadge.UpdateBadgeName();
-                    }
-                    callback("ok");
+					CurrentUser.AwaitBadgeData(callback);
+                    
                 }
             );
         }
@@ -1412,28 +1409,24 @@ namespace BlahguaMobile.BlahguaCore
 
                                     GetUserProfile((theProfile) =>
                                         {
-                                            // badge names
-                                            if (CurrentUser.Badges != null)
-                                            {
-                                                foreach (BadgeReference curBadge in CurrentUser.Badges)
-                                                {
-                                                    curBadge.UpdateBadge();
-                                                }
-                                            }
-
-                                            EnsureUserDescription((theDesc) =>
-                                                {
-                                                    callBack(null);
-                                                }
-                                            );
+											EnsureUserDescription((theDesc) =>
+												{
+													if (CurrentUser.B != null)
+													{
+														CurrentUser.AwaitBadgeData((didIt)=> 
+															{
+																callBack(null);
+															});
+													}
+													else callBack(null);
+												}
+											);
                                         }
                                     );
                                 }
                             );
-                           
                         }
                     );
-                    
                 }
             );  
         }
