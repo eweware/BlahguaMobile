@@ -1,1 +1,1 @@
-bug fixes for double-opening posts, etc.
+Fixes for best foot forward sprint
