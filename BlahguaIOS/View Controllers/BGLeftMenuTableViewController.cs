@@ -38,14 +38,18 @@ namespace BlahguaMobile.IOS
 
             //View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("darkGrayBack"));
 			BlahguaCore.BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => 
-			{
+    			{
 
-				if(e.PropertyName == "CurrentChannelList")
-				{
-                    AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);                  
-					TableView.ReloadData();
-				}
-			};
+    				if(e.PropertyName == "CurrentChannelList")
+    				{
+                        AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);     
+                        InvokeOnMainThread(() => 
+                            {
+                                TableView.ReloadData();
+                            });
+    					
+    				}
+    			};
 			SwitchTableSource (BGLeftMenuType.Channels);
 			TableView.TableFooterView = new UIView ();
 		}

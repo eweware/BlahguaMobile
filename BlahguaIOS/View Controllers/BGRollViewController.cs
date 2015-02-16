@@ -104,12 +104,13 @@ namespace BlahguaMobile.IOS
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
 				if (e.PropertyName == "CurrentChannel") {
                     ImageLoader.Purge();
-					CollectionView.ScrollToItem (NSIndexPath.FromItemSection (0, 0), UICollectionViewScrollPosition.Top, true);
+					
 					InvokeOnMainThread (() => {
 						Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
 						var dataSource = ((BGRollViewDataSource)CollectionView.DataSource);
 						dataSource.DataSource.Clear ();
 						CollectionView.ReloadData ();
+                        CollectionView.SetContentOffset(new PointF(0,0), false);
 					});
 					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 				}
@@ -165,7 +166,10 @@ namespace BlahguaMobile.IOS
 				UIViewAnimationOptions.AllowAnimatedContent,
 				() => { 
 					if (!NaturalScrollInProgress)
-						CollectionView.ContentOffset = new PointF (0, CollectionView.ContentOffset.Y + 1);
+                    {
+    				    CollectionView.ContentOffset = new PointF (0, CollectionView.ContentOffset.Y + 1);
+                        //Console.WriteLine("autoscroll");
+                    }
 				}, AutoScroll);
 		}
 
@@ -234,6 +238,7 @@ namespace BlahguaMobile.IOS
             AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 			InvokeOnMainThread (() => {
 				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
+                NaturalScrollInProgress = false;
 			});
 		}
 

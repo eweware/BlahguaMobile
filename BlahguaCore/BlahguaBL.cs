@@ -123,8 +123,9 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     handler(this, new PropertyChangedEventArgs(name));
                 }
-                catch (Exception)
+                catch (Exception exp)
                 {
+                    Console.WriteLine(exp.Message);
                     // do nothing for now...
                 }
             }
@@ -568,6 +569,7 @@ namespace BlahguaMobile.BlahguaCore
                        else
                            CurrentChannel = curChannelList[0];
                    }
+                    ForceCurrentChannel();
                    inited = true;
                    callback(true);
                });
