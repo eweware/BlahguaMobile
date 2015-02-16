@@ -82,24 +82,7 @@ namespace BlahguaMobile.IOS
         {
             vc = theVC;
         }
-
-		/*
-        public override void ScrollingToState(SWTableViewCell.SWTableViewCell cell, SWCellState state)
-        {
-            switch (state)
-            {
-                case SWCellState.Center:
-                    Console.WriteLine("utility buttons closed");
-                    break;
-                case SWCellState.Left:
-                    Console.WriteLine("left utility buttons open");
-                    break;
-                case SWCellState.Right:
-                    Console.WriteLine("right utility buttons open");
-                    break;
-            }
-        }
-        */
+            
 
         public override void DidTriggerRightUtilityButton(SWTableViewCell.SWTableViewCell cell, nint index)
         {
@@ -205,6 +188,12 @@ namespace BlahguaMobile.IOS
 		{
 			SWTableViewCell.SWTableViewCell theCell = (SWTableViewCell.SWTableViewCell)tableView.CellAt (indexPath);
 			if (theCell != null) {
+                // close other cells
+                foreach (SWTableViewCell.SWTableViewCell curCell in tableView.VisibleCells)
+                {
+                    curCell.HideUtilityButtons(true);
+                }
+
 				theCell.ShowLeftUtilityButtons (true);
 			}
 		}
