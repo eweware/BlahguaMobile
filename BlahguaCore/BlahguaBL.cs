@@ -43,7 +43,12 @@ namespace BlahguaMobile.BlahguaCore
         public string UserPassword { get; set; }
         public string UserPassword2 { get; set; }
         public bool NewAccount { get; set; }
+		public bool CanPost {get; set;}
+		public bool CanComment { get; set; }
 
+		public static int smallTileSize {get; set; }
+		public static int mediumTileSize {get; set; }
+		public static int largeTileSize {get; set; }
 
 
         bool inited = false;
@@ -816,7 +821,24 @@ namespace BlahguaMobile.BlahguaCore
          public string GetImageURL(string baseURL, string size)
         {
             string fullURL;
-            fullURL = BlahguaRest.ImageBaseURL + baseURL + "-" + size + ".jpg";
+			if (baseURL.Contains ("http")) {
+				switch (size) {
+				case "A":
+					fullURL = baseURL + "=s" + BlahguaAPIObject.smallTileSize + "-c";
+					break;
+				case "B":
+					fullURL = baseURL + "=s" + BlahguaAPIObject.mediumTileSize + "-c";
+					break;
+				case "C":
+					fullURL = baseURL + "=s" + BlahguaAPIObject.largeTileSize + "-c";
+					break;
+				default:
+					fullURL = baseURL + "=s2048";
+					break;
+				}
+			}
+			else  
+				fullURL = BlahguaRest.ImageBaseURL + baseURL + "-" + size + ".jpg";
 
             return fullURL;
         }
@@ -824,7 +846,10 @@ namespace BlahguaMobile.BlahguaCore
         public string GetImageURL(string baseURL)
         {
             string fullURL;
-            fullURL = BlahguaRest.ImageBaseURL + baseURL + ".jpg";
+			if (baseURL.Contains ("http"))
+				fullURL = baseURL + "=s2048";
+			else
+				fullURL = BlahguaRest.ImageBaseURL + baseURL + ".jpg";
 
             return fullURL;
         }
@@ -1360,6 +1385,38 @@ namespace BlahguaMobile.BlahguaCore
             }
             
         }
+
+
+		public void GetChannelPermissionById(string channelId, ChannelPermissions_callback theCallback)
+		{
+			BlahguaRest.GetChannelPermissionById(channelId, (thePerms) =>
+				{
+					theCallback(thePerms);
+				}
+			);
+		}
+
+		public void GetCurrentChannelPermission(ChannelPermissions_callback theCallback)
+		{
+			CanPost = true;
+			CanComment = true;
+			BlahguaRest.GetChannelPermissionById(CurrentChannel._id, (thePerms) =>
+				{
+					if (thePerms != null) {
+						CanPost = thePerms.post;
+						CanComment = thePerms.comment;
+					}
+					else {
+						thePerms = new ChannelPermissions();
+						thePerms.post = true;
+						thePerms.comment = true;
+					}
+
+					theCallback(thePerms);
+				}
+			);
+		}
+
 
         public void GetWhatsNew(WhatsNew_callback theCallback)
         {

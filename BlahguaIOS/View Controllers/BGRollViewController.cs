@@ -113,6 +113,16 @@ namespace BlahguaMobile.IOS
                         CollectionView.SetContentOffset(new PointF(0,0), false);
 					});
 					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
+					BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerm) => {
+						if (BlahguaAPIObject.Current.CurrentUser != null) {
+							InvokeOnMainThread(() => {
+								if (thePerm.post == false)
+									newBlah.Hidden = true;
+								else
+									newBlah.Hidden = false;
+							});
+						}
+					});
 				}
 			};
 				
@@ -129,7 +139,6 @@ namespace BlahguaMobile.IOS
 			if(!IsNewPostMode)
 				SetSrollingAvailability (true);
 			((AppDelegate)UIApplication.SharedApplication.Delegate).RightMenu.UpdateForUser();
-
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -290,6 +299,16 @@ namespace BlahguaMobile.IOS
 					var rightBarButton = new UIBarButtonItem(view);
 
 					NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { negativeSpacer, rightBarButton }, true);
+					BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerm) => {
+						if (BlahguaAPIObject.Current.CurrentUser != null) {
+							InvokeOnMainThread(() => {
+								if (thePerm.post == false)
+									newBlah.Hidden = true;
+								else
+									newBlah.Hidden = false;
+							});
+						}
+					});
 
 
 

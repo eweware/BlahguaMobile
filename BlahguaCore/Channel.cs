@@ -5,6 +5,15 @@ using System.Text;
 
 namespace BlahguaMobile.BlahguaCore
 {
+	public class ChannelPermissions
+	{
+		public bool post {get; set;}
+		public bool join { get; set; }
+		public bool comment {get; set;}
+		public bool admin {get; set;}
+		public bool moderate { get; set; }
+	}
+
     public class Channel
     {
         public int B { get; set; }

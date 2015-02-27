@@ -36,6 +36,7 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void Profile_callback(UserProfile theResult);
 	public delegate void bool_callback(bool theResult);
 	public delegate void WhatsNew_callback(WhatsNewInfo theResult);
+	public delegate void ChannelPermissions_callback(ChannelPermissions theResult);
 
 
 
@@ -45,23 +46,18 @@ namespace BlahguaMobile.BlahguaCore
 		public Dictionary<string, string> userGroupNames = null;
 		public Dictionary<string, string> blahTypes = null;
 		public string BaseShareURL { get; set; }
-		private bool usingQA = false;
+		private bool usingQA = true; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
 
 
 		public BlahguaRESTservice()
 		{
-			#if DEBUG
-			//usingQA = true; // false; // true;
-			#endif
-			//usingQA = false;
-
 			if (usingQA)
 			{
 				System.Console.WriteLine("Using QA Server");
-				apiClient = new RestClient("http://qa.rest.blahgua.com:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
-				BaseShareURL = "http://qa.rest.blahgua.com:8080/";
+				apiClient = new RestClient("http://qa.rest.goheard.com:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
+				BaseShareURL = "http://qa.rest.goheard.com:8080/";
 				imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
 			}
 			else
@@ -118,6 +114,17 @@ namespace BlahguaMobile.BlahguaCore
 					WhatsNewInfo newInfo = response.Content.FromJson<WhatsNewInfo>();
 
 					theCallback(newInfo);
+				});
+		}
+
+		public void GetChannelPermissionById(string channelId, ChannelPermissions_callback theCallback)
+		{
+			RestRequest request = new RestRequest("groups/" + channelId + "/permission", Method.GET);
+			apiClient.ExecuteAsync(request, (response) =>
+				{
+					ChannelPermissions thePerm = response.Content.FromJson<ChannelPermissions>();
+
+					theCallback(thePerm);
 				});
 		}
 
@@ -571,15 +578,18 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void UploadPhoto(Stream photoStream, string fileName, string_callback callback)
 		{
-			var request = new RestRequest("images/upload", Method.POST);
+			string uploadURL = GetImageUploadURL ();
+			RestClient onetimeClient = new RestClient(uploadURL);
+			//onetimeClient.CookieContainer = apiClient.CookieContainer;
+
+			var request = new RestRequest("", Method.POST);
 			request.AddHeader("Accept", "*/*");
-			//request.AlwaysMultipartFormData = true;
 			request.AddParameter("objectType", "X");
 			request.AddParameter("objectId", "");
 			request.AddParameter("primary", "true");
 			request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
 
-			apiClient.ExecuteAsync(request, (response) =>
+			onetimeClient.ExecuteAsync(request, (response) =>
 				{
 					if (response.StatusCode == HttpStatusCode.OK)
 					{
@@ -593,8 +603,19 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
+		public string GetImageUploadURL()
+		{
+			RestClient onetimeClient = new RestClient("http://heard-test-001.appspot.com/api/image");
+			//onetimeClient.CookieContainer = apiClient.CookieContainer;
+			var request = new RestRequest("", Method.GET);
+			IRestResponse response = onetimeClient.Execute (request);
+			return response.Content;
+		}
+
+
 		public void UploadObjectPhoto(string objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
 		{
+			string uploadURL = GetImageUploadURL ();
 			var request = new RestRequest("images/upload", Method.POST);
 			request.AddHeader("Accept", "*/*");
 			//request.AlwaysMultipartFormData = true;

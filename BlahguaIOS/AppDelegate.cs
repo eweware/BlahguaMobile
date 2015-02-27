@@ -208,6 +208,9 @@ namespace BlahguaMobile.IOS
             BGBlahCellSizesConstants.SmallCellSize = new SizeF(mediumSize, smallSize);
             BGBlahCellSizesConstants.MediumCellSize = new SizeF(mediumSize, mediumSize);
             BGBlahCellSizesConstants.LargeCellSize = new SizeF(largeSize, mediumSize);
+			BlahguaAPIObject.largeTileSize = (int)largeSize;
+			BlahguaAPIObject.mediumTileSize = (int)mediumSize;
+			BlahguaAPIObject.smallTileSize = (int)smallSize;
         }
 
 		#region Methods

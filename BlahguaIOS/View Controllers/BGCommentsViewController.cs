@@ -7,6 +7,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Collections.Generic;
 
 using Comment = BlahguaMobile.BlahguaCore.Comment;
 
@@ -212,14 +213,17 @@ namespace BlahguaMobile.IOS
 				var btnSignInRect = new RectangleF (0, 0, 100, 60);
 				var btnSignIn = new UIButton (UIButtonType.Custom);
 				btnSignIn.Frame = btnSignInRect;
-				btnSignIn.SetTitle ("Comment", UIControlState.Normal);
-                BGAppearanceHelper.SetButtonFont(btnSignIn, "Merriweather", 17);
-				btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
-					WriteCommentAction();
-				};
+				if (BlahguaAPIObject.Current.CanComment) {
+					btnSignIn.SetTitle ("Comment", UIControlState.Normal);
+					BGAppearanceHelper.SetButtonFont (btnSignIn, "Merriweather", 17);
+					btnSignIn.TouchUpInside += (object sender, EventArgs e) => {
+						WriteCommentAction ();
+					};
 
+				} else {
+					btnComment.Enabled = false;
+				}
 				btnComment.CustomView = btnSignIn;
-
 			}
 
 			SetUpModesButtons ();
