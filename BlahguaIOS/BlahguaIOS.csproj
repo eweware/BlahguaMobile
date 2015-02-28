@@ -343,6 +343,10 @@
       <DependentUpon>BGSignUpPage02.cs</DependentUpon>
     </Compile>
     <None Include="Info.plist" />
+    <Compile Include="View Controllers\EmbeddedWebController.cs" />
+    <Compile Include="View Controllers\EmbeddedWebController.designer.cs">
+      <DependentUpon>EmbeddedWebController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="servicestacktext">
@@ -435,6 +439,7 @@
     <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
     <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
+    <InterfaceDefinition Include="View Controllers\WebPageStoryBoard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />

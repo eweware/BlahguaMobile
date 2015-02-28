@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4443" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="5">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="4">
+            <objects>
+                <viewController id="5" sceneMemberID="viewController" customClass="EmbeddedWebController" storyboardIdentifier="EmbeddedWebViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2"/>
+                        <viewControllerLayoutGuide type="bottom" id="3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" id="15" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="Web View" id="16"/>
+                                </items>
+                            </navigationBar>
+                            <webView contentMode="scaleToFill" id="12" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" scalesPageToFit="NO">
+                                <rect key="frame" x="0.0" y="64" width="320" height="500"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="EmbeddedWebView" destination="12" id="name-outlet-12"/>
+                        <outlet property="WebNavBar" destination="15" id="name-outlet-15"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="162"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+    <resources>
+        <image name="signupRadioButton.png" width="18" height="18"/>
+        <image name="icon_speechact_ask_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_ask.png" width="267" height="267"/>
+        <image name="icon_speechact_leak_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_leak.png" width="267" height="267"/>
+        <image name="icon_speechact_poll_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_poll.png" width="267" height="267"/>
+        <image name="icon_speechact_predict_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_predict.png" width="267" height="267"/>
+        <image name="icon_speechact_say_teal.png" width="267" height="267"/>
+        <image name="icon_speechact_say.png" width="267" height="267"/>
+        <image name="icon_createpost.png" width="533" height="533"/>
+        <image name="BackgroundImage.png" width="320" height="480"/>
+        <image name="texture.png" width="320" height="480"/>
+        <image name="texture-568h.png" width="320" height="568"/>
+        <image name="Background-portrait.png" width="768" height="1024"/>
+        <image name="BackgroundImage_4inch.png" width="320" height="568"/>
+        <image name="hamburger_teal.png" width="49" height="39"/>
+        <image name="short_button_normal.png" width="459" height="73"/>
+        <image name="short_button_pressed.png" width="459" height="73"/>
+        <image name="tutorial_screen_1.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_2.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_3.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_4.jpg" width="640" height="1096"/>
+        <image name="tutorial_screen_5.jpg" width="640" height="1096"/>
+        <image name="tutorial_close.png" width="20" height="20"/>
+        <image name="login_background.jpg" width="264" height="352"/>
+        <image name="logo_white.png" width="189" height="99"/>
+        <image name="signup_2.jpg" width="363" height="545"/>
+        <image name="ios_signin_3x4.jpg" width="320" height="480"/>
+        <image name="ios_signin_2x3.jpg" width="640" height="1136"/>
+        <image name="conversion.png" width="105" height="105"/>
+        <image name="comments_filled_64x64.png" width="64" height="64"/>
+        <image name="report_button_active.png" width="128" height="112"/>
+        <image name="share_button.png" width="59" height="83"/>
+        <image name="Logo_master_red.png" width="516" height="265"/>
+        <image name="Heard_Smile_Only_red.png" width="280" height="240"/>
+        <image name="Heard_Smile_Only_teal.png" width="280" height="240"/>
+        <image name="Logo_master_teal.png" width="516" height="265"/>
+        <image name="ICON_TEST.png" width="72" height="72"/>
+        <image name="rememberMeRadioButton.png" width="28" height="28"/>
+        <image name="signinBckg-4.png" width="640" height="960"/>
+        <image name="signinBckg-5.png" width="640" height="1136"/>
+        <image name="signupRadioButtonUn.png" width="18" height="18"/>
+        <image name="navigationBar.png" width="640" height="128"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="profileImageSelectLogo.png" width="208" height="41"/>
+        <image name="profileInfoBack.png" width="611" height="431"/>
+        <image name="darkGrayBack.png" width="13" height="14"/>
+        <image name="grayBack.png" width="10" height="10"/>
+        <image name="greenBack.png" width="9" height="12"/>
+        <image name="blahsChannelCheck.png" width="19" height="16"/>
+        <image name="newBlahImage.png" width="45" height="45"/>
+        <image name="leftMenuButton.png" width="49" height="39"/>
+        <image name="leftMenuButtonPressed.png" width="48" height="39"/>
+        <image name="rememberMeRadioButton_un.png" width="36" height="36"/>
+        <image name="arrow_down_dark.png" width="22" height="38"/>
+        <image name="arrow_down.png" width="22" height="38"/>
+        <image name="arrow_up_dark.png" width="25" height="38"/>
+        <image name="arrow_up.png" width="25" height="38"/>
+        <image name="comments_dark.png" width="44" height="38"/>
+        <image name="comments.png" width="44" height="38"/>
+        <image name="stats_dark.png" width="52" height="34"/>
+        <image name="stats.png" width="52" height="34"/>
+        <image name="summary_dark.png" width="40" height="32"/>
+        <image name="summary.png" width="40" height="32"/>
+        <image name="badges.png" width="28" height="28"/>
+        <image name="hot.png" width="28" height="28"/>
+        <image name="no_coments.png" width="96" height="79"/>
+        <image name="signature_ico.png" width="30" height="18"/>
+        <image name="arrow_blue.png" width="28" height="28"/>
+        <image name="arrow_gray.png" width="28" height="28"/>
+        <image name="arrow_green.png" width="28" height="28"/>
+        <image name="arrow_red.png" width="28" height="28"/>
+        <image name="arrow_yellow.png" width="28" height="28"/>
+        <image name="input_field_bottom.png" width="610" height="80"/>
+        <image name="input_field_middle.png" width="610" height="80"/>
+        <image name="input_field_top.png" width="610" height="80"/>
+        <image name="new_post_tap.png" width="89" height="104"/>
+        <image name="recent.png" width="28" height="28"/>
+        <image name="image_select.png" width="34" height="22"/>
+        <image name="new_comment.png" width="610" height="357"/>
+        <image name="dropdown_arrow.png" width="15" height="10"/>
+        <image name="input_back.png" width="610" height="80"/>
+        <image name="long_button.png" width="610" height="88"/>
+        <image name="short_button_gray.png" width="459" height="73"/>
+        <image name="new_post.png" width="610" height="443"/>
+        <image name="short_button.png" width="459" height="73"/>
+        <image name="long_button_gray.png" width="610" height="88"/>
+        <image name="newblah.png" width="133" height="133"/>
+        <image name="ask_icon.png" width="32" height="32"/>
+        <image name="badge_icon.png" width="32" height="32"/>
+        <image name="leak_icon.png" width="32" height="32"/>
+        <image name="poll_icon.png" width="32" height="32"/>
+        <image name="predict_icon.png" width="32" height="32"/>
+        <image name="say_icon.png" width="32" height="32"/>
+        <image name="pen_bw.png" width="32" height="32"/>
+        <image name="ico_hot.png" width="32" height="32"/>
+        <image name="ico_new.png" width="32" height="32"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+    </resources>
+</document>
