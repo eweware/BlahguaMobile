@@ -18,8 +18,8 @@ namespace BlahguaMobile.IOS
 
 		private BGLeftMenuTableViewController menu;
 		private BGRightMenuViewController rightMenu;
-		private SlideMenuController slideMenu;
-		private UINavigationController navController;
+        public static SlideMenuController slideMenu;
+        public static UINavigationController navController;
 		public SwipeViewController swipeView;
         private bool appIsDead = false;
 

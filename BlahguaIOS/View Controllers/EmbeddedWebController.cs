@@ -2,6 +2,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System;
 using System.CodeDom.Compiler;
+using System.Drawing;
 
 namespace BlahguaMobile.IOS
 {
@@ -14,17 +15,29 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			string urlString = "http://www.sheep.com";
-			NSUrl	theURL = new NSUrl (urlString);
-			NSUrlRequest theRequest = new NSUrlRequest (theURL);
+            NSUrl	theURL = UIApplicationHeard.TargetURL;
+			
+            //EmbeddedWebView.Frame = new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			EmbeddedWebView.LoadFinished += (object sender, EventArgs e) => {
 				// update the title
 				string theTitle = EmbeddedWebView.EvaluateJavascript("document.title");
-				WebNavBar.TopItem.Title = theTitle;
+				Title = theTitle;
 			};
-
-			EmbeddedWebView.LoadRequest (theRequest);
+            EmbeddedWebView.ScalesPageToFit = true;
 
 		}
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            OpenURL(UIApplicationHeard.TargetURL);
+        }
+
+        public void OpenURL(NSUrl theURL)
+        {
+            NSUrlRequest theRequest = new NSUrlRequest (theURL);
+
+            EmbeddedWebView.LoadRequest (theRequest);
+        }
 	}
 }

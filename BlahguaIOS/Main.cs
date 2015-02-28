@@ -12,6 +12,7 @@ namespace BlahguaMobile.IOS
 	public class UIApplicationHeard : UIApplication
 	{
 		private EmbeddedWebController m_webViewController = null;
+        public static NSUrl TargetURL;
 
 		public UIApplicationHeard () : base()
 		{
@@ -19,8 +20,9 @@ namespace BlahguaMobile.IOS
 
 		public override bool OpenUrl (NSUrl url)
 		{
-			//return base.OpenUrl (url);
-			ShowWebView (url);
+            TargetURL = url;
+			ShowWebView ();
+           
 			return true;
 		}
 
@@ -29,22 +31,18 @@ namespace BlahguaMobile.IOS
 			base.SendEvent (uievent);
 		}
 
-		public void ShowWebView(NSUrl theURL)
+		public void ShowWebView()
 		{
-			UIWindow theWindow = UIApplication.SharedApplication.KeyWindow;
-
 			if (m_webViewController == null) {
 
 				UIStoryboard webStoryBoard = UIStoryboard.FromName("WebPageStoryBoard", null);
 
 				m_webViewController = (EmbeddedWebController)webStoryBoard.InstantiateViewController ("EmbeddedWebViewController");
-				//m_webViewController.ParentViewController = theWindow.RootViewController;
-				//theWindow.RootViewController.AddChildViewController (m_webViewController);
 
 				m_webViewController.View.Frame = new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			}
 
-			theWindow.RootViewController.NavigationController.PushViewController (m_webViewController, true);
+			AppDelegate.slideMenu.NavigationController.PushViewController (m_webViewController, true);
 
 		}
 	}

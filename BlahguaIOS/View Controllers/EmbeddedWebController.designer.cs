@@ -18,19 +18,11 @@ namespace BlahguaMobile.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIWebView EmbeddedWebView { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UINavigationBar WebNavBar { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
 			if (EmbeddedWebView != null) {
 				EmbeddedWebView.Dispose ();
 				EmbeddedWebView = null;
-			}
-			if (WebNavBar != null) {
-				WebNavBar.Dispose ();
-				WebNavBar = null;
 			}
 		}
 	}

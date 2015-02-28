@@ -833,7 +833,7 @@ namespace BlahguaMobile.BlahguaCore
 					fullURL = baseURL + "=s" + BlahguaAPIObject.largeTileSize + "-c";
 					break;
 				default:
-					fullURL = baseURL + "=s1024";
+					fullURL = baseURL + "=s2048";
 					break;
 				}
 			}
