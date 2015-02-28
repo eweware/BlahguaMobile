@@ -12,7 +12,7 @@ using BlahguaMobile.BlahguaCore;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.Dialog.Utilities;
+//using MonoTouch.Dialog.Utilities;
 using MonoTouch.MessageUI;
 
 namespace BlahguaMobile.IOS

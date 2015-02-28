@@ -579,11 +579,12 @@ namespace BlahguaMobile.BlahguaCore
 		public void UploadPhoto(Stream photoStream, string fileName, string_callback callback)
 		{
 			string uploadURL = GetImageUploadURL ();
-			RestClient onetimeClient = new RestClient(uploadURL);
-			//onetimeClient.CookieContainer = apiClient.CookieContainer;
-
-			var request = new RestRequest("", Method.POST);
-			request.AddHeader("Accept", "*/*");
+            int pathSplit =  uploadURL.IndexOf("/", 7);
+            string appPath = uploadURL.Substring(0, pathSplit);
+            string requestPath = uploadURL.Substring(pathSplit);
+            RestClient onetimeClient = new RestClient(appPath);
+			var request = new RestRequest(requestPath, Method.POST);
+			request.AddHeader("Accept", "*/*"); 
 			request.AddParameter("objectType", "X");
 			request.AddParameter("objectId", "");
 			request.AddParameter("primary", "true");
