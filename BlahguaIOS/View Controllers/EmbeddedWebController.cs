@@ -18,11 +18,13 @@ namespace BlahguaMobile.IOS
             NSUrl	theURL = UIApplicationHeard.TargetURL;
 			
             //EmbeddedWebView.Frame = new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+            /*
 			EmbeddedWebView.LoadFinished += (object sender, EventArgs e) => {
 				// update the title
 				string theTitle = EmbeddedWebView.EvaluateJavascript("document.title");
 				Title = theTitle;
 			};
+            */         
             EmbeddedWebView.ScalesPageToFit = true;
 
 		}
@@ -35,9 +37,13 @@ namespace BlahguaMobile.IOS
 
         public void OpenURL(NSUrl theURL)
         {
-            NSUrlRequest theRequest = new NSUrlRequest (theURL);
+            try {
+                NSUrlRequest theRequest = new NSUrlRequest (theURL);
 
-            EmbeddedWebView.LoadRequest (theRequest);
+                EmbeddedWebView.LoadRequest (theRequest);
+            } catch (Exception exp) {
+                Console.WriteLine("error loading page: " + exp.Message);
+            }
         }
 	}
 }

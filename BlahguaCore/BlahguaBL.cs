@@ -243,7 +243,7 @@ namespace BlahguaMobile.BlahguaCore
 			System.Console.WriteLine ("Loading Settings");
             AutoLogin = (bool)SafeLoadSetting("AutoLogin", true);
             FilterProfanity = (bool)SafeLoadSetting("FilterProfanity", true);
-            SavedChannel = (string)SafeLoadSetting("SavedChannel", "Public");
+            SavedChannel = (string)SafeLoadSetting("SavedChannel", BlahguaAPIObject.Current.GetDefaultChannel());
         }
 
         void SaveSettings()
@@ -554,18 +554,14 @@ namespace BlahguaMobile.BlahguaCore
         private void CompletePublicSignin(string defaultChannel, BlahguaInit_callback callback)
         {
             bool bIncludeHidden = false;
-
-            if (defaultChannel != "Public")
-            {
-                //bIncludeHidden = true;
-            }
+           
 
             BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
                {
                    curChannelList = chanList;
 
                    if (defaultChannel == null)
-                    CurrentChannel = curChannelList[0];
+                        CurrentChannel = GetDefaultChannel();
                    else
                    {
                        Channel curChan = curChannelList.ChannelFromName(defaultChannel);
@@ -994,6 +990,19 @@ namespace BlahguaMobile.BlahguaCore
                     callback(theList);
                 }
             );
+        }
+
+        public Channel GetDefaultChannel()
+        {
+            if ((this.CurrentChannelTypeList != null) && (this.CurrentChannelList != null))
+            {
+                ChannelType heardType = this.CurrentChannelTypeList.First(i => i.N == "Official Heard");
+                Channel theChan = this.CurrentChannelList.First (i => i.Y == heardType._id);
+
+                return theChan;
+            }
+            else
+                return null;
         }
 
         public void LoadBlahComments(Comments_callback callback)

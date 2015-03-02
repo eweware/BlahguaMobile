@@ -1,1 +1,1 @@
-Fixes for best foot forward sprint
+embedded browser and locked channels.  This is only qa server.

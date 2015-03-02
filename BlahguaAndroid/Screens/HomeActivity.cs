@@ -22,6 +22,8 @@ using Android.Text.Style;
 using Android.Provider;
 using Java.IO;
 
+using System.Threading.Tasks;
+
 using BlahguaMobile.AndroidClient;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using BlahguaMobile.AndroidClient.Screens;
@@ -95,11 +97,40 @@ namespace BlahguaMobile.AndroidClient.Screens
 			}
 		}
 
+        public const string HOCKEYAPP_APPID = "aadcf778d85a29d59bd4ef87394ee6ad";
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
+
+            // init hockey app
+            // Register the crash manager before Initializing the trace writer
+            HockeyApp.CrashManager.Register (this, HOCKEYAPP_APPID); 
+
+            //Register to with the Update Manager
+            HockeyApp.UpdateManager.Register (this, HOCKEYAPP_APPID);
+
+            // Initialize the Trace Writer
+            HockeyApp.TraceWriter.Initialize ();
+
+            // Wire up Unhandled Expcetion handler from Android
+            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) => 
+                {
+                    // Use the trace writer to log exceptions so HockeyApp finds them
+                    HockeyApp.TraceWriter.WriteTrace(args.Exception);
+                    args.Handled = true;
+                };
+
+            // Wire up the .NET Unhandled Exception handler
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
+
+            // Wire up the unobserved task exception handler
+            TaskScheduler.UnobservedTaskException += 
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
+
+
 
 			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			SetContentView (Resource.Layout.page_home_view);

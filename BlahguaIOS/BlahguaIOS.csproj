@@ -82,7 +82,7 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>674796aa-e5ea-42bf-a5c7-4e5f5f9a39ef</CodesignProvision>
+    <CodesignProvision>2313da88-60aa-422e-8e0d-2ba40a4bdbe4</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -362,6 +362,10 @@
       <Version>0.3.6.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+    <XamarinComponentReference Include="hockeyappios">
+      <Version>3.6.2.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SWTableViewCell">
@@ -381,6 +385,9 @@
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="RestSharp.MonoTouch">
       <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.6.2.0\lib\ios\HockeyApp.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

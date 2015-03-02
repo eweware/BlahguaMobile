@@ -8,6 +8,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.SlideMenu;
 using System.IO.IsolatedStorage;
+using HockeyApp;
 
 namespace BlahguaMobile.IOS
 {
@@ -98,6 +99,29 @@ namespace BlahguaMobile.IOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            HockeyApp.Setup.EnableCustomCrashReporting (() => {
+
+                //Get the shared instance
+                var manager = BITHockeyManager.SharedHockeyManager;
+
+                //Configure it to use our APP_ID
+                manager.Configure ("a045bb829d42942b5659242046565b9e");
+
+                //Start the manager
+                manager.StartManager ();
+
+                //Authenticate (there are other authentication options)
+                manager.Authenticator.AuthenticateInstallation ();
+
+                //Rethrow any unhandled .NET exceptions as native iOS 
+                // exceptions so the stack traces appear nicely in HockeyApp
+                AppDomain.CurrentDomain.UnhandledException += (sender, e) => 
+                    Setup.ThrowExceptionAsNative(e.ExceptionObject);
+
+                System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (sender, e) => 
+                    Setup.ThrowExceptionAsNative(e.Exception);
+            });
+
             UpdateStatus ();
             if (remoteHostStatus == NetworkStatus.NotReachable)
             {

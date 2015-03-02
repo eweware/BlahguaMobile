@@ -246,8 +246,15 @@ namespace BlahguaMobile.IOS
 		{
             AppDelegate.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 			InvokeOnMainThread (() => {
-				((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
-                NaturalScrollInProgress = false;
+                if (inbox != null) {
+				    ((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
+                    NaturalScrollInProgress = false;
+                }
+                else {                 
+                    ((BGRollViewDataSource)CollectionView.DataSource).DataSource.Clear();
+                    UIAlertView msg = new UIAlertView("Empty Channel", "This channel currently has no posts.", null, "Got it");
+                    msg.Show();
+                }
 			});
 		}
 

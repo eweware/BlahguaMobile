@@ -272,6 +272,14 @@ namespace BlahguaMobile.BlahguaCore
 			else
 				return null;
         }
+
+        public string GetTypeId(string typeName)
+        {
+            if (typeName != null)
+                return this.First (i => i.N == typeName)._id;
+            else
+                return null;
+        }
     }
 
     [DataContract]
@@ -401,7 +409,7 @@ namespace BlahguaMobile.BlahguaCore
             XX = true;
             XXX = false;
             Y = BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
-            G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == "Public")._id;
+            G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == BlahguaAPIObject.Current.GetDefaultChannel().N)._id;
             ExpirationDate = DateTime.Now + new TimeSpan(30, 0, 0, 0);
 
             I = new PollItemList();

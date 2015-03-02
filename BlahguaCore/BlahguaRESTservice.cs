@@ -884,7 +884,9 @@ namespace BlahguaMobile.BlahguaCore
 			request.AddParameter("groupId", groupId);
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-					Inbox inbox  = response.Content.FromJson<Inbox>();
+                    Inbox inbox = null;
+                    if (response.StatusCode == HttpStatusCode.OK)
+					    inbox  = response.Content.FromJson<Inbox>();
 					callback(inbox);
 				});
 		}
