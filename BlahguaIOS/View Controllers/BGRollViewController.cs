@@ -62,16 +62,33 @@ namespace BlahguaMobile.IOS
 
         public override void ViewWillDisappear(bool animated)
         {
+			ResetChannelBar ();
             base.ViewWillDisappear(animated);
             BlahguaAPIObject.Current.FlushImpressionList();
         }
 
+		public void ResetChannelBar()
+		{
+			this.NavigationController.NavigationBar.SetBackgroundImage(null, UIBarMetrics.Default);
+		}
+
+		private void PrepareChannelBar ()
+		{
+			string headerImage = BlahguaAPIObject.Current.CurrentChannel.HeaderImage;
+			if (String.IsNullOrEmpty(headerImage)) {
+				Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+				this.NavigationController.NavigationBar.SetBackgroundImage(null, UIBarMetrics.Default);
+			} else {
+				Title = "";
+				this.NavigationController.NavigationBar.SetBackgroundImage(UIImageHelper.ImageFromUrl (headerImage), UIBarMetrics.Default);
+			}
+		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+			PrepareChannelBar ();
 
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
 
@@ -106,7 +123,7 @@ namespace BlahguaMobile.IOS
                     ImageLoader.Purge();
 					
 					InvokeOnMainThread (() => {
-						Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+						PrepareChannelBar();
 						var dataSource = ((BGRollViewDataSource)CollectionView.DataSource);
 						dataSource.DataSource.Clear ();
 						CollectionView.ReloadData ();
@@ -139,6 +156,7 @@ namespace BlahguaMobile.IOS
 			if(!IsNewPostMode)
 				SetSrollingAvailability (true);
 			((AppDelegate)UIApplication.SharedApplication.Delegate).RightMenu.UpdateForUser();
+			PrepareChannelBar ();
 		}
 
 		public override void ViewDidAppear (bool animated)

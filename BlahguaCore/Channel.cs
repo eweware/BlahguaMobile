@@ -32,12 +32,17 @@ namespace BlahguaMobile.BlahguaCore
         public string _id { get; set; }
         public string c { get; set; }
         public string u { get; set; }
+		public string GHI { get; set; }
 
 
         public Channel()
         {
 
         }
+
+		public string HeaderImage {
+			get { return GHI; }
+		}
 
         public string ChannelName
         {

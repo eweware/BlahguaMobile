@@ -568,7 +568,7 @@ namespace BlahguaMobile.BlahguaCore
                        if (curChan != null)
                            CurrentChannel = curChan;
                        else
-                           CurrentChannel = curChannelList[0];
+							CurrentChannel = GetDefaultChannel();
                    }
                     ForceCurrentChannel();
                    inited = true;
@@ -1459,10 +1459,15 @@ namespace BlahguaMobile.BlahguaCore
             GetOrAddUserChannels((chanList) =>
                 {
                     CurrentChannelList = chanList;
-                    if (!String.IsNullOrEmpty(SavedChannel))
-                        CurrentChannel = curChannelList.ChannelFromName(SavedChannel);
+					if (!String.IsNullOrEmpty(SavedChannel)) {
+                        Channel savedChan = curChannelList.ChannelFromName(SavedChannel);
+						if (savedChan != null)
+							CurrentChannel = savedChan;
+						else
+							CurrentChannel = GetDefaultChannel();
+					}
                     else
-                        CurrentChannel = curChannelList[0];
+						CurrentChannel = GetDefaultChannel();
 
                     BlahguaRest.GetUserInfo((newUser) =>
                         {
