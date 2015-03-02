@@ -9,6 +9,10 @@ namespace BlahguaMobile.IOS
 {
 	partial class BGSignUpPage02 : UIViewController
 	{
+
+		private UIActionSheet communitySheet;
+		private UIActionSheet publisherSheet;
+
 		public BGSignUpPage02 (IntPtr handle) : base (handle)
 		{
 		}
@@ -17,6 +21,17 @@ namespace BlahguaMobile.IOS
         {
             base.ViewDidLoad();
 
+			communitySheet = PrepCommunitySelect ();
+			publisherSheet = PrepPublisherSelect();
+
+			CommunityChannelBtn.TouchUpInside += (object sender, EventArgs e) => {
+				communitySheet.ShowInView (View);
+			};
+			PublisherChannelBtn.TouchUpInside += (object sender, EventArgs e) => {
+				publisherSheet.ShowInView (View);
+			};
+
+			/*
             string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
             List<Channel> newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
             IndustryTable.Source = new ChannelTableSource(newList, true, (BGSignOnPageViewController)ParentViewController);
@@ -31,9 +46,70 @@ namespace BlahguaMobile.IOS
                     // we are done - dismiss it
                     ((BGSignOnPageViewController)ParentViewController).Finish();
                 };
+                */
 
 
         }
+			
+		private UIActionSheet PrepCommunitySelect()
+		{
+			UIActionSheet actionSheet = new UIActionSheet("Select a Community Channel");
+			Channel defaultChannel = BlahguaAPIObject.Current.GetDefaultChannel ();
+			actionSheet.AddButton (defaultChannel.N);
+			string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
+			List<Channel> newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+
+			foreach (Channel curChannel in newList) {
+				actionSheet.AddButton (curChannel.N);
+			}
+
+			actionSheet.AddButton ("Cancel");
+			actionSheet.CancelButtonIndex = 1 + newList.Count;  // cancel
+
+			actionSheet.Clicked += delegate(object a, UIButtonEventArgs b) 
+			{
+				if (b.ButtonIndex == 0) {
+					SetDefaultChannel(BlahguaAPIObject.Current.GetDefaultChannel());
+					((BGSignOnPageViewController)ParentViewController).Finish();
+				}
+				else if (b.ButtonIndex != actionSheet.CancelButtonIndex)
+				{
+					Channel targetChannel = newList[b.ButtonIndex - 1];
+					SetDefaultChannel(targetChannel);
+					NSUserDefaults.StandardUserDefaults.SetInt(3, "signupStage");
+					NSUserDefaults.StandardUserDefaults.Synchronize();
+					((BGSignOnPageViewController)ParentViewController).GoToNext();
+				}
+
+			};
+
+			return actionSheet;
+		}
+
+		private UIActionSheet PrepPublisherSelect()
+		{
+			UIActionSheet actionSheet = new UIActionSheet("Select a Publisher Channel");
+			string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
+			List<Channel> newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+
+			foreach (Channel curChannel in newList) {
+				actionSheet.AddButton (curChannel.N);
+			}
+
+			actionSheet.AddButton ("Cancel");
+			actionSheet.CancelButtonIndex = newList.Count;  // cancel
+
+			actionSheet.Clicked += delegate(object a, UIButtonEventArgs b) 
+			{
+				if (b.ButtonIndex != actionSheet.CancelButtonIndex) {
+					Channel targetChannel = newList[b.ButtonIndex];
+					SetDefaultChannel(targetChannel);
+					((BGSignOnPageViewController)ParentViewController).Finish();
+				}
+			};
+
+			return actionSheet;
+		}
 
         public static void SetDefaultChannel(Channel theChannel)
         {

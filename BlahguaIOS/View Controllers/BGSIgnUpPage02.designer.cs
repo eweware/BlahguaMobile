@@ -16,15 +16,11 @@ namespace BlahguaMobile.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView IndustryTable { get; set; }
+		UIButton CommunityChannelBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton publicBtn { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView PublishersTable { get; set; }
+		UIButton PublisherChannelBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -32,17 +28,13 @@ namespace BlahguaMobile.IOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (IndustryTable != null) {
-				IndustryTable.Dispose ();
-				IndustryTable = null;
+			if (CommunityChannelBtn != null) {
+				CommunityChannelBtn.Dispose ();
+				CommunityChannelBtn = null;
 			}
-			if (publicBtn != null) {
-				publicBtn.Dispose ();
-				publicBtn = null;
-			}
-			if (PublishersTable != null) {
-				PublishersTable.Dispose ();
-				PublishersTable = null;
+			if (PublisherChannelBtn != null) {
+				PublisherChannelBtn.Dispose ();
+				PublisherChannelBtn = null;
 			}
 			if (SignUpPage02View != null) {
 				SignUpPage02View.Dispose ();
