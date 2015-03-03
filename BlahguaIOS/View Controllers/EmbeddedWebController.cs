@@ -3,6 +3,7 @@ using MonoTouch.UIKit;
 using System;
 using System.CodeDom.Compiler;
 using System.Drawing;
+using MonoTouch.CoreGraphics;
 
 namespace BlahguaMobile.IOS
 {
@@ -16,22 +17,49 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad();
             NSUrl	theURL = UIApplicationHeard.TargetURL;
-			
-            //EmbeddedWebView.Frame = new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
-            /*
-			EmbeddedWebView.LoadFinished += (object sender, EventArgs e) => {
-				// update the title
-				string theTitle = EmbeddedWebView.EvaluateJavascript("document.title");
-				Title = theTitle;
-			};
-            */         
+			    
             EmbeddedWebView.ScalesPageToFit = true;
 
+            /*
+            UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications();
+            NSNotificationCenter.DefaultCenter.AddObserver(UIDevice.OrientationDidChangeNotification, notification =>
+                {
+                    float PI = (float)Math.PI;
+                    // handle that
+                    UIDeviceOrientation orientation = UIDevice.CurrentDevice.Orientation;
+
+                    if (orientation == UIDeviceOrientation.LandscapeLeft)
+                        this.View.Transform = CGAffineTransform.MakeRotation(PI / 2.0f);
+                    else if (orientation == UIDeviceOrientation.LandscapeRight)
+                        this.View.Transform = CGAffineTransform.MakeRotation(PI / -2.0f);
+                    else if (orientation == UIDeviceOrientation.PortraitUpsideDown)
+                        this.View.Transform = CGAffineTransform.MakeRotation(PI);
+                    else if (orientation == UIDeviceOrientation.Portrait)
+                        this.View.Transform = CGAffineTransform.MakeRotation(0.0f);
+                });
+
+            */  
+
 		}
+
+        public override void ViewWillAppear(bool animated)
+        {
+
+            base.ViewWillAppear(animated);
+
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            EmbeddedWebView.LoadHtmlString("", null);
+            base.ViewDidDisappear(animated);
+        }
+           
 
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+
             OpenURL(UIApplicationHeard.TargetURL);
         }
 
