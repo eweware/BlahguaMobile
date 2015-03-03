@@ -41,7 +41,25 @@ namespace BlahguaMobile.IOS
 			Channel defaultChannel = BlahguaAPIObject.Current.GetDefaultChannel ();
 			actionSheet.AddButton (defaultChannel.N);
 			string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
-			List<Channel> newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+            List<Channel> newList = null;
+
+            try 
+            {
+                newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            if ((newList == null) || (newList.Count == 0))
+            {
+                newList = new List<Channel>();
+                newList.Add(BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName("Tech Industry"));
+                newList.Add(BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName("Entertainment Industry"));
+            }
+
+
 
 			foreach (Channel curChannel in newList) {
 				actionSheet.AddButton (curChannel.N);
@@ -71,10 +89,25 @@ namespace BlahguaMobile.IOS
 		}
 
 		private UIActionSheet PrepPublisherSelect()
-		{
-			UIActionSheet actionSheet = new UIActionSheet("Select a Publisher Channel");
-			string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
-			List<Channel> newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+        {
+            UIActionSheet actionSheet = new UIActionSheet("Select a Publisher Channel");
+            string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
+            List<Channel> newList = null;
+
+            try
+            {
+                newList = BlahguaAPIObject.Current.CurrentChannelList.FindAll(i => i.Y == typeId);
+            }
+            catch (Exception e)
+            {
+               
+            }
+
+            if ((newList == null) || (newList.Count == 0))
+            {
+                newList = new List<Channel>();
+                newList.Add(BlahguaAPIObject.Current.CurrentChannelList.ChannelFromName("Lifestyle"));
+            }
 
 			foreach (Channel curChannel in newList) {
 				actionSheet.AddButton (curChannel.N);

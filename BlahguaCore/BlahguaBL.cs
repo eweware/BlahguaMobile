@@ -997,7 +997,14 @@ namespace BlahguaMobile.BlahguaCore
             if ((this.CurrentChannelTypeList != null) && (this.CurrentChannelList != null))
             {
                 ChannelType heardType = this.CurrentChannelTypeList.First(i => i.N == "Official Heard");
-                Channel theChan = this.CurrentChannelList.First (i => i.Y == heardType._id);
+                Channel theChan;
+
+                try {
+                    theChan = this.CurrentChannelList.First (i => i.Y == heardType._id);
+                }
+                catch (Exception exp) {
+                    theChan = this.CurrentChannelList[0];
+                }
 
                 return theChan;
             }

@@ -362,7 +362,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                if (M != null)
+                if ((M != null) && (M.Count > 0)) 
                 {
                     string imageName = M[0];
                     return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
