@@ -99,6 +99,7 @@ namespace BlahguaMobile.IOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+			/*
             HockeyApp.Setup.EnableCustomCrashReporting (() => {
 
                 //Get the shared instance
@@ -121,6 +122,8 @@ namespace BlahguaMobile.IOS
                 System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (sender, e) => 
                     Setup.ThrowExceptionAsNative(e.Exception);
             });
+            */
+
 
             UpdateStatus ();
             if (remoteHostStatus == NetworkStatus.NotReachable)
