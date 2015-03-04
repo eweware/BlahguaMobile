@@ -56,7 +56,7 @@
     <MtouchSdkVersion>8.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <CodesignProvision>4dacacb9-19df-479c-9ed3-ac8847e9bb6a</CodesignProvision>
+    <CodesignProvision>658c4037-5e79-45c2-9639-d000cd4ccc5f</CodesignProvision>
     <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
