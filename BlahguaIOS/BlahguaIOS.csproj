@@ -56,7 +56,7 @@
     <MtouchSdkVersion>8.1</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <CodesignProvision>658c4037-5e79-45c2-9639-d000cd4ccc5f</CodesignProvision>
+    <CodesignProvision>4dacacb9-19df-479c-9ed3-ac8847e9bb6a</CodesignProvision>
     <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -83,7 +83,7 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>2313da88-60aa-422e-8e0d-2ba40a4bdbe4</CodesignProvision>
+    <CodesignProvision>88dfb4da-5e98-4e43-a1ef-f19642c90684</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>

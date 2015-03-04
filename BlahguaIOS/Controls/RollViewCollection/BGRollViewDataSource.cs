@@ -44,10 +44,12 @@ namespace BlahguaMobile.IOS
 
 		public void ReplaceItem(Blah newItem, int oldIndex)
 		{
-			InboxBlah newBlah = new InboxBlah (newItem);
-			int oldSize = dataSource [oldIndex].displaySize;
-			newBlah.displaySize = oldSize;
-			dataSource [oldIndex] = newBlah;
+			if ((oldIndex >= 0) && (oldIndex < dataSource.Count)) {
+				InboxBlah newBlah = new InboxBlah (newItem);
+				int oldSize = dataSource [oldIndex].displaySize;
+				newBlah.displaySize = oldSize;
+				dataSource [oldIndex] = newBlah;
+			}
 		}
 
 		#region Collection View Data Source overriden methods
