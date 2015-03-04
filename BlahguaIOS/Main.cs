@@ -20,10 +20,15 @@ namespace BlahguaMobile.IOS
 
 		public override bool OpenUrl (NSUrl url)
 		{
-            TargetURL = url;
-			ShowWebView ();
+            if (false)
+            { //todo:  fix web links
+                TargetURL = url;
+                ShowWebView();
            
-			return true;
+                return true;
+            }
+            else
+                return base.OpenUrl(url);
 		}
 
 		public override void SendEvent (UIEvent uievent)

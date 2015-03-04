@@ -85,13 +85,13 @@ namespace BlahguaMobile.IOS
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
 			NSAction showFullScreen = () => {
+
 				if(blahImage.Image != null)
 				{
 					FullScreenView fs = new FullScreenView(blahImage.Image);
 
 					((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.NavigationController.PushViewController(fs,false);
 				}
-
 			};
 
 			UITapGestureRecognizer imageTapRecognizer = new UITapGestureRecognizer (showFullScreen);
@@ -112,9 +112,6 @@ namespace BlahguaMobile.IOS
 
 			statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
 
-         
-
-
 		}
 
         //Synsoft on 14 July 2014 
@@ -124,17 +121,7 @@ namespace BlahguaMobile.IOS
         }
 
 
-        //Synsoft on 11 July 2014            
-        private void BackHandler(object sender, EventArgs args)
-        {
-			MonoTouch.CoreAnimation.CATransition newTrans = new MonoTouch.CoreAnimation.CATransition ();
-			newTrans.Duration = 0.3;
-			newTrans.Type = MonoTouch.CoreAnimation.CATransition.TransitionFade;
-			newTrans.Subtype = MonoTouch.CoreAnimation.CATransition.TransitionFromTop;
-			NavigationController.View.Layer.AddAnimation (newTrans, null);
 
-            DismissViewController(false, null);
-        }
 
         public override void ViewWillAppear(bool animated)
         {

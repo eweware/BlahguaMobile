@@ -26,9 +26,10 @@ namespace BlahguaMobile.IOS
 
 			};
 
+            ClearPage();
 			EmbeddedWebView.ShouldStartLoad += HandleShouldStartLoad;
 
-			EmbeddedWebView.LoadHtmlString("", null);
+			
 		}
 
 		bool HandleShouldStartLoad (UIWebView webView, NSUrlRequest request, UIWebViewNavigationType navigationType)
@@ -47,9 +48,15 @@ namespace BlahguaMobile.IOS
 
         }
 
-        public override void ViewDidDisappear(bool animated)
+        private void ClearPage()
         {
             EmbeddedWebView.LoadHtmlString("", null);
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+
+            ClearPage();
             base.ViewDidDisappear(animated);
         }
            
