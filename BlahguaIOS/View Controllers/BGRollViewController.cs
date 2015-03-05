@@ -132,7 +132,10 @@ namespace BlahguaMobile.IOS
 					BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
 					BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerm) => {
 						if (BlahguaAPIObject.Current.CurrentUser != null) {
+
 							InvokeOnMainThread(() => {
+								if (newBlah == null)
+									PrepareRightBarButton();
 								if (thePerm.post == false)
 									newBlah.Hidden = true;
 								else
@@ -307,7 +310,6 @@ namespace BlahguaMobile.IOS
 			} else {
 				if ((NavigationItem.RightBarButtonItems == null) || (NavigationItem.RightBarButtonItems.Length < 2))
 				{
-
 					profile = new UIButton(new RectangleF(44, 0, 44, 44));
 					profile.SetImage(GetProfileImage(), UIControlState.Normal);
 					newBlah = new UIButton(new RectangleF(0, 0, 44, 44));
