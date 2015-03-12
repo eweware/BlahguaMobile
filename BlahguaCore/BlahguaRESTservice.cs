@@ -46,7 +46,7 @@ namespace BlahguaMobile.BlahguaCore
 		public Dictionary<string, string> userGroupNames = null;
 		public Dictionary<string, string> blahTypes = null;
 		public string BaseShareURL { get; set; }
-		private bool usingQA = true; //false; //true;
+		private bool usingQA = false; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
 
@@ -536,8 +536,6 @@ namespace BlahguaMobile.BlahguaCore
 			Console.WriteLine("about to create blah!");
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-					Console.WriteLine(response.ErrorMessage);
-					Console.WriteLine(response.StatusDescription);
 					Blah newBlah = null;
 					if (response.StatusCode == HttpStatusCode.Created)
 					{

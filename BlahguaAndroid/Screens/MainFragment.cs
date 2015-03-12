@@ -33,6 +33,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         Timer scrollTimer = new Timer();
         Timer BlahAnimateTimer = new Timer();
         int inboxCounter = 0;
+		bool viewIsActive = false;
         public static Typeface gothamFont = null;
         public static Typeface merriweatherFont = null;
 
@@ -77,11 +78,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 
 		public void StartTimers()
-        {
-            if (!scrollTimer.Enabled)
-            	scrollTimer.Start();
-            BlahAnimateTimer.Start();
-        }
+		{
+			if (viewIsActive) {
+				
+				if (!scrollTimer.Enabled)
+					scrollTimer.Start ();
+				BlahAnimateTimer.Start ();
+			}
+		}
 
 
 		public void StopTimers()
@@ -181,6 +185,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override void OnResume()
         {
             base.OnResume();
+			viewIsActive = true;
             StartTimers();
             initLayouts();
         }
@@ -188,6 +193,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override void OnPause()
         {
             base.OnPause();
+			viewIsActive = false;
             StopTimers();
         }
 

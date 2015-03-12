@@ -55,6 +55,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//curTop = InsertAd(curTop);
 
 			//BlahContainer.Height = curTop + screenMargin;
+			InsertAdditionalBlahs();
+			AtScrollEnd = false;
 			inboxCounter = 1;//++;
 		}
 		public void FetchInitialBlahs ()
