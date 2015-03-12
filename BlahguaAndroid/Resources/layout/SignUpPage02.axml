@@ -25,61 +25,43 @@
             android:id="@+id/linearLayout1"
             android:padding="8dp">
             <TextView
-                android:text="Pick a channel to get started.  You will be able to add more later."
+                android:text="Pick a channel to get started.  You will be able to view others later."
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/titleText"
                 android:textColor="@color/heard_black" />
             <TextView
-                android:text="Connect with verified tech employees, VCs, and press."
-                android:textSize="14dp"
+                android:text="Communities are water-coolers for industries and general interests."
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/heard_black"
                 android:id="@+id/textView1"
-                android:layout_marginTop="32dp" />
+                android:layout_marginTop="48dp" />
             <Button
-                android:text="Tech Industry"
+                android:text="Select a Community"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/TechBtn"
+                android:id="@+id/CommunityBtn"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/heard_blue"
                 android:layout_marginBottom="16dp" />
             <TextView
-                android:text="Engage with verified entertainment studio employees, agents, and media."
-                android:textSize="14dp"
+                android:text="Publisher channels bring you a personalized experience of new and interesting content."
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/heard_black"
                 android:id="@+id/textView2"
-                android:layout_marginTop="32dp" />
+                android:layout_marginTop="48dp" />
             <Button
-                android:text="Entertainment Industry"
+                android:text="Select a Publisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/EntBtn"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/heard_blue"
-                android:layout_marginBottom="16dp" />
-            <TextView
-                android:text="Just want to see and share funny, interesting or random stuff?  The Public channel is the world's watercooler."
-                android:textSize="14dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/heard_black"
-                android:id="@+id/textView3"
-                android:layout_marginTop="32dp" />
-            <Button
-                android:text="Public"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/PublicBtn"
+                android:id="@+id/PublisherBtn"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="16dp"

@@ -158,14 +158,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Display the current fragments title and update the options menu
 			this.drawerToggle.DrawerClosed += (o, args) => {
-				this.Title = this.Title;
+				//this.Title = this.Title;
 				this.InvalidateOptionsMenu ();
 				this.ResumeScrolling();
 			};
 
 			//Display the drawer title and update the options menu
 			this.drawerToggle.DrawerOpened += (o, args) => {
-				this.ActionBar.Title = "Channel";
+				//this.ActionBar.Title = "Channel";
 				StopScrolling();
 				this.InvalidateOptionsMenu ();
 			};
@@ -272,15 +272,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 				var count = SupportFragmentManager.BackStackEntryCount;
 				this.drawerListView.SetItemChecked (position, true);
 				if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
-					this.Title = BlahguaAPIObject.Current.CurrentChannelList[position].ChannelName;
+                    UpdateChannelTitle( BlahguaAPIObject.Current.CurrentChannelList[position]);
 				this.drawerLayout.CloseDrawers ();
 			}
 
 			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
 				Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
 				if (newChannel != BlahguaAPIObject.Current.CurrentChannel) {
-					this.Title = BlahguaAPIObject.Current.CurrentChannelList [position].ChannelName;
-					BlahguaAPIObject.Current.CurrentChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
+                    UpdateChannelTitle(newChannel);
+                    BlahguaAPIObject.Current.CurrentChannel = newChannel;
 				} else {
 					// start the blah roll going?
 					ResumeScrolling ();
@@ -294,6 +294,44 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			}
 		}
+
+        private Channel currentDisplayedChannel = null;
+        protected void UpdateChannelTitle(Channel newChan)
+        {
+            if (newChan == currentDisplayedChannel)
+                return;
+
+            currentDisplayedChannel = newChan;
+            if (String.IsNullOrEmpty(newChan.HeaderImage))
+            {
+                this.Title = newChan.ChannelName;
+                this.ActionBar.SetBackgroundDrawable(null);
+            }
+            else
+            {
+                this.Title = "";
+                ImageLoader.Instance.DownloadAsync(newChan.HeaderImage,(b) =>
+                        {
+                            RunOnUiThread(() =>
+                            {
+                                if (b != null)
+                                {
+                                    this.Title = "";
+                                    Drawable theDrawable = new BitmapDrawable(b);
+                                    this.ActionBar.SetBackgroundDrawable(theDrawable);
+                                }
+                                else
+                                {
+                                    this.Title = newChan.ChannelName;
+                                    this.ActionBar.SetBackgroundDrawable(null);
+                                }
+
+                            });
+                            return true;
+                        });
+            }
+        }
+
 
 		protected override void OnTitleChanged (Java.Lang.ICharSequence title, Color color)
 		{
@@ -312,24 +350,30 @@ namespace BlahguaMobile.AndroidClient.Screens
 			if (BlahguaAPIObject.Current.CurrentUser == null) {
 				this.MenuInflater.Inflate (Resource.Menu.login_menu, menu);
 			} else
-				this.MenuInflater.Inflate (Resource.Menu.loggedin_menu, menu);
+            {
+                this.MenuInflater.Inflate(Resource.Menu.loggedin_menu, menu);
+            }
+				
 
 			var drawerOpen = this.drawerLayout.IsDrawerOpen((int)GravityFlags.Left);
 
 			//when open don't show anything
 
-			for (int i = 0; i < menu.Size (); i++) {
+			for (int i = 0; i < menu.Size (); i++) 
+            {
 				IMenuItem curItem = menu.GetItem (i);
 				curItem.SetVisible (!drawerOpen);
-				if (BlahguaAPIObject.Current.CurrentUser == null) {
-					if (curItem.ItemId == Resource.Id.action_newpost) {
-						curItem.SetVisible (false);
-					}
-				}
-				else if (curItem.ItemId == Resource.Id.action_overflow) {
-					// to do - correct icon
-					SetMenuItemIconToUser (curItem);
-				}
+                if (curItem.ItemId == Resource.Id.action_newpost)
+                {
+                    if ((BlahguaAPIObject.Current.CurrentUser == null) ||
+                        (BlahguaAPIObject.Current.CanPost == false))
+                        curItem.SetVisible(false);
+                }
+                else if (curItem.ItemId == Resource.Id.action_overflow)
+                {
+                    if (BlahguaAPIObject.Current.CurrentUser != null)
+                        SetMenuItemIconToUser(curItem);
+                }
 			}
 
 
@@ -607,9 +651,20 @@ namespace BlahguaMobile.AndroidClient.Screens
 			analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
 
 			RunOnUiThread(() => {
-				this.Title = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+                UpdateChannelTitle(BlahguaAPIObject.Current.CurrentChannel);
+                UpdateChannelPermissions();
 			});
 		}
+
+        protected void UpdateChannelPermissions()
+        {
+            BlahguaAPIObject.Current.GetChannelPermissionById(BlahguaAPIObject.Current.CurrentChannel._id, (thePerms) =>
+                {
+                    BlahguaAPIObject.Current.CanPost = thePerms.post;
+                    BlahguaAPIObject.Current.CanComment = thePerms.comment;
+                    InvalidateOptionsMenu();
+                });
+        }
 
 		protected override void OnResume()
 		{
@@ -618,6 +673,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//StartTimers();
 			initLayouts();
             BlahguaAPIObject.Current.EnsureSignin();
+            InvalidateOptionsMenu();
 		}
 
 		protected override void OnPause()

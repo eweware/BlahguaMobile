@@ -33,11 +33,18 @@ namespace BlahguaMobile.BlahguaCore
         public string c { get; set; }
         public string u { get; set; }
 		public string GHI { get; set; }
+        public bool SAD { get; set; } // show author descriptions
+        public bool SSA { get; set; } // show speech acts
+        public List<string> SBL { get; set; } // list of badges to show
+        public List<string> PQ { get; set; }  // list of profile question IDs
 
 
         public Channel()
         {
-
+            SSA = true;
+            SAD = true;
+            PQ = null;
+            GHI = null;
         }
 
 		public string HeaderImage {
@@ -70,14 +77,8 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
-        public string ChannelImageUrl
-        {
-            get 
-            {
-                string baseURL = "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/groups/";
-                return baseURL + ChannelName + ".png";
-            }
-        }
+        
+
     }
 
     public class ChannelList : List<Channel>

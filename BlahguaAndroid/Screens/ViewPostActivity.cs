@@ -207,6 +207,9 @@ namespace BlahguaMobile.AndroidClient
                 IMenuItem upVote = menu.FindItem(Resource.Id.action_upvote);
                 IMenuItem downVote = menu.FindItem(Resource.Id.action_downvote);
 
+                if (!BlahguaAPIObject.Current.CanComment)
+                    menu.FindItem(Resource.Id.action_comment).SetVisible(false);
+
                 if (BlahguaAPIObject.Current.CurrentBlah != null)
                 {
                     if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)

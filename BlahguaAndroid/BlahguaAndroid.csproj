@@ -243,10 +243,6 @@
       <Version>105.0.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="servicestacktext">
-      <Version>3.9.61.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="android-swipelistview">
       <Version>2.0.0</Version>
       <Visible>False</Visible>
@@ -254,6 +250,10 @@
     <XamarinComponentReference Include="hockeyappandroid">
       <Version>3.5.0</Version>
       <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Visible>False</Visible>
+      <Version>3.9.61.3</Version>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
