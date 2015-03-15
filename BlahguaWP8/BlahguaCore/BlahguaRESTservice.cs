@@ -36,7 +36,7 @@ namespace BlahguaMobile.BlahguaCore
     public delegate void Profile_callback(UserProfile theResult);
     public delegate void bool_callback(bool theResult);
     public delegate void WhatsNew_callback(WhatsNewInfo theResult);
-
+    public delegate void ChannelPermissions_callback(ChannelPermissions theResult);
 
 
     public class BlahguaRESTservice
@@ -117,6 +117,22 @@ namespace BlahguaMobile.BlahguaCore
                 WhatsNewInfo newInfo = response.Data;
 
                 theCallback(newInfo);
+            });
+        }
+
+        public void GetChannelPermissionById(string channelId, ChannelPermissions_callback theCallback)
+        {
+            RestRequest request = new RestRequest("groups/" + channelId + "/permission", Method.GET);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+                string resStr = response.Content;
+                DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(ChannelPermissions));
+                var stream = new MemoryStream(Encoding.UTF8.GetBytes(resStr));
+                object theObj = des.ReadObject(stream);
+                stream.Close();
+                ChannelPermissions thePerm = (ChannelPermissions)theObj;
+
+                theCallback(thePerm);
             });
         }
 
@@ -568,50 +584,79 @@ namespace BlahguaMobile.BlahguaCore
 
         public void UploadPhoto(Stream photoStream, string fileName, string_callback callback)
         {
-            var request = new RestRequest("images/upload", Method.POST);
-            request.AddHeader("Accept", "*/*");
-            //request.AlwaysMultipartFormData = true;
-            request.AddParameter("objectType", "X");
-            request.AddParameter("objectId", "");
-            request.AddParameter("primary", "true");
-            request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
-
-            apiClient.ExecuteAsync(request, (response) =>
+            GetImageUploadURL((uploadURL) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                int pathSplit = uploadURL.IndexOf("/", 7);
+                string appPath = uploadURL.Substring(0, pathSplit);
+                string requestPath = uploadURL.Substring(pathSplit);
+                RestClient onetimeClient = new RestClient(appPath);
+                var request = new RestRequest(requestPath, Method.POST);
+                request.AddHeader("Accept", "*/*");
+                request.AddParameter("objectType", "X");
+                request.AddParameter("objectId", "");
+                request.AddParameter("primary", "true");
+                request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
+
+                onetimeClient.ExecuteAsync(request, (response) =>
                 {
-                    callback(response.Content);
-                }
-                else
-                {
-                    //error ocured during upload
-                    callback(null);
-                }
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        callback(response.Content);
+                    }
+                    else
+                    {
+                        //error ocured during upload
+                        callback(null);
+                    }
+                });
             });
         }
 
+        public void GetImageUploadURL(string_callback callback)
+        {
+            RestClient onetimeClient = new RestClient("http://heard-test-001.appspot.com/api/image");
+            //onetimeClient.CookieContainer = apiClient.CookieContainer;
+            var request = new RestRequest("", Method.GET);
+            onetimeClient.ExecuteAsync(request, (response) =>
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        callback(response.Content);
+                    }
+                    else
+                    {
+                        //error ocured during upload
+                        callback(null);
+                    }
+                });
+        }
+
+
         public void UploadObjectPhoto(string objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
         {
-            var request = new RestRequest("images/upload", Method.POST);
-            request.AddHeader("Accept", "*/*");
-            //request.AlwaysMultipartFormData = true;
-            request.AddParameter("objectType", objectType);
-            request.AddParameter("objectId", objectId);
-            request.AddParameter("primary", "true");
-            request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
+            GetImageUploadURL((uploadURL) =>
+                {
+                    var request = new RestRequest("images/upload", Method.POST);
+                    request.AddHeader("Accept", "*/*");
+                    //request.AlwaysMultipartFormData = true;
+                    request.AddParameter("objectType", objectType);
+                    request.AddParameter("objectId", objectId);
+                    request.AddParameter("primary", "true");
+                    request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
 
-            apiClient.ExecuteAsync(request, (response) =>
-            {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    callback(response.Content);
-                }
-                else
-                {
-                    //error ocured during upload
-                    callback(null);
-                }
-            });
+                    apiClient.ExecuteAsync(request, (response) =>
+                    {
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            callback(response.Content);
+                        }
+                        else
+                        {
+                            //error ocured during upload
+                            callback(null);
+                        }
+                    });
+                });
         }
 
         //method for converting stream to byte[]

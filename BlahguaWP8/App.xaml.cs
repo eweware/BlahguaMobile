@@ -15,6 +15,7 @@ using Microsoft.Phone.Shell;
 using System.Windows.Data;
 using System.IO.IsolatedStorage;
 using BlahguaMobile.BlahguaCore;
+using HockeyApp;
 
 
 namespace BlahguaMobile.Winphone
@@ -94,6 +95,8 @@ namespace BlahguaMobile.Winphone
 
 
             BlahguaAPI = BlahguaAPIObject.Current;
+            HockeyClient.Current.Configure("310cb7910c3711f97632b3df79fe41f8");
+            
 
         }
 
@@ -124,7 +127,15 @@ namespace BlahguaMobile.Winphone
 
             analytics = new GoogleAnalytics(userAgent, maker, model, version, platform, uniqueId);
             analytics.StartSession();
+
+            HockeyClient.Current.SendCrashesAsync();
+            HockeyClient.Current.CheckForUpdates();
+
         }
+
+
+
+        
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched

@@ -28,7 +28,7 @@ namespace BlahguaMobile.Winphone
         ApplicationBarIconButton promoteBtn;
         ApplicationBarIconButton demoteBtn;
         ApplicationBarIconButton shareBtn;
-        ApplicationBarIconButton commentBtn;
+        ApplicationBarIconButton commentBtn = null;
         ApplicationBarMenuItem reportItem;
         ApplicationBarMenuItem spamItem;
         ApplicationBarMenuItem infringeItem;
@@ -74,10 +74,11 @@ namespace BlahguaMobile.Winphone
             shareBtn.Text = "share";
             shareBtn.Click += HandleShareBlah;
 
-
             commentBtn = new ApplicationBarIconButton(new Uri("/Images/Icons/white_comment.png", UriKind.Relative));
             commentBtn.Text = "comment";
             commentBtn.Click += HandleAddComment;
+
+
 
             signInBtn = new ApplicationBarIconButton(new Uri("/Images/Icons/signin.png", UriKind.Relative));
             signInBtn.Text = "sign in";
@@ -106,6 +107,12 @@ namespace BlahguaMobile.Winphone
 
             sortByStrength = new SortMenu("most popular first", "byPopular");
             sortByStrength.Click += sortMenuItem_Click;
+
+            if (BlahguaAPIObject.Current.CurrentChannel.SAD == false)
+            {
+                UserDescriptionArea.Visibility = Visibility.Collapsed;
+                PostTypeArea.Visibility = Visibility.Collapsed;
+            }
 
 
             StatsArea.DataContext = null;
@@ -225,7 +232,7 @@ namespace BlahguaMobile.Winphone
             }
             else
             {
-                commentBtn.IsEnabled = true;
+                commentBtn.IsEnabled = BlahguaAPIObject.Current.CanComment;
                 Comment curComment = (Comment)AllCommentList.SelectedItem;
 
                 if (curComment != null)
@@ -936,7 +943,8 @@ namespace BlahguaMobile.Winphone
                     case "summary":
                         ApplicationBar.Buttons.Add(promoteBtn);
                         ApplicationBar.Buttons.Add(demoteBtn);
-                        ApplicationBar.Buttons.Add(commentBtn);
+                        if (commentBtn != null)
+                            ApplicationBar.Buttons.Add(commentBtn);
                         ApplicationBar.Buttons.Add(shareBtn);
                         reportItem.Text = "flag post as inappropriate";
                         spamItem.Text = "flag post as spam";
@@ -950,7 +958,8 @@ namespace BlahguaMobile.Winphone
                     case "comments":
                         ApplicationBar.Buttons.Add(promoteBtn);
                         ApplicationBar.Buttons.Add(demoteBtn);
-                        ApplicationBar.Buttons.Add(commentBtn);
+                        if (commentBtn != null) 
+                            ApplicationBar.Buttons.Add(commentBtn);
                         ApplicationBar.MenuItems.Add(sortByDateDesc);
                         ApplicationBar.MenuItems.Add(sortByDateAsc);
                         ApplicationBar.MenuItems.Add(sortByStrength);

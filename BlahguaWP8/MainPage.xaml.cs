@@ -262,6 +262,10 @@ namespace BlahguaMobile.Winphone
             smallBlahSize = (480 - ((screenMargin * 2) + (blahMargin * 2))) / 3;
             mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
             largeBlahSize = 456; // mediumBlahSize + mediumBlahSize + blahMargin;
+            BlahguaAPIObject.smallTileSize = (int)smallBlahSize;
+            BlahguaAPIObject.mediumTileSize = (int)mediumBlahSize;
+            BlahguaAPIObject.largeTileSize = (int)largeBlahSize;
+
 
             foreach (char rowType in rowSequence)
             {
@@ -402,7 +406,11 @@ namespace BlahguaMobile.Winphone
             switch (e.PropertyName)
             {
                 case "CurrentChannel":
-                    OnChannelChanged();
+                    BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerms) =>
+                    {
+                        OnChannelChanged();
+                    });
+
                     break;
             }
         }
@@ -455,7 +463,11 @@ namespace BlahguaMobile.Winphone
             if (BlahguaAPIObject.Current.CurrentUser != null)
             {
                 UserInfoBtn.Visibility = Visibility.Visible;
-                NewBlahBtn.Visibility = Visibility.Visible;
+                if (BlahguaAPIObject.Current.CanPost)
+                    NewBlahBtn.Visibility = Visibility.Visible;
+                else
+                    NewBlahBtn.Visibility = Visibility.Collapsed;
+
                 SignInBtn.Visibility = Visibility.Collapsed;
             }
             else
@@ -692,8 +704,29 @@ namespace BlahguaMobile.Winphone
             ClearBlahs();
             FetchInitialBlahList();
             App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+            if (!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentChannel.HeaderImage))
+            {
+                BitmapImage imgBkgnd = new BitmapImage(new Uri(BlahguaAPIObject.Current.CurrentChannel.HeaderImage));
+                ImageBrush bkgndBrush = new ImageBrush();
+                bkgndBrush.ImageSource = imgBkgnd;
+                bkgndBrush.Stretch = Stretch.UniformToFill;
 
+                ChannelHeaderGrid.Background = bkgndBrush;
+                ChannelHeaderTextArea.Text = "";
+            }
+            else
+            {
+                ChannelHeaderGrid.Background = (Brush)App.Current.Resources["BrushHeardBlack"];
+                ChannelHeaderTextArea.Text = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+            }
 
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+            {
+                if (BlahguaAPIObject.Current.CanPost)
+                    NewBlahBtn.Visibility = Visibility.Visible;
+                else
+                    NewBlahBtn.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ScrollStateHandler(object sender, VisualStateChangedEventArgs args)

@@ -67,7 +67,15 @@ namespace BlahguaMobile.Winphone
 
             }
 
-            BlahTypeIcon.Source = postTypeImage;
+            if (BlahguaAPIObject.Current.CurrentChannel.SSA == false)
+                BlahTypeIcon.Visibility = System.Windows.Visibility.Collapsed;
+            else
+            {
+                BlahTypeIcon.Visibility = System.Windows.Visibility.Visible;
+                BlahTypeIcon.Source = postTypeImage;
+            }
+                
+            
 
             User curUser = BlahguaAPIObject.Current.CurrentUser;
 
