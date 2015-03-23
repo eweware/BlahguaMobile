@@ -68,6 +68,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 System.Console.WriteLine("Using Production Server");
                 apiClient = new RestClient("http://app.goheard.com/v2");
+                //apiClient = new RestClient("http://192.168.0.5:8090/v2");
                 BaseShareURL = "http://app.goheard.com/";
                 imageBaseURL = "https://s3-us-west-2.amazonaws.com/blahguaimages/image/";
             }

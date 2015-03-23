@@ -57,7 +57,7 @@ namespace BlahguaMobile.Winphone
                 BlahguaAPIObject.Current.UserPassword = PasswordField.Password;
 
             SignInProgress.Visibility = Visibility.Visible;
-            BlahguaAPIObject.Current.SignIn(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
+            BlahguaAPIObject.Current.SignIn(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, true, (errMsg) =>
                 {
                     SignInProgress.Visibility = Visibility.Collapsed;
                     if (errMsg == null)
@@ -78,7 +78,7 @@ namespace BlahguaMobile.Winphone
             else
             {
                 SignInProgress.Visibility = Visibility.Visible;
-                BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, BlahguaAPIObject.Current.AutoLogin, (errMsg) =>
+                BlahguaAPIObject.Current.Register(BlahguaAPIObject.Current.UserName, BlahguaAPIObject.Current.UserPassword, true, (errMsg) =>
                     {
                         SignInProgress.Visibility = Visibility.Collapsed;
                         if (errMsg == null)

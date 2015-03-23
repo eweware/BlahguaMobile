@@ -42,6 +42,7 @@ namespace BlahguaMobile.BlahguaCore
         public string UserName { get; set; }
         public string UserPassword { get; set; }
         public string UserPassword2 { get; set; }
+        public string UserEmailAddress { get; set; }
         public bool NewAccount { get; set; }
 		public bool CanPost {get; set;}
 		public bool CanComment { get; set; }
@@ -180,12 +181,6 @@ namespace BlahguaMobile.BlahguaCore
             signinTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
-		public void ForceCurrentChannel()
-		{
-			if (CurrentChannel != null) {
-				OnPropertyChanged("CurrentChannel");
-			}
-		}
 
         public void EnsureSignin()
         {
@@ -241,7 +236,7 @@ namespace BlahguaMobile.BlahguaCore
         void LoadSettings()
         {
 			System.Console.WriteLine ("Loading Settings");
-            AutoLogin = (bool)SafeLoadSetting("AutoLogin", true);
+            AutoLogin = true;
             FilterProfanity = (bool)SafeLoadSetting("FilterProfanity", true);
             SavedChannel = (string)SafeLoadSetting("SavedChannel", BlahguaAPIObject.Current.GetDefaultChannel());
         }
@@ -249,7 +244,6 @@ namespace BlahguaMobile.BlahguaCore
         void SaveSettings()
         {
 			System.Console.WriteLine ("Saving Settings");
-            SafeSaveSetting("AutoLogin", AutoLogin);
             SafeSaveSetting("FilterProfanity", FilterProfanity);
             SafeSaveSetting("SavedChannel", SavedChannel);
         }
@@ -559,18 +553,20 @@ namespace BlahguaMobile.BlahguaCore
             BlahguaRest.GetPublicChannels(bIncludeHidden, (chanList) =>
                {
                    curChannelList = chanList;
+                   Channel newChan;
 
                    if (defaultChannel == null)
-                        CurrentChannel = GetDefaultChannel();
+                        newChan = GetDefaultChannel();
                    else
                    {
                        Channel curChan = curChannelList.ChannelFromName(defaultChannel);
                        if (curChan != null)
-                           CurrentChannel = curChan;
+                           newChan = curChan;
                        else
-							CurrentChannel = GetDefaultChannel();
+							newChan = GetDefaultChannel();
                    }
-                    ForceCurrentChannel();
+                   currentChannel = null;
+                   CurrentChannel = newChan;
                    inited = true;
                    callback(true);
                });
