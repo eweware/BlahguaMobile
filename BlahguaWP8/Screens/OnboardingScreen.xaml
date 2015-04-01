@@ -1,0 +1,168 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="BlahguaMobile.Winphone.Screens.OnboardingScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    
+    <phone:PhoneApplicationPage.Resources>
+
+        <DataTemplate x:Name="CommunityItemTemplate">
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="Select a Community"/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="PublisherItemTemplate">
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource BrushBlahguaWhite}" Text="Select a Publisher"/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="ChannelFullModeItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="0,0,0,16">
+                    <TextBlock FontSize="36" TextWrapping="NoWrap" Text="{Binding N}"/>
+                    <TextBlock FontSize="18" TextWrapping="Wrap" Text="{Binding D}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="EmptyTemplate">
+            <Grid Height="0" />
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+            <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Canvas Width="480" Height="800" VerticalAlignment="Top" IsHitTestVisible="False" Grid.RowSpan="2">
+            <Image  Width="800" Height="800"  x:Name="BackgroundImage" Canvas.Top="0"  Canvas.Left="0"   Stretch="UniformToFill"  Source="/Images/bkgnds/signin.jpg" />
+            <Image  Width="800" Height="800"  x:Name="BackgroundImage2" Canvas.Top="0"  Canvas.Left="480"  Stretch="UniformToFill" Visibility="Collapsed" Source="/Images/bkgnds/signin.jpg" />
+            <Rectangle x:Name="BackgroundScreen" Width="480" Height="800" Canvas.Top="0" Canvas.Left="0">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#7F000000" Offset="0"/>
+                        <GradientStop Color="#7FFFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+        </Canvas>
+
+        <!--Pivot Control-->
+        <phone:Pivot x:Name="OnboardPivot" Title="HEARD"  LoadedPivotItem="HandlePivotLoaded" LoadingPivotItem="OnPivotLoading" >
+            <!--Pivot item one-->
+            <phone:PivotItem Header="sign up">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="user name" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
+                        <TextBox x:Name="UserNameField"  Text="{Binding UserName, Mode=TwoWay}"></TextBox>
+                        <TextBlock Text="password" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
+                        <PasswordBox x:Name="PasswordField" Password="{Binding UserPassword, Mode=TwoWay}"></PasswordBox>
+                        <StackPanel x:Name="AdditionalInfoPanel" Visibility="Visible">
+                            <TextBlock Text="confirm password" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
+                            <PasswordBox Password="{Binding UserPassword2, Mode=TwoWay}"></PasswordBox>
+                            <TextBlock TextWrapping="Wrap" Text="No email address is required, but your password cannot be reset without one" Foreground="{StaticResource PhoneSubtleBrush}"></TextBlock>
+                            <TextBox Text="{Binding UserEmailAddress, Mode=TwoWay}" InputScope="EmailSmtpAddress"></TextBox>
+                        </StackPanel>
+                        <ProgressBar x:Name="SignInProgress" Visibility="Collapsed"  IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"></ProgressBar>
+
+                        <StackPanel x:Name="SignInPanel" Visibility="Collapsed">
+                            <Button x:Name="SignInBtn" Tap="DoSignIn" Visibility="Visible">Sign In</Button>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    <StackPanel x:Name="CreateAccountArea"  Grid.Row="1" VerticalAlignment="Bottom">
+                        <Button x:Name="CreateNewAccountBtn" Tap="DoCreateAccount" Visibility="Visible" Background="{StaticResource BrushHeardBlue}" Foreground="{StaticResource BrushBlahguaWhite}">Create Account</Button>
+                        <Button x:Name="SkipBtn" Tap="DoSkipAccount" Visibility="Visible" Background="{StaticResource BrushHeardBlack}" Foreground="{StaticResource BrushBlahguaWhite}">Skip for now</Button>
+                        <HyperlinkButton x:Name="HaveAccountBtn" Tap="HaveAccountBtn_Tap">Already have an account?</HyperlinkButton>
+                    </StackPanel>
+
+                </Grid>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Header="channel">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" Text="Select a channel to get started.  You will be able to view others later." FontSize="24" TextAlignment="Center"></TextBlock>
+                
+                    <TextBlock TextWrapping="Wrap" Text="Communities are water-collors for industries and general interests." TextAlignment="Center" FontSize="24" Margin="0,50,0,0"></TextBlock>
+                    <toolkit:ListPicker x:Name="CommunityList" Background="{StaticResource BrushHeardBlue}" 
+                                        Foreground="{StaticResource BrushBlahguaWhite}"
+                                        ExpansionMode="FullScreenOnly" Height="98"
+                                        ItemTemplate="{StaticResource CommunityItemTemplate}"
+                                        HeaderTemplate="{StaticResource EmptyTemplate}"
+                                        FullModeItemTemplate="{StaticResource ChannelFullModeItemTemplate}">
+                        
+                    </toolkit:ListPicker>
+
+                    <TextBlock TextWrapping="Wrap" Text="Publisher channels bring you a personalized experience of new and interesting content." TextAlignment="Center" FontSize="24" Margin="0,50,0,0"></TextBlock>
+                    <toolkit:ListPicker x:Name="PublisherList" Foreground="{StaticResource BrushBlahguaWhite}" 
+                                        Background="{StaticResource BrushHeardBlue}"
+                                        ExpansionMode="FullScreenOnly" Height="98"
+                                        ItemTemplate="{StaticResource PublisherItemTemplate}"
+                                        HeaderTemplate="{StaticResource EmptyTemplate}"
+                                        FullModeItemTemplate="{StaticResource ChannelFullModeItemTemplate}"   >
+                        
+                    </toolkit:ListPicker>
+                    
+                </StackPanel>
+                
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="badges">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" Text="Badges let you show your credentials with or without revealing your full identity." FontSize="24" TextAlignment="Center"></TextBlock>
+                    <StackPanel x:Name="StartBadgingArea">
+                        <TextBlock TextWrapping="Wrap" Text="Enter your email address to see if badges are available for your domain.  This process is double blind, so your email is not saved or discoverable." FontSize="20" TextAlignment="Center" Margin="0,40,0,0"></TextBlock>
+                        <TextBox Text="{Binding UserEmailAddress, Mode=TwoWay}" InputScope="EmailSmtpAddress"></TextBox>
+                        <Button x:Name="StartBadgeBtn" Tap="StartBadgeBtn_Tap" IsEnabled="False" Margin="0,40,0,0" Visibility="Visible" Background="{StaticResource BrushHeardBlue}" Foreground="{StaticResource BrushBlahguaWhite}">Check for Badges</Button>
+                        <Button x:Name="SkipBadgeBtn" IsEnabled="False" Tap="DoSkipAccount" Visibility="Visible" Background="{StaticResource BrushHeardBlack}" Foreground="{StaticResource BrushBlahguaWhite}">Skip for now</Button>
+                    </StackPanel>
+                    <StackPanel x:Name="VerifyBadgeArea" Visibility="Collapsed">
+                        <TextBlock TextWrapping="Wrap" Text="Badges are available!  A verification code has been emailed to you.  Enter the code in the field below to continue." FontSize="20" TextAlignment="Center" Margin="0,40,0,0"></TextBlock>
+                        <TextBox x:Name="CodeBox" InputScope="Text"></TextBox>
+                        <Button x:Name="SubmitCodeBtn" Margin="0,40,0,0" Tap="DoSubmitCode" Visibility="Visible" Background="{StaticResource BrushHeardBlue}" Foreground="{StaticResource BrushBlahguaWhite}">Submit Code</Button>
+                        <Button x:Name="ReturnToBadgeScreen" Tap="DoReturnToBadge" Visibility="Visible" Background="{StaticResource BrushHeardBlack}" Foreground="{StaticResource BrushBlahguaWhite}">Try Again</Button>
+                    </StackPanel>
+                </StackPanel>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+    
+</phone:PhoneApplicationPage>
