@@ -95,8 +95,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 					blahList.PrepareBlahs();
 					if (blahList.Count == 100)
 					{
-						RenderInitialBlahs();
-						StartTimers();
+                        this.Activity.RunOnUiThread(() =>
+                            {
+                                RenderInitialBlahs();
+                                StartTimers();
+                            });
 						//LoadingBox.Visibility = Visibility.Collapsed;
 					}
 					else if (!secondTry)
@@ -205,7 +208,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 		{
             if (this.Activity != null)
             {
-                
                 this.Activity.RunOnUiThread(() =>
                     {
                         inboxCounter = 0;
@@ -219,12 +221,10 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahContainerLayout.RemoveAllViews();
                 BlahScroller.ScrollTo(0, 0);
             }
-		}
-
+    }
 		private void OpenBlahItem(InboxBlah curBlah)
 		{
-
-			StopTimers();
+		    StopTimers();
 			BlahguaAPIObject.Current.CurrentInboxBlah = curBlah;
 			App.BlahIdToOpen = curBlah.I;
 			this.Activity.StartActivity(typeof(ViewPostActivity));
