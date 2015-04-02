@@ -263,7 +263,7 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 				try
                 {
                     startedCounter++;
-                    Android.Util.Log.Debug(LOGTAG, "Started: " + startedCounter);
+                    //Android.Util.Log.Debug(LOGTAG, "Started: " + startedCounter);
 					var client = new System.Net.WebClient();
 					var data = client.DownloadData(url);
 					System.IO.File.WriteAllBytes(filename, data);

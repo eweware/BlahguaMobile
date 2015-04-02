@@ -45,15 +45,7 @@
         </LinearGradientBrush>
 
         <DataTemplate x:Name="ChannelItemTemplate">
-            <Grid Background="Transparent" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock MaxWidth="210" Grid.Column="0" VerticalAlignment="Center" Foreground="{StaticResource BrushHeardTeal}" Text="{Binding ChannelName}" Margin="0" Padding="0" TextWrapping="Wrap" FontStretch="UltraCondensed"/>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="White" Text="&#xf0d7;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
-            </Grid>
+            <TextBlock Height="70" FontSize="48" VerticalAlignment="Center" Foreground="{StaticResource BrushHeardTeal}" Text="&#xf0c9;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
         </DataTemplate>
 
         <DataTemplate x:Name="ChannelFullModeItemTemplate">
@@ -217,14 +209,15 @@
             </Canvas>
         </ScrollViewer>
 
-        <Grid Height="80" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2" Background="{StaticResource BrushHeardBlack}">
+        <Grid x:Name="ChannelHeaderGrid" Height="70" VerticalAlignment="Top" Margin="0" Canvas.ZIndex="2" Background="{StaticResource BrushHeardBlack}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
 
-            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" Grid.Column="0" Margin="0 -10 0 0"
+            <toolkit:ListPicker x:Name="ChannelTitleBar" VerticalAlignment="Top" Grid.Column="0" Margin="0 0 0 0"
                                 FontSize="29.333" ExpansionMode="FullScreenOnly" Height="98"
                                  ItemTemplate="{StaticResource ChannelItemTemplate}"  
                                 FontFamily="/Resources/Merriweather.otf#Merriweather"
@@ -236,14 +229,17 @@
                                 ItemsSource="{Binding CurrentChannelList}"
                                 SelectedItem="{Binding CurrentChannel, Mode=TwoWay}" Template="{StaticResource ListPickerNoHeader}" >
             </toolkit:ListPicker>
-            <Image x:Name="NewBlahBtn" Grid.Column="1" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
-               Source="Images/Icons/icon_createpost.png" Width="80" Height="80" Canvas.ZIndex="10"
+            <TextBlock x:Name="ChannelHeaderTextArea" Grid.Column="1" Grid.ColumnSpan="2"
+                                FontSize="30" VerticalAlignment="Center" 
+                                FontFamily="/Resources/Merriweather.otf#Merriweather" Foreground="{StaticResource BrushHeardTeal}"></TextBlock>
+            <Image x:Name="NewBlahBtn" Grid.Column="2" Visibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 0 0" 
+               Source="Images/Icons/icon_createpost.png" Width="70" Height="70" Canvas.ZIndex="10"
                Tap="NewBlahBtn_Tap"  />
-            <Button x:Name="SignInBtn"  Grid.Column="2" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="1" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" 
+            <Button VerticalAlignment="Top" x:Name="SignInBtn"  Grid.Column="3" Visibility="Visible" BorderThickness="0" Grid.ColumnSpan="1" Style="{StaticResource SquareBtn}" Background="#FF9E9E9E" 
                      Content="&#xf090;"  FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"
-                                Foreground="White" FontSize="48" Width="80" Height="80"  Click="DoSignIn"/>
+                                Foreground="White" FontSize="48" Width="70" Height="70"  Click="DoSignIn"/>
 
-            <Image x:Name="UserInfoBtn" Grid.Column="2" Width="80" Height="80" Visibility="Collapsed"   Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
+            <Image x:Name="UserInfoBtn" VerticalAlignment="Top" Grid.Column="3" Width="70" Height="70" Visibility="Collapsed"   Source="{Binding CurrentUser.UserImage}" Tap="UserInfoBtn_Tap" ImageFailed="UserImageLoadFailed">
 
             </Image>
 

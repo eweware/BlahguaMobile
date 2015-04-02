@@ -85,7 +85,7 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 				if (data.Count > capacity)
 				{
 					Remove(lruList.First);
-					lruList.RemoveFirst();
+					//lruList.RemoveFirst();
 				}
 			}
 		}
@@ -165,8 +165,16 @@ namespace BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper
 
 		public void RemoveFirst()
 		{
-			index.Remove(data.First.Value);
-			data.RemoveFirst();
+			try
+			{
+				index.Remove(data.First.Value);
+				data.RemoveFirst();
+			}
+			catch (NullReferenceException exp) 
+			{
+				Console.WriteLine ("err: " + exp.Message);
+			}
+
 		}
 
 		public void Remove(T value)

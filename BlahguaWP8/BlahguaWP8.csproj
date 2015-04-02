@@ -169,6 +169,9 @@
     <Compile Include="Screens\ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\OnboardingScreen.xaml.cs">
+      <DependentUpon>OnboardingScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\PhotoShare.xaml.cs">
       <DependentUpon>PhotoShare.xaml</DependentUpon>
     </Compile>
@@ -230,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Screens\OnboardingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Screens\PhotoShare.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -244,11 +251,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="HockeyAppContent\Thumbs.db" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="HockeyAppContent\Attach.png" />
+    <Content Include="HockeyAppContent\Cancel.png" />
+    <Content Include="HockeyAppContent\Photo.png" />
+    <Content Include="HockeyAppContent\Reply.png" />
+    <Content Include="HockeyAppContent\Send.png" />
     <Content Include="Images\activeblah.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -453,6 +466,12 @@
     <EmbeddedResource Include="Resources\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="HockeyApp">
+      <HintPath>..\packages\HockeySDK.WP.2.2.2\lib\wp8\HockeyApp.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyAppPCL">
+      <HintPath>..\packages\HockeySDK.Core.2.2.2\lib\portable-net45+win8+wp8+wpa81+win81\HockeyAppPCL.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Advertising.Mobile, Version=6.2.960.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Advertising.Mobile.UI, Version=6.2.960.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />

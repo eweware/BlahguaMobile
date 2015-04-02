@@ -40,10 +40,14 @@ namespace BlahguaMobile.Winphone
         Storyboard sb = null;
         WhatsNewInfo _savedNewInfo = null;
         DispatcherTimer loadTimer = new DispatcherTimer();
+        bool isFrontMost = false;
+
+        public static bool ReturningFromTutorial { get; set; }
      
         // Constructor
         public MainPage()
         {
+            ReturningFromTutorial = false;
             Loaded += new RoutedEventHandler(MainPage_Loaded); 
             InitializeComponent();
             this.DataContext = null;
@@ -60,6 +64,7 @@ namespace BlahguaMobile.Winphone
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
+            isFrontMost = false;
             StopTimers();
             FlushImpressionList();
  	        base.OnNavigatingFrom(e);
@@ -147,9 +152,12 @@ namespace BlahguaMobile.Winphone
 
         void StartTimers()
         {
-            targetBlah = null;
-            scrollTimer.Start();
-            MaybeAnimateElement();
+            if (isFrontMost)
+            {
+                targetBlah = null;
+                scrollTimer.Start();
+                MaybeAnimateElement();
+            }
         }
 
         void StopTimers()
@@ -262,6 +270,10 @@ namespace BlahguaMobile.Winphone
             smallBlahSize = (480 - ((screenMargin * 2) + (blahMargin * 2))) / 3;
             mediumBlahSize = smallBlahSize + smallBlahSize + blahMargin;
             largeBlahSize = 456; // mediumBlahSize + mediumBlahSize + blahMargin;
+            BlahguaAPIObject.smallTileSize = (int)smallBlahSize;
+            BlahguaAPIObject.mediumTileSize = (int)mediumBlahSize;
+            BlahguaAPIObject.largeTileSize = (int)largeBlahSize;
+
 
             foreach (char rowType in rowSequence)
             {
@@ -345,10 +357,11 @@ namespace BlahguaMobile.Winphone
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
+            isFrontMost = true;
+
             if (alreadyHookedScrollEvents)
                 return;
-
+            TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
             alreadyHookedScrollEvents = true;
             // Visual States are always on the first child of the control template 
             FrameworkElement element = VisualTreeHelper.GetChild(BlahScroller, 0) as FrameworkElement;
@@ -399,12 +412,20 @@ namespace BlahguaMobile.Winphone
 
         void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            if (isFrontMost)
             {
-                case "CurrentChannel":
-                    OnChannelChanged();
-                    break;
+                switch (e.PropertyName)
+                {
+                    case "CurrentChannel":
+                        BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerms) =>
+                        {
+                            OnChannelChanged();
+                        });
+
+                        break;
+                }
             }
+            
         }
 
         void BlahContainer_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -455,7 +476,11 @@ namespace BlahguaMobile.Winphone
             if (BlahguaAPIObject.Current.CurrentUser != null)
             {
                 UserInfoBtn.Visibility = Visibility.Visible;
-                NewBlahBtn.Visibility = Visibility.Visible;
+                if (BlahguaAPIObject.Current.CanPost)
+                    NewBlahBtn.Visibility = Visibility.Visible;
+                else
+                    NewBlahBtn.Visibility = Visibility.Collapsed;
+
                 SignInBtn.Visibility = Visibility.Collapsed;
             }
             else
@@ -473,6 +498,13 @@ namespace BlahguaMobile.Winphone
             }
 
             StartTimers();
+
+            if (ReturningFromTutorial)
+            {
+                OnChannelChanged();
+                ReturningFromTutorial = false;
+                CheckForWhatsNew();
+            }
         }
 
 
@@ -521,15 +553,31 @@ namespace BlahguaMobile.Winphone
                 MessageBox.Show("Blah failed to load");
             }
         }
-        
-       
+
+        private void CheckForWhatsNew()
+        {
+            BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+            {
+                if ((whatsNew != null))
+                {
+                    ShowNewsFloater(whatsNew);
+                }
+            });
+        }
 
         void DoServiceInited(bool didIt)
         {
             loadTimer.Stop();
             if (didIt)
             {
-                if (BlahguaAPIObject.Current.CurrentUser != null)
+                this.DataContext = BlahguaAPIObject.Current;
+
+                if (true)
+                {
+                    StopTimers();
+                    NavigationService.Navigate(new Uri("/Screens/OnboardingScreen.xaml", UriKind.Relative));
+                }
+                else if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     App.analytics.PostAutoLogin();
                     UserInfoBtn.Visibility = Visibility.Visible;
@@ -541,15 +589,14 @@ namespace BlahguaMobile.Winphone
                     UserInfoBtn.Visibility = Visibility.Collapsed;
                     NewBlahBtn.Visibility = Visibility.Collapsed;
                     SignInBtn.Visibility = Visibility.Visible;
-                }
-                this.DataContext = BlahguaAPIObject.Current;
-                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                    bool seenTutorial = (bool)BlahguaAPIObject.Current.SafeLoadSetting("seentutorial", false);
+
+                    if (!seenTutorial)
                     {
-                        if ((whatsNew != null))
-                        {
-                            ShowNewsFloater(whatsNew);
-                        }
-                    });
+                        StopTimers();
+                        NavigationService.Navigate(new Uri("/Screens/OnboardingScreen.xaml", UriKind.Relative));
+                    }
+                }
             }
             else
             {
@@ -692,8 +739,29 @@ namespace BlahguaMobile.Winphone
             ClearBlahs();
             FetchInitialBlahList();
             App.analytics.PostPageView("/channel/" + BlahguaAPIObject.Current.CurrentChannel.ChannelName);
+            if (!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentChannel.HeaderImage))
+            {
+                BitmapImage imgBkgnd = new BitmapImage(new Uri(BlahguaAPIObject.Current.CurrentChannel.HeaderImage));
+                ImageBrush bkgndBrush = new ImageBrush();
+                bkgndBrush.ImageSource = imgBkgnd;
+                bkgndBrush.Stretch = Stretch.UniformToFill;
 
+                ChannelHeaderGrid.Background = bkgndBrush;
+                ChannelHeaderTextArea.Text = "";
+            }
+            else
+            {
+                ChannelHeaderGrid.Background = (Brush)App.Current.Resources["BrushHeardBlack"];
+                ChannelHeaderTextArea.Text = BlahguaAPIObject.Current.CurrentChannel.ChannelName;
+            }
 
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+            {
+                if (BlahguaAPIObject.Current.CanPost)
+                    NewBlahBtn.Visibility = Visibility.Visible;
+                else
+                    NewBlahBtn.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ScrollStateHandler(object sender, VisualStateChangedEventArgs args)

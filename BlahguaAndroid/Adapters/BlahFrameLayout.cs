@@ -87,7 +87,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
         //////////////////////
 
-        private static long fadeDuration = 2000;
+        private static long fadeOutDuration = 2000;
+        private static long fadeInDuration = 500;
         private static Random rnd = new Random();
 
         private static void fadeout(View v1, FadeListener listener)
@@ -101,10 +102,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 listener = new FadeListener();
                 listener.v1 = v1;
             }
-            long startDelay = 2000 + rnd.Next(1000);
+            long startDelay = 500 + rnd.Next(1000);
             v1.Animate().SetStartDelay(startDelay)
                 .Alpha(0.0f)
-                .SetDuration(fadeDuration)
+                .SetDuration(fadeOutDuration)
                 .SetListener(listener);
         }
 
@@ -122,7 +123,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             long startDelay = 2000 + rnd.Next(1000);
             v1.Animate().SetStartDelay(startDelay)
                 .Alpha(0.9f)
-                .SetDuration(fadeDuration)
+                .SetDuration(fadeInDuration / 2)
                 .SetListener(listener);
         }
 
@@ -184,7 +185,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             // listener set on the view.
             v1.Animate().SetStartDelay(startDelay)
                 .Alpha(1.0f)
-                .SetDuration(fadeDuration)
+                .SetDuration(fadeInDuration)
                 .SetListener(null);
 
             // Animate the loading view to 0% opacity. After the animation ends,
@@ -199,7 +200,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             }
             v2.Animate().SetStartDelay(startDelay)
                 .Alpha(0.0f)
-                .SetDuration(fadeDuration)
+                .SetDuration(fadeOutDuration)
                 .SetListener(listener);
         }
         class CrossfadeListener : Java.Lang.Object, Android.Animation.Animator.IAnimatorListener

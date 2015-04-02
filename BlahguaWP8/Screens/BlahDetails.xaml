@@ -194,13 +194,13 @@
                                 <Image Source="{Binding CurrentBlah.UserImage}" Width="64" Height="64" VerticalAlignment="Top" Margin="0,0,8,0" />
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding CurrentBlah.UserName}" FontFamily="Segoe WP Semibold" FontSize="24" />
-                                    <TextBlock Text="{Binding CurrentBlah.DescriptionString}" FontSize="16" />
+                                    <TextBlock x:Name="UserDescriptionArea" Text="{Binding CurrentBlah.DescriptionString}" FontSize="16" />
                                     <ItemsControl x:Name="BadgeListArea" ItemsSource="{Binding CurrentBlah.Badges, Mode=OneWay}"
                                     ItemTemplate="{StaticResource BadgeItemTemplate}"/>
                                     <TextBlock Text="{Binding CurrentBlah.ElapsedTimeString}" FontSize="16" FontStyle="Italic" />
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="PostTypeArea" Orientation="Horizontal">
                                 <TextBlock Foreground="LightGray"  FontSize="24" Text="{Binding CurrentBlah.TypeName}" />
                                 <TextBlock Foreground="LightGray"  FontSize="24" Text="to" Margin="8,0" />
                                 <TextBlock Foreground="LightGray"  FontSize="24" Text="{Binding CurrentBlah.ChannelName}" />

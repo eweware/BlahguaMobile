@@ -33,6 +33,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         Timer scrollTimer = new Timer();
         Timer BlahAnimateTimer = new Timer();
         int inboxCounter = 0;
+		bool viewIsActive = false;
         public static Typeface gothamFont = null;
         public static Typeface merriweatherFont = null;
 
@@ -77,11 +78,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 
 		public void StartTimers()
-        {
-            if (!scrollTimer.Enabled)
-            	scrollTimer.Start();
-            BlahAnimateTimer.Start();
-        }
+		{
+			if (viewIsActive) {
+				
+				if (!scrollTimer.Enabled)
+					scrollTimer.Start ();
+				BlahAnimateTimer.Start ();
+			}
+		}
 
 
 		public void StopTimers()
@@ -90,7 +94,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahAnimateTimer.Stop();
         }
 
-        private static long fadeDuration = 2000;
+        private static long fadeInDuration = 500;
+        private static long fadeOutDuration = 2000;
         private static Random rnd = new Random();
         private View lastAnimatedBlah;
 
@@ -100,40 +105,24 @@ namespace BlahguaMobile.AndroidClient.Screens
             Rect scrollBounds = new Rect();
             
             List<View> targetList = new List<View>();
-            bool isDone = false;
+            BlahScroller.GetHitRect(scrollBounds);
 
             for (int curContainer = 0; curContainer < BlahContainerLayout.ChildCount; curContainer++)
             {
-                BlahScroller.GetHitRect(scrollBounds);
                 BlahFrameLayout curContainerView = BlahContainerLayout.GetChildAt(curContainer) as BlahFrameLayout;
  
                 for (int curBlahCount = 0; curBlahCount < curContainerView.ChildCount; curBlahCount++)
                 {
-
                     View curBlahView = curContainerView.GetChildAt(curBlahCount);
                     var image = curBlahView.FindViewById<ImageView>(Resource.Id.image);
-                    if ((curBlahView != lastAnimatedBlah) && (image.Tag != null))
-                    {
-                        // it wants animation
-                        BlahScroller.GetHitRect(scrollBounds);
-                        if (curBlahView.GetLocalVisibleRect(scrollBounds))
-                        {
-                            targetList.Add(curBlahView);
-                        }
-                        else
-                        {
-                            if (targetList.Count > 0)
-                            {
-                                isDone = true;
-                                break;
-                            }
-                        }
-                    }
-					Log.Debug ("MaybeAnimateElement", curBlahCount.ToString());
-                }
 
-                if (isDone)
-                    break;
+                    if (curBlahView.GetLocalVisibleRect(scrollBounds) && 
+                        (curBlahView != lastAnimatedBlah) &&
+                        (image.Tag != null))
+                    {
+                        targetList.Add(curBlahView);
+                    }
+                }
             }
 
             if (targetList.Count > 0)
@@ -143,8 +132,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 				lastAnimatedBlah = targetView;
 				var title = targetView.FindViewById<LinearLayout> (Resource.Id.textLayout);
 				float targetAlpha = 0f;
+                long fadeDuration = fadeOutDuration;
 				if (title.Alpha == 0f)
-					targetAlpha = 0.9f;
+                {
+                    targetAlpha = 0.8f;
+                    fadeDuration = fadeInDuration;
+                }
+
 				title.Animate ().Alpha (targetAlpha).SetDuration (fadeDuration);
 			}
 
@@ -191,6 +185,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override void OnResume()
         {
             base.OnResume();
+			viewIsActive = true;
             StartTimers();
             initLayouts();
         }
@@ -198,6 +193,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public override void OnPause()
         {
             base.OnPause();
+			viewIsActive = false;
             StopTimers();
         }
 

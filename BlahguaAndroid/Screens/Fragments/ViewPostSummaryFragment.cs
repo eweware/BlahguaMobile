@@ -179,15 +179,25 @@ namespace BlahguaMobile.AndroidClient.Screens
                     {
                         timeago.Text = StringHelper.ConstructTimeAgo(loadedBlah.CreationDate);
                     }
-                    if (!loadedBlah.XX)
-                    {
-                        authorDescription.Text = loadedBlah.Description.d;
 
+                    if (BlahguaAPIObject.Current.CurrentChannel.SAD == false)
+                    {
+                        authorDescription.Visibility = ViewStates.Invisible;
                     }
                     else
                     {
-                        authorDescription.Text = "an unidentified person";
+                        authorDescription.Visibility = ViewStates.Visible;
+                        if (!loadedBlah.XX)
+                        {
+                            authorDescription.Text = loadedBlah.Description.d;
+
+                        }
+                        else
+                        {
+                            authorDescription.Text = "an unidentified person";
+                        }
                     }
+
 
                     authorAvatar.SetUrlDrawable(loadedBlah.UserImage);
 

@@ -43,6 +43,9 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HockeyApp.Android">
+      <HintPath>..\Components\hockeyappandroid-3.5.0\lib\android\HockeyApp.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
@@ -64,13 +67,10 @@
       <HintPath>..\Components\restsharp-105.0.1.0\lib\android\RestSharp.MonoDroid.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text.XamarinAndrod">
-      <HintPath>..\Components\servicestacktext-3.9.61.1\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
     <Reference Include="FortySevenDeg.SwipeListView">
       <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
-    </Reference>
-    <Reference Include="HockeyApp.Android">
-      <HintPath>..\Components\hockeyappandroid-3.5.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -243,16 +243,16 @@
       <Version>105.0.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="servicestacktext">
-      <Version>3.9.61.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="android-swipelistview">
       <Version>2.0.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="hockeyappandroid">
       <Version>3.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Version>3.9.61.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
@@ -743,7 +743,5 @@
   <ItemGroup>
     <AndroidResource Include="Resources\menu\cameramenu.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable-hdpi\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

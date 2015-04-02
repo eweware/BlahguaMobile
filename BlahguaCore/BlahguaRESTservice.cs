@@ -536,8 +536,6 @@ namespace BlahguaMobile.BlahguaCore
 			Console.WriteLine("about to create blah!");
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-					Console.WriteLine(response.ErrorMessage);
-					Console.WriteLine(response.StatusDescription);
 					Blah newBlah = null;
 					if (response.StatusCode == HttpStatusCode.Created)
 					{
@@ -894,8 +892,14 @@ namespace BlahguaMobile.BlahguaCore
 				{
                     Inbox inbox = null;
                     if (response.StatusCode == HttpStatusCode.OK)
-					    inbox  = response.Content.FromJson<Inbox>();
-					callback(inbox);
+                    {
+                        inbox = response.Content.FromJson<Inbox>();
+                        callback(inbox);
+                    }
+                    else if (response.StatusCode != 0)
+                    {
+                        callback(null);
+                    }
 				});
 		}
 	}

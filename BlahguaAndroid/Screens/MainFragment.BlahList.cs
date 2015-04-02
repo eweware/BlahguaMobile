@@ -34,6 +34,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 			smallBlahSize = (screenWidth - (blahMargin * 2)) / 3;// - blahMargin; // (480 - ((screenMargin * 2) + (blahMargin * 3))) / 4;
 			mediumBlahSize = (smallBlahSize * 2) + blahMargin;
 			largeBlahSize = (smallBlahSize * 3) + (blahMargin * 2);
+            BlahguaAPIObject.smallTileSize = (int)smallBlahSize;
+            BlahguaAPIObject.mediumTileSize = (int)mediumBlahSize;
+            BlahguaAPIObject.largeTileSize = (int)largeBlahSize;
+
+            // lets not be crazy...
+            if (BlahguaAPIObject.smallTileSize > 256)
+            {
+                BlahguaAPIObject.smallTileSize /= 2;
+                BlahguaAPIObject.mediumTileSize /= 2;
+                BlahguaAPIObject.largeTileSize /= 2;
+            }
 
 			foreach (char rowType in sequence)
 			{
@@ -44,6 +55,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//curTop = InsertAd(curTop);
 
 			//BlahContainer.Height = curTop + screenMargin;
+			//InsertAdditionalBlahs();
+			AtScrollEnd = false;
 			inboxCounter = 1;//++;
 		}
 		public void FetchInitialBlahs ()
@@ -404,7 +417,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 						if (!String.IsNullOrEmpty(theBlah.T))
 						{
 							image.Tag = true;   // animate this
-							control.FindViewById<LinearLayout>(Resource.Id.textLayout).Alpha = 0.9f;
+							control.FindViewById<LinearLayout>(Resource.Id.textLayout).Alpha = .8f;
 						}
 					});
 			}
@@ -421,24 +434,31 @@ namespace BlahguaMobile.AndroidClient.Screens
 					var new_mark = control.FindViewById<View>(Resource.Id.new_mark);
 					var user_mark = control.FindViewById<View>(Resource.Id.user_mark);
 
-					switch (theBlah.TypeName)
-					{
-					case "says":
-						type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
-						break;
-					case "asks":
-						type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
-						break;
-					case "leaks":
-						type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
-						break;
-					case "polls":
-						type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
-						break;
-					case "predicts":
-						type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
-						break;
-					}
+                    if (BlahguaAPIObject.Current.CurrentChannel.SSA == false)
+                        type_mark.Visibility = ViewStates.Gone;
+                    else
+                    {
+                        type_mark.Visibility = ViewStates.Visible;
+                        switch (theBlah.TypeName)
+                        {
+                            case "says":
+                                type_mark.SetBackgroundResource(Resource.Drawable.say_icon);
+                                break;
+                            case "asks":
+                                type_mark.SetBackgroundResource(Resource.Drawable.ask_icon);
+                                break;
+                            case "leaks":
+                                type_mark.SetBackgroundResource(Resource.Drawable.leak_icon);
+                                break;
+                            case "polls":
+                                type_mark.SetBackgroundResource(Resource.Drawable.poll_icon);
+                                break;
+                            case "predicts":
+                                type_mark.SetBackgroundResource(Resource.Drawable.predict_icon);
+                                break;
+                        }
+                    }
+					
 
 					// icons
 					double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
