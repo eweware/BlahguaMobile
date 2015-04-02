@@ -203,12 +203,22 @@ namespace BlahguaMobile.AndroidClient.Screens
 		}
 		public void ClearBlahs()
 		{
-			this.Activity.RunOnUiThread(() =>
-				{
-					inboxCounter = 0;
-					BlahContainerLayout.RemoveAllViews();
-					BlahScroller.ScrollTo(0, 0);
-				});
+            if (this.Activity != null)
+            {
+                
+                this.Activity.RunOnUiThread(() =>
+                    {
+                        inboxCounter = 0;
+                        BlahContainerLayout.RemoveAllViews();
+                        BlahScroller.ScrollTo(0, 0);
+                    });
+            }
+            else
+            {
+                inboxCounter = 0;
+                BlahContainerLayout.RemoveAllViews();
+                BlahScroller.ScrollTo(0, 0);
+            }
 		}
 
 		private void OpenBlahItem(InboxBlah curBlah)

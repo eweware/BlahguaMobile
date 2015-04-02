@@ -64,7 +64,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         this.checkBtn.Enabled = false;
                         this.skipBtn.Enabled = false;
                         FirstRunActivity.emailAddress = this.emailAddrField.Text.Trim();
-                        s
+                        string authId = emailAuthority._id;
 
                         // make formal request
                         BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, FirstRunActivity.emailAddress, (ticket) =>

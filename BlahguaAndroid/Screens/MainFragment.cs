@@ -196,17 +196,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			viewIsActive = false;
             StopTimers();
         }
-
-        private void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "CurrentChannel":
-                    //OnChannelChanged();
-                    break;
-            }
-        }
-
+            
        
 		public void InitLayouts()
 		{
