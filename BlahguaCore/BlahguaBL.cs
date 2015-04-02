@@ -541,6 +541,9 @@ namespace BlahguaMobile.BlahguaCore
             }
             else
             {
+                Channel savedChannel = CurrentChannel;
+                currentChannel = null;
+                CurrentChannel = savedChannel;
                 callBack(true);
             }
         }

@@ -104,6 +104,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             this.Window.AddFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
 
+            if (Intent.GetBooleanExtra("EXIT", false))
+            {
+                // handle app finish
+                Finish();
+                return;
+            }
+
+            /*
             // init hockey app
             // Register the crash manager before Initializing the trace writer
             HockeyApp.CrashManager.Register (this, HOCKEYAPP_APPID); 
@@ -129,7 +137,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             // Wire up the unobserved task exception handler
             TaskScheduler.UnobservedTaskException += 
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
-
+            */
 
 
 			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
@@ -769,7 +777,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 						alert.SetButton("ok", (sender, args) =>
 							{
 								alert.Dismiss();
-									this.Finish();
+                                Intent newIntent = new Intent(ApplicationContext, Java.Lang.Class.FromType(typeof(HomeActivity)));
+                                newIntent.AddFlags(ActivityFlags.ClearTop);
+                                newIntent.PutExtra("EXIT", true);
+                                StartActivity(newIntent);
 							});
 							alert.SetButton2 ("cancel", (sender, args) =>
 								{
