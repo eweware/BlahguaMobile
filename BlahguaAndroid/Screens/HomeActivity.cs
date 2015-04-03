@@ -644,6 +644,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			case "CurrentChannel":
 				OnChannelChanged();
 				break;
+
 			}
 		}
 
