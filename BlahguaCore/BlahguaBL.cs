@@ -171,6 +171,14 @@ namespace BlahguaMobile.BlahguaCore
             }
         }
 
+        public void ForceCurrentChannel()
+        {
+            if (CurrentChannel != null)
+            {
+                OnPropertyChanged("CurrentChannel");
+            }
+        }
+
         public void StartSigninTimer()
         {
             signinTimer.Change(2000, 20000);

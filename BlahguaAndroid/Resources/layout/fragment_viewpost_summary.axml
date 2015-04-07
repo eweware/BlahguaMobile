@@ -121,9 +121,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textColor="#000"
-            android:autoLink="all" />
+            android.text="This is a test.  This is only a test."
+            android:autoLink="all"
+            android:lineSpacingExtra="4dp" />
     <!-- PREDICTS -->
         <LinearLayout
             android:id="@+id/predicts_layout"

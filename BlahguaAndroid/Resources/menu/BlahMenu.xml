@@ -2,15 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:id="@+id/action_upvote"
 		android:icon="@drawable/ic_thumb_up_white"
-		android:title=""
+		android:title="promote"
 		android:showAsAction="always"/>
-  <item android:id="@+id/action_downvote"
-   android:icon="@drawable/ic_thumb_down_white"
-   android:title=""
-   android:showAsAction="always"/>
+
   <item android:id="@+id/action_report"
  android:icon="@drawable/ic_report_problem_white"
- android:title=""
+ android:title="report problem"
  android:showAsAction="always">
     <menu>
       <item android:id="@+id/action_report_offensive"
@@ -23,11 +20,11 @@
   </item>
   <item android:id="@+id/action_share"
    android:icon="@drawable/ic_action_share"
-   android:title=""
+   android:title="share"
    android:showAsAction="always"/>
   <item android:id="@+id/action_comment"
   android:icon="@drawable/ic_action_addcomment"
-  android:title=""
+  android:title="comment"
   android:showAsAction="always"/>
 
 

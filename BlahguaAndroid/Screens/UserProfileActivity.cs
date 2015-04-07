@@ -25,7 +25,7 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(WindowSoftInputMode=SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class UserProfileActivity : Activity
+    public class UserProfileActivity : Activity, GestureDetector.IOnGestureListener
     {
 
         private UserProfileProfileFragment profileFragment;
@@ -34,8 +34,8 @@ namespace BlahguaMobile.AndroidClient
         private UserProfileStatsFragment statsFragment;
         private HistoryPostsFragment postsFragment;
         private HistoryCommentsFragment commentsFragment;
-		//private GestureDetector _gestureDetector;
-		//private GestureListener _gestureListener;
+	    private GestureDetector _gestureDetector;
+
 
         private Fragment curFragment;
 
@@ -56,12 +56,9 @@ namespace BlahguaMobile.AndroidClient
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
-			/*
-			_gestureListener = new GestureListener();
-			_gestureDetector = new GestureDetector(this, _gestureListener);
-			_gestureListener.SwipeLeftEvent += swipeLeftEvent;
-			_gestureListener.SwipeRightEvent += swipeRightEvent;
-			*/
+
+			_gestureDetector = new GestureDetector(this, this);
+
 
             // set up tabs
             profileTab = ActionBar.NewTab();
@@ -122,6 +119,53 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
+        public bool OnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+        {
+            return false;
+        }
+
+        public bool OnSingleTapUp(MotionEvent e1)
+        {
+            return false;
+        }
+
+        public void OnLongPress(MotionEvent e1)
+        {
+            //return false;
+        }
+
+        public void OnShowPress(MotionEvent e1)
+        {
+            //return false;
+        }
+
+        public bool OnFling(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+        {
+            float maxRange = e1.Device.MotionRanges[0].Max;
+
+            float minEdge = maxRange * .1f;
+            float maxEdge = maxRange * .9f;
+
+            if ((e1.GetX() < minEdge) && (e2.GetX() > maxRange * .3f))
+            {
+                swipeRightEvent();
+                return true;
+            }
+            else if ((e1.GetX() > maxEdge) && (e2.GetX() < maxRange * .7f))
+            {
+                swipeLeftEvent();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool OnDown(MotionEvent e1)
+        {
+            return false;
+        }
+
+
         protected void SelectStats(object sender, EventArgs e)
         {
             bool firstTime = false;
@@ -135,41 +179,48 @@ namespace BlahguaMobile.AndroidClient
             SetCurrentFragment(statsFragment, firstTime, "Statistics");
 
         }
-		private void swipeLeftEvent(MotionEvent first, MotionEvent second)
+		private void swipeLeftEvent()
 		{
 
-			if (curFragment == profileFragment)
-				ActionBar.SelectTab(badgesTab);
-			else if (curFragment == badgesFragment)
-				ActionBar.SelectTab(demoTab);
-			else if (curFragment == demographicsFragment)
-				ActionBar.SelectTab(postsTab);
-			else if (curFragment == postsFragment)
-				ActionBar.SelectTab(commentsTab);
-			else if (curFragment == commentsFragment)
-				ActionBar.SelectTab(statsTab);
+            if (curFragment == profileFragment)
+                ActionBar.SelectTab(badgesTab);
+            else if (curFragment == badgesFragment)
+                ActionBar.SelectTab(demoTab);
+            else if (curFragment == demographicsFragment)
+                ActionBar.SelectTab(postsTab);
+            else if (curFragment == postsFragment)
+                ActionBar.SelectTab(commentsTab);
+            else if (curFragment == commentsFragment)
+                ActionBar.SelectTab(statsTab);
+            else
+                ActionBar.SelectTab(profileTab);
 
 		}
-		private void swipeRightEvent(MotionEvent first, MotionEvent second)
+		private void swipeRightEvent()
 		{
 
-			if (curFragment == statsFragment)
-				ActionBar.SelectTab(commentsTab);
-			else if (curFragment == commentsFragment)
-				ActionBar.SelectTab(postsTab);
-			else if (curFragment == postsFragment)
-				ActionBar.SelectTab(demoTab);
-			else if (curFragment == demographicsFragment)
-				ActionBar.SelectTab(badgesTab);
-			else if (curFragment == badgesFragment)
-				ActionBar.SelectTab(profileTab);
+            if (curFragment == statsFragment)
+                ActionBar.SelectTab(commentsTab);
+            else if (curFragment == commentsFragment)
+                ActionBar.SelectTab(postsTab);
+            else if (curFragment == postsFragment)
+                ActionBar.SelectTab(demoTab);
+            else if (curFragment == demographicsFragment)
+                ActionBar.SelectTab(badgesTab);
+            else if (curFragment == badgesFragment)
+                ActionBar.SelectTab(profileTab);
+            else
+                ActionBar.SelectTab(statsTab);
 	}
 
-		public override bool DispatchTouchEvent(MotionEvent ev)
-		{
-			//_gestureDetector.OnTouchEvent (ev);
-			return base.DispatchTouchEvent(ev);
-		}
+        public override bool DispatchTouchEvent(MotionEvent ev)
+        {
+            bool didIt = _gestureDetector.OnTouchEvent(ev);
+            if (!didIt)
+                return base.DispatchTouchEvent(ev);
+            else
+                return true;
+        }
 
         protected void SelectBadges(object sender, EventArgs e)
         {

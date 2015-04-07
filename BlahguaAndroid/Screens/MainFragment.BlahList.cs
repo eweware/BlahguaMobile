@@ -54,8 +54,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//curTop = InsertAd(curTop);
 
-			//BlahContainer.Height = curTop + screenMargin;
-			//InsertAdditionalBlahs();
 			AtScrollEnd = false;
 			inboxCounter = 1;//++;
 		}
@@ -501,6 +499,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			control.Click += delegate
 			{
+                Animation myAnimation = AnimationUtils.LoadAnimation(this.Activity, Resource.Animation.fade_spin);
+                control.StartAnimation(myAnimation);
 				OpenBlahItem(theBlah);
 			};
 

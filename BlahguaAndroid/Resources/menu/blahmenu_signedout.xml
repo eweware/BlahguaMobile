@@ -5,10 +5,10 @@
     android:showAsAction="always"/>
   <item android:id="@+id/action_report"
     android:icon="@drawable/ic_report_problem_white"
-    android:title=""
+    android:title="report problem"
     android:showAsAction="always"/>
   <item android:id="@+id/action_share"
     android:icon="@drawable/ic_action_share"
-    android:title=""
+    android:title="share"
     android:showAsAction="always"/>
 </menu>

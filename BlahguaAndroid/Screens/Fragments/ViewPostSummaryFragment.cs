@@ -95,8 +95,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             pollsLayout = fragment.FindViewById<LinearLayout>(Resource.Id.polls_layout);
             pollsVotes = fragment.FindViewById<ListView>(Resource.Id.polls_votes);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, titleView, authorDescription, predictsElapsedtime);
-			UiHelper.SetGothamTypeface (TypefaceStyle.Bold, author);
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, messageView, authorDescription, predictsElapsedtime);
+			UiHelper.SetGothamTypeface (TypefaceStyle.Bold, author, titleView);
 			UiHelper.SetGothamTypeface (TypefaceStyle.Italic, timeago);
             initBlahPost();
 
@@ -121,13 +121,13 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             if (loadedBlah == null)
             {
-                dialog.Show();
+                //dialog.Show();
                 BlahguaAPIObject.Current.SetCurrentBlahFromId(App.BlahIdToOpen, (theBlah) =>
                 {
                     loadedBlah = theBlah;
                     parent.RunOnUiThread(() =>
                     {
-                        dialog.Hide();
+                        //dialog.Hide();
                         Activity.InvalidateOptionsMenu();
                     });
                     populateFragment();
@@ -167,8 +167,22 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 parent.RunOnUiThread(() =>
                 {
-                    titleView.SetText(loadedBlah.T, TextView.BufferType.Normal);
-                    messageView.SetText(loadedBlah.F, TextView.BufferType.Normal);
+                    if (String.IsNullOrEmpty(loadedBlah.T))
+                        titleView.Visibility = ViewStates.Gone;
+                    else 
+                    {
+                        titleView.Visibility = ViewStates.Visible;
+                        titleView.SetText(loadedBlah.T, TextView.BufferType.Normal);
+                    }
+
+                    if (String.IsNullOrEmpty(loadedBlah.F))
+                        messageView.Visibility = ViewStates.Gone;
+                    else 
+                    {
+                        messageView.Visibility = ViewStates.Visible;
+                        messageView.SetText(loadedBlah.F, TextView.BufferType.Normal);
+                    }
+                    
                 });
 
                 // author

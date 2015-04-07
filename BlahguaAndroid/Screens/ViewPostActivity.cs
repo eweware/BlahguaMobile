@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(ScreenOrientation = ScreenOrientation.Portrait, UiOptions = Android.Content.PM.UiOptions.SplitActionBarWhenNarrow)]
-    public class ViewPostActivity : Activity
+    public class ViewPostActivity : Activity, GestureDetector.IOnGestureListener
     {
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment;
@@ -34,7 +34,12 @@ namespace BlahguaMobile.AndroidClient
 		private string[] badgeItemNames = null;
 		private bool[]	badgeItemBools = null;
 
+        private GestureDetector _gestureDetector;
+
+
         private ActionBar.Tab summaryTab, commentTab, statsTab;
+
+
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -49,12 +54,10 @@ namespace BlahguaMobile.AndroidClient
 			this.ActionBar.SetDisplayShowTitleEnabled (false);
 			SetContentView (Resource.Layout.activity_viewpost);
 
-			/*
-            _gestureListener = new GestureListener();
-            _gestureDetector = new GestureDetector(this, _gestureListener);
-            _gestureListener.SwipeLeftEvent += swipeLeftEvent;
-            _gestureListener.SwipeRightEvent += swipeRightEvent;
-*/
+
+            _gestureDetector = new GestureDetector(this, this);
+            
+
             this.Title = "";
 
 
@@ -81,6 +84,53 @@ namespace BlahguaMobile.AndroidClient
 			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
            
         }
+
+        public bool OnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+        {
+            return false;
+        }
+
+        public bool OnSingleTapUp(MotionEvent e1)
+        {
+            return false;
+        }
+
+        public void OnLongPress(MotionEvent e1)
+        {
+            //return false;
+        }
+
+        public void OnShowPress(MotionEvent e1)
+        {
+            //return false;
+        }
+
+        public bool OnFling(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+        {
+            float maxRange = e1.Device.MotionRanges[0].Max;
+
+            float minEdge = maxRange * .1f;
+            float maxEdge = maxRange * .9f;
+
+            if ((e1.GetX() < minEdge) && (e2.GetX() > maxRange * .3f))
+            {
+                swipeRightEvent();
+                return true;
+            }
+            else if ((e1.GetX() > maxEdge) && (e2.GetX() < maxRange * .7f))
+            {
+                swipeLeftEvent();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool OnDown(MotionEvent e1)
+        {
+            return false;
+        }
+
 
 		private void MultiListClicked(object sender, DialogMultiChoiceClickEventArgs args)
 		{
@@ -198,56 +248,55 @@ namespace BlahguaMobile.AndroidClient
 
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
-            menu.Clear();
-            if (BlahguaAPIObject.Current.CurrentUser == null)
-                MenuInflater.Inflate(Resource.Menu.blahmenu_signedout, menu);
-            else
+            try
             {
-                MenuInflater.Inflate(Resource.Menu.BlahMenu, menu);
-                IMenuItem upVote = menu.FindItem(Resource.Id.action_upvote);
-                IMenuItem downVote = menu.FindItem(Resource.Id.action_downvote);
-
-                if (!BlahguaAPIObject.Current.CanComment)
-                    menu.FindItem(Resource.Id.action_comment).SetVisible(false);
-
-                if (BlahguaAPIObject.Current.CurrentBlah != null)
+                menu.Clear();
+                if (BlahguaAPIObject.Current.CurrentUser == null)
+                    MenuInflater.Inflate(Resource.Menu.blahmenu_signedout, menu);
+                else
                 {
-                    if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)
-                    {
-                        // can't vote on own blah
-                        upVote.SetEnabled(false);
-                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
-                        downVote.SetEnabled(false);
-                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
-                    }
-                    else if (BlahguaAPIObject.Current.CurrentBlah.uv == 0)
-                    {
-                        // user can still vote
-                        upVote.SetEnabled(true);
-                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
-                        downVote.SetEnabled(true);
-                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
-                    }
-                    else if (BlahguaAPIObject.Current.CurrentBlah.uv == 1)
-                    {
-                        // user promoted it
-                        upVote.SetEnabled(false);
-                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
-                        downVote.SetEnabled(false);
-                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_grey);
+                    MenuInflater.Inflate(Resource.Menu.BlahMenu, menu);
+                    IMenuItem upVote = menu.FindItem(Resource.Id.action_upvote);
 
-                    }
-                    else
+                    if (!BlahguaAPIObject.Current.CanComment)
+                        menu.FindItem(Resource.Id.action_comment).SetVisible(false);
+
+                    if (BlahguaAPIObject.Current.CurrentBlah != null)
                     {
-                        // user demoted it
-                        upVote.SetEnabled(false);
-                        upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
-                        downVote.SetEnabled(false);
-                        downVote.SetIcon(Resource.Drawable.ic_thumb_down_white);
+                        if (BlahguaAPIObject.Current.CurrentUser._id == BlahguaAPIObject.Current.CurrentBlah.A)
+                        {
+                            // can't vote on own blah
+                            upVote.SetEnabled(false);
+                            upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                        }
+                        else if (BlahguaAPIObject.Current.CurrentBlah.uv == 0)
+                        {
+                            // user can still vote
+                            upVote.SetEnabled(true);
+                            upVote.SetIcon(Resource.Drawable.ic_thumb_up_white);
+                        }
+                        else if (BlahguaAPIObject.Current.CurrentBlah.uv == 1)
+                        {
+                            // user promoted it
+                            upVote.SetEnabled(false);
+                            upVote.SetIcon(Resource.Drawable.ic_thumb_up_black);
+
+                        }
+                        else
+                        {
+                            // user demoted it
+                            upVote.SetEnabled(false);
+                            upVote.SetIcon(Resource.Drawable.ic_thumb_up_grey);
+                        }
                     }
                 }
-            }
 
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+           
             
 
             return base.OnPrepareOptionsMenu(menu);
@@ -260,15 +309,11 @@ namespace BlahguaMobile.AndroidClient
                 case Resource.Id.action_upvote:
                     if (BlahguaAPIObject.Current.CurrentUser != null)
                     {
+                        item.SetIcon(Resource.Drawable.ic_thumb_up_black);
                         HandlePromoteBlah();
                     }
                     break;
-                case Resource.Id.action_downvote:
-                    if (BlahguaAPIObject.Current.CurrentUser != null)
-                    {
-                        HandleDemoteBlah();
-                    }
-                    break;
+
                 case Resource.Id.action_report:
                    
                     break;
@@ -276,6 +321,7 @@ namespace BlahguaMobile.AndroidClient
                     // send mail
                     HandleReportPost();
                     break;
+
                 case Resource.Id.action_report_spam:
                     BlahguaAPIObject.Current.ReportPost(2);
                     RunOnUiThread(() =>
@@ -318,26 +364,33 @@ namespace BlahguaMobile.AndroidClient
         }
 
 
-        private void swipeLeftEvent(MotionEvent first, MotionEvent second)
+        private void swipeLeftEvent()
         {
             if (curFragment == summaryFragment)
                 ActionBar.SelectTab(commentTab);
             else if (curFragment == commentsFragment)
                 ActionBar.SelectTab(statsTab);
+            else
+                ActionBar.SelectTab(summaryTab);
            
         }
-        private void swipeRightEvent(MotionEvent first, MotionEvent second)
+        private void swipeRightEvent()
         {
             if (curFragment == statsFragment)
                 ActionBar.SelectTab(commentTab);
             else if (curFragment == commentsFragment)
                 ActionBar.SelectTab(summaryTab);
+            else
+                ActionBar.SelectTab(statsTab);
         }
 
 		public override bool DispatchTouchEvent(MotionEvent ev)
 		{
-			//_gestureDetector.OnTouchEvent (ev);
-			return base.DispatchTouchEvent(ev);
+			bool didIt = _gestureDetector.OnTouchEvent (ev);
+            if (!didIt)
+                return base.DispatchTouchEvent(ev);
+            else
+                return true;
 		}
 
       
