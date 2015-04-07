@@ -80,7 +80,9 @@ namespace BlahguaMobile.IOS
 				this.NavigationController.NavigationBar.SetBackgroundImage(null, UIBarMetrics.Default);
 			} else {
 				Title = "";
-				this.NavigationController.NavigationBar.SetBackgroundImage(UIImageHelper.ImageFromUrl (headerImage), UIBarMetrics.Default);
+                UIImage theImage = UIImageHelper.ImageFromUrl(headerImage);
+                if (theImage != null)
+				    this.NavigationController.NavigationBar.SetBackgroundImage(theImage, UIBarMetrics.Default);
 			}
 		}
 

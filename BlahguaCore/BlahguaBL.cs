@@ -119,6 +119,7 @@ namespace BlahguaMobile.BlahguaCore
         public delegate void BlahguaInit_callback(bool didIt);
 
         public event PropertyChangedEventHandler PropertyChanged;
+       
 
         protected void OnPropertyChanged(string name)
         {
@@ -169,6 +170,12 @@ namespace BlahguaMobile.BlahguaCore
                     _instance = new BlahguaAPIObject();
                 return _instance;
             }
+
+        }
+
+        public static void Delete() 
+        {
+            _instance = null;
         }
 
         public void ForceCurrentChannel()
@@ -552,6 +559,7 @@ namespace BlahguaMobile.BlahguaCore
                 Channel savedChannel = CurrentChannel;
                 currentChannel = null;
                 CurrentChannel = savedChannel;
+
                 callBack(true);
             }
         }

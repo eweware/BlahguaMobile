@@ -169,9 +169,6 @@
     <Compile Include="Screens\ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Screens\OnboardingScreen.xaml.cs">
-      <DependentUpon>OnboardingScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Screens\PhotoShare.xaml.cs">
       <DependentUpon>PhotoShare.xaml</DependentUpon>
     </Compile>
@@ -233,10 +230,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Screens\OnboardingScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Screens\PhotoShare.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -251,7 +244,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HockeyAppContent\Thumbs.db" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">

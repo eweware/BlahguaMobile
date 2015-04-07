@@ -207,25 +207,22 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (this.Activity != null)
             {
                 this.Activity.RunOnUiThread(() =>
-                {
-                    inboxCounter = 0;
-                    BlahContainerLayout.RemoveAllViews();
-                    BlahScroller.ScrollTo(0, 0);
-                });
+                    {
+                        inboxCounter = 0;
+                        BlahContainerLayout.RemoveAllViews();
+                        BlahScroller.ScrollTo(0, 0);
+                    });
             }
-            else 
+            else
             {
                 inboxCounter = 0;
                 BlahContainerLayout.RemoveAllViews();
                 BlahScroller.ScrollTo(0, 0);
             }
-			
-		}
-
+    }
 		private void OpenBlahItem(InboxBlah curBlah)
 		{
-
-			StopTimers();
+		    StopTimers();
 			BlahguaAPIObject.Current.CurrentInboxBlah = curBlah;
 			App.BlahIdToOpen = curBlah.I;
 			this.Activity.StartActivity(typeof(ViewPostActivity));

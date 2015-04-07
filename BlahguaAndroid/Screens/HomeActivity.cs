@@ -61,6 +61,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         public static File _file;
         public static int MAX_IMAGE_SIZE = 1024;
 
+        private static bool needsInit = true;
+        private static bool isFirstLoad = true;
 		
 
 		class DrawerItemAdapter<T> : ArrayAdapter<T>
@@ -107,11 +109,14 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (Intent.GetBooleanExtra("EXIT", false))
             {
                 // handle app finish
+                needsInit = true;
+                mainFragment = null;
+                BlahguaAPIObject.Delete();
                 Finish();
                 return;
             }
+                
 
-            /*
             // init hockey app
             // Register the crash manager before Initializing the trace writer
             HockeyApp.CrashManager.Register (this, HOCKEYAPP_APPID); 
@@ -137,8 +142,6 @@ namespace BlahguaMobile.AndroidClient.Screens
             // Wire up the unobserved task exception handler
             TaskScheduler.UnobservedTaskException += 
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
-            */
-
 
 			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			SetContentView (Resource.Layout.page_home_view);
@@ -150,13 +153,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 			this.drawerListView.ItemClick += (sender, args) => ListItemClicked (args.Position);
 			this.drawerListView.Divider = new ColorDrawable (Resources.GetColor(Resource.Color.heard_white));
 			this.drawerListView.DividerHeight = 1;
-
-			//Set Drawer Shadow
-			//this.drawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow_dark, (int)GravityFlags.Start);
-			BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
-
-
-			populateChannelMenu ();
 
 			//DrawerToggle is the animation that happens with the indicator next to the actionbar
 			this.drawerToggle = new BGActionBarDrawerToggle (this, this.drawerLayout,
@@ -191,7 +187,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                         curChan = 0;
                 }
 
-				ListItemClicked (curChan);
+                InitChannelMenu (curChan);
 			}
 
 
@@ -204,10 +200,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
 
-            InitAnalytics();
-            InitService();
+
 
             CreateDirectoryForPictures();
+
+
+            isFirstLoad = false;
           
 		}
 
@@ -267,40 +265,42 @@ namespace BlahguaMobile.AndroidClient.Screens
 				return this.drawerListView;
 			}
 		}
-		private void ListItemClicked (int position)
+		
+        private void InitChannelMenu (int position)
+        {
+            if (mainFragment == null)
+            {
+
+                mainFragment = new MainFragment();
+                Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction();
+                transaction.Add(Resource.Id.main_frame, mainFragment);
+                transaction.AddToBackStack(null);
+                transaction.Commit();
+                var count = SupportFragmentManager.BackStackEntryCount;
+                this.drawerListView.SetItemChecked(position, true);
+                if (BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
+                    UpdateChannelTitle(BlahguaAPIObject.Current.CurrentChannelList[position]);
+                this.drawerLayout.CloseDrawers();
+            }
+        }
+
+        private void ListItemClicked (int position)
 		{
-
-			if (mainFragment == null) {
-
-				mainFragment = new MainFragment ();
-				Android.Support.V4.App.FragmentTransaction transaction = SupportFragmentManager.BeginTransaction ();
-				transaction.Add (Resource.Id.main_frame, mainFragment);
-				transaction.AddToBackStack (null);
-				transaction.Commit ();
-				var count = SupportFragmentManager.BackStackEntryCount;
-				this.drawerListView.SetItemChecked (position, true);
-				if(BlahguaAPIObject.Current != null && BlahguaAPIObject.Current.CurrentChannelList != null)
-                    UpdateChannelTitle( BlahguaAPIObject.Current.CurrentChannelList[position]);
-				this.drawerLayout.CloseDrawers ();
-			}
-
-			if (BlahguaAPIObject.Current.CurrentChannelList != null) {
-				Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList [position];
-				if (newChannel != BlahguaAPIObject.Current.CurrentChannel) {
+            if (BlahguaAPIObject.Current.CurrentChannelList != null)
+            {
+                Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList[position];
+                if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                {
                     UpdateChannelTitle(newChannel);
                     BlahguaAPIObject.Current.CurrentChannel = newChannel;
-				} else {
-					// start the blah roll going?
-					ResumeScrolling ();
-				}
-				this.drawerLayout.CloseDrawers ();
-			}
-
-			switch (position) {
-			case 0:
-
-				break;
-			}
+                }
+                else
+                {
+                    // start the blah roll going?
+                    ResumeScrolling();
+                }
+                this.drawerLayout.CloseDrawers();
+            }
 		}
 
         private Channel currentDisplayedChannel = null;
@@ -644,6 +644,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			case "CurrentChannel":
 				OnChannelChanged();
 				break;
+
 			}
 		}
 
@@ -677,8 +678,17 @@ namespace BlahguaMobile.AndroidClient.Screens
 		protected override void OnResume()
 		{
 			base.OnResume();
-			//if (create_post_block.Visibility != ViewStates.Visible)
-			//StartTimers();
+
+            if (needsInit)
+            {
+                BlahguaAPIObject.Current.PropertyChanged += On_API_PropertyChanged;
+                InitAnalytics();
+                InitService();
+
+                populateChannelMenu ();
+                needsInit = false;
+            }
+                
 			initLayouts();
             BlahguaAPIObject.Current.EnsureSignin();
             InvalidateOptionsMenu();
