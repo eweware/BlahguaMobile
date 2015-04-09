@@ -1062,6 +1062,40 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
+		public void LoadBlahTopComments(Comments_callback callback)
+		{
+			BlahguaRest.GetBlahTopComments(currentBlah._id, (comments) =>
+				{
+					if (comments != null)
+					{
+						List<Comment>   sortedList = comments.OrderByDescending(c => c.CreationDate).ToList();
+						comments = new CommentList();
+
+						foreach (Comment theComment in sortedList)
+						{
+							if ((theComment.XXX == false) || 
+								((CurrentUser != null) && (CurrentUser.WantsMatureContent == true)))
+							{
+								theComment.T = UnprocessText(theComment.T);
+								comments.Add(theComment);
+							}
+						}
+
+						List<string> authorIds = GetCommentAuthorIds(comments);
+						BlahguaRest.GetCommentAuthorDescriptions(authorIds, (descList) =>
+							{
+								ApplyAuthorDescriptions(comments, descList);
+								comments = ThreadComments(comments, true);
+								currentBlah.Comments = comments;
+								callback(comments);
+
+							}
+						);
+					}
+				}
+			);
+		}
+
         void ApplyAuthorDescriptions(CommentList commList, CommentAuthorDescriptionList descList)
         {
             foreach (Comment curComm in commList)

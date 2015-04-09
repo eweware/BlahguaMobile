@@ -33,7 +33,7 @@ namespace BlahguaMobile.AndroidClient
 
 		private string[] badgeItemNames = null;
 		private bool[]	badgeItemBools = null;
-
+		private IMenuItem reportIcon = null;
         private GestureDetector _gestureDetector;
 
 
@@ -291,6 +291,8 @@ namespace BlahguaMobile.AndroidClient
                     }
                 }
 
+				reportIcon = menu.FindItem(Resource.Id.action_report);
+
             }
             catch (Exception exp)
             {
@@ -317,8 +319,10 @@ namespace BlahguaMobile.AndroidClient
                 case Resource.Id.action_report:
                    
                     break;
-                case Resource.Id.action_report_infringe:
-                    // send mail
+				case Resource.Id.action_report_infringe:
+	                    // send mail
+					//if (reportIcon != null)
+					//	reportIcon.SetIcon (Resource.Drawable.ic_report_problem_black);
                     HandleReportPost();
                     break;
 
@@ -410,7 +414,7 @@ namespace BlahguaMobile.AndroidClient
         private void HandleReportPost()
         {
             Intent emailIntent = new Intent(Intent.ActionSendto,
-                        Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
+            	Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
             emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.viewpost_report_email_subject));
             emailIntent.PutExtra(Intent.ExtraText, GetString(Resource.String.viewpost_report_infringement_body));
             StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_infringe_chooser_title)));
