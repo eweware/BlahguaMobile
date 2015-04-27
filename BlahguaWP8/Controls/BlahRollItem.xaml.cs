@@ -108,15 +108,23 @@ namespace BlahguaMobile.Winphone
    
         void BlahImage_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((BlahData.M != null) && (BlahData.M.Count > 0))
+            try
             {
-                BlahImage.ImageOpened += Image_loaded;
-                string imageBase = BlahData.M[0];
-                string imageSize = BlahData.ImageSize;
-                string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
-                BlahImage.Opacity = 0;
-                BlahImage.Source = new BitmapImage(new Uri(imageURL, UriKind.Absolute));    
-            } 
+                if ((BlahData.M != null) && (BlahData.M.Count > 0))
+                {
+                    BlahImage.ImageOpened += Image_loaded;
+                    string imageBase = BlahData.M[0];
+                    string imageSize = BlahData.ImageSize;
+                    string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
+                    BlahImage.Opacity = 0;
+                    BlahImage.Source = new BitmapImage(new Uri(imageURL, UriKind.Absolute));
+                } 
+            }
+            catch (Exception exp)
+            {
+                System.Console.WriteLine(exp.Message);
+            }
+            
         }
 
         void Image_loaded(object sender, RoutedEventArgs e)

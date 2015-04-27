@@ -597,37 +597,47 @@ namespace BlahguaMobile.Winphone
                 CategoricalSeries promoteSeries = new BarSeries();
                 CategoricalSeries demoteSeries = new BarSeries();
                 UserInfoObject curInfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
-                DemoProfileSummaryRecord upVotes = curInfo._d._u;
-                DemoProfileSummaryRecord downVotes = curInfo._d._d;
-                promoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
-                demoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
 
-                int maxVal = 0;
-                foreach (string curVal in curDict.Keys)
+                if (curInfo._d != null)
                 {
-                    promotePoint = new CategoricalDataPoint();
-                    promotePoint.Category = curDict[curVal];
-                    promotePoint.Value = upVotes.GetPropertyValue(demoProp, curVal);// curBlah._d._u.B.GetValue(curVal);
-                    promoteSeries.DataPoints.Add(promotePoint);
+                    DemoProfileSummaryRecord upVotes = curInfo._d._u;
+                    DemoProfileSummaryRecord downVotes = curInfo._d._d;
+                    promoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
+                    demoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
+
+                    int maxVal = 0;
+                    foreach (string curVal in curDict.Keys)
+                    {
+                        promotePoint = new CategoricalDataPoint();
+                        promotePoint.Category = curDict[curVal];
+                        promotePoint.Value = upVotes.GetPropertyValue(demoProp, curVal);// curBlah._d._u.B.GetValue(curVal);
+                        promoteSeries.DataPoints.Add(promotePoint);
 
 
-                    demotePoint = new CategoricalDataPoint();
-                    demotePoint.Category = curDict[curVal];
-                    demotePoint.Value = downVotes.GetPropertyValue(demoProp, curVal);
-                    demoteSeries.DataPoints.Add(demotePoint);
+                        demotePoint = new CategoricalDataPoint();
+                        demotePoint.Category = curDict[curVal];
+                        demotePoint.Value = downVotes.GetPropertyValue(demoProp, curVal);
+                        demoteSeries.DataPoints.Add(demotePoint);
 
-                    if ((promotePoint.Value + demotePoint.Value) > maxVal)
-                        maxVal = (int)(promotePoint.Value + demotePoint.Value);
+                        if ((promotePoint.Value + demotePoint.Value) > maxVal)
+                            maxVal = (int)(promotePoint.Value + demotePoint.Value);
+                    }
+                    if (maxVal > 0)
+                    {
+                        maxVal += 2;
+                        ((LinearAxis)theChart.VerticalAxis).Maximum = maxVal;
+                        double step = (double)maxVal / 5;
+                        ((LinearAxis)theChart.VerticalAxis).MajorStep = (int)Math.Round(step);
+                        theChart.Series.Add(promoteSeries);
+                        theChart.Series.Add(demoteSeries);
+                    }
                 }
-                if (maxVal > 0)
+                else
                 {
-                    maxVal += 2;
-                    ((LinearAxis)theChart.VerticalAxis).Maximum = maxVal;
-                    double step = (double)maxVal / 5;
-                    ((LinearAxis)theChart.VerticalAxis).MajorStep = (int)Math.Round(step);
-                    theChart.Series.Add(promoteSeries);
-                    theChart.Series.Add(demoteSeries);
+                    theChart.EmptyContent = "Your profile is still be created.  Please check again later.";
+                    theChart.EmptyContentTemplate = (DataTemplate)Resources["HiddenChartTemplate"];
                 }
+                
             }
             else
             {

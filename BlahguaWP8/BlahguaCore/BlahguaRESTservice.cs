@@ -110,6 +110,33 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
+        public void GetBlahTopComments(string blahId, Comments_callback callback)
+        {
+            RestRequest request = new RestRequest("comments/hot", Method.GET);
+            request.AddParameter("blahId", blahId);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+                CommentList commentList = null;
+                try
+                {
+                    string resStr = response.Content;
+                    resStr = resStr.Replace("\"D\":", "\"Downvotes\":");
+                    resStr = resStr.Replace("\"U\":", "\"Upvotes\":");
+                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(CommentList));
+                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(resStr));
+                    object theObj = des.ReadObject(stream);
+                    stream.Close();
+                    commentList = (CommentList)theObj;
+                }
+                catch (SerializationException)
+                {
+                    commentList = null;
+                }
+
+                callback(commentList);
+            });
+        }
+
         public void GetWhatsNew(WhatsNew_callback theCallback)
         {
             RestRequest request = new RestRequest("users/whatsnew", Method.GET);

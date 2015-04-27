@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{eae192be-641b-45c3-996a-8182f7657540}" Title="Heard" RuntimeType="Silverlight" Version="1.0.6.0" Genre="apps.normal" Author="eweware, inc." Description="Heard- it's not who you are, its what you share!" Publisher="eweware, inc." PublisherID="{f7ee0593-5471-410e-8d8a-97de8029b68a}">
+  <App xmlns="" ProductID="{eae192be-641b-45c3-996a-8182f7657540}" Title="Heard" RuntimeType="Silverlight" Version="1.0.8.0" Genre="apps.normal" Author="eweware, inc." Description="Heard- it's not who you are, its what you share!" Publisher="eweware, inc." PublisherID="{f7ee0593-5471-410e-8d8a-97de8029b68a}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

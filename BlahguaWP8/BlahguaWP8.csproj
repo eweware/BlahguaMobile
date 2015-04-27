@@ -169,6 +169,9 @@
     <Compile Include="Screens\ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\OnboardingScreen.xaml.cs">
+      <DependentUpon>OnboardingScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\PhotoShare.xaml.cs">
       <DependentUpon>PhotoShare.xaml</DependentUpon>
     </Compile>
@@ -227,6 +230,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\ImageViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\OnboardingScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

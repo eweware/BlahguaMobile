@@ -41,6 +41,7 @@ namespace BlahguaMobile.Winphone
         WhatsNewInfo _savedNewInfo = null;
         DispatcherTimer loadTimer = new DispatcherTimer();
         bool isFrontMost = false;
+        private bool needsChannelChange = false;
 
         public static bool ReturningFromTutorial { get; set; }
      
@@ -360,32 +361,38 @@ namespace BlahguaMobile.Winphone
             isFrontMost = true;
 
             if (alreadyHookedScrollEvents)
-                return;
-            TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
-            alreadyHookedScrollEvents = true;
-            // Visual States are always on the first child of the control template 
-            FrameworkElement element = VisualTreeHelper.GetChild(BlahScroller, 0) as FrameworkElement;
-            if (element != null)
             {
-                VisualStateGroup group = FindVisualState(element, "ScrollStates");
-                if (group != null)
-                {
-                    group.CurrentStateChanging += ScrollStateHandler;
-                }
+                if (needsChannelChange)
+                    OnChannelChanged();
+                else
+                    StartTimers();
             }
+            else
+            {
+                TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
+                alreadyHookedScrollEvents = true;
+                // Visual States are always on the first child of the control template 
+                FrameworkElement element = VisualTreeHelper.GetChild(BlahScroller, 0) as FrameworkElement;
+                if (element != null)
+                {
+                    VisualStateGroup group = FindVisualState(element, "ScrollStates");
+                    if (group != null)
+                    {
+                        group.CurrentStateChanging += ScrollStateHandler;
+                    }
+                }
 
-            scrollTimer.Interval = new TimeSpan(TimeSpan.TicksPerSecond / FramesPerSecond);
-            scrollTimer.Tick += ScrollBlahRoll;
+                scrollTimer.Interval = new TimeSpan(TimeSpan.TicksPerSecond / FramesPerSecond);
+                scrollTimer.Tick += ScrollBlahRoll;
 
-            BlahScroller.MouseMove += BlahScroller_MouseMove;
+                BlahScroller.MouseMove += BlahScroller_MouseMove;
 
-            BlahContainer.Tap += BlahContainer_Tap;
-            BlahContainer.ManipulationCompleted += BlahContainer_ManipulationCompleted;
-            BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
+                BlahContainer.Tap += BlahContainer_Tap;
+                BlahContainer.ManipulationCompleted += BlahContainer_ManipulationCompleted;
+                BlahguaAPIObject.Current.PropertyChanged += new PropertyChangedEventHandler(On_API_PropertyChanged);
 
-            InitService();
-
-            
+                InitService();
+            }
         }
 
         void BlahContainer_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
@@ -412,18 +419,23 @@ namespace BlahguaMobile.Winphone
 
         void On_API_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (isFrontMost)
+            switch (e.PropertyName)
             {
-                switch (e.PropertyName)
-                {
-                    case "CurrentChannel":
+                case "CurrentChannel":
+                    if (isFrontMost)
+                    {
+                        needsChannelChange = false;
                         BlahguaAPIObject.Current.GetCurrentChannelPermission((thePerms) =>
                         {
+                            
                             OnChannelChanged();
                         });
+                    }
+                    else
+                        needsChannelChange = true;
+                        
 
-                        break;
-                }
+                    break;
             }
             
         }
@@ -572,12 +584,7 @@ namespace BlahguaMobile.Winphone
             {
                 this.DataContext = BlahguaAPIObject.Current;
 
-                if (true)
-                {
-                    StopTimers();
-                    NavigationService.Navigate(new Uri("/Screens/OnboardingScreen.xaml", UriKind.Relative));
-                }
-                else if (BlahguaAPIObject.Current.CurrentUser != null)
+                if (BlahguaAPIObject.Current.CurrentUser != null)
                 {
                     App.analytics.PostAutoLogin();
                     UserInfoBtn.Visibility = Visibility.Visible;
@@ -733,6 +740,7 @@ namespace BlahguaMobile.Winphone
 
         void OnChannelChanged()
         {
+            needsChannelChange = false;
             FlushImpressionList();
             LoadingBox.Visibility = Visibility.Visible;
             StopTimers();
@@ -762,6 +770,7 @@ namespace BlahguaMobile.Winphone
                 else
                     NewBlahBtn.Visibility = Visibility.Collapsed;
             }
+
         }
 
         private void ScrollStateHandler(object sender, VisualStateChangedEventArgs args)
