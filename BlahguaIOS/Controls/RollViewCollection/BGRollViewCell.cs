@@ -94,10 +94,15 @@ namespace BlahguaMobile.IOS
 			this.blah = blah;
 			this.path = path;
 			if (!String.IsNullOrEmpty (blah.ImageURL)) {
-				imageView.Frame = new RectangleF (new PointF (0, 0), size);
-				imageView.Image = null;
-                imageView.Image = ImageLoader.DefaultRequestImage(new Uri(blah.ImageURL), this);
-				imageView.Hidden = false;
+				try {
+					imageView.Frame = new RectangleF (new PointF (0, 0), size);
+					imageView.Image = null;
+					imageView.Image = ImageLoader.DefaultRequestImage(new Uri(blah.ImageURL), this);
+					imageView.Hidden = false;
+				}
+				catch (Exception exp) {
+					imageView.Hidden = true;
+				}
 			}
 			else
 			{
