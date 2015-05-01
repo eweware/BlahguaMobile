@@ -153,14 +153,20 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(userComment.ImageURL))
             {
-				commentImageView.LayoutIfNeeded ();
-                commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
+				try {
+					commentImageView.LayoutIfNeeded ();
+					commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
 
-                if (commentImageView.Image != null)
-                {
-                    UIImage img = commentImageView.Image;
-                    imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
-                }
+					if (commentImageView.Image != null) {
+						UIImage img = commentImageView.Image;
+						imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+					} else
+						imageViewHeight.Constant = 0;
+				}
+				catch (Exception exp) {
+					System.Console.WriteLine (exp.Message);
+					imageViewHeight.Constant = 0;
+				}
             }
             else
             {

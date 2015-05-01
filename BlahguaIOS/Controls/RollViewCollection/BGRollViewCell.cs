@@ -153,28 +153,34 @@ namespace BlahguaMobile.IOS
 
 
 			// speech act
-			string speechActImageStr = "";
-			switch (blah.TypeName)
-			{
-			case "says":
-				speechActImageStr = "say_icon.png";
-				break;
-			case "asks":
-				speechActImageStr = "ask_icon.png";
-				break;
-			case "leaks":
-				speechActImageStr = "leak_icon.png";
-				break;
-			case "polls":
-				speechActImageStr = "poll_icon.png";
-				break;
-			case "predicts":
-				speechActImageStr = "predict_icon.png";
-				break;
+			if (BlahguaAPIObject.Current.CurrentChannel.SSA == false)
+				speechActItem.Hidden = true;
+			else {
+				speechActItem.Hidden = false;
+				string speechActImageStr = "";
+				switch (blah.TypeName)
+				{
+				case "says":
+					speechActImageStr = "say_icon.png";
+					break;
+				case "asks":
+					speechActImageStr = "ask_icon.png";
+					break;
+				case "leaks":
+					speechActImageStr = "leak_icon.png";
+					break;
+				case "polls":
+					speechActImageStr = "poll_icon.png";
+					break;
+				case "predicts":
+					speechActImageStr = "predict_icon.png";
+					break;
+				}
+				speechActItem.Image = UIImage.FromBundle (speechActImageStr);
+				speechActItem.Frame = new RectangleF (size.Width - (iconSize + iconOffset), size.Height - (iconSize + iconOffset), iconSize, iconSize);
+				speechActItem.ContentMode = UIViewContentMode.ScaleAspectFit;
 			}
-			speechActItem.Image = UIImage.FromBundle (speechActImageStr);
-			speechActItem.Frame = new RectangleF (size.Width - (iconSize + iconOffset), size.Height - (iconSize + iconOffset), iconSize, iconSize);
-			speechActItem.ContentMode = UIViewContentMode.ScaleAspectFit;
+
 
 
 			// current user's own blah?

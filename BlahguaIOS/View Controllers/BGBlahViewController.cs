@@ -243,16 +243,25 @@ namespace BlahguaMobile.IOS
 
             if (CurrentBlah.ImageURL != null)
             {
-				Uri imageToLoad = new Uri (CurrentBlah.ImageURL);
-				UIImage theImage = ImageLoader.DefaultRequestImage (imageToLoad, this);
-				blahImage.Image = theImage;
-                
-				if (blahImage.Image != null) {
-					UIImage img = blahImage.Image;
-					float newHeight = img.Size.Height / img.Size.Width * 320;
+				try {
+					Uri imageToLoad = new Uri (CurrentBlah.ImageURL);
+					UIImage theImage = ImageLoader.DefaultRequestImage (imageToLoad, this);
+					blahImage.Image = theImage;
 
-					blahImageHeight.Constant = newHeight;
+					if (blahImage.Image != null) {
+						UIImage img = blahImage.Image;
+						float newHeight = img.Size.Height / img.Size.Width * 320;
+
+						blahImageHeight.Constant = newHeight;
+					} else {
+						blahImageHeight.Constant = 0;
+					}
 				}
+				catch (Exception exp) {
+					System.Console.WriteLine (exp.Message);
+					blahImageHeight.Constant = 0;
+				}
+
 
             }
             else

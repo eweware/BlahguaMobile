@@ -68,9 +68,9 @@ namespace BlahguaMobile.IOS
 				UIApplication.Main (args, "UIApplicationHeard", "AppDelegate");
 
             }
-            catch (Exception e)
+            catch (Exception exp)
             {
-i				e.Message.ToString ();
+				exp.Message.ToString ();
                 
             }
         }
