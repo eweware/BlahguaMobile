@@ -37,7 +37,7 @@ using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    [Activity(MainLauncher = true, Theme = "@style/Theme.AppCompat.Light.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(MainLauncher = true, Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
 	public partial class  HomeActivity : Android.Support.V7.App.ActionBarActivity
 	{
 
@@ -158,6 +158,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
+            var headerView = LayoutInflater.Inflate(Resource.Layout.channelheader,null);
+            drawerListView.AddHeaderView(headerView);
 
 			//Set click handler when item is selected
 			this.drawerListView.ItemClick += (sender, args) => ListItemClicked (args.Position);
@@ -186,6 +188,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Set the drawer lister to be the toggle.
 			this.drawerLayout.SetDrawerListener (this.drawerToggle);
+            drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
+            
+            
 
 			//if first time you will want to go ahead and click first item.
 			if (savedInstanceState == null) {
