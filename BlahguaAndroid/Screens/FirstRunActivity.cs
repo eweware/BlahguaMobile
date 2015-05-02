@@ -27,8 +27,8 @@ namespace BlahguaMobile.AndroidClient
         protected override void OnCreate(Bundle bundle)
         {
 			RequestWindowFeature(WindowFeatures.NoTitle);
-			this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+			//this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             base.OnCreate(bundle);
 
             // Create your application here

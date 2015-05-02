@@ -21,7 +21,7 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Provider;
 using Java.IO;
-
+using Android.Support.V7.App;
 using System.Threading.Tasks;
 
 using BlahguaMobile.AndroidClient;
@@ -30,14 +30,15 @@ using BlahguaMobile.AndroidClient.Screens;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
+using Android.Support.V7.Widget;
 
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
-	public partial class  HomeActivity : FragmentActivity
+    [Activity(MainLauncher = true, Theme = "@style/Theme.AppCompat.Light.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait)]
+	public partial class  HomeActivity : Android.Support.V7.App.ActionBarActivity
 	{
 
 		private BGActionBarDrawerToggle drawerToggle;
@@ -63,7 +64,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private static bool needsInit = true;
         private static bool isFirstLoad = true;
-		
+        private Toolbar toolbar = null;
 
 		class DrawerItemAdapter<T> : ArrayAdapter<T>
 		{
@@ -103,7 +104,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            //this.Window.AddFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
 
             if (Intent.GetBooleanExtra("EXIT", false))
@@ -143,8 +144,17 @@ namespace BlahguaMobile.AndroidClient.Screens
             TaskScheduler.UnobservedTaskException += 
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
 
-			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-			SetContentView (Resource.Layout.page_home_view);
+			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+            try
+            {
+                SetContentView(Resource.Layout.page_home_view);
+            }
+            catch (Exception exp)
+            {
+                System.Console.WriteLine(exp.Message);
+            }
+           toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+           SetSupportActionBar(toolbar);
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
@@ -190,12 +200,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                 InitChannelMenu (curChan);
 			}
 
-
+            /*
 			this.ActionBar.SetDisplayHomeAsUpEnabled (true);
 			this.ActionBar.SetHomeButtonEnabled (true);
 			this.ActionBar.SetDisplayShowHomeEnabled (false);
 
 			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable( Resources.GetColor(Resource.Color.heard_black)));
+             */
+           
 
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
@@ -221,7 +233,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		public int GetContentPositionY()
 		{
-			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
+			var contentFrame = FindViewById<FrameLayout>(Resource.Id.main_frame);
 			return contentFrame.Top;
 		}
 
@@ -313,7 +325,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (String.IsNullOrEmpty(newChan.HeaderImage))
             {
                 this.Title = newChan.ChannelName;
-                this.ActionBar.SetBackgroundDrawable(null);
+               // this.ActionBar.SetBackgroundDrawable(null);
+                toolbar.SetBackgroundDrawable(null);
             }
             else
             {
@@ -326,12 +339,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 {
                                     this.Title = "";
                                     Drawable theDrawable = new BitmapDrawable(b);
-                                    this.ActionBar.SetBackgroundDrawable(theDrawable);
+                                    //this.ActionBar.SetBackgroundDrawable(theDrawable);
+                                    toolbar.SetBackgroundDrawable(theDrawable);
                                 }
                                 else
                                 {
                                     this.Title = newChan.ChannelName;
-                                    this.ActionBar.SetBackgroundDrawable(null);
+                                    //this.ActionBar.SetBackgroundDrawable(null);
+                                    toolbar.SetBackgroundDrawable(null);
                                 }
 
                             });
@@ -347,7 +362,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 			s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 
-			this.ActionBar.TitleFormatted = s;
+			//this.ActionBar.TitleFormatted = s;
+            toolbar.TitleFormatted = s;
 
 		}
 
@@ -360,6 +376,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			} else
             {
                 this.MenuInflater.Inflate(Resource.Menu.loggedin_menu, menu);
+        
             }
 				
 
@@ -387,6 +404,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			return base.OnPrepareOptionsMenu (menu);
 		}
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            return base.OnCreateOptionsMenu(menu);
+        }
 
 		private void SetMenuItemIconToUser(IMenuItem curItem)
 		{
