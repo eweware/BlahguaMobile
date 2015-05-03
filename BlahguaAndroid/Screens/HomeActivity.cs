@@ -203,7 +203,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			//Set the drawer lister to be the toggle.
 			this.drawerLayout.SetDrawerListener (this.drawerToggle);
             drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
-            
+            drawerLayout.SetScrimColor(Resource.Color.heard_red);
+            drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
             
 
 			//if first time you will want to go ahead and click first item.
