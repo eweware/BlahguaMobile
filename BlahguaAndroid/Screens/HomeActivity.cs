@@ -111,6 +111,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			}
 		}
 
+
+
         public const string HOCKEYAPP_APPID = "aadcf778d85a29d59bd4ef87394ee6ad";
 
 		protected override void OnCreate (Bundle savedInstanceState)

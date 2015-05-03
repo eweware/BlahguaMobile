@@ -134,6 +134,8 @@
     <Compile Include="App.cs" />
     <Compile Include="BlahguaCore\IsolatedStorageSettings.cs" />
     <Compile Include="HelpingClasses\BitmapHelper.cs" />
+    <Compile Include="HelpingClasses\CircleDrawable.cs" />
+    <Compile Include="HelpingClasses\FloatingActionBar.cs" />
     <Compile Include="HelpingClasses\GestureListener.cs" />
     <Compile Include="HelpingClasses\TypefaceSpan.cs" />
     <Compile Include="HelpingClasses\UiHelper.cs" />
