@@ -19,117 +19,323 @@ using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
 using System.Collections.Generic;
+using Android.Support.V7.Widget;
+using Android.Support.V7.App;
+using Android.Support.V4.View;
+using Android.Support.V4.App;
+using Android.Support.V4.Widget;
+using com.refractored;
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait, UiOptions = Android.Content.PM.UiOptions.SplitActionBarWhenNarrow)]
-    public class ViewPostActivity : Activity, GestureDetector.IOnGestureListener
+    [Activity(Theme = "@style/AppSubTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+    public class ViewPostActivity : Android.Support.V7.App.ActionBarActivity, ViewPager.IOnPageChangeListener
     {
+        private BGActionBarDrawerToggle drawerToggle;
         private ViewPostCommentsFragment commentsFragment;
         private ViewPostSummaryFragment summaryFragment;
         private ViewPostStatsFragment statsFragment;
         private bool isFromCommentBtn = false;
-        private Fragment curFragment = null;
 
 		private string[] badgeItemNames = null;
 		private bool[]	badgeItemBools = null;
 		private IMenuItem reportIcon = null;
-        private GestureDetector _gestureDetector;
+        private Toolbar toolbar = null;
+        public static ViewPostSummaryFragment SummaryView;
+        public static ViewPostCommentsFragment CommentsView;
+        public static ViewPostStatsFragment StatsView;
+        PagerSlidingTabStrip tabs;
 
+        private DrawerLayout drawerLayout;
+        private ListView drawerListView;
+        private ViewPager pager;
 
-        private ActionBar.Tab summaryTab, commentTab, statsTab;
+        public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
+        {
+            private string[] Titles = { "Summary", "Comments", "Stats" };
+            private ImageView[] imageIcons = { null, null, null };
+            private int[] Icons = { Resource.Drawable.btn_summary_normal, Resource.Drawable.btn_comments_normal, Resource.Drawable.btn_stats_normal };
+            private int[] SelectedIcons = { Resource.Drawable.btn_summary_pressed, Resource.Drawable.btn_comments_pressed, Resource.Drawable.btn_stats_pressed };
+            Android.Support.V7.App.ActionBarActivity activity;
 
+            public PostPageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
+                : base(fm)
+            {
+                activity = theActivity;
+            }
+
+            public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
+            {
+                return new Java.Lang.String(Titles[position]);
+                /*
+                Drawable image =  activity.Resources.GetDrawable(Resource.Drawable.btn_summary);
+                image.SetBounds(0,0,image.IntrinsicWidth, image.IntrinsicHeight);
+                SpannableString sb = new SpannableString(" ");
+                ImageSpan imageSpan = new ImageSpan(image, SpanAlign.Bottom);
+
+                //sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sb.SetSpan(imageSpan, 0, 1, SpanTypes.ExclusiveExclusive);
+                return sb;
+                 */
+            }
+
+            public void UpdateIcons(int curSel)
+            {
+                switch (curSel)
+                {
+                    case 0:
+                        imageIcons[0].SetImageResource(SelectedIcons[0]);
+                        imageIcons[1].SetImageResource(Icons[1]);
+                        imageIcons[2].SetImageResource(Icons[2]);
+                        break;
+                    case 1:
+                        imageIcons[0].SetImageResource(Icons[0]);
+                        imageIcons[1].SetImageResource(SelectedIcons[1]);
+                        imageIcons[2].SetImageResource(Icons[2]);
+                        break;
+
+                    case 2:
+                        imageIcons[0].SetImageResource(Icons[0]);
+                        imageIcons[1].SetImageResource(Icons[1]);
+                        imageIcons[2].SetImageResource(SelectedIcons[2]);
+                        break;
+                }
+            }
+            public View GetCustomTabView(ViewGroup parent, int position)
+            {
+                ImageView newView = new ImageView(parent.Context);
+                newView.SetImageResource(Icons[position]);
+                imageIcons[position] = newView;
+                return newView;
+            }
+
+            public override int Count
+            {
+                get
+                {
+                    return Titles.Length;
+                }
+            }
+
+            public override Android.Support.V4.App.Fragment GetItem(int position)
+            {
+                Android.Support.V4.App.Fragment theItem = null;
+                switch (position)
+                {
+                    case 0:
+                        theItem = ViewPostActivity.SummaryView;
+                        break;
+
+                    case 1:
+                        theItem = ViewPostActivity.CommentsView;
+                        break;
+
+                    case 2:
+                        theItem = ViewPostActivity.StatsView;
+                        break;
+
+                }
+                return theItem;
+            }
+        }
+
+        class DrawerItemAdapter<T> : ArrayAdapter<T>
+        {
+            T[] _items;
+            Activity _context;
+
+            public DrawerItemAdapter(Context context, int textViewResourceId, T[] objects) :
+                base(context, textViewResourceId, objects)
+            {
+                _items = objects;
+                _context = (Activity)context;
+            }
+
+            public override View GetView(int position, View convertView, ViewGroup parent)
+            {
+                View mView = convertView;
+                if (mView == null)
+                {
+                    mView = _context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemActivated1, parent, false);
+
+                }
+
+                TextView text = mView.FindViewById<TextView>(Android.Resource.Id.Text1);
+
+                if (_items[position] != null)
+                {
+                    text.Text = _items[position].ToString();
+                    //text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_teal));
+                    text.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+                    if (position == BlahguaAPIObject.Current.CurrentChannelList.IndexOf(BlahguaAPIObject.Current.CurrentChannel))
+                    {
+                        text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_black));
+                        text.SetBackgroundColor(Color.White);
+                    }
+                    else
+                    {
+                        text.SetTextColor(Color.White);
+                        text.SetBackgroundColor(_context.Resources.GetColor(Resource.Color.heard_blue));
+                    }
+
+                }
+
+                return mView;
+            }
+        }
 
 
 		protected override void OnCreate (Bundle bundle)
 		{
-            this.Window.SetUiOptions(UiOptions.SplitActionBarWhenNarrow);
-			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             base.OnCreate(bundle);
-			this.ActionBar.SetDisplayHomeAsUpEnabled(false);
-			this.ActionBar.SetHomeButtonEnabled(false);
-			this.ActionBar.SetDisplayShowHomeEnabled(false);
-			this.ActionBar.SetDisplayShowTitleEnabled (false);
-			SetContentView (Resource.Layout.activity_viewpost);
+
+            try
+            {
+                SetContentView(Resource.Layout.activity_viewpost);
+            }
+            catch (Exception exp)
+            {
+                System.Console.WriteLine(exp.Message);
+            }
 
 
-            _gestureDetector = new GestureDetector(this, this);
-            
+            toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+            SetSupportActionBar(toolbar);
 
-            this.Title = "";
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
 
-
-            btn_summary_Click(null, null);
 			HomeActivity.analytics.PostPageView("/blah");
+            SummaryView = new ViewPostSummaryFragment();
+            CommentsView = new ViewPostCommentsFragment();
+            StatsView = new ViewPostStatsFragment();
 
-            // set up tabs
-            summaryTab = ActionBar.NewTab();
-            summaryTab.SetIcon(Resource.Drawable.btn_summary);
-            summaryTab.TabSelected += btn_summary_Click;
-            ActionBar.AddTab(summaryTab);
+            pager = FindViewById<ViewPager>(Resource.Id.post_pager);
+            pager.Adapter = new PostPageAdapter(this.SupportFragmentManager, this);
 
-            commentTab = ActionBar.NewTab();
-            commentTab.SetIcon(Resource.Drawable.btn_comments);
-            commentTab.TabSelected += btn_comments_Click;
-            ActionBar.AddTab(commentTab);
+            tabs = FindViewById<PagerSlidingTabStrip>(Resource.Id.tabs);
+            tabs.SetViewPager(pager);
+            tabs.IndicatorColor = Resources.GetColor(Resource.Color.heard_teal);
+            tabs.IndicatorHeight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_indicator_height);
+            tabs.UnderlineColor = Resources.GetColor(Resource.Color.heard_red);
+            tabs.TabPaddingLeftRight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_padding);
+            tabs.OnPageChangeListener = this;
+            //tabs.ShouldExpand = true;
+            
+            tabs.SetTabTextColor(Color.White);
 
-            statsTab = ActionBar.NewTab();
-            statsTab.SetIcon(Resource.Drawable.btn_stats);
-            statsTab.TabSelected += btn_stats_Click;
-            ActionBar.AddTab(statsTab);
-			this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-			this.ActionBar.SetSplitBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
-			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_teal)));
-           
-        }
+            this.drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            this.drawerListView = this.FindViewById<ListView>(Resource.Id.left_drawer);
+            var headerView = LayoutInflater.Inflate(Resource.Layout.channelheader, null);
+            drawerListView.AddHeaderView(headerView);
 
-        public bool OnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-        {
-            return false;
-        }
 
-        public bool OnSingleTapUp(MotionEvent e1)
-        {
-            return false;
-        }
+            //Set click handler when item is selected
+            this.drawerListView.ItemClick += (sender, args) => ListItemClicked(args.Position);
+            this.drawerListView.Divider = new ColorDrawable(Resources.GetColor(Resource.Color.heard_white));
+            this.drawerListView.DividerHeight = 1;
 
-        public void OnLongPress(MotionEvent e1)
-        {
-            //return false;
-        }
+            //DrawerToggle is the animation that happens with the indicator next to the actionbar
+            this.drawerToggle = new BGActionBarDrawerToggle(this, this.drawerLayout,
+                Resource.Drawable.btn_menu_normal,
+                Resource.String.app_name,
+                Resource.String.app_name);
 
-        public void OnShowPress(MotionEvent e1)
-        {
-            //return false;
-        }
-
-        public bool OnFling(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-        {
-            float maxRange = e1.Device.MotionRanges[0].Max;
-
-            float minEdge = maxRange * .1f;
-            float maxEdge = maxRange * .9f;
-
-            if ((e1.GetX() < minEdge) && (e2.GetX() > maxRange * .3f))
+            //Display the current fragments title and update the options menu
+            this.drawerToggle.DrawerClosed += (o, args) =>
             {
-                swipeRightEvent();
-                return true;
-            }
-            else if ((e1.GetX() > maxEdge) && (e2.GetX() < maxRange * .7f))
+
+            };
+
+            //Display the drawer title and update the options menu
+            this.drawerToggle.DrawerOpened += (o, args) =>
             {
-                swipeLeftEvent();
-                return true;
-            }
-            else
-                return false;
+
+            };
+
+            //Set the drawer lister to be the toggle.
+            this.drawerLayout.SetDrawerListener(this.drawerToggle);
+            drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
+            drawerLayout.SetScrimColor(Resource.Color.heard_red);
+            drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
+
+            populateChannelMenu();
         }
 
-        public bool OnDown(MotionEvent e1)
+        private void populateChannelMenu()
         {
-            return false;
+            if (BlahguaAPIObject.Current.CurrentChannelList != null)
+            {
+                String[] channels = new String[BlahguaAPIObject.Current.CurrentChannelList.Count];
+                int channelIndex = 0;
+
+                foreach (Channel curChannel in BlahguaAPIObject.Current.CurrentChannelList)
+                {
+                    channels[channelIndex++] = curChannel.ChannelName;
+                }
+                //Sections = channels;
+                //Create Adapter for drawer List
+                this.drawerListView.Adapter = new DrawerItemAdapter<String>(this, Resource.Layout.item_menu, channels);
+            }
         }
+
+        private void ListItemClicked(int position)
+        {
+            if (position > 0)
+            {
+                position--;
+
+                if (BlahguaAPIObject.Current.CurrentChannelList != null)
+                {
+                    Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList[position];
+                    if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                    {
+                        this.Finish();
+                        BlahguaAPIObject.Current.CurrentChannel = newChannel;
+                    }
+                    else
+                    {
+                        this.Finish();
+                    }
+                    this.drawerLayout.CloseDrawers();
+                }
+            }
+        }
+
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+
+        }
+
+        public void OnPageSelected(int position)
+        {
+            switch (position)
+            {
+                case 0:
+                    break;
+
+                case 1:
+                    CommentsView.LoadComments();
+                    break;
+
+                case 2:
+                    
+                    break;
+            }
+
+            // redo the icons
+            ((PostPageAdapter)pager.Adapter).UpdateIcons(position);
+
+
+        }
+
 
 
 		private void MultiListClicked(object sender, DialogMultiChoiceClickEventArgs args)
@@ -218,6 +424,7 @@ namespace BlahguaMobile.AndroidClient
 
 		}
 
+        /*
         public override Android.Content.Res.Resources Resources
         {
             get
@@ -225,7 +432,7 @@ namespace BlahguaMobile.AndroidClient
                 return new ResourceFix(base.Resources);
             }
         }
-
+        */
         private class ResourceFix : Android.Content.Res.Resources
         {
             private int targetId = 0;
@@ -367,27 +574,7 @@ namespace BlahguaMobile.AndroidClient
             return base.OnOptionsItemSelected(item);
         }
 
-
-        private void swipeLeftEvent()
-        {
-            if (curFragment == summaryFragment)
-                ActionBar.SelectTab(commentTab);
-            else if (curFragment == commentsFragment)
-                ActionBar.SelectTab(statsTab);
-            else
-                ActionBar.SelectTab(summaryTab);
-           
-        }
-        private void swipeRightEvent()
-        {
-            if (curFragment == statsFragment)
-                ActionBar.SelectTab(commentTab);
-            else if (curFragment == commentsFragment)
-                ActionBar.SelectTab(summaryTab);
-            else
-                ActionBar.SelectTab(statsTab);
-        }
-
+        /*
 		public override bool DispatchTouchEvent(MotionEvent ev)
 		{
 			bool didIt = _gestureDetector.OnTouchEvent (ev);
@@ -396,7 +583,7 @@ namespace BlahguaMobile.AndroidClient
             else
                 return true;
 		}
-
+        */
       
 
         protected override void OnResume()
@@ -422,6 +609,7 @@ namespace BlahguaMobile.AndroidClient
 
         private void HandleAddComment()
         {
+            /*
             if (ActionBar.SelectedTab != commentTab)
             {
                 isFromCommentBtn = true;
@@ -429,94 +617,10 @@ namespace BlahguaMobile.AndroidClient
             }
             else
                 commentsFragment.triggerCreateBlock();
-        }
-
-       
-        #region TabBar buttons
-        private void btn_stats_Click(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (statsFragment == null)
-            {
-                statsFragment = ViewPostStatsFragment.NewInstance();
-
-                firstTime = true;
-            }
-
-            SetCurrentFragment(statsFragment, firstTime);
-                
-            
-        }
-
-        private void btn_summary_Click(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (summaryFragment == null)
-            {
-                summaryFragment = ViewPostSummaryFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(summaryFragment, firstTime);
-        }
-
-        private void btn_comments_Click(object sender, EventArgs e)
-        {
-
-            bool firstTime = false;
-            
-            if (commentsFragment == null)
-            {
-                commentsFragment = ViewPostCommentsFragment.NewInstance();
-                firstTime = true;
-                if (isFromCommentBtn)
-                {
-                    commentsFragment.shouldCreateComment = true;
-                }
-            }
-
-            SetCurrentFragment(commentsFragment, firstTime);
+             */
         }
 
 
-        void SetCurrentFragment(Fragment newFrag, bool firstTime, string theTitle = null)
-        {
-            if (curFragment != newFrag)
-            {
-                var fragmentManager = this.FragmentManager;
-                var ft = fragmentManager.BeginTransaction();
-
-                if (curFragment != null)
-                    ft.Hide(curFragment);
-
-                curFragment = newFrag;
-
-                if (newFrag != null)
-                {
-                    if (firstTime)
-                        ft.Add(Resource.Id.content_fragment, curFragment);
-                    else
-                        ft.Show(curFragment);
-                    ft.Commit();
-                }
-            }
-
-            if (!String.IsNullOrEmpty(theTitle))
-                Title = theTitle;
-            if (isFromCommentBtn)
-            {
-                isFromCommentBtn = false;
-                if (firstTime)
-                    commentsFragment.shouldCreateComment = true;
-                else
-                    commentsFragment.triggerCreateBlock();
-            }
-
-        }
-
-        #endregion
 
         #region Handles
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="178dp"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        android:src="@drawable/Logo_master_white"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/circleView" />
+</RelativeLayout>

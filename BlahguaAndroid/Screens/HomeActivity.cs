@@ -21,7 +21,7 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Provider;
 using Java.IO;
-
+using Android.Support.V7.App;
 using System.Threading.Tasks;
 
 using BlahguaMobile.AndroidClient;
@@ -30,14 +30,15 @@ using BlahguaMobile.AndroidClient.Screens;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
+using Android.Support.V7.Widget;
 
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
-	public partial class  HomeActivity : FragmentActivity
+    [Activity(MainLauncher = true, Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+	public partial class  HomeActivity : Android.Support.V7.App.ActionBarActivity
 	{
 
 		private BGActionBarDrawerToggle drawerToggle;
@@ -63,7 +64,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private static bool needsInit = true;
         private static bool isFirstLoad = true;
-		
+        private Toolbar toolbar = null;
 
 		class DrawerItemAdapter<T> : ArrayAdapter<T>
 		{
@@ -82,28 +83,41 @@ namespace BlahguaMobile.AndroidClient.Screens
 				View mView = convertView;
 				if (mView == null)
 				{
-					mView = _context.LayoutInflater.Inflate(Resource.Layout.DrawerListItem, parent, false);
+					mView = _context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemActivated1, parent, false);
 
 				}
 
-				TextView text = mView.FindViewById<TextView>(Resource.Id.ItemName);
+				TextView text = mView.FindViewById<TextView>(Android.Resource.Id.Text1);
 
 				if (_items[position] != null)
 				{
 					text.Text = _items[position].ToString();
 					//text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_teal));
 					text.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+                    if (position == BlahguaAPIObject.Current.CurrentChannelList.IndexOf(BlahguaAPIObject.Current.CurrentChannel))
+                    {
+                        text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_black));
+                        text.SetBackgroundColor(Color.White);
+                    }
+                    else
+                    {
+                        text.SetTextColor(Color.White);
+                        text.SetBackgroundColor(_context.Resources.GetColor(Resource.Color.heard_blue));
+                    }
+
 				}
 
 				return mView;
 			}
 		}
 
+
+
         public const string HOCKEYAPP_APPID = "aadcf778d85a29d59bd4ef87394ee6ad";
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            //this.Window.AddFlags(WindowManagerFlags.Fullscreen);
 			base.OnCreate (savedInstanceState);
 
             if (Intent.GetBooleanExtra("EXIT", false))
@@ -143,11 +157,27 @@ namespace BlahguaMobile.AndroidClient.Screens
             TaskScheduler.UnobservedTaskException += 
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
 
-			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-			SetContentView (Resource.Layout.page_home_view);
+			    //this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+                try
+                {
+                    SetContentView(Resource.Layout.page_home_view);
+                }
+                catch (Exception exp)
+                {
+                    System.Console.WriteLine(exp.Message);
+                }
+               toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+               SetSupportActionBar(toolbar);
+            
+            SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
+            var headerView = LayoutInflater.Inflate(Resource.Layout.channelheader,null);
+            drawerListView.AddHeaderView(headerView);
+
 
 			//Set click handler when item is selected
 			this.drawerListView.ItemClick += (sender, args) => ListItemClicked (args.Position);
@@ -176,6 +206,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Set the drawer lister to be the toggle.
 			this.drawerLayout.SetDrawerListener (this.drawerToggle);
+            drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
+            drawerLayout.SetScrimColor(Resource.Color.heard_red);
+            drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
+            
 
 			//if first time you will want to go ahead and click first item.
 			if (savedInstanceState == null) {
@@ -189,13 +223,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 InitChannelMenu (curChan);
 			}
-
-
-			this.ActionBar.SetDisplayHomeAsUpEnabled (true);
-			this.ActionBar.SetHomeButtonEnabled (true);
-			this.ActionBar.SetDisplayShowHomeEnabled (false);
-
-			this.ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable( Resources.GetColor(Resource.Color.heard_black)));
 
 			gothamFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/GothamRounded-Book.otf");
 			merriweatherFont = Typeface.CreateFromAsset(this.ApplicationContext.Assets, "fonts/Merriweather.otf");
@@ -221,7 +248,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		public int GetContentPositionY()
 		{
-			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
+			var contentFrame = FindViewById<FrameLayout>(Resource.Id.main_frame);
 			return contentFrame.Top;
 		}
 
@@ -283,23 +310,28 @@ namespace BlahguaMobile.AndroidClient.Screens
                 this.drawerLayout.CloseDrawers();
             }
         }
-
+        
         private void ListItemClicked (int position)
 		{
-            if (BlahguaAPIObject.Current.CurrentChannelList != null)
+            if (position > 0)
             {
-                Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList[position];
-                if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                position--;
+
+                if (BlahguaAPIObject.Current.CurrentChannelList != null)
                 {
-                    UpdateChannelTitle(newChannel);
-                    BlahguaAPIObject.Current.CurrentChannel = newChannel;
+                    Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList[position];
+                    if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                    {
+                        UpdateChannelTitle(newChannel);
+                        BlahguaAPIObject.Current.CurrentChannel = newChannel;
+                    }
+                    else
+                    {
+                        // start the blah roll going?
+                        ResumeScrolling();
+                    }
+                    this.drawerLayout.CloseDrawers();
                 }
-                else
-                {
-                    // start the blah roll going?
-                    ResumeScrolling();
-                }
-                this.drawerLayout.CloseDrawers();
             }
 		}
 
@@ -310,10 +342,12 @@ namespace BlahguaMobile.AndroidClient.Screens
                 return;
 
             currentDisplayedChannel = newChan;
+            drawerListView.InvalidateViews();
+           
             if (String.IsNullOrEmpty(newChan.HeaderImage))
             {
                 this.Title = newChan.ChannelName;
-                this.ActionBar.SetBackgroundDrawable(null);
+                toolbar.SetBackgroundDrawable(null);
             }
             else
             {
@@ -324,14 +358,38 @@ namespace BlahguaMobile.AndroidClient.Screens
                             {
                                 if (b != null)
                                 {
+                                    BitmapDrawable theDrawable;
+
                                     this.Title = "";
-                                    Drawable theDrawable = new BitmapDrawable(b);
-                                    this.ActionBar.SetBackgroundDrawable(theDrawable);
+                                    
+                                    int headerSize = Resources.GetDimensionPixelOffset(Resource.Dimension.tool_bar_top_padding);
+                                    if (headerSize > 0)
+                                    {
+                                        Bitmap overlay = Bitmap.CreateBitmap(toolbar.Width, toolbar.Height, b.GetConfig());
+                                        Canvas canvas = new Canvas(overlay);
+                                        Paint backColor = new Paint();
+                                        backColor.StrokeWidth = 0;
+                                        backColor.SetStyle(Paint.Style.Fill);
+                                        float bmScale = (float)(toolbar.Height - headerSize) / (float)b.Height;
+                                        Color theCornerColor = new Color(b.GetPixel(0, 0));
+                                        backColor.Color = theCornerColor;
+                                        canvas.DrawRect(new Rect(0, 0, toolbar.Width, toolbar.Height), backColor);
+                                        Matrix offsetMatrix = new Matrix();
+                                        offsetMatrix.PostScale(bmScale, bmScale);
+                                        offsetMatrix.PostTranslate(0, headerSize);
+                                        canvas.DrawBitmap(b, offsetMatrix, null);
+                                        theDrawable = new BitmapDrawable(overlay);
+                                    }
+                                    else
+                                        theDrawable = new BitmapDrawable(b);
+                                    //this.ActionBar.SetBackgroundDrawable(theDrawable);
+                                    toolbar.SetBackgroundDrawable(theDrawable);
                                 }
                                 else
                                 {
                                     this.Title = newChan.ChannelName;
-                                    this.ActionBar.SetBackgroundDrawable(null);
+                                    //this.ActionBar.SetBackgroundDrawable(null);
+                                    toolbar.SetBackgroundDrawable(null);
                                 }
 
                             });
@@ -347,7 +405,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 			s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 			s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 
-			this.ActionBar.TitleFormatted = s;
+			//this.ActionBar.TitleFormatted = s;
+            toolbar.TitleFormatted = s;
 
 		}
 
@@ -360,6 +419,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			} else
             {
                 this.MenuInflater.Inflate(Resource.Menu.loggedin_menu, menu);
+        
             }
 				
 
@@ -387,6 +447,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			return base.OnPrepareOptionsMenu (menu);
 		}
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            return base.OnCreateOptionsMenu(menu);
+        }
 
 		private void SetMenuItemIconToUser(IMenuItem curItem)
 		{

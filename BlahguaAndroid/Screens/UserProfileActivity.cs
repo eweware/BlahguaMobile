@@ -43,8 +43,8 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-			this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+            //this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
             base.OnCreate(bundle);

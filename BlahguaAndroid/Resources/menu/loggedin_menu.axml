@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto" >
 	<item android:id="@+id/action_newpost"
 		android:icon="@drawable/icon_createpost"
-		android:title=""
-		android:showAsAction="always"/>
+		android:title="New Post"
+		app:showAsAction="always"/>
 	<item android:id="@+id/action_overflow"
 		android:icon="@drawable/unknown_user"
-		android:title=""
-		android:showAsAction="always">
+		android:title="More Options"
+		app:showAsAction="always">
 		<menu>
 			<item android:id="@+id/action_profile"
 				android:title="Profile"
