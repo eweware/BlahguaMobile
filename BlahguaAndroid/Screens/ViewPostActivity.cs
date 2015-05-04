@@ -44,23 +44,69 @@ namespace BlahguaMobile.AndroidClient
         public static ViewPostSummaryFragment SummaryView;
         public static ViewPostCommentsFragment CommentsView;
         public static ViewPostStatsFragment StatsView;
+        PagerSlidingTabStrip tabs;
 
         private DrawerLayout drawerLayout;
         private ListView drawerListView;
+        private ViewPager pager;
 
-        public class PostPageAdapter : FragmentPagerAdapter
+        public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
         {
             private string[] Titles = { "Summary", "Comments", "Stats" };
+            private ImageView[] imageIcons = { null, null, null };
+            private int[] Icons = { Resource.Drawable.btn_summary_normal, Resource.Drawable.btn_comments_normal, Resource.Drawable.btn_stats_normal };
+            private int[] SelectedIcons = { Resource.Drawable.btn_summary_pressed, Resource.Drawable.btn_comments_pressed, Resource.Drawable.btn_stats_pressed };
+            Android.Support.V7.App.ActionBarActivity activity;
 
-
-            public PostPageAdapter(Android.Support.V4.App.FragmentManager fm)
+            public PostPageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
                 : base(fm)
             {
+                activity = theActivity;
             }
 
             public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
             {
                 return new Java.Lang.String(Titles[position]);
+                /*
+                Drawable image =  activity.Resources.GetDrawable(Resource.Drawable.btn_summary);
+                image.SetBounds(0,0,image.IntrinsicWidth, image.IntrinsicHeight);
+                SpannableString sb = new SpannableString(" ");
+                ImageSpan imageSpan = new ImageSpan(image, SpanAlign.Bottom);
+
+                //sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sb.SetSpan(imageSpan, 0, 1, SpanTypes.ExclusiveExclusive);
+                return sb;
+                 */
+            }
+
+            public void UpdateIcons(int curSel)
+            {
+                switch (curSel)
+                {
+                    case 0:
+                        imageIcons[0].SetImageResource(SelectedIcons[0]);
+                        imageIcons[1].SetImageResource(Icons[1]);
+                        imageIcons[2].SetImageResource(Icons[2]);
+                        break;
+                    case 1:
+                        imageIcons[0].SetImageResource(Icons[0]);
+                        imageIcons[1].SetImageResource(SelectedIcons[1]);
+                        imageIcons[2].SetImageResource(Icons[2]);
+                        break;
+
+                    case 2:
+                        imageIcons[0].SetImageResource(Icons[0]);
+                        imageIcons[1].SetImageResource(Icons[1]);
+                        imageIcons[2].SetImageResource(SelectedIcons[2]);
+                        break;
+                }
+            }
+            public View GetCustomTabView(ViewGroup parent, int position)
+            {
+                ImageView newView = new ImageView(parent.Context);
+                newView.SetImageResource(Icons[position]);
+                imageIcons[position] = newView;
+                return newView;
             }
 
             public override int Count
@@ -142,18 +188,6 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
-            //this.Window.SetUiOptions(UiOptions.SplitActionBarWhenNarrow);
-			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-            //this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-            /*
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            base.OnCreate(bundle);
-			this.ActionBar.SetDisplayHomeAsUpEnabled(false);
-			this.ActionBar.SetHomeButtonEnabled(false);
-			this.ActionBar.SetDisplayShowHomeEnabled(false);
-			this.ActionBar.SetDisplayShowTitleEnabled (false);
-             */
-			
 
             try
             {
@@ -168,17 +202,28 @@ namespace BlahguaMobile.AndroidClient
             toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
             SetSupportActionBar(toolbar);
 
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
+
 			HomeActivity.analytics.PostPageView("/blah");
             SummaryView = new ViewPostSummaryFragment();
             CommentsView = new ViewPostCommentsFragment();
             StatsView = new ViewPostStatsFragment();
 
-            var pager = FindViewById<ViewPager>(Resource.Id.post_pager);
-            pager.Adapter = new PostPageAdapter(this.SupportFragmentManager);
+            pager = FindViewById<ViewPager>(Resource.Id.post_pager);
+            pager.Adapter = new PostPageAdapter(this.SupportFragmentManager, this);
 
-            PagerSlidingTabStrip tabs = FindViewById<PagerSlidingTabStrip>(Resource.Id.tabs);
+            tabs = FindViewById<PagerSlidingTabStrip>(Resource.Id.tabs);
             tabs.SetViewPager(pager);
+            tabs.IndicatorColor = Resources.GetColor(Resource.Color.heard_teal);
+            tabs.IndicatorHeight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_indicator_height);
+            tabs.UnderlineColor = Resources.GetColor(Resource.Color.heard_red);
+            tabs.TabPaddingLeftRight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_padding);
             tabs.OnPageChangeListener = this;
+            //tabs.ShouldExpand = true;
+            
+            tabs.SetTabTextColor(Color.White);
 
             this.drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             this.drawerListView = this.FindViewById<ListView>(Resource.Id.left_drawer);
@@ -277,12 +322,18 @@ namespace BlahguaMobile.AndroidClient
                     break;
 
                 case 1:
+                    CommentsView.LoadComments();
                     break;
 
                 case 2:
                     
                     break;
             }
+
+            // redo the icons
+            ((PostPageAdapter)pager.Adapter).UpdateIcons(position);
+
+
         }
 
 
@@ -373,6 +424,7 @@ namespace BlahguaMobile.AndroidClient
 
 		}
 
+        /*
         public override Android.Content.Res.Resources Resources
         {
             get
@@ -380,7 +432,7 @@ namespace BlahguaMobile.AndroidClient
                 return new ResourceFix(base.Resources);
             }
         }
-
+        */
         private class ResourceFix : Android.Content.Res.Resources
         {
             private int targetId = 0;

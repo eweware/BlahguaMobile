@@ -55,6 +55,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private FrameLayout imageCreateCommentLayout;
         private ImageView imageCreateComment;
         private ProgressBar progressBarImageLoading;
+        private bool commentsAreLoaded = false;
 
 
 		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
@@ -278,47 +279,52 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            //LoadComments();
+            commentsAreLoaded = false;
         }
 
 
         public void LoadComments()
         {
-            Activity.RunOnUiThread(() =>
-                {
-                    progressDlg.SetMessage("loading comments...");
-                    progressDlg.Show();
+            if (!commentsAreLoaded)
+            {
+                commentsAreLoaded = true;
 
-                    BlahguaAPIObject.Current.LoadBlahComments((theList) =>
+                Activity.RunOnUiThread(() =>
                     {
-                        Activity.RunOnUiThread(() =>
-                        {
-                            progressDlg.Hide();
-                            if (theList.Count > 0)
-                            {
-                                string commentTextStr;
-                                if (theList.Count == 1)
-                                    commentTextStr = "one comment";
-                                else
-                                    commentTextStr = theList.Count.ToString() + " comments";
-                                comments_total_count.Text = commentTextStr;
+                        progressDlg.SetMessage("loading comments...");
+                        progressDlg.Show();
 
-                                no_comments.Visibility = ViewStates.Gone;
-                                list.Visibility = ViewStates.Visible;
-                                adapter = new CommentsAdapter(this, theList);
-                                list.Adapter = adapter;
-                                //list.ItemClick += list_ItemClick;
-                            }
-                            else
+                        BlahguaAPIObject.Current.LoadBlahComments((theList) =>
+                        {
+                            Activity.RunOnUiThread(() =>
                             {
-                                comments_total_count.Text = "No comments yet.  Add one now!";
-                                no_comments.Visibility = ViewStates.Visible;
-                                list.Visibility = ViewStates.Gone;
-                                list.Adapter = adapter = null;
-                            }
+                                progressDlg.Hide();
+                                if (theList.Count > 0)
+                                {
+                                    string commentTextStr;
+                                    if (theList.Count == 1)
+                                        commentTextStr = "one comment";
+                                    else
+                                        commentTextStr = theList.Count.ToString() + " comments";
+                                    comments_total_count.Text = commentTextStr;
+
+                                    no_comments.Visibility = ViewStates.Gone;
+                                    list.Visibility = ViewStates.Visible;
+                                    adapter = new CommentsAdapter(this, theList);
+                                    list.Adapter = adapter;
+                                    //list.ItemClick += list_ItemClick;
+                                }
+                                else
+                                {
+                                    comments_total_count.Text = "No comments yet.  Add one now!";
+                                    no_comments.Visibility = ViewStates.Visible;
+                                    list.Visibility = ViewStates.Gone;
+                                    list.Adapter = adapter = null;
+                                }
+                            });
                         });
                     });
-                });
+            }
         }
 
     
