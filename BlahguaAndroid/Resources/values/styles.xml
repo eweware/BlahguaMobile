@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="AppTheme" parent="AppTheme.Base">
+
+  </style>
+  <style name="AppSubTheme" parent="AppTheme.Base">
+  </style>
+  <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/heard_black</item>
+    <item name="colorPrimaryDark">#000000</item>
+    <item name="colorAccent">@color/heard_blue</item>
+  </style>
+  
+</resources>
