@@ -157,17 +157,21 @@ namespace BlahguaMobile.AndroidClient.Screens
             TaskScheduler.UnobservedTaskException += 
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
 
-			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-            try
-            {
-                SetContentView(Resource.Layout.page_home_view);
-            }
-            catch (Exception exp)
-            {
-                System.Console.WriteLine(exp.Message);
-            }
-           toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
-           SetSupportActionBar(toolbar);
+			    //this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+                try
+                {
+                    SetContentView(Resource.Layout.page_home_view);
+                }
+                catch (Exception exp)
+                {
+                    System.Console.WriteLine(exp.Message);
+                }
+               toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+               SetSupportActionBar(toolbar);
+            
+            SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);

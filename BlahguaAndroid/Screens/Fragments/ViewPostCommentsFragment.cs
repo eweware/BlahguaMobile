@@ -18,6 +18,8 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Database;
 using Android.Graphics.Drawables;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
+using Android.Support.V4.View;
 
 
 using File = Java.IO.File;
@@ -25,7 +27,7 @@ using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	class ViewPostCommentsFragment : Fragment, IUrlImageViewCallback
+    public class ViewPostCommentsFragment : Android.Support.V4.App.Fragment, IUrlImageViewCallback
     {
         private readonly int SELECTIMAGE_REQUEST = 777;
 
@@ -54,10 +56,11 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ImageView imageCreateComment;
         private ProgressBar progressBarImageLoading;
 
-		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+
+		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
 			if ((requestCode == SELECTIMAGE_REQUEST || requestCode == HomeActivity.PHOTO_CAPTURE_EVENT)
-				&& resultCode == Android.App.Result.Ok)
+				&& resultCode == (int)Android.App.Result.Ok)
 			{
 				progressBarImageLoading.Visibility = ViewStates.Visible;
 				imageCreateCommentLayout.Visibility = ViewStates.Visible;
@@ -115,7 +118,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 
             }
-            base.OnActivityResult(requestCode, resultCode, data);
+            base.OnActivityResult(requestCode, (int)resultCode, data);
         }
 
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
@@ -275,7 +278,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            LoadComments();
+            //LoadComments();
         }
 
 

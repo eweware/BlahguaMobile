@@ -16,10 +16,13 @@ using BlahguaMobile.AndroidClient.Adapters;
 using BlahguaMobile.AndroidClient.HelpingClasses;
 using Android.Graphics.Drawables;
 using Android.Graphics;
+using Android.Support.V4.App;
+using Android.Support.V4.View;
+
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	class ViewPostSummaryFragment : Fragment
+    public class ViewPostSummaryFragment : Android.Support.V4.App.Fragment
     {
         public static ViewPostSummaryFragment NewInstance()
         {
