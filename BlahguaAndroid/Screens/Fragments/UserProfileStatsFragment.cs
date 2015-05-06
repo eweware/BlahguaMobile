@@ -14,10 +14,12 @@ using Android.Util;
 using BlahguaMobile.BlahguaCore;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
+
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileStatsFragment : Fragment
+    public class UserProfileStatsFragment : Android.Support.V4.App.Fragment
     {
         public static UserProfileStatsFragment NewInstance()
         {

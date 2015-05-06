@@ -17,10 +17,11 @@ using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
 using FortySevenDeg.SwipeListView;
+using Android.Support.V4.App;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class HistoryPostsFragment : Fragment
+    public class HistoryPostsFragment : Android.Support.V4.App.Fragment
     {
         public static HistoryPostsFragment NewInstance()
         {

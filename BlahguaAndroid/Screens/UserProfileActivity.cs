@@ -36,12 +36,12 @@ namespace BlahguaMobile.AndroidClient
     {
 		private BGActionBarDrawerToggle drawerToggle;
 		private Toolbar toolbar = null;
-        public UserProfileProfileFragment profileFragment;
-		public UserProfileDemographicsFragment demographicsFragment;
-		public UserProfileBadgesFragment badgesFragment;
-		public UserProfileStatsFragment statsFragment;
-		public HistoryPostsFragment postsFragment;
-		public HistoryCommentsFragment commentsFragment;
+        public static UserProfileProfileFragment profileFragment;
+        public static UserProfileDemographicsFragment demographicsFragment;
+        public static UserProfileBadgesFragment badgesFragment;
+        public static UserProfileStatsFragment statsFragment;
+        public static HistoryPostsFragment postsFragment;
+        public static HistoryCommentsFragment commentsFragment;
 		private PagerSlidingTabStrip tabs;
 
 		private DrawerLayout drawerLayout;
@@ -152,279 +152,162 @@ namespace BlahguaMobile.AndroidClient
 
 		protected override void OnCreate (Bundle bundle)
 		{
-
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
-            base.OnCreate(bundle);
-            this.ActionBar.SetDisplayHomeAsUpEnabled(false);
-            this.ActionBar.SetHomeButtonEnabled(false);
-            this.ActionBar.SetDisplayShowHomeEnabled(false);
-			this.ActionBar.SetDisplayShowTitleEnabled (false);
+             base.OnCreate(bundle);
 			HomeActivity.analytics.PostPageView("/self");
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
+            toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+            SetSupportActionBar(toolbar);
 
-			_gestureDetector = new GestureDetector(this, this);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
+
+            profileFragment = new UserProfileProfileFragment();
+            demographicsFragment = new UserProfileDemographicsFragment();
+            badgesFragment = new UserProfileBadgesFragment();
+            postsFragment = new HistoryPostsFragment();
+            commentsFragment = new HistoryCommentsFragment();
+            statsFragment = new UserProfileStatsFragment();
+
+            pager = FindViewById<ViewPager>(Resource.Id.post_pager);
+            pager.Adapter = new ProfilePageAdapter(this.SupportFragmentManager, this);
+
+            tabs = FindViewById<PagerSlidingTabStrip>(Resource.Id.tabs);
+            tabs.SetViewPager(pager);
+            tabs.IndicatorColor = Resources.GetColor(Resource.Color.heard_teal);
+            //tabs.TabTextColor = Resources.GetColorStateList(Resource.Color.tabtextcolor);
+            tabs.TabTextColorSelected = Resources.GetColorStateList(Resource.Color.tabtextcolor);
+            tabs.IndicatorHeight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_indicator_height);
+            tabs.UnderlineColor = Resources.GetColor(Resource.Color.heard_red);
+            tabs.TabPaddingLeftRight = Resources.GetDimensionPixelSize(Resource.Dimension.tab_padding);
+            tabs.OnPageChangeListener = this;
+            //tabs.ShouldExpand = true;
+
+            tabs.SetTabTextColor(Color.White);
+
+            this.drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            this.drawerListView = this.FindViewById<ListView>(Resource.Id.left_drawer);
+            var headerView = LayoutInflater.Inflate(Resource.Layout.channelheader, null);
+            drawerListView.AddHeaderView(headerView);
 
 
-            // set up tabs
-            profileTab = ActionBar.NewTab();
-            profileTab.SetText("Profile");
-            profileTab.TabSelected += SelectProfile;
-            ActionBar.AddTab(profileTab);
+            //Set click handler when item is selected
+            this.drawerListView.ItemClick += (sender, args) => ListItemClicked(args.Position);
+            this.drawerListView.Divider = new ColorDrawable(Resources.GetColor(Resource.Color.heard_white));
+            this.drawerListView.DividerHeight = 1;
 
-            badgesTab = ActionBar.NewTab();
-            badgesTab.SetText("Badges");
-            badgesTab.TabSelected += SelectBadges;
-            ActionBar.AddTab(badgesTab);
+            //DrawerToggle is the animation that happens with the indicator next to the actionbar
+            this.drawerToggle = new BGActionBarDrawerToggle(this, this.drawerLayout,
+                toolbar,
+                Resource.String.app_name,
+                Resource.String.app_name);
 
-            demoTab = ActionBar.NewTab();
-            demoTab.SetText("Demographics");
-            demoTab.TabSelected += SelectDemo;
-            ActionBar.AddTab(demoTab);
+            //Display the current fragments title and update the options menu
+            this.drawerToggle.DrawerClosed += (o, args) =>
+            {
 
-            postsTab = ActionBar.NewTab();
-            postsTab.SetText("Posts");
-            postsTab.TabSelected += SelectPosts;
-            ActionBar.AddTab(postsTab);
+            };
 
-            commentsTab = ActionBar.NewTab();
-            commentsTab.SetText("Comments");
-            commentsTab.TabSelected += SelectComments;
-            ActionBar.AddTab(commentsTab);
+            //Display the drawer title and update the options menu
+            this.drawerToggle.DrawerOpened += (o, args) =>
+            {
 
-            statsTab = ActionBar.NewTab();
-            statsTab.SetText("Stats");
-            statsTab.TabSelected += SelectStats;
-            ActionBar.AddTab(statsTab);
+            };
 
+            //Set the drawer lister to be the toggle.
+            this.drawerLayout.SetDrawerListener(this.drawerToggle);
+            drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
+            drawerLayout.SetScrimColor(Resource.Color.heard_red);
+            drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
+
+            populateChannelMenu();
 
             int page = Intent.GetIntExtra("Page", 1);
-            this.ActionBar.SetStackedBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Resources.GetColor(Resource.Color.heard_black)));
-            
-            switch (page)
+
+            pager.CurrentItem = page - 1;
+
+        }
+
+        private void populateChannelMenu()
+        {
+            if (BlahguaAPIObject.Current.CurrentChannelList != null)
             {
-                case 1:
-                    ActionBar.SelectTab(badgesTab);
+                String[] channels = new String[BlahguaAPIObject.Current.CurrentChannelList.Count];
+                int channelIndex = 0;
+
+                foreach (Channel curChannel in BlahguaAPIObject.Current.CurrentChannelList)
+                {
+                    channels[channelIndex++] = curChannel.ChannelName;
+                }
+                this.drawerListView.Adapter = new DrawerItemAdapter<String>(this, Resource.Layout.item_menu, channels);
+            }
+        }
+
+        private void ListItemClicked(int position)
+        {
+            if (position > 0)
+            {
+                position--;
+
+                if (BlahguaAPIObject.Current.CurrentChannelList != null)
+                {
+                    Channel newChannel = BlahguaAPIObject.Current.CurrentChannelList[position];
+                    if (newChannel != BlahguaAPIObject.Current.CurrentChannel)
+                    {
+                        this.Finish();
+                        BlahguaAPIObject.Current.CurrentChannel = newChannel;
+                    }
+                    else
+                    {
+                        this.Finish();
+                    }
+                    this.drawerLayout.CloseDrawers();
+                }
+            }
+        }
+
+
+        public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+
+        }
+
+        public void OnPageScrollStateChanged(int state)
+        {
+
+        }
+
+        public void OnPageSelected(int position)
+        {
+            switch (position)
+            {
+                case 0:
+                    // Profile
                     break;
-                   
+
+                case 1:
+                    //demographics
+                    break;
+
                 case 2:
-                    ActionBar.SelectTab(demoTab);
+                    // badges
                     break;
 
                 case 3:
-                    ActionBar.SelectTab(postsTab);
+                    // posts
                     break;
 
                 case 4:
-                    ActionBar.SelectTab(statsTab);
+                    // comments
                     break;
 
-                default:
-                    ActionBar.SelectTab(profileTab);
+                case 5:
+                    // stats
                     break;
             }
         }
-
-        public bool OnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-        {
-            return false;
-        }
-
-        public bool OnSingleTapUp(MotionEvent e1)
-        {
-            return false;
-        }
-
-        public void OnLongPress(MotionEvent e1)
-        {
-            //return false;
-        }
-
-        public void OnShowPress(MotionEvent e1)
-        {
-            //return false;
-        }
-
-        public bool OnFling(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-        {
-            float maxRange = e1.Device.MotionRanges[0].Max;
-
-            float minEdge = maxRange * .1f;
-            float maxEdge = maxRange * .9f;
-
-            if ((e1.GetX() < minEdge) && (e2.GetX() > maxRange * .3f))
-            {
-                swipeRightEvent();
-                return true;
-            }
-            else if ((e1.GetX() > maxEdge) && (e2.GetX() < maxRange * .7f))
-            {
-                swipeLeftEvent();
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public bool OnDown(MotionEvent e1)
-        {
-            return false;
-        }
-
-
-        protected void SelectStats(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (statsFragment == null)
-            {
-                statsFragment = UserProfileStatsFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(statsFragment, firstTime, "Statistics");
-
-        }
-		private void swipeLeftEvent()
-		{
-
-            if (curFragment == profileFragment)
-                ActionBar.SelectTab(badgesTab);
-            else if (curFragment == badgesFragment)
-                ActionBar.SelectTab(demoTab);
-            else if (curFragment == demographicsFragment)
-                ActionBar.SelectTab(postsTab);
-            else if (curFragment == postsFragment)
-                ActionBar.SelectTab(commentsTab);
-            else if (curFragment == commentsFragment)
-                ActionBar.SelectTab(statsTab);
-            else
-                ActionBar.SelectTab(profileTab);
-
-		}
-		private void swipeRightEvent()
-		{
-
-            if (curFragment == statsFragment)
-                ActionBar.SelectTab(commentsTab);
-            else if (curFragment == commentsFragment)
-                ActionBar.SelectTab(postsTab);
-            else if (curFragment == postsFragment)
-                ActionBar.SelectTab(demoTab);
-            else if (curFragment == demographicsFragment)
-                ActionBar.SelectTab(badgesTab);
-            else if (curFragment == badgesFragment)
-                ActionBar.SelectTab(profileTab);
-            else
-                ActionBar.SelectTab(statsTab);
-	}
-
-        public override bool DispatchTouchEvent(MotionEvent ev)
-        {
-            bool didIt = _gestureDetector.OnTouchEvent(ev);
-            if (!didIt)
-                return base.DispatchTouchEvent(ev);
-            else
-                return true;
-        }
-
-        protected void SelectBadges(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (badgesFragment == null)
-            {
-                badgesFragment = UserProfileBadgesFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(badgesFragment, firstTime, "Badges");
-
-        }
-
-        protected void SelectDemo(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (demographicsFragment == null)
-            {
-                demographicsFragment = UserProfileDemographicsFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(demographicsFragment, firstTime, "Demographics");
-
-        }
-
-        protected void SelectProfile(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (profileFragment == null)
-            {
-                profileFragment = UserProfileProfileFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(profileFragment, firstTime, "Profile");
-
-        }
-
-        protected void SelectComments(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (commentsFragment == null)
-            {
-                commentsFragment = HistoryCommentsFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(commentsFragment, firstTime, "Comment History");
-
-        }
-
-        protected void SelectPosts(object sender, EventArgs e)
-        {
-            bool firstTime = false;
-
-            if (postsFragment == null)
-            {
-                postsFragment = HistoryPostsFragment.NewInstance();
-                firstTime = true;
-            }
-
-            SetCurrentFragment(postsFragment, firstTime, "Post History");
-        }
-
-        void SetCurrentFragment(Fragment newFrag, bool firstTime, string theTitle = null)
-        {
-            if (curFragment != newFrag)
-            {
-                var fragmentManager = this.FragmentManager;
-                var ft = fragmentManager.BeginTransaction();
-
-                if (curFragment != null)
-                    ft.Hide(curFragment);
-
-                curFragment = newFrag;
-
-                if (newFrag != null)
-                {
-                    if (firstTime)
-                        ft.Add(Resource.Id.content_fragment, curFragment);
-                    else
-                        ft.Show(curFragment);
-                    ft.Commit();
-                }
-            }
-
-            if (!String.IsNullOrEmpty(theTitle))
-                Title = theTitle;
-        }
-
 
 
 
@@ -448,7 +331,7 @@ namespace BlahguaMobile.AndroidClient
             s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
             s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 
-            this.ActionBar.TitleFormatted = s;
+            SupportActionBar.TitleFormatted = s;
 
         }
 

@@ -18,10 +18,11 @@ using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using Android.Text;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileBadgesFragment : Fragment
+    public class UserProfileBadgesFragment : Android.Support.V4.App.Fragment
     {
         public static UserProfileBadgesFragment NewInstance()
         {

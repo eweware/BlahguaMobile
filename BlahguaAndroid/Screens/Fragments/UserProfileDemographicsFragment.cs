@@ -15,10 +15,11 @@ using BlahguaMobile.AndroidClient.Adapters;
 using Android.Animation;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileDemographicsFragment : Fragment
+    public class UserProfileDemographicsFragment : Android.Support.V4.App.Fragment
     {
         public static UserProfileDemographicsFragment NewInstance()
         {

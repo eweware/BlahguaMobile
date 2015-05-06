@@ -17,10 +17,11 @@ using Android.Graphics;
 using Java.IO;
 using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.AndroidClient.HelpingClasses;
+using Android.Support.V4.App;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-    class UserProfileProfileFragment : Fragment, IUrlImageViewCallback
+    public class UserProfileProfileFragment : Android.Support.V4.App.Fragment, IUrlImageViewCallback
     {
         public static UserProfileProfileFragment NewInstance()
         {
@@ -142,10 +143,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             
         }
 
-		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode == SELECTIMAGE_REQUEST && resultCode == Android.App.Result.Ok)
+            if (requestCode == SELECTIMAGE_REQUEST && resultCode == (int)Android.App.Result.Ok)
             {
                 progress.Visibility = ViewStates.Visible;
                 btn_avatar.Visibility = ViewStates.Gone;
