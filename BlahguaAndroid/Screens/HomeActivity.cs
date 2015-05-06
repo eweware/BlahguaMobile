@@ -168,10 +168,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 }
                toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
                SetSupportActionBar(toolbar);
-            
-            SupportActionBar.SetDisplayHomeAsUpEnabled (true);
-            SupportActionBar.SetHomeButtonEnabled(true);
-            SupportActionBar.SetDisplayShowHomeEnabled(false);
+           
 
 			this.drawerLayout = this.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			this.drawerListView = this.FindViewById<ListView> (Resource.Id.left_drawer);
@@ -186,7 +183,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//DrawerToggle is the animation that happens with the indicator next to the actionbar
 			this.drawerToggle = new BGActionBarDrawerToggle (this, this.drawerLayout,
-				Resource.Drawable.btn_menu_normal,
+				toolbar,
 				Resource.String.app_name,
 				Resource.String.app_name);
 
@@ -206,6 +203,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			//Set the drawer lister to be the toggle.
 			this.drawerLayout.SetDrawerListener (this.drawerToggle);
+			drawerToggle.DrawerIndicatorEnabled = true;
+			drawerToggle.SyncState ();
             drawerLayout.SetStatusBarBackgroundColor(Resource.Color.heard_red);
             drawerLayout.SetScrimColor(Resource.Color.heard_red);
             drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
@@ -844,7 +843,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 				RunOnUiThread(() =>
 					{
-						AlertDialog alert = new AlertDialog.Builder(this).Create() ;
+						Android.App.AlertDialog alert = new Android.App.AlertDialog.Builder(this).Create() ;
                         StopScrolling();
 						alert.SetTitle("exit");
 						alert.SetMessage("exit from Heard?");

@@ -1,8 +1,9 @@
 using System;
 
 using Android.App;
-using Android.Support.V4.App;
+using Android.Support.V7.App;
 using Android.Support.V4.Widget;
+using Android.Support.V7.Widget;
 using Android.Views;
 
 namespace BlahguaMobile.AndroidClient.HelpingClasses
@@ -20,12 +21,12 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
     {
 		public BGActionBarDrawerToggle(Activity activity,
                                        DrawerLayout drawerLayout,
-                                       int drawerImageRes,
+			                           Toolbar  toolbar,
                                        int openDrawerContentDescRes,
                                        int closeDrawerContentDescRes)
             : base(activity,
                   drawerLayout,
-                  drawerImageRes,
+                  toolbar,
                   openDrawerContentDescRes,
                   closeDrawerContentDescRes)
         {

@@ -48,10 +48,6 @@
       <HintPath>..\Components\hockeyappandroid-3.5.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
-    <Reference Include="Refractored.PagerSlidingTabStrip, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.0.9\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
-    </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
@@ -62,14 +58,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xamarin.Android.Support.v4.22.0.0.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Controls.BarChart.Android">
       <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
     </Reference>
@@ -81,6 +69,15 @@
     </Reference>
     <Reference Include="ServiceStack.Text.XamarinAndrod">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.PagerSlidingTabStrip">
+      <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.0.9.2\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +182,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -256,6 +252,7 @@
     <AndroidResource Include="Resources\layout\icon_tab.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -264,10 +261,6 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="PagerSlidingTabStrip">
-      <Visible>False</Visible>
-      <Version>1.0.9</Version>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="restsharp">
       <Version>105.0.1.0</Version>
       <Visible>False</Visible>
@@ -285,12 +278,16 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="xamandroidsupportv4-18">
-      <Visible>False</Visible>
       <Version>21.0.3.0</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="xamandroidsupportv7appcompat">
-      <Visible>False</Visible>
       <Version>21.0.3.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="PagerSlidingTabStrip">
+      <Version>1.0.9</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>

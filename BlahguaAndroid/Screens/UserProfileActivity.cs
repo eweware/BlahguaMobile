@@ -19,32 +19,140 @@ using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
 
+using Android.Support.V7.Widget;
+using Android.Support.V7.App;
+using Android.Support.V4.View;
+using Android.Support.V4.App;
+using Android.Support.V4.Widget;
+using com.refractored;
+
 using BlahguaMobile.AndroidClient.HelpingClasses;
 
 
 namespace BlahguaMobile.AndroidClient
 {
-    [Activity(WindowSoftInputMode=SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class UserProfileActivity : Activity, GestureDetector.IOnGestureListener
+	[Activity(Theme = "@style/AppSubTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+	public class UserProfileActivity : Android.Support.V7.App.ActionBarActivity, ViewPager.IOnPageChangeListener
     {
+		private BGActionBarDrawerToggle drawerToggle;
+		private Toolbar toolbar = null;
+        public UserProfileProfileFragment profileFragment;
+		public UserProfileDemographicsFragment demographicsFragment;
+		public UserProfileBadgesFragment badgesFragment;
+		public UserProfileStatsFragment statsFragment;
+		public HistoryPostsFragment postsFragment;
+		public HistoryCommentsFragment commentsFragment;
+		private PagerSlidingTabStrip tabs;
 
-        private UserProfileProfileFragment profileFragment;
-        private UserProfileDemographicsFragment demographicsFragment;
-        private UserProfileBadgesFragment badgesFragment;
-        private UserProfileStatsFragment statsFragment;
-        private HistoryPostsFragment postsFragment;
-        private HistoryCommentsFragment commentsFragment;
-	    private GestureDetector _gestureDetector;
+		private DrawerLayout drawerLayout;
+		private ListView drawerListView;
+		private ViewPager pager;
 
+		public class ProfilePageAdapter : FragmentPagerAdapter
+		{
+			private string[] Titles = { "Profile", "Demographics", "Badges", "Posts", "Comments", "Stats" };
+			Android.Support.V7.App.ActionBarActivity activity;
 
-        private Fragment curFragment;
+			public ProfilePageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
+				: base(fm)
+			{
+				activity = theActivity;
+			}
 
-        private ActionBar.Tab profileTab, badgesTab, demoTab, postsTab, commentsTab, statsTab;
+			public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
+			{
+				return new Java.Lang.String(Titles[position]);
+			}
+
+			public override int Count
+			{
+				get
+				{
+					return Titles.Length;
+				}
+			}
+
+			public override Android.Support.V4.App.Fragment GetItem(int position)
+			{
+				Android.Support.V4.App.Fragment theItem = null;
+				switch (position)
+				{
+				case 0:
+					theItem = UserProfileActivity.profileFragment;
+					break;
+
+				case 1:
+					theItem = UserProfileActivity.demographicsFragment;
+					break;
+
+				case 2:
+					theItem = UserProfileActivity.badgesFragment;
+					break;
+
+				case 3:
+					theItem = UserProfileActivity.postsFragment;
+					break;
+
+				case 4:
+					theItem = UserProfileActivity.commentsFragment;
+					break;
+
+				case 5:
+					theItem = UserProfileActivity.statsFragment;
+					break;
+				}
+				return theItem;
+			}
+		}
+
+		class DrawerItemAdapter<T> : ArrayAdapter<T>
+		{
+			T[] _items;
+			Activity _context;
+
+			public DrawerItemAdapter(Context context, int textViewResourceId, T[] objects) :
+			base(context, textViewResourceId, objects)
+			{
+				_items = objects;
+				_context = (Activity)context;
+			}
+
+			public override View GetView(int position, View convertView, ViewGroup parent)
+			{
+				View mView = convertView;
+				if (mView == null)
+				{
+					mView = _context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemActivated1, parent, false);
+
+				}
+
+				TextView text = mView.FindViewById<TextView>(Android.Resource.Id.Text1);
+
+				if (_items[position] != null)
+				{
+					text.Text = _items[position].ToString();
+					//text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_teal));
+					text.SetTypeface(HomeActivity.gothamFont, TypefaceStyle.Normal);
+					if (position == BlahguaAPIObject.Current.CurrentChannelList.IndexOf(BlahguaAPIObject.Current.CurrentChannel))
+					{
+						text.SetTextColor(_context.Resources.GetColor(Resource.Color.heard_black));
+						text.SetBackgroundColor(Color.White);
+					}
+					else
+					{
+						text.SetTextColor(Color.White);
+						text.SetBackgroundColor(_context.Resources.GetColor(Resource.Color.heard_blue));
+					}
+
+				}
+
+				return mView;
+			}
+		}
 
 		protected override void OnCreate (Bundle bundle)
 		{
-            //this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-			//this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
             base.OnCreate(bundle);

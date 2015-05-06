@@ -32,9 +32,6 @@ namespace BlahguaMobile.AndroidClient
     public class ViewPostActivity : Android.Support.V7.App.ActionBarActivity, ViewPager.IOnPageChangeListener
     {
         private BGActionBarDrawerToggle drawerToggle;
-        private ViewPostCommentsFragment commentsFragment;
-        private ViewPostSummaryFragment summaryFragment;
-        private ViewPostStatsFragment statsFragment;
         private bool isFromCommentBtn = false;
 
 		private string[] badgeItemNames = null;
@@ -67,16 +64,6 @@ namespace BlahguaMobile.AndroidClient
             public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
             {
                 return new Java.Lang.String(Titles[position]);
-                /*
-                Drawable image =  activity.Resources.GetDrawable(Resource.Drawable.btn_summary);
-                image.SetBounds(0,0,image.IntrinsicWidth, image.IntrinsicHeight);
-                SpannableString sb = new SpannableString(" ");
-                ImageSpan imageSpan = new ImageSpan(image, SpanAlign.Bottom);
-
-                //sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                sb.SetSpan(imageSpan, 0, 1, SpanTypes.ExclusiveExclusive);
-                return sb;
-                 */
             }
 
             public void UpdateIcons(int curSel)
@@ -238,7 +225,7 @@ namespace BlahguaMobile.AndroidClient
 
             //DrawerToggle is the animation that happens with the indicator next to the actionbar
             this.drawerToggle = new BGActionBarDrawerToggle(this, this.drawerLayout,
-                Resource.Drawable.btn_menu_normal,
+                toolbar,
                 Resource.String.app_name,
                 Resource.String.app_name);
 
@@ -371,13 +358,13 @@ namespace BlahguaMobile.AndroidClient
 			case HomeActivity.MultiChoiceDialog: 
 				{
 					UpdateBadgeInfo ();
-					var builder = new AlertDialog.Builder (this, Android.App.AlertDialog.ThemeHoloLight);
+					var builder = new Android.App.AlertDialog.Builder (this, Android.App.AlertDialog.ThemeHoloLight);
 					builder.SetIcon (Resource.Drawable.ic_launcher);
 					builder.SetTitle ("Sign your comment");
 					builder.SetMultiChoiceItems (badgeItemNames, badgeItemBools, MultiListClicked);
 					builder.SetPositiveButton ("Ok", BadgeOKClicked);
 
-					AlertDialog dlg = builder.Create ();
+					Android.App.AlertDialog dlg = builder.Create ();
 
 					return dlg;
 				}

@@ -9,6 +9,10 @@
     <item name="colorPrimary">@color/heard_black</item>
     <item name="colorPrimaryDark">#000000</item>
     <item name="colorAccent">@color/heard_blue</item>
+    <item name="drawerArrowStyle">@style/Theme.Test.DrawerArrowStyle</item>
   </style>
-  
+  <style name="Theme.Test.DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+    <item name="spinBars">true</item>
+    <item name="color">@android:color/white</item>
+</style>
 </resources>
