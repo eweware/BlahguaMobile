@@ -23,18 +23,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     public class HistoryPostsFragment : Android.Support.V4.App.Fragment
     {
-        public static HistoryPostsFragment NewInstance()
-        {
-            return new HistoryPostsFragment { Arguments = new Bundle() };
-        }
-
         private TextView posts_total_count;
-
 		private SwipeListView list;
         private LinearLayout no_entries;
-
         private PostsAdapter adapter;
         private ProgressDialog progressDlg;
+		public static BlahList UserBlahList = null;
+		public bool UserBlahsLoaded = false;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -82,51 +77,64 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            LoadUserPosts();
+            //DrawUserPosts();
         }
 
         public void LoadUserPosts()
         {
-            Activity.RunOnUiThread(() =>
-                {
+			if (!UserBlahsLoaded) {
+				Activity.RunOnUiThread (() => {
                     
-                    progressDlg.SetMessage("loading posts...");
-                    progressDlg.Show();
+					progressDlg.SetMessage ("loading posts...");
+					progressDlg.Show ();
 
 
-                    BlahguaAPIObject.Current.LoadUserPosts((theBlahs) =>
-                        {
-                            Activity.RunOnUiThread(() =>
-                            {
-                                progressDlg.Hide();
-                                string countMessage = "";
-                                if ((theBlahs != null) && (theBlahs.Count > 0))
-                                {
-                                    list.Visibility = ViewStates.Visible;
-                                    no_entries.Visibility = ViewStates.Gone;
-                                    foreach (Blah b in theBlahs.ToArray())
-                                    {
-                                        if (b.S < 0)
-                                            theBlahs.Remove(b);
-                                    }
-                                    adapter = new PostsAdapter(this, theBlahs);
-                                    list.Adapter = adapter;
-
-                                    countMessage = "Your Posts (" + theBlahs.Count + ")";
-                                }
-                                else
-                                {
-                                    list.Visibility = ViewStates.Gone;
-                                    no_entries.Visibility = ViewStates.Visible;
-                                    list.Adapter = adapter = null;
-
-                                    countMessage = "No Posts yet";
-                                }
-                                posts_total_count.Text = countMessage;
-                            });
-                        }
-                    );
-                });
+					BlahguaAPIObject.Current.LoadUserPosts ((theBlahs) => {
+						UserBlahList = theBlahs;
+						UserBlahsLoaded = true;
+						Activity.RunOnUiThread (() => {
+							progressDlg.Hide ();
+							DrawUserPosts();
+                                
+						});
+					}
+					);
+				});
+			}
         }
+
+		public void DrawUserPosts()
+		{
+			if (!UserBlahsLoaded)
+				LoadUserPosts ();
+			else
+				Activity.RunOnUiThread(() =>
+					{
+						string countMessage = "";
+						if ((UserBlahList != null) && (UserBlahList.Count > 0))
+						{
+							list.Visibility = ViewStates.Visible;
+							no_entries.Visibility = ViewStates.Gone;
+							foreach (Blah b in UserBlahList.ToArray())
+							{
+								if (b.S < 0)
+									UserBlahList.Remove(b);
+							}
+							adapter = new PostsAdapter(this, UserBlahList);
+							list.Adapter = adapter;
+
+							countMessage = "Your Posts (" + UserBlahList.Count + ")";
+						}
+						else
+						{
+							list.Visibility = ViewStates.Gone;
+							no_entries.Visibility = ViewStates.Visible;
+							list.Adapter = adapter = null;
+
+							countMessage = "No Posts yet";
+						}
+						posts_total_count.Text = countMessage;
+					});
+		}
     }
 }

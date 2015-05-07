@@ -35,6 +35,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressDialog progressDlg;
 
         private HistoryCommentsAdapter adapter;
+		public static CommentList UserCommentList = null;
+		public bool UserCommentsLoaded = false;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -80,41 +82,54 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            LoadUserComments();
         }
 
         public void LoadUserComments()
         {
-            Activity.RunOnUiThread(() =>
-            {
-                comments_total_count.Text = "loading comments";
-                progressDlg.SetMessage("loading comments...");
-                progressDlg.Show();
+			if (!UserCommentsLoaded) {
+				Activity.RunOnUiThread (() => 
+					{
+						comments_total_count.Text = "loading comments";
+						progressDlg.SetMessage ("loading comments...");
+						progressDlg.Show ();
 
-                BlahguaAPIObject.Current.LoadUserComments((theComments) =>
-                    {
-                        Activity.RunOnUiThread(() =>
-                        {
-                            progressDlg.Hide();
-                            if ((theComments != null) && (theComments.Count > 0))
-                            {
-                                comments_total_count.Text = "Your Comments (" + theComments.Count + ")";
-                                no_comments.Visibility = ViewStates.Gone;
-                                list.Visibility = ViewStates.Visible;
-                                adapter = new HistoryCommentsAdapter(this, theComments);
-                                list.Adapter = adapter;
-                            }
-                            else
-                            {
-                                comments_total_count.Text = "Your Comments (0)";
-                                no_comments.Visibility = ViewStates.Visible;
-                                list.Visibility = ViewStates.Gone;
-                                list.Adapter = adapter = null;
-                            }
-                        });
-                    }
-                );
-            });
+						BlahguaAPIObject.Current.LoadUserComments ((theComments) => 
+							{
+								UserCommentList = theComments;
+								UserCommentsLoaded = true;
+								Activity.RunOnUiThread (() => 
+									{
+										progressDlg.Hide ();
+										DrawUserComments ();
+									});
+							});
+					});
+			}
         }
+
+		public void DrawUserComments()
+		{
+			if (!UserCommentsLoaded)
+				LoadUserComments ();
+			else
+				Activity.RunOnUiThread(() =>
+					{
+						if ((UserCommentList != null) && (UserCommentList.Count > 0))
+						{
+							comments_total_count.Text = "Your Comments (" + UserCommentList.Count + ")";
+							no_comments.Visibility = ViewStates.Gone;
+							list.Visibility = ViewStates.Visible;
+							adapter = new HistoryCommentsAdapter(this, UserCommentList);
+							list.Adapter = adapter;
+						}
+						else
+						{
+							comments_total_count.Text = "Your Comments (0)";
+							no_comments.Visibility = ViewStates.Visible;
+							list.Visibility = ViewStates.Gone;
+							list.Adapter = adapter = null;
+						}
+					});
+		}
     }
 }

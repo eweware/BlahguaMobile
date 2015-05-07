@@ -44,6 +44,7 @@ namespace BlahguaMobile.AndroidClient
         public static HistoryCommentsFragment commentsFragment;
 		private PagerSlidingTabStrip tabs;
 
+
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
 		private ViewPager pager;
@@ -163,6 +164,12 @@ namespace BlahguaMobile.AndroidClient
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(false);
+			SpannableString s = new SpannableString("Account Information");
+			s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+			s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_black)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+
+			toolbar.TitleFormatted = s;
+
 
             profileFragment = new UserProfileProfileFragment();
             demographicsFragment = new UserProfileDemographicsFragment();
@@ -226,7 +233,7 @@ namespace BlahguaMobile.AndroidClient
 
             int page = Intent.GetIntExtra("Page", 1);
 
-            pager.CurrentItem = page - 1;
+            pager.CurrentItem = page;
 
         }
 
@@ -297,10 +304,12 @@ namespace BlahguaMobile.AndroidClient
 
                 case 3:
                     // posts
+					postsFragment.DrawUserPosts();
                     break;
 
                 case 4:
                     // comments
+					commentsFragment.DrawUserComments();
                     break;
 
                 case 5:
@@ -352,6 +361,8 @@ namespace BlahguaMobile.AndroidClient
                 //commentsFragment.triggerCreateBlock();
             }
         }
+
+
     }
 }
 

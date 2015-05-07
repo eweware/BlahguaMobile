@@ -262,6 +262,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 Activity.RunOnUiThread(() =>
                 {
                     triggerCreateBlock();
+					commentsAreLoaded = false;
                     LoadComments();
                 });
             }

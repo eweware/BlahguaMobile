@@ -525,13 +525,13 @@ namespace BlahguaMobile.AndroidClient.Screens
 			case Resource.Id.action_badges:
 
 				intent_profile = new Intent(this, typeof(UserProfileActivity));
-				intent_profile.PutExtra("Page", 1);
+				intent_profile.PutExtra("Page", 2);
 				StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_demographics:
 
 				intent_profile = new Intent(this, typeof(UserProfileActivity));
-				intent_profile.PutExtra("Page",2 );
+				intent_profile.PutExtra("Page",1 );
 				StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_history:
@@ -541,7 +541,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				break;
 			case Resource.Id.action_stats:
 				intent_profile = new Intent(this, typeof(UserProfileActivity));
-				intent_profile.PutExtra("Page", 4);
+				intent_profile.PutExtra("Page", 5);
 				StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_logout:

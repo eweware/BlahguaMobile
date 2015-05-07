@@ -248,6 +248,8 @@ namespace BlahguaMobile.AndroidClient
             drawerLayout.SetDrawerShadow(Resource.Drawable.draweredgeshadow, (int)GravityFlags.Left);
 
             populateChannelMenu();
+			((PostPageAdapter)pager.Adapter).UpdateIcons(0);
+
         }
 
         private void populateChannelMenu()
@@ -411,33 +413,6 @@ namespace BlahguaMobile.AndroidClient
 
 		}
 
-        /*
-        public override Android.Content.Res.Resources Resources
-        {
-            get
-            {
-                return new ResourceFix(base.Resources);
-            }
-        }
-        */
-        private class ResourceFix : Android.Content.Res.Resources
-        {
-            private int targetId = 0;
-
-            public ResourceFix(Android.Content.Res.Resources resources)
-                : base(resources.Assets, resources.DisplayMetrics, resources.Configuration)
-            {
-                
-                targetId = Android.Content.Res.Resources.System.GetIdentifier("split_action_bar_is_narrow", "bool", "android");
-
-            }
-
-            public override bool GetBoolean(int id)
-            {
-                return targetId == id || base.GetBoolean(id);
-            }
-
-        }
 
 
         public override bool OnPrepareOptionsMenu(IMenu menu)
@@ -561,17 +536,6 @@ namespace BlahguaMobile.AndroidClient
             return base.OnOptionsItemSelected(item);
         }
 
-        /*
-		public override bool DispatchTouchEvent(MotionEvent ev)
-		{
-			bool didIt = _gestureDetector.OnTouchEvent (ev);
-            if (!didIt)
-                return base.DispatchTouchEvent(ev);
-            else
-                return true;
-		}
-        */
-      
 
         protected override void OnResume()
         {
@@ -588,7 +552,7 @@ namespace BlahguaMobile.AndroidClient
         private void HandleReportPost()
         {
             Intent emailIntent = new Intent(Intent.ActionSendto,
-            	Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
+            Android.Net.Uri.FromParts("mailto", App.EmailReportBug, null));
             emailIntent.PutExtra(Intent.ExtraSubject, GetString(Resource.String.viewpost_report_email_subject));
             emailIntent.PutExtra(Intent.ExtraText, GetString(Resource.String.viewpost_report_infringement_body));
             StartActivity(Intent.CreateChooser(emailIntent, GetString(Resource.String.signin_infringe_chooser_title)));
@@ -596,15 +560,11 @@ namespace BlahguaMobile.AndroidClient
 
         private void HandleAddComment()
         {
-            /*
-            if (ActionBar.SelectedTab != commentTab)
-            {
-                isFromCommentBtn = true;
-                ActionBar.SelectTab(commentTab);
-            }
-            else
-                commentsFragment.triggerCreateBlock();
-             */
+			if (pager.CurrentItem != 1)
+				pager.CurrentItem = 1;
+
+			CommentsView.triggerCreateBlock ();
+            
         }
 
 
@@ -636,6 +596,11 @@ namespace BlahguaMobile.AndroidClient
         {
             InvalidateOptionsMenu();
         }
+
+		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult (requestCode, resultCode, data);
+		}
     }
 }
 
