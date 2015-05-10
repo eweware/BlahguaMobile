@@ -51,7 +51,7 @@ namespace BlahguaMobile.AndroidClient
 
 		public class ProfilePageAdapter : FragmentPagerAdapter
 		{
-			private string[] Titles = { "Profile", "Demographics", "Badges", "Posts", "Comments", "Stats" };
+			private string[] Titles = { "Account", "Demographics", "Badges", "Posts", "Comments", "Stats" };
 			Android.Support.V7.App.ActionBarActivity activity;
 
 			public ProfilePageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
@@ -164,11 +164,8 @@ namespace BlahguaMobile.AndroidClient
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(false);
-			SpannableString s = new SpannableString("Account Information");
-			s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
-			s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_black)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
-
-			toolbar.TitleFormatted = s;
+			
+            this.Title = "profile info";
 
 
             profileFragment = new UserProfileProfileFragment();
@@ -216,6 +213,7 @@ namespace BlahguaMobile.AndroidClient
             {
 
             };
+                    
 
             //Display the drawer title and update the options menu
             this.drawerToggle.DrawerOpened += (o, args) =>
@@ -338,9 +336,9 @@ namespace BlahguaMobile.AndroidClient
         {
             SpannableString s = new SpannableString(title);
             s.SetSpan(new TypefaceSpan(this, "Merriweather.otf"), 0, s.Length(), SpanTypes.ExclusiveExclusive);
-            s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_teal)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
+            s.SetSpan(new ForegroundColorSpan(Resources.GetColor(Resource.Color.heard_white)), 0, s.Length(), SpanTypes.ExclusiveExclusive);
 
-            SupportActionBar.TitleFormatted = s;
+            toolbar.TitleFormatted = s;
 
         }
 

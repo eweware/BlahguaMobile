@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Heard</string>
+	<string name="profile_activity_name">profile settings</string>
+	<string name="post_activity_name">Heard</string>
 	<string name="done_big_btn">DONE</string>
 	<string name="done_titlebar_btn">Done</string>
 	<string name="cancel_titlebar_btn">Cancel</string>

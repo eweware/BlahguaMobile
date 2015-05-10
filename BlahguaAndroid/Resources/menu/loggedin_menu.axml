@@ -11,7 +11,7 @@
 		app:showAsAction="always">
 		<menu>
 			<item android:id="@+id/action_profile"
-				android:title="Profile"
+				android:title="Account"
 				android:alphabeticShortcut="p"
 				android:orderInCategory="2"
 				android:showAsAction="never"/>
