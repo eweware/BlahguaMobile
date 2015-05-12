@@ -107,18 +107,6 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
 
 
-        public override void OnPause()
-        {
-            dialog.Dismiss();
-            base.OnPause();
-        }
-
-
-        public override void OnStart()
-        {
-            base.OnStart();
-        }
-
         private Blah loadedBlah;
         private void initBlahPost()
         {

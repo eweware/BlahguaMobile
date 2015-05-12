@@ -29,7 +29,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 {
     public class ViewPostCommentsFragment : Android.Support.V4.App.Fragment, IUrlImageViewCallback
     {
-        private readonly int SELECTIMAGE_REQUEST = 777;
+
 
         public static ViewPostCommentsFragment NewInstance()
         {
@@ -49,78 +49,73 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressDialog progressDlg;
 
         public bool shouldCreateComment = false;
+        public ViewPostActivity baseView = null;
 
         #region ImageUpload
 
-        private FrameLayout imageCreateCommentLayout;
-        private ImageView imageCreateComment;
-        private ProgressBar progressBarImageLoading;
-        private bool commentsAreLoaded = false;
+        public FrameLayout imageCreateCommentLayout;
+        public ImageView imageCreateComment;
+        public ProgressBar progressBarImageLoading;
+        public bool commentsAreLoaded = false;
 
 
-		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+        public void HandleCommentImage(int requestCode, Intent data)
         {
-			if ((requestCode == SELECTIMAGE_REQUEST || requestCode == HomeActivity.PHOTO_CAPTURE_EVENT)
-				&& resultCode == (int)Android.App.Result.Ok)
-			{
-				progressBarImageLoading.Visibility = ViewStates.Visible;
-				imageCreateCommentLayout.Visibility = ViewStates.Visible;
-				imageCreateComment.SetImageDrawable(null);
-				System.IO.Stream fileStream;
-				String fileName;
+            progressBarImageLoading.Visibility = ViewStates.Visible;
+            imageCreateCommentLayout.Visibility = ViewStates.Visible;
+            imageCreateComment.SetImageDrawable(null);
+            System.IO.Stream fileStream;
+            String fileName;
 
-				if (requestCode == SELECTIMAGE_REQUEST)
-				{
-					fileStream = StreamHelper.GetStreamFromFileUri(this.Activity, data.Data);
-					fileName = StreamHelper.GetFileName(this.Activity, data.Data);
-				}
-				else
-				{
-					Bitmap scaledBitmap = BitmapHelper.LoadAndResizeBitmap (HomeActivity._file.AbsolutePath, HomeActivity.MAX_IMAGE_SIZE);
-					fileStream = new System.IO.MemoryStream ();
-					scaledBitmap.Compress (Bitmap.CompressFormat.Jpeg, 90, fileStream);
-					fileStream.Flush ();
-					fileName = HomeActivity._file.Name;
-				}
+            if (requestCode == ViewPostActivity.SELECTIMAGE_REQUEST)
+            {
+                fileStream = StreamHelper.GetStreamFromFileUri(this.Activity, data.Data);
+                fileName = StreamHelper.GetFileName(this.Activity, data.Data);
+            }
+            else
+            {
+                Bitmap scaledBitmap = BitmapHelper.LoadAndResizeBitmap(HomeActivity._file.AbsolutePath, HomeActivity.MAX_IMAGE_SIZE);
+                fileStream = new System.IO.MemoryStream();
+                scaledBitmap.Compress(Bitmap.CompressFormat.Jpeg, 90, fileStream);
+                fileStream.Flush();
+                fileName = HomeActivity._file.Name;
+            }
 
-                if (fileStream != null)
-                {
-                    BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
-                    {
-                        Activity.RunOnUiThread(() =>
-                        {
-                            if ((photoString != null) && (photoString.Length > 0))
-                            {
-                                string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
-                                imageCreateComment.SetUrlDrawable(photoURL, this);
-                                BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
-                                BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
-                                HomeActivity.analytics.PostUploadBlahImage();
-                            }
-                            else
-                            {
-                                progressBarImageLoading.Visibility = ViewStates.Gone;
-                                ClearImages();
-                                HomeActivity.analytics.PostSessionError("commentimageuploadfailed");
-                            }
-                        });
-                    });
-                }
-                else
+            if (fileStream != null)
+            {
+                BlahguaAPIObject.Current.UploadPhoto(fileStream, fileName, (photoString) =>
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var toast = Toast.MakeText(Activity, "Cannot upload this type of image", ToastLength.Long);
-                        toast.Show();
-                        progressBarImageLoading.Visibility = ViewStates.Gone;
-                        ClearImages();
+                        if ((photoString != null) && (photoString.Length > 0))
+                        {
+                            string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
+                            imageCreateComment.SetUrlDrawable(photoURL, this);
+                            BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
+                            BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
+                            HomeActivity.analytics.PostUploadBlahImage();
+                        }
+                        else
+                        {
+                            progressBarImageLoading.Visibility = ViewStates.Gone;
+                            ClearImages();
+                            HomeActivity.analytics.PostSessionError("commentimageuploadfailed");
+                        }
                     });
-                }
-
-                
+                });
             }
-            base.OnActivityResult(requestCode, (int)resultCode, data);
+            else
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    var toast = Toast.MakeText(Activity, "Cannot upload this type of image", ToastLength.Long);
+                    toast.Show();
+                    progressBarImageLoading.Visibility = ViewStates.Gone;
+                    ClearImages();
+                });
+            }
         }
+		
 
         public void OnLoaded(ImageView imageView, Android.Graphics.Drawables.Drawable loadedDrawable, string url, bool loadedFromCache)
         {
@@ -165,23 +160,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 				{
 					if (arg1.Item.ItemId == Resource.Id.action_takephoto)
 					{
-						Intent intent = new Intent(MediaStore.ActionImageCapture);
-
-						HomeActivity._file = new File(HomeActivity._dir, String.Format("PhotoTossPhoto_{0}.jpg", Guid.NewGuid()));
-
-						intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(HomeActivity._file));
-
-						StartActivityForResult(intent, HomeActivity.PHOTO_CAPTURE_EVENT);
+                        baseView.UserTakePhoto();
 					}
 					else if (arg1.Item.ItemId == Resource.Id.action_selectphoto)
 					{
 						// select a photo
-						var imageIntent = new Intent();
-						imageIntent.SetType("image/*");
-						imageIntent.SetAction(Intent.ActionGetContent);
-
-						StartActivityForResult(
-							Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
+                        baseView.UserChoosePhoto();
 					}
 					else if (arg1.Item.ItemId == Resource.Id.action_removephoto)
 					{

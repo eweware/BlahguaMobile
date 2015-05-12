@@ -25,6 +25,9 @@ using Android.Support.V4.View;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using com.refractored;
+using Android.Provider;
+using File = Java.IO.File;
+using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -46,6 +49,7 @@ namespace BlahguaMobile.AndroidClient
         private DrawerLayout drawerLayout;
         private ListView drawerListView;
         private ViewPager pager;
+        public static readonly int SELECTIMAGE_REQUEST = 777;
 
         public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
         {
@@ -196,6 +200,8 @@ namespace BlahguaMobile.AndroidClient
 			HomeActivity.analytics.PostPageView("/blah");
             SummaryView = new ViewPostSummaryFragment();
             CommentsView = new ViewPostCommentsFragment();
+            CommentsView.baseView = this;
+
             StatsView = new ViewPostStatsFragment();
 
             pager = FindViewById<ViewPager>(Resource.Id.post_pager);
@@ -250,6 +256,27 @@ namespace BlahguaMobile.AndroidClient
             populateChannelMenu();
 			((PostPageAdapter)pager.Adapter).UpdateIcons(0);
 
+        }
+
+        public void UserTakePhoto()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+            HomeActivity._file = new File(HomeActivity._dir, String.Format("HeardPhoto_{0}.jpg", Guid.NewGuid()));
+
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(HomeActivity._file));
+
+            StartActivityForResult(intent, HomeActivity.PHOTO_CAPTURE_EVENT);
+        }
+
+        public void UserChoosePhoto()
+        {
+            var imageIntent = new Intent();
+            imageIntent.SetType("image/*");
+            imageIntent.SetAction(Intent.ActionGetContent);
+
+            StartActivityForResult(
+                Intent.CreateChooser(imageIntent, "Select image"), SELECTIMAGE_REQUEST);
         }
 
         private void populateChannelMenu()
@@ -597,10 +624,18 @@ namespace BlahguaMobile.AndroidClient
             InvalidateOptionsMenu();
         }
 
-		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
-		{
-			base.OnActivityResult (requestCode, resultCode, data);
-		}
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+		    if ((requestCode == SELECTIMAGE_REQUEST || requestCode == HomeActivity.PHOTO_CAPTURE_EVENT)
+			    && resultCode == Android.App.Result.Ok)
+		    {
+
+                CommentsView.HandleCommentImage(requestCode, data);
+                
+            }
+            else
+                base.OnActivityResult(requestCode, resultCode, data);
+        }
     }
 }
 

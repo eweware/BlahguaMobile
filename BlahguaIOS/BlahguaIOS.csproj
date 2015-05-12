@@ -571,18 +571,42 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Icon.png" />
-    <ImageAsset Include="Resources\Icon%402x.png" />
-    <ImageAsset Include="Resources\Icon-60%402x.png" />
-    <ImageAsset Include="Resources\Icon-72.png" />
-    <ImageAsset Include="Resources\Icon-72%402x.png" />
-    <ImageAsset Include="Resources\Icon-76.png" />
-    <ImageAsset Include="Resources\Icon-76%402x.png" />
-    <ImageAsset Include="Resources\Icon-Small.png" />
-    <ImageAsset Include="Resources\Icon-Small-40.png" />
-    <ImageAsset Include="Resources\Icon-Small-40%402x.png" />
-    <ImageAsset Include="Resources\Icon-Small-50.png" />
-    <ImageAsset Include="Resources\Icon-Small-50%402x.png" />
+    <ImageAsset Include="Resources\Icon.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-60%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-72.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-72%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-76.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-76%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-Small.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-Small-40.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-Small-40%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-Small-50.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Icon-Small-50%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
