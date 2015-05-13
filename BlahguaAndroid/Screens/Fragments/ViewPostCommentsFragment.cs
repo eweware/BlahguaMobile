@@ -236,6 +236,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
+
+
         private void OnCreateCommentOK(Comment newComment)
         {
             if (newComment != null)

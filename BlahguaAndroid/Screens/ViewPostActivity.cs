@@ -32,7 +32,7 @@ using Uri = Android.Net.Uri;
 namespace BlahguaMobile.AndroidClient
 {
     [Activity(Theme = "@style/AppSubTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ViewPostActivity : Android.Support.V7.App.ActionBarActivity, ViewPager.IOnPageChangeListener
+	public class ViewPostActivity : Android.Support.V7.App.AppCompatActivity, ViewPager.IOnPageChangeListener
     {
         private BGActionBarDrawerToggle drawerToggle;
         private bool isFromCommentBtn = false;
@@ -40,7 +40,7 @@ namespace BlahguaMobile.AndroidClient
 		private string[] badgeItemNames = null;
 		private bool[]	badgeItemBools = null;
 		private IMenuItem reportIcon = null;
-        private Toolbar toolbar = null;
+		private Android.Support.V7.Widget.Toolbar toolbar = null;
         public static ViewPostSummaryFragment SummaryView;
         public static ViewPostCommentsFragment CommentsView;
         public static ViewPostStatsFragment StatsView;
@@ -57,9 +57,9 @@ namespace BlahguaMobile.AndroidClient
             private ImageView[] imageIcons = { null, null, null };
             private int[] Icons = { Resource.Drawable.btn_summary_normal, Resource.Drawable.btn_comments_normal, Resource.Drawable.btn_stats_normal };
             private int[] SelectedIcons = { Resource.Drawable.btn_summary_pressed, Resource.Drawable.btn_comments_pressed, Resource.Drawable.btn_stats_pressed };
-            Android.Support.V7.App.ActionBarActivity activity;
+			Android.Support.V7.App.AppCompatActivity activity;
 
-            public PostPageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
+			public PostPageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.AppCompatActivity theActivity)
                 : base(fm)
             {
                 activity = theActivity;
@@ -130,6 +130,11 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
+		protected override void OnPause ()
+		{
+			base.OnPause ();
+		}
+
         class DrawerItemAdapter<T> : ArrayAdapter<T>
         {
             T[] _items;
@@ -190,7 +195,7 @@ namespace BlahguaMobile.AndroidClient
             }
 
 
-            toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+			toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.tool_bar);
             SetSupportActionBar(toolbar);
 
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
@@ -198,7 +203,7 @@ namespace BlahguaMobile.AndroidClient
             SupportActionBar.SetDisplayShowHomeEnabled(false);
 
 			HomeActivity.analytics.PostPageView("/blah");
-            SummaryView = new ViewPostSummaryFragment();
+			SummaryView = new ViewPostSummaryFragment ();
             CommentsView = new ViewPostCommentsFragment();
             CommentsView.baseView = this;
 

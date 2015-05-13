@@ -244,6 +244,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+
         #region Handles
 
         private void HandlePollInit()

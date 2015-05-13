@@ -32,10 +32,10 @@ using BlahguaMobile.AndroidClient.HelpingClasses;
 namespace BlahguaMobile.AndroidClient
 {
 	[Activity(Theme = "@style/AppSubTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-	public class UserProfileActivity : Android.Support.V7.App.ActionBarActivity, ViewPager.IOnPageChangeListener
+	public class UserProfileActivity : Android.Support.V7.App.AppCompatActivity, ViewPager.IOnPageChangeListener
     {
 		private BGActionBarDrawerToggle drawerToggle;
-		private Toolbar toolbar = null;
+		private Android.Support.V7.Widget.Toolbar toolbar = null;
         public static UserProfileProfileFragment profileFragment;
         public static UserProfileDemographicsFragment demographicsFragment;
         public static UserProfileBadgesFragment badgesFragment;
@@ -52,9 +52,9 @@ namespace BlahguaMobile.AndroidClient
 		public class ProfilePageAdapter : FragmentPagerAdapter
 		{
 			private string[] Titles = { "Account", "Demographics", "Badges", "Posts", "Comments", "Stats" };
-			Android.Support.V7.App.ActionBarActivity activity;
+			Android.Support.V7.App.AppCompatActivity activity;
 
-			public ProfilePageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.ActionBarActivity theActivity)
+			public ProfilePageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.AppCompatActivity theActivity)
 				: base(fm)
 			{
 				activity = theActivity;
@@ -158,7 +158,7 @@ namespace BlahguaMobile.AndroidClient
             //RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.activity_userprofile);
 
-            toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+			toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.tool_bar);
             SetSupportActionBar(toolbar);
 
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);

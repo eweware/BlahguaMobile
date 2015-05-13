@@ -38,7 +38,7 @@ using Uri = Android.Net.Uri;
 namespace BlahguaMobile.AndroidClient.Screens
 {
     [Activity(MainLauncher = true, Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-	public partial class  HomeActivity : Android.Support.V7.App.ActionBarActivity
+	public partial class  HomeActivity : Android.Support.V7.App.AppCompatActivity
 	{
 
 		private BGActionBarDrawerToggle drawerToggle;
@@ -64,7 +64,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private static bool needsInit = true;
         private static bool isFirstLoad = true;
-        private Toolbar toolbar = null;
+		private Android.Support.V7.Widget.Toolbar toolbar = null;
 
 		class DrawerItemAdapter<T> : ArrayAdapter<T>
 		{
@@ -166,7 +166,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     System.Console.WriteLine(exp.Message);
                 }
-               toolbar = FindViewById<Toolbar>(Resource.Id.tool_bar);
+			toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.tool_bar);
                SetSupportActionBar(toolbar);
            
 

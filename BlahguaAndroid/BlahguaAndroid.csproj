@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AssemblyName>BlahguaAndroid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
     <MandroidI18n />
     <RootNamespace>BlahguaMobile.AndroidClient</RootNamespace>
