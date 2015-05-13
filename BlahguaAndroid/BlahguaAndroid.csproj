@@ -42,6 +42,11 @@
     <ConsolePause>false</ConsolePause>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
     <DebugType>full</DebugType>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/ultradad/Github/BlahguaMobile/BlahguaAndroid/eweware_keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>All4Sheeple</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>blahguaandroid</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>All4Sheeple</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HockeyApp.Android">
