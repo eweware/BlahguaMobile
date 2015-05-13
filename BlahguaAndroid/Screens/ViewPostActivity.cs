@@ -50,6 +50,7 @@ namespace BlahguaMobile.AndroidClient
         private ListView drawerListView;
         private ViewPager pager;
         public static readonly int SELECTIMAGE_REQUEST = 777;
+		private Android.Support.V7.Widget.ShareActionProvider actionProvider = null;
 
         public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
         {
@@ -493,6 +494,23 @@ namespace BlahguaMobile.AndroidClient
                 }
 
 				reportIcon = menu.FindItem(Resource.Id.action_report);
+				if (actionProvider == null)
+				{
+					Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
+					string blahURL = "http://app.goheard.com/?blahId=" + curBlah._id;
+					var shareItem = menu.FindItem(Resource.Id.action_share);
+					var nativeAction = MenuItemCompat.GetActionProvider(shareItem);
+					actionProvider = nativeAction.JavaCast<Android.Support.V7.Widget.ShareActionProvider>();
+					var intent = new Intent(Intent.ActionSend);
+					intent.SetType("text/plain");
+					intent.AddFlags(ActivityFlags.ClearWhenTaskReset);
+					intent.PutExtra(Intent.ExtraTitle, "Shared from Heard");
+					intent.PutExtra(Intent.ExtraText, blahURL);
+					intent.PutExtra(Intent.ExtraSubject, curBlah.T);
+					actionProvider.SetShareIntent(intent);
+
+				}
+
 
             }
             catch (Exception exp)

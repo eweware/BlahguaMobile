@@ -244,6 +244,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+		public override void OnPause ()
+		{
+			if (dialog.IsShowing)
+				dialog.Hide ();
+			base.OnPause ();
+		}
 
         #region Handles
 

@@ -9,7 +9,7 @@
     android:title="report problem"
     app:showAsAction="always"/>
   <item android:id="@+id/action_share"
-    android:icon="@drawable/ic_action_share"
-    android:title="share"
-    app:showAsAction="always"/>
+   app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+   android:title="share"
+   app:showAsAction="always"/>
 </menu>

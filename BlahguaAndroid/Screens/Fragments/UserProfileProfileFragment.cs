@@ -29,7 +29,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
 
         private ProgressBar progress;
-        private TextView accountName, headingPrompt;
+        private TextView accountName;
         private ImageView avatar;
         private EditText nickname, recoveryEmail;
         private Button btn_avatar, btn_save;
@@ -60,13 +60,8 @@ namespace BlahguaMobile.AndroidClient.Screens
             recoveryEmail = fragment.FindViewById<EditText>(Resource.Id.recoveryEmail);
             btn_save = fragment.FindViewById<Button>(Resource.Id.btn_save);
             useMatureChk = fragment.FindViewById<CheckBox>(Resource.Id.matureContentCheck);
-            accountName = fragment.FindViewById<TextView>(Resource.Id.accountName);
-            headingPrompt = fragment.FindViewById<TextView>(Resource.Id.headingPrompt);
 
-            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, headingPrompt, useMatureChk, nickname, btn_avatar, btn_save, recoveryEmail);
-            UiHelper.SetGothamTypeface(TypefaceStyle.Bold, accountName);
-            useMatureChk.SetBackgroundColor(Resources.GetColor(Resource.Color.heard_red));
-            accountName.Text = "Account name:  " + BlahguaMobile.BlahguaCore.BlahguaAPIObject.Current.GetSavedUserInfo().UserName;
+            UiHelper.SetGothamTypeface(TypefaceStyle.Normal, useMatureChk, nickname, btn_avatar, btn_save, recoveryEmail);
             progress.Visibility = ViewStates.Gone;
             btn_avatar.Click += click;
             avatar.Click += click;

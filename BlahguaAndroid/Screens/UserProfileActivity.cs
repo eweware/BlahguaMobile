@@ -165,7 +165,7 @@ namespace BlahguaMobile.AndroidClient
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(false);
 			
-            this.Title = "profile info";
+			this.Title =  BlahguaMobile.BlahguaCore.BlahguaAPIObject.Current.GetSavedUserInfo().UserName;
 
 
             profileFragment = new UserProfileProfileFragment();

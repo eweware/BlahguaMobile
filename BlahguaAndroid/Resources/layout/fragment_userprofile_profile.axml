@@ -8,23 +8,6 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:orientation="vertical">
-        <TextView
-            android:text="Edit your profile image and display name"
-            android:textColor="@color/heard_black"
-            android:typeface="normal"
-            android:textSize="18dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/headingPrompt" />
-        <TextView
-            android:text="username:"
-            android:textColor="@color/heard_black"
-            android:typeface="normal"
-            android:textSize="18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/accountName" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -94,6 +77,32 @@
                 android:hint="confirm password"
                 android:inputType="textPassword" />
         </LinearLayout>
+        <CheckBox
+            android:text="Show Mature Content"
+            android:layout_width="match_parent"
+            android:foreground="@color/heard_black"
+            android:layout_height="wrap_content"
+            android:textColor="@color/heard_black"
+            android:textSize="14dp"
+            android:id="@+id/matureContentCheck" />
+        <TextView
+            android:text="recovery email"
+            android:textColor="@color/heard_black"
+            android:typeface="normal"
+            android:textSize="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_recoveryemail" />
+        <EditText
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/heard_black"
+            android:id="@+id/recoveryEmail"
+            android:background="@null"
+            android:padding="10dp"
+            android:textColorHint="#808080"
+            android:hint="recovery email" />
         <TextView
             android:text="profile image"
             android:textColor="@color/heard_black"
@@ -126,32 +135,6 @@
                 android:indeterminateDrawable="@drawable/progress_smiley"
                 android:layout_centerHorizontal="true" />
         </FrameLayout>
-        <CheckBox
-            android:text="Show Mature Content"
-            android:layout_width="match_parent"
-            android:foreground="@color/heard_black"
-            android:layout_height="wrap_content"
-            android:textColor="@color/heard_black"
-            android:textSize="18dp"
-            android:id="@+id/matureContentCheck" />
-        <TextView
-            android:text="recovery email"
-            android:textColor="@color/heard_black"
-            android:typeface="normal"
-            android:textSize="14dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_recoveryemail" />
-        <EditText
-            android:inputType="textEmailAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/heard_black"
-            android:id="@+id/recoveryEmail"
-            android:background="@null"
-            android:padding="10dp"
-            android:textColorHint="#808080"
-            android:hint="recovery email" />
         <Button
             android:text="Save"
             android:layout_width="match_parent"
