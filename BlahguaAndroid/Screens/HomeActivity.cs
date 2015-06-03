@@ -102,7 +102,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     else
                     {
                         text.SetTextColor(Color.White);
-                        text.SetBackgroundColor(_context.Resources.GetColor(Resource.Color.heard_blue));
+						text.SetBackgroundColor(Color.Transparent);
                     }
 
 				}
@@ -158,14 +158,14 @@ namespace BlahguaMobile.AndroidClient.Screens
                 (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
 
 			    //this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
-                try
-                {
-                    SetContentView(Resource.Layout.page_home_view);
-                }
-                catch (Exception exp)
-                {
-                    System.Console.WriteLine(exp.Message);
-                }
+            try
+            {
+                SetContentView(Resource.Layout.page_home_view);
+            }
+            catch (Exception exp)
+            {
+                System.Console.WriteLine(exp.Message);
+            }
 			toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.tool_bar);
                SetSupportActionBar(toolbar);
            

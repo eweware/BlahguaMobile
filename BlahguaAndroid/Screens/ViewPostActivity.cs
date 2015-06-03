@@ -172,7 +172,7 @@ namespace BlahguaMobile.AndroidClient
                     else
                     {
                         text.SetTextColor(Color.White);
-                        text.SetBackgroundColor(_context.Resources.GetColor(Resource.Color.heard_blue));
+						text.SetBackgroundColor(Color.Transparent);
                     }
 
                 }
@@ -237,7 +237,6 @@ namespace BlahguaMobile.AndroidClient
 
             //DrawerToggle is the animation that happens with the indicator next to the actionbar
             this.drawerToggle = new BGActionBarDrawerToggle(this, this.drawerLayout,
-                toolbar,
                 Resource.String.app_name,
                 Resource.String.app_name);
 
@@ -252,6 +251,8 @@ namespace BlahguaMobile.AndroidClient
             {
 
             };
+
+
 
             //Set the drawer lister to be the toggle.
             this.drawerLayout.SetDrawerListener(this.drawerToggle);

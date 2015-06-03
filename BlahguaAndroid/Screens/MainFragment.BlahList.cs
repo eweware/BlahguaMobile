@@ -275,7 +275,6 @@ namespace BlahguaMobile.AndroidClient.Screens
 				newTop = InsertRowTypeF(topLoc);
 				break;
 			}
-			Log.Debug ("INERT ROW", newTop.ToString());
 			return newTop;
 		}
 

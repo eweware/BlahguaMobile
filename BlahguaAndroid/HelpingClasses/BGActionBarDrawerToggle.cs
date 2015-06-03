@@ -33,6 +33,19 @@ namespace BlahguaMobile.AndroidClient.HelpingClasses
             
         }
 
+		public BGActionBarDrawerToggle(Activity activity,
+			DrawerLayout drawerLayout,
+			int openDrawerContentDescRes,
+			int closeDrawerContentDescRes)
+			: base(activity,
+				drawerLayout,
+				openDrawerContentDescRes,
+				closeDrawerContentDescRes)
+		{
+
+		}
+
+
         public event ActionBarDrawerChangedEventHandler DrawerClosed;
         public event ActionBarDrawerChangedEventHandler DrawerOpened;
         public event ActionBarDrawerChangedEventHandler DrawerSlide;

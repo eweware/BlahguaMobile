@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".68" package="com.eweware.heard" android:installLocation="auto" android:versionCode="68">
-	<uses-sdk android:targetSdkVersion="21" android:minSdkVersion="15" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName=".69" package="com.eweware.heard" android:installLocation="auto" android:versionCode="69">
+	<uses-sdk android:targetSdkVersion="22" android:minSdkVersion="15" />
 	<application android:icon="@drawable/ic_launcher" android:label="Heard">
 		<activity android:name="net.hockeyapp.android.UpdateActivity" />
 	</application>

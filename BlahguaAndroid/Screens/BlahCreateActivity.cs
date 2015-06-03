@@ -31,7 +31,7 @@ using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
-	[Activity(ScreenOrientation = ScreenOrientation.Portrait, Theme = "@android:style/Theme.Dialog")]
+	[Activity(ScreenOrientation = ScreenOrientation.Portrait, Theme = "@android:style/Theme.Holo.Light.Dialog.NoActionBar")]
 	public class BlahCreateActivity : Activity, IUrlImageViewCallback, View.IOnTouchListener
     {
         enum MyBlahType
