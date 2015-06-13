@@ -30,6 +30,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         private ProgressDialog progressDlg;
 		public static BlahList UserBlahList = null;
 		public bool UserBlahsLoaded = false;
+        public bool NeedsDraw = false;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -77,7 +78,11 @@ namespace BlahguaMobile.AndroidClient.Screens
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            //DrawUserPosts();
+            if (NeedsDraw)
+            {
+                DrawUserPosts();
+                NeedsDraw = false;
+            }
         }
 
         public void LoadUserPosts()

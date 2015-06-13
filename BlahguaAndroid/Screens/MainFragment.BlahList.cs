@@ -229,6 +229,16 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		}
 
+        public void OpenBlahFromId(string blahId)
+        {
+            StopTimers();
+            BlahguaAPIObject.Current.CurrentInboxBlah = null;
+            App.BlahIdToOpen = blahId;
+            this.Activity.StartActivity(typeof(ViewPostActivity));
+
+        }
+
+
 		#region InsertRows
 		private void InsertAdditionalBlahs()
 		{

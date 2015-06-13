@@ -38,6 +38,14 @@ using Uri = Android.Net.Uri;
 namespace BlahguaMobile.AndroidClient.Screens
 {
     [Activity(MainLauncher = true, Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+    [IntentFilter(new [] {Android.Content.Intent.ActionView }, 
+        DataScheme="heard", 
+        DataHost="*", 
+        Categories=new [] { Android.Content.Intent.CategoryDefault })]
+    [IntentFilter(new [] {Android.Content.Intent.ActionView }, 
+        DataScheme="http", 
+        DataHost="app.goheard.com", 
+        Categories=new [] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable })]
 	public partial class  HomeActivity : Android.Support.V7.App.AppCompatActivity
 	{
 
@@ -52,6 +60,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
+        private string blahToOpen = null;
 
 		public static bool forceFirstTime = false;
         public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
@@ -128,6 +137,21 @@ namespace BlahguaMobile.AndroidClient.Screens
                 BlahguaAPIObject.Delete();
                 Finish();
                 return;
+            }
+
+            var appLinkData = Intent.GetStringExtra ("al_applink_data");
+            if (appLinkData != null)
+            {
+                // handle the intent to parse the URL
+                System.Diagnostics.Debug.WriteLine("found data: " + appLinkData);
+            }
+
+            var intentData = Intent.Data;
+            if (intentData != null)
+            {
+                string idStr = intentData.GetQueryParameter("blahId");
+                if (!String.IsNullOrEmpty(idStr))
+                    blahToOpen = idStr;
             }
                 
 
@@ -257,7 +281,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             String seenIt = _sharedPref.GetString("sawtutorial", "");
 
 
-            if ((String.IsNullOrEmpty(seenIt) || forceFirstTime))
+            if (!String.IsNullOrEmpty(blahToOpen))
+            {
+                this.mainFragment.OpenBlahFromId(blahToOpen);
+            }
+            else if ((String.IsNullOrEmpty(seenIt) || forceFirstTime))
             {
                  _sharedPref.Edit().PutString("sawtutorial", "true").Commit();
                 // TutorialDialog.ShowDialog(FragmentManager);
@@ -267,6 +295,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                 forceFirstTime = false;
             }
         }
+
+
 
 
 
@@ -682,8 +712,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					});
 				if (BlahguaAPIObject.Current.CurrentUser != null)
 				{
-
-					BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
+                BlahguaAPIObject.Current.GetWhatsNew((whatsNew) =>
 						{
 							if ((whatsNew != null) && (whatsNew.message != ""))
 							{

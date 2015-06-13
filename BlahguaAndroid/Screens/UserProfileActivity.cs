@@ -301,7 +301,10 @@ namespace BlahguaMobile.AndroidClient
 
                 case 3:
                     // posts
-					postsFragment.DrawUserPosts();
+                    if (postsFragment.Activity != null)
+                        postsFragment.DrawUserPosts();
+                    else
+                        postsFragment.NeedsDraw = true;
                     break;
 
                 case 4:
