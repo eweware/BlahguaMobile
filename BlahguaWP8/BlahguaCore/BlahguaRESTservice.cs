@@ -8,7 +8,9 @@ using System.Text;
 using RestSharp;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-// # WinPhone version of the file - no ServiceStack.text - sad face...
+using ServiceStack.Text;
+
+
 
 namespace BlahguaMobile.BlahguaCore
 {
@@ -555,21 +557,22 @@ namespace BlahguaMobile.BlahguaCore
             });
 
         }
-        
-        public void CreateBlah(BlahCreateRecord theBlah , Blah_callback callback)
+
+        public void CreateBlah(BlahCreateRecord theBlah, Blah_callback callback)
         {
             RestRequest request = new RestRequest("blahs", Method.POST);
             theBlah.E = theBlah.ExpirationDate.ToString("yyy-MM-dd") + "T00:00:00";
             request.RequestFormat = DataFormat.Json;
             request.AddBody(theBlah);
-			Console.WriteLine("about to create blah!");
-            apiClient.ExecuteAsync<Blah>(request, (response) =>
+            Console.WriteLine("about to create blah!");
+            apiClient.ExecuteAsync(request, (response) =>
             {
                 Blah newBlah = null;
                 if (response.StatusCode == HttpStatusCode.Created)
                 {
-                    newBlah = response.Data;
-					newBlah.cdate = DateTime.Now.ToString();
+                    newBlah = response.Content.FromJson<Blah>();
+                    newBlah.cdate = DateTime.Now.ToString();
+
                 }
 
                 callback(newBlah);

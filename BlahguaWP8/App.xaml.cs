@@ -33,7 +33,7 @@ namespace BlahguaMobile.Winphone
             if ((tempUri.Contains("ShareContent")) && (tempUri.Contains("FileId")))
             {
                 // Redirect to PhotoShare.xaml.
-                mappedUri = tempUri.Replace("MainPage", "Pages/PhotoShare");
+                mappedUri = tempUri.Replace("MainPage", "Screens/PhotoShare");
                 return new Uri(mappedUri, UriKind.Relative);
             }
 

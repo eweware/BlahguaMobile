@@ -54,7 +54,7 @@ namespace BlahguaMobile.Winphone
             else
             {
                 LoadingBox.Visibility = Visibility.Collapsed;
-                MessageBox.Show("Blahgua failed to initialize.  Please try again later.");
+                MessageBox.Show("Heard failed to initialize.  Please try again later.");
                 NavigationService.GoBack(); 
             }
         }
@@ -109,7 +109,7 @@ namespace BlahguaMobile.Winphone
             {
                 if (BlahguaAPIObject.Current.CurrentUser == null)
                 {
-                    MessageBox.Show("Blahgua was unable to sign in.   Please sign in or create an account to post.");
+                    MessageBox.Show("Heard was unable to sign in.   Please sign in or create an account to post.");
                     NavigationService.GoBack();
                 }
                 else
@@ -132,7 +132,7 @@ namespace BlahguaMobile.Winphone
             }
             else
             {
-                MessageBox.Show("Unable to create the blah.  Please try again.  If the problem persists, go ahead and try at a different time.");
+                MessageBox.Show("Unable to create the post.  Please try again.  If the problem persists, go ahead and try at a different time.");
 
             }
 
@@ -379,7 +379,7 @@ namespace BlahguaMobile.Winphone
             string valStr = IsBlahValid();
             if (valStr == "")
             {
-                LoadingPrompt.Text = "Posting to Blahgua...";
+                LoadingPrompt.Text = "Posting to Heard...";
                 LoadingBox.Visibility = Visibility.Visible;
                 WriteableBitmap wBitmap = new WriteableBitmap((BitmapSource)PreviewImage.Source);
 

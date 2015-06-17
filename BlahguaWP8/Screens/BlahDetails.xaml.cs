@@ -174,10 +174,10 @@ namespace BlahguaMobile.Winphone
             switch (curCommentSort)
             {
                 case "byDateAsc":
-                    commentDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Ascending));
+                    commentDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Ascending));
                     break;
                 case "byDateDesc":
-                    commentDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Descending));
+                    commentDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Descending));
                     break;
                 case "byPositive":
                     commentDataView.SortDescriptions.Add(new SortDescription("U", ListSortDirection.Descending));
@@ -739,41 +739,51 @@ namespace BlahguaMobile.Winphone
                 CategoricalSeries promoteSeries = new BarSeries();
                 CategoricalSeries demoteSeries = new BarSeries();
                 Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                DemoProfileSummaryRecord upVotes = curBlah._d._u;
-                DemoProfileSummaryRecord downVotes = curBlah._d._d;
+                DemographicRecord demo = curBlah._d;
 
-                promoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
-                demoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
-                int maxVal = 0;
-                foreach (string curVal in curDict.Keys)
+                if (demo != null)
                 {
-                    promotePoint = new CategoricalDataPoint();
-                    promotePoint.Category = curDict[curVal];
-                    promotePoint.Value = upVotes.GetPropertyValue(demoProp, curVal);// curBlah._d._u.B.GetValue(curVal);
-                    promoteSeries.DataPoints.Add(promotePoint);
+                    DemoProfileSummaryRecord upVotes =  demo._u;
+                    DemoProfileSummaryRecord downVotes = demo._d;
+
+                    promoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
+                    demoteSeries.CombineMode = ChartSeriesCombineMode.Stack;
+                    int maxVal = 0;
+                    foreach (string curVal in curDict.Keys)
+                    {
+                        promotePoint = new CategoricalDataPoint();
+                        promotePoint.Category = curDict[curVal];
+                        promotePoint.Value = upVotes.GetPropertyValue(demoProp, curVal);// curBlah._d._u.B.GetValue(curVal);
+                        promoteSeries.DataPoints.Add(promotePoint);
 
 
-                    demotePoint = new CategoricalDataPoint();
-                    demotePoint.Category = curDict[curVal];
-                    demotePoint.Value = downVotes.GetPropertyValue(demoProp, curVal);
-                    demoteSeries.DataPoints.Add(demotePoint);
+                        demotePoint = new CategoricalDataPoint();
+                        demotePoint.Category = curDict[curVal];
+                        demotePoint.Value = downVotes.GetPropertyValue(demoProp, curVal);
+                        demoteSeries.DataPoints.Add(demotePoint);
 
-                    if ((promotePoint.Value + demotePoint.Value) > maxVal)
-                        maxVal = (int)(promotePoint.Value + demotePoint.Value);
+                        if ((promotePoint.Value + demotePoint.Value) > maxVal)
+                            maxVal = (int)(promotePoint.Value + demotePoint.Value);
+                    }
+                    if (maxVal > 0)
+                    {
+                        maxVal += 2;
+                        if (maxVal < 5)
+                            maxVal = 5;
+                        ((LinearAxis)theChart.VerticalAxis).Maximum = maxVal;
+                        if (maxVal < 5)
+                            maxVal = 5;
+                        double step = (double)maxVal / 5;
+                        ((LinearAxis)theChart.VerticalAxis).MajorStep = (int)Math.Round(step);
+
+                        theChart.Series.Add(promoteSeries);
+                        theChart.Series.Add(demoteSeries);
+                    }
                 }
-                if (maxVal > 0)
+                else
                 {
-                    maxVal += 2;
-                    if (maxVal < 5)
-                        maxVal = 5;
-                    ((LinearAxis)theChart.VerticalAxis).Maximum = maxVal;
-                    if (maxVal < 5)
-                        maxVal = 5;
-                    double step = (double)maxVal / 5;
-                    ((LinearAxis)theChart.VerticalAxis).MajorStep = (int)Math.Round(step);
-
-                    theChart.Series.Add(promoteSeries);
-                    theChart.Series.Add(demoteSeries);
+                    theChart.EmptyContent = "No Data available.";
+                    theChart.EmptyContentTemplate = (DataTemplate)Resources["HiddenChartTemplate"];
                 }
             }
             else

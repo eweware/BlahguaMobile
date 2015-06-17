@@ -264,10 +264,10 @@ namespace BlahguaMobile.Winphone
             switch (curCommentSort)
             {
                 case "byDateAsc":
-                    commentDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Ascending));
+                    commentDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Ascending));
                     break;
                 case "byDateDesc":
-                    commentDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Descending));
+                    commentDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Descending));
                     break;
                 case "byPositive":
                     commentDataView.SortDescriptions.Add(new SortDescription("U", ListSortDirection.Descending));
@@ -289,10 +289,10 @@ namespace BlahguaMobile.Winphone
             switch (curBlahSort)
             {
                 case "byDateAsc":
-                    blahDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Ascending));
+                    blahDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Ascending));
                     break;
                 case "byDateDesc":
-                    blahDataView.SortDescriptions.Add(new SortDescription("c", ListSortDirection.Descending));
+                    blahDataView.SortDescriptions.Add(new SortDescription("CreationDate", ListSortDirection.Descending));
                     break;
                 case "byPositive":
                     blahDataView.SortDescriptions.Add(new SortDescription("P", ListSortDirection.Descending));
