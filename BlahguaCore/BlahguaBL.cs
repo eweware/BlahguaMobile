@@ -1499,6 +1499,7 @@ namespace BlahguaMobile.BlahguaCore
                     if (theAd == null)
                     {
                         // create a fake blah ad
+						/*
                         theAd = new InboxBlah();
                         theAd.G = "558cdefde4b06722dacf35c3";
                         theAd.I = "558ce0ffe4b06722dacf35c8";
@@ -1507,6 +1508,7 @@ namespace BlahguaMobile.BlahguaCore
                         theAd.M.Add("http://lh3.googleusercontent.com/2Qv4E3v2jInWrZ6IaPwFH4i4pMfmTKoDBwS-EH1DWWblOr-Gvp5gS9kGpsQXyibE1xicDrTKdeDRJA8bKTM9sWWNtcY");
                         theAd.Y = "522ccb79e4b0a35dadfcf748";
                         theAd.A = "522ccbdce4b08cd416faf698";
+                        */
                     }
                     theCallback(theAd);
                 }
