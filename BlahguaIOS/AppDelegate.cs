@@ -145,9 +145,8 @@ namespace BlahguaMobile.IOS
                 };
 
                 UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide);
-                Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage(
-                    UIImage.FromBundle(BGAppearanceHelper.DeviceType == DeviceType.iPhone4 ? 
-    					"Default" : "Default-568h"));     
+                UIImage theImg = UIImage.FromBundle("LaunchImage");
+                Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage(theImg);
 
                 InitAnalytics();
                 BlahguaCore.BlahguaAPIObject.Current.Initialize(null, InitCallback);
