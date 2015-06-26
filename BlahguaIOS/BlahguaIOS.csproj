@@ -98,12 +98,12 @@
     <Optimize>True</Optimize>
     <OutputPath>bin\iPhone\AppStore</OutputPath>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution: eweware, inc. (E3T6HDCQT8)</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>4bb2a41c-3c07-4882-a652-20df21395692</CodesignProvision>
+    <CodesignProvision>df490f32-4a06-4ce2-a721-d2558e4a81e8</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
