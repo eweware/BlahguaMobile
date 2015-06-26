@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 
 namespace BlahguaMobile.IOS
 {
@@ -55,14 +55,14 @@ namespace BlahguaMobile.IOS
 			TableView.Source = new BGSignaturesTableSource (this);
 		}
 
-		partial void Done (MonoTouch.UIKit.UIBarButtonItem sender)
+		partial void Done (UIKit.UIBarButtonItem sender)
 		{
 			DismissViewController(true, null);
 		}
 
-        partial void SelectAll(MonoTouch.UIKit.UIBarButtonItem sender)
+        partial void SelectAll(UIKit.UIBarButtonItem sender)
 		{
-			int count = TableView.NumberOfRowsInSection(1);
+			nint count = TableView.NumberOfRowsInSection(1);
 
 			for(int i = 0; i < count; i++)
 			{
@@ -185,7 +185,7 @@ namespace BlahguaMobile.IOS
 				return cell;
 			}
 
-			public override int RowsInSection (UITableView tableview, int section)
+			public override nint RowsInSection (UITableView tableview, nint section)
 			{
 				if (section == 0)
 				{
@@ -206,13 +206,13 @@ namespace BlahguaMobile.IOS
 
 
 
-			public override int NumberOfSections (UITableView tableView)
+			public override nint NumberOfSections (UITableView tableView)
 			{
 				return 2;
 			}
 
 
-			public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+			public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 			{
 				if(indexPath.Section == 0)
 				{
@@ -348,7 +348,7 @@ namespace BlahguaMobile.IOS
 				}
 			}
 				
-			public override string TitleForHeader (UITableView tableView, int section)
+			public override string TitleForHeader (UITableView tableView, nint section)
 			{
 				if (section == 0)
 					return "    description";

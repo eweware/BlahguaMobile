@@ -1,9 +1,9 @@
-﻿
-using System;
-using System.Drawing;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using System;
+using CoreGraphics;
+
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -44,8 +44,8 @@ namespace BlahguaMobile.IOS
 			if (m_image != null)
 				m_imageView.Image = m_image;
 
-			NSAction dismissView = () => {
-				this.NavigationController.PopViewControllerAnimated(true);
+			Action dismissView = () => {
+				this.NavigationController.PopViewController(true);
 			};
 
 			UITapGestureRecognizer imageTapRecognizer = new UITapGestureRecognizer (dismissView);

@@ -4,13 +4,13 @@ using System;
 using System.Linq;
 
 using System.ComponentModel;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using MonoTouch.SlideMenu;
 using SharpMobileCode.ModalPicker;
 
@@ -25,7 +25,7 @@ namespace BlahguaMobile.IOS
 		const string deleteCurrentPhotoText = "Delete Current Photo";
 		const string userProfileText = "Use Profile";
 		const string deleteSignatare = "Delete Signature";
-		private float scrollOffset = 0f;
+		private nfloat scrollOffset = 0f;
 		
 
 		private UIActivityIndicatorView progressIndicator;
@@ -34,7 +34,7 @@ namespace BlahguaMobile.IOS
 		private bool isProfileSignature;
         private UIButton curTypeView = null;
 
-		private RectangleF doneFrame;
+		private CGRect doneFrame;
 
 
 		private UITextField expirationDateInput;
@@ -44,7 +44,7 @@ namespace BlahguaMobile.IOS
 			{
 				if(expirationDateInput == null)
 				{
-					expirationDateInput = new BGTextField (new RectangleF (back.Frame.X, back.Frame.Bottom + 2, 
+					expirationDateInput = new BGTextField (new CGRect (back.Frame.X, back.Frame.Bottom + 2, 
 																			305, 40));
 
 					expirationDateInput.AttributedPlaceholder = new NSAttributedString(
@@ -65,7 +65,7 @@ namespace BlahguaMobile.IOS
 
 						if(UIScreen.MainScreen.Bounds.Height == 480)
 						{
-							containerScrollView.SetContentOffset(new PointF(0, 100), true);
+							containerScrollView.SetContentOffset(new CGPoint(0, 100), true);
 						}
 
 
@@ -88,7 +88,7 @@ namespace BlahguaMobile.IOS
                                 expirationDateInput.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
 
                             };
-                        modalPicker.DatePicker.MinimumDate = DateTime.Today.AddDays (3);
+                        modalPicker.DatePicker.MinimumDate = (Foundation.NSDate)DateTime.Today.AddDays (3);
                         PresentViewController(modalPicker, true, null);
 
 						return false;
@@ -317,7 +317,7 @@ namespace BlahguaMobile.IOS
     				InvokeOnMainThread (() => 
                         {
 
-        					pollItemsTableView.Frame = new RectangleF (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
+        					pollItemsTableView.Frame = new CGRect (pollItemsTableView.Frame.X, doneFrame.Y, pollItemsTableView.Frame.Width, pollItemsTableView.Frame.Height);
         					//containerHeight.Constant = this.View.Bounds.Bottom - doneFrame.Height - 6;
 
         					PreparePollMode ();
@@ -335,7 +335,7 @@ namespace BlahguaMobile.IOS
                                     UIColor.Black
                                 );
 
-    						RectangleF oldFrame = containerScrollView.Frame;
+    						CGRect oldFrame = containerScrollView.Frame;
 
 
     						containerScrollView.AddSubview (ExpirationDateInput);
@@ -475,7 +475,7 @@ namespace BlahguaMobile.IOS
         }
 
 
-        protected virtual void OnKeyboardChanged (bool visible, float keyboardHeight)
+        protected virtual void OnKeyboardChanged (bool visible, nfloat keyboardHeight)
         {
            // TODO: this method does nothing, why is it here??
         }
@@ -487,7 +487,7 @@ namespace BlahguaMobile.IOS
             scrollView.ScrollIndicatorInsets = contentInsets;
 
             // Position of the active field relative isnside the scroll view
-            RectangleF relativeFrame = View.Superview.ConvertRectToView(View.Frame, scrollView);
+            CGRect relativeFrame = View.Superview.ConvertRectToView(View.Frame, scrollView);
             var spaceAboveKeyboard = scrollView.Frame.Height - keyboardHeight;
 
             Console.WriteLine("frameHeight: " + relativeFrame.Height.ToString() + ", spaceAbove:" + spaceAboveKeyboard.ToString());
@@ -495,7 +495,7 @@ namespace BlahguaMobile.IOS
             if (spaceAboveKeyboard < 0)
             {
                 var offset = relativeFrame.Y - (spaceAboveKeyboard - viewToCenter.Frame.Height) / 2;
-                scrollView.ContentOffset = new PointF(0, offset);
+                scrollView.ContentOffset = new CGPoint(0, offset);
             }
         }
 
@@ -758,11 +758,11 @@ namespace BlahguaMobile.IOS
 
 		public void AdjustTableViewSize ()
 		{
-			var newSize = new SizeF (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
+			var newSize = new CGSize (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
 
 			pollOptionTableHeight.Constant = newSize.Height;
 			
-            containerScrollView.ContentSize = new SizeF (320, done.Frame.Bottom + 8);
+            containerScrollView.ContentSize = new CGSize (320, done.Frame.Bottom + 8);
             if (BlahguaAPIObject.Current.CreateRecord.BlahType.N == "polls")
                 buttonTopOffset.Constant = 12f + newSize.Height;
 		}
@@ -829,18 +829,18 @@ namespace BlahguaMobile.IOS
 			if (UIScreen.MainScreen.Bounds.Height == 480) {
 				scrollOffset = containerScrollView.ContentOffset.Y;
 
-				containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, 50 + row * pollItemsTableView.RowHeight), true);
+				containerScrollView.SetContentOffset (new CGPoint (containerScrollView.Frame.X, 50 + row * pollItemsTableView.RowHeight), true);
 			}
 			else {
 				if (row > 1) {
 					scrollOffset = containerScrollView.ContentOffset.Y;
-					containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, (row - 1) * pollItemsTableView.RowHeight), true);
+					containerScrollView.SetContentOffset (new CGPoint (containerScrollView.Frame.X, (row - 1) * pollItemsTableView.RowHeight), true);
 				}
 			}
 		}
 		public void InitScrollOffset()
 		{
-			containerScrollView.SetContentOffset (new PointF (containerScrollView.Frame.X, scrollOffset), true);
+			containerScrollView.SetContentOffset (new CGPoint (containerScrollView.Frame.X, scrollOffset), true);
 		}
 	}
 
@@ -892,17 +892,17 @@ namespace BlahguaMobile.IOS
 			return cell;
 		}
 
-		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			return rowHeight;
 		}
 
-		public override int NumberOfSections (UITableView tableView)
+		public override nint NumberOfSections (UITableView tableView)
 		{
 			return 1;
 		}
 
-		public override int RowsInSection (UITableView tableview, int section)
+		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			if (BlahguaAPIObject.Current.CreateRecord == null)
 				BlahguaAPIObject.Current.CreateRecord = new BlahCreateRecord ();

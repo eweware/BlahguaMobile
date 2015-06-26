@@ -4,8 +4,8 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
 
@@ -15,7 +15,7 @@ namespace BlahguaMobile.IOS
 	partial class BGFullScreenViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIImageView m_imageView { get; set; }
+		UIKit.UIImageView m_imageView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

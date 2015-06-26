@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
+using System;
+using CoreGraphics;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -20,7 +19,7 @@ namespace BlahguaMobile.IOS
 		public override void LoadView()
 		{
 			base.LoadView ();
-			scrollView = new UIScrollView(new RectangleF(0, 44, View.Bounds.Width,View.Bounds.Height - 44));
+			scrollView = new UIScrollView(new CGRect(0, 44, View.Bounds.Width,View.Bounds.Height - 44));
 			scrollView.BackgroundColor = UIColor.Black;
 
 			scrollView.ShowsHorizontalScrollIndicator = false;
@@ -28,9 +27,9 @@ namespace BlahguaMobile.IOS
 
 			scrollView.MaximumZoomScale = 2.0f;
 
-			float newHeight = m_image.Size.Height / m_image.Size.Width * View.Bounds.Width;
+			nfloat newHeight = m_image.Size.Height / m_image.Size.Width * View.Bounds.Width;
 
-			RectangleF rect= new RectangleF(0, 0, View.Bounds.Width, newHeight);
+			CGRect rect= new CGRect(0, 0, View.Bounds.Width, newHeight);
 			//RectangleF rect= new RectangleF(0, 44, m_image.Size.Width, m_image.Size.Height );
 
 			imageView = new UIImageView (rect);
@@ -49,7 +48,7 @@ namespace BlahguaMobile.IOS
 			scrollView.ViewForZoomingInScrollView += (UIScrollView sv) => { return imageView; };
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
-                    this.NavigationController.PopViewControllerAnimated(true);
+                    this.NavigationController.PopViewController(true);
                 });
             NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
                 { 

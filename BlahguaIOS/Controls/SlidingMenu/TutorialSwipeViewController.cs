@@ -1,9 +1,9 @@
-﻿using System;
-using System.Drawing;
+using System;
+using CoreGraphics;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using UIKit;
+
 
 namespace BlahguaMobile.IOS
 {
@@ -17,24 +17,24 @@ namespace BlahguaMobile.IOS
 
 		private NSMutableArray curViews = null;
 
-		private RectangleF m_Frame;
+		private CGRect m_Frame;
 
 		private TutorialSwipeViewDataSource m_dataSource;
 
-		public TutorialSwipeViewController (RectangleF frame) :base(frame)
+		public TutorialSwipeViewController (CGRect frame) :base(frame)
 		{
 			m_Frame = frame;
 	
 			scrollView = new UIScrollView (m_Frame);
 			//scrollView.Delegate = this;
 
-			scrollView.ContentSize = new SizeF (m_Frame.Width * 3, m_Frame.Height);
+			scrollView.ContentSize = new CGSize (m_Frame.Width * 3, m_Frame.Height);
 			scrollView.ShowsHorizontalScrollIndicator = false;
-			scrollView.ContentOffset = new PointF (m_Frame.Width, 0);
+			scrollView.ContentOffset = new CGPoint (m_Frame.Width, 0);
 			scrollView.WeakDelegate = this;
 			this.AddSubview (scrollView);
 
-			RectangleF rect = m_Frame;
+			CGRect rect = m_Frame;
 			rect.Y = rect.Height - 30;
 			rect.Height = 30;
 
@@ -77,13 +77,13 @@ namespace BlahguaMobile.IOS
 				
 			getDisplayImagesWithCurpage (curPage);
 
-			for (int i = 0; i < 3; i++) {
+			for (nuint i = 0; i < 3; i++) {
 				UIView v = curViews.GetItem<UIView>(i);
-				v.Frame = new RectangleF (v.Frame.X + v.Frame.Width * i, v.Frame.Y, v.Frame.Width, v.Frame.Height);
+				v.Frame = new CGRect (v.Frame.X + v.Frame.Width * i, v.Frame.Y, v.Frame.Width, v.Frame.Height);
 				scrollView.AddSubview (v);
 			}
 
-			scrollView.SetContentOffset (new PointF (scrollView.Frame.Size.Width, 0), false);
+			scrollView.SetContentOffset (new CGPoint (scrollView.Frame.Size.Width, 0), false);
 
 		}
 
@@ -91,9 +91,9 @@ namespace BlahguaMobile.IOS
 		{
 			if (atIndex == curPage) {
 				curViews.ReplaceObject (1, view);
-				for (int i = 0; i < 3; i++) {
+				for (nuint i = 0; i < 3; i++) {
 					UIView v = curViews.GetItem<UIView> (i);
-					v.Frame = new RectangleF (v.Frame.X + v.Frame.Width*i, v.Frame.Y, v.Frame.Width, v.Frame.Height);
+					v.Frame = new CGRect (v.Frame.X + v.Frame.Width*i, v.Frame.Y, v.Frame.Width, v.Frame.Height);
 					scrollView.AddSubview (v);
 				}
 			}
@@ -141,7 +141,7 @@ namespace BlahguaMobile.IOS
 		[Export ("scrollViewDidEndDecelerating:")]
 		public void DecelerationEnded (UIScrollView aScroll)
 		{
-			scrollView.SetContentOffset(new PointF(scrollView.Frame.Width, 0), true);
+			scrollView.SetContentOffset(new CGPoint(scrollView.Frame.Width, 0), true);
 		}
 
 	}

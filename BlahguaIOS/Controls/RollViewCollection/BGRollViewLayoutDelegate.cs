@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Drawing;
+using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 using MonoTouch.SlideMenu;
 
 namespace BlahguaMobile.IOS
@@ -39,22 +39,22 @@ namespace BlahguaMobile.IOS
 
 		#region UICollectionViewDelegateFlowLayout Overriden Methods
 
-		public override SizeF GetSizeForItem (UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
+		public override CGSize GetSizeForItem (UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
 		{
 			return manager.GetCellSizeF (manager.GetCellSize(indexPath));
 		}
 
-		public override UIEdgeInsets GetInsetForSection (UICollectionView collectionView, UICollectionViewLayout layout, int section)
+		public override UIEdgeInsets GetInsetForSection (UICollectionView collectionView, UICollectionViewLayout layout, nint section)
 		{
 			return new UIEdgeInsets (0, 0, 0, 0);
 		}
 
-		public override float GetMinimumInteritemSpacingForSection (UICollectionView collectionView, UICollectionViewLayout layout, int section)
+		public override nfloat GetMinimumInteritemSpacingForSection (UICollectionView collectionView, UICollectionViewLayout layout, nint section)
 		{
 			return 0.0f;
 		}
 
-		public override float GetMinimumLineSpacingForSection (UICollectionView collectionView, UICollectionViewLayout layout, int section)
+		public override nfloat GetMinimumLineSpacingForSection (UICollectionView collectionView, UICollectionViewLayout layout, nint section)
 		{
 			return 0.0f;
 		}
@@ -64,7 +64,7 @@ namespace BlahguaMobile.IOS
 			if (!_doingItemSelect) {
 				_doingItemSelect = true;
 				viewController.NaturalScrollInProgress = true;
-				var inboxBlah = ((BGRollViewDataSource)viewController.CollectionView.DataSource).DataSource.ElementAt (indexPath.Item);
+                var inboxBlah = ((BGRollViewDataSource)viewController.CollectionView.DataSource).DataSource.ElementAt ((int)indexPath.Item);
 
 				BlahguaAPIObject.Current.SetCurrentBlahFromId (inboxBlah.I, (blah) => {
 					InvokeOnMainThread (() => {

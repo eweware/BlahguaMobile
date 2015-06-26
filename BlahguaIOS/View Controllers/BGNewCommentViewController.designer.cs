@@ -4,8 +4,8 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
 
@@ -15,22 +15,22 @@ namespace BlahguaMobile.IOS
 	partial class BGNewCommentViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIImageView back { get; set; }
+		UIKit.UIImageView back { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton cancel { get; set; }
+		UIKit.UIButton cancel { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton done { get; set; }
+		UIKit.UIButton done { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView input { get; set; }
+		UIKit.UITextView input { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
+		UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton selectSignature { get; set; }
+		UIKit.UIButton selectSignature { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

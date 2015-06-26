@@ -4,8 +4,8 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
 
@@ -15,52 +15,52 @@ namespace BlahguaMobile.IOS
 	partial class BGCommentTableCell
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel author { get; set; }
+		UIKit.UILabel author { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView badgeTable { get; set; }
+		UIKit.UITableView badgeTable { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint badgeTableHeight { get; set; }
+		UIKit.NSLayoutConstraint badgeTableHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView commentImageView { get; set; }
+		UIKit.UIImageView commentImageView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView containerView { get; set; }
+		UIKit.UIView containerView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint containerViewWidth { get; set; }
+		UIKit.NSLayoutConstraint containerViewWidth { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton downVoteButton { get; set; }
+		UIKit.UIButton downVoteButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint imageViewHeight { get; set; }
+		UIKit.NSLayoutConstraint imageViewHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imgAvatar { get; set; }
+		UIKit.UIImageView imgAvatar { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblUserType { get; set; }
+		UIKit.UILabel lblUserType { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint rightPosition { get; set; }
+		UIKit.NSLayoutConstraint rightPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView text { get; set; }
+		UIKit.UITextView text { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel timespan { get; set; }
+		UIKit.UILabel timespan { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel upAndDownVotes { get; set; }
+		UIKit.UILabel upAndDownVotes { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton upVoteButton { get; set; }
+		UIKit.UIButton upVoteButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView voteView { get; set; }
+		UIKit.UIView voteView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

@@ -4,12 +4,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectGuid>{A9B4FC27-A8B1-4A88-B06E-A3C82197C5F4}</ProjectGuid>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>BlahguaMobile.IOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>BlahguaIOS</AssemblyName>
     <StartupObject>BlahguaMobile.IOS.Application</StartupObject>
+    <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,8 +26,9 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>i386, x86_64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -75,7 +78,7 @@
     </IpaPackageName>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -89,7 +92,7 @@
     <CodesignProvision>88dfb4da-5e98-4e43-a1ef-f19642c90684</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
   </PropertyGroup>
@@ -106,7 +109,7 @@
     <CodesignProvision>df490f32-4a06-4ce2-a721-d2558e4a81e8</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <BuildIpa>true</BuildIpa>
   </PropertyGroup>
@@ -354,44 +357,26 @@
     <Compile Include="Helpers\ImageLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="servicestacktext">
-      <Version>3.9.60.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="restsharp">
-      <Version>104.4.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="swtableviewcell">
-      <Version>0.3.6.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="hockeyappios">
-      <Version>3.6.2.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SWTableViewCell">
-      <HintPath>..\Components\swtableviewcell-0.3.6.0\lib\ios\SWTableViewCell.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="monotouch" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="ServiceStack.Text.MonoTouch">
-      <HintPath>..\Components\servicestacktext-3.9.60.0\lib\ios\ServiceStack.Text.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\Components\hockeyappios-3.6.2.0\lib\ios\HockeyApp.iOS.dll</HintPath>
-    </Reference>
+    <Reference Include="Xamarin.iOS" />
     <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
+      <HintPath>..\Components\restsharp-105.0.1.0\lib\ios-unified\RestSharp.MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text.XamarinIOS">
+      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.6.4.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="SWTableViewCell">
+      <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -443,7 +428,6 @@
     <BundleResource Include="Resources\Logo_master_teal.png" />
     <BundleResource Include="Resources\ICON_TEST.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
@@ -460,9 +444,6 @@
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
     <BundleResource Include="Resources\signupRadioButtonUn%402x.png" />
     <BundleResource Include="Resources\navigationBar%402x.png" />
-    <BundleResource Include="Resources\Default-568h%402x.png" />
-    <BundleResource Include="Resources\Default.png" />
-    <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\profileImageSelectLogo%402x.png" />
     <BundleResource Include="Resources\profileInfoBack%402x.png" />
     <BundleResource Include="Resources\darkGrayBack%402x.png" />
@@ -518,7 +499,6 @@
     <BundleResource Include="Resources\pen_bw.png" />
     <BundleResource Include="Resources\ico_hot.png" />
     <BundleResource Include="Resources\ico_new.png" />
-    <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Default-Portrait.png" />
     <BundleResource Include="Resources\Default-Landscape.png" />
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
@@ -573,15 +553,6 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Icon.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-60%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
     <ImageAsset Include="Resources\Icon-72.png">
       <InProject>false</InProject>
     </ImageAsset>
@@ -594,13 +565,7 @@
     <ImageAsset Include="Resources\Icon-76%402x.png">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Icon-Small.png">
-      <InProject>false</InProject>
-    </ImageAsset>
     <ImageAsset Include="Resources\Icon-Small-40.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-Small-40%402x.png">
       <InProject>false</InProject>
     </ImageAsset>
     <ImageAsset Include="Resources\Icon-Small-50.png">
@@ -609,6 +574,17 @@
     <ImageAsset Include="Resources\Icon-Small-50%402x.png">
       <InProject>false</InProject>
     </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
@@ -618,4 +594,23 @@
     <BundleResource Include="Resources\signupRadioButtonUn.png" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <XamarinComponentReference Include="restsharp">
+      <Version>105.0.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="servicestacktext">
+      <Version>3.9.61.3</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="hockeyappios">
+      <Version>3.6.4.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="swtableviewcell">
+      <Version>0.3.6.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
 </Project>

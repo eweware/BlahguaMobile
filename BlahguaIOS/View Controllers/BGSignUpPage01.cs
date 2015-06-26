@@ -1,8 +1,8 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
-using System.Drawing;
+using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -35,17 +35,17 @@ namespace BlahguaMobile.IOS
         private void OnKeyboardShowNotification (NSNotification notification)
         {
             NSDictionary info = notification.UserInfo;
-            SizeF keyboardSize = ((NSValue)info.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).RectangleFValue.Size;
+            CGSize keyboardSize = ((NSValue)info.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).RectangleFValue.Size;
             UIEdgeInsets contentInsets = new UIEdgeInsets(0, 0, keyboardSize.Height, 0);
             Scroller.ContentInset = contentInsets;
             Scroller.ScrollIndicatorInsets = contentInsets;
 
-            float currentScroll = Scroller.ContentOffset.Y;
-            float minScroll = (activeField.Frame.Bottom + 4) - keyboardSize.Height;
+            nfloat currentScroll = Scroller.ContentOffset.Y;
+            nfloat minScroll = (activeField.Frame.Bottom + 4) - keyboardSize.Height;
 
             if (currentScroll < minScroll)
             {
-                Scroller.SetContentOffset(new PointF(0, minScroll), true);
+                Scroller.SetContentOffset(new CGPoint(0, minScroll), true);
             }
 
                
@@ -60,7 +60,7 @@ namespace BlahguaMobile.IOS
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            Scroller.ContentSize = new SizeF(320, 568);
+            Scroller.ContentSize = new CGSize(320, 568);
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -84,12 +84,12 @@ namespace BlahguaMobile.IOS
 
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
             Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
-            Scroller.Frame = new RectangleF(0, 0, this.View.Frame.Width, this.View.Frame.Height);
-            Scroller.ContentSize = new SizeF(320, 568);
+            Scroller.Frame = new CGRect(0, 0, this.View.Frame.Width, this.View.Frame.Height);
+            Scroller.ContentSize = new CGSize(320, 568);
             HandleTextValueChanged(null, null);
 
             indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
-            indicator.Frame = new RectangleF(0, 0, 40, 40);
+            indicator.Frame = new CGRect(0, 0, 40, 40);
             indicator.Center = this.View.Center;
             this.View.AddSubview(indicator);
             indicator.BringSubviewToFront(this.View);
@@ -260,7 +260,7 @@ namespace BlahguaMobile.IOS
 
 
         private bool TextFieldShouldReturn (UITextField textfield){
-            int nextTag = textfield.Tag + 1;    
+            nint nextTag = textfield.Tag + 1;    
             UIResponder nextResponder = this.View.ViewWithTag (nextTag);
             if (nextResponder != null) {
                 nextResponder.BecomeFirstResponder ();
@@ -337,7 +337,7 @@ namespace BlahguaMobile.IOS
             confirmPassword.Hidden = true;
             signInBtn.Hidden = false;
             recoveryLabel.Hidden = true;
-            skipButton.Frame.Offset(new PointF(0, -124));
+            skipButton.Frame.Offset(new CGPoint(0, -124));
             passwordField.ReturnKeyType = UIReturnKeyType.Default;
 
         }

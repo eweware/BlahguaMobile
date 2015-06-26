@@ -1,9 +1,9 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
 using BlahguaMobile.BlahguaCore;
-using System.Drawing;
+using CoreGraphics;
 
 
 namespace BlahguaMobile.IOS
@@ -38,17 +38,17 @@ namespace BlahguaMobile.IOS
         private void OnKeyboardShowNotification (NSNotification notification)
         {
             NSDictionary info = notification.UserInfo;
-            SizeF keyboardSize = ((NSValue)info.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).RectangleFValue.Size;
+            CGSize keyboardSize = ((NSValue)info.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).RectangleFValue.Size;
             UIEdgeInsets contentInsets = new UIEdgeInsets(0, 0, keyboardSize.Height, 0);
             Scroller.ContentInset = contentInsets;
             Scroller.ScrollIndicatorInsets = contentInsets;
 
-            float currentScroll = Scroller.ContentOffset.Y;
-            float minScroll = (activeField.Frame.Bottom + 4) - keyboardSize.Height;
+            nfloat currentScroll = Scroller.ContentOffset.Y;
+            nfloat minScroll = (activeField.Frame.Bottom + 4) - keyboardSize.Height;
 
             if (currentScroll < minScroll)
             {
-                Scroller.SetContentOffset(new PointF(0, minScroll), true);
+                Scroller.SetContentOffset(new CGPoint(0, minScroll), true);
             }
 
         }
@@ -69,7 +69,7 @@ namespace BlahguaMobile.IOS
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            Scroller.ContentSize = new SizeF(320, 568);
+            Scroller.ContentSize = new CGSize(320, 568);
         }
 
         private void OnKeyboardHideNotification (NSNotification notification)
@@ -89,12 +89,12 @@ namespace BlahguaMobile.IOS
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 
             Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
-            Scroller.ContentSize = new SizeF(320, 568);
-            Scroller.Frame = new RectangleF(0, 0, this.View.Frame.Width, this.View.Frame.Height);
+            Scroller.ContentSize = new CGSize(320, 568);
+            Scroller.Frame = new CGRect(0, 0, this.View.Frame.Width, this.View.Frame.Height);
             HandleTextValueChanged(null, null);
 
             indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
-            indicator.Frame = new RectangleF(0, 0, 40, 40);
+            indicator.Frame = new CGRect(0, 0, 40, 40);
             indicator.Center = this.View.Center;
             this.View.AddSubview(indicator);
             indicator.BringSubviewToFront(this.View);

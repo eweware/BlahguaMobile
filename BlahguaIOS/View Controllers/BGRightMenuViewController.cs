@@ -1,8 +1,8 @@
-﻿
+
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using MonoTouch.Dialog.Utilities;
 using BlahguaMobile.BlahguaCore;
 

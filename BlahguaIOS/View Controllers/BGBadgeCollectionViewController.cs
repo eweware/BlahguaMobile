@@ -4,8 +4,8 @@ using System;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -29,7 +29,7 @@ namespace BlahguaMobile.IOS
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
-                    this.NavigationController.PopViewControllerAnimated(true);
+                    this.NavigationController.PopViewController(true);
                 });
             NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
                 { 
@@ -102,13 +102,13 @@ namespace BlahguaMobile.IOS
 			return cell;
 		}
 
-		public override int GetItemsCount (UICollectionView collectionView, int section)
+		public override nint GetItemsCount (UICollectionView collectionView, nint section)
 		{
 
 			return BlahguaAPIObject.Current.CurrentUser.Badges == null ? 0 : BlahguaAPIObject.Current.CurrentUser.Badges.Count;
 		}
 
-		public override int NumberOfSections (UICollectionView collectionView)
+		public override nint NumberOfSections (UICollectionView collectionView)
 		{
 			return 1;
 		}

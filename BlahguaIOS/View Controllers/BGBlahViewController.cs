@@ -4,16 +4,16 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections;
 using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 //using MonoTouch.Dialog.Utilities;
-using MonoTouch.MessageUI;
+using MessageUI;
 
 namespace BlahguaMobile.IOS
 {
@@ -84,7 +84,7 @@ namespace BlahguaMobile.IOS
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Left;
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
-			NSAction showFullScreen = () => {
+			Action showFullScreen = () => {
 
 				if(blahImage.Image != null)
 				{
@@ -132,7 +132,7 @@ namespace BlahguaMobile.IOS
                 ShouldMoveToStats = false;
             }
 
-            contentView.ContentSize = new SizeF(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
+            contentView.ContentSize = new CGSize(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -159,7 +159,7 @@ namespace BlahguaMobile.IOS
             //bottomToolbar.TranslatesAutoresizingMaskIntoConstraints = true;
 
             contentView.ClipsToBounds = true;
-            contentView.ContentOffset = new PointF(0, 0);
+            contentView.ContentOffset = new CGPoint(0, 0);
             contentView.BackgroundColor = UIColor.White;
 
 			bottomToolbar.BackgroundColor =  BGAppearanceConstants.TealGreen; //UIColor.FromPatternImage(UIImage.FromBundle("greenBack"));
@@ -220,7 +220,7 @@ namespace BlahguaMobile.IOS
 
         private void SetUpContentView()
         {
-            float bottom = 640f;
+            nfloat bottom = 640f;
 
             if (!String.IsNullOrEmpty(CurrentBlah.T))
             {
@@ -232,7 +232,7 @@ namespace BlahguaMobile.IOS
                 };
 
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
-				SizeF size = txtBlahTitle.SizeThatFits (new SizeF (320, 5000));
+				CGSize size = txtBlahTitle.SizeThatFits (new CGSize (320, 5000));
 				txtBlahTitleHeight.Constant = size.Height;
             }
             else
@@ -250,7 +250,7 @@ namespace BlahguaMobile.IOS
 
 					if (blahImage.Image != null) {
 						UIImage img = blahImage.Image;
-						float newHeight = img.Size.Height / img.Size.Width * 320;
+						nfloat newHeight = img.Size.Height / img.Size.Width * 320;
 
 						blahImageHeight.Constant = newHeight;
 					} else {
@@ -279,7 +279,7 @@ namespace BlahguaMobile.IOS
 
 				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
 
-				SizeF size = blahBodyView.SizeThatFits (new SizeF (320, 5000));
+				CGSize size = blahBodyView.SizeThatFits (new CGSize (320, 5000));
 				txtBlahBodyHeight.Constant = size.Height;
 			}
 			else
@@ -322,7 +322,7 @@ namespace BlahguaMobile.IOS
 
                 bottom += (BlahExtraItemCount + 1) * 64.0f;
             }
-            contentView.ContentSize = new SizeF (blahBodyView.Frame.Width, bottom);
+            contentView.ContentSize = new CGSize (blahBodyView.Frame.Width, bottom);
             contentView.ScrollEnabled = true;
         }
 
@@ -417,9 +417,9 @@ namespace BlahguaMobile.IOS
                     tableView.ReloadData();
                     tableView.TranslatesAutoresizingMaskIntoConstraints = false;
 
-                    float finalHeight = blahBodyView.Frame.Bottom;
+                    nfloat finalHeight = blahBodyView.Frame.Bottom;
                     finalHeight += (BlahExtraItemCount + 1) * 64f;
-                    contentView.ContentSize = new SizeF(contentView.ContentSize.Width, finalHeight);
+                    contentView.ContentSize = new CGSize(contentView.ContentSize.Width, finalHeight);
                 }
             );
 
@@ -485,9 +485,9 @@ namespace BlahguaMobile.IOS
 
 				bottomToolbar.SetItems (items, true);
 
-				bottomToolbar.Frame = new RectangleF (View.Bounds.X, View.Bounds.Height - 44, View.Bounds.Width, 44);
+				bottomToolbar.Frame = new CGRect (View.Bounds.X, View.Bounds.Height - 44, View.Bounds.Width, 44);
 
-				var btnSignInRect = new RectangleF (0, 0, 11, 60);
+				var btnSignInRect = new CGRect (0, 0, 11, 60);
 				var btnSignIn = new UIButton (UIButtonType.Custom);
 				btnSignIn.Frame = btnSignInRect;
 				btnSignIn.SetTitle("Sign In", UIControlState.Normal) ;
@@ -504,7 +504,7 @@ namespace BlahguaMobile.IOS
 
         private void SetUpVotesButtons()
         {
-            var votesButtonRect = new RectangleF(0, 0, 22, 22);
+            var votesButtonRect = new CGRect(0, 0, 22, 22);
             upVoteButton = new UIButton(UIButtonType.Custom);
             upVoteButton.Frame = votesButtonRect;
             upVoteButton.TouchUpInside += (object sender, EventArgs e) =>
@@ -609,7 +609,7 @@ namespace BlahguaMobile.IOS
         private void SetUpPostButtons()
         {
             sharePostButton = new UIButton(UIButtonType.Custom);
-            sharePostButton.Frame = new RectangleF(0, 0, 22, 22);
+            sharePostButton.Frame = new CGRect(0, 0, 22, 22);
 			sharePostButton.SetImage(UIImage.FromBundle("share_button"), UIControlState.Normal); //share_button
             sharePostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
@@ -638,7 +638,7 @@ namespace BlahguaMobile.IOS
             sharePostBtn.CustomView = sharePostButton;
 
             reportPostButton = new UIButton(UIButtonType.Custom);
-            reportPostButton.Frame = new RectangleF(0, 0, 22, 22);
+            reportPostButton.Frame = new CGRect(0, 0, 22, 22);
 			reportPostButton.SetImage(UIImage.FromBundle("report_button_active"), UIControlState.Normal); //report_button_active
             reportPostButton.TouchUpInside += (object sender, EventArgs e) =>
                 {
@@ -701,7 +701,7 @@ namespace BlahguaMobile.IOS
         private void SetUpModesButtons()
         {
             summaryButton = new UIButton(UIButtonType.Custom);
-            summaryButton.Frame = new RectangleF(0, 0, 22, 22);
+            summaryButton.Frame = new CGRect(0, 0, 22, 22);
             summaryButton.SetImage(UIImage.FromBundle("summary_dark"), UIControlState.Normal);
             summaryButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -710,7 +710,7 @@ namespace BlahguaMobile.IOS
             summaryView.CustomView = summaryButton;
 
             commentsButton = new UIButton(UIButtonType.Custom);
-            commentsButton.Frame = new RectangleF(0, 0, 22, 22);
+            commentsButton.Frame = new CGRect(0, 0, 22, 22);
             commentsButton.SetImage(UIImage.FromBundle("comments"), UIControlState.Normal);
             commentsButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -720,7 +720,7 @@ namespace BlahguaMobile.IOS
             commentsView.CustomView = commentsButton;
 
             statsButton = new UIButton(UIButtonType.Custom);
-            statsButton.Frame = new RectangleF(0, 0, 22, 22);
+            statsButton.Frame = new CGRect(0, 0, 22, 22);
             statsButton.SetImage(UIImage.FromBundle("stats"), UIControlState.Normal);
             statsButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -776,14 +776,14 @@ namespace BlahguaMobile.IOS
             blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
 			if (blahImage.Image != null) {
 				UIImage img = blahImage.Image;
-				float newHeight = img.Size.Height / img.Size.Width * 320;
+				nfloat newHeight = img.Size.Height / img.Size.Width * 320;
 
 				blahImageHeight.Constant = newHeight;
-                float finalHeight = blahBodyView.Frame.Bottom;
+                nfloat finalHeight = blahBodyView.Frame.Bottom;
                 if (tableView != null)
                     finalHeight += (BlahExtraItemCount + 1) * 64f;
                 finalHeight += newHeight;
-                contentView.ContentSize = new SizeF (contentView.ContentSize.Width, finalHeight);
+                contentView.ContentSize = new CGSize (contentView.ContentSize.Width, finalHeight);
 			}
 
         }
@@ -853,26 +853,26 @@ namespace BlahguaMobile.IOS
                 return cell;
             }
 
-            public override int NumberOfSections(UITableView tableView)
+            public override nint NumberOfSections(UITableView tableView)
             {
                 return 1;
             }
 
-            public override int RowsInSection(UITableView tableview, int section)
+            public override nint RowsInSection(UITableView tableview, nint section)
             {
                 return type == BlahPollType.Poll ? BlahguaAPIObject.Current.CurrentBlah.I.Count : 3;
             }
 
-            public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+            public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
             {
                 return 64f;
             }
-            public override float GetHeightForHeader(UITableView tableView, int section)
+            public override nfloat GetHeightForHeader(UITableView tableView, nint section)
             {
                 return type == BlahPollType.Poll ? 0 : 64f;
             }
 
-            public override string TitleForHeader(UITableView tableView, int section)
+            public override string TitleForHeader(UITableView tableView, nint section)
             {
                 if (type == BlahPollType.Predict)
                 {
@@ -885,14 +885,14 @@ namespace BlahguaMobile.IOS
                     return null;
             }
 
-            public override UIView GetViewForHeader(UITableView tableView, int section)
+            public override UIView GetViewForHeader(UITableView tableView, nint section)
             {
                 var header = type == BlahPollType.Poll ?
                     new UIView() :
                     BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
                         "Predection expired at " :
                         "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
-                header.Frame = new RectangleF(0, 0, 320, 24);
+                header.Frame = new CGRect(0, 0, 320, 24);
                 return header;
             }
         }
@@ -909,17 +909,17 @@ namespace BlahguaMobile.IOS
                 this.vc = vc;
             }
 
-            public override float EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
+            public override nfloat EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
             {
                 return 64f;
             }
 
-            public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+            public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
             {
                 return 64f;
             }
 
-            public override float GetHeightForHeader(UITableView tableView, int section)
+            public override nfloat GetHeightForHeader(UITableView tableView, nint section)
             {
                 return type == BlahPollType.Poll ? 0 : 64f;
             }
@@ -1002,13 +1002,13 @@ namespace BlahguaMobile.IOS
                 return cell;
             }
 
-            public override int RowsInSection(UITableView tableview, int section)
+            public override nint RowsInSection(UITableView tableview, nint section)
             {
                 return BlahguaAPIObject.Current.CurrentBlah.B == null || !BlahguaAPIObject.Current.CurrentBlah.B.Any() ?
                     0 : BlahguaAPIObject.Current.CurrentBlah.B.Count;
             }
 
-            public override int NumberOfSections(UITableView tableView)
+            public override nint NumberOfSections(UITableView tableView)
             {
                 return 1;
             }
@@ -1043,7 +1043,7 @@ namespace BlahguaMobile.IOS
 		
     public class AlertDelegate : UIAlertViewDelegate
     {
-        public override void Clicked(UIAlertView alertview, int buttonIndex)
+        public override void Clicked(UIAlertView alertview, nint buttonIndex)
         {
             base.Clicked(alertview, buttonIndex);
 

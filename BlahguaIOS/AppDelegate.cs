@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
+using CoreGraphics;
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using MonoTouch.SlideMenu;
 using System.IO.IsolatedStorage;
 using HockeyApp;
@@ -219,8 +219,8 @@ namespace BlahguaMobile.IOS
 
         public void SetBlahSizesForScreen()
         {
-            RectangleF screenRect = UIScreen.MainScreen.Bounds;
-            float screenWidth = screenRect.Width;
+            CGRect screenRect = UIScreen.MainScreen.Bounds;
+            float screenWidth = (float)screenRect.Width;
             if (screenWidth > 512)
             {
                 BGBlahCellSizesConstants.BlahGutter = ((screenWidth - 512) / 2);
@@ -231,10 +231,10 @@ namespace BlahguaMobile.IOS
             smallSize = (float)Math.Round(smallSize) ;
             mediumSize = (float)Math.Round(mediumSize) ;
             largeSize = (float)Math.Round(largeSize) ;
-            BGBlahCellSizesConstants.TinyCellSize = new SizeF(smallSize, smallSize);
-            BGBlahCellSizesConstants.SmallCellSize = new SizeF(mediumSize, smallSize);
-            BGBlahCellSizesConstants.MediumCellSize = new SizeF(mediumSize, mediumSize);
-            BGBlahCellSizesConstants.LargeCellSize = new SizeF(largeSize, mediumSize);
+            BGBlahCellSizesConstants.TinyCellSize = new CGSize(smallSize, smallSize);
+            BGBlahCellSizesConstants.SmallCellSize = new CGSize(mediumSize, smallSize);
+            BGBlahCellSizesConstants.MediumCellSize = new CGSize(mediumSize, mediumSize);
+            BGBlahCellSizesConstants.LargeCellSize = new CGSize(largeSize, mediumSize);
 			BlahguaAPIObject.largeTileSize = (int)largeSize;
 			BlahguaAPIObject.mediumTileSize = (int)mediumSize;
 			BlahguaAPIObject.smallTileSize = (int)smallSize;

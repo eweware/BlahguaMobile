@@ -1,6 +1,6 @@
-﻿using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using System;
+using UIKit;
+using Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -19,7 +19,7 @@ namespace BlahguaMobile.IOS
         public static void SetButtonFont(UIButton theBtn, string theFontName, float fontSize = 0f )
         {
             if (fontSize == 0f)
-                fontSize = theBtn.Font.PointSize;
+                fontSize = (float)theBtn.Font.PointSize;
             var buttonsTextAttributes = new UIStringAttributes {
                 Font = UIFont.FromName (theFontName, fontSize),
                 ForegroundColor = theBtn.CurrentTitleColor
@@ -70,7 +70,7 @@ namespace BlahguaMobile.IOS
 
 		private static void GetDeviceType ()
 		{
-            float height = UIScreen.MainScreen.Bounds.Height;
+            float height = (float)UIScreen.MainScreen.Bounds.Height;
 
 			switch((int)height)
 			{

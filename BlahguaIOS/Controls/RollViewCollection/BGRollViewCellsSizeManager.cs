@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -77,7 +77,7 @@ namespace BlahguaMobile.IOS
             {BlahRowType.AD, 1}
 		};
 
-        private Dictionary<BlahRowType, float> rowHeightPerType = new Dictionary<BlahRowType, float>();
+        private Dictionary<BlahRowType, nfloat> rowHeightPerType = new Dictionary<BlahRowType, nfloat>();
 
         private List<int> adLocs = new List<int>();
 
@@ -113,14 +113,14 @@ namespace BlahguaMobile.IOS
 
 		public string GetCellSize(NSIndexPath indexPath)
 		{
-			int itemsCount = 0;
+			nint itemsCount = 0;
 			int index = 0;
 			var rowType = GetRowType (indexPath, out itemsCount, out index);
 			string sizeName = GetSizes (rowType)[indexPath.Item - itemsCount];
 			return sizeName;
 		}
 
-		public string GetCellSize(int cellIndex, BlahRowType rowType)
+		public string GetCellSize(nint cellIndex, BlahRowType rowType)
 		{
 			return GetSizes (rowType) [cellIndex];
 		}
@@ -129,12 +129,12 @@ namespace BlahguaMobile.IOS
         {
             adLocs.Add(adLoc);
         }
-		public SizeF GetCellSizeF(string sizeName)
+		public CGSize GetCellSizeF(string sizeName)
 		{
 			return GetSizeFFromString(sizeName);
 		}
 
-		public SizeF GetSizeFFromString(string name)
+		public CGSize GetSizeFFromString(string name)
 		{
 			if(name == BGBlahCellSizesConstants.TinyReusableId)
 			{
@@ -150,29 +150,29 @@ namespace BlahguaMobile.IOS
 			return BGBlahCellSizesConstants.LargeCellSize;
 		}
 
-		public RectangleF GetFrameForItem(NSIndexPath path)
+		public CGRect GetFrameForItem(NSIndexPath path)
 		{
 			int index = 0;
-			int itemsCount = 0;
+			nint itemsCount = 0;
 			BlahRowType rowType = GetRowType (path, out itemsCount, out index);
-			float yRowStart = 0;
+			nfloat yRowStart = 0;
 			for (int i = 0; i < index; i++) 
 			{
 				yRowStart += rowHeightPerType [rowTypes[i % rowTypes.Length]];
 				yRowStart += BGBlahCellSizesConstants.BlahSpacing; // spacing between rows
 			}
-			int cellIndex = path.Item - itemsCount;
-			float cellXCoord = GetXCoordForCellInRow (rowType, cellIndex);
-			float cellYCoord = GetYCoorForCellInRow (rowType, cellIndex, yRowStart);
+			nint cellIndex = path.Item - itemsCount;
+			nfloat cellXCoord = GetXCoordForCellInRow (rowType, cellIndex);
+			nfloat cellYCoord = GetYCoorForCellInRow (rowType, cellIndex, yRowStart);
 			string sizeName = GetCellSize (cellIndex, rowType);
 
-			return new RectangleF (new PointF (cellXCoord, cellYCoord), GetCellSizeF (sizeName));
+			return new CGRect (new CGPoint (cellXCoord, cellYCoord), GetCellSizeF (sizeName));
 		}
 
-		public SizeF GetContentViewSize(int elementsCount)
+		public CGSize GetContentViewSize(int elementsCount)
 		{
 			int rowIndex = 0;
-			float height = 0;
+			nfloat height = 0;
 			for(int i = 0; i < elementsCount;)
 			{
 				BlahRowType row = rowTypes [rowIndex % 40];
@@ -181,16 +181,16 @@ namespace BlahguaMobile.IOS
                 height += BGBlahCellSizesConstants.BlahSpacing;
 				rowIndex++;
 			}
-			return new SizeF (320.0f, height);
+			return new CGSize (320.0f, height);
 		}
 
-		public NSIndexPath[] GetIndexPathForRect(RectangleF rect)
+		public NSIndexPath[] GetIndexPathForRect(CGRect rect)
 		{
 			List<NSIndexPath> paths = new List<NSIndexPath> ();
-			float y = rect.Y < 0.0f ? 0.0f : rect.Y;
+			nfloat y = rect.Y < 0.0f ? 0.0f : rect.Y;
 			int rowIndex = 0;
 			int itemIndex = 0;
-			for(float i = 0; i < y + rect.Height; )
+			for(nfloat i = 0; i < y + rect.Height; )
 			{
 				int index = rowIndex % rowTypes.Length;
 				string[] sizeForRow = GetSizes (rowTypes [index]);
@@ -218,9 +218,9 @@ namespace BlahguaMobile.IOS
 
 		#region Private Methods
 
-		private BlahRowType GetRowType(NSIndexPath path, out int itemsCount, out int index)
+		private BlahRowType GetRowType(NSIndexPath path, out nint itemsCount, out int index)
 		{
-			int itemIndex = path.Item + 1, adCount = 0;
+			nint itemIndex = path.Item + 1, adCount = 0;
 			bool isFound = false;
 			index = 0;
 			itemsCount = 0;
@@ -246,7 +246,7 @@ namespace BlahguaMobile.IOS
 			return rowType;
 		}
 
-		private float GetYCoorForCellInRow(BlahRowType type, int cellIndex, float rowStartYCoord)
+		private nfloat GetYCoorForCellInRow(BlahRowType type, nint cellIndex, nfloat rowStartYCoord)
 		{
 			switch(type)
 			{
@@ -289,11 +289,11 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		private float GetXCoordForCellInRow(BlahRowType type, int cellIndex)
+		private nfloat GetXCoordForCellInRow(BlahRowType type, nint cellIndex)
 		{
-            float newLeft = BGBlahCellSizesConstants.BlahGutter;
-            float colTwo = newLeft + (BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
-            float colThree = newLeft + (BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
+            nfloat newLeft = BGBlahCellSizesConstants.BlahGutter;
+            nfloat colTwo = newLeft + (BGBlahCellSizesConstants.TinyCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
+            nfloat colThree = newLeft + (BGBlahCellSizesConstants.MediumCellSize.Width + BGBlahCellSizesConstants.BlahSpacing);
 
 			switch(type)
 			{

@@ -4,8 +4,8 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
 
@@ -15,22 +15,22 @@ namespace BlahguaMobile.IOS
 	partial class BGProfileViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UITextField nicknameTextField { get; set; }
+		UIKit.UITextField nicknameTextField { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView profileImageView { get; set; }
+		UIKit.UIImageView profileImageView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView profileView { get; set; }
+		UIKit.UIView profileView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton ReportBugButton { get; set; }
+		UIKit.UIButton ReportBugButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton selectImage { get; set; }
+		UIKit.UIButton selectImage { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISwitch showMatureBtn { get; set; }
+		UIKit.UISwitch showMatureBtn { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

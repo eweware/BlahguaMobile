@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -58,7 +58,7 @@ namespace BlahguaMobile.IOS
 		{
 			string reusableId = manager.GetCellSize (indexPath);
 			var cell = (BGRollViewCell)collectionView.DequeueReusableCell (new NSString(reusableId), indexPath);
-			InboxBlah inboxBlah = dataSource [indexPath.Item];
+            InboxBlah inboxBlah = dataSource [(int)indexPath.Item];
 			var size = manager.GetCellSizeF (reusableId);
 
 			cell.SetCellProperties (inboxBlah, reusableId, size, indexPath);
@@ -72,12 +72,12 @@ namespace BlahguaMobile.IOS
 			return cell;
 		}
 
-		public override int NumberOfSections (UICollectionView collectionView)
+		public override nint NumberOfSections (UICollectionView collectionView)
 		{
 			return 1;
 		}
 
-		public override int GetItemsCount (UICollectionView collectionView, int section)
+		public override nint GetItemsCount (UICollectionView collectionView, nint section)
 		{
 			return dataSource.Count;
 		}

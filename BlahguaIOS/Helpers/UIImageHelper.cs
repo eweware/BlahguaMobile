@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
+using UIKit;
+using Foundation;
+using CoreGraphics;
 
 namespace BlahguaMobile.IOS
 {
@@ -28,7 +27,7 @@ namespace BlahguaMobile.IOS
             float width = imgRef.Width;
             float height = imgRef.Height;
             CGAffineTransform transform = CGAffineTransform.MakeIdentity();
-            RectangleF  bounds = new RectangleF(0,0,width, height);
+            CGRect  bounds = new CGRect(0,0,width, height);
 
             if (width > kMaxResolution || height > kMaxResolution)
             {
@@ -46,9 +45,9 @@ namespace BlahguaMobile.IOS
                 }
             }
 
-            float scaleRatio = bounds.Width / width;
-            SizeF imageSize = new SizeF(width, height);
-            float boundHeight;
+            float scaleRatio = (float)bounds.Width / width;
+            CGSize imageSize = new CGSize(width, height);
+            nfloat boundHeight;
             UIImageOrientation orient = image.Orientation;
 
             switch (orient)
@@ -122,7 +121,7 @@ namespace BlahguaMobile.IOS
 
             context.ConcatCTM (transform);
 
-            context.DrawImage (new RectangleF(0,0, width, height), imgRef);
+            context.DrawImage (new CGRect(0,0, width, height), imgRef);
             UIImage imageCopy = UIGraphics.GetImageFromCurrentImageContext ();
             UIGraphics.EndImageContext ();
 

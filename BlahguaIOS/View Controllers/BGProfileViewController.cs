@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 using System.CodeDom.Compiler;
-using System.Drawing;
+using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
+using Foundation;
 using MonoTouch.Dialog.Utilities;
-using MonoTouch.UIKit;
-using MonoTouch.MessageUI;
+using UIKit;
+using MessageUI;
 
 namespace BlahguaMobile.IOS
 {
@@ -198,7 +198,7 @@ namespace BlahguaMobile.IOS
 
 		private void CancelHandler(object sender, EventArgs args)
 		{
-			NavigationController.PopViewControllerAnimated (true);
+			NavigationController.PopViewController (true);
 		}
 
 		private void NicknameUpdateCallback(string result)
@@ -315,7 +315,7 @@ namespace BlahguaMobile.IOS
 			{
 				if(!keyboardHidden)
 				{
-					profileView.Frame = new RectangleF (profileView.Frame.X, 
+					profileView.Frame = new CGRect (profileView.Frame.X, 
 						profileView.Frame.Y - iPhone4Padding, 
 						profileView.Frame.Width, 
 						profileView.Frame.Height);
@@ -324,7 +324,7 @@ namespace BlahguaMobile.IOS
 				}
 				else
 				{
-					profileView.Frame = new RectangleF (profileView.Frame.X, 
+					profileView.Frame = new CGRect (profileView.Frame.X, 
 						profileView.Frame.Y + iPhone4Padding, 
 						profileView.Frame.Width, 
 						profileView.Frame.Height);

@@ -1,4 +1,4 @@
-﻿// Copyright 2010-2011 Miguel de Icaza
+// Copyright 2010-2011 Miguel de Icaza
 //
 // Based on the TweetStation specific ImageStore
 //
@@ -34,9 +34,9 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 #else
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 #endif
 
 using MonoTouch.Dialog.Utilities;

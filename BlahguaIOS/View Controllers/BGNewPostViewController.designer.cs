@@ -4,8 +4,8 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
 
@@ -15,70 +15,70 @@ namespace BlahguaMobile.IOS
 	partial class BGNewPostViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton AskBtn { get; set; }
+		UIKit.UIButton AskBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel AskBtnText { get; set; }
+		UIKit.UILabel AskBtnText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView back { get; set; }
+		UIKit.UIImageView back { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView bodyInput { get; set; }
+		UIKit.UITextView bodyInput { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint buttonTopOffset { get; set; }
+		UIKit.NSLayoutConstraint buttonTopOffset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint containerHeight { get; set; }
+		UIKit.NSLayoutConstraint containerHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint containerOffset { get; set; }
+		UIKit.NSLayoutConstraint containerOffset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView containerScrollView { get; set; }
+		UIKit.UIScrollView containerScrollView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton done { get; set; }
+		UIKit.UIButton done { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton LeakBtn { get; set; }
+		UIKit.UIButton LeakBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel LeakBtnText { get; set; }
+		UIKit.UILabel LeakBtnText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton PollBtn { get; set; }
+		UIKit.UIButton PollBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel PollBtnText { get; set; }
+		UIKit.UILabel PollBtnText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView pollItemsTableView { get; set; }
+		UIKit.UITableView pollItemsTableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint pollOptionTableHeight { get; set; }
+		UIKit.NSLayoutConstraint pollOptionTableHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton PredictBtn { get; set; }
+		UIKit.UIButton PredictBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel PredictBtnText { get; set; }
+		UIKit.UILabel PredictBtnText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton SayBtn { get; set; }
+		UIKit.UIButton SayBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel SayBtnText { get; set; }
+		UIKit.UILabel SayBtnText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton selectImageButton { get; set; }
+		UIKit.UIButton selectImageButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton selectSignature { get; set; }
+		UIKit.UIButton selectSignature { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField titleInput { get; set; }
+		UIKit.UITextField titleInput { get; set; }
 
 		[Action ("HandleTitleChanged:")]
 		[GeneratedCode ("iOS Designer", "1.0")]

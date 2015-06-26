@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Net;
-using MonoTouch.SystemConfiguration;
-using MonoTouch.CoreFoundation;
+using SystemConfiguration;
+using CoreFoundation;
 
 public enum NetworkStatus
 {

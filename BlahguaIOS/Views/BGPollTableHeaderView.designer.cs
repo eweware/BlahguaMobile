@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -12,7 +12,7 @@ namespace BlahguaMobile.IOS
 	partial class BGPollTableHeaderView
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel headerText { get; set; }
+		UIKit.UILabel headerText { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

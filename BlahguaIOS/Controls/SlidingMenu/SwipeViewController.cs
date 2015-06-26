@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
+using UIKit;
+using Foundation;
+using CoreAnimation;
+using CoreGraphics;
 using BlahguaMobile.IOS;
 using BlahguaMobile.BlahguaCore;
 
@@ -28,9 +27,9 @@ namespace MonoTouch.SlideMenu
 		BGStatsTableViewController statsViewController;
 		BGBlahViewController summaryViewController;
 
-		RectangleF leftFrame ;
-		RectangleF centerFrame ;
-		RectangleF rightFrame;
+		CGRect leftFrame ;
+		CGRect centerFrame ;
+		CGRect rightFrame;
 
 		public SwipeViewController (BGBlahViewController blahView,BGCommentsViewController commentView, BGStatsTableViewController statsView)
 		{
@@ -119,9 +118,9 @@ namespace MonoTouch.SlideMenu
 			base.ViewDidLoad ();
 
 			//leftFrame = new RectangleF (-View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-			leftFrame = new RectangleF (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-			centerFrame = new RectangleF (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
-			rightFrame = new RectangleF (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			leftFrame = new CGRect (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			centerFrame = new CGRect (View.Bounds.X, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
+			rightFrame = new CGRect (View.Bounds.Width, View.Bounds.Y + 44, View.Bounds.Width, View.Bounds.Height - 44);
 			summaryViewController.View.Frame = centerFrame;
 			commentViewController.View.Frame = leftFrame;
 			statsViewController.View.Frame = rightFrame;
@@ -150,7 +149,7 @@ namespace MonoTouch.SlideMenu
 		}
 		private void BackHandler(object sender, EventArgs args)
 		{
-			this.NavigationController.PopViewControllerAnimated(true);
+			this.NavigationController.PopViewController(true);
 		}
 		// - (void)viewDidAppear:(BOOL)animated
 		public override void ViewDidAppear (bool animated)
