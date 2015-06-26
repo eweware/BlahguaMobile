@@ -1481,7 +1481,15 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                string typeName = BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(Y);
+                string typeName = "unknown";
+                try
+                {
+                    typeName = BlahguaAPIObject.Current.CurrentBlahTypes.GetTypeName(Y);
+                }
+                catch (Exception exp)
+                {
+                    // to do - we currently remove ads.
+                }
                 return typeName;
             }
         }

@@ -8,7 +8,6 @@ using System.Text;
 using RestSharp;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using ServiceStack.Text;
 
 
 
@@ -570,8 +569,13 @@ namespace BlahguaMobile.BlahguaCore
                 Blah newBlah = null;
                 if (response.StatusCode == HttpStatusCode.Created)
                 {
-                    newBlah = response.Content.FromJson<Blah>();
-                    newBlah.cdate = DateTime.Now.ToString();
+                    string resStr = response.Content;
+                    resStr = resStr.Replace("\"c\":", "\"cdate\":");
+                    DataContractJsonSerializer des = new DataContractJsonSerializer(typeof(Blah));
+                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(resStr));
+                    object theObj = des.ReadObject(stream);
+                    stream.Close();
+                    newBlah = (Blah)theObj;
 
                 }
 

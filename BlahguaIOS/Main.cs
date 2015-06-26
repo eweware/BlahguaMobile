@@ -20,7 +20,7 @@ namespace BlahguaMobile.IOS
 
 		public override bool OpenUrl (NSUrl url)
 		{
-            if (false)
+            if (true)
             { //todo:  fix web links
                 TargetURL = url;
                 ShowWebView();

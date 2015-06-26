@@ -272,6 +272,17 @@ namespace BlahguaMobile.IOS
                 if (inbox != null) {
 				    ((BGRollViewDataSource)CollectionView.DataSource).InsertItems (inbox);
                     NaturalScrollInProgress = false;
+                    BlahguaAPIObject.Current.GetAdForUser((theAd) => 
+                        {
+                            if (theAd != null)
+                            {
+                                InvokeOnMainThread(() => 
+                                    {
+                                        ((BGRollViewDataSource)CollectionView.DataSource).InsertAd(theAd);
+                                        NaturalScrollInProgress = false;
+                                    });
+                            }
+                        });
                 }
                 else {                 
                     ((BGRollViewDataSource)CollectionView.DataSource).DataSource.Clear();

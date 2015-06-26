@@ -38,9 +38,8 @@
     <DefineConstants>__MOBILE__;__ANDROID__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
     <DebugType>full</DebugType>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>/Volumes/DataDrive/Code/GitHub/BlahguaMobile/BlahguaAndroid/eweware_keystore</AndroidSigningKeyStore>
@@ -48,6 +47,14 @@
     <AndroidSigningKeyAlias>blahguaandroid</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>All4Sheeple</AndroidSigningKeyPass>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <AndroidLinkSkip>
+    </AndroidLinkSkip>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidStoreUncompressedFileExtensions>
+    </AndroidStoreUncompressedFileExtensions>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <Debugger>Xamarin</Debugger>
+    <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HockeyApp.Android">

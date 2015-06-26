@@ -120,6 +120,22 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
+        public void InsertAd(InboxBlah theAd)
+        {
+            int adLoc;
+            dataSource.Add(theAd);
+            adLoc = dataSource.Count - 1;
+            NSIndexPath[] paths = new NSIndexPath[1];
+            paths [0] = NSIndexPath.FromItemSection (adLoc, 0);
+      
+            manager.AddAd(adLoc);
+            string sizeName = manager.GetCellSize (paths [0]);
+
+
+            viewController.CollectionView.InsertItems(paths);
+
+        }
+
 		public void DeleteFirst350Items()
 		{
 			viewController.CollectionView.PerformBatchUpdates(()=> {

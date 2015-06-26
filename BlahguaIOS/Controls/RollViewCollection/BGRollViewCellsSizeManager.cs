@@ -17,6 +17,7 @@ namespace BlahguaMobile.IOS
 		D,
 		E,
 		F,
+        AD
 	}
 
 	public class BGRollViewCellsSizeManager 
@@ -72,10 +73,13 @@ namespace BlahguaMobile.IOS
 			{BlahRowType.C, 3},
 			{BlahRowType.D, 2},
 			{BlahRowType.E, 2},
-			{BlahRowType.F, 1}
+			{BlahRowType.F, 1},
+            {BlahRowType.AD, 1}
 		};
 
         private Dictionary<BlahRowType, float> rowHeightPerType = new Dictionary<BlahRowType, float>();
+
+        private List<int> adLocs = new List<int>();
 
 		#endregion
 
@@ -99,6 +103,7 @@ namespace BlahguaMobile.IOS
             rowHeightPerType.Add(BlahRowType.D, BGBlahCellSizesConstants.TinyCellSize.Height);
             rowHeightPerType.Add(BlahRowType.E, BGBlahCellSizesConstants.TinyCellSize.Height);
             rowHeightPerType.Add(BlahRowType.F, BGBlahCellSizesConstants.MediumCellSize.Height);
+            rowHeightPerType.Add(BlahRowType.AD, BGBlahCellSizesConstants.TinyCellSize.Height);
            
         }
 
@@ -120,6 +125,10 @@ namespace BlahguaMobile.IOS
 			return GetSizes (rowType) [cellIndex];
 		}
 
+        public void AddAd(int adLoc)
+        {
+            adLocs.Add(adLoc);
+        }
 		public SizeF GetCellSizeF(string sizeName)
 		{
 			return GetSizeFFromString(sizeName);
@@ -211,7 +220,7 @@ namespace BlahguaMobile.IOS
 
 		private BlahRowType GetRowType(NSIndexPath path, out int itemsCount, out int index)
 		{
-			int itemIndex = path.Item + 1;
+			int itemIndex = path.Item + 1, adCount = 0;
 			bool isFound = false;
 			index = 0;
 			itemsCount = 0;
@@ -220,6 +229,7 @@ namespace BlahguaMobile.IOS
 			{
 				if(itemIndex >= itemsCount)
 				{
+                    
 					rowType = rowTypes [index % rowTypes.Length];
 					int cellsInRow = cellsPerRowType [rowType];
 					if(itemIndex <= itemsCount + cellsInRow)
@@ -361,14 +371,20 @@ namespace BlahguaMobile.IOS
 		{
 			switch(type)
 			{
-			case BlahRowType.A:
-				{
-					return new string[] {
-						BGBlahCellSizesConstants.TinyReusableId,
-						BGBlahCellSizesConstants.TinyReusableId,
-						BGBlahCellSizesConstants.TinyReusableId
-					};
-				}
+                case BlahRowType.AD:
+                    {
+                        return new string[] {
+                            BGBlahCellSizesConstants.AdReusableId
+                        };
+                    }
+                case BlahRowType.A:
+                    {
+                        return new string[] {
+                            BGBlahCellSizesConstants.TinyReusableId,
+                            BGBlahCellSizesConstants.TinyReusableId,
+                            BGBlahCellSizesConstants.TinyReusableId
+                        };
+                    }
 			case BlahRowType.B:
 				{
 					return new string[] {

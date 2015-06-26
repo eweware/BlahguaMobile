@@ -369,10 +369,6 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="RestSharp.MonoTouch, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
     <Reference Include="SWTableViewCell">
       <HintPath>..\Components\swtableviewcell-0.3.6.0\lib\ios\SWTableViewCell.dll</HintPath>
     </Reference>
@@ -390,6 +386,9 @@
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="HockeyApp.iOS">
       <HintPath>..\Components\hockeyappios-3.6.2.0\lib\ios\HockeyApp.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-104.4.0\lib\ios\RestSharp.MonoTouch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
