@@ -296,13 +296,14 @@ namespace BlahguaMobile.IOS
 			nfloat height=0f;
 			nfloat xStart=30f;
 			nfloat yStart = 8f;
+            nfloat bwidth = vc.View.Frame.Width, bheight = vc.View.Frame.Height;
 		
 			if(!String.IsNullOrEmpty(textViewString)) {
 				var obj_textView = new UITextView ();
 				obj_textView.RemoveFromSuperview ();
 				obj_textView.AttributedText = new NSAttributedString (textViewString, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
-				var newSize = obj_textView.SizeThatFits (new CGSize (320 - xStart * 2, 568));
-				obj_textView.Frame = new CGRect (xStart, yStart, 320 - xStart * 2, newSize.Height);
+				var newSize = obj_textView.SizeThatFits (new CGSize (bwidth - xStart * 2, bheight));
+				obj_textView.Frame = new CGRect (xStart, yStart, bwidth - xStart * 2, newSize.Height);
 				height = obj_textView.Frame.Height + 60;
 				return height;
 			}
@@ -320,7 +321,7 @@ namespace BlahguaMobile.IOS
 
 		public override UIView GetViewForHeader (UITableView tableView, System.nint section)
 		{
-			UIView headerView = new UIView (new CGRect (0, 0, 320, 40));
+            UIView headerView = new UIView (new CGRect (0, 0, tableView.Frame.Width, 40));
 			headerView.BackgroundColor = UIColor.LightGray;
 			UILabel label = new UILabel (new CGRect (20, 7, 280, 21));
 			string labelText = String.Empty;

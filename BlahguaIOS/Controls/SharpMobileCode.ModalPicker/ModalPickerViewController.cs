@@ -93,7 +93,7 @@ namespace SharpMobileCode.ModalPicker
             View.BackgroundColor = UIColor.Clear;
             _internalView = new UIView();
 
-            _headerLabel = new UILabel(new CGRect(0, 0, 320/2, 44));
+            _headerLabel = new UILabel(new CGRect(0, 0, View.Frame.Width/2, 44));
             _headerLabel.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
             _headerLabel.BackgroundColor = HeaderBackgroundColor;
             _headerLabel.TextColor = HeaderTextColor;

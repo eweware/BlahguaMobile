@@ -142,6 +142,7 @@ namespace BlahguaMobile.IOS
 				label.AttributedText = new NSAttributedString (blah.T, font, UIColor.Black);
 				//label.SizeToFit ();
 				textView.Hidden = false;
+                textView.Frame = new CGRect(0, 0, size.Width, size.Height);
 			} 
 			else
 				textView.Hidden = true;

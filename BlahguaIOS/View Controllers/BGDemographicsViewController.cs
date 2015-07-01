@@ -356,7 +356,7 @@ namespace BlahguaMobile.IOS
 
 		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-			UIView view = new UIView (new CGRect (0, 0, 320, GetHeightForHeader (tableView, section)));
+            UIView view = new UIView (new CGRect (0, 0, tableView.Frame.Width, GetHeightForHeader (tableView, section)));
 			view.BackgroundColor = UIColor.FromRGB (255, 255, 248);
 
 			UILabel label = new UILabel (new CGRect (8, 7, 280, 21));

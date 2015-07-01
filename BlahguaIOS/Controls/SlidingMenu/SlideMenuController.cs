@@ -167,14 +167,14 @@ namespace MonoTouch.SlideMenu
 
 				m_newPostView.AddSubview (m_newPostController.View);
 
-				m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+				m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 
 				this.View.AddSubview (m_newPostView);
 			}
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 		
-			m_newPostView.Frame = new CGRect (0, 44, 320, UIScreen.MainScreen.Bounds.Height - 44);
+            m_newPostView.Frame = new CGRect (0, 44, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - 44);
 
 			m_newPostController.clearAllFields ();
 
@@ -189,7 +189,7 @@ namespace MonoTouch.SlideMenu
             m_newPostView.EndEditing(true);
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
-			m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+            m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			UIView.CommitAnimations ();
 
 			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);

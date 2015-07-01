@@ -69,7 +69,7 @@ namespace BlahguaMobile.IOS
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            Scroller.ContentSize = new CGSize(320, 568);
+            Scroller.ContentSize = this.View.Frame.Size;//new CGSize(320, 568);
         }
 
         private void OnKeyboardHideNotification (NSNotification notification)
@@ -89,7 +89,7 @@ namespace BlahguaMobile.IOS
             Scroller.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 
             Scroller.TranslatesAutoresizingMaskIntoConstraints = false;
-            Scroller.ContentSize = new CGSize(320, 568);
+            Scroller.ContentSize = this.View.Frame.Size;//new CGSize(320, 568);
             Scroller.Frame = new CGRect(0, 0, this.View.Frame.Width, this.View.Frame.Height);
             HandleTextValueChanged(null, null);
 

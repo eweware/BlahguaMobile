@@ -14,12 +14,12 @@ namespace BlahguaMobile.IOS
         public static readonly string BoldFontName = "GothamRounded-Bold";
 
 
-		public static readonly CGRect InitialRightViewContainerFrame = new CGRect(320, 0, 320, UIScreen.MainScreen.Bounds.Height);
-		public static readonly CGRect OpenedRightViewContainerFrame = new CGRect(0, 0, 320, UIScreen.MainScreen.Bounds.Height);
+        public static readonly CGRect InitialRightViewContainerFrame = new CGRect(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+        public static readonly CGRect OpenedRightViewContainerFrame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 
 		public static readonly CGRect RightViewFrame = new CGRect(163, 44, 157, UIScreen.MainScreen.Bounds.Height - 44);
 
-		public static readonly CGRect PollCellRect = new CGRect(0, 0, 320, 64);
+        public static readonly CGRect PollCellRect = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 64);
 
 
 		public static readonly UIColor buttonTitleInactiveColor = UIColor.FromRGB(248, 248, 248);

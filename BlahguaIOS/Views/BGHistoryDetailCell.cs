@@ -40,6 +40,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUp(string imageUrl, string text, string upAndDownVotesText,string userNameString,string timeString)
 		{
+            nfloat width = Frame.Width, height = Frame.Height;
 			yCoordStart = space;
 			labelXCoordStart = baseXStart;
 			if(!String.IsNullOrEmpty(imageUrl))
@@ -48,7 +49,7 @@ namespace BlahguaMobile.IOS
 	
 				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
 				ContentView.AddSubview (commentImageView);
-				commentImageView.Frame = new CGRect (0, yCoordStart, 320f, 161f);
+				commentImageView.Frame = new CGRect (0, yCoordStart, width, 161f);
 				yCoordStart += commentImageView.Frame.Height + space;
 			}
 
@@ -57,9 +58,9 @@ namespace BlahguaMobile.IOS
 			{
 				this.text.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
-				var newSize = this.text.SizeThatFits (new CGSize (320 - baseXStart * 2, 568));
+				var newSize = this.text.SizeThatFits (new CGSize (width - baseXStart * 2, height));
 				ContentView.AddSubview (this.text);
-				this.text.Frame = new CGRect (baseXStart, yCoordStart, 320 - baseXStart * 2, newSize.Height);
+				this.text.Frame = new CGRect (baseXStart, yCoordStart, width - baseXStart * 2, newSize.Height);
 				yCoordStart += this.text.Frame.Height + space;
 			}
 
@@ -71,7 +72,7 @@ namespace BlahguaMobile.IOS
 
 			SetLabelSize (upAndDownVotes);
 
-			ContentView.Frame = new CGRect (0, 0, 320, yCoordStart + upAndDownVotes.Frame.Height + space);
+			ContentView.Frame = new CGRect (0, 0, width, yCoordStart + upAndDownVotes.Frame.Height + space);
 		}
 
 		private void SetLabelSize(UILabel label)

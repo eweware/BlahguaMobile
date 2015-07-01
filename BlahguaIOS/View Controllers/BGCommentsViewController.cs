@@ -460,7 +460,7 @@ namespace BlahguaMobile.IOS
 					vc.CurrentComment.subComments [indexPath.Row], tableView);	
 				cell.SetNeedsUpdateConstraints();
 				cell.UpdateConstraintsIfNeeded();
-				cell.Bounds = CGRect.FromLTRB (0, 0, 320, 64);
+                cell.Bounds = CGRect.FromLTRB (0, 0, tableView.Frame.Width, 64);
 				cell.SetNeedsLayout();
 				cell.LayoutIfNeeded();
 				return cell.ContentView.SystemLayoutSizeFittingSize(UIView.UILayoutFittingCompressedSize).Height + 1;

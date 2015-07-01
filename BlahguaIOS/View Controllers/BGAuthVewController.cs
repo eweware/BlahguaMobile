@@ -176,7 +176,7 @@ namespace BlahguaMobile.IOS
 
 			}
 
-			authScroller.ContentSize = new CGSize (320, 640);
+            authScroller.ContentSize = new CGSize (this.View.Frame.Width, 640);
 
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);

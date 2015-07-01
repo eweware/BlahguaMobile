@@ -131,8 +131,9 @@ namespace BlahguaMobile.IOS
             {
                 ShouldMoveToStats = false;
             }
+            CGRect boundsRect = contentView.Frame;
 
-            contentView.ContentSize = new CGSize(320, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
+            contentView.ContentSize = new CGSize(boundsRect.Width, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -220,7 +221,8 @@ namespace BlahguaMobile.IOS
 
         private void SetUpContentView()
         {
-            nfloat bottom = 640f;
+            nfloat bottom = View.Frame.Bottom;
+
 
             if (!String.IsNullOrEmpty(CurrentBlah.T))
             {
@@ -232,7 +234,7 @@ namespace BlahguaMobile.IOS
                 };
 
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
-				CGSize size = txtBlahTitle.SizeThatFits (new CGSize (320, 5000));
+                CGSize size = txtBlahTitle.SizeThatFits (new CGSize (View.Frame.Width, 5000));
 				txtBlahTitleHeight.Constant = size.Height;
             }
             else
@@ -250,7 +252,7 @@ namespace BlahguaMobile.IOS
 
 					if (blahImage.Image != null) {
 						UIImage img = blahImage.Image;
-						nfloat newHeight = img.Size.Height / img.Size.Width * 320;
+                        nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
 
 						blahImageHeight.Constant = newHeight;
 					} else {
@@ -279,7 +281,7 @@ namespace BlahguaMobile.IOS
 
 				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
 
-				CGSize size = blahBodyView.SizeThatFits (new CGSize (320, 5000));
+                CGSize size = blahBodyView.SizeThatFits (new CGSize (View.Frame.Width, 5000));
 				txtBlahBodyHeight.Constant = size.Height;
 			}
 			else
@@ -343,7 +345,7 @@ namespace BlahguaMobile.IOS
                     if (lastViewController.CurrentBlah.TypeName == "polls" || lastViewController.CurrentBlah.TypeName == "predicts")
                     {
 
-                        var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, 320);
+                        var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, viewController.View.Frame.Width);
                         var height = NSLayoutConstraint.Create(
                                          lastViewController.tableView,
                                          NSLayoutAttribute.Height,
@@ -776,7 +778,7 @@ namespace BlahguaMobile.IOS
             blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
 			if (blahImage.Image != null) {
 				UIImage img = blahImage.Image;
-				nfloat newHeight = img.Size.Height / img.Size.Width * 320;
+                nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
 
 				blahImageHeight.Constant = newHeight;
                 nfloat finalHeight = blahBodyView.Frame.Bottom;
@@ -892,7 +894,7 @@ namespace BlahguaMobile.IOS
                     BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
                         "Predection expired at " :
                         "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
-                header.Frame = new CGRect(0, 0, 320, 24);
+                header.Frame = new CGRect(0, 0, tableView.Frame.Width, 24);
                 return header;
             }
         }
