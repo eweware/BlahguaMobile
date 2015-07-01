@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -22,98 +22,155 @@
                         <viewControllerLayoutGuide type="bottom" id="7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="10">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="104" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="104">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome!  Get started with an account:" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39" fixedFrame="YES">
-                                        <rect key="frame" x="8" y="130" width="304" height="20"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome!  Get started with an account:" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39">
+                                        <rect key="frame" x="8" y="130" width="359" height="20"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="43" fixedFrame="YES">
-                                        <rect key="frame" x="16" y="158" width="288" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="43">
+                                        <rect key="frame" x="16" y="158" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44" fixedFrame="YES">
-                                        <rect key="frame" x="16" y="196" width="288" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44">
+                                        <rect key="frame" x="16" y="196" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" returnKeyType="next"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="45" fixedFrame="YES" tag="3">
-                                        <rect key="frame" x="16" y="234" width="288" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="45">
+                                        <rect key="frame" x="16" y="234" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="59" fixedFrame="YES">
-                                        <rect key="frame" x="16" y="318" width="288" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="59">
+                                        <rect key="frame" x="16" y="318" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46" fixedFrame="YES">
-                                        <rect key="frame" x="50" y="364" width="220" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46">
+                                        <rect key="frame" x="50" y="364" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="A7V-ez-c71"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Create Account" backgroundImage="short_button_normal.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47" fixedFrame="YES" buttonType="custom" hidden="YES">
-                                        <rect key="frame" x="50" y="234" width="220" height="34"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47">
+                                        <rect key="frame" x="50" y="234" width="275" height="34"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Sign In" backgroundImage="short_button_normal.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48" fixedFrame="YES">
-                                        <rect key="frame" x="50" y="406" width="220" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48">
+                                        <rect key="frame" x="50" y="406" width="275" height="34"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Skip for now" backgroundImage="short_button_pressed.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Logo_master_teal.png" translatesAutoresizingMaskIntoConstraints="NO" id="40" fixedFrame="YES">
-                                        <rect key="frame" x="13" y="16" width="295" height="106"/>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Logo_master_teal.png" translatesAutoresizingMaskIntoConstraints="NO" id="40">
+                                        <rect key="frame" x="13" y="16" width="349" height="106"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="106" id="eFE-3d-2aj"/>
+                                        </constraints>
                                     </imageView>
-                                    <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No email address is required, but your password cannot be reset without one." lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60" fixedFrame="YES">
-                                        <rect key="frame" x="8" y="278" width="304" height="32"/>
+                                    <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No email address is required, but your password cannot be reset without one." lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60">
+                                        <rect key="frame" x="8" y="278" width="359" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="gUr-L3-VyM"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="163" fixedFrame="YES" buttonType="roundedRect">
-                                        <rect key="frame" x="50" y="448" width="220" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="163">
+                                        <rect key="frame" x="50" y="448" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="HW5-6J-CfT"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
-                                        <state key="normal" title="Already have an account?" backgroundImage="">
+                                        <state key="normal" title="Already have an account?">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="44" secondAttribute="centerX" id="0Xn-d6-WdE"/>
+                                    <constraint firstItem="44" firstAttribute="top" secondItem="43" secondAttribute="bottom" constant="8" symbolic="YES" id="0hD-G7-evY"/>
+                                    <constraint firstAttribute="bottom" secondItem="163" secondAttribute="bottom" constant="185" id="2wi-8h-ur1"/>
+                                    <constraint firstItem="47" firstAttribute="top" secondItem="44" secondAttribute="bottom" constant="8" symbolic="YES" id="4UG-5x-N9U"/>
+                                    <constraint firstAttribute="centerX" secondItem="45" secondAttribute="centerX" id="5cW-q8-Uf0"/>
+                                    <constraint firstAttribute="centerX" secondItem="48" secondAttribute="centerX" id="5in-fd-ptx"/>
+                                    <constraint firstItem="44" firstAttribute="leading" secondItem="59" secondAttribute="leading" id="AWp-yv-jDg"/>
+                                    <constraint firstItem="46" firstAttribute="top" secondItem="104" secondAttribute="top" constant="364" id="CCN-C5-JY9"/>
+                                    <constraint firstItem="48" firstAttribute="top" secondItem="46" secondAttribute="bottom" constant="8" symbolic="YES" id="EKL-Ar-nJn"/>
+                                    <constraint firstAttribute="centerX" secondItem="46" secondAttribute="centerX" id="HXm-sC-vhC"/>
+                                    <constraint firstAttribute="centerX" secondItem="59" secondAttribute="centerX" id="Il1-Nv-w0x"/>
+                                    <constraint firstItem="44" firstAttribute="top" secondItem="104" secondAttribute="top" constant="196" id="KME-HH-X8i"/>
+                                    <constraint firstItem="163" firstAttribute="leading" secondItem="104" secondAttribute="leading" constant="50" id="KcG-tP-Wf9"/>
+                                    <constraint firstItem="60" firstAttribute="leading" secondItem="39" secondAttribute="leading" id="KmN-Mt-BGA"/>
+                                    <constraint firstItem="40" firstAttribute="top" secondItem="104" secondAttribute="top" constant="16" id="PyU-VG-DEk"/>
+                                    <constraint firstAttribute="centerX" secondItem="40" secondAttribute="centerX" id="S93-IN-866"/>
+                                    <constraint firstItem="60" firstAttribute="top" secondItem="47" secondAttribute="bottom" constant="10" id="SS1-Vs-7au"/>
+                                    <constraint firstItem="163" firstAttribute="centerX" secondItem="39" secondAttribute="centerX" id="SoW-BA-MC9"/>
+                                    <constraint firstAttribute="trailing" secondItem="163" secondAttribute="trailing" constant="105" id="TSD-OY-jc5"/>
+                                    <constraint firstItem="163" firstAttribute="leading" secondItem="46" secondAttribute="leading" id="TTs-Io-nwF"/>
+                                    <constraint firstItem="60" firstAttribute="top" secondItem="104" secondAttribute="top" constant="278" id="UQn-1q-Bsn"/>
+                                    <constraint firstItem="46" firstAttribute="top" secondItem="59" secondAttribute="bottom" constant="16" id="WhJ-qU-e6f"/>
+                                    <constraint firstItem="45" firstAttribute="top" secondItem="44" secondAttribute="bottom" constant="8" symbolic="YES" id="YO7-Ho-sYE"/>
+                                    <constraint firstAttribute="centerX" secondItem="163" secondAttribute="centerX" id="Zos-Vc-gfb"/>
+                                    <constraint firstAttribute="centerX" secondItem="43" secondAttribute="centerX" id="bzb-Y3-Scu"/>
+                                    <constraint firstItem="39" firstAttribute="top" secondItem="40" secondAttribute="bottom" constant="8" symbolic="YES" id="cNs-fj-Spt"/>
+                                    <constraint firstItem="163" firstAttribute="top" secondItem="48" secondAttribute="bottom" constant="8" symbolic="YES" id="cuM-pL-RCK"/>
+                                    <constraint firstItem="40" firstAttribute="leading" secondItem="104" secondAttribute="leading" constant="13" id="eji-AD-s0D"/>
+                                    <constraint firstItem="60" firstAttribute="leading" secondItem="104" secondAttribute="leadingMargin" id="ipY-OT-L8x"/>
+                                    <constraint firstItem="163" firstAttribute="top" secondItem="104" secondAttribute="top" constant="448" id="lfL-jz-bFe"/>
+                                    <constraint firstItem="44" firstAttribute="leading" secondItem="45" secondAttribute="leading" id="mah-tV-N4C"/>
+                                    <constraint firstItem="163" firstAttribute="leading" secondItem="48" secondAttribute="leading" id="r4q-ao-Y3p"/>
+                                    <constraint firstItem="163" firstAttribute="centerX" secondItem="60" secondAttribute="centerX" id="rdX-Jy-f4j"/>
+                                    <constraint firstItem="44" firstAttribute="leading" secondItem="104" secondAttribute="leading" constant="16" id="u37-kf-XpZ"/>
+                                    <constraint firstItem="44" firstAttribute="leading" secondItem="43" secondAttribute="leading" id="wwK-ha-SAz"/>
+                                    <constraint firstItem="163" firstAttribute="leading" secondItem="47" secondAttribute="leading" id="yCz-Jk-iH3"/>
+                                    <constraint firstAttribute="centerX" secondItem="47" secondAttribute="centerX" id="yGu-fP-bL9"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="104" firstAttribute="top" secondItem="10" secondAttribute="top" id="214"/>
+                            <constraint firstAttribute="bottom" secondItem="104" secondAttribute="bottom" id="217"/>
+                            <constraint firstItem="104" firstAttribute="leading" secondItem="10" secondAttribute="leading" id="221"/>
+                            <constraint firstAttribute="trailing" secondItem="104" secondAttribute="trailing" id="223"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="PrepSignIn" destination="163" id="name-outlet-163"/>
                         <outlet property="Scroller" destination="104" id="name-outlet-104"/>
                         <outlet property="SignupPage01View" destination="10" id="name-outlet-10"/>
                         <outlet property="confirmPassword" destination="45" id="name-outlet-45"/>
                         <outlet property="createAccountBtn" destination="46" id="name-outlet-46"/>
                         <outlet property="emailField" destination="59" id="name-outlet-59"/>
                         <outlet property="passwordField" destination="44" id="name-outlet-44"/>
+                        <outlet property="recoveryLabel" destination="60" id="name-outlet-60"/>
                         <outlet property="signInBtn" destination="47" id="name-outlet-47"/>
                         <outlet property="skipButton" destination="48" id="name-outlet-48"/>
                         <outlet property="usernameField" destination="43" id="name-outlet-43"/>
-                        <outlet property="PrepSignIn" destination="163" id="name-outlet-163"/>
-                        <outlet property="recoveryLabel" destination="60" id="name-outlet-60"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="11" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -129,42 +186,50 @@
                         <viewControllerLayoutGuide type="bottom" id="14"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="17">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="69" alpha="0.2">
-                                <rect key="frame" x="20" y="60" width="280" height="280"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFit" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="69">
+                                <rect key="frame" x="48" y="60" width="280" height="280"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="2eB-nn-3RD"/>
+                                    <constraint firstAttribute="height" constant="280" id="I4b-5o-uXw"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Select a channel to get started.  You will be able to view others later." lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72" textAlignment="center">
-                                <rect key="frame" x="8" y="16" width="304" height="62"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a channel to get started.  You will be able to view others later." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                                <rect key="frame" x="32" y="16" width="311" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77" text="Communities are water-coolers for industries and general interests." textAlignment="center">
-                                <rect key="frame" x="16" y="140" width="288" height="56"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Communities are water-coolers for industries and general interests." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77">
+                                <rect key="frame" x="16" y="128" width="343" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79" text="Publisher channels bring you a personalized experience of new and interesting content." textAlignment="center">
-                                <rect key="frame" x="16" y="300" width="288" height="80"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="201">
-                                <rect key="frame" x="50" y="200" width="220" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="201">
+                                <rect key="frame" x="73" y="184" width="229" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="bGe-jX-Bdz"/>
+                                    <constraint firstAttribute="width" constant="229" id="tOm-Tj-y0n"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                 <state key="normal" title="Select a Community" backgroundImage="short_button_normal.png">
                                     <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76">
-                                <rect key="frame" x="50" y="381" width="220" height="34"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Publisher channels bring you a personalized experience of new and interesting content." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79">
+                                <rect key="frame" x="16" y="300" width="343" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
+                                <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76">
+                                <rect key="frame" x="73" y="381" width="229" height="36"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                 <state key="normal" title="Select a Publisher" backgroundImage="short_button_normal.png">
                                     <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
@@ -172,11 +237,27 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="77" firstAttribute="top" secondItem="72" secondAttribute="bottom" constant="72" id="2yQ-U3-Y07"/>
+                            <constraint firstItem="72" firstAttribute="leading" secondItem="17" secondAttribute="leadingMargin" constant="16" id="5WZ-yM-WWm"/>
+                            <constraint firstItem="69" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="40" id="9qD-LI-0Xe"/>
+                            <constraint firstItem="201" firstAttribute="top" secondItem="77" secondAttribute="bottom" constant="16" id="BjP-cS-g1W"/>
+                            <constraint firstAttribute="centerX" secondItem="77" secondAttribute="centerX" id="HRH-1q-FmQ"/>
+                            <constraint firstItem="77" firstAttribute="trailing" secondItem="17" secondAttribute="trailingMargin" id="Oag-Q5-VUo"/>
+                            <constraint firstAttribute="centerX" secondItem="201" secondAttribute="centerX" id="Oah-yu-3Ng"/>
+                            <constraint firstAttribute="centerX" secondItem="72" secondAttribute="centerX" id="U89-bv-CsD"/>
+                            <constraint firstAttribute="centerX" secondItem="79" secondAttribute="centerX" id="YdJ-GC-Eol"/>
+                            <constraint firstItem="77" firstAttribute="leading" secondItem="17" secondAttribute="leadingMargin" id="dEd-Ni-jM0"/>
+                            <constraint firstItem="72" firstAttribute="top" secondItem="17" secondAttribute="topMargin" constant="16" id="dja-ov-sGi"/>
+                            <constraint firstAttribute="centerX" secondItem="69" secondAttribute="centerX" id="mGR-yu-Hr2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="72" secondAttribute="trailing" constant="16" id="mdy-dH-RpW"/>
+                            <constraint firstAttribute="centerX" secondItem="76" secondAttribute="centerX" id="x8W-8z-Z3F"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="SignUpPage02View" destination="17" id="name-outlet-17"/>
                         <outlet property="CommunityChannelBtn" destination="201" id="name-outlet-201"/>
                         <outlet property="PublisherChannelBtn" destination="76" id="name-outlet-76"/>
+                        <outlet property="SignUpPage02View" destination="17" id="name-outlet-17"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="18" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -192,88 +273,146 @@
                         <viewControllerLayoutGuide type="bottom" id="21"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="24">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="111">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="111">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="172" alpha="0.2">
-                                        <rect key="frame" x="20" y="60" width="280" height="280"/>
+                                    <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFit" image="Heard_Smile_Only_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="172">
+                                        <rect key="frame" x="48" y="60" width="280" height="280"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="280" id="8iT-0o-IYI"/>
+                                        </constraints>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Verified Not Identified™" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
-                                        <rect key="frame" x="8" y="16" width="304" height="50"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Verified Not Identified™" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
+                                        <rect key="frame" x="8" y="16" width="359" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="QUW-ho-UeZ"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="82" text="Badges let you show your credentials with or without revealing your full identity.">
-                                        <rect key="frame" x="8" y="72" width="304" height="70"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Badges let you show your credentials with or without revealing your full identity." lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="82">
+                                        <rect key="frame" x="8" y="72" width="359" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="17"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="83">
-                                        <rect key="frame" x="8" y="150" width="304" height="80"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="4" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="83">
+                                        <rect key="frame" x="8" y="181" width="359" height="49"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <string key="text">Enter your email address to see if badges are available for your domain.  This process is double blind, so your email is not saved or discoverable.</string>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84" hidden="YES">
-                                        <rect key="frame" x="16" y="238" width="288" height="30"/>
+                                    <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84">
+                                        <rect key="frame" x="16" y="238" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85" hidden="YES">
-                                        <rect key="frame" x="50" y="284" width="220" height="34"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85">
+                                        <rect key="frame" x="50" y="284" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="ZxM-dd-iE2"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Check for Badges" backgroundImage="short_button_normal.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86" hidden="YES">
-                                        <rect key="frame" x="49" y="326" width="221" height="34"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86">
+                                        <rect key="frame" x="50" y="326" width="275" height="36"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Skip for now" backgroundImage="short_button_pressed.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88" text="Badges are available!  A verification code has been emailed to you.  Enter the code in the field below to continue." hidden="YES">
-                                        <rect key="frame" x="8" y="150" width="300" height="55"/>
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Badges are available!  A verification code has been emailed to you.  Enter the code in the field below to continue." lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88">
+                                        <rect key="frame" x="8" y="0.0" width="375" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="5hj-3B-6LN"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="14"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="verification code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="87" hidden="YES">
-                                        <rect key="frame" x="16" y="213" width="288" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="verification code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="87">
+                                        <rect key="frame" x="16" y="213" width="343" height="30"/>
+                                        <color key="textColor" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                        <color key="textColor" colorSpace="calibratedRGB" red="0.18823529411764706" green="0.12156862745098039" blue="0.12941176470588237" alpha="1"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89" hidden="YES">
-                                        <rect key="frame" x="50" y="270" width="220" height="34"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89">
+                                        <rect key="frame" x="50" y="270" width="275" height="34"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Verifiy" backgroundImage="short_button_normal.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90" hidden="YES">
-                                        <rect key="frame" x="50" y="312" width="220" height="34"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90">
+                                        <rect key="frame" x="50" y="312" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="Xze-wj-fcg"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                         <state key="normal" title="Try Again" backgroundImage="short_button_pressed.png">
                                             <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="86" secondAttribute="centerX" id="1O8-fl-jxT"/>
+                                    <constraint firstAttribute="trailing" secondItem="88" secondAttribute="trailing" constant="47" id="3Rw-hM-bne"/>
+                                    <constraint firstItem="84" firstAttribute="centerX" secondItem="82" secondAttribute="centerX" id="3dt-PV-PeC"/>
+                                    <constraint firstItem="90" firstAttribute="top" secondItem="89" secondAttribute="bottom" constant="8" symbolic="YES" id="5zN-oX-J27"/>
+                                    <constraint firstAttribute="trailing" secondItem="84" secondAttribute="trailing" constant="71" id="6f7-3H-xeO"/>
+                                    <constraint firstAttribute="centerX" secondItem="87" secondAttribute="centerX" id="8jq-Z5-MRA"/>
+                                    <constraint firstAttribute="centerX" secondItem="84" secondAttribute="centerX" id="AaG-0r-jGr"/>
+                                    <constraint firstItem="85" firstAttribute="leading" secondItem="111" secondAttribute="leading" constant="50" id="Aic-UJ-xTg"/>
+                                    <constraint firstItem="88" firstAttribute="leading" secondItem="111" secondAttribute="leading" constant="8" id="GCM-L5-e2x"/>
+                                    <constraint firstItem="89" firstAttribute="top" secondItem="84" secondAttribute="bottom" constant="2" id="GDU-9p-DK7"/>
+                                    <constraint firstItem="81" firstAttribute="leading" secondItem="83" secondAttribute="leading" id="HwL-SQ-Q7g"/>
+                                    <constraint firstItem="84" firstAttribute="top" secondItem="111" secondAttribute="top" constant="238" id="IKc-qq-6fU"/>
+                                    <constraint firstItem="85" firstAttribute="leading" secondItem="90" secondAttribute="leading" id="JzK-0i-MaS"/>
+                                    <constraint firstAttribute="centerX" secondItem="90" secondAttribute="centerX" id="PRq-Zr-XaC"/>
+                                    <constraint firstItem="81" firstAttribute="leading" secondItem="111" secondAttribute="leadingMargin" id="SUi-vM-kPF"/>
+                                    <constraint firstItem="85" firstAttribute="leading" secondItem="89" secondAttribute="leading" id="Sck-yT-e0a"/>
+                                    <constraint firstItem="84" firstAttribute="top" secondItem="83" secondAttribute="bottom" constant="8" symbolic="YES" id="U0V-ou-fVx"/>
+                                    <constraint firstItem="81" firstAttribute="leading" secondItem="82" secondAttribute="leading" id="UBb-Fs-tFC"/>
+                                    <constraint firstItem="86" firstAttribute="top" secondItem="85" secondAttribute="bottom" constant="8" symbolic="YES" id="V3a-bK-714"/>
+                                    <constraint firstAttribute="bottom" secondItem="84" secondAttribute="bottom" constant="399" id="Wnq-26-usa"/>
+                                    <constraint firstItem="172" firstAttribute="top" secondItem="111" secondAttribute="top" constant="60" id="XSu-5J-fq0"/>
+                                    <constraint firstItem="85" firstAttribute="trailing" secondItem="86" secondAttribute="trailing" id="ZqN-Zy-pt5"/>
+                                    <constraint firstItem="84" firstAttribute="leading" secondItem="111" secondAttribute="leading" constant="16" id="g1R-Qj-8ry"/>
+                                    <constraint firstItem="82" firstAttribute="top" secondItem="81" secondAttribute="bottom" constant="6" id="hPR-6e-MvO"/>
+                                    <constraint firstItem="88" firstAttribute="top" secondItem="111" secondAttribute="top" id="iiV-Rl-LPN"/>
+                                    <constraint firstItem="84" firstAttribute="centerX" secondItem="81" secondAttribute="centerX" id="l1s-3w-VPX"/>
+                                    <constraint firstItem="81" firstAttribute="top" secondItem="111" secondAttribute="top" constant="16" id="m64-Sc-Xeg"/>
+                                    <constraint firstItem="84" firstAttribute="leading" secondItem="87" secondAttribute="leading" id="n8Q-WQ-4YH"/>
+                                    <constraint firstAttribute="bottom" secondItem="90" secondAttribute="bottom" constant="321" id="nsQ-L4-Bj5"/>
+                                    <constraint firstItem="84" firstAttribute="centerX" secondItem="83" secondAttribute="centerX" id="nzH-er-Nzu"/>
+                                    <constraint firstItem="89" firstAttribute="top" secondItem="87" secondAttribute="bottom" constant="27" id="oSB-2d-itg"/>
+                                    <constraint firstAttribute="centerX" secondItem="85" secondAttribute="centerX" id="qs9-E6-LqD"/>
+                                    <constraint firstAttribute="centerX" secondItem="89" secondAttribute="centerX" id="umg-Ue-XZz"/>
+                                    <constraint firstItem="85" firstAttribute="top" secondItem="84" secondAttribute="bottom" constant="16" id="yOt-w5-7bs"/>
+                                    <constraint firstItem="84" firstAttribute="centerX" secondItem="172" secondAttribute="centerX" id="zdr-az-YZe"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="111" secondAttribute="trailing" id="OFv-eY-fMJ"/>
+                            <constraint firstItem="111" firstAttribute="top" secondItem="24" secondAttribute="top" id="X9h-J0-Zbw"/>
+                            <constraint firstItem="111" firstAttribute="leading" secondItem="24" secondAttribute="leading" id="gsJ-Q0-hMK"/>
+                            <constraint firstItem="21" firstAttribute="top" secondItem="111" secondAttribute="bottom" id="zZt-GZ-ydD"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="Scroller" destination="111" id="name-outlet-111"/>
@@ -295,118 +434,13 @@
     </scenes>
     <resources>
         <image name="Heard_Smile_Only_red.png" width="280" height="240"/>
-        <image name="Logo_master_red.png" width="516" height="265"/>
-        <image name="short_button_normal.png" width="459" height="73"/>
-        <image name="short_button_pressed.png" width="459" height="73"/>
-        <image name="signupRadioButton.png" width="18" height="18"/>
-        <image name="icon_speechact_ask_teal.png" width="267" height="267"/>
-        <image name="icon_speechact_ask.png" width="267" height="267"/>
-        <image name="icon_speechact_leak_teal.png" width="267" height="267"/>
-        <image name="icon_speechact_leak.png" width="267" height="267"/>
-        <image name="icon_speechact_poll_teal.png" width="267" height="267"/>
-        <image name="icon_speechact_poll.png" width="267" height="267"/>
-        <image name="icon_speechact_predict_teal.png" width="267" height="267"/>
-        <image name="icon_speechact_predict.png" width="267" height="267"/>
-        <image name="icon_speechact_say_teal.png" width="267" height="267"/>
-        <image name="icon_speechact_say.png" width="267" height="267"/>
-        <image name="icon_createpost.png" width="533" height="533"/>
-        <image name="BackgroundImage.png" width="320" height="480"/>
-        <image name="texture.png" width="320" height="480"/>
-        <image name="texture-568h.png" width="320" height="568"/>
-        <image name="Background-portrait.png" width="768" height="1024"/>
-        <image name="BackgroundImage_4inch.png" width="320" height="568"/>
-        <image name="hamburger_teal.png" width="49" height="39"/>
-        <image name="tutorial_screen_1.jpg" width="640" height="1096"/>
-        <image name="tutorial_screen_2.jpg" width="640" height="1096"/>
-        <image name="tutorial_screen_3.jpg" width="640" height="1096"/>
-        <image name="tutorial_screen_4.jpg" width="640" height="1096"/>
-        <image name="tutorial_screen_5.jpg" width="640" height="1096"/>
-        <image name="tutorial_close.png" width="20" height="20"/>
-        <image name="login_background.jpg" width="264" height="352"/>
-        <image name="logo_white.png" width="189" height="99"/>
-        <image name="signup_2.jpg" width="363" height="545"/>
-        <image name="ios_signin_3x4.jpg" width="320" height="480"/>
-        <image name="ios_signin_2x3.jpg" width="640" height="1136"/>
-        <image name="conversion.png" width="105" height="105"/>
-        <image name="comments_filled_64x64.png" width="64" height="64"/>
-        <image name="report_button_active.png" width="128" height="112"/>
-        <image name="share_button.png" width="59" height="83"/>
-        <image name="rememberMeRadioButton.png" width="28" height="28"/>
-        <image name="signinBckg-4.png" width="640" height="960"/>
-        <image name="signinBckg-5.png" width="640" height="1136"/>
-        <image name="signupRadioButtonUn.png" width="18" height="18"/>
-        <image name="navigationBar.png" width="640" height="128"/>
-        <image name="Default-568h.png" width="640" height="1136"/>
-        <image name="Default.png" width="320" height="480"/>
-        <image name="profileImageSelectLogo.png" width="208" height="41"/>
-        <image name="profileInfoBack.png" width="611" height="431"/>
-        <image name="darkGrayBack.png" width="13" height="14"/>
-        <image name="grayBack.png" width="10" height="10"/>
-        <image name="greenBack.png" width="9" height="12"/>
-        <image name="blahsChannelCheck.png" width="19" height="16"/>
-        <image name="newBlahImage.png" width="45" height="45"/>
-        <image name="leftMenuButton.png" width="49" height="39"/>
-        <image name="leftMenuButtonPressed.png" width="48" height="39"/>
-        <image name="rememberMeRadioButton_un.png" width="36" height="36"/>
-        <image name="arrow_down_dark.png" width="22" height="38"/>
-        <image name="arrow_down.png" width="22" height="38"/>
-        <image name="arrow_up_dark.png" width="25" height="38"/>
-        <image name="arrow_up.png" width="25" height="38"/>
-        <image name="comments_dark.png" width="44" height="38"/>
-        <image name="comments.png" width="44" height="38"/>
-        <image name="stats_dark.png" width="52" height="34"/>
-        <image name="stats.png" width="52" height="34"/>
-        <image name="summary_dark.png" width="40" height="32"/>
-        <image name="summary.png" width="40" height="32"/>
-        <image name="badges.png" width="28" height="28"/>
-        <image name="hot.png" width="28" height="28"/>
-        <image name="no_coments.png" width="96" height="79"/>
-        <image name="signature_ico.png" width="30" height="18"/>
-        <image name="arrow_blue.png" width="28" height="28"/>
-        <image name="arrow_gray.png" width="28" height="28"/>
-        <image name="arrow_green.png" width="28" height="28"/>
-        <image name="arrow_red.png" width="28" height="28"/>
-        <image name="arrow_yellow.png" width="28" height="28"/>
-        <image name="input_field_bottom.png" width="610" height="80"/>
-        <image name="input_field_middle.png" width="610" height="80"/>
-        <image name="input_field_top.png" width="610" height="80"/>
-        <image name="new_post_tap.png" width="89" height="104"/>
-        <image name="recent.png" width="28" height="28"/>
-        <image name="image_select.png" width="34" height="22"/>
-        <image name="new_comment.png" width="610" height="357"/>
-        <image name="dropdown_arrow.png" width="15" height="10"/>
-        <image name="input_back.png" width="610" height="80"/>
-        <image name="long_button.png" width="610" height="88"/>
-        <image name="short_button_gray.png" width="459" height="73"/>
-        <image name="new_post.png" width="610" height="443"/>
-        <image name="short_button.png" width="459" height="73"/>
-        <image name="long_button_gray.png" width="610" height="88"/>
-        <image name="newblah.png" width="133" height="133"/>
-        <image name="ask_icon.png" width="32" height="32"/>
-        <image name="badge_icon.png" width="32" height="32"/>
-        <image name="leak_icon.png" width="32" height="32"/>
-        <image name="poll_icon.png" width="32" height="32"/>
-        <image name="predict_icon.png" width="32" height="32"/>
-        <image name="say_icon.png" width="32" height="32"/>
-        <image name="pen_bw.png" width="32" height="32"/>
-        <image name="ico_hot.png" width="32" height="32"/>
-        <image name="ico_new.png" width="32" height="32"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Default-Portrait.png" width="768" height="1024"/>
-        <image name="Default-Landscape.png" width="1024" height="768"/>
-        <image name="Icon.png" width="57" height="57"/>
-        <image name="Icon-60.png" width="120" height="120"/>
-        <image name="Icon-72.png" width="72" height="72"/>
-        <image name="Icon-76.png" width="76" height="76"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="Icon-Small-50.png" width="50" height="50"/>
-        <image name="Heard_Smile_Only_teal.png" width="280" height="240"/>
         <image name="Logo_master_teal.png" width="516" height="265"/>
-        <image name="ICON_TEST.png" width="72" height="72"/>
+        <image name="short_button_normal.png" width="229" height="36"/>
+        <image name="short_button_pressed.png" width="229" height="36"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina47"/>
     </simulatedMetricsContainer>
 </document>

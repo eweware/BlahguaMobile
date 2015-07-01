@@ -5,9 +5,9 @@
 // Manual changes to this file will not be maintained.
 //
 using Foundation;
-using UIKit;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
