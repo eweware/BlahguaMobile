@@ -80,12 +80,20 @@ namespace BlahguaMobile.IOS
 		[Outlet]
 		UIKit.UITextField titleInput { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		NSLayoutConstraint PollTableHeight { get; set; }
+
 		[Action ("HandleTitleChanged:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void HandleTitleChanged (UITextField sender);
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (PollTableHeight != null) {
+				PollTableHeight.Dispose ();
+				PollTableHeight = null;
+			}
 		}
 	}
 }
