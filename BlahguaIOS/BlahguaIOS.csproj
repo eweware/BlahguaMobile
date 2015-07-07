@@ -240,9 +240,6 @@
       <DependentUpon>BGNewCommentViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="View Controllers\BGNewPostViewController.cs" />
-    <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
-      <DependentUpon>BGNewPostViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\BGNewPostPollItemCell.cs" />
     <Compile Include="Views\BGNewPostPollItemCell.designer.cs">
       <DependentUpon>BGNewPostPollItemCell.cs</DependentUpon>
@@ -355,6 +352,9 @@
       <DependentUpon>EmbeddedWebController.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ImageLoader.cs" />
+    <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
+      <DependentUpon>BGNewPostViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

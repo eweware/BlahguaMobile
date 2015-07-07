@@ -435,10 +435,10 @@
                                                         </constraints>
                                                         <prototypes>
                                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="28" id="D76-h9-pA7" customClass="BGBlahBadgeCell">
-                                                                <rect key="frame" x="0.0" y="22" width="320" height="28"/>
+                                                                <rect key="frame" x="0.0" y="22" width="319" height="28"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D76-h9-pA7" id="qsv-A3-TZV">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="27.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="319" height="27.5"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="badge_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="T5T-1A-geC">
@@ -2162,7 +2162,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cqd-RX-6qh">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xmt-q4-Mmx" userLabel="ContentView">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xmt-q4-Mmx" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="304"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new_post.png" translatesAutoresizingMaskIntoConstraints="NO" id="4cC-HZ-YKl">
@@ -2311,16 +2311,19 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
-                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="h9N-0T-b3K" userLabel="PollItemsTable">
-                                                <rect key="frame" x="8" y="238" width="359" height="0.0"/>
+                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="h9N-0T-b3K" userLabel="PollItemsTable">
+                                                <rect key="frame" x="8" y="238" width="359" height="40"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="638"/>
+                                                </constraints>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="BGNewPostPollItemCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="newPostPollCell" id="sUg-uO-m12" customClass="BGNewPostPollItemCell">
-                                                        <rect key="frame" x="0.0" y="22" width="305" height="40"/>
+                                                        <rect key="frame" x="0.0" y="22" width="359" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sUg-uO-m12" id="3K4-XY-IYv">
-                                                            <rect key="frame" x="0.0" y="0.0" width="305" height="39.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="39.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h9Y-iD-xP8">
@@ -2344,7 +2347,7 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nxj-w4-cNs">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nxj-w4-cNs">
                                                 <rect key="frame" x="78" y="254" width="220" height="34"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -2436,7 +2439,8 @@
                         <outlet property="LeakBtn" destination="IQT-4h-MSx" id="lwK-h8-5RB"/>
                         <outlet property="LeakBtnText" destination="8t1-9J-1WF" id="b17-Dl-NwP"/>
                         <outlet property="PollBtn" destination="Mrc-xu-wZ6" id="qWS-lg-olN"/>
-                        <outlet property="PollBtnText" destination="Hq3-6s-bsK" id="CCu-3T-Qgf"/>
+                        <outlet property="PollBtnText" destination="Hq3-6s-bsK" id="name-outlet-Hq3-6s-bsK"/>
+                        <outlet property="PollTableHeight" destination="638" id="name-outlet-638"/>
                         <outlet property="PredictBtn" destination="6w5-KI-P41" id="8z5-zZ-66d"/>
                         <outlet property="PredictBtnText" destination="o8h-f7-w6n" id="Cgu-gh-485"/>
                         <outlet property="SayBtn" destination="Sv6-rP-bSa" id="sSj-5a-yry"/>
@@ -2449,29 +2453,12 @@
                         <outlet property="pollItemsTableView" destination="h9N-0T-b3K" id="CuC-r1-fpC"/>
                         <outlet property="selectImageButton" destination="wQW-lJ-qsj" id="5aQ-vX-0uQ"/>
                         <outlet property="selectSignature" destination="PXa-U0-jAs" id="p19-jY-Xo6"/>
-                        <outlet property="titleInput" destination="KmA-Gp-8Ar" id="ysI-dV-3CM"/>
+                        <outlet property="titleInput" destination="KmA-Gp-8Ar" id="name-outlet-KmA-Gp-8Ar"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zUz-6X-mvK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2531.5" y="-254.5"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="dhL-hE-bQs">
-            <objects>
-                <viewController id="aZy-qq-T2I" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="m7X-WO-xMD"/>
-                        <viewControllerLayoutGuide type="bottom" id="39f-mm-BBz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mTq-3m-bYN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4MM-rt-BN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>

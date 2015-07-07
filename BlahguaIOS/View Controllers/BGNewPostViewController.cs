@@ -182,7 +182,7 @@ namespace BlahguaMobile.IOS
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
             };
-            buttonTopOffset.Constant = 0f;
+            //buttonTopOffset.Constant = 0f;
 			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
@@ -379,13 +379,13 @@ namespace BlahguaMobile.IOS
                 {
                     pollItemsTableView.Hidden = false;
                     ExpirationDateInput.Hidden = true;
-                    buttonTopOffset.Constant = 12f + pollItemsTableView.Frame.Height;
+                    //buttonTopOffset.Constant = 12f + pollItemsTableView.Frame.Height;
                 }
                 else 
                 {
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = false;
-                    buttonTopOffset.Constant = 12f + ExpirationDateInput.Frame.Height;
+                    //buttonTopOffset.Constant = 12f + ExpirationDateInput.Frame.Height;
                 }
 
 
@@ -394,8 +394,9 @@ namespace BlahguaMobile.IOS
             {
                 pollItemsTableView.Hidden = true;
                 ExpirationDateInput.Hidden = true;
-                buttonTopOffset.Constant = 8f;
+                //buttonTopOffset.Constant = 8f;
             }
+			AdjustTableViewSize ();
 
         }
 
@@ -420,7 +421,7 @@ namespace BlahguaMobile.IOS
         public override void ViewWillAppear (bool animated)
         {
             base.ViewWillAppear (animated);
-            buttonTopOffset.Constant = 8f;
+            //buttonTopOffset.Constant = 8f;
 
         }
 
@@ -753,18 +754,23 @@ namespace BlahguaMobile.IOS
 
 			pollItemsTableView.ReloadData ();
 
-			AdjustTableViewSize ();
+			//AdjustTableViewSize ();
 		}
 
 		public void AdjustTableViewSize ()
 		{
 			var newSize = new CGSize (pollItemsTableView.Frame.Width, pollItemsTableView.NumberOfRowsInSection (0) * pollItemsTableView.RowHeight);
+			if (BlahguaAPIObject.Current.CreateRecord.BlahType.N != "polls")
+				newSize = new CGSize (0, 0);
 
-			pollOptionTableHeight.Constant = newSize.Height;
+			//pollOptionTableHeight.Constant = newSize.Height;
+			PollTableHeight.Constant = newSize.Height;
 			
             containerScrollView.ContentSize = new CGSize (320, done.Frame.Bottom + 8);
+			/*
             if (BlahguaAPIObject.Current.CreateRecord.BlahType.N == "polls")
                 buttonTopOffset.Constant = 12f + newSize.Height;
+                */
 		}
 
 		private void PostCreated(Blah NewPost)
