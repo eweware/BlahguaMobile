@@ -82,6 +82,10 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		NSLayoutConstraint DoneButtonTopConstraint { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		NSLayoutConstraint PollTableHeight { get; set; }
 
 		[Action ("HandleTitleChanged:")]
@@ -90,6 +94,10 @@ namespace BlahguaMobile.IOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (DoneButtonTopConstraint != null) {
+				DoneButtonTopConstraint.Dispose ();
+				DoneButtonTopConstraint = null;
+			}
 			if (PollTableHeight != null) {
 				PollTableHeight.Dispose ();
 				PollTableHeight = null;

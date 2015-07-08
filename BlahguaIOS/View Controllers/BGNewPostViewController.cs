@@ -182,7 +182,7 @@ namespace BlahguaMobile.IOS
             {
                     SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
             };
-            //buttonTopOffset.Constant = 0f;
+			DoneButtonTopConstraint.Constant = 16f;
 			SetBlahType(SayBtn, BlahguaAPIObject.Current.CurrentBlahTypes. First<BlahType>(n => n.N == "says"));
 
             PredictBtn.TouchUpInside += (object sender, EventArgs e) =>
@@ -321,7 +321,7 @@ namespace BlahguaMobile.IOS
         					//containerHeight.Constant = this.View.Bounds.Bottom - doneFrame.Height - 6;
 
         					PreparePollMode ();
-        					titleInput.Placeholder = "polls need 2 or more choices";
+        					titleInput.Placeholder = "polls need 2 or more choices.";
                             ShowHideAreas(true, false);
         				});
                     break;
@@ -343,14 +343,14 @@ namespace BlahguaMobile.IOS
 
                             ShowHideAreas(false, true);
 
-                           	titleInput.Placeholder = "predicts need a dated outcome.";
+                           	titleInput.Placeholder = "predicts need a date.";
                         });
 
                     break;
 
 			    case "says":
                     ShowHideAreas(false, false);
-				    titleInput.Placeholder = "says are general posts, no requirements.";
+				    titleInput.Placeholder = "says are general posts.";
                     break;
 
                 case "asks":
@@ -379,13 +379,13 @@ namespace BlahguaMobile.IOS
                 {
                     pollItemsTableView.Hidden = false;
                     ExpirationDateInput.Hidden = true;
-                    //buttonTopOffset.Constant = 12f + pollItemsTableView.Frame.Height;
+					DoneButtonTopConstraint.Constant = 16f;
                 }
                 else 
                 {
                     pollItemsTableView.Hidden = true;
                     ExpirationDateInput.Hidden = false;
-                    //buttonTopOffset.Constant = 12f + ExpirationDateInput.Frame.Height;
+					DoneButtonTopConstraint.Constant = 16f + ExpirationDateInput.Frame.Height;
                 }
 
 
@@ -394,7 +394,7 @@ namespace BlahguaMobile.IOS
             {
                 pollItemsTableView.Hidden = true;
                 ExpirationDateInput.Hidden = true;
-                //buttonTopOffset.Constant = 8f;
+				DoneButtonTopConstraint.Constant = 16f;
             }
 			AdjustTableViewSize ();
 
@@ -421,7 +421,7 @@ namespace BlahguaMobile.IOS
         public override void ViewWillAppear (bool animated)
         {
             base.ViewWillAppear (animated);
-            //buttonTopOffset.Constant = 8f;
+			DoneButtonTopConstraint.Constant = 16f;
 
         }
 

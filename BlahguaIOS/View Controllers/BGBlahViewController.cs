@@ -235,7 +235,7 @@ namespace BlahguaMobile.IOS
 
 				txtBlahTitle.AttributedText = new NSAttributedString(CurrentBlah.T, blahTitleAttributes);
                 CGSize size = txtBlahTitle.SizeThatFits (new CGSize (View.Frame.Width, 5000));
-				txtBlahTitleHeight.Constant = size.Height;
+				//txtBlahTitleHeight.Constant = size.Height;
             }
             else
             {
@@ -282,7 +282,7 @@ namespace BlahguaMobile.IOS
 				blahBodyView.AttributedText = new NSAttributedString(CurrentBlah.F, blahBodyAttributes);
 
                 CGSize size = blahBodyView.SizeThatFits (new CGSize (View.Frame.Width, 5000));
-				txtBlahBodyHeight.Constant = size.Height;
+				//txtBlahBodyHeight.Constant = size.Height;
 			}
 			else
 			{
