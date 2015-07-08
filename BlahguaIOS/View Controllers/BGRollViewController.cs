@@ -81,8 +81,24 @@ namespace BlahguaMobile.IOS
 			} else {
 				Title = "";
                 UIImage theImage = UIImageHelper.ImageFromUrl(headerImage);
-                if (theImage != null)
-				    this.NavigationController.NavigationBar.SetBackgroundImage(theImage, UIBarMetrics.Default);
+				if (theImage != null) {
+					CGRect theRect = this.NavigationController.NavigationBar.Frame;
+					theRect.Width *= UIScreen.MainScreen.Scale;
+					theRect.Height *= UIScreen.MainScreen.Scale;
+					nfloat aspectRatio = theImage.Size.Width / theImage.Size.Height;
+					nfloat newWidth = theRect.Width;
+					nfloat newHeight = newWidth / aspectRatio;
+					if (newHeight < theRect.Height) {
+						newHeight = theRect.Height;
+						newWidth = newHeight * aspectRatio;
+					}
+					UIGraphics.BeginImageContext (theRect.Size);
+					theImage.Draw (new CGRect (0, 0, newWidth, newHeight));
+					UIImage newImage = UIGraphics.GetImageFromCurrentImageContext (); 
+					UIGraphics.EndImageContext();
+					this.NavigationController.NavigationBar.SetBackgroundImage (newImage, UIBarMetrics.Default);
+					theImage.Dispose ();
+				}
 			}
 		}
 
