@@ -107,6 +107,18 @@ namespace BlahguaMobile.IOS
 			viewController.NaturalScrollInProgress = false;
 		}
 
+		public override void Scrolled (UIScrollView scrollView)
+		{
+			nfloat scrollViewHeight = scrollView.Frame.Height;// scrollView.frame.size.height;
+			nfloat scrollContentSizeHeight = scrollView.ContentSize.Height;// scrollView.contentSize.height;
+			nfloat scrollOffset = scrollView.ContentOffset.Y;// scrollView.contentOffset.y;
+
+			if (scrollOffset + scrollViewHeight >= scrollContentSizeHeight)
+			{
+
+				viewController.RefreshData ();
+			}	
+		}
 		#endregion
 
 		#region Methods

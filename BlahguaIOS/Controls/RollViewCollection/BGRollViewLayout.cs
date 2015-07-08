@@ -59,15 +59,19 @@ namespace BlahguaMobile.IOS
 			if(itemsCount != 0)
 			{
 				var indexPathes = manager.GetIndexPathForRect (rect);
+				bool shouldRefresh = false;
 
 				foreach(var indexPath in indexPathes)
 				{
 					if (indexPath.Item == itemsCount - 99)
-						viewController.RefreshData ();
+						shouldRefresh = true;
 
 					if(indexPath.Item < itemsCount)
 						attributes.Add (LayoutAttributesForItem (indexPath));
 				}
+
+				//if (shouldRefresh)
+				//	viewController.RefreshData ();
 
 			}
 			return attributes.ToArray();

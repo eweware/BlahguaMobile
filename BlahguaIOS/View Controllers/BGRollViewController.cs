@@ -32,6 +32,7 @@ namespace BlahguaMobile.IOS
 		private Timer toastTimer;
 		private UIAlertView toast;
         private bool firstTime = true;
+		private bool isRefreshing = false;
 
 
 		#endregion
@@ -88,12 +89,15 @@ namespace BlahguaMobile.IOS
 					nfloat aspectRatio = theImage.Size.Width / theImage.Size.Height;
 					nfloat newWidth = theRect.Width;
 					nfloat newHeight = newWidth / aspectRatio;
+					nfloat offset = (newHeight - theRect.Height) / 2;
 					if (newHeight < theRect.Height) {
 						newHeight = theRect.Height;
 						newWidth = newHeight * aspectRatio;
+						offset = 0;
 					}
+
 					UIGraphics.BeginImageContext (theRect.Size);
-					theImage.Draw (new CGRect (0, 0, newWidth, newHeight));
+					theImage.Draw (new CGRect (0, -offset, newWidth, newHeight));
 					UIImage newImage = UIGraphics.GetImageFromCurrentImageContext (); 
 					UIGraphics.EndImageContext();
 					this.NavigationController.NavigationBar.SetBackgroundImage (newImage, UIBarMetrics.Default);
@@ -166,7 +170,10 @@ namespace BlahguaMobile.IOS
 				
 			manager = new BGRollViewCellsSizeManager ();
 			BlahguaAPIObject.Current.GetInbox (InitialInboxLoadingCompleted);
+
 		}
+
+
 
 		public override void ViewWillAppear (bool animated)
 		{
@@ -216,7 +223,6 @@ namespace BlahguaMobile.IOS
 					if (!NaturalScrollInProgress)
                     {
     				    CollectionView.ContentOffset = new CGPoint (0, CollectionView.ContentOffset.Y + 1);
-                        //Console.WriteLine("autoscroll");
                     }
 				}, AutoScroll);
 		}
@@ -224,12 +230,15 @@ namespace BlahguaMobile.IOS
 
 		public void RefreshData ()
 		{
-			BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
+			if (!isRefreshing) {
+				isRefreshing = true;
+				BlahguaAPIObject.Current.GetInbox (InboxLoadingCompleted);
+			}
 		}
 
-		public void DeleteFirst200Items ()
+		public void DeleteFirst100Items ()
 		{
-			((BGRollViewDataSource)CollectionView.DataSource).DeleteFirst350Items ();
+			((BGRollViewDataSource)CollectionView.DataSource).DeleteFirst100Items ();
 		}
 
 		private void SetSrollingAvailability (bool enabled)
@@ -296,11 +305,15 @@ namespace BlahguaMobile.IOS
                                     {
                                         ((BGRollViewDataSource)CollectionView.DataSource).InsertAd(theAd);
                                         NaturalScrollInProgress = false;
+										isRefreshing = false;
                                     });
                             }
+							else
+								isRefreshing = false;
                         });
                 }
-                else {                 
+                else {        
+					isRefreshing = false;
                     ((BGRollViewDataSource)CollectionView.DataSource).DataSource.Clear();
                     UIAlertView msg = new UIAlertView("Empty Channel", "This channel currently has no posts.", null, "Got it");
                     msg.Show();

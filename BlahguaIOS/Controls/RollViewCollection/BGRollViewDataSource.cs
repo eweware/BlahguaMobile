@@ -66,7 +66,7 @@ namespace BlahguaMobile.IOS
 
 			if(indexPath.Item == dataSource.Count - 1 && dataSource.Count > 1000)
 			{
-				DeleteFirst350Items ();
+				//DeleteFirst10Items ();
 			}
 
 			return cell;
@@ -104,10 +104,10 @@ namespace BlahguaMobile.IOS
 				}
 
 			}, (bool finished) => {
-				Console.WriteLine ("Inserted: " + finished.ToString ());
-				if(dataSource.Count > 1000)
+				Console.WriteLine ("Inserted - now have total: " + dataSource.Count.ToString ());
+				if(dataSource.Count > 500)
 				{
-					viewController.DeleteFirst200Items ();
+					viewController.DeleteFirst100Items ();
 				}
                 if(true)//dataSource.Count <= 100)
 				{
@@ -136,18 +136,18 @@ namespace BlahguaMobile.IOS
 
         }
 
-		public void DeleteFirst350Items()
+		public void DeleteFirst100Items()
 		{
 			viewController.CollectionView.PerformBatchUpdates(()=> {
-				dataSource.RemoveRange (0, 350);
-				var indexPaths = new NSIndexPath[350];
-				for(int i = 0; i < 350; i++)
+				dataSource.RemoveRange (0, 100);
+				var indexPaths = new NSIndexPath[100];
+				for(int i = 0; i < 100; i++)
 				{
 					indexPaths[i] = NSIndexPath.FromItemSection(i, 0);
 				}
 				viewController.CollectionView.DeleteItems(indexPaths);
 			}, (bool finished) => {
-				Console.WriteLine("Deleted: " + finished.ToString());
+				Console.WriteLine("Deleted 100 items");
 				viewController.RefreshData();
 			});
 		}
