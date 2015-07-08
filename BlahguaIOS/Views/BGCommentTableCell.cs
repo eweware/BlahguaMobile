@@ -88,13 +88,15 @@ namespace BlahguaMobile.IOS
 			Action action = () => {
                 UIView.BeginAnimations ("AnimateForVote");
                 UIView.SetAnimationBeginsFromCurrentState (true);
-                UIView.SetAnimationDuration(.25);
+                UIView.SetAnimationDuration(1);
                 UIView.SetAnimationCurve(UIViewAnimationCurve.EaseIn);
-				if (rightPosition.Constant == voteView.Frame.Width) {
-					rightPosition.Constant = 0;
+				if (LeftEdgeConstraint.Constant == -voteView.Frame.Width) {
+					LeftEdgeConstraint.Constant = 0;
 				} else {
-					rightPosition.Constant = voteView.Frame.Width;
+					LeftEdgeConstraint.Constant = -voteView.Frame.Width;
 				}
+
+			
                 UIView.CommitAnimations();
 			};
 
@@ -286,7 +288,7 @@ namespace BlahguaMobile.IOS
                                         userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
                                         UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
                                         UIColor.Black);
-                                    rightPosition.Constant = 0;
+									LeftEdgeConstraint.Constant = 0;
                                 });
                         }
                     });
@@ -304,8 +306,6 @@ namespace BlahguaMobile.IOS
 
 
 				imageViewHeight.Constant = newHeight;
-				//containerViewHeight.Constant = containerViewHeight.Constant + newHeight;
-				//SetNeedsUpdateConstraints();
 				parentTableView.ReloadData ();
 			}
 
@@ -340,7 +340,7 @@ namespace BlahguaMobile.IOS
                             }
                             else
                             {
-                                rightPosition.Constant = constant;
+                                LeftEdgeConstraint.Constant = constant;
                             }
                         }
                         else
@@ -352,7 +352,7 @@ namespace BlahguaMobile.IOS
                             }
                             else
                             {
-                                rightPosition.Constant = constant;
+							LeftEdgeConstraint.Constant = constant;
                             }
                         }
                     }
@@ -368,7 +368,7 @@ namespace BlahguaMobile.IOS
                             }
                             else
                             {
-                                rightPosition.Constant = constant;
+							LeftEdgeConstraint.Constant = constant;
                             }
                         }
                         else
@@ -380,7 +380,7 @@ namespace BlahguaMobile.IOS
                             }
                             else
                             {
-                                rightPosition.Constant = constant;
+							LeftEdgeConstraint.Constant = constant;
                             }
                         }
                     }
@@ -389,7 +389,7 @@ namespace BlahguaMobile.IOS
                     if (startingLayoutRight == 0)
                     {
                         nfloat position = ButtonTotalWidth() / 2 - 1;
-                        if (rightPosition.Constant >= position)
+					if (LeftEdgeConstraint.Constant >= position)
                         {
                             SetFinalContainerViewPosition(true);
                         }
@@ -401,7 +401,7 @@ namespace BlahguaMobile.IOS
                     else
                     {
                         nfloat position = ButtonTotalWidth() / 2;
-                        if (rightPosition.Constant >= position)
+					if (LeftEdgeConstraint.Constant >= position)
                         {
                             SetFinalContainerViewPosition(true);
                         }
@@ -429,33 +429,33 @@ namespace BlahguaMobile.IOS
         public void ResetToStartPosition(bool animated)
         {
             if (startingLayoutRight == 0 &&
-             rightPosition.Constant == 0)
+				LeftEdgeConstraint.Constant == 0)
             {
                 //Already all the way closed, no bounce necessary
                 return;
             }
 
-            rightPosition.Constant = 0;
+			LeftEdgeConstraint.Constant = 0;
 
             UpdateConstraintsIfNeeded(animated, () =>
             {
-                startingLayoutRight = rightPosition.Constant;
+					startingLayoutRight = LeftEdgeConstraint.Constant;
             });
         }
 
         public void SetFinalContainerViewPosition(bool animated)
         {
             if (startingLayoutRight == ButtonTotalWidth() &&
-                rightPosition.Constant == ButtonTotalWidth())
+				LeftEdgeConstraint.Constant == ButtonTotalWidth())
             {
                 return;
             }
 
-            rightPosition.Constant = ButtonTotalWidth();
+			LeftEdgeConstraint.Constant = ButtonTotalWidth();
 
             UpdateConstraintsIfNeeded(animated, () =>
             {
-                startingLayoutRight = rightPosition.Constant;
+					startingLayoutRight = LeftEdgeConstraint.Constant;
             });
         }
 

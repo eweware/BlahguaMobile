@@ -62,8 +62,16 @@ namespace BlahguaMobile.IOS
 		[Outlet]
 		UIKit.UIView voteView { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		NSLayoutConstraint LeftEdgeConstraint { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (LeftEdgeConstraint != null) {
+				LeftEdgeConstraint.Dispose ();
+				LeftEdgeConstraint = null;
+			}
 		}
 	}
 }
