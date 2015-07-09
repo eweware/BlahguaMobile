@@ -109,9 +109,10 @@
     <CodesignProvision>df490f32-4a06-4ce2-a721-d2558e4a81e8</CodesignProvision>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <BuildIpa>true</BuildIpa>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BlahguaCore\AppManifest.cs">
