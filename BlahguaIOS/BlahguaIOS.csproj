@@ -373,11 +373,11 @@
     <Reference Include="ServiceStack.Text.XamarinIOS">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
     </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\Components\hockeyappios-3.6.4.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="SWTableViewCell">
       <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.6.4.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -414,6 +414,7 @@
     <BundleResource Include="Resources\Logo_master_teal.png" />
     <BundleResource Include="Resources\Images.xcassets\arrow_down.imageset\arrow_down%402x.png" />
     <BundleResource Include="Resources\Images.xcassets\arrow_up.imageset\arrow_up%402x.png" />
+    <BundleResource Include="Resources\new_post%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
@@ -423,6 +424,7 @@
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
     <InterfaceDefinition Include="View Controllers\WebPageStoryBoard.storyboard" />
     <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
+    <InterfaceDefinition Include="launch_scene.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
@@ -517,11 +519,20 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\arrow_down.imageset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\arrow_up.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640x960_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640x1136_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\320x480_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\768x1024_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\1536x2048_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\1242x2208_loading.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\750x1334_loading.png" />
+    <ImageAsset Include="Resources\Images.xcassets\SplashScreen.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\SplashScreen.imageset\320x480_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\SplashScreen.imageset\640x960_logo.png" />
+    <ImageAsset Include="Resources\Images.xcassets\SplashScreen.imageset\1242x2208_loading.png" />
+    <ImageAsset Include="Resources\Images.xcassets\SplashScreen.imageset\750x1334_loading.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

@@ -145,8 +145,8 @@ namespace BlahguaMobile.IOS
                 };
 
                 UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Slide);
-                UIImage theImg = UIImage.FromBundle("LaunchImage");
-                Window.RootViewController.View.BackgroundColor = UIColor.FromPatternImage(theImg);
+                //UIImage theImg = UIImage.FromBundle("SplashScreen");
+				Window.RootViewController.View.BackgroundColor = BGAppearanceConstants.HeardRed;
 
                 InitAnalytics();
                 BlahguaCore.BlahguaAPIObject.Current.Initialize(null, InitCallback);

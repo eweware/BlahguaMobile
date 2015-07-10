@@ -59,9 +59,7 @@
 	<string>1.0.90</string>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
-	<key>XSLaunchImageAssets</key>
-	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
 	<key>UILaunchStoryboardName</key>
-	<string>Blahgua_iPhone</string>
+	<string>launch_scene</string>
 </dict>
 </plist>
