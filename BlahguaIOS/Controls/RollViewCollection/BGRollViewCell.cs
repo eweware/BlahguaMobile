@@ -162,19 +162,19 @@ namespace BlahguaMobile.IOS
 				switch (blah.TypeName)
 				{
 				case "says":
-					speechActImageStr = "say_icon.png";
+					speechActImageStr = "say_icon";
 					break;
 				case "asks":
-					speechActImageStr = "ask_icon.png";
+					speechActImageStr = "ask_icon";
 					break;
 				case "leaks":
-					speechActImageStr = "leak_icon.png";
+					speechActImageStr = "leak_icon";
 					break;
 				case "polls":
-					speechActImageStr = "poll_icon.png";
+					speechActImageStr = "poll_icon";
 					break;
 				case "predicts":
-					speechActImageStr = "predict_icon.png";
+					speechActImageStr = "predict_icon";
 					break;
 				}
 				speechActItem.Image = UIImage.FromBundle (speechActImageStr);

@@ -393,33 +393,18 @@
     <BundleResource Include="Resources\icon_speechact_say_teal.png" />
     <BundleResource Include="Resources\icon_speechact_say.png" />
     <BundleResource Include="Resources\icon_createpost.png" />
-    <BundleResource Include="Resources\BackgroundImage.png" />
-    <BundleResource Include="Resources\BackgroundImage%402x.png" />
     <BundleResource Include="Resources\texture.png" />
     <BundleResource Include="Resources\texture-568h%402x.png" />
     <BundleResource Include="Resources\texture%402x.png" />
-    <BundleResource Include="Resources\Background-portrait.png" />
-    <BundleResource Include="Resources\Background-portrait%402x.png" />
-    <BundleResource Include="Resources\BackgroundImage_4inch.png" />
-    <BundleResource Include="Resources\BackgroundImage_4inch%402x.png" />
     <BundleResource Include="Resources\hamburger_teal%402x.png" />
     <BundleResource Include="Resources\short_button_normal%402x.png" />
     <BundleResource Include="Resources\short_button_pressed%402x.png" />
-    <BundleResource Include="Resources\tutorial_screen_1.jpg" />
-    <BundleResource Include="Resources\tutorial_screen_2.jpg" />
-    <BundleResource Include="Resources\tutorial_screen_3.jpg" />
-    <BundleResource Include="Resources\tutorial_screen_4.jpg" />
-    <BundleResource Include="Resources\tutorial_screen_5.jpg" />
-    <BundleResource Include="Resources\tutorial_close.png" />
     <BundleResource Include="Resources\texture-568h.png" />
-    <BundleResource Include="Resources\login_background.jpg" />
     <BundleResource Include="Resources\logo_white.png" />
-    <BundleResource Include="Resources\signup_2.jpg" />
     <BundleResource Include="Resources\ios_signin_3x4.jpg" />
     <BundleResource Include="Resources\ios_signin_3x4%402x.jpg" />
     <BundleResource Include="Resources\ios_signin_2x3%402x.jpg" />
     <BundleResource Include="Resources\conversion.png" />
-    <BundleResource Include="Resources\comments_filled_64x64.png" />
     <BundleResource Include="Resources\conversion%402x.png" />
     <BundleResource Include="Resources\report_button_active%402x.png" />
     <BundleResource Include="Resources\share_button%402x.png" />
@@ -427,7 +412,8 @@
     <BundleResource Include="Resources\Heard_Smile_Only_red.png" />
     <BundleResource Include="Resources\Heard_Smile_Only_teal.png" />
     <BundleResource Include="Resources\Logo_master_teal.png" />
-    <BundleResource Include="Resources\ICON_TEST.png" />
+    <BundleResource Include="Resources\Images.xcassets\arrow_down.imageset\arrow_down%402x.png" />
+    <BundleResource Include="Resources\Images.xcassets\arrow_up.imageset\arrow_up%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
@@ -439,56 +425,29 @@
     <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\rememberMeRadioButton%402x.png" />
-    <BundleResource Include="Resources\signinBckg-4%402x.png" />
-    <BundleResource Include="Resources\signinBckg-5%402x.png" />
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
     <BundleResource Include="Resources\signupRadioButtonUn%402x.png" />
-    <BundleResource Include="Resources\navigationBar%402x.png" />
     <BundleResource Include="Resources\profileImageSelectLogo%402x.png" />
     <BundleResource Include="Resources\profileInfoBack%402x.png" />
-    <BundleResource Include="Resources\darkGrayBack%402x.png" />
-    <BundleResource Include="Resources\grayBack%402x.png" />
-    <BundleResource Include="Resources\greenBack%402x.png" />
     <BundleResource Include="Resources\blahsChannelCheck%402x.png" />
-    <BundleResource Include="Resources\newBlahImage%402x.png" />
     <BundleResource Include="Resources\leftMenuButton%402x.png" />
-    <BundleResource Include="Resources\leftMenuButtonPressed%402x.png" />
-    <BundleResource Include="Resources\rememberMeRadioButton_un%402x.png" />
     <BundleResource Include="Resources\arrow_down_dark%402x.png" />
-    <BundleResource Include="Resources\arrow_down%402x.png" />
     <BundleResource Include="Resources\arrow_up_dark%402x.png" />
-    <BundleResource Include="Resources\arrow_up%402x.png" />
     <BundleResource Include="Resources\comments_dark%402x.png" />
     <BundleResource Include="Resources\comments%402x.png" />
     <BundleResource Include="Resources\stats_dark%402x.png" />
     <BundleResource Include="Resources\stats%402x.png" />
     <BundleResource Include="Resources\summary_dark%402x.png" />
     <BundleResource Include="Resources\summary%402x.png" />
-    <BundleResource Include="Resources\badges%402x.png" />
-    <BundleResource Include="Resources\hot%402x.png" />
-    <BundleResource Include="Resources\no_coments%402x.png" />
-    <BundleResource Include="Resources\signature_ico%402x.png" />
-    <BundleResource Include="Resources\arrow_blue%402x.png" />
-    <BundleResource Include="Resources\arrow_gray%402x.png" />
-    <BundleResource Include="Resources\arrow_green%402x.png" />
-    <BundleResource Include="Resources\arrow_red%402x.png" />
-    <BundleResource Include="Resources\arrow_yellow%402x.png" />
     <BundleResource Include="Resources\input_field_bottom%402x.png" />
     <BundleResource Include="Resources\input_field_middle%402x.png" />
     <BundleResource Include="Resources\input_field_top%402x.png" />
-    <BundleResource Include="Resources\new_post_tap%402x.png" />
-    <BundleResource Include="Resources\recent%402x.png" />
     <BundleResource Include="Resources\image_select%402x.png" />
     <BundleResource Include="Resources\new_comment%402x.png" />
-    <BundleResource Include="Resources\dropdown_arrow%402x.png" />
     <BundleResource Include="Resources\input_back%402x.png" />
-    <BundleResource Include="Resources\long_button%402x.png" />
     <BundleResource Include="Resources\short_button_gray%402x.png" />
-    <BundleResource Include="Resources\new_post%402x.png" />
     <BundleResource Include="Resources\short_button%402x.png" />
     <BundleResource Include="Resources\long_button_gray%402x.png" />
-    <BundleResource Include="Resources\newblah.png" />
     <BundleResource Include="Resources\ask_icon.png" />
     <BundleResource Include="Resources\badge_icon.png" />
     <BundleResource Include="Resources\leak_icon.png" />
@@ -500,10 +459,6 @@
     <BundleResource Include="Resources\pen_bw.png" />
     <BundleResource Include="Resources\ico_hot.png" />
     <BundleResource Include="Resources\ico_new.png" />
-    <BundleResource Include="Resources\Default-Portrait.png" />
-    <BundleResource Include="Resources\Default-Landscape.png" />
-    <BundleResource Include="Resources\Default-Portrait%402x.png" />
-    <BundleResource Include="Resources\Default-Landscape%402x.png" />
     <BundleResource Include="Resources\fonts\GothamRounded-Bold.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
@@ -554,27 +509,6 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Icon-72.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-72%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-76.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-76%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-Small-40.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-Small-50.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Icon-Small-50%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon%402x.png" />
@@ -586,6 +520,8 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\arrow_down.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\arrow_up.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
