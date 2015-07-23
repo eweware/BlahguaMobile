@@ -70,7 +70,7 @@ namespace BlahguaMobile.IOS
 		public override void ViewDidLoad ()
 		{
             AppDelegate.analytics.PostPageView("/self/profile");
-			View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
+			View.BackgroundColor = UIColor.Gray;
 			this.NavigationController.SetNavigationBarHidden (false, true);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ("Cancel", UIBarButtonItemStyle.Plain, CancelHandler);
             NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes

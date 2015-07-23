@@ -36,7 +36,7 @@ namespace BlahguaMobile.IOS
                 }, UIControlState.Normal);
 
 
-            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
+			View.BackgroundColor = UIColor.Gray;
 
 			// page one
 			infoTitle.AttributedText = new NSAttributedString("Badges add credibility to content by letting users attach verified facts about themselves.  (e.g.I work at Microsoft, I am in Chicago, etc.)  Currently only email-based badges are issued.",

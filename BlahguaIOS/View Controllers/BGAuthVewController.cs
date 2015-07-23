@@ -162,7 +162,7 @@ namespace BlahguaMobile.IOS
 			base.ViewDidLoad ();
             AppDelegate.analytics.PostPageView("/signup");
 			//View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
-
+			/*
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
@@ -174,7 +174,9 @@ namespace BlahguaMobile.IOS
 
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
+
 			}
+*/
 
             authScroller.ContentSize = new CGSize (this.View.Frame.Width, 640);
 

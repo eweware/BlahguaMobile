@@ -925,7 +925,9 @@ namespace BlahguaMobile.BlahguaCore
                     Inbox inbox = null;
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        inbox = response.Content.FromJson<Inbox>();
+						string respStr = response.Content;
+						respStr = respStr.Replace("\"XXX\":null", "\"XXX\":false");
+                        inbox = respStr.FromJson<Inbox>();
                         callback(inbox);
                     }
                     else if (response.StatusCode != 0)

@@ -64,10 +64,18 @@ namespace BlahguaMobile.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		NSLayoutConstraint HeaderCellWidth { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		NSLayoutConstraint LeftEdgeConstraint { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (HeaderCellWidth != null) {
+				HeaderCellWidth.Dispose ();
+				HeaderCellWidth = null;
+			}
 			if (LeftEdgeConstraint != null) {
 				LeftEdgeConstraint.Dispose ();
 				LeftEdgeConstraint = null;

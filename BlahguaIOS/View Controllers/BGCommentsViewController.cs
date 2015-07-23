@@ -157,7 +157,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpBaseLayout()
 		{
-            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
+			View.BackgroundColor = UIColor.Gray;
 			contentView.BackgroundColor = UIColor.White;
 			contentView.ScrollEnabled = true;
 
