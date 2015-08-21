@@ -8,10 +8,12 @@ using BlahguaMobile.BlahguaCore;
 using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
+using SWTableViewCell;
+
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGCommentTableCell : UITableViewCell, IImageUpdated
+	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell, IImageUpdated
     {
         private UIPanGestureRecognizer panRecognizer;
 		private UITapGestureRecognizer tapRecognizer;

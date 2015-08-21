@@ -1085,41 +1085,9 @@
                                                         <constraint firstItem="8Ua-tC-ya2" firstAttribute="top" secondItem="qWv-GJ-qrR" secondAttribute="bottom" constant="4" id="ww2-bR-fV5"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yFn-ez-hFh" userLabel="VoteView" misplaced="YES">
-                                                    <rect key="frame" x="320" y="0.0" width="60" height="63"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V8N-QW-mmL" userLabel="DownVoteBtn" misplaced="YES">
-                                                            <rect key="frame" x="30" y="-1" width="30" height="64"/>
-                                                            <state key="normal" image="arrow_down.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-3w-3mZ" userLabel="UpVoteBtn" misplaced="YES">
-                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="63"/>
-                                                            <state key="normal" image="arrow_up.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="V8N-QW-mmL" secondAttribute="trailing" id="4eI-A3-Q5F"/>
-                                                        <constraint firstItem="sGV-3w-3mZ" firstAttribute="leading" secondItem="yFn-ez-hFh" secondAttribute="leading" id="MNJ-T1-qHw"/>
-                                                        <constraint firstItem="sGV-3w-3mZ" firstAttribute="width" secondItem="yFn-ez-hFh" secondAttribute="width" multiplier="0.5" id="VWl-o5-GiH"/>
-                                                        <constraint firstAttribute="centerY" secondItem="sGV-3w-3mZ" secondAttribute="centerY" id="Vwd-em-PVi"/>
-                                                        <constraint firstAttribute="centerY" secondItem="V8N-QW-mmL" secondAttribute="centerY" id="bfy-GB-vX2"/>
-                                                        <constraint firstAttribute="bottom" secondItem="V8N-QW-mmL" secondAttribute="bottom" id="cZX-hz-Vnt"/>
-                                                        <constraint firstAttribute="bottom" secondItem="sGV-3w-3mZ" secondAttribute="bottom" id="rK6-7M-Jsb"/>
-                                                        <constraint firstItem="V8N-QW-mmL" firstAttribute="width" secondItem="yFn-ez-hFh" secondAttribute="width" multiplier="0.5" id="rjG-8z-xhs"/>
-                                                        <constraint firstAttribute="width" constant="60" id="tAj-Ws-0h8"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="yFn-ez-hFh" secondAttribute="bottom" id="3US-Kp-0U6"/>
-                                                <constraint firstItem="yFn-ez-hFh" firstAttribute="leading" secondItem="j8I-z1-LIZ" secondAttribute="trailing" id="MVp-0q-Pby"/>
                                                 <constraint firstItem="j8I-z1-LIZ" firstAttribute="leading" secondItem="rN4-L6-HKB" secondAttribute="leading" id="U3L-jT-eTo"/>
-                                                <constraint firstItem="yFn-ez-hFh" firstAttribute="top" secondItem="rN4-L6-HKB" secondAttribute="top" id="eOn-2b-B03"/>
                                                 <constraint firstAttribute="bottom" secondItem="j8I-z1-LIZ" secondAttribute="bottom" id="g6x-09-pZG"/>
                                                 <constraint firstItem="j8I-z1-LIZ" firstAttribute="top" secondItem="rN4-L6-HKB" secondAttribute="top" id="rB3-0f-Jga"/>
                                             </constraints>
@@ -1132,15 +1100,12 @@
                                             <outlet property="badgeTableHeight" destination="VDR-i7-j88" id="TiK-eI-zKC"/>
                                             <outlet property="commentImageView" destination="9iZ-p4-BnT" id="OBx-LW-8Ny"/>
                                             <outlet property="containerView" destination="j8I-z1-LIZ" id="91d-Vn-VHS"/>
-                                            <outlet property="downVoteButton" destination="V8N-QW-mmL" id="pz5-a0-dv6"/>
                                             <outlet property="imageViewHeight" destination="DaK-lW-Bxi" id="bME-AQ-uet"/>
                                             <outlet property="imgAvatar" destination="pvr-4R-ZKR" id="0Ys-CZ-yTJ"/>
                                             <outlet property="lblUserType" destination="wWb-yB-CaV" id="4E3-He-dRG"/>
                                             <outlet property="text" destination="8Ua-tC-ya2" id="puZ-Od-mG8"/>
                                             <outlet property="timespan" destination="Xba-FQ-VUN" id="L7k-8d-bIi"/>
                                             <outlet property="upAndDownVotes" destination="9vp-zH-bhf" id="0kL-4E-QQX"/>
-                                            <outlet property="upVoteButton" destination="sGV-3w-3mZ" id="I8G-BS-AQ5"/>
-                                            <outlet property="voteView" destination="yFn-ez-hFh" id="ro9-Z2-SdJ"/>
                                             <outlet property="HeaderCellWidth" destination="02Z-Gx-zcA" id="name-outlet-02Z-Gx-zcA"/>
                                         </connections>
                                     </tableViewCell>

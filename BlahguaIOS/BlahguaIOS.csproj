@@ -418,12 +418,12 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\BGPollTableViewCell.xib" />
     <InterfaceDefinition Include="Views\BGPollTableHeaderView.xib" />
-    <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
     <InterfaceDefinition Include="Views\BGBlahHistoryCell.xib" />
     <InterfaceDefinition Include="Views\BGCommentHistoryCell.xib" />
     <InterfaceDefinition Include="View Controllers\WebPageStoryBoard.storyboard" />
     <InterfaceDefinition Include="View Controllers\SignOnStoryBoard.storyboard" />
     <InterfaceDefinition Include="launch_scene.storyboard" />
+    <InterfaceDefinition Include="Blahgua_iPhone.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton%402x.png" />
