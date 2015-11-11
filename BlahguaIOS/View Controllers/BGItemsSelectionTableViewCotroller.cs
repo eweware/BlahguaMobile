@@ -6,8 +6,8 @@ using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -101,17 +101,17 @@ namespace BlahguaMobile.IOS
 			return cell;
 		}
 
-		public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
 			return 44f;
 		}
 
-		public override int NumberOfSections(UITableView tableView)
+		public override nint NumberOfSections(UITableView tableView)
 		{
 			return 1;
 		}
 
-		public override int RowsInSection(UITableView tableview, int section)
+		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 			return vc.source.Count;
 		}
@@ -120,7 +120,7 @@ namespace BlahguaMobile.IOS
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
 			vc.ParentViewController.SetValue(vc.index, vc.source[indexPath.Row]);
-			vc.NavigationController.PopViewControllerAnimated(true);
+			vc.NavigationController.PopViewController(true);
 		}
 	}
 }

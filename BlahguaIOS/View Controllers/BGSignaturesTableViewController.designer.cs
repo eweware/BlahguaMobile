@@ -4,10 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,7 +15,7 @@ namespace BlahguaMobile.IOS
 	partial class BGSignaturesTableViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UINavigationBar navBar { get; set; }
+		UIKit.UINavigationBar navBar { get; set; }
 
 		[Action ("Done:")]
 		[GeneratedCode ("iOS Designer", "1.0")]

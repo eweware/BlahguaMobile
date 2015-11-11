@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2014 
  * Author: Ruben Macias
  * http://sharpmobilecode.com @SharpMobileCode
@@ -18,7 +18,7 @@
  */
 
 using System;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace SharpMobileCode.ModalPicker
 {
@@ -28,7 +28,7 @@ namespace SharpMobileCode.ModalPicker
         {
         }
 
-        public override IUIViewControllerAnimatedTransitioning PresentingController(UIViewController presented, UIViewController presenting, UIViewController source)
+        public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForPresentedController(UIViewController presented, UIViewController presenting, UIViewController source)
         {
             var controller = new ModalPickerAnimatedTransitioning();
             controller.IsPresenting = true;

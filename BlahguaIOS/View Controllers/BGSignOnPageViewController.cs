@@ -1,10 +1,10 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
-using MonoTouch.CoreGraphics;
+
 
 namespace BlahguaMobile.IOS
 {
@@ -13,7 +13,7 @@ namespace BlahguaMobile.IOS
         //UIPageControl pageControl;
 
         //int totalPages = 3;
-        int curPage = 0;
+        nint curPage = 0;
 
         private BGSignUpPage01 page01 = null;
         private BGSignUpPage02 page02 = null;
@@ -33,7 +33,7 @@ namespace BlahguaMobile.IOS
 
             this.DataSource = null;// new MyDataSource();
 
-			int lastPage = NSUserDefaults.StandardUserDefaults.IntForKey("signupStage");
+			nint lastPage = NSUserDefaults.StandardUserDefaults.IntForKey("signupStage");
 			if (lastPage > 0)
 				lastPage--;
 
@@ -43,14 +43,14 @@ namespace BlahguaMobile.IOS
 
         }
 
-        public int CurrentPage
+        public nint CurrentPage
         {
             get { return curPage; }
         }
 
 
 
-        private UIViewController ControllerForIndex(int index)
+        private UIViewController ControllerForIndex(nint index)
         {
             UIViewController newController = null;
 
@@ -87,7 +87,7 @@ namespace BlahguaMobile.IOS
             return ControllerForIndex(CurrentPage + 1);
         }
 
-        public void GoToPage(int whichPage, UIPageViewControllerNavigationDirection dir, bool animate)
+        public void GoToPage(nint whichPage, UIPageViewControllerNavigationDirection dir, bool animate)
         {
             UIViewController newPage = ControllerForIndex(whichPage);
             SetViewControllers(new UIViewController[] { newPage }, dir, animate, null);

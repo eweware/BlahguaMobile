@@ -3,12 +3,12 @@
 using System;
 using System.Text;
 using System.Globalization;
-using System.Drawing;
+using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -34,7 +34,7 @@ namespace BlahguaMobile.IOS
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
-                    this.NavigationController.PopViewControllerAnimated(true);
+                    this.NavigationController.PopViewController(true);
                 });
             NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
                 { 
@@ -47,7 +47,7 @@ namespace BlahguaMobile.IOS
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Done, (s, e) => {
 				BlahguaAPIObject.Current.UpdateUserProfile((result) => {
 					Console.WriteLine(result);
-					InvokeOnMainThread(() => NavigationController.PopViewControllerAnimated(true));
+					InvokeOnMainThread(() => NavigationController.PopViewController(true));
 				});
 			});
             NavigationItem.RightBarButtonItem.SetTitleTextAttributes(new UITextAttributes
@@ -349,17 +349,17 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			return 52f;
 		}
 
-		public override UIView GetViewForHeader (UITableView tableView, int section)
+		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-			UIView view = new UIView (new RectangleF (0, 0, 320, GetHeightForHeader (tableView, section)));
+            UIView view = new UIView (new CGRect (0, 0, tableView.Frame.Width, GetHeightForHeader (tableView, section)));
 			view.BackgroundColor = UIColor.FromRGB (255, 255, 248);
 
-			UILabel label = new UILabel (new RectangleF (8, 7, 280, 21));
+			UILabel label = new UILabel (new CGRect (8, 7, 280, 21));
 			string labelText = String.Empty;
 			switch(section)
 			{
@@ -410,17 +410,17 @@ namespace BlahguaMobile.IOS
 			return view;
 		}
 
-		public override float GetHeightForHeader (UITableView tableView, int section)
+		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
 			return 31f;
 		}
 
-		public override int NumberOfSections (UITableView tableView)
+		public override nint NumberOfSections (UITableView tableView)
 		{
 			return 8;
 		}
 
-		public override int RowsInSection (UITableView tableview, int section)
+		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			return 1;
 		}

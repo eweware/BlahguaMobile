@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using BlahguaMobile.BlahguaCore;
 
 namespace BlahguaMobile.IOS

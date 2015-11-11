@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 using BlahguaMobile.BlahguaCore;
 
@@ -58,7 +58,7 @@ namespace BlahguaMobile.IOS
 		{
 			string reusableId = manager.GetCellSize (indexPath);
 			var cell = (BGRollViewCell)collectionView.DequeueReusableCell (new NSString(reusableId), indexPath);
-			InboxBlah inboxBlah = dataSource [indexPath.Item];
+            InboxBlah inboxBlah = dataSource [(int)indexPath.Item];
 			var size = manager.GetCellSizeF (reusableId);
 
 			cell.SetCellProperties (inboxBlah, reusableId, size, indexPath);
@@ -66,18 +66,18 @@ namespace BlahguaMobile.IOS
 
 			if(indexPath.Item == dataSource.Count - 1 && dataSource.Count > 1000)
 			{
-				DeleteFirst350Items ();
+				//DeleteFirst10Items ();
 			}
 
 			return cell;
 		}
 
-		public override int NumberOfSections (UICollectionView collectionView)
+		public override nint NumberOfSections (UICollectionView collectionView)
 		{
 			return 1;
 		}
 
-		public override int GetItemsCount (UICollectionView collectionView, int section)
+		public override nint GetItemsCount (UICollectionView collectionView, nint section)
 		{
 			return dataSource.Count;
 		}
@@ -104,10 +104,10 @@ namespace BlahguaMobile.IOS
 				}
 
 			}, (bool finished) => {
-				Console.WriteLine ("Inserted: " + finished.ToString ());
-				if(dataSource.Count > 1000)
+				Console.WriteLine ("Inserted - now have total: " + dataSource.Count.ToString ());
+				if(dataSource.Count > 500)
 				{
-					viewController.DeleteFirst200Items ();
+					viewController.DeleteFirst100Items ();
 				}
                 if(true)//dataSource.Count <= 100)
 				{
@@ -120,18 +120,34 @@ namespace BlahguaMobile.IOS
 			});
 		}
 
-		public void DeleteFirst350Items()
+        public void InsertAd(InboxBlah theAd)
+        {
+            int adLoc;
+            dataSource.Add(theAd);
+            adLoc = dataSource.Count - 1;
+            NSIndexPath[] paths = new NSIndexPath[1];
+            paths [0] = NSIndexPath.FromItemSection (adLoc, 0);
+      
+            manager.AddAd(adLoc);
+            string sizeName = manager.GetCellSize (paths [0]);
+
+
+            viewController.CollectionView.InsertItems(paths);
+
+        }
+
+		public void DeleteFirst100Items()
 		{
 			viewController.CollectionView.PerformBatchUpdates(()=> {
-				dataSource.RemoveRange (0, 350);
-				var indexPaths = new NSIndexPath[350];
-				for(int i = 0; i < 350; i++)
+				dataSource.RemoveRange (0, 100);
+				var indexPaths = new NSIndexPath[100];
+				for(int i = 0; i < 100; i++)
 				{
 					indexPaths[i] = NSIndexPath.FromItemSection(i, 0);
 				}
 				viewController.CollectionView.DeleteItems(indexPaths);
 			}, (bool finished) => {
-				Console.WriteLine("Deleted: " + finished.ToString());
+				Console.WriteLine("Deleted 100 items");
 				viewController.RefreshData();
 			});
 		}

@@ -4,10 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,31 +15,31 @@ namespace BlahguaMobile.IOS
 	partial class BGRightMenuViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnBadges { get; set; }
+		UIKit.UIButton m_btnBadges { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnDemographics { get; set; }
+		UIKit.UIButton m_btnDemographics { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnHistory { get; set; }
+		UIKit.UIButton m_btnHistory { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnLogout { get; set; }
+		UIKit.UIButton m_btnLogout { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnProfile { get; set; }
+		UIKit.UIButton m_btnProfile { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton m_btnStats { get; set; }
+		UIKit.UIButton m_btnStats { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView m_imgAvatar { get; set; }
+		UIKit.UIImageView m_imgAvatar { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel m_lblUserName { get; set; }
+		UIKit.UILabel m_lblUserName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel m_menuHeader { get; set; }
+		UIKit.UILabel m_menuHeader { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

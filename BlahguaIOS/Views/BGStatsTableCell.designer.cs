@@ -5,8 +5,8 @@
 // Manual changes to this file will not be maintained.
 //
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -15,10 +15,10 @@ namespace BlahguaMobile.IOS
 	partial class BGStatsTableCell
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel key { get; set; }
+		UIKit.UILabel key { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel value { get; set; }
+		UIKit.UILabel value { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

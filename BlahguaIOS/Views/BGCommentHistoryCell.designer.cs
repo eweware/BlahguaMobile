@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace BlahguaMobile.IOS
@@ -13,16 +13,16 @@ namespace BlahguaMobile.IOS
 	partial class BGCommentHistoryCell
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel CommentDownVotesLabel { get; set; }
+		UIKit.UILabel CommentDownVotesLabel { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel CommentElapsedTimeLabel { get; set; }
+		UIKit.UILabel CommentElapsedTimeLabel { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel CommentText { get; set; }
+		UIKit.UILabel CommentText { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel CommentUpVotesLabel { get; set; }
+		UIKit.UILabel CommentUpVotesLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

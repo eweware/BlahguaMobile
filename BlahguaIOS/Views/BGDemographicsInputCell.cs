@@ -5,8 +5,8 @@ using System.Globalization;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using SharpMobileCode.ModalPicker;
 
 namespace BlahguaMobile.IOS
@@ -73,10 +73,10 @@ namespace BlahguaMobile.IOS
                                         ModalPresentationStyle = UIModalPresentationStyle.Custom
                                     };
                     
-                                modalPicker.DatePicker.Date = curTime;
+                                modalPicker.DatePicker.Date = (Foundation.NSDate)curTime;
                                 modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
-                                modalPicker.DatePicker.MaximumDate = DateTime.Now - TimeSpan.FromDays(365 * 18);
-                                modalPicker.DatePicker.MinimumDate = DateTime.Now - TimeSpan.FromDays(365 * 145);
+                                modalPicker.DatePicker.MaximumDate = (Foundation.NSDate)(DateTime.Now - TimeSpan.FromDays(365 * 18));
+                                modalPicker.DatePicker.MinimumDate = (Foundation.NSDate)(DateTime.Now - TimeSpan.FromDays(365 * 145));
 
 
                                 modalPicker.OnModalPickerDismissed += (s, ea) => 

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
+using UIKit;
+using Foundation;
+using CoreAnimation;
+using CoreGraphics;
 using BlahguaMobile.IOS;
 using BlahguaMobile.BlahguaCore;
 
@@ -15,7 +14,7 @@ namespace MonoTouch.SlideMenu
 		const float WIDTH_OF_CONTENT_VIEW_VISIBLE = 160.0f;
 		const float ANIMATION_DURATION = 0.3f;
 		const float SCALE = 1.0f;
-		private float currentScale = 1.0f;
+		private nfloat currentScale = 1.0f;
 
 		BGLeftMenuTableViewController menuViewController;
 		BGRightMenuViewController rightMenuViewController;
@@ -38,7 +37,7 @@ namespace MonoTouch.SlideMenu
 
         public UIViewController ContentViewController { get { return contentViewController; } }
 
-		RectangleF contentViewControllerFrame;
+		CGRect contentViewControllerFrame;
 		bool menuWasOpenAtPanBegin;
         bool statusBarHidden = false;
         //bool scaleEnabled = true;
@@ -162,20 +161,20 @@ namespace MonoTouch.SlideMenu
 				m_newPostController.ParentViewController = this;
 				this.AddChildViewController (m_newPostController);
 
-				m_newPostController.View.Frame =new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+				m_newPostController.View.Frame =new CGRect (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 				//((UIScrollView)m_newPostController.View).ContentSize = new SizeF (320, 480);
 				//((UIScrollView)m_newPostController.View).ContentInset = new UIEdgeInsets (0, 0, 14, 0);
 
 				m_newPostView.AddSubview (m_newPostController.View);
 
-				m_newPostView.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+				m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 
 				this.View.AddSubview (m_newPostView);
 			}
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
 		
-			m_newPostView.Frame = new RectangleF (0, 44, 320, UIScreen.MainScreen.Bounds.Height - 44);
+            m_newPostView.Frame = new CGRect (0, 44, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - 44);
 
 			m_newPostController.clearAllFields ();
 
@@ -190,7 +189,7 @@ namespace MonoTouch.SlideMenu
             m_newPostView.EndEditing(true);
 			UIView.BeginAnimations (null);
 			UIView.SetAnimationDuration (0.5f);
-			m_newPostView.Frame =new RectangleF (0, - View.Bounds.Height, 320, UIScreen.MainScreen.Bounds.Height);
+            m_newPostView.Frame =new CGRect (0, - View.Bounds.Height, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			UIView.CommitAnimations ();
 
 			((AppDelegate)UIApplication.SharedApplication.Delegate).Menu.SwitchTableSource (BGLeftMenuType.Channels);
@@ -307,7 +306,7 @@ namespace MonoTouch.SlideMenu
 		public override void WillAnimateRotation (UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
 			if (IsMenuOpen ()) {
-				RectangleF frame = contentViewController.View.Frame;
+				CGRect frame = contentViewController.View.Frame;
 				frame.X = OffsetXWhenMenuIsOpen();
 				UIView.Animate(duration, () => {
 					contentViewController.View.Frame = frame;
@@ -327,7 +326,7 @@ namespace MonoTouch.SlideMenu
 		public void LoadMenuViewControllerViewIfNeeded ()
 		{
 			if (menuViewController.TableView.Superview == null) {
-				RectangleF menuFrame = new RectangleF (View.Bounds.X, View.Bounds.Top, WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Height);   //View.Bounds;
+				CGRect menuFrame = new CGRect (View.Bounds.X, View.Bounds.Top, WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Height);   //View.Bounds;
 				//menuFrame.Width -= WIDTH_OF_CONTENT_VIEW_VISIBLE; 
 				menuViewController.TableView.Frame = menuFrame;
 
@@ -338,7 +337,7 @@ namespace MonoTouch.SlideMenu
 		{
 			//System.Console.WriteLine (rightMenuViewController);
 			if (rightMenuViewController.View.Superview == null) {
-				RectangleF menuFrame = new RectangleF (View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Top, View.Bounds.Width, View.Bounds.Height);// View.Bounds;
+				CGRect menuFrame = new CGRect (View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Top, View.Bounds.Width, View.Bounds.Height);// View.Bounds;
 				//menuFrame.Width -= WIDTH_OF_CONTENT_VIEW_VISIBLE; 
 				rightMenuViewController.View.Frame = menuFrame;
 				View.InsertSubview(rightMenuViewController.View, 0);
@@ -357,7 +356,7 @@ namespace MonoTouch.SlideMenu
 			if (contentViewController != controller) 
 			{
 				// Preserve the frame
-				RectangleF frame = contentViewController.View.Frame;
+				CGRect frame = contentViewController.View.Frame;
 
 				// Remove old content view
 				//contentViewController.View.RemoveGestureRecognizer(TapGesture);
@@ -404,8 +403,8 @@ namespace MonoTouch.SlideMenu
 			menuViewController.BeginAppearanceTransition(false, animated);
 			contentViewController.BeginAppearanceTransition(true, animated);
 
-			RectangleF targetFrame = View.Bounds;
-			float statusBarDelta = UIApplication.SharedApplication.StatusBarFrame.Height;
+			CGRect targetFrame = View.Bounds;
+			nfloat statusBarDelta = UIApplication.SharedApplication.StatusBarFrame.Height;
 
 			if (lackStatusBar) {
                 targetFrame.Y += statusBarDelta;
@@ -491,7 +490,7 @@ namespace MonoTouch.SlideMenu
 			var duration = animated ? ANIMATION_DURATION : 0;
 
 			UIView contentView = contentViewController.View;
-			RectangleF contentViewFrame = contentView.Frame;
+			CGRect contentViewFrame = contentView.Frame;
 			contentViewFrame.X = OffsetXWhenMenuIsOpen();
 
 			LoadMenuViewControllerViewIfNeeded();
@@ -526,7 +525,7 @@ namespace MonoTouch.SlideMenu
 			var duration = animated ? ANIMATION_DURATION : 0;
 
 			UIView contentView = contentViewController.View;
-			RectangleF contentViewFrame = contentView.Frame;
+			CGRect contentViewFrame = contentView.Frame;
 			contentViewFrame.X = OffsetXWhenRightMenuIsOpen();
 
 			LoadRightMenuViewControllerViewIfNeeded();
@@ -650,12 +649,12 @@ namespace MonoTouch.SlideMenu
 
 			}
 
-			PointF translation = PanGesture.TranslationInView (PanGesture.View);
+			CGPoint translation = PanGesture.TranslationInView (PanGesture.View);
 
-			RectangleF frame = contentViewControllerFrame;
+			CGRect frame = contentViewControllerFrame;
 			frame.X += translation.X;
 
-			float offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
+			nfloat offsetXWhenMenuIsOpen = OffsetXWhenMenuIsOpen ();
 
 
 
@@ -668,14 +667,14 @@ namespace MonoTouch.SlideMenu
 
 
 			if (PanGesture.State == UIGestureRecognizerState.Ended) {
-				PointF velocity = PanGesture.VelocityInView(PanGesture.View);
-				float distance = 0;
+				CGPoint velocity = PanGesture.VelocityInView(PanGesture.View);
+				nfloat distance = 0;
 				double animationDuration = 0;
 
 				if (velocity.X < 0) // close
 				{
 					// Compute animation duration
-					distance = Math.Abs( frame.X);
+                    distance = (nfloat)Math.Abs( frame.X);
 					if (distance < 150 && !IsMenuOpen() && !IsRightMenuOpen())
 						return;
 					animationDuration = Math.Abs(distance / velocity.X);
@@ -724,7 +723,7 @@ namespace MonoTouch.SlideMenu
 
 						UIView.AnimateNotify(animationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 							DeScaleContentView();
-							contentViewController.View.Frame =new RectangleF( View.Bounds.X - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Y, View.Bounds.Width, View.Bounds.Height) ;
+							contentViewController.View.Frame =new CGRect( View.Bounds.X - WIDTH_OF_CONTENT_VIEW_VISIBLE, View.Bounds.Y, View.Bounds.Width, View.Bounds.Height) ;
 
 						}, (finished) => {
 							RemoveSnapshot();
@@ -743,7 +742,7 @@ namespace MonoTouch.SlideMenu
 				{
 
 					//distance = Math.Abs(offsetXWhenMenuIsOpen - frame.X);
-					distance = Math.Abs (frame.X);
+                    distance = (nfloat)Math.Abs (frame.X);
 					if (distance < 150 && !IsMenuOpen() && !IsRightMenuOpen()) // threshold for swiping
 						return;
 					animationDuration = Math.Abs(distance / velocity.X);
@@ -798,7 +797,7 @@ namespace MonoTouch.SlideMenu
 			return contentViewController.View.Frame.X < 0;
 		}
 
-        public float ScaleCorrection() {
+        public nfloat ScaleCorrection() {
 			return (contentViewController.View.Bounds.Width * (1.0f - currentScale)) / 2;
         }
 
@@ -822,24 +821,24 @@ namespace MonoTouch.SlideMenu
         }
 
 		// - (CGFloat)offsetXWhenMenuIsOpen
-		public float OffsetXWhenMenuIsOpen ()
+		public nfloat OffsetXWhenMenuIsOpen ()
 		{
-			float baseOffset = WIDTH_OF_CONTENT_VIEW_VISIBLE;   //View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE;
+			nfloat baseOffset = WIDTH_OF_CONTENT_VIEW_VISIBLE;   //View.Bounds.Width - WIDTH_OF_CONTENT_VIEW_VISIBLE;
 			baseOffset -= ScaleCorrection();
 			return baseOffset;
 		}
 
-		public float OffsetXWhenRightMenuIsOpen ()
+		public nfloat OffsetXWhenRightMenuIsOpen ()
 		{
-			float baseOffset = - WIDTH_OF_CONTENT_VIEW_VISIBLE;
+			nfloat baseOffset = - WIDTH_OF_CONTENT_VIEW_VISIBLE;
 			baseOffset += ScaleCorrection();
 			return baseOffset;
 		}
 
 
-        public float OffsetXWhenMenuIsClose () 
+        public nfloat OffsetXWhenMenuIsClose () 
         {
-            float baseOffset = 0.0f;
+            nfloat baseOffset = 0.0f;
 			baseOffset += contentViewScaled ? ScaleCorrection() : 0.0f;
             return baseOffset;
         }

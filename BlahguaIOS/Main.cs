@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -20,7 +20,7 @@ namespace BlahguaMobile.IOS
 
 		public override bool OpenUrl (NSUrl url)
 		{
-            if (false)
+            if (true)
             { //todo:  fix web links
                 TargetURL = url;
                 ShowWebView();
@@ -44,7 +44,7 @@ namespace BlahguaMobile.IOS
 
 				m_webViewController = (EmbeddedWebController)webStoryBoard.InstantiateViewController ("EmbeddedWebViewController");
 
-				m_webViewController.View.Frame = new RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+				m_webViewController.View.Frame = new CGRect (0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			}
 
 			AppDelegate.slideMenu.NavigationController.PushViewController (m_webViewController, true);

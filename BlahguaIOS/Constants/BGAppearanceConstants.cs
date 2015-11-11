@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
+using System;
+using CoreGraphics;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -14,12 +14,12 @@ namespace BlahguaMobile.IOS
         public static readonly string BoldFontName = "GothamRounded-Bold";
 
 
-		public static readonly RectangleF InitialRightViewContainerFrame = new RectangleF(320, 0, 320, UIScreen.MainScreen.Bounds.Height);
-		public static readonly RectangleF OpenedRightViewContainerFrame = new RectangleF(0, 0, 320, UIScreen.MainScreen.Bounds.Height);
+        public static readonly CGRect InitialRightViewContainerFrame = new CGRect(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+        public static readonly CGRect OpenedRightViewContainerFrame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 
-		public static readonly RectangleF RightViewFrame = new RectangleF(163, 44, 157, UIScreen.MainScreen.Bounds.Height - 44);
+		public static readonly CGRect RightViewFrame = new CGRect(163, 44, 157, UIScreen.MainScreen.Bounds.Height - 44);
 
-		public static readonly RectangleF PollCellRect = new RectangleF(0, 0, 320, 64);
+        public static readonly CGRect PollCellRect = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 64);
 
 
 		public static readonly UIColor buttonTitleInactiveColor = UIColor.FromRGB(248, 248, 248);
@@ -27,6 +27,7 @@ namespace BlahguaMobile.IOS
         public static readonly UIColor DarkBrown = UIColor.FromRGB(63, 43, 47);
         public static readonly UIColor TealGreen = UIColor.FromRGB(96, 191, 164);
 		public static readonly UIColor HeaderBlue = UIColor.FromRGB(31, 187, 209);
+		public static readonly UIColor HeardRed = UIColor.FromRGB(231,62,82);
 	}
 }
 

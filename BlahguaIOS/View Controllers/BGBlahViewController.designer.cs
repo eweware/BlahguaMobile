@@ -4,10 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,73 +15,73 @@ namespace BlahguaMobile.IOS
 	partial class BGBlahViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel author { get; set; }
+		UIKit.UILabel author { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton badgeImage { get; set; }
+		UIKit.UIButton badgeImage { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView badgesTableView { get; set; }
+		UIKit.UITableView badgesTableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint badgeTableHeight { get; set; }
+		UIKit.NSLayoutConstraint badgeTableHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView blahBodyView { get; set; }
+		UIKit.UITextView blahBodyView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView blahImage { get; set; }
+		UIKit.UIImageView blahImage { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint blahImageHeight { get; set; }
+		UIKit.NSLayoutConstraint blahImageHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel blahTimespan { get; set; }
+		UIKit.UILabel blahTimespan { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIToolbar bottomToolbar { get; set; }
+		UIKit.UIToolbar bottomToolbar { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
+		UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView contentView { get; set; }
+		UIKit.UIScrollView contentView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem downVote { get; set; }
+		UIKit.UIBarButtonItem downVote { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem reportPostBtn { get; set; }
+		UIKit.UIBarButtonItem reportPostBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem sharePostBtn { get; set; }
+		UIKit.UIBarButtonItem sharePostBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem signInBtn { get; set; }
+		UIKit.UIBarButtonItem signInBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
+		UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+		UIKit.UIBarButtonItem summaryView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint txtBlahBodyHeight { get; set; }
+		UIKit.NSLayoutConstraint txtBlahBodyHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView txtBlahTitle { get; set; }
+		UIKit.UITextView txtBlahTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.NSLayoutConstraint txtBlahTitleHeight { get; set; }
+		UIKit.NSLayoutConstraint txtBlahTitleHeight { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem upVote { get; set; }
+		UIKit.UIBarButtonItem upVote { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel userDescription { get; set; }
+		UIKit.UILabel userDescription { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView userImage { get; set; }
+		UIKit.UIImageView userImage { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

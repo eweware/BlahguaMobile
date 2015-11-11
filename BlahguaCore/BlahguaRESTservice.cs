@@ -33,11 +33,11 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void UserInfo_callback(UserInfoObject theResult);
 	public delegate void ProfileSchema_callback(ProfileSchema theResult);
 	public delegate void ProfileSchemaWrapper_callback(ProfileSchemaWrapper theResult);
-	public delegate void Profile_callback(UserProfile theResult);
+	public delegate void Profile_callback(UserProfile theResult); 
 	public delegate void bool_callback(bool theResult);
 	public delegate void WhatsNew_callback(WhatsNewInfo theResult);
 	public delegate void ChannelPermissions_callback(ChannelPermissions theResult);
-
+    public delegate void InboxBlah_callback(InboxBlah theResult);
 
 
 	public class BlahguaRESTservice
@@ -165,6 +165,20 @@ namespace BlahguaMobile.BlahguaCore
 				});
 
 		}
+
+        public void GetAdForUser(InboxBlah_callback callback)
+        {
+            RestRequest request = new RestRequest("users/ad", Method.GET);
+            apiClient.ExecuteAsync(request, (response) => 
+                {
+                    InboxBlah theAd = null;
+                    if (response.StatusCode == HttpStatusCode.OK)
+                        theAd = response.Content.FromJson<InboxBlah>();
+                    
+                    callback(theAd);
+                });
+
+        }
 
 		public void GetBadgeAuthorities(BadgeAuthorities_callback callback)
 		{
@@ -911,7 +925,9 @@ namespace BlahguaMobile.BlahguaCore
                     Inbox inbox = null;
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        inbox = response.Content.FromJson<Inbox>();
+						string respStr = response.Content;
+						respStr = respStr.Replace("\"XXX\":null", "\"XXX\":false");
+                        inbox = respStr.FromJson<Inbox>();
                         callback(inbox);
                     }
                     else if (response.StatusCode != 0)

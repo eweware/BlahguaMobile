@@ -4,8 +4,8 @@ using System;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
             submitted = false;
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, (s, e)=> 
                 {
-                    this.NavigationController.PopViewControllerAnimated(true);
+                    this.NavigationController.PopViewController(true);
                 });
             NavigationItem.LeftBarButtonItem.SetTitleTextAttributes(new UITextAttributes
                 { 
@@ -36,7 +36,7 @@ namespace BlahguaMobile.IOS
                 }, UIControlState.Normal);
 
 
-            View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("grayBack"));
+			View.BackgroundColor = UIColor.Gray;
 
 			// page one
 			infoTitle.AttributedText = new NSAttributedString("Badges add credibility to content by letting users attach verified facts about themselves.  (e.g.I work at Microsoft, I am in Chicago, etc.)  Currently only email-based badges are issued.",
@@ -233,7 +233,7 @@ namespace BlahguaMobile.IOS
                                     UIAlertView alert = new UIAlertView ("", "Code accepted.  Your new badge will be issued shortly.", null, "OK");
                                     alert.Show();
                                     // TO DO:  Update the badge area
-                                    NavigationController.PopViewControllerAnimated (true);
+                                    NavigationController.PopViewController (true);
                                     });
                                 }
                         );
@@ -260,7 +260,7 @@ namespace BlahguaMobile.IOS
 							alert.Show();
 						}
 							
-						NavigationController.PopViewControllerAnimated(true);
+						NavigationController.PopViewController(true);
 					});
 				});
 		}

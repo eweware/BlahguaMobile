@@ -4,10 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,46 +15,46 @@ namespace BlahguaMobile.IOS
 	partial class BGStatsTableViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIToolbar bottomToolBar { get; set; }
+		UIKit.UIToolbar bottomToolBar { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem commentsView { get; set; }
+		UIKit.UIBarButtonItem commentsView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblComment { get; set; }
+		UIKit.UILabel lblComment { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblConversionRatio { get; set; }
+		UIKit.UILabel lblConversionRatio { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDemotes { get; set; }
+		UIKit.UILabel lblDemotes { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblHeardRatio { get; set; }
+		UIKit.UILabel lblHeardRatio { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblImpression { get; set; }
+		UIKit.UILabel lblImpression { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblOpen { get; set; }
+		UIKit.UILabel lblOpen { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblOpenedImpression { get; set; }
+		UIKit.UILabel lblOpenedImpression { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPromotes { get; set; }
+		UIKit.UILabel lblPromotes { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+		UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem signInBtn { get; set; }
+		UIKit.UIBarButtonItem signInBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem statsView { get; set; }
+		UIKit.UIBarButtonItem statsView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem summaryView { get; set; }
+		UIKit.UIBarButtonItem summaryView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

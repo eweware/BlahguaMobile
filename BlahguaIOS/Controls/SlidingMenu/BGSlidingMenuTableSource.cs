@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -76,7 +76,7 @@ namespace BlahguaMobile.IOS
 			return cell;
 		}
 
-		public override int RowsInSection (UITableView tableView, int section)
+		public override nint RowsInSection (UITableView tableView, nint section)
 		{
 			if(type == BGLeftMenuType.Channels)
 			{
@@ -88,12 +88,12 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public override int NumberOfSections (UITableView tableView)
+		public override nint NumberOfSections (UITableView tableView)
 		{
 			return 1;
 		}
 
-		public override UIView GetViewForHeader (UITableView tableView, int section)
+		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
 			BGMenuTableHeaderView headerCell = (BGMenuTableHeaderView)tableView.DequeueReusableCell ("HeaderCell");
 			if (type == BGLeftMenuType.Channels)

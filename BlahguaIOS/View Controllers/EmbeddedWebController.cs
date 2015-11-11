@@ -1,9 +1,8 @@
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System;
 using System.CodeDom.Compiler;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 
 namespace BlahguaMobile.IOS
 {

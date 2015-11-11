@@ -1,23 +1,23 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.CodeDom.Compiler;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
 	partial class BGTextField : UITextField
 	{
 
-		public override RectangleF EditingRect(RectangleF forBounds)
+		public override CGRect EditingRect(CGRect forBounds)
 		{
-			return new RectangleF(13, 0, forBounds.Width, forBounds.Height);
+			return new CGRect(13, 0, forBounds.Width, forBounds.Height);
 		}
 
-		public override RectangleF TextRect(RectangleF forBounds)
+		public override CGRect TextRect(CGRect forBounds)
 		{
-			return new RectangleF(13, 0, forBounds.Width, forBounds.Height);
+			return new CGRect(13, 0, forBounds.Width, forBounds.Height);
 		}
 
 
@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
 			KeyboardAppearance = UIKeyboardAppearance.Light;
 		}
 
-		public BGTextField (RectangleF rect) : base (rect)
+		public BGTextField (CGRect rect) : base (rect)
 		{
 			KeyboardAppearance = UIKeyboardAppearance.Light;
 		}

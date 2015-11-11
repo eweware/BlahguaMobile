@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 using BlahguaMobile.BlahguaCore;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 
 namespace BlahguaMobile.IOS
 {
@@ -142,7 +142,7 @@ namespace BlahguaMobile.IOS
             InvokeOnMainThread(  () =>
                 {
                     scrollView.ScrollEnabled = true;
-                    scrollView.ContentSize = new SizeF(320f, 540f);
+                    scrollView.ContentSize = this.View.Frame.Size;// new CGSize(320f, 540f);
                 });
 
 		}
@@ -150,7 +150,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpBaseLayout()
 		{
-			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("grayBack"));
+			View.BackgroundColor = UIColor.Gray;
 
 			if (CurrentBlah != null) {
 				bottomToolBar.BackgroundColor = BGAppearanceConstants.TealGreen;
@@ -176,7 +176,7 @@ namespace BlahguaMobile.IOS
 				//SetUpVotesButtons ();
 
 				if (BlahguaAPIObject.Current.CurrentUser == null) {
-					var btnSignInRect = new RectangleF (0, 0, 80, 60);
+					var btnSignInRect = new CGRect (0, 0, 80, 60);
 					var btnSignIn = new UIButton (UIButtonType.Custom);
 					btnSignIn.Frame = btnSignInRect;
 					btnSignIn.SetTitle ("Sign In", UIControlState.Normal);
@@ -187,7 +187,7 @@ namespace BlahguaMobile.IOS
 
 					signInBtn.CustomView = btnSignIn;
 				} else {
-					var btnSignInRect = new RectangleF (0, 0, 0, 60);
+					var btnSignInRect = new CGRect (0, 0, 0, 60);
 					var btnSignIn = new UIButton (UIButtonType.Custom);
 					btnSignIn.Frame = btnSignInRect;
 					btnSignIn.SetTitle ("", UIControlState.Normal);
@@ -245,7 +245,7 @@ namespace BlahguaMobile.IOS
 		private void SetUpModesButtons ()
 		{
 			summaryButton = new UIButton (UIButtonType.Custom);
-			summaryButton.Frame = new RectangleF (0, 0, 20, 16);
+			summaryButton.Frame = new CGRect (0, 0, 20, 16);
 			summaryButton.SetImage (UIImage.FromBundle ("summary"), UIControlState.Normal);
 			summaryButton.TouchUpInside += (object sender, EventArgs e) => {
 				//SetModeButtonsImages(UIImage.FromBundle ("summary_dark"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats"));
@@ -255,7 +255,7 @@ namespace BlahguaMobile.IOS
 			summaryView.CustomView = summaryButton;
 
 			commentsButton = new UIButton (UIButtonType.Custom);
-			commentsButton.Frame = new RectangleF (0, 0, 22, 19);
+			commentsButton.Frame = new CGRect (0, 0, 22, 19);
 			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
 			commentsButton.TouchUpInside += (object sender, EventArgs e) => {
 
@@ -266,7 +266,7 @@ namespace BlahguaMobile.IOS
 			commentsView.CustomView = commentsButton;
 
 			statsButton = new UIButton (UIButtonType.Custom);
-			statsButton.Frame = new RectangleF (0, 0, 26, 17);
+			statsButton.Frame = new CGRect (0, 0, 26, 17);
 			statsButton.SetImage (UIImage.FromBundle ("stats_dark"), UIControlState.Normal);
 			statsButton.TouchUpInside += (object sender, EventArgs e) => {
 				SetModeButtonsImages(UIImage.FromBundle ("summary"), UIImage.FromBundle ("comments"), UIImage.FromBundle ("stats_dark"));

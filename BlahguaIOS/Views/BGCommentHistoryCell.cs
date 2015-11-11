@@ -1,9 +1,9 @@
-﻿
-using System;
-using System.Drawing;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using System;
+using CoreGraphics;
+
+using Foundation;
+using UIKit;
 using BlahguaMobile.BlahguaCore;
 
 
@@ -33,11 +33,11 @@ namespace BlahguaMobile.IOS
             return newCell;
         }
 
-        public override string ReuseIdentifier
+        public override Foundation.NSString ReuseIdentifier
         {
             get
             {
-                return "C";
+                return (Foundation.NSString)"C";
             }
         }
 

@@ -4,10 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,7 +15,7 @@ namespace BlahguaMobile.IOS
 	partial class BGBadgeCollectionViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel noBadgeLabel { get; set; }
+		UIKit.UILabel noBadgeLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

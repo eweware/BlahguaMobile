@@ -1,10 +1,10 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.CodeDom.Compiler;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.MessageUI;
+using Foundation;
+using UIKit;
+using MessageUI;
 using MonoTouch.Dialog;
 
 using BlahguaMobile.BlahguaCore;
@@ -66,11 +66,11 @@ namespace BlahguaMobile.IOS
 				if (visible) {
 					var keyboardFrame = UIKeyboard.FrameEndFromNotification (notification);
 
-					OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+                    OnKeyboardChanged (visible, landscape ? (float)keyboardFrame.Width : (float)keyboardFrame.Height);
 				} else {
 					var keyboardFrame = UIKeyboard.FrameBeginFromNotification (notification);
 
-					OnKeyboardChanged (visible, landscape ? keyboardFrame.Width : keyboardFrame.Height);
+                    OnKeyboardChanged (visible, landscape ? (float)keyboardFrame.Width : (float)keyboardFrame.Height);
 				}
 
 				//Commit the animation
@@ -133,14 +133,14 @@ namespace BlahguaMobile.IOS
 			scrollView.ScrollIndicatorInsets = contentInsets;
 
 			// Position of the active field relative isnside the scroll view
-			RectangleF relativeFrame = viewToCenter.Superview.ConvertRectToView(viewToCenter.Frame, scrollView);
+			CGRect relativeFrame = viewToCenter.Superview.ConvertRectToView(viewToCenter.Frame, scrollView);
 
 			bool landscape = InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
 			var spaceAboveKeyboard = (landscape ? scrollView.Frame.Width : scrollView.Frame.Height) - keyboardHeight;
 
 			// Move the active field to the center of the available space
 			var offset = relativeFrame.Y - (spaceAboveKeyboard - viewToCenter.Frame.Height) / 2;
-			scrollView.ContentOffset = new PointF(0, offset);
+			scrollView.ContentOffset = new CGPoint(0, offset);
 		}
 
 		protected virtual void RestoreScrollPosition(UIScrollView scrollView)
@@ -162,7 +162,7 @@ namespace BlahguaMobile.IOS
 			base.ViewDidLoad ();
             AppDelegate.analytics.PostPageView("/signup");
 			//View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle("grayBack"));
-
+			/*
 			if (BGAppearanceHelper.DeviceType == DeviceType.iPhone4) {
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
@@ -174,9 +174,11 @@ namespace BlahguaMobile.IOS
 
 				this.View.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("ios_signin_3x4.jpg"));
 
-			}
 
-			authScroller.ContentSize = new SizeF (320, 640);
+			}
+*/
+
+            authScroller.ContentSize = new CGSize (this.View.Frame.Width, 640);
 
 
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Plain, DoneHandler);
@@ -199,7 +201,7 @@ namespace BlahguaMobile.IOS
                     Font = UIFont.FromName("Merriweather", 16) 
                 }, UIControlState.Normal  );
 			NavigationItem.LeftBarButtonItem.Clicked += (object sender, EventArgs e) => {
-				NavigationController.PopViewControllerAnimated(true);
+				NavigationController.PopViewController(true);
 			};
 
 			var placeholderAttrs = new UIStringAttributes {
@@ -437,7 +439,7 @@ namespace BlahguaMobile.IOS
 				return;
 			}
 
-            NavigationController.PopViewControllerAnimated(true);
+            NavigationController.PopViewController(true);
 		}
 
 		private void SignIn()
@@ -501,7 +503,7 @@ namespace BlahguaMobile.IOS
                     AppDelegate.analytics.PostRegisterUser();
                 else
                     AppDelegate.analytics.PostLogin();
-				InvokeOnMainThread (() => NavigationController.PopViewControllerAnimated(true));
+				InvokeOnMainThread (() => NavigationController.PopViewController(true));
 			}
 			else
 			{

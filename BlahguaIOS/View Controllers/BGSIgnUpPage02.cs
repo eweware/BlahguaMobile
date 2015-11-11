@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
 using BlahguaMobile.BlahguaCore;
 using System.Collections.Generic;
@@ -76,7 +76,7 @@ namespace BlahguaMobile.IOS
 				}
 				else if (b.ButtonIndex != actionSheet.CancelButtonIndex)
 				{
-					Channel targetChannel = newList[b.ButtonIndex - 1];
+                        Channel targetChannel = newList[(int)b.ButtonIndex - 1];
 					SetDefaultChannel(targetChannel);
 					NSUserDefaults.StandardUserDefaults.SetInt(3, "signupStage");
 					NSUserDefaults.StandardUserDefaults.Synchronize();
@@ -119,7 +119,7 @@ namespace BlahguaMobile.IOS
 			actionSheet.Clicked += delegate(object a, UIButtonEventArgs b) 
 			{
 				if (b.ButtonIndex != actionSheet.CancelButtonIndex) {
-					Channel targetChannel = newList[b.ButtonIndex];
+                        Channel targetChannel = newList[(int)b.ButtonIndex];
 					SetDefaultChannel(targetChannel);
 					((BGSignOnPageViewController)ParentViewController).Finish();
 				}

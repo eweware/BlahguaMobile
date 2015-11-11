@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Drawing;
+using CoreGraphics;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace BlahguaMobile.IOS
 {
@@ -26,7 +26,7 @@ namespace BlahguaMobile.IOS
 		{
 			get
 			{
-				return ((BGRollViewDataSource)viewController.CollectionView.DataSource).GetItemsCount (viewController.CollectionView, 0);
+                return (int)((BGRollViewDataSource)viewController.CollectionView.DataSource).GetItemsCount (viewController.CollectionView, 0);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace BlahguaMobile.IOS
 
 		#region UICollectionViewFlowLayout Overriden Methods and Properties
 
-		public override SizeF CollectionViewContentSize 
+		public override CGSize CollectionViewContentSize 
 		{
 			get 
 			{
@@ -52,22 +52,26 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		public override UICollectionViewLayoutAttributes[] LayoutAttributesForElementsInRect (RectangleF rect)
+		public override UICollectionViewLayoutAttributes[] LayoutAttributesForElementsInRect (CGRect rect)
 		{
 			List<UICollectionViewLayoutAttributes> attributes = new List<UICollectionViewLayoutAttributes> ();
 			int itemsCount = ElementsCount;
 			if(itemsCount != 0)
 			{
 				var indexPathes = manager.GetIndexPathForRect (rect);
+				bool shouldRefresh = false;
 
 				foreach(var indexPath in indexPathes)
 				{
 					if (indexPath.Item == itemsCount - 99)
-						viewController.RefreshData ();
+						shouldRefresh = true;
 
 					if(indexPath.Item < itemsCount)
 						attributes.Add (LayoutAttributesForItem (indexPath));
 				}
+
+				//if (shouldRefresh)
+				//	viewController.RefreshData ();
 
 			}
 			return attributes.ToArray();
