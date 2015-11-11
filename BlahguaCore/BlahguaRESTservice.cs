@@ -46,7 +46,7 @@ namespace BlahguaMobile.BlahguaCore
 		public Dictionary<string, string> userGroupNames = null;
 		public Dictionary<string, string> blahTypes = null;
 		public string BaseShareURL { get; set; }
-		private bool usingQA = false; //false; //true;
+        private bool usingQA = true;//false; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
 
@@ -56,7 +56,7 @@ namespace BlahguaMobile.BlahguaCore
 			if (usingQA)
 			{
 				System.Console.WriteLine("Using QA Server");
-				apiClient = new RestClient("http://qa.rest.goheard.com:8080/v2");  // "http://192.168.0.27:8080/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
+				apiClient = new RestClient("http://192.168.0.35:8090/v2");  // "http://192.168.0.35:8090/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
 				BaseShareURL = "http://qa.rest.goheard.com:8080/";
 				imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
 			}
@@ -547,7 +547,7 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void CreateBlah(BlahCreateRecord theBlah , Blah_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs", Method.POST);
+			RestRequest request = new RestRequest("blahs/new", Method.POST);
 			theBlah.E = theBlah.ExpirationDate.ToString("yyy-MM-dd") + "T00:00:00";
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(theBlah);

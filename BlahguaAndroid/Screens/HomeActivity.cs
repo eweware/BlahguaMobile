@@ -31,8 +31,13 @@ using BlahguaMobile.AndroidClient.ThirdParty.UrlImageViewHelper;
 using BlahguaMobile.BlahguaCore;
 using BlahguaMobile.AndroidClient.Adapters;
 using Android.Support.V7.Widget;
+using PubNubMessaging.Core;
+using ServiceStack.Text;
+
+
 
 using File = Java.IO.File;
+using Console = System.Console;
 using Uri = Android.Net.Uri;
 
 namespace BlahguaMobile.AndroidClient.Screens
@@ -74,8 +79,10 @@ namespace BlahguaMobile.AndroidClient.Screens
         private static bool needsInit = true;
         private static bool isFirstLoad = true;
 		private Android.Support.V7.Widget.Toolbar toolbar = null;
+        public static Pubnub pubnub;
+        private string lastChannelStr = null;
 
-		class DrawerItemAdapter<T> : ArrayAdapter<T>
+        class DrawerItemAdapter<T> : ArrayAdapter<T>
 		{
             T[] _items;
 			Activity _context;
@@ -256,8 +263,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 
             isFirstLoad = false;
-          
-		}
+            pubnub = new Pubnub("pub-c-b66a149c-6e4e-4ff3-ac25-d7a31021c9d8", "sub-c-baab93c2-859a-11e5-9320-02ee2ddab7fe");
+
+
+        }
 
         private void CreateDirectoryForPictures()
         {
@@ -765,7 +774,95 @@ namespace BlahguaMobile.AndroidClient.Screens
                     BlahguaAPIObject.Current.CanPost = thePerms.post;
                     BlahguaAPIObject.Current.CanComment = thePerms.comment;
                     InvalidateOptionsMenu();
+                    JoinChannelEvents();
                 });
+        }
+
+        protected void JoinChannelEvents()
+        {
+            lastChannelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+            HomeActivity.pubnub.Subscribe<string>(lastChannelStr, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+            HomeActivity.pubnub.Presence<string>(lastChannelStr, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+
+        }
+
+        private void DisplaySubscribeReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+
+                string parseStr = jsonMsg.FromJson<string>();
+                PublishAction theTurn = parseStr.FromJson<PublishAction>();
+
+                if ((theTurn != null))
+                {
+                    // TO DO - refresh the item
+                    
+                }
+                
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] subscribe: invalid ChatTurn " + theMsg);
+            }
+        }
+
+        private void DisplayUnsubscribeReturnMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+        }
+
+        private void DisplayPresenceConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence connect: " + theMsg);
+        }
+
+        private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+        }
+
+
+        private void DisplaySubscribeConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub connect: " + theMsg);
+        }
+
+        private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("sub disconnect: " + theMsg);
+        }
+
+
+        private void DisplayErrorMessage(PubnubClientError pubnubError)
+        {
+            Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+        }
+
+
+        private void DisplayPresenceReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+                Console.WriteLine(msg.ToString());
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] presence err: " + theMsg);
+            }
+        }
+
+
+        protected void LeaveChannelEvents()
+        {
+            if (lastChannelStr != null)
+            {
+                lastChannelStr = null;
+            }
         }
 
 		protected override void OnResume()
