@@ -9,6 +9,7 @@ using RestSharp;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using ServiceStack.Text;
+using System.Security.Cryptography;
 
 namespace BlahguaMobile.BlahguaCore
 {
@@ -495,21 +496,96 @@ namespace BlahguaMobile.BlahguaCore
 
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-					if (response.StatusCode == HttpStatusCode.Accepted)
-						callback("");
-					else
-					{
-						string resultStr = "Error";
+                    if (response.StatusCode == HttpStatusCode.Accepted)
+                    {
+                        VerifyClient((didIt) =>
+                        {
+                            callback("");
+                        });
+                    }
+                    else
+                    {
+                        string resultStr = "Error";
 
-						if (!String.IsNullOrEmpty(response.StatusDescription))
-							resultStr = response.StatusDescription;
-						else if (!String.IsNullOrEmpty(response.ErrorMessage))
-							resultStr = response.ErrorMessage;
-						callback(resultStr);
-					}
+                        if (!String.IsNullOrEmpty(response.StatusDescription))
+                            resultStr = response.StatusDescription;
+                        else if (!String.IsNullOrEmpty(response.ErrorMessage))
+                            resultStr = response.ErrorMessage;
+                        callback(resultStr);
+                    }
 				});
 
 		}
+
+        public void VerifyClient(bool_callback callback)
+        {
+            RestRequest request = new RestRequest("users/client", Method.GET);
+            apiClient.ExecuteAsync(request, (response) =>
+            {
+                bool didIt = false;
+
+                string keyString = response.Content;
+
+                string encryptStr = encrypt(keyString);
+                RestRequest authRequest = new RestRequest("users/client", Method.POST);
+                authRequest.RequestFormat = DataFormat.Json;
+                authRequest.AddBody(new { code = encryptStr });
+                apiClient.ExecuteAsync<bool>(authRequest, (authResp) =>
+                {
+                    didIt = authResp.Data;
+                    callback(didIt);
+                });
+            });
+        }
+
+        private static string  SECRET_CLIENT_KEY = "ImAGZFi9J9NfcKjPNljZfw==";
+
+        private string encrypt(string theMessage)
+        {
+            string resultMsg = "";
+
+            try
+            {
+                using (AesManaged myAES = new AesManaged())
+                {
+                    byte[] KeyArrBytes32Value = System.Convert.FromBase64String(SECRET_CLIENT_KEY);
+
+                    myAES.BlockSize = 128;
+                    myAES.KeySize = 128;
+
+                    // It is equal in java 
+                    /// Cipher _Cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");    
+                    myAES.Mode = CipherMode.CBC;
+                    myAES.Padding = PaddingMode.PKCS7;
+
+
+
+                    // Initialization vector.   
+                    // It could be any value or generated using a random number generator.
+                    byte[] ivArr = { 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 7, 7, 7, 7 };
+                    byte[] IVBytes16Value = new byte[16];
+                    Array.Copy(ivArr, IVBytes16Value, 16);
+
+                    myAES.Key = KeyArrBytes32Value;
+                    myAES.IV = IVBytes16Value;
+
+                    ICryptoTransform encrypto = myAES.CreateEncryptor();
+
+                    byte[] plainTextByte = ASCIIEncoding.UTF8.GetBytes(theMessage);
+                    byte[] CipherText = encrypto.TransformFinalBlock(plainTextByte, 0, plainTextByte.Length);
+                    string endStr = Convert.ToBase64String(CipherText);
+                    resultMsg = endStr;
+
+                   
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Console.WriteLine(exp.Message);
+            }
+
+            return resultMsg;
+        }
 
 		public void CheckUserSignIn(bool_callback callback)
 		{
