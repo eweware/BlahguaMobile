@@ -61,10 +61,6 @@
     <Reference Include="Newtonsoft.Json.MonoDroid">
       <HintPath>ThirdParty\Newtonsoft.Json.MonoDroid.dll</HintPath>
     </Reference>
-    <Reference Include="PubNubMessaging, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ThirdParty\PubNubMessaging.dll</HintPath>
-    </Reference>
     <Reference Include="Refractored.PagerSlidingTabStrip">
       <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.0.9.2\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
     </Reference>
@@ -93,9 +89,6 @@
     <Reference Include="FortySevenDeg.SwipeListView">
       <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
     </Reference>
-    <Reference Include="HockeyApp.Android">
-      <HintPath>..\Components\hockeyappandroid-3.5.0\lib\android\HockeyApp.Android.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Text.XamarinAndrod">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
@@ -104,6 +97,12 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="PubNubMessaging">
+      <HintPath>ThirdParty\PubNubMessaging.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.Android">
+      <HintPath>..\Components\hockeyappandroid-3.5.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

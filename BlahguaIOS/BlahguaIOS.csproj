@@ -372,11 +372,11 @@
     <Reference Include="ServiceStack.Text.XamarinIOS">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
     </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\Components\hockeyappios-3.7.1.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="SWTableViewCell">
       <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.7.1.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
