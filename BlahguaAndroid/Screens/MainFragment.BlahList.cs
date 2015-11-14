@@ -9,6 +9,7 @@ using Android.Views.Animations;
 using Android.Animation;
 using Android.Graphics;
 using BlahguaMobile.AndroidClient.Adapters;
+using System.Collections.Generic;
 
 namespace BlahguaMobile.AndroidClient.Screens
 {
@@ -60,6 +61,27 @@ namespace BlahguaMobile.AndroidClient.Screens
 		public void FetchInitialBlahs ()
 		{
 			FetchInitialBlahList ();
+		}
+
+		public void ShowBlahActivity(string blahId)
+		{
+			for (int i = 0; i < BlahContainerLayout.ChildCount; i++) {
+				BlahFrameLayout curFrame = BlahContainerLayout.GetChildAt (i) as BlahFrameLayout;
+
+				for (int curItem = 0; curItem < curFrame.ChildCount; curItem++) {
+					FrameLayout curBlahItem = curFrame.GetChildAt (curItem) as FrameLayout;
+					string curTag = (string)curBlahItem.Tag;
+
+					if (curTag == blahId) {
+						AnimateBlahActivity (curBlahItem); 
+					}
+				}
+			}
+		}
+
+		private void AnimateBlahActivity(FrameLayout curBlahItem)
+		{
+			Console.WriteLine ("Animating blah " + curBlahItem.Tag.ToString ());
 		}
 
 
@@ -389,6 +411,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 			var control = this.Activity.LayoutInflater.Inflate(Resource.Layout.uiitem_blah, null);
 			var title = control.FindViewById<TextView>(Resource.Id.title);
+			control.Tag = theBlah.I;
 
 			control.LayoutParameters = layoutParams;
 

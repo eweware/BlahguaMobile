@@ -47,7 +47,7 @@ namespace BlahguaMobile.BlahguaCore
 		public Dictionary<string, string> userGroupNames = null;
 		public Dictionary<string, string> blahTypes = null;
 		public string BaseShareURL { get; set; }
-        private bool usingQA = true;//false; //false; //true;
+		private bool usingQA = false;//false; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
 

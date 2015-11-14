@@ -795,9 +795,20 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string parseStr = jsonMsg.FromJson<string>();
                 PublishAction theTurn = parseStr.FromJson<PublishAction>();
 
-                if ((theTurn != null))
+				if (theTurn != null) 
                 {
                     // TO DO - refresh the item
+					switch (theTurn.action) 
+					{
+					case "openblah":
+					case "blahactivity":
+						string blahId = theTurn.blahid;
+						ShowBlahActivity(blahId);
+						break;
+
+					default:
+						break;
+					}
                     
                 }
                 
@@ -807,6 +818,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                 Console.WriteLine("[pubnub] subscribe: invalid ChatTurn " + theMsg);
             }
         }
+
+		private void ShowBlahActivity(string blahId)
+		{
+			mainFragment.ShowBlahActivity (blahId);
+		}
 
         private void DisplayUnsubscribeReturnMessage(string theMsg)
         {
@@ -848,6 +864,13 @@ namespace BlahguaMobile.AndroidClient.Screens
                 string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
                 PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
                 Console.WriteLine(msg.ToString());
+				string personStr = "people";
+				if (msg.occupancy == 1)
+					personStr = "person";
+				string msgStr = string.Format("{0} {1} in channel", msg.occupancy, personStr);
+				RunOnUiThread(() => {
+					Toast.MakeText(this, msgStr, ToastLength.Short).Show();
+				});
 
             }
             catch (Exception exp)
