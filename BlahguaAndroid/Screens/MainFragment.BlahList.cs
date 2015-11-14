@@ -81,8 +81,16 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void AnimateBlahActivity(FrameLayout curBlahItem)
 		{
-			Console.WriteLine ("Animating blah " + curBlahItem.Tag.ToString ());
-		}
+            var hot_mark = curBlahItem.FindViewById<View>(Resource.Id.hot_mark);
+            this.Activity.RunOnUiThread(() =>
+            {
+                hot_mark.Visibility = ViewStates.Visible;
+                hot_mark.Alpha = 1.0f;
+                hot_mark.Animate()
+                    .Alpha(0.0f)
+                    .SetDuration(fadeOutDuration);
+            });
+        }
 
 
 		private void FetchInitialBlahList(bool secondTry = false)

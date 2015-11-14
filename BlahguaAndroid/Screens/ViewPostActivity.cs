@@ -51,6 +51,7 @@ namespace BlahguaMobile.AndroidClient
         private ViewPager pager;
         public static readonly int SELECTIMAGE_REQUEST = 777;
 		private Android.Support.V7.Widget.ShareActionProvider actionProvider = null;
+        public static int NewMessageCount = 0;
 
         public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
         {
@@ -95,10 +96,18 @@ namespace BlahguaMobile.AndroidClient
             }
             public View GetCustomTabView(ViewGroup parent, int position)
             {
-                ImageView newView = new ImageView(parent.Context);
-                newView.SetImageResource(Icons[position]);
-                imageIcons[position] = newView;
-                return newView;
+                var tabView = activity.LayoutInflater.Inflate(Resource.Layout.NotifyTabView, null);
+                var counter = tabView.FindViewById<TextView>(Resource.Id.counter);
+                var imageView = tabView.FindViewById<ImageView>(Resource.Id.image);
+                imageView.SetImageResource(Icons[position]);
+                imageIcons[position] = imageView;
+
+                if ((position != 2) || (ViewPostActivity.NewMessageCount == 0))
+                    counter.Visibility = ViewStates.Gone;
+                else
+                    counter.Text = ViewPostActivity.NewMessageCount.ToString();
+
+                return tabView;
             }
 
             public override int Count
@@ -131,10 +140,7 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
-		protected override void OnPause ()
-		{
-			base.OnPause ();
-		}
+		
 
         class DrawerItemAdapter<T> : ArrayAdapter<T>
         {
@@ -185,6 +191,7 @@ namespace BlahguaMobile.AndroidClient
 		protected override void OnCreate (Bundle bundle)
 		{
             base.OnCreate(bundle);
+            NewMessageCount = 0;
 
             try
             {
@@ -194,6 +201,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 System.Console.WriteLine(exp.Message);
             }
+
 
 
 			toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.tool_bar);
@@ -264,6 +272,46 @@ namespace BlahguaMobile.AndroidClient
 			((PostPageAdapter)pager.Adapter).UpdateIcons(0);
 
         }
+
+        public void IncrementMessageCount(int numMessages)
+        {
+            if (pager.CurrentItem != 2)
+            {
+                NewMessageCount += numMessages;
+                UpdateMessageCountIndicator();
+            }
+            else
+                NewMessageCount = 0;
+        }
+
+        public void ClearMessageCount()
+        {
+            NewMessageCount = 0;
+            UpdateMessageCountIndicator();
+        }
+
+        private void UpdateMessageCountIndicator()
+        {
+            LinearLayout tabHolder = tabs.GetChildAt(0) as LinearLayout;
+            LinearLayout tab = tabHolder.GetChildAt(2) as LinearLayout;
+            if (tab != null)
+            {
+                RunOnUiThread(() => {
+
+                    var counter = tab.FindViewById<TextView>(Resource.Id.counter);
+                    if (NewMessageCount == 0)
+                        counter.Visibility = ViewStates.Gone;
+                    else
+                    {
+                        counter.Visibility = ViewStates.Visible;
+                        counter.Text = NewMessageCount.ToString();
+                    }
+
+                });
+            }
+        }
+
+
 
         public void UserTakePhoto()
         {
@@ -587,6 +635,10 @@ namespace BlahguaMobile.AndroidClient
             return base.OnOptionsItemSelected(item);
         }
 
+        protected override void OnPause()
+        {
+            base.OnPause();
+        }
 
         protected override void OnResume()
         {
