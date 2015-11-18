@@ -11,6 +11,8 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using System.Threading;
+using PubNubMessaging.Core;
+using ServiceStack.Text;
 
 namespace BlahguaMobile.IOS
 {
@@ -33,6 +35,9 @@ namespace BlahguaMobile.IOS
 		private UIAlertView toast;
         private bool firstTime = true;
 		private bool isRefreshing = false;
+		public static Pubnub pubnub;
+		private string lastChannelStr = null;
+
 
 
 		#endregion
@@ -44,6 +49,8 @@ namespace BlahguaMobile.IOS
 			TimerCallback tcb = HideToastDialog;
 			toastTimer = new Timer (tcb);
 			toast = new UIAlertView ("Heard", "test", null, null, null);
+			pubnub = new Pubnub("pub-c-b66a149c-6e4e-4ff3-ac25-d7a31021c9d8", "sub-c-baab93c2-859a-11e5-9320-02ee2ddab7fe");
+
 		}
 
 		private void StartToastTimer()
@@ -164,6 +171,7 @@ namespace BlahguaMobile.IOS
 									newBlah.Hidden = false;
 							});
 						}
+						JoinChannelEvents();
 					});
 				}
 			};
@@ -173,6 +181,161 @@ namespace BlahguaMobile.IOS
 
 		}
 
+
+		protected void JoinChannelEvents()
+		{
+			lastChannelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+			BGRollViewController.pubnub.Subscribe<string>(lastChannelStr, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+			BGRollViewController.pubnub.Presence<string>(lastChannelStr, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+
+		}
+
+		public static void NotifyBlahActivity()
+		{
+			// post the notification on the new comment
+			PublishAction theAction = new PublishAction();
+			theAction.action = "blahactivity";
+			if (BlahguaAPIObject.Current.CurrentBlah != null)
+				theAction.blahid = BlahguaAPIObject.Current.CurrentBlah._id;
+			else
+				theAction.blahid = BlahguaAPIObject.Current.CurrentInboxBlah.I;
+
+			theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+			string theStr = theAction.ToJson<PublishAction>();
+
+			string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+			BGRollViewController.pubnub.Publish<PublishAction>(channelStr, theAction,
+				(theMsg) => { }, (theErr) => { });
+
+		}
+
+		private void DisplaySubscribeReturnMessage(string theMsg)
+		{
+			try
+			{
+				string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+
+				//string parseStr = jsonMsg.FromJson<string>();
+				PublishAction theTurn = jsonMsg.FromJson<PublishAction>();
+
+				if (theTurn != null) 
+				{
+					// TO DO - refresh the item
+					switch (theTurn.action) 
+					{
+					case "openblah":
+					case "blahactivity":
+						string blahId = theTurn.blahid;
+						ShowBlahActivity(blahId);
+						break;
+
+					default:
+						break;
+					}
+
+				}
+
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine("[pubnub] subscribe: invalid ChatTurn " + theMsg);
+			}
+		}
+
+		private void ShowBlahActivity(string blahId)
+		{
+			InvokeOnMainThread (() => {
+				BGRollViewDataSource dataSource = this.CollectionView.DataSource as BGRollViewDataSource;
+				Inbox inbox = dataSource.DataSource;
+				for (int i = 0; i < inbox.Count; i++) {
+					try {
+					InboxBlah curBlah = inbox [i];
+					if (curBlah.I == blahId) {
+							NSIndexPath itemPath = NSIndexPath.FromItemSection((nint)i, (nint)0);
+							BGRollViewCell curCell = this.CollectionView.CellForItem (itemPath) as BGRollViewCell;
+
+						if (curCell != null)
+							HighlightBlahCell (curCell);
+					}
+					}
+					catch (Exception exp) 
+					{
+						Console.WriteLine("error");
+					}
+				}
+			});
+		}
+
+		private void HighlightBlahCell(BGRollViewCell curCell)
+		{
+			curCell.ShowActivity ();
+		}
+
+
+
+		private void DisplayUnsubscribeReturnMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+		}
+
+		private void DisplayPresenceConnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] presence connect: " + theMsg);
+		}
+
+		private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+		}
+
+
+		private void DisplaySubscribeConnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] sub connect: " + theMsg);
+		}
+
+		private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("sub disconnect: " + theMsg);
+		}
+
+
+		private void DisplayErrorMessage(PubnubClientError pubnubError)
+		{
+			Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+		}
+
+
+		private void DisplayPresenceReturnMessage(string theMsg)
+		{
+			try
+			{
+				string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+				PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+				Console.WriteLine(msg.ToString());
+				string personStr = "people";
+				if (msg.occupancy == 1)
+					personStr = "person";
+				string msgStr = string.Format("{0} {1} in channel", msg.occupancy, personStr);
+				InvokeOnMainThread(() => {
+					Console.WriteLine(msgStr);
+				});
+
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine("[pubnub] presence err: " + theMsg);
+			}
+		}
+
+
+		protected void LeaveChannelEvents()
+		{
+			if (lastChannelStr != null)
+			{
+				lastChannelStr = null;
+			}
+		}
 
 
 		public override void ViewWillAppear (bool animated)
@@ -377,6 +540,8 @@ namespace BlahguaMobile.IOS
 									newBlah.Hidden = false;
 							});
 						}
+
+						JoinChannelEvents();
 					});
 
 

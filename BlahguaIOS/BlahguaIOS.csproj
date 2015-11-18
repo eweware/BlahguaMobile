@@ -354,6 +354,11 @@
     <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
       <DependentUpon>BGNewPostViewController.cs</DependentUpon>
     </Compile>
+    <None Include="libs\PubnubMessaging.dll" />
+    <None Include="libs\Newtonsoft.Json.MonoTouch.dll" />
+    <Compile Include="..\BlahguaCore\pubnub.cs">
+      <Link>BlahguaCore\pubnub.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -376,6 +381,12 @@
     </Reference>
     <Reference Include="HockeyApp.iOS">
       <HintPath>..\Components\hockeyappios-3.7.1.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="PubnubMessaging">
+      <HintPath>libs\PubnubMessaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.MonoTouch">
+      <HintPath>libs\Newtonsoft.Json.MonoTouch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -602,5 +613,8 @@
       <Version>0.3.6.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="libs\" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ namespace BlahguaMobile.IOS
 		private UIImageView ownBlahIcon;
 		private UIImageView newIcon;
 		private UIImageView badgeIcon;
-
+		private CAKeyFrameAnimation activityAnimation;
 		private CAKeyFrameAnimation fadeInOutAnimation;
 
 		public InboxBlah Blah 
@@ -226,6 +226,36 @@ namespace BlahguaMobile.IOS
 				newIcon.Hidden = true;
 
 			SetUpAnimation ();
+		}
+
+		public void ShowActivity()
+		{
+			if (activityAnimation != null) {
+				hotIcon.Layer.RemoveAllAnimations ();
+				activityAnimation = null;
+			}
+			hotIcon.Hidden = false;
+			hotIcon.Layer.Opacity = 1.0f;
+
+			activityAnimation = (CAKeyFrameAnimation)CAKeyFrameAnimation.FromKeyPath ("opacity");
+			activityAnimation.KeyTimes = new NSNumber[] { 
+				NSNumber.FromFloat(0f),
+				NSNumber.FromFloat(1f )
+			};
+			activityAnimation.Values = new NSNumber[] {
+				NSNumber.FromFloat(1f),
+				NSNumber.FromFloat(0f)
+			};
+			activityAnimation.RepeatCount = 1;
+			activityAnimation.Duration = 2;
+			activityAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseOut);
+			activityAnimation.AnimationStopped += (object sender, CAAnimationStateEventArgs e) => 
+			{
+				this.hotIcon.Hidden = true;
+			};
+
+
+			hotIcon.Layer.AddAnimation (activityAnimation, "fadeOut");
 		}
 
 		public void SetUpAnimation()
