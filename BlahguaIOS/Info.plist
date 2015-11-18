@@ -61,5 +61,10 @@
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>UILaunchStoryboardName</key>
 	<string>launch_scene</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
