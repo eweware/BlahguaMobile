@@ -727,7 +727,12 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
-       
+        public void GetComment(string commentId, Comment_callback callback)
+        {
+            BlahguaRest.GetComment(commentId, callback);
+        }
+
+
 
         private void _intGetUserProfile(Profile_callback callback)
         {
@@ -1029,7 +1034,14 @@ namespace BlahguaMobile.BlahguaCore
 
         public void LoadBlahComments(Comments_callback callback)
         {
-            BlahguaRest.GetBlahComments(currentBlah._id, (comments) =>
+            string blahId;
+
+            if (CurrentBlah != null)
+                blahId = CurrentBlah._id;
+            else
+                blahId = CurrentInboxBlah.I;
+
+            BlahguaRest.GetBlahComments(blahId, (comments) =>
                 {
                     if (comments != null)
                     {

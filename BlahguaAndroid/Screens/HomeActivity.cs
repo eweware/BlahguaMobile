@@ -786,14 +786,33 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+        public static void NotifyBlahActivity()
+        {
+            // post the notification on the new comment
+            PublishAction theAction = new PublishAction();
+            theAction.action = "blahactivity";
+            if (BlahguaAPIObject.Current.CurrentBlah != null)
+                theAction.blahid = BlahguaAPIObject.Current.CurrentBlah._id;
+            else
+                theAction.blahid = BlahguaAPIObject.Current.CurrentInboxBlah.I;
+
+            theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+            string theStr = theAction.ToJson<PublishAction>();
+
+            string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+            HomeActivity.pubnub.Publish<PublishAction>(channelStr, theAction,
+                (theMsg) => { }, (theErr) => { });
+
+        }
+
         private void DisplaySubscribeReturnMessage(string theMsg)
         {
             try
             {
                 string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
 
-                string parseStr = jsonMsg.FromJson<string>();
-                PublishAction theTurn = parseStr.FromJson<PublishAction>();
+                //string parseStr = jsonMsg.FromJson<string>();
+                PublishAction theTurn = jsonMsg.FromJson<PublishAction>();
 
 				if (theTurn != null) 
                 {

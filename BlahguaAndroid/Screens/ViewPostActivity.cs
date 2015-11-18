@@ -28,6 +28,7 @@ using com.refractored;
 using Android.Provider;
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
+using ServiceStack.Text;
 
 namespace BlahguaMobile.AndroidClient
 {
@@ -52,6 +53,7 @@ namespace BlahguaMobile.AndroidClient
         public static readonly int SELECTIMAGE_REQUEST = 777;
 		private Android.Support.V7.Widget.ShareActionProvider actionProvider = null;
         public static int NewMessageCount = 0;
+        private string ChannelName = null;
 
         public class PostPageAdapter : FragmentPagerAdapter, ICustomTabProvider
         {
@@ -270,12 +272,13 @@ namespace BlahguaMobile.AndroidClient
 
             populateChannelMenu();
 			((PostPageAdapter)pager.Adapter).UpdateIcons(0);
+            HomeActivity.NotifyBlahActivity();
 
         }
 
         public void IncrementMessageCount(int numMessages)
         {
-            if (pager.CurrentItem != 2)
+            if (pager.CurrentItem != 1)
             {
                 NewMessageCount += numMessages;
                 UpdateMessageCountIndicator();
@@ -293,7 +296,7 @@ namespace BlahguaMobile.AndroidClient
         private void UpdateMessageCountIndicator()
         {
             LinearLayout tabHolder = tabs.GetChildAt(0) as LinearLayout;
-            LinearLayout tab = tabHolder.GetChildAt(2) as LinearLayout;
+            LinearLayout tab = tabHolder.GetChildAt(1) as LinearLayout;
             if (tab != null)
             {
                 RunOnUiThread(() => {
@@ -374,6 +377,25 @@ namespace BlahguaMobile.AndroidClient
             }
         }
 
+        public void NotifyNewComment(Comment theComment)
+        {
+            // post the notification on the new comment
+            PublishAction theAction = new PublishAction();
+            theAction.action = "comment";
+            theAction.commentid = theComment._id;
+            theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+            string theStr = theAction.ToJson<PublishAction>();
+
+            HomeActivity.pubnub.Publish<PublishAction>(ChannelName, theAction, DisplayPublishReturnMessage, DisplayErrorMessage);
+
+        }
+
+        
+
+        private void DisplayPublishReturnMessage(PublishAction theMsg)
+        {
+            Console.WriteLine("[pubnub] publish: " + theMsg);
+        }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
@@ -394,6 +416,7 @@ namespace BlahguaMobile.AndroidClient
 
                 case 1:
                     CommentsView.LoadComments();
+                    ClearMessageCount();
                     break;
 
                 case 2:
@@ -635,9 +658,22 @@ namespace BlahguaMobile.AndroidClient
             return base.OnOptionsItemSelected(item);
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            SubscribeToBlahChannel();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            UnsubscribeFromBlahChannel();
+
+        }
         protected override void OnPause()
         {
             base.OnPause();
+           
         }
 
         protected override void OnResume()
@@ -645,7 +681,108 @@ namespace BlahguaMobile.AndroidClient
             base.OnResume();
 
             InvalidateOptionsMenu();
+            
         }
+
+        public void SubscribeToBlahChannel()
+        {
+            if (BlahguaAPIObject.Current.CurrentInboxBlah != null)
+            {
+                string blahId = BlahguaAPIObject.Current.CurrentInboxBlah.I;
+
+                ChannelName = "blah" + blahId;
+                HomeActivity.pubnub.Subscribe<string>(ChannelName, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+                HomeActivity.pubnub.Presence<string>(ChannelName, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+            }
+        }
+
+        public void UnsubscribeFromBlahChannel()
+        {
+            if (BlahguaAPIObject.Current.CurrentBlah != null)
+            {
+                HomeActivity.pubnub.Unsubscribe<string>(ChannelName, DisplayUnsubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplaySubscribeDisconnectStatusMessage, DisplayErrorMessage);
+                HomeActivity.pubnub.PresenceUnsubscribe<string>(ChannelName, DisplayUnsubscribeReturnMessage, DisplayPresenceConnectStatusMessage, DisplayPresenceDisconnectStatusMessage, DisplayErrorMessage);
+            }
+
+        }
+
+
+        private void DisplaySubscribeReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                string reparse = jsonMsg.FromJson<string>();
+                PublishAction theAction = jsonMsg.FromJson<PublishAction>();
+
+                if ((theAction != null) && (CommentsView != null) && theAction.action == "comment" )
+                {
+                    CommentsView.ShowComment(theAction);
+                    IncrementMessageCount(1);
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] subscribe: invalid PublishAction " + theMsg);
+            }
+        }
+
+        private void DisplaySubscribeConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub connect: " + theMsg);
+        }
+
+        private void DisplayPresenceConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence connect: " + theMsg);
+        }
+
+        private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub disconnect: " + theMsg);
+        }
+
+        private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+        }
+
+        private void DisplayErrorMessage(PubNubMessaging.Core.PubnubClientError pubnubError)
+        {
+            Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+        }
+
+
+        private void DisplayUnsubscribeReturnMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+        }
+
+
+        private void DisplayPresenceReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+                if (msg != null)
+                {
+                    string countStr = "people";
+                    if (msg.occupancy == 1)
+                        countStr = "person";
+                    string toastStr = string.Format("{0} {1} viewing post", msg.occupancy, countStr);
+                    RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(this, toastStr, ToastLength.Long).Show();
+                    });
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] presence err: " + theMsg);
+            }
+        }
+
 
         private void HandleSharePost()
         {
@@ -680,6 +817,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 UpdateSummaryButtons();
 				HomeActivity.analytics.PostBlahVote(1);
+                HomeActivity.NotifyBlahActivity();
             });
             
         }
@@ -690,6 +828,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 UpdateSummaryButtons();
 				HomeActivity.analytics.PostBlahVote(-1);
+                HomeActivity.NotifyBlahActivity();
             });
             
         }

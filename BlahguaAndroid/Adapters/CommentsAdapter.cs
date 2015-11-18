@@ -38,6 +38,11 @@ namespace BlahguaMobile.AndroidClient.Adapters
             _list = list;
         }
 
+        public void InsertComment(Comment theComment)
+        {
+            _list.Insert(0, theComment);
+        }
+
 
         public override int Count
         {

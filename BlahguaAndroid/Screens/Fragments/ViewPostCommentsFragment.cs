@@ -136,6 +136,19 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
         #endregion
 
+
+        public void ShowComment(PublishAction theAction)
+        {
+            // load the comment and append it
+            if (theAction.userid != BlahguaAPIObject.Current.CurrentUser._id)
+            {
+                BlahguaAPIObject.Current.GetComment(theAction.commentid, (theComment) =>
+                {
+                    InsertNewComment(theComment);
+                });
+            }
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
 			HomeActivity.analytics.PostPageView("/blah/comments");
@@ -249,7 +262,9 @@ namespace BlahguaMobile.AndroidClient.Screens
                 {
                     triggerCreateBlock();
 					commentsAreLoaded = false;
-                    LoadComments();
+                    InsertNewComment(newComment);
+                    baseView.NotifyNewComment(newComment);
+                    HomeActivity.NotifyBlahActivity();
                 });
             }
             else
@@ -263,6 +278,40 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+        private void InsertNewComment(Comment theComment)
+        {
+            CommentsAdapter adapter = list.Adapter as CommentsAdapter;
+
+            if (adapter != null)
+            {
+                adapter.InsertComment(theComment);
+                Activity.RunOnUiThread(() =>
+                {
+                    adapter.NotifyDataSetChanged();
+                    list.InvalidateViews();
+                    list.SmoothScrollToPosition(0);
+
+                    string commentTextStr;
+                    if (adapter.Count == 1)
+                        commentTextStr = "one comment";
+                    else
+                        commentTextStr = adapter.Count.ToString() + " comments";
+                    comments_total_count.Text = commentTextStr;
+                    list.Visibility = ViewStates.Visible;
+
+                    no_comments.Visibility = ViewStates.Gone;
+
+                });
+            }
+            else
+            {
+                commentsAreLoaded = false;
+                LoadComments(true);
+            }
+        }
+
+        
+
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
@@ -270,7 +319,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         }
 
 
-        public void LoadComments()
+        public void LoadComments(bool silent = false)
         {
             if (!commentsAreLoaded)
             {
@@ -278,14 +327,20 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 Activity.RunOnUiThread(() =>
                     {
-                        progressDlg.SetMessage("loading comments...");
-                        progressDlg.Show();
+                        if (!silent)
+                        {
+                            progressDlg.SetMessage("loading comments...");
+                            progressDlg.Show();
+                        }
+
 
                         BlahguaAPIObject.Current.LoadBlahComments((theList) =>
                         {
                             Activity.RunOnUiThread(() =>
                             {
-                                progressDlg.Hide();
+                                if (!silent)
+                                    progressDlg.Hide();
+
                                 if (theList.Count > 0)
                                 {
                                     string commentTextStr;

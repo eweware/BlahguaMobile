@@ -79,6 +79,7 @@ namespace BlahguaMobile.BlahguaCore
 			get { return imageBaseURL; }
 		}
 
+        
 		public void GetBlahComments(string blahId, Comments_callback callback)
 		{
 			RestRequest request = new RestRequest("comments", Method.GET);
@@ -666,6 +667,16 @@ namespace BlahguaMobile.BlahguaCore
 					callback(response.Data);
 				});
 		}
+
+        public void GetComment(string commentId, Comment_callback callback)
+        {
+            RestRequest request = new RestRequest("comments/" + commentId, Method.GET);
+            request.RequestFormat = DataFormat.Json;
+            apiClient.ExecuteAsync<Comment>(request, (response) =>
+            {
+                callback(response.Data);
+            });
+        }
 
 		public void SetBlahVote(string blahId, int userVote, int_callback callback)
 		{
