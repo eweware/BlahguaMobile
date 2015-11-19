@@ -111,17 +111,29 @@ namespace BlahguaMobile.IOS
 		{
 			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
 		}
+
         //Synsoft on 14 July 2014
         private void SwipeToSummaryController()
         {
 			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToRight ();
         }
 
+		public void ShowComment(PublishAction theAction)
+		{
+			if ((BlahguaAPIObject.Current.CurrentUser == null) || (BlahguaAPIObject.Current.CurrentUser._id != theAction.userid)) {
+				BlahguaAPIObject.Current.GetComment (theAction.commentid, (theComment) => {
+					if (theComment != null)
+						InsertComment(theComment);
+				});
+			}
+		}
+
+
         //Synsoft on 14 July 2014
         private void SwipeToStatsController()
         {
-            //PerformSegue("fromCommentsToStats", this);
-			((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SwipeToLeft ();
+			MonoTouch.SlideMenu.SwipeViewController	swipeView = ((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView;
+			swipeView.SwipeToLeft ();
         }
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -395,8 +407,17 @@ namespace BlahguaMobile.IOS
 			UIView.CommitAnimations ();
 		}
 
+		public void InsertComment(Comment theComment)
+		{
+			BlahguaAPIObject.Current.LoadBlahComments ((commentList) => {
+				contentView.ReloadData ();
+				SetUpHeaderView ();
+			});
+		}
+
 		public void SwitchNewCommentMode()
 		{
+			
 			contentView.ReloadData ();
             SetUpHeaderView();
 		}

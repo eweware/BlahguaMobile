@@ -796,9 +796,11 @@ namespace BlahguaMobile.AndroidClient.Screens
             else
                 theAction.blahid = BlahguaAPIObject.Current.CurrentInboxBlah.I;
 
-            theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
-            string theStr = theAction.ToJson<PublishAction>();
-
+			if (BlahguaAPIObject.Current.CurrentUser != null)
+            	theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+			else
+				theAction.userid = "0";
+			
             string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
             HomeActivity.pubnub.Publish<PublishAction>(channelStr, theAction,
                 (theMsg) => { }, (theErr) => { });

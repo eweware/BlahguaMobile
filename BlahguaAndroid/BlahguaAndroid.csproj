@@ -62,9 +62,6 @@
     <Reference Include="Newtonsoft.Json.MonoDroid">
       <HintPath>ThirdParty\Newtonsoft.Json.MonoDroid.dll</HintPath>
     </Reference>
-    <Reference Include="Refractored.PagerSlidingTabStrip">
-      <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.0.9.2\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
-    </Reference>
     <Reference Include="SlidingMenuSharp">
       <HintPath>..\SlidingMenuSharp.dll</HintPath>
     </Reference>
@@ -95,6 +92,10 @@
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.2.3\lib\MonoAndroid10\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.PagerSlidingTabStrip">
+      <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.0.10\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

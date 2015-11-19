@@ -15,6 +15,8 @@ using UIKit;
 //using MonoTouch.Dialog.Utilities;
 using MessageUI;
 
+
+
 namespace BlahguaMobile.IOS
 {
     public partial class BGBlahViewController : UIViewController, IImageUpdated
@@ -34,6 +36,7 @@ namespace BlahguaMobile.IOS
         private UIButton summaryButton;
         private UIButton commentsButton;
         private UIButton statsButton;
+
 
         #endregion
 
@@ -98,21 +101,9 @@ namespace BlahguaMobile.IOS
 			imageTapRecognizer.Delegate = new PanGestureRecognizerDelegate ();
 			imageTapRecognizer.NumberOfTapsRequired = 1;
 			blahImage.AddGestureRecognizer (imageTapRecognizer);
+
         }
 
-
-
-		public override void ViewDidAppear(bool animated)
-		{
-			base.ViewDidAppear (animated);
-
-			SetModeButtonsImages(UIImage.FromBundle("summary_dark"), UIImage.FromBundle("comments"), UIImage.FromBundle("stats"));
-
-			commentsButton.SetImage (UIImage.FromBundle ("comments"), UIControlState.Normal);
-
-			statsButton.SetImage (UIImage.FromBundle ("stats"), UIControlState.Normal);
-
-		}
 
         //Synsoft on 14 July 2014 
         private void SwipeToCommentController()
@@ -121,20 +112,6 @@ namespace BlahguaMobile.IOS
         }
 
 
-
-
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-
-            if (ShouldMoveToStats)
-            {
-                ShouldMoveToStats = false;
-            }
-            CGRect boundsRect = contentView.Frame;
-
-            contentView.ContentSize = new CGSize(boundsRect.Width, tableView == null ? blahBodyView.Frame.Bottom : tableView.Frame.Bottom);
-        }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {
@@ -988,6 +965,8 @@ namespace BlahguaMobile.IOS
                     BlahguaAPIObject.Current.CurrentBlah.UpdateUserPredictionVote(upv);
                 }
             }
+
+
         }
 
         private class BGBlahBadgesTableSource : UITableViewSource

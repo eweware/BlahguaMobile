@@ -82,36 +82,13 @@ namespace BlahguaMobile.IOS
             bool isUserComment = userId.Equals(userComment.A);
 
 			parentTableView = tableView;
-            panRecognizer = new UIPanGestureRecognizer(PanThisCell);
-            panRecognizer.Delegate = new PanGestureRecognizerDelegate();
+
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
             //containerView.AddGestureRecognizer(panRecognizer);
 
-			Action action = () => {
-                UIView.BeginAnimations ("AnimateForVote");
-                UIView.SetAnimationBeginsFromCurrentState (true);
-                UIView.SetAnimationDuration(1);
-                UIView.SetAnimationCurve(UIViewAnimationCurve.EaseIn);
-				if (LeftEdgeConstraint.Constant == -voteView.Frame.Width) {
-					LeftEdgeConstraint.Constant = 0;
-				} else {
-					LeftEdgeConstraint.Constant = -voteView.Frame.Width;
-				}
+		
 
-			
-                UIView.CommitAnimations();
-			};
-
-            if (BlahguaAPIObject.Current.CurrentUser != null)
-            {
-                tapRecognizer = new UITapGestureRecognizer(action);
-
-                tapRecognizer.Delegate = new PanGestureRecognizerDelegate();
-
-                tapRecognizer.NumberOfTapsRequired = 1;
-                containerView.AddGestureRecognizer(tapRecognizer);
-            }
-
+           
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
 
 			Action showFullScreen = () => {
@@ -210,49 +187,51 @@ namespace BlahguaMobile.IOS
                 UIColor.Black
             );
 
-            voteView.BackgroundColor = BGAppearanceConstants.TealGreen;
-
+			/*
+			 * // vote button
             if (isUserBlah || isUserComment)
             {
-                downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
                 upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
                 upVoteButton.Enabled = false;
-                downVoteButton.Enabled = false;
             }
             else
             {
                 if (userComment.uv == -1)
                 {
-                    downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
                     upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
                     upVoteButton.Enabled = false;
-                    downVoteButton.Enabled = false;
                 }
                 else if (userComment.uv == 1)
                 {
-                    downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
                     upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
                     upVoteButton.Enabled = false;
-                    downVoteButton.Enabled = false;
                 }
                 else
                 {
                     upVoteButton.Enabled = true;
-                    downVoteButton.Enabled = true;
                 }
             }
-            
-                
-            downVoteButton.TouchUpInside += (sender, e) =>
-                {
-                    SetCommentVote(-1);
-                };
 
             upVoteButton.TouchUpInside += (sender, e) =>
                 {
                     SetCommentVote(1);
                 };
+			*/
         }
+
+		public void UpdatedImage(Uri uri)
+		{
+			commentImageView.Image = ImageLoader.DefaultRequestImage(uri, this);
+			if (commentImageView.Image != null) {
+				UIImage img = commentImageView.Image;
+				nfloat newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+
+
+				imageViewHeight.Constant = newHeight;
+				parentTableView.ReloadData ();
+			}
+
+		}
 
         private void SetCommentVote(int theVote)
         {
@@ -271,21 +250,20 @@ namespace BlahguaMobile.IOS
                             userComment.uv = v;
                             InvokeOnMainThread( () => 
                                 {
+									/*
                                     if (v == 1)
                                     {
-                                        downVoteButton.SetImage(UIImage.FromFile("arrow_down.png"), UIControlState.Normal);
                                         upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
                                         userComment.UpVoteCount++;
                                     }
                                     else
                                     {
-                                        downVoteButton.SetImage(UIImage.FromFile("arrow_down_dark.png"), UIControlState.Normal);
                                         upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
                                         userComment.DownVoteCount++;
                                     }
                                     upVoteButton.Enabled = false;
-                                    downVoteButton.Enabled = false;
-
+                                   
+									*/
                                     upAndDownVotes.AttributedText = new NSAttributedString(
                                         userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
                                         UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
@@ -297,169 +275,6 @@ namespace BlahguaMobile.IOS
             }
         }
 
-		#region IImageUpdated implementation
-
-		public void UpdatedImage(Uri uri)
-		{
-			commentImageView.Image = ImageLoader.DefaultRequestImage(uri, this);
-			if (commentImageView.Image != null) {
-				UIImage img = commentImageView.Image;
-				nfloat newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
-
-
-				imageViewHeight.Constant = newHeight;
-				parentTableView.ReloadData ();
-			}
-
-		}
-
-		#endregion
-
-        public void PanThisCell(UIPanGestureRecognizer recognizer)
-        {
-            switch (recognizer.State)
-            {
-                case UIGestureRecognizerState.Began:
-                    panStartPoint = recognizer.TranslationInView(containerView);
-                    break;
-                case UIGestureRecognizerState.Changed:
-                    CGPoint currentPoint = recognizer.TranslationInView(containerView);
-                    nfloat deltaX = currentPoint.X - panStartPoint.X;
-                    bool panningLeft = false;
-                    if (currentPoint.X < panStartPoint.X)
-                    {
-                        panningLeft = true;
-                    }
-
-                    if (startingLayoutRight == 0)
-                    {
-                        if (!panningLeft)
-                        {
-                            nfloat constant = (nfloat)Math.Max(-deltaX, 0);
-                            if (constant == 0)
-                            {
-                                ResetToStartPosition(true);
-                            }
-                            else
-                            {
-                                LeftEdgeConstraint.Constant = constant;
-                            }
-                        }
-                        else
-                        {
-                            nfloat constant = (nfloat)Math.Min(-deltaX, ButtonTotalWidth());
-                            if (constant == ButtonTotalWidth())
-                            {
-                                SetFinalContainerViewPosition(true);
-                            }
-                            else
-                            {
-							LeftEdgeConstraint.Constant = constant;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        nfloat adjustment = startingLayoutRight - deltaX;
-                        if (!panningLeft)
-                        {
-                            nfloat constant = (nfloat)Math.Max(adjustment, 0);
-                            if (constant == 0)
-                            {
-                                ResetToStartPosition(true);
-                            }
-                            else
-                            {
-							LeftEdgeConstraint.Constant = constant;
-                            }
-                        }
-                        else
-                        {
-                            nfloat constant = (nfloat)Math.Min(adjustment, ButtonTotalWidth());
-                            if (constant == ButtonTotalWidth())
-                            {
-                                SetFinalContainerViewPosition(true);
-                            }
-                            else
-                            {
-							LeftEdgeConstraint.Constant = constant;
-                            }
-                        }
-                    }
-                    break;
-                case UIGestureRecognizerState.Ended:
-                    if (startingLayoutRight == 0)
-                    {
-                        nfloat position = ButtonTotalWidth() / 2 - 1;
-					if (LeftEdgeConstraint.Constant >= position)
-                        {
-                            SetFinalContainerViewPosition(true);
-                        }
-                        else
-                        {
-                            ResetToStartPosition(true);
-                        }
-                    }
-                    else
-                    {
-                        nfloat position = ButtonTotalWidth() / 2;
-					if (LeftEdgeConstraint.Constant >= position)
-                        {
-                            SetFinalContainerViewPosition(true);
-                        }
-                        else
-                        {
-                            ResetToStartPosition(true);
-                        }
-                    }
-                    break;
-                case UIGestureRecognizerState.Cancelled:
-                    if (startingLayoutRight == 0)
-                    {
-                        ResetToStartPosition(true);
-                    }
-                    else
-                    {
-                        SetFinalContainerViewPosition(true);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void ResetToStartPosition(bool animated)
-        {
-            if (startingLayoutRight == 0 &&
-				LeftEdgeConstraint.Constant == 0)
-            {
-                //Already all the way closed, no bounce necessary
-                return;
-            }
-
-			LeftEdgeConstraint.Constant = 0;
-
-            UpdateConstraintsIfNeeded(animated, () =>
-            {
-					startingLayoutRight = LeftEdgeConstraint.Constant;
-            });
-        }
-
-        public void SetFinalContainerViewPosition(bool animated)
-        {
-            if (startingLayoutRight == ButtonTotalWidth() &&
-				LeftEdgeConstraint.Constant == ButtonTotalWidth())
-            {
-                return;
-            }
-
-			LeftEdgeConstraint.Constant = ButtonTotalWidth();
-
-            UpdateConstraintsIfNeeded(animated, () =>
-            {
-					startingLayoutRight = LeftEdgeConstraint.Constant;
-            });
-        }
 
         private void UpdateConstraintsIfNeeded(bool animated, Action completionHandler)
         {
@@ -475,16 +290,7 @@ namespace BlahguaMobile.IOS
             }, completionHandler);
         }
 
-        private nfloat ButtonTotalWidth()
-        {
-            return voteView.Frame.Width;
-        }
 
-        public override void PrepareForReuse()
-        {
-            base.PrepareForReuse();
-            ResetToStartPosition(false);
-        }
     }
 
 

@@ -6,6 +6,8 @@ using CoreAnimation;
 using CoreGraphics;
 using BlahguaMobile.IOS;
 using BlahguaMobile.BlahguaCore;
+using ServiceStack.Text;
+
 
 namespace MonoTouch.SlideMenu
 {
@@ -23,13 +25,16 @@ namespace MonoTouch.SlideMenu
 
 		private VIEW_TYPE view_type;
 
-		BGCommentsViewController commentViewController;
-		BGStatsTableViewController statsViewController;
-		BGBlahViewController summaryViewController;
+		public BGCommentsViewController commentViewController;
+		public BGStatsTableViewController statsViewController;
+		public BGBlahViewController summaryViewController;
 
 		CGRect leftFrame ;
 		CGRect centerFrame ;
 		CGRect rightFrame;
+
+		private static string ChannelName;
+		public static int NewMessageCount = 0;
 
 		public SwipeViewController (BGBlahViewController blahView,BGCommentsViewController commentView, BGStatsTableViewController statsView)
 		{
@@ -147,10 +152,189 @@ namespace MonoTouch.SlideMenu
 			base.ViewWillAppear (animated);
 
 		}
+
+		public UIViewController	CurrentController
+		{
+			get {
+				if (view_type == VIEW_TYPE.SUMMARY_VIEW) {
+					return summaryViewController;
+
+				} else if (view_type == VIEW_TYPE.COMMENT_VIEW) {
+					return commentViewController;
+				} else if (view_type == VIEW_TYPE.STATS_VIEW) {
+					return statsViewController;
+				} else return null;
+			}
+		}
+
+		public void NotifyNewComment(Comment theComment)
+		{
+			// post the notification on the new comment
+			PublishAction theAction = new PublishAction();
+			theAction.action = "comment";
+			theAction.commentid = theComment._id;
+			theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+			string theStr = theAction.ToJson<PublishAction>();
+
+			BGRollViewController.pubnub.Publish<PublishAction>(ChannelName, theAction, DisplayPublishReturnMessage, DisplayErrorMessage);
+
+		}
+		private void DisplayPublishReturnMessage(PublishAction theMsg)
+		{
+			Console.WriteLine("[pubnub] publish: " + theMsg);
+		}
+
+		public void SubscribeToBlahChannel()
+		{
+			if (BlahguaAPIObject.Current.CurrentBlah != null)
+			{
+				string blahId = BlahguaAPIObject.Current.CurrentBlah._id;
+
+				ChannelName = "blah" + blahId;
+				BGRollViewController.pubnub.Subscribe<string>(ChannelName, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+				BGRollViewController.pubnub.Presence<string>(ChannelName, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+			}
+		}
+
+		public void UnsubscribeFromBlahChannel()
+		{
+			if (BlahguaAPIObject.Current.CurrentBlah != null)
+			{
+				BGRollViewController.pubnub.Unsubscribe<string>(ChannelName, DisplayUnsubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplaySubscribeDisconnectStatusMessage, DisplayErrorMessage);
+				BGRollViewController.pubnub.PresenceUnsubscribe<string>(ChannelName, DisplayUnsubscribeReturnMessage, DisplayPresenceConnectStatusMessage, DisplayPresenceDisconnectStatusMessage, DisplayErrorMessage);
+			}
+
+		}
+
+
+		private void DisplaySubscribeReturnMessage(string theMsg)
+		{
+			try
+			{
+				string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+				PublishAction theAction = jsonMsg.FromJson<PublishAction>();
+				BGCommentsViewController CommentsView = ((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.commentViewController ;
+
+				if ((theAction != null) && (CommentsView != null) && theAction.action == "comment" )
+				{
+					CommentsView.ShowComment(theAction);
+					IncrementMessageCount(1);
+				}
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine("[pubnub] subscribe: invalid PublishAction " + theMsg);
+			}
+		}
+
+		public void IncrementMessageCount(int numMessages)
+		{
+			MonoTouch.SlideMenu.SwipeViewController swipeView = ((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView ;
+
+			if (swipeView.CurrentController != swipeView.commentViewController)
+			{
+				NewMessageCount += numMessages;
+				UpdateMessageCountIndicator();
+			}
+			else
+				NewMessageCount = 0;
+		}
+
+		public void ClearMessageCount()
+		{
+			NewMessageCount = 0;
+			UpdateMessageCountIndicator();
+		}
+
+		private void UpdateMessageCountIndicator()
+		{
+			/*
+				LinearLayout tabHolder = tabs.GetChildAt(0) as LinearLayout;
+				LinearLayout tab = tabHolder.GetChildAt(1) as LinearLayout;
+				if (tab != null)
+				{
+					RunOnUiThread(() => {
+
+						var counter = tab.FindViewById<TextView>(Resource.Id.counter);
+						if (NewMessageCount == 0)
+							counter.Visibility = ViewStates.Gone;
+						else
+						{
+							counter.Visibility = ViewStates.Visible;
+							counter.Text = NewMessageCount.ToString();
+						}
+
+					});
+				}
+				*/
+		}
+
+
+
+		private void DisplaySubscribeConnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] sub connect: " + theMsg);
+		}
+
+		private void DisplayPresenceConnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] presence connect: " + theMsg);
+		}
+
+		private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] sub disconnect: " + theMsg);
+		}
+
+		private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+		}
+
+		private void DisplayErrorMessage(PubNubMessaging.Core.PubnubClientError pubnubError)
+		{
+			Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+		}
+
+
+		private void DisplayUnsubscribeReturnMessage(string theMsg)
+		{
+			Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+		}
+
+
+		private void DisplayPresenceReturnMessage(string theMsg)
+		{
+			try
+			{
+				string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+				PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+				if ((msg != null) && (msg.occupancy > 0))
+				{
+					string countStr = "people";
+					if (msg.occupancy == 1)
+						countStr = "person";
+					string toastStr = string.Format("{0} {1} viewing post", msg.occupancy, countStr);
+					InvokeOnMainThread(() =>
+						{
+							Console.WriteLine("Toast.MakeText(this, toastStr, ToastLength.Long).Show();");
+						});
+				}
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine("[pubnub] presence err: " + theMsg);
+			}
+		}
+
+
+
 		private void BackHandler(object sender, EventArgs args)
 		{
 			this.NavigationController.PopViewController(true);
 		}
+
+
 		// - (void)viewDidAppear:(BOOL)animated
 		public override void ViewDidAppear (bool animated)
 		{
@@ -163,6 +347,7 @@ namespace MonoTouch.SlideMenu
 			statsViewController.SetUpToolbar ();
 
 			UIApplication.SharedApplication.SetStatusBarHidden (true, false);
+			SubscribeToBlahChannel ();
 		}
 
 		// - (void)viewWillDisappear:(BOOL)animated
@@ -174,6 +359,7 @@ namespace MonoTouch.SlideMenu
 		// - (void)viewDidDisappear:(BOOL)animated
 		public override void ViewDidDisappear (bool animated)
 		{
+			UnsubscribeFromBlahChannel ();
 			base.ViewDidDisappear (animated);
 
 		}

@@ -33,9 +33,6 @@ namespace BlahguaMobile.IOS
 		UIKit.NSLayoutConstraint containerViewWidth { get; set; }
 
 		[Outlet]
-		UIKit.UIButton downVoteButton { get; set; }
-
-		[Outlet]
 		UIKit.NSLayoutConstraint imageViewHeight { get; set; }
 
 		[Outlet]
@@ -56,11 +53,6 @@ namespace BlahguaMobile.IOS
 		[Outlet]
 		UIKit.UILabel upAndDownVotes { get; set; }
 
-		[Outlet]
-		UIKit.UIButton upVoteButton { get; set; }
-
-		[Outlet]
-		UIKit.UIView voteView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

@@ -140,7 +140,8 @@ namespace BlahguaMobile.AndroidClient.Screens
         public void ShowComment(PublishAction theAction)
         {
             // load the comment and append it
-            if (theAction.userid != BlahguaAPIObject.Current.CurrentUser._id)
+
+			if ((BlahguaAPIObject.Current.CurrentUser == null) || (theAction.userid != BlahguaAPIObject.Current.CurrentUser._id))
             {
                 BlahguaAPIObject.Current.GetComment(theAction.commentid, (theComment) =>
                 {

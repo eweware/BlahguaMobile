@@ -568,8 +568,8 @@ namespace BlahguaMobile.AndroidClient
 				reportIcon = menu.FindItem(Resource.Id.action_report);
 				if (actionProvider == null)
 				{
-					Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-					string blahURL = "http://app.goheard.com/?blahId=" + curBlah._id;
+					InboxBlah curBlah = BlahguaAPIObject.Current.CurrentInboxBlah;
+					string blahURL = "http://app.goheard.com/?blahId=" + curBlah.I;
 					var shareItem = menu.FindItem(Resource.Id.action_share);
 					var nativeAction = MenuItemCompat.GetActionProvider(shareItem);
 					actionProvider = nativeAction.JavaCast<Android.Support.V7.Widget.ShareActionProvider>();
@@ -765,7 +765,7 @@ namespace BlahguaMobile.AndroidClient
             {
                 string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
                 PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
-                if (msg != null)
+				if ((msg != null) && (msg.occupancy > 0))
                 {
                     string countStr = "people";
                     if (msg.occupancy == 1)

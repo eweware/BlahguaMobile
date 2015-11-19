@@ -247,7 +247,9 @@ namespace BlahguaMobile.IOS
                     {
                         this.View.RemoveFromSuperview();
                         input.Text = "";
-                        ParentViewController.SwitchNewCommentMode();
+						ParentViewController.SwitchNewCommentMode();
+						MonoTouch.SlideMenu.SwipeViewController swipeView = ((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView;
+						swipeView.NotifyNewComment (newComment);
                     }
                 );
 
