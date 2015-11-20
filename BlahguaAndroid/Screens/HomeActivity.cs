@@ -807,6 +807,30 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         }
 
+		public static void NotifyNewBlah(Blah newBlah)
+		{
+			// post the notification on the new comment
+			PublishAction theAction = new PublishAction();
+			theAction.action = "newblah";
+			theAction.blahid = newBlah._id;
+
+			theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+
+			string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+			HomeActivity.pubnub.Publish<PublishAction>(channelStr, theAction,
+				(theMsg) => { }, (theErr) => { });
+
+		}
+
+		private void InsertBlahFromNotification(PublishAction theAction)
+		{
+			BlahguaAPIObject.Current.GetBlah(theAction.blahid, (theBlah) => 
+				{
+					mainFragment.InsertBlahInStream(theBlah);
+
+				});
+		}
+
         private void DisplaySubscribeReturnMessage(string theMsg)
         {
             try
@@ -825,6 +849,10 @@ namespace BlahguaMobile.AndroidClient.Screens
 					case "blahactivity":
 						string blahId = theTurn.blahid;
 						ShowBlahActivity(blahId);
+						break;
+
+					case "newblah":
+						InsertBlahFromNotification(theTurn);
 						break;
 
 					default:
@@ -992,6 +1020,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				if (BlahguaAPIObject.Current.NewBlahToInsert != null)
 				{
 					mainFragment.InsertBlahInStream(BlahguaAPIObject.Current.NewBlahToInsert);
+					NotifyNewBlah (BlahguaAPIObject.Current.NewBlahToInsert);
 					BlahguaAPIObject.Current.NewBlahToInsert = null;
 
 				}

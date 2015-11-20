@@ -150,7 +150,7 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpBaseLayout()
 		{
-			View.BackgroundColor = UIColor.Gray;
+			View.BackgroundColor = UIColor.White;
 
 			if (CurrentBlah != null) {
 				bottomToolBar.BackgroundColor = BGAppearanceConstants.TealGreen;

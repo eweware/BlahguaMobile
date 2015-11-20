@@ -384,6 +384,9 @@
     <Reference Include="Newtonsoft.Json.MonoTouch">
       <HintPath>libs\Newtonsoft.Json.MonoTouch.dll</HintPath>
     </Reference>
+    <Reference Include="ToastIOS">
+      <HintPath>..\Components\ToastIOS-1.05\lib\ios-unified\ToastIOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\signupRadioButton.png" />
@@ -607,6 +610,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="swtableviewcell">
       <Version>0.3.6.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="ToastIOS">
+      <Version>1.05</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

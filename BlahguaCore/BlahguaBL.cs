@@ -937,6 +937,39 @@ namespace BlahguaMobile.BlahguaCore
             ImpressionMap.Clear();
         }
 
+		public void GetBlah(string blahId, Blah_callback callback)
+		{
+			BlahguaRest.FetchFullBlah(blahId, (theBlah) =>
+				{
+					if (theBlah != null) {
+						theBlah.T = UnprocessText(theBlah.T);
+						theBlah.F = UnprocessText(theBlah.F);
+					}
+					callback(theBlah);
+				});
+		}
+
+		public void GetBlahWithDescription(string blahId, Blah_callback callback)
+		{
+			BlahguaRest.FetchFullBlah(blahId, (theBlah) =>
+				{
+					if (theBlah != null)
+					{
+						BlahguaRest.GetUserDescription(theBlah.A, (theDesc) =>
+							{
+								theBlah.Description = theDesc;
+								theBlah.T = UnprocessText(theBlah.T);
+								theBlah.F = UnprocessText(theBlah.F);
+								theBlah.AwaitBadgeData((didIt) =>
+									{
+										callback(theBlah);
+									});
+							});
+					}
+					else
+						callback(null);
+				});
+		}
 
         public void SetCurrentBlahFromId(string blahId, Blah_callback callback)
         {

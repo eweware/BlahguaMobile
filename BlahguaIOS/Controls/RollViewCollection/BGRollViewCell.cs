@@ -204,10 +204,10 @@ namespace BlahguaMobile.IOS
 				badgeIcon.Hidden = true;
 
 			// hot
+			hotIcon.Frame = new CGRect (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
+			curLeft += iconSize + iconOffset;
 			if (blah.RR) {
-				hotIcon.Frame = new CGRect (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
 				hotIcon.Hidden = false;
-				curLeft += iconSize + iconOffset;
 			} else
 				hotIcon.Hidden = true;
 

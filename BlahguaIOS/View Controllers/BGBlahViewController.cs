@@ -529,6 +529,7 @@ namespace BlahguaMobile.IOS
                                 AppDelegate.analytics.PostBlahVote(-1);
                                 CurrentBlah.uv = value;
                                 InvokeOnMainThread(() => SetVoteButtonsImages());
+								BGRollViewController.NotifyBlahActivity();
                             });
                         }
                     }

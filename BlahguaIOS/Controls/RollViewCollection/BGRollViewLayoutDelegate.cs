@@ -79,7 +79,7 @@ namespace BlahguaMobile.IOS
 						SwipeViewController swipeView = new SwipeViewController (objBGBlahViewController, commentView, statsView);
 						((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView = swipeView;
 						((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController (swipeView, false);
-
+						BGRollViewController.NotifyBlahActivity();
 
 						_doingItemSelect = false;
 					});

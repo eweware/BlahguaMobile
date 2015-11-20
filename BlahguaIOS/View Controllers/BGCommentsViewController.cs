@@ -169,7 +169,6 @@ namespace BlahguaMobile.IOS
 
 		private void SetUpBaseLayout()
 		{
-			View.BackgroundColor = UIColor.Gray;
 			contentView.BackgroundColor = UIColor.White;
 			contentView.ScrollEnabled = true;
 
@@ -209,7 +208,6 @@ namespace BlahguaMobile.IOS
 		public void SetUpToolbar()
 		{
 			bottomToolbar.TintColor = UIColor.Clear;
-			//SetUpVotesButtons ();
 			if (BlahguaAPIObject.Current.CurrentUser == null) {
 				var btnSignInRect = new CGRect (0, 0, 100, 60);
 				var btnSignIn = new UIButton (UIButtonType.Custom);
@@ -240,6 +238,10 @@ namespace BlahguaMobile.IOS
 
 			SetUpModesButtons ();
 		}
+
+
+
+
 		
 		void _alert_Clicked(object sender, UIButtonEventArgs e)
 		{
@@ -374,11 +376,18 @@ namespace BlahguaMobile.IOS
 
 		public void CommentsLoaded(CommentList comments)
 		{
-			InvokeOnMainThread(() => {
+			CurrentBlah.Comments.CollectionChanged += (sender, e) => {
+					HandleCommentsChanged();
+				};
+			HandleCommentsChanged ();
+		}
 
-				CurrentBlah.Comments.CollectionChanged += (sender, e) => contentView.ReloadData();
-				SetUpHeaderView();
+		public void HandleCommentsChanged()
+		{
+			InvokeOnMainThread(() => {
 				contentView.ReloadData ();
+				contentView.SetContentOffset(CGPoint.Empty, true);
+				SetUpHeaderView();
 			});
 		}
 
@@ -409,17 +418,10 @@ namespace BlahguaMobile.IOS
 
 		public void InsertComment(Comment theComment)
 		{
-			BlahguaAPIObject.Current.LoadBlahComments ((commentList) => {
-				contentView.ReloadData ();
-				SetUpHeaderView ();
-			});
-		}
-
-		public void SwitchNewCommentMode()
-		{
-			
-			contentView.ReloadData ();
-            SetUpHeaderView();
+			if (CurrentBlah.Comments == null)
+				ReloadComments ();
+			else
+				CurrentBlah.Comments.Insert (0, theComment);
 		}
 
 		#endregion

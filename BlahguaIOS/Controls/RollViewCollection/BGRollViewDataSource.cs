@@ -44,11 +44,13 @@ namespace BlahguaMobile.IOS
 
 		public void ReplaceItem(Blah newItem, int oldIndex)
 		{
-			if ((oldIndex >= 0) && (oldIndex < dataSource.Count)) {
-				InboxBlah newBlah = new InboxBlah (newItem);
-				int oldSize = dataSource [oldIndex].displaySize;
-				newBlah.displaySize = oldSize;
-				dataSource [oldIndex] = newBlah;
+			if (newItem != null) {
+				if ((oldIndex >= 0) && (oldIndex < dataSource.Count)) {
+					InboxBlah newBlah = new InboxBlah (newItem);
+					int oldSize = dataSource [oldIndex].displaySize;
+					newBlah.displaySize = oldSize;
+					dataSource [oldIndex] = newBlah;
+				}
 			}
 		}
 

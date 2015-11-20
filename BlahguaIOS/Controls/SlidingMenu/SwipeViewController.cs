@@ -177,6 +177,7 @@ namespace MonoTouch.SlideMenu
 			string theStr = theAction.ToJson<PublishAction>();
 
 			BGRollViewController.pubnub.Publish<PublishAction>(ChannelName, theAction, DisplayPublishReturnMessage, DisplayErrorMessage);
+			BGRollViewController.NotifyBlahActivity ();
 
 		}
 		private void DisplayPublishReturnMessage(PublishAction theMsg)
@@ -317,7 +318,7 @@ namespace MonoTouch.SlideMenu
 					string toastStr = string.Format("{0} {1} viewing post", msg.occupancy, countStr);
 					InvokeOnMainThread(() =>
 						{
-							Console.WriteLine("Toast.MakeText(this, toastStr, ToastLength.Long).Show();");
+							ToastIOS.Toast.MakeText(toastStr, ToastIOS.Toast.LENGTH_LONG).Show();
 						});
 				}
 			}

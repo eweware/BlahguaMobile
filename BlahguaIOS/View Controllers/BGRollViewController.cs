@@ -200,7 +200,11 @@ namespace BlahguaMobile.IOS
 			else
 				theAction.blahid = BlahguaAPIObject.Current.CurrentInboxBlah.I;
 
-			theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+			if (BlahguaAPIObject.Current.CurrentUser != null)
+				theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+			else
+				theAction.userid = "0";
+			
 			string theStr = theAction.ToJson<PublishAction>();
 
 			string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
@@ -208,6 +212,37 @@ namespace BlahguaMobile.IOS
 				(theMsg) => { }, (theErr) => { });
 
 		}
+
+		public static void NotifyNewBlah(Blah newBlah)
+		{
+			// post the notification on the new comment
+			PublishAction theAction = new PublishAction();
+			theAction.action = "newblah";
+			theAction.blahid = newBlah._id;
+
+			theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+
+			string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+			BGRollViewController.pubnub.Publish<PublishAction>(channelStr, theAction,
+				(theMsg) => { }, (theErr) => { });
+
+		}
+
+		private void InsertBlahFromNotification(PublishAction theAction)
+		{
+			BlahguaAPIObject.Current.GetBlah(theAction.blahid, (theBlah) => 
+				{
+					if (theBlah != null) {
+						InsertNewBlahIntoView(theBlah);
+						string toastStr = "Someone just made a new post";
+
+						ToastIOS.Toast.MakeText(toastStr, ToastIOS.Toast.LENGTH_LONG).Show();
+					}
+
+				});
+
+		}
+
 
 		private void DisplaySubscribeReturnMessage(string theMsg)
 		{
@@ -229,6 +264,9 @@ namespace BlahguaMobile.IOS
 						ShowBlahActivity(blahId);
 						break;
 
+					case "newblah":
+						InsertBlahFromNotification(theTurn);
+						break;
 					default:
 						break;
 					}
@@ -318,7 +356,7 @@ namespace BlahguaMobile.IOS
 					personStr = "person";
 				string msgStr = string.Format("{0} {1} in channel", msg.occupancy, personStr);
 				InvokeOnMainThread(() => {
-					Console.WriteLine(msgStr);
+					ToastIOS.Toast.MakeText(msgStr, ToastIOS.Toast.LENGTH_LONG).Show();
 				});
 
 			}
@@ -563,28 +601,36 @@ namespace BlahguaMobile.IOS
 
 		public void AddNewBlahToView(Blah newBlah)
 		{
-			// determine the last visible item
-			BGRollViewDataSource dataSource = (BGRollViewDataSource)CollectionView.DataSource;
-			UICollectionViewCell[]	theCells = CollectionView.VisibleCells;
-			int lastBlahLoc = -1, curLoc;
-
-			foreach (BGRollViewCell curCell in theCells) {
-				curLoc = dataSource.IndexOf (curCell.Blah);
-				if (curLoc > lastBlahLoc)
-					lastBlahLoc = curLoc;
-			}
-
-			if (lastBlahLoc < dataSource.GetItemsCount (CollectionView, 0) - 1)
-				lastBlahLoc++;
-				
-			// replace the next blah in the roll with the new one
-			Console.WriteLine ("inserting new blah!");
-			dataSource.ReplaceItem (newBlah, lastBlahLoc);
+			// insert the new item
+			InsertNewBlahIntoView(newBlah);
 
 			// notify the user
 			ShowToast("New Post created - now look for it in the stream!");
-            NaturalScrollInProgress = false;
 
+			NotifyNewBlah (newBlah);
+		}
+
+		private void InsertNewBlahIntoView(Blah newBlah)
+		{
+			InvokeOnMainThread (() => {
+				BGRollViewDataSource dataSource = (BGRollViewDataSource)CollectionView.DataSource;
+				UICollectionViewCell[]	theCells = CollectionView.VisibleCells;
+				int lastBlahLoc = -1, curLoc;
+
+				foreach (BGRollViewCell curCell in theCells) {
+					curLoc = dataSource.IndexOf (curCell.Blah);
+					if (curLoc > lastBlahLoc)
+						lastBlahLoc = curLoc;
+				}
+
+				if (lastBlahLoc < dataSource.GetItemsCount (CollectionView, 0) - 1)
+					lastBlahLoc++;
+
+				// replace the next blah in the roll with the new one
+				Console.WriteLine ("inserting new blah!");
+				dataSource.ReplaceItem (newBlah, lastBlahLoc);
+				NaturalScrollInProgress = false;
+			});
 		}
 
 		public void ShowToast(string toastMsg)

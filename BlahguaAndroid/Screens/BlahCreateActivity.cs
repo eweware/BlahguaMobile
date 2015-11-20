@@ -101,6 +101,8 @@ namespace BlahguaMobile.AndroidClient.Screens
                                     ClearImages();
                                     HomeActivity.analytics.PostSessionError("blahimageuploadfailed");
                                 }
+
+								UpdateDoneBtn();
                             });
                         }
                     );
@@ -140,6 +142,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.CreateRecord.M = null;
             imageCreateBlah.SetImageDrawable(null);
             imageCreateBlahLayout.Visibility = ViewStates.Gone;
+			UpdateDoneBtn ();
         }
 
         public bool OnTouch(View v, MotionEvent ev)
@@ -234,6 +237,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             newPostTitle =  FindViewById<EditText>(Resource.Id.title);
             newPostTitle.TextChanged += editCreate_TextChanged;
             newPostText =  FindViewById<EditText>(Resource.Id.text);
+			newPostText.TextChanged += editCreate_TextChanged;
 
             imageCreateBlah =  FindViewById<ImageView>(Resource.Id.createblah_image);
             imageCreateBlahLayout =  FindViewById<FrameLayout>(Resource.Id.createblah_image_layout);
@@ -371,23 +375,38 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void editCreate_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            if (newPostTitle.Visibility == ViewStates.Visible && newPostTitle.Text.Length == 0)
-            {
-                btn_create_done.Enabled = false;
-            }
-            else if (editPrediction.Visibility == ViewStates.Visible && editPrediction.Text.Length == 0)
-            {
-                btn_create_done.Enabled = false;
-            }
-            else if (editPoll1.Visibility == ViewStates.Visible && (editPoll1.Text.Length == 0 || editPoll2.Text.Length == 0))
-            {
-                btn_create_done.Enabled = false;
-            }
-            else
-            {
-                btn_create_done.Enabled = true;
-            }
+			UpdateDoneBtn ();
         }
+
+		private void UpdateDoneBtn()
+		{
+			bool hasImage = BlahguaAPIObject.Current.CreateRecord.M != null;
+			bool noTitle = newPostTitle.Visibility == ViewStates.Visible && String.IsNullOrEmpty (newPostTitle.Text);
+
+			if (noTitle) {
+				if (hasImage && newPostText.Text.Length > 3)
+					btn_create_done.Enabled = true;
+				else
+					btn_create_done.Enabled = false;
+
+			} 
+			else  if (newPostTitle.Visibility == ViewStates.Visible && newPostTitle.Text.Length == 0 && hasImage == false)
+			{
+				btn_create_done.Enabled = false;
+			}
+			else if (editPrediction.Visibility == ViewStates.Visible && editPrediction.Text.Length == 0)
+			{
+				btn_create_done.Enabled = false;
+			}
+			else if (editPoll1.Visibility == ViewStates.Visible && (editPoll1.Text.Length == 0 || editPoll2.Text.Length == 0))
+			{
+				btn_create_done.Enabled = false;
+			}
+			else
+			{
+				btn_create_done.Enabled = true;
+			}
+		}
 
         private void setTitleHint()
         {
@@ -409,6 +428,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     newPostTitle.Hint = "HEADLINE: Says are general posts, no requirements.";
                     break;
             }
+
         }
 
         private void setAsksCreateBlahType()
