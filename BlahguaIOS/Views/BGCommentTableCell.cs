@@ -15,7 +15,6 @@ namespace BlahguaMobile.IOS
 {
 	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell, IImageUpdated
     {
-        private UIPanGestureRecognizer panRecognizer;
 		private UITapGestureRecognizer tapRecognizer;
 		private UITapGestureRecognizer imageTapRecognizer;
 
@@ -23,6 +22,7 @@ namespace BlahguaMobile.IOS
         private nfloat startingLayoutRight = 0;
         private Comment userComment;
 		private UITableView parentTableView;
+		private static CommentCellDelegate cellDelegate;
 
         public BGCommentTableCell(IntPtr handle)
             : base(handle)
@@ -84,9 +84,17 @@ namespace BlahguaMobile.IOS
 			parentTableView = tableView;
 
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
-            //containerView.AddGestureRecognizer(panRecognizer);
+            
+			if (this.RightUtilityButtons == null) {
+				NSMutableArray rightBtns = new NSMutableArray ();
+				rightBtns.AddUtilityButton (UIColor.Green, UIImage.FromBundle ("arrow_up_dark"));
+				rightBtns.AddUtilityButton (UIColor.Red, UIImage.FromBundle ("arrow_down_dark"));
+				this.RightUtilityButtons = NSArray.FromArray<UIButton> (rightBtns);
 
-		
+				if (cellDelegate == null)
+					cellDelegate = new CommentCellDelegate ();
+				this.Delegate = cellDelegate;
+			}
 
            
             containerView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -187,36 +195,6 @@ namespace BlahguaMobile.IOS
                 UIColor.Black
             );
 
-			/*
-			 * // vote button
-            if (isUserBlah || isUserComment)
-            {
-                upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
-                upVoteButton.Enabled = false;
-            }
-            else
-            {
-                if (userComment.uv == -1)
-                {
-                    upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
-                    upVoteButton.Enabled = false;
-                }
-                else if (userComment.uv == 1)
-                {
-                    upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
-                    upVoteButton.Enabled = false;
-                }
-                else
-                {
-                    upVoteButton.Enabled = true;
-                }
-            }
-
-            upVoteButton.TouchUpInside += (sender, e) =>
-                {
-                    SetCommentVote(1);
-                };
-			*/
         }
 
 		public void UpdatedImage(Uri uri)
@@ -233,7 +211,9 @@ namespace BlahguaMobile.IOS
 
 		}
 
-        private void SetCommentVote(int theVote)
+
+
+        public void SetCommentVote(int theVote)
         {
             if((BlahguaAPIObject.Current.CurrentUser != null) && 
                 (userComment.uv != -1) && 
@@ -245,30 +225,17 @@ namespace BlahguaMobile.IOS
                         {
                             // something happend
                         }
-                        else if (v != userComment.uv)
+                        else 
                         {
                             userComment.uv = v;
                             InvokeOnMainThread( () => 
                                 {
-									/*
-                                    if (v == 1)
-                                    {
-                                        upVoteButton.SetImage(UIImage.FromFile("arrow_up_dark.png"), UIControlState.Normal);
-                                        userComment.UpVoteCount++;
-                                    }
-                                    else
-                                    {
-                                        upVoteButton.SetImage(UIImage.FromFile("arrow_up.png"), UIControlState.Normal);
-                                        userComment.DownVoteCount++;
-                                    }
-                                    upVoteButton.Enabled = false;
-                                   
-									*/
                                     upAndDownVotes.AttributedText = new NSAttributedString(
                                         userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
                                         UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
                                         UIColor.Black);
 									LeftEdgeConstraint.Constant = 0;
+									BGRollViewController.NotifyBlahActivity();
                                 });
                         }
                     });
@@ -293,22 +260,44 @@ namespace BlahguaMobile.IOS
 
     }
 
+	class CommentCellDelegate : SWTableViewCellDelegate
+	{
+		public override void DidTriggerRightUtilityButton(SWTableViewCell.SWTableViewCell cell, nint index)
+		{
+			BGCommentTableCell theCell = cell as BGCommentTableCell;
 
-    public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
-    {
-        public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
-        {
+			switch (index)
+			{
+			case 0:
+				Console.WriteLine ("promote button was pressed");
+				theCell.SetCommentVote (1);
+				cell.HideUtilityButtons(true);
+				break;
+			case 1:
+				Console.WriteLine ("demote button was pressed");
+				theCell.SetCommentVote (-1);
+				cell.HideUtilityButtons(true);
+				break;
+			}
+		}
+
+	}
+
+	public class PanGestureRecognizerDelegate : UIGestureRecognizerDelegate
+	{
+		public override bool ShouldRecognizeSimultaneously(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
+		{
 			return false;
-        }
+		}
 
-        public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
-        {
-            //			if(touch.View is UIButton)
-            //			{
-            //				return false;
-            //			}
-            return true;
-        }
-    }
+		public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
+		{
+			//			if(touch.View is UIButton)
+			//			{
+			//				return false;
+			//			}
+			return true;
+		}
+	}
 
 }
