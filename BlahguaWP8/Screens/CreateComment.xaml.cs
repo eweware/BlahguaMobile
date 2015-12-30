@@ -157,6 +157,7 @@ namespace BlahguaMobile.Winphone
             {
                 App.analytics.PostCreateComment();
                 // might want to resort the comments...
+                MainPage.NotifyBlahActivity();
                 NavigationService.GoBack();
             }
             else

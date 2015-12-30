@@ -613,11 +613,9 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="ToastIOS">
-      <Version>1.05</Version>
+      <Version>1.5</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="libs\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

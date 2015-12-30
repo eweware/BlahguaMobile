@@ -1537,6 +1537,7 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
+        
         public void GetAdForUser(InboxBlah_callback theCallback)
         {
             BlahguaRest.GetAdForUser((theAd) =>
@@ -1559,6 +1560,7 @@ namespace BlahguaMobile.BlahguaCore
                 }
             );
         }
+
 
 
         void GetOrAddUserChannels(ChannelList_callback callback)

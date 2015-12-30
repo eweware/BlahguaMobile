@@ -19,6 +19,7 @@ using System.Reflection;
 using System.ComponentModel;
 using Microsoft.Phone.Tasks;
 using BlahguaMobile.BlahguaCore;
+using ServiceStack.Text;
 
 namespace BlahguaMobile.Winphone
 {
@@ -443,6 +444,7 @@ namespace BlahguaMobile.Winphone
             shareLinkTask.Message = msgStr; ;
 
             shareLinkTask.Show();
+            MainPage.NotifyBlahActivity();
         }
 
         private void HandleAddComment(object target, EventArgs theArgs)
@@ -547,12 +549,16 @@ namespace BlahguaMobile.Winphone
         {
             BlahguaAPIObject.Current.LoadBlahComments((theList) =>
                 {
-                    commentDataView = new CollectionViewSource();
-                    commentDataView.Source = theList;
-                    SortAndFilterComments();
-                    commentsLoaded = true;
-                    AllCommentList.ItemsSource = commentDataView.View;
-                    NoCommentBox.Visibility = Visibility.Collapsed;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        commentDataView = new CollectionViewSource();
+                        commentDataView.Source = theList;
+                        SortAndFilterComments();
+                        commentsLoaded = true;
+                        AllCommentList.ItemsSource = commentDataView.View;
+                        NoCommentBox.Visibility = Visibility.Collapsed;
+                    });
+
                 });
             
         }
@@ -1058,6 +1064,7 @@ namespace BlahguaMobile.Winphone
             BlahguaAPIObject.Current.SetPollVote(newVote, (resultStr) =>
                 {
                     PollItemList.ItemTemplate = (DataTemplate)Resources["PollVotedTemplate"];
+                    MainPage.NotifyBlahActivity();
                 }
             );
         }
@@ -1078,6 +1085,8 @@ namespace BlahguaMobile.Winphone
                         WillHappenItems.ItemsSource = BlahguaAPIObject.Current.CurrentBlah.PredictionItems;
                         WillHappenItems.ItemTemplate = (DataTemplate)Resources["PredictVotedTemplate"];
                      }
+
+                    MainPage.NotifyBlahActivity();
 
                 }
             );
@@ -1126,6 +1135,8 @@ namespace BlahguaMobile.Winphone
                                 HandlePredictInit();
                                 break;
                         }
+
+                        JoinChannelEvents();
                     }
                     else
                     {
@@ -1137,7 +1148,103 @@ namespace BlahguaMobile.Winphone
                 );
         }
 
-        
+        protected void JoinChannelEvents()
+        {
+            MainPage.lastChannelStr = "blah" + App.BlahIdToOpen;
+            MainPage.pubnub.Subscribe<string>(MainPage.lastChannelStr, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+            MainPage.pubnub.Presence<string>(MainPage.lastChannelStr, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+
+        }
+
+        private void DisplaySubscribeReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                string reparse = jsonMsg.FromJson<string>();
+                PublishAction theAction = jsonMsg.FromJson<PublishAction>();
+
+                if ((theAction != null) && theAction.action == "comment")
+                {
+                    // to do - show the new comment
+                    LoadComments();
+
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] subscribe: invalid PublishAction " + theMsg);
+            }
+        }
+
+        private void DisplaySubscribeConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub connect: " + theMsg);
+        }
+
+        private void DisplayPresenceConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence connect: " + theMsg);
+        }
+
+        private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub disconnect: " + theMsg);
+        }
+
+        private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+        }
+
+        private void DisplayErrorMessage(PubNubMessaging.Core.PubnubClientError pubnubError)
+        {
+            Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+        }
+
+
+        private void DisplayUnsubscribeReturnMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+        }
+
+
+        private void DisplayPresenceReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+                if ((msg != null) && (msg.occupancy > 0))
+                {
+                    string countStr = "people";
+                    if (msg.occupancy == 1)
+                        countStr = "person";
+                    string toastStr = string.Format("{0} {1} viewing post", msg.occupancy, countStr);
+                    ShowToastMsg(toastStr);
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] presence err: " + theMsg);
+            }
+        }
+
+
+        protected void ShowToastMsg(string msg)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                ToastMessage.Opacity = 0.0;
+                ToastTransform.Y = 80;
+
+                ToastTextBox.Text = msg;
+                ToastAnimation.Begin();
+            });
+
+        }
+
+
 
     }
 }

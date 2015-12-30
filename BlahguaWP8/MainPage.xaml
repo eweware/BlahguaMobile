@@ -14,6 +14,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="#202020"
     SupportedOrientations="Portrait" Orientation="Portrait"
+    Unloaded="MainPage_Unloaded"
     shell:SystemTray.IsVisible="False">
 
     <toolkit:TransitionService.NavigationInTransition>
@@ -44,6 +45,28 @@
             <GradientStop Color="#FF7AD000" Offset="0.734"/>
         </LinearGradientBrush>
 
+        <Storyboard x:Name="ToastAnimation">
+            <DoubleAnimationUsingKeyFrames
+        		Storyboard.TargetName="ToastMessage"
+        		Storyboard.TargetProperty="Opacity"
+                Duration="0:0:3.0">
+                <LinearDoubleKeyFrame Value="0" KeyTime="0" />
+                <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.5" />
+                <LinearDoubleKeyFrame Value="1" KeyTime="0:0:2.5" />
+                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:3.0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+        		Storyboard.TargetName="ToastTransform"
+        		Storyboard.TargetProperty="Y"
+                Duration="0:0:3.0">
+                <LinearDoubleKeyFrame Value="80" KeyTime="0" />
+                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.5" />
+                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:2.5" />
+                <LinearDoubleKeyFrame Value="80" KeyTime="0:0:3.0" />
+            </DoubleAnimationUsingKeyFrames>
+           
+        </Storyboard>
+        
         <DataTemplate x:Name="ChannelItemTemplate">
             <TextBlock Height="70" FontSize="48" VerticalAlignment="Center" Foreground="{StaticResource BrushHeardTeal}" Text="&#xf0c9;" Margin="12 4 0 0" FontFamily="/Resources/fontawesome-webfont.ttf#FontAwesome"/>
         </DataTemplate>
@@ -285,6 +308,18 @@
                         </StackPanel>
                     </Border>
                 </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="ToastMessage" Visibility="Visible" Canvas.ZIndex="1000" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" >
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="ToastTransform" Y="80" />
+            </Grid.RenderTransform>
+
+            <Border  Margin="16 8 8 8" Padding="24 16" BorderBrush="#80FFFFFF" BorderThickness="1" CornerRadius="8"  Background="{StaticResource BrushHeardRed}" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <TextBlock x:Name="ToastTextBox" FontSize="18" Text="Toast Message!" Foreground="{StaticResource BrushBlahguaWhite}" TextWrapping="Wrap" HorizontalAlignment="Center" />
+                    
             </Border>
         </Grid>
 
