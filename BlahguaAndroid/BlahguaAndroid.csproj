@@ -48,7 +48,7 @@
     <AndroidSigningKeyPass>All4Sheeple</AndroidSigningKeyPass>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <Debugger>Xamarin</Debugger>
     <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
   </PropertyGroup>

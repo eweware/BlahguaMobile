@@ -383,7 +383,7 @@
       <HintPath>libs\Newtonsoft.Json.MonoTouch.dll</HintPath>
     </Reference>
     <Reference Include="ToastIOS">
-      <HintPath>..\Components\ToastIOS-1.05\lib\ios-unified\ToastIOS.dll</HintPath>
+      <HintPath>..\Components\ToastIOS-1.5\lib\ios-unified\ToastIOS.dll</HintPath>
     </Reference>
     <Reference Include="HockeyApp.iOS">
       <HintPath>..\Components\hockeyappios-3.8.2.1\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
