@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="65356e5e-b9b6-495c-ac37-8d6c5a69c829" Publisher="CN=Dave" Version="1.0.0.0" />
+  <Identity Name="1CFC3176.Heard" Publisher="CN=7C9BF58E-12DB-4BAC-9728-DB236DE6D4EA" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="eae192be-641b-45c3-996a-8182f7657540" PhonePublisherId="f7ee0593-5471-410e-8d8a-97de8029b68a" />
   <Properties>
     <DisplayName>BlahguaWP8</DisplayName>
