@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BlahguaMobile.BlahguaCore;
+using System.Windows.Media.Animation;
 
 namespace BlahguaMobile.Winphone
 {
@@ -96,16 +97,21 @@ namespace BlahguaMobile.Winphone
                 NewBlahIcon.Visibility = Visibility.Visible;
 
             if (theBlah.RR)
-                ActiveIcon.Visibility = Visibility.Visible;
+                ActiveIcon.Opacity = 1;
             else
-                ActiveIcon.Visibility = Visibility.Collapsed;
+                ActiveIcon.Opacity = 0;
 
 
 
             TextArea.Text = BlahData.T;
         }
 
-   
+        public void AnimateActivity()
+        {
+            ActivityAnimate.Begin();
+        }
+
+
         void BlahImage_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -119,6 +125,7 @@ namespace BlahguaMobile.Winphone
                     BlahImage.Opacity = 0;
                     BlahImage.Source = new BitmapImage(new Uri(imageURL, UriKind.Absolute));
                 } 
+                
             }
             catch (Exception exp)
             {

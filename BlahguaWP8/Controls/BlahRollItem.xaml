@@ -8,7 +8,15 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource BrushBlahguaBlack}"
     d:DesignHeight="128" d:DesignWidth="128">
-
+    <UserControl.Resources>
+        <Storyboard x:Name="ActivityAnimate">
+            <DoubleAnimation
+            Storyboard.TargetName="ActiveIcon"
+            Storyboard.TargetProperty="Opacity"
+            From="1.0" To="0.0" Duration="0:0:2"
+            AutoReverse="False"/>
+        </Storyboard>
+    </UserControl.Resources>
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -29,8 +37,8 @@
 
             </Grid>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Image x:Name="BadgeIcon" Source="/Images/Icons/badge_icon.png" Margin="4 0 0 4" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
             <Image x:Name="ActiveIcon" Source="/Images/Icons/activity_icon.png" Margin="4 0 0 4" Width="20" Height="20" />
+            <Image x:Name="BadgeIcon" Source="/Images/Icons/badge_icon.png" Margin="4 0 0 4" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
             <Image x:Name="NewBlahIcon" Source="/Images/Icons/new_icon.png" Margin="4 0 0 4" Width="20" Height="20" />
 
         </StackPanel>

@@ -16,7 +16,10 @@ using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using BlahguaMobile.BlahguaCore;
 using Microsoft.Phone.Tasks;
-using Microsoft.Advertising.Mobile.UI;
+using PubNubMessaging.Core;
+using ServiceStack.Text;
+using Coding4Fun.Toolkit.Controls;
+using Windows.UI.Notifications;
 
 namespace BlahguaMobile.Winphone
 {
@@ -42,6 +45,8 @@ namespace BlahguaMobile.Winphone
         DispatcherTimer loadTimer = new DispatcherTimer();
         bool isFrontMost = false;
         private bool needsChannelChange = false;
+        public static Pubnub pubnub;
+        public static string lastChannelStr = null;
 
         public static bool ReturningFromTutorial { get; set; }
      
@@ -59,7 +64,8 @@ namespace BlahguaMobile.Winphone
 
 
 
-            
+            pubnub = new Pubnub("pub-c-b66a149c-6e4e-4ff3-ac25-d7a31021c9d8", "sub-c-baab93c2-859a-11e5-9320-02ee2ddab7fe");
+
         }
 
 
@@ -296,6 +302,7 @@ namespace BlahguaMobile.Winphone
             if (false) // true
             {
                 // insert an add
+                /*
                 AdControl theAd = new AdControl();
                 theAd.IsAutoCollapseEnabled = false;
                 theAd.IsAutoRefreshEnabled = true;
@@ -309,6 +316,7 @@ namespace BlahguaMobile.Winphone
                 BlahContainer.Children.Add(theAd);
 
                 return curTop + 80;
+                */
             }
             else
                 return curTop;
@@ -365,11 +373,15 @@ namespace BlahguaMobile.Winphone
                 if (needsChannelChange)
                     OnChannelChanged();
                 else
+                {
                     StartTimers();
+                    JoinChannelEvents();
+                }
+                    
             }
             else
             {
-                TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
+                Microsoft.Phone.Controls.TiltEffect.TiltableItems.Add(typeof(BlahRollItem));
                 alreadyHookedScrollEvents = true;
                 // Visual States are always on the first child of the control template 
                 FrameworkElement element = VisualTreeHelper.GetChild(BlahScroller, 0) as FrameworkElement;
@@ -771,6 +783,8 @@ namespace BlahguaMobile.Winphone
                     NewBlahBtn.Visibility = Visibility.Collapsed;
             }
 
+            JoinChannelEvents();
+
         }
 
         private void ScrollStateHandler(object sender, VisualStateChangedEventArgs args)
@@ -929,156 +943,6 @@ namespace BlahguaMobile.Winphone
             return newTop;
         }
 
-        /*
-        private double InsertRow(char rowType, double topLoc)
-        {
-            double newTop = topLoc;
-            switch (rowType)
-            {
-                case 1:
-                    newTop = InsertRowType1(topLoc);
-                    break;
-                case 2:
-                    newTop = InsertRowType2(topLoc);
-                    break;
-                case 31:
-                    newTop = InsertRowType31(topLoc);
-                    break;
-                case 32:
-                    newTop = InsertRowType32(topLoc);
-                    break;
-                case 33:
-                    newTop = InsertRowType33(topLoc);
-                    break;
-                case 4:
-                    newTop = InsertRowType4(topLoc);
-                    break;
-            }
-
-            return newTop;
-        }
-
-        private double InsertRowType1(double topLoc)
-        {
-            double newTop = topLoc;
-            InboxBlah nextBlah = blahList.PopBlah(1);
-            InsertElementForBlah(nextBlah, screenMargin, topLoc, largeBlahSize, mediumBlahSize);
-            newTop += mediumBlahSize;
-
-
-            return newTop;
-        }
-
-        private double InsertRowType2(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType31(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType32(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            
-           
-            newTop += mediumBlahSize;
-
-            return newTop;
-        }
-
-
-        private double InsertRowType33(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah;
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-            nextBlah = blahList.PopBlah(3);
-            InsertElementForBlah(nextBlah, curLeft, topLoc + smallBlahSize + blahMargin, smallBlahSize, smallBlahSize);
-            curLeft += smallBlahSize + blahMargin;
-
-            nextBlah = blahList.PopBlah(2);
-            InsertElementForBlah(nextBlah, curLeft, topLoc, mediumBlahSize, mediumBlahSize);
-            curLeft += mediumBlahSize + blahMargin;
-
-            newTop += mediumBlahSize;
-            return newTop;
-        }
-
-
-        private double InsertRowType4(double topLoc)
-        {
-            double newTop = topLoc;
-            double curLeft = screenMargin;
-            InboxBlah nextBlah;
-
-            for (int i = 0; i < 4; i++)
-            {
-
-                nextBlah = blahList.PopBlah(3);
-                InsertElementForBlah(nextBlah, curLeft, topLoc, smallBlahSize, smallBlahSize);
-                curLeft += smallBlahSize + blahMargin;
-            }
-            newTop += smallBlahSize;
-
-            return newTop;
-        }
-        */
-
         private void DoSignIn(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Screens/Signin.xaml", UriKind.Relative));    
@@ -1218,8 +1082,227 @@ namespace BlahguaMobile.Winphone
 
             shareLinkTask.Show();
         }
+
+        public void LeaveChannelEvents()
+        {
+            if (!String.IsNullOrEmpty(lastChannelStr))
+            {
+                MainPage.pubnub.Unsubscribe<string>(lastChannelStr, HandleUnsubscribeMessages, HandleUnsubscribeMessages, HandleUnsubscribeMessages, DisplayErrorMessage);
+                MainPage.pubnub.PresenceUnsubscribe<string>(lastChannelStr, HandleUnsubscribeMessages, HandleUnsubscribeMessages, HandleUnsubscribeMessages, DisplayErrorMessage);
+                lastChannelStr = null;
+            }
+        }
+
+        protected void JoinChannelEvents()
+        {
+            LeaveChannelEvents();
+
+            lastChannelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+            MainPage.pubnub.Subscribe<string>(lastChannelStr, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
+            MainPage.pubnub.Presence<string>(lastChannelStr, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
+
+        }
+
+        public static void NotifyBlahActivity()
+        {
+            // post the notification on the new comment
+            PublishAction theAction = new PublishAction();
+            theAction.action = "blahactivity";
+            if (BlahguaAPIObject.Current.CurrentBlah != null)
+                theAction.blahid = BlahguaAPIObject.Current.CurrentBlah._id;
+            else
+                theAction.blahid = BlahguaAPIObject.Current.CurrentInboxBlah.I;
+
+            if (BlahguaAPIObject.Current.CurrentUser != null)
+                theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+            else
+                theAction.userid = "0";
+
+            string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+            MainPage.pubnub.Publish<PublishAction>(channelStr, theAction,
+                (theMsg) => { }, (theErr) => { });
+
+        }
+
+        public static void NotifyNewBlah(Blah newBlah)
+        {
+            // post the notification on the new comment
+            PublishAction theAction = new PublishAction();
+            theAction.action = "newblah";
+            theAction.blahid = newBlah._id;
+
+            theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
+
+            string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
+            MainPage.pubnub.Publish<PublishAction>(channelStr, theAction,
+                (theMsg) => { }, (theErr) => { });
+
+        }
+
+        private void InsertBlahFromNotification(PublishAction theAction)
+        {
+            BlahguaAPIObject.Current.GetBlah(theAction.blahid, (theBlah) =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    InsertBlahInStream(theBlah);
+                });
+
+
+            });
+        }
+
+        private void DisplaySubscribeReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+
+                //string parseStr = jsonMsg.FromJson<string>();
+                PublishAction theTurn = jsonMsg.FromJson<PublishAction>();
+
+                if (theTurn != null)
+                {
+                    // TO DO - refresh the item
+                    switch (theTurn.action)
+                    {
+                        case "openblah":
+                        case "blahactivity":
+                            string blahId = theTurn.blahid;
+                            ShowBlahActivity(blahId);
+                            break;
+
+                        case "newblah":
+                            InsertBlahFromNotification(theTurn);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                }
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] subscribe: invalid ChatTurn " + theMsg);
+            }
+        }
+
+        private void ShowBlahActivity(string blahId)
+        {
+            Console.WriteLine("Showing activity for blah " + blahId);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                foreach (BlahRollItem curItem in BlahContainer.Children)
+                {
+                    if (curItem.BlahData.I == blahId)
+                    {
+                        AnimateBlahActivity(curItem);
+                    }
+                }
+            }); 
+        }
+
+
+        private void AnimateBlahActivity(BlahRollItem curBlahItem)
+        {
+            curBlahItem.AnimateActivity();
+        }
+
+
+        private void DisplayUnsubscribeReturnMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] unsubscribe: " + theMsg);
+        }
+
+        private void DisplayPresenceConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence connect: " + theMsg);
+        }
+
+        private void DisplayPresenceDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] presence disconnect: " + theMsg);
+        }
+
+
+        private void DisplaySubscribeConnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("[pubnub] sub connect: " + theMsg);
+        }
+
+        private void DisplaySubscribeDisconnectStatusMessage(string theMsg)
+        {
+            Console.WriteLine("sub disconnect: " + theMsg);
+        }
+
+
+        private void DisplayErrorMessage(PubnubClientError pubnubError)
+        {
+            Console.WriteLine("[pubnub] Error: " + pubnubError.Message);
+        }
+
+        private void HandleUnsubscribeMessages(string theMsg)
+        {
+            // we just ignore these for now
+        }
+
+        private void DisplayPresenceReturnMessage(string theMsg)
+        {
+            try
+            {
+                string jsonMsg = theMsg.Substring(theMsg.IndexOf("{"), theMsg.IndexOf("}"));
+                PresenceMessage msg = jsonMsg.FromJson<PresenceMessage>();
+                Console.WriteLine(msg.ToString());
+                string personStr = "people";
+                if (msg.occupancy == 1)
+                    personStr = "person";
+                string msgStr = string.Format("{0} {1} in channel", msg.occupancy, personStr);
+
+                ShowToastMsg(msgStr);
+
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("[pubnub] presence err: " + theMsg);
+            }
+        }
+
+        private void toast_Completed(object sender, PopUpEventArgs<string, PopUpResult> e)
+        {
+            
+        }
+
+        private void MainPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+   
+
+        protected void ShowToastMsg(string msg)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                ToastMessage.Opacity = 0.0;
+                ToastTransform.Y = 80;
+
+                ToastTextBox.Text = msg;
+                ToastAnimation.Begin();
+            });
+
+        }
+
+        
     }
+
+
 
 }
 
+   
    
