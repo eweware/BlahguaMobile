@@ -33,7 +33,7 @@ namespace BlahguaMobile.BlahguaCore
         private UserDescription _userDescription = null;
         Timer signinTimer;
         private string _recoveryEmail;
-        Dictionary<string, int> ImpressionMap = new Dictionary<string, int>();
+        Dictionary<long, int> ImpressionMap = new Dictionary<long, int>();
         string badgeEndpoint;
 
 
@@ -221,7 +221,7 @@ namespace BlahguaMobile.BlahguaCore
             BlahguaRest.ReportPost(currentBlah._id, reportType);
         }
 
-        public void ReportComment(string commentId, int reportType)
+        public void ReportComment(long commentId, int reportType)
         {
             BlahguaRest.ReportComment(commentId, reportType);
         }
@@ -327,7 +327,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public void LoadUserComments(Comments_callback callback)
         {
-            string userId = CurrentUser._id;
+            long userId = CurrentUser._id;
             BlahguaRest.GetUserComments(userId, (theList) =>
                 {
                     if (theList != null)
@@ -374,12 +374,12 @@ namespace BlahguaMobile.BlahguaCore
             BlahguaRest.GetBadgeAuthorities(callback);
         }
 
-        public void GetBadgeForUser(string authorityId, string_callback callback)
+        public void GetBadgeForUser(long authorityId, string_callback callback)
         {
             BlahguaRest.CreateBadgeForUser(authorityId, "", callback);
         }
 
-        public void GetEmailBadgeForUser(string authorityId, string emailAddr, string_callback callback)
+        public void GetEmailBadgeForUser(long authorityId, string emailAddr, string_callback callback)
         {
             // construct a call manually to the badge authority
             GetBadgeForUser(authorityId, (newHTML) =>
@@ -622,7 +622,7 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
-        public void DeleteBlah(string blahId, string_callback callback)
+        public void DeleteBlah(long blahId, string_callback callback)
         {
             BlahguaRest.DeleteBlah(blahId, (theString) =>
             {
@@ -631,21 +631,7 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
-        public void GetBadgeInfo(string badgeId, BadgeRecord_callback callback)
-        {
-            if (intBadgeMap.ContainsKey(badgeId))
-                callback(intBadgeMap[badgeId]);
-            else
-            {
-                BlahguaRest.GetBadgeInfo(badgeId, (theBadge) =>
-                    {
-                        
-                        intBadgeMap[badgeId] = theBadge;
-                        callback(theBadge);
-                    }
-                );
-            }
-        }
+        
 
         public ChannelList CurrentChannelList
         {
@@ -727,7 +713,7 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
-        public void GetComment(string commentId, Comment_callback callback)
+        public void GetComment(long commentId, Comment_callback callback)
         {
             BlahguaRest.GetComment(commentId, callback);
         }
@@ -738,7 +724,6 @@ namespace BlahguaMobile.BlahguaCore
         {
             BlahguaRest.GetUserProfile((theProfile) =>
                 {
-                    theProfile.Nickname_perm = 2;
                     CurrentUser.Profile = theProfile;
                     if (callback != null)
                         callback(theProfile);
@@ -752,9 +737,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     _profileSchema = theSchema;
 
-                    // add the age
-                    AddAgeSchemaInfo();
-                    UserProfile.Schema = UserProfileSchema;
+                    
                     callback(theSchema);
                 }
             );
@@ -790,8 +773,7 @@ namespace BlahguaMobile.BlahguaCore
             }
             else
             {
-                theProfile.A = userName;
-                theProfile.Nickname_perm = 2;
+  
 
                 BlahguaRest.UpdateUserProfile(theProfile, callback);
             }
@@ -919,7 +901,7 @@ namespace BlahguaMobile.BlahguaCore
             CurrentChannel = curChannelList[curIndex];
         }
 
-        public void AddImpression(string blahId)
+        public void AddImpression(long blahId)
         {
             if (!ImpressionMap.ContainsKey(blahId))
             {
@@ -937,7 +919,7 @@ namespace BlahguaMobile.BlahguaCore
             ImpressionMap.Clear();
         }
 
-		public void GetBlah(string blahId, Blah_callback callback)
+		public void GetBlah(long blahId, Blah_callback callback)
 		{
 			BlahguaRest.FetchFullBlah(blahId, (theBlah) =>
 				{
@@ -949,7 +931,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetBlahWithDescription(string blahId, Blah_callback callback)
+		public void GetBlahWithDescription(long blahId, Blah_callback callback)
 		{
 			BlahguaRest.FetchFullBlah(blahId, (theBlah) =>
 				{
@@ -960,10 +942,6 @@ namespace BlahguaMobile.BlahguaCore
 								theBlah.Description = theDesc;
 								theBlah.T = UnprocessText(theBlah.T);
 								theBlah.F = UnprocessText(theBlah.F);
-								theBlah.AwaitBadgeData((didIt) =>
-									{
-										callback(theBlah);
-									});
 							});
 					}
 					else
@@ -971,28 +949,25 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-        public void SetCurrentBlahFromId(string blahId, Blah_callback callback)
+        public void SetCurrentBlahFromId(long blahId, Blah_callback callback)
         {
             BlahguaRest.FetchFullBlah(blahId, (theBlah) =>
-            {
-                if (theBlah != null)
-                {
-                    BlahguaRest.GetUserDescription(theBlah.A, (theDesc) =>
-                    {
-                        BlahguaRest.AddBlahOpen(theBlah._id);
-                        theBlah.Description = theDesc;
-                        theBlah.T = UnprocessText(theBlah.T);
-                        theBlah.F = UnprocessText(theBlah.F);
-                        currentBlah = theBlah;
-                        theBlah.AwaitBadgeData((didIt) =>
-                            {
-                                callback(theBlah);
-                            });
-                    });
-                }
-                else
-                    callback(null);
-            });
+	            {
+	                if (theBlah != null)
+	                {
+	                    BlahguaRest.GetUserDescription(theBlah.A, (theDesc) =>
+		                    {
+		                        BlahguaRest.AddBlahOpen(theBlah._id);
+		                        theBlah.Description = theDesc;
+		                        theBlah.T = UnprocessText(theBlah.T);
+		                        theBlah.F = UnprocessText(theBlah.F);
+		                        currentBlah = theBlah;
+								callback(theBlah);
+		                    });
+	                }
+	                else
+	                    callback(null);
+	            });
         }
 
         public void SetBlahVote(int newVote, int_callback callback)
@@ -1021,7 +996,7 @@ namespace BlahguaMobile.BlahguaCore
             );
         }
 
-        public void RecordImpressions(Dictionary<string, int> impressionMap)
+        public void RecordImpressions(Dictionary<long, int> impressionMap)
         {
             if ((impressionMap != null) && (impressionMap.Count > 0))
             {
@@ -1067,7 +1042,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public void LoadBlahComments(Comments_callback callback)
         {
-            string blahId;
+            long blahId;
 
             if (CurrentBlah != null)
                 blahId = CurrentBlah._id;
@@ -1078,7 +1053,7 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     if (comments != null)
                     {
-                        List<Comment>   sortedList = comments.OrderByDescending(c => c.CreationDate).ToList();
+                        List<Comment>   sortedList = comments.OrderByDescending(c => c.c).ToList();
                         comments = new CommentList();
 
                         foreach (Comment theComment in sortedList)
@@ -1091,7 +1066,7 @@ namespace BlahguaMobile.BlahguaCore
                             }
                         }
 
-                        List<string> authorIds = GetCommentAuthorIds(comments);
+                        List<long> authorIds = GetCommentAuthorIds(comments);
                         BlahguaRest.GetCommentAuthorDescriptions(authorIds, (descList) =>
                             {
                                 ApplyAuthorDescriptions(comments, descList);
@@ -1113,7 +1088,7 @@ namespace BlahguaMobile.BlahguaCore
 				{
 					if (comments != null)
 					{
-						List<Comment>   sortedList = comments.OrderByDescending(c => c.CreationDate).ToList();
+						List<Comment>   sortedList = comments.OrderByDescending(c => c.c).ToList();
 						comments = new CommentList();
 
 						foreach (Comment theComment in sortedList)
@@ -1126,7 +1101,7 @@ namespace BlahguaMobile.BlahguaCore
 							}
 						}
 
-						List<string> authorIds = GetCommentAuthorIds(comments);
+						List<long> authorIds = GetCommentAuthorIds(comments);
 						BlahguaRest.GetCommentAuthorDescriptions(authorIds, (descList) =>
 							{
 								ApplyAuthorDescriptions(comments, descList);
@@ -1141,25 +1116,25 @@ namespace BlahguaMobile.BlahguaCore
 			);
 		}
 
-        void ApplyAuthorDescriptions(CommentList commList, CommentAuthorDescriptionList descList)
+        void ApplyAuthorDescriptions(CommentList commList, UserDescriptionList descList)
         {
             foreach (Comment curComm in commList)
             {
-                foreach (CommentAuthorDescription curDesc in descList)
+                foreach (UserDescription curDesc in descList)
                 {
-                    if (curDesc.i == curComm.A)
+                    if (curDesc.I == curComm.A)
                     {
                         curComm.K = curDesc.K;
                         curComm.d = curDesc.d;
-                        curComm._m = curDesc._m;
+						curComm.M = curDesc.m;
                     }
                 }
             }
         }
 
-        List<string> GetCommentAuthorIds(CommentList theList)
+        List<long> GetCommentAuthorIds(CommentList theList)
         {
-            List<string> authorList = new List<string>();
+            List<long> authorList = new List<long>();
 
             foreach (Comment curComment in theList)
             {
@@ -1196,21 +1171,7 @@ namespace BlahguaMobile.BlahguaCore
                 callback(null);
         }
 
-        public void LoadUserStatsInfo(UserInfo_callback callback)
-        {
-            DateTime endDate = DateTime.Today;
-            DateTime startDate = endDate - new TimeSpan(7, 0, 0, 0);
-
-            BlahguaRest.GetUserStatsInfo(startDate, endDate, (theStats) =>
-                {
-                    theStats.SetDateRange(startDate, endDate);
-                    CurrentUser.UserInfo = theStats;
-                   
-
-                    callback(CurrentUser.UserInfo);
-                }
-            );
-        }
+        
 
         public void LoadBlahStats(Stats_callback callback)
         {
@@ -1364,7 +1325,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 foreach (Comment curComment in comments)
                 {
-                    if (curComment.CID != null)
+					if (curComment.CID != null && curComment.CID != 0)
                     {
                         Comment parent = comments.First(comment => comment._id == curComment.CID);
                         if (parent.subComments == null)
@@ -1461,8 +1422,6 @@ namespace BlahguaMobile.BlahguaCore
             BlahguaRest.GetUserInfo((newUser) =>
                 {
                     CurrentUser.B = newUser.B;
-					CurrentUser.AwaitBadgeData(callback);
-                    
                 }
             );
         }
@@ -1497,7 +1456,7 @@ namespace BlahguaMobile.BlahguaCore
         }
 
 
-		public void GetChannelPermissionById(string channelId, ChannelPermissions_callback theCallback)
+		public void GetChannelPermissionById(long channelId, ChannelPermissions_callback theCallback)
 		{
 			BlahguaRest.GetChannelPermissionById(channelId, (thePerms) =>
 				{
@@ -1603,22 +1562,13 @@ namespace BlahguaMobile.BlahguaCore
                                 {
                                     _profileSchema = theSchema;
 
-                                    // add the age
-                                    AddAgeSchemaInfo();
-                                    UserProfile.Schema = theSchema;
+                                    //UserProfile = theSchema;
 
                                     GetUserProfile((theProfile) =>
                                         {
 											EnsureUserDescription((theDesc) =>
 												{
-													if (CurrentUser.B != null)
-													{
-														CurrentUser.AwaitBadgeData((didIt)=> 
-															{
-																callBack(null);
-															});
-													}
-													else callBack(null);
+													callBack(null);
 												}
 											);
                                         }
@@ -1631,21 +1581,7 @@ namespace BlahguaMobile.BlahguaCore
             );  
         }
 
-        private void AddAgeSchemaInfo()
-        {
-            Dictionary<string, string> newDict = new Dictionary<string, string>();
-            newDict.Add("0", "under 18");
-            newDict.Add("1", "18-24");
-            newDict.Add("2", "25-34");
-            newDict.Add("3", "35-44");
-            newDict.Add("4", "45-54");
-            newDict.Add("5", "55-64");
-            newDict.Add("6", "over 65");
-            newDict.Add("-1", "unspecified");
-
-            _profileSchema.C.DT = newDict;
-
-        }
+        
 
         public void GetRecoveryEmail(string_callback callback)
         {

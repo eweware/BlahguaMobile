@@ -16,8 +16,6 @@
 	<string>8.0</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.eweware.heardios</string>
-	<key>CFBundleVersion</key>
-	<string>1.1</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Blahgua_iPhone</string>
 	<key>UIStatusBarTintParameters</key>
@@ -55,8 +53,6 @@
 		<string>fonts/Merriweather-Light.otf</string>
 		<string>fonts/Merriweather-LightItalic.otf</string>
 	</array>
-	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>UILaunchStoryboardName</key>
@@ -66,5 +62,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
+	<key>CFBundleVersion</key>
+	<string>2.0.0</string>
 </dict>
 </plist>

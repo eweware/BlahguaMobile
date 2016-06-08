@@ -63,6 +63,7 @@ namespace BlahguaMobile.IOS
                 scrollView.ScrollEnabled = true;
 
                 //Synsoft on 10 June 2014 
+				/*
                 if (CurrentBlah != null)
                 {
                     AppDelegate.analytics.PostPageView("/blah/stats");
@@ -95,6 +96,7 @@ namespace BlahguaMobile.IOS
                     lblComment.Text = comments.ToString();
                     lblImpression.Text = views.ToString();
                 }
+                */
 
                 // change everything to a certain
                 ChangeLabelFonts(this.View, BGAppearanceConstants.MediumFontName);

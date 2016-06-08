@@ -189,9 +189,9 @@ namespace MonoTouch.SlideMenu
 		{
 			if (BlahguaAPIObject.Current.CurrentBlah != null)
 			{
-				string blahId = BlahguaAPIObject.Current.CurrentBlah._id;
+				long blahId = BlahguaAPIObject.Current.CurrentBlah._id;
 
-				ChannelName = "blah" + blahId;
+				ChannelName = "blah" + blahId.ToString();
 				BGRollViewController.pubnub.Subscribe<string>(ChannelName, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);
 				BGRollViewController.pubnub.Presence<string>(ChannelName, DisplayPresenceReturnMessage, DisplayPresenceConnectStatusMessage, DisplayErrorMessage);
 			}

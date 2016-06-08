@@ -174,7 +174,7 @@ namespace BlahguaMobile.IOS
 
 
             NewComment.M = null;
-            NewComment.B = null;
+            NewComment.B = 0;
             NewComment.BD = null;
             NewComment.UseProfile = false;
             done.Enabled = false;
@@ -273,9 +273,12 @@ namespace BlahguaMobile.IOS
                         selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
                         if (NewComment.M == null || NewComment.M.Count == 0)
                         {
-                            NewComment.M = new List<string>();
+                            NewComment.M = new List<MediaRecordObject>();
                         }
-                        NewComment.M.Add(s);
+						MediaRecordObject newRec = new MediaRecordObject();
+						newRec.type = 1;
+						newRec.url = s;
+						NewComment.M.Add(newRec);
                     });
             }
             else

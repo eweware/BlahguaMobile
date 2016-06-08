@@ -857,9 +857,9 @@ namespace BlahguaMobile.IOS
                 if (type == BlahPollType.Predict)
                 {
                     if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-                        return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
+                        return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.E);
                     else
-                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate, true);
+                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.E, true);
                 }
                 else
                     return null;
@@ -871,7 +871,7 @@ namespace BlahguaMobile.IOS
                     new UIView() :
                     BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
                         "Predection expired at " :
-                        "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
+                        "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.E.ToString());
                 header.Frame = new CGRect(0, 0, tableView.Frame.Width, 24);
                 return header;
             }
@@ -978,8 +978,7 @@ namespace BlahguaMobile.IOS
             {
                 var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
                 cell.SetUp(
-                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeName,
-                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeImage
+                    BlahguaAPIObject.Current.CurrentBlah.B[indexPath.Row]
                 );
                 return cell;
             }

@@ -40,7 +40,7 @@ namespace BlahguaMobile.IOS
 			UIActionSheet actionSheet = new UIActionSheet("Select a Community Channel");
 			Channel defaultChannel = BlahguaAPIObject.Current.GetDefaultChannel ();
 			actionSheet.AddButton (defaultChannel.N);
-			string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
+			long typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
             List<Channel> newList = null;
 
             try 
@@ -91,7 +91,7 @@ namespace BlahguaMobile.IOS
 		private UIActionSheet PrepPublisherSelect()
         {
             UIActionSheet actionSheet = new UIActionSheet("Select a Publisher Channel");
-            string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
+            long typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
             List<Channel> newList = null;
 
             try

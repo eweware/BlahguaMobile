@@ -28,15 +28,13 @@ namespace BlahguaMobile.BlahguaCore
         public int U { get; set; }
         public int V { get; set; }
         public string X { get; set; }
-        public string Y { get; set; }
-        public string _id { get; set; }
-        public string c { get; set; }
-        public string u { get; set; }
+        public long Y { get; set; }
+        public long _id { get; set; }
 		public string GHI { get; set; }
         public bool SAD { get; set; } // show author descriptions
         public bool SSA { get; set; } // show speech acts
-        public List<string> SBL { get; set; } // list of badges to show
-        public List<string> PQ { get; set; }  // list of profile question IDs
+        public bool SBL { get; set; } // show badge list?
+        public List<long> PQ { get; set; }  // list of profile question IDs
 
 
         public Channel()
@@ -56,12 +54,12 @@ namespace BlahguaMobile.BlahguaCore
             get { return N; }
         }
 
-        public string ChannelId
+        public long ChannelId
         {
             get { return _id; }
         }
 
-        public string ChannelTypeId
+        public long ChannelTypeId
         {
             get { return Y; }
         }
@@ -83,7 +81,7 @@ namespace BlahguaMobile.BlahguaCore
 
     public class ChannelList : List<Channel>
     {
-        public string ChannelName(string channelId)
+        public string ChannelName(long channelId)
         {
             return this.Where(i => i._id == channelId).FirstOrDefault().N;
         }
@@ -97,15 +95,14 @@ namespace BlahguaMobile.BlahguaCore
 
     public class ChannelType
     {
-        public string _id { get; set; }
+        public long _id { get; set; }
         public string N { get; set; }
-        public string c { get; set; }
 
     }
 
     public class ChannelTypeList : List<ChannelType>
     {
-        public string ChannelTypeName(string channelId)
+        public string ChannelTypeName(long channelId)
         {
             return this.Where(i => i._id == channelId).FirstOrDefault().N;
         }

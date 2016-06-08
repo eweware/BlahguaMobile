@@ -67,17 +67,8 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="FortySevenDeg.SwipeListView">
-      <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text.XamarinAndrod">
-      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
-    </Reference>
     <Reference Include="PubNubMessaging">
       <HintPath>ThirdParty\PubNubMessaging.dll</HintPath>
-    </Reference>
-    <Reference Include="HockeyApp.Android">
-      <HintPath>..\Components\hockeyappandroid-3.6.2.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.2.3\lib\MonoAndroid10\RestSharp.dll</HintPath>
@@ -91,6 +82,15 @@
     <Reference Include="Refractored.PagerSlidingTabStrip">
       <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.1.2\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="HockeyApp.Android">
+      <HintPath>..\Components\hockeyappandroid-3.6.2.0\lib\android\HockeyApp.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text.XamarinAndrod">
+      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
+    </Reference>
+    <Reference Include="FortySevenDeg.SwipeListView">
+      <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

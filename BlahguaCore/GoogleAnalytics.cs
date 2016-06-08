@@ -162,9 +162,9 @@ namespace BlahguaMobile.BlahguaCore
              PostEvent("commentvote", "comment", vote.ToString(), 1);
          }
 
-         public void PostCreateBlah(string blahType)
+         public void PostCreateBlah(long blahType)
          {
-             PostEvent("createblah", "blah", blahType, 1);
+			PostEvent("createblah", "blah", blahType.ToString(), 1);
          }
 
          public void PostUploadBlahImage()
@@ -177,9 +177,9 @@ namespace BlahguaMobile.BlahguaCore
              PostEvent("formaterror", infoString);
          }
 
-         public void PostRequestBadge(string badgeId)
+         public void PostRequestBadge(long badgeId)
          {
-             PostEvent("requestbadge", "badge", badgeId, 1);
+			PostEvent("requestbadge", "badge", badgeId.ToString(), 1);
          }
 
          public void PostBadgeNoEmail(string email)

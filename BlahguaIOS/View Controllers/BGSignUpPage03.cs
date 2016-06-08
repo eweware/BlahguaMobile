@@ -132,7 +132,7 @@ namespace BlahguaMobile.IOS
                     this.skipBtn.Enabled = false;
                     emailAddr = this.emailAddrField.Text;
                     emailAddrField.ResignFirstResponder();
-                    string authId = emailAuthority._id;
+                    long authId = emailAuthority._id;
 
                     // make formal request
                     BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, emailAddr, (ticket) => {

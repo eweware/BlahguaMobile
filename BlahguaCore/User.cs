@@ -124,22 +124,19 @@ namespace BlahguaMobile.BlahguaCore
 
     public class User : INotifyPropertyChanged
     {
-        public List<string> M { get; set; }
-        public List<string> B { get; set; }
+        public List<MediaRecordObject> M { get; set; }
+        public List<BadgeRecord> B { get; set; }
         public string N { get; set; }
         public double S { get; set; }
         public double K { get; set; }
-        public string _id { get; set; }
+        public long _id { get; set; }
         public bool XXX { get; set; }
 
-		public string c { get; set; }
-		private DateTime _createDate = DateTime.MinValue;
-		public string u { get; set; }
-		private DateTime _updateDate = DateTime.MinValue;
+		public DateTime cdate { get; set; }
+		public DateTime LL { get; set; }
 
         private CommentList _commentHistory;
         private BlahList _postHistory;
-        private UserInfoObject _info = null;
         private UserProfile _theProfile = null;
         private string _recoveryEmail = null;
         private BadgeList _intBadgeList = null;
@@ -181,8 +178,11 @@ namespace BlahguaMobile.BlahguaCore
                 M = null;
             else
             {
-                M = new List<string>();
-                M.Add(newImage);
+                M = new List<MediaRecordObject>();
+				MediaRecordObject mRec = new MediaRecordObject ();
+				mRec.type = 1;
+				mRec.url = newImage;
+				M.Add(mRec);
             }
             OnPropertyChanged("UserImage");
         }
@@ -195,16 +195,6 @@ namespace BlahguaMobile.BlahguaCore
             {
                 _theProfile = value;
                 OnPropertyChanged("Profile");
-            }
-        }
-
-        public UserInfoObject UserInfo
-        {
-            get { return _info; }
-            set 
-            { 
-                _info = value;
-                OnPropertyChanged("UserInfo");
             }
         }
 
@@ -266,9 +256,9 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                if ((M != null) && (M.Count > 0)) 
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], "A");
-                else
+				if ((M != null) && (M.Count > 0) && !string.IsNullOrEmpty(M [0].url))
+					return BlahguaAPIObject.Current.GetImageURL (M [0].url, "A");
+				else
                     return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
             }
         }
@@ -296,55 +286,7 @@ namespace BlahguaMobile.BlahguaCore
             set { _postHistory = value; }
         }
 
-        public BadgeList Badges
-        {
-            get {
-				return _intBadgeList;
-			}
-        }
-
-		public void AwaitBadgeData(bool_callback callback)
-		{
-			if (B == null)
-			{
-				callback(true);
-			}
-			else
-			{
-				_intBadgeList = new BadgeList();
-				List<string> idList = new List<string>(B);
-				FetchBadgeSerially(idList, callback);
-
-			}
-		}
-
-
-		protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
-		{
-			BadgeReference newBadge = new BadgeReference();
-			newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
-				{
-					if (didIt)
-					{
-						if (_intBadgeList.Contains(newBadge))
-						{
-							System.Diagnostics.Debug.WriteLine("Duplicate call!");
-							return;
-						}
-
-						_intBadgeList.Add(newBadge);
-					}
-
-					if (badgeIdList.Count > 0)
-						badgeIdList.RemoveAt(0);
-
-					if (badgeIdList.Count > 0)
-						FetchBadgeSerially(badgeIdList, callback);
-					else
-						callback(true);
-				}
-			);
-		}
+        
     }
 
 
@@ -352,20 +294,14 @@ namespace BlahguaMobile.BlahguaCore
     public class UserDescription
     {
         public string K { get; set; }
-        public string i { get; set; }
+        public long I { get; set; }
         public string d { get; set; }
-        public string m { get; set; }
+		public List<MediaRecordObject> m { get; set; }
     }
 
-    public class CommentAuthorDescription
-    {
-        public string K { get; set; }
-        public string d { get; set; }
-        public string i { get; set; }
-        public List<string> _m { get; set; }
-    }
+    
 
-    public class CommentAuthorDescriptionList : List<CommentAuthorDescription>
+	public class UserDescriptionList : List<UserDescription>
     {
     }
 }

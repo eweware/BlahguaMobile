@@ -36,7 +36,7 @@ namespace BlahguaMobile.IOS
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
                 var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
-                cell.SetUp(linkedComment.Badges[indexPath.Row]);
+                cell.SetUp(linkedComment.BD[indexPath.Row]);
                 return cell;
             }
 
@@ -46,13 +46,7 @@ namespace BlahguaMobile.IOS
                 set
                 {
                     linkedComment = value;
-                    if (linkedComment.Badges != null)
-                    {
-                        foreach (BadgeReference curBadge in linkedComment.Badges)
-                        {
-                            curBadge.UpdateBadge();
-                        }
-                    }
+                    
                 }
             }
 
@@ -74,7 +68,7 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(Comment theComment, UITableView tableView)
         {
-            string userId = "0";  // signed out user
+            long userId = 0;  // signed out user
             if (BlahguaAPIObject.Current.CurrentUser != null)
                 userId = BlahguaAPIObject.Current.CurrentUser._id;
             this.userComment = theComment;
@@ -122,11 +116,9 @@ namespace BlahguaMobile.IOS
             if ((userComment.BD != null) && (userComment.BD.Count > 0))
             {
 				badgeTable.Hidden = false;
-				userComment.AwaitBadgeData ((didIt) => {
-					int count = userComment.Badges.Count;
-					badgeTableHeight.Constant = count * 28;
-					badgeTable.ReloadData();
-				});
+				int count = userComment.BD.Count;
+				badgeTableHeight.Constant = count * 28;
+				badgeTable.ReloadData();
                 
             }
             else
@@ -181,7 +173,7 @@ namespace BlahguaMobile.IOS
 				BGAppearanceConstants.TealGreen
             );
 
-            string timeAgo= Utilities.ElapsedDateString(userComment.CreationDate);
+            string timeAgo= Utilities.ElapsedDateString(userComment.c);
 
             timespan.AttributedText = new NSAttributedString(
 				timeAgo,

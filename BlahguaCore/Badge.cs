@@ -14,135 +14,29 @@ namespace BlahguaMobile.BlahguaCore
         public string D { get; set; } // authority display name
         public string I { get; set; } // authorty badge id
         public string N { get; set; } // badge display name
-        public string U { get; set; } // user id
-        public string X { get; set; } // expiration date (jscript ticks)
+        public long U { get; set; } // user id
+        public DateTime X { get; set; } // expiration date (jscript ticks)
         public string Y { get; set; }  // badge type
-        public string _id { get; set; } // badge ID
-		public string c { get; set; }
-		private DateTime _createDate = DateTime.MinValue;
-		public string u { get; set; }
-		private DateTime _updateDate = DateTime.MinValue;
+		public string V {get; set; } // badge value, if any
+		public string URL {get; set;} // badge URL, if any
+        public long _id { get; set; } // badge ID
 
         public BadgeRecord()
         {
         }
 
-		public DateTime CreationDate {
-			get {
-				if (_createDate == DateTime.MinValue)
-					_createDate = DateTime.Parse (c);
-				return _createDate;
-			}
-		}
 
-		public DateTime UpdateDate {
-			get {
-				if (_updateDate == DateTime.MinValue)
-					_updateDate = DateTime.Parse (u);
-				return _updateDate;
-			}
-		}
-
-        public DateTime ExpirationDate
-        {
-            get
-            {
-                return new DateTime(1970, 1, 1).AddTicks(Convert.ToInt64(X) * 10000);
-            }
-        }
 
     }
+		
 
-    public class BadgeReference
-    {
-        public string BadgeName { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public DateTime CreationDate { get; set; }
-        public string AuthorityEndpoint { get; set; }
-        public string AuthorityDisplayName { get; set; }
-
-        private string badgeId = "";
-
-      
-
-        public BadgeReference()
-        {
-            BadgeName = "";
-        }
-
-        public BadgeReference(string theID)
-        {
-            BadgeName = "";
-            ID = theID;
-        }
-
-        public string ID
-        {
-            get { return badgeId; }
-            set
-            {
-                badgeId = value;
-                //UpdateBadge();
-            }
-        }
-
-        public string BadgeImage
-        {
-            get
-            {
-                return "https://s3-us-west-2.amazonaws.com/app.goheard.com/img/badge-icon.png";
-            }
-        }
-
-
-        public void UpdateBadge()
-        {
-            BlahguaAPIObject.Current.GetBadgeInfo(ID, (theBadge) =>
-                {
-                    if (theBadge != null)
-                    {
-                        BadgeName = theBadge.N;
-						CreationDate = theBadge.CreationDate;
-                        ExpirationDate = theBadge.ExpirationDate;
-                        AuthorityDisplayName = theBadge.D;
-                        AuthorityEndpoint = theBadge.A;
-                    }
-
-
-                }
-            );
-        }
-
-        public void UpdateBadgeForId(string theId, bool_callback callback)
-        {
-            BlahguaAPIObject.Current.GetBadgeInfo(theId, (theBadge) =>
-            {
-                if (theBadge != null)
-                {
-                    ID = theId;
-                    BadgeName = theBadge.N;
-					CreationDate = theBadge.CreationDate;
-                    ExpirationDate = theBadge.ExpirationDate;
-                    AuthorityDisplayName = theBadge.D;
-                    AuthorityEndpoint = theBadge.A;
-                    callback(true);
-                }
-                else
-                    callback(false);
-
-
-            }
-            );
-        }
-    }
-
-    public class BadgeList : ObservableCollection<BadgeReference>
+	public class BadgeList : ObservableCollection<BadgeRecord>
     {
         
     }
     public class BadgeAuthority
     {
-        public string _id { get; set; }
+        public long _id { get; set; }
 		public string c { get; set; }
         public string N { get; set; } // the name
         public string T { get; set; } // types of badges

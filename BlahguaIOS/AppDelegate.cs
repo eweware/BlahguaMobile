@@ -126,7 +126,7 @@ namespace BlahguaMobile.IOS
 
 
             UpdateStatus ();
-            if (remoteHostStatus == NetworkStatus.NotReachable)
+			if ((remoteHostStatus == NetworkStatus.NotReachable) && (!BlahguaCore.BlahguaRESTservice.usingQA))
             {
                 if ((internetStatus == NetworkStatus.NotReachable) && (localWifiStatus == NetworkStatus.NotReachable))
                 {

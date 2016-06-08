@@ -277,7 +277,10 @@ namespace BlahguaMobile.IOS
 
                 var req = new NSUrlRequest (theUrl, NSUrlRequestCachePolicy.UseProtocolCachePolicy, 120);
                 var data = NSUrlConnection.SendSynchronousRequest (req, out response, out error);
-                return data.Save (target, true, out error);
+				if (data != null)
+                	return data.Save (target, true, out error);
+				else
+					return false;
             } catch (Exception e) {
                 Console.WriteLine ("Problem with {0} {1}", uri, e);
                 return false;

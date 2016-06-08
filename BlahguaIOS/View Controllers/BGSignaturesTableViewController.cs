@@ -105,9 +105,9 @@ namespace BlahguaMobile.IOS
 				}
 				else
 				{
-					if (BlahguaAPIObject.Current.CurrentUser.Badges != null && BlahguaAPIObject.Current.CurrentUser.Badges.Count > 0)
+					if (BlahguaAPIObject.Current.CurrentUser.B != null && BlahguaAPIObject.Current.CurrentUser.B.Count > 0)
 					{
-						cell.SetUp(BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row].BadgeName);
+						cell.SetUp(BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row].N);
 						decorate = true;
 					}
 					else
@@ -137,14 +137,14 @@ namespace BlahguaMobile.IOS
                                 break;
                         }
 
-						
+
 					}
 					else if (decorate)
 					{
-						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row];
+						BadgeRecord badge = BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row];
 
 						if ((BlahguaAPIObject.Current.CreateRecord.B != null) &&
-							BlahguaAPIObject.Current.CreateRecord.B.Contains(badge.ID))
+							BlahguaAPIObject.Current.CreateRecord.B.Contains(badge))
 							cell.Accessory = UITableViewCellAccessory.Checkmark;
 						else
 							cell.Accessory = UITableViewCellAccessory.None ;
@@ -172,10 +172,10 @@ namespace BlahguaMobile.IOS
 					}
 					else if (decorate)
 					{
-						BadgeReference badge = BlahguaAPIObject.Current.CurrentUser.Badges [indexPath.Row];
+						BadgeRecord badge = BlahguaAPIObject.Current.CurrentUser.B [indexPath.Row];
 
 						if ((BlahguaAPIObject.Current.CreateCommentRecord.BD != null) &&
-							BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge.ID))
+							BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge))
 							cell.Accessory = UITableViewCellAccessory.Checkmark;
 						else
 							cell.Accessory = UITableViewCellAccessory.None ;
@@ -194,9 +194,9 @@ namespace BlahguaMobile.IOS
 				else
 				{
 					int count = 0;
-					if (BlahguaAPIObject.Current.CurrentUser.Badges != null)
+					if (BlahguaAPIObject.Current.CurrentUser.B != null)
 					{
-						count += BlahguaAPIObject.Current.CurrentUser.Badges.Count;
+						count += BlahguaAPIObject.Current.CurrentUser.B.Count;
 					}
 					if (count == 0)
 						count = 1; // add the warning
@@ -262,26 +262,26 @@ namespace BlahguaMobile.IOS
 					} 
 					else 
 					{
-						if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
-						    (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+						if ((BlahguaAPIObject.Current.CurrentUser.B == null) ||
+						    (BlahguaAPIObject.Current.CurrentUser.B.Count == 0))
 						{
 							return;
 						}
 						else
 						{
-							BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row];
+							BadgeRecord theBadge = BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row];
 
 							if (BlahguaAPIObject.Current.CreateRecord.B == null)
-								BlahguaAPIObject.Current.CreateRecord.B = new List<string>();
+								BlahguaAPIObject.Current.CreateRecord.B = new List<BadgeRecord>();
 
-							if (BlahguaAPIObject.Current.CreateRecord.B.Contains(theBadge.ID))
+							if (BlahguaAPIObject.Current.CreateRecord.B.Contains(theBadge))
 							{
-								BlahguaAPIObject.Current.CreateRecord.B.Remove(theBadge.ID);
+								BlahguaAPIObject.Current.CreateRecord.B.Remove(theBadge);
 								curCell.Accessory = UITableViewCellAccessory.None;
 							}
 							else
 							{
-								BlahguaAPIObject.Current.CreateRecord.B.Add(theBadge.ID);
+								BlahguaAPIObject.Current.CreateRecord.B.Add(theBadge);
 								curCell.Accessory = UITableViewCellAccessory.Checkmark;
 							}
 						}
@@ -321,26 +321,26 @@ namespace BlahguaMobile.IOS
 					} 
 					else 
 					{
-						if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
-						    (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+						if ((BlahguaAPIObject.Current.CurrentUser.B == null) ||
+						    (BlahguaAPIObject.Current.CurrentUser.B.Count == 0))
 						{
 							return;
 						}
 						else
 						{
-							BadgeReference theBadge = BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row];
+							BadgeRecord theBadge = BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row];
 
 							if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
-								BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string>();
+								BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<BadgeRecord>();
 
-							if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(theBadge.ID))
+							if (BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(theBadge))
 							{
-								BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove(theBadge.ID);
+								BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove(theBadge);
 								curCell.Accessory = UITableViewCellAccessory.None;
 							}
 							else
 							{
-								BlahguaAPIObject.Current.CreateCommentRecord.BD.Add(theBadge.ID);
+								BlahguaAPIObject.Current.CreateCommentRecord.BD.Add(theBadge);
 								curCell.Accessory = UITableViewCellAccessory.Checkmark;
 							}
 						}

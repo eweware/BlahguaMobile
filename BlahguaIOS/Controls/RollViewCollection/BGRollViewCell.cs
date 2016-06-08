@@ -109,7 +109,7 @@ namespace BlahguaMobile.IOS
 				imageView.Hidden = true;
 			}
 
-            if (!String.IsNullOrEmpty(blah.I))
+			if (blah.I != 0)
                 BlahguaAPIObject.Current.AddImpression(blah.I);
 
 			if(!String.IsNullOrEmpty(blah.T))
@@ -212,13 +212,11 @@ namespace BlahguaMobile.IOS
 				hotIcon.Hidden = true;
 
 			// new
-			double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
-				new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-			).TotalMilliseconds;
-			double	newMilliseconds = 24 * 60 * 60 * 1000;
+			TimeSpan elapsed = DateTime.Now - blah.cdate;
 
 
-			if (currentUtc - blah.c < newMilliseconds) {
+
+			if (elapsed.TotalHours < 24.0) {
 				newIcon.Frame = new CGRect (curLeft, size.Height - (iconSize + iconOffset), iconSize, iconSize);
 				newIcon.Hidden = false;
 				curLeft += iconSize + iconOffset;

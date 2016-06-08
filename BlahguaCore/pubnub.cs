@@ -16,9 +16,9 @@ namespace BlahguaMobile.BlahguaCore
 	public class PublishAction
 	{
 		public string action { get; set; }
-		public string blahid { get; set; }
-		public string commentid { get; set; }
-		public string userid {get; set;}
+		public long blahid { get; set; }
+		public long commentid { get; set; }
+		public long userid {get; set;}
         public string data { get; set; }
 	}
 }

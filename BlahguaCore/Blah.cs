@@ -13,13 +13,13 @@ namespace BlahguaMobile.BlahguaCore
 
     public class InboxBlah
     {
-        public string I { get; set; }
-        public long c { get; set; }
+        public long I { get; set; }
+        public DateTime cdate { get; set; }
         public string T { get; set; }
-        public string Y { get; set; }
-        public string G { get; set; }
-        public string A { get; set; }
-        public List<string> M { get; set; }
+        public long Y { get; set; }
+        public long G { get; set; }
+        public long A { get; set; }
+        public List<MediaRecordObject> M { get; set; }
         public string B { get; set; }
         public double S { get; set; }
         public int displaySize { get; set; }
@@ -35,7 +35,7 @@ namespace BlahguaMobile.BlahguaCore
         public InboxBlah(InboxBlah otherBlah)
         {
             I = otherBlah.I;
-            c = otherBlah.c;
+            cdate = otherBlah.cdate;
             T = otherBlah.T;
             Y = otherBlah.Y;
             G = otherBlah.G;
@@ -50,12 +50,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-			if (otherBlah.cdate != null) {
-				double otherDate = otherBlah.CreationDate
-					.Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Local))
-					.TotalMilliseconds;
-				c = (long)otherDate;
-			}
+			cdate = otherBlah.cdate;
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
@@ -67,16 +62,7 @@ namespace BlahguaMobile.BlahguaCore
                 B = "B";
             displaySize = 2;
         }
-
-        public DateTime Created
-        {
-            get
-            {
-                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                origin = System.TimeZoneInfo.ConvertTime(origin, TimeZoneInfo.Local);
-                return origin.AddSeconds(c / 1000);
-            }
-        }
+			
 
         public string ImageSize
         {
@@ -108,8 +94,11 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if ((M != null) && (M.Count > 0)) 
                 {
-                    string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], ImageSize);
+                    string imageName = M[0].url;
+					if (imageName != null)
+						return BlahguaAPIObject.Current.GetImageURL (M [0].url, ImageSize);
+					else
+						return null;
                 }
                 else
                     return null;
@@ -256,16 +245,14 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahType
     {
-        public string _id { get; set; }
+        public long _id { get; set; }
         public string N { get; set; }
-        public string c { get; set; }
-        public int C { get; set; }
     }
 
 
     public class BlahTypeList : List<BlahType> 
     {
-        public string GetTypeName(string typeId)
+        public string GetTypeName(long typeId)
         {
 			if (typeId != null)
 				return this.First (i => i._id == typeId).N;
@@ -273,12 +260,12 @@ namespace BlahguaMobile.BlahguaCore
 				return null;
         }
 
-        public string GetTypeId(string typeName)
+        public long GetTypeId(string typeName)
         {
             if (typeName != null)
                 return this.First (i => i.N == typeName)._id;
             else
-                return null;
+                return 0;
         }
     }
 
@@ -287,6 +274,9 @@ namespace BlahguaMobile.BlahguaCore
     {
         [DataMember]
         public string G {get; set;}
+		public string F { get; set; }
+		public long _id { get; set; }
+		public long blahId { get; set; }
 
         //[DataMember]
         //public string T {get; set;}
@@ -390,16 +380,15 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahCreateRecord
     {
-        public List<string> B { get; set; }
+        public List<BadgeRecord> B { get; set; }
         public string F { get; set; }
-        public string E { get; set; } // expiration date
-        public DateTime ExpirationDate { get; set; }
-        public string G { get; set; } // group ID
-        public List<string> M { get; set; } // image IDs
+		public DateTime E { get; set; } // expiration date
+        public long G { get; set; } // group ID
+        public List<MediaRecordObject> M { get; set; } // image IDs
         public int H { get; set; } // poll option count
         public PollItemList I { get; set; } // poll text
         public string T { get; set; } // blah text
-        public string Y { get; set; } // type ID
+        public long Y { get; set; } // type ID
         public bool XX { get; set; } // wehter or not the blah is private
         public bool XXX { get; set;  } // whether or not the blah is mature
        
@@ -410,7 +399,7 @@ namespace BlahguaMobile.BlahguaCore
             XXX = false;
             Y = BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
             G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == BlahguaAPIObject.Current.GetDefaultChannel().N)._id;
-            ExpirationDate = DateTime.Now + new TimeSpan(30, 0, 0, 0);
+            E = DateTime.Now + new TimeSpan(30, 0, 0, 0);
 
             I = new PollItemList();
             I.Add(new PollItem("first choice"));
@@ -491,42 +480,6 @@ namespace BlahguaMobile.BlahguaCore
                 else
                 {
                     return BlahguaAPIObject.Current.CurrentUser.DescriptionString;
-                }
-            }
-        }
-
-        public BadgeList Badges
-        {
-            get
-            {
-                if (B == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    BadgeList badges = new BadgeList();
-                    foreach (string badgeId in B)
-                    {
-                        badges.Add(new BadgeReference(badgeId));
-                    }
-
-                    return badges;
-                }
-            }
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
-                    B = null;
-                }
-                else
-                {
-                    B = new List<string>();
-                    foreach (BadgeReference curBadge in value)
-                    {
-                        B.Add(curBadge.ID);
-                    }
                 }
             }
         }
@@ -997,13 +950,13 @@ namespace BlahguaMobile.BlahguaCore
     public class Blah
     {
         [DataMember]
-        public string A { get; set; }
+        public long A { get; set; }
 
         [DataMember]        
         public string F { get; set; }
 
         [DataMember]
-        public string G { get; set; }
+        public long G { get; set; }
 
         [DataMember]
         public int O { get; set; }
@@ -1018,24 +971,19 @@ namespace BlahguaMobile.BlahguaCore
         public int V { get; set; }
 
         [DataMember]
-        public string Y { get; set; }
+        public long Y { get; set; }
 
         [DataMember]
-        public string _id { get; set; }
+        public long _id { get; set; }
 
         [DataMember]
-		public string cdate { get; set; }
-		private DateTime _createDate = DateTime.MinValue;
-
-		[DataMember]
-		public string u { get; set; }
-		private DateTime _updateDate = DateTime.MinValue;
+		public DateTime cdate { get; set; }
 
         [DataMember]
-        public List<string> B { get; set; }
+        public List<BadgeRecord> B { get; set; }
 
         [DataMember]
-        public List<string> M { get; set; }
+        public List<MediaRecordObject> M { get; set; }
 
         [DataMember]
         public PollItemList I { get; set; }
@@ -1044,8 +992,7 @@ namespace BlahguaMobile.BlahguaCore
         public List<int> J { get; set; }
 
 		[DataMember]
-		public string E { get; set; }
-		private DateTime _expireDate = DateTime.MinValue;
+		public DateTime E { get; set; }
 
 
         [DataMember(Name = "1")]
@@ -1071,9 +1018,6 @@ namespace BlahguaMobile.BlahguaCore
 
          [DataMember]
         public bool XXX { get; set; }
-
-        [DataMember]
-        public DemographicRecord _d { get; set; }
 
         [DataMember]
         public Stats L { get; set; }
@@ -1134,36 +1078,11 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				return ExpireDate < DateTime.Now;
+				return E < DateTime.Now;
             }
         }
 
-			public DateTime CreationDate {
-			get {
-				if (_createDate == DateTime.MinValue)
-                {
-                    if (cdate != null)
-                        _createDate = DateTime.Parse(cdate);
-                }
-				return _createDate;
-			}
-		}
 
-		public DateTime UpdateDate {
-			get {
-				if (_updateDate == DateTime.MinValue)
-					_updateDate = DateTime.Parse (u);
-				return _updateDate;
-			}
-		}
-
-		public DateTime ExpireDate {
-			get {
-				if (_expireDate == DateTime.MinValue)
-					_expireDate = DateTime.Parse (E);
-				return _expireDate;
-			}
-		}
 
 
 
@@ -1355,7 +1274,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				return Utilities.ElapsedDateString(CreationDate);
+				return Utilities.ElapsedDateString(cdate);
             }
         }
 
@@ -1387,8 +1306,8 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                if ((!XX) && (Description != null) && (Description.m != null))
-                    return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
+				if ((!XX) && (Description != null) && (Description.m != null) && (Description.m.Count > 0) && !string.IsNullOrEmpty(Description.m[0].url))
+                    return BlahguaAPIObject.Current.GetImageURL(Description.m[0].url, "A");
                 else
                     return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
             }
@@ -1402,8 +1321,11 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if ((M != null) && (M.Count > 0)) 
                 {
-                    string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
+                    string imageName = M[0].url;
+					if (!string.IsNullOrEmpty (imageName))
+						return BlahguaAPIObject.Current.GetImageURL (imageName, "D");
+					else
+						return null;
                 }
                 else
                     return null;
@@ -1411,71 +1333,9 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
-        public BadgeList Badges
-        {
-            get
-            {
-                return _badgeList;
-            }
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
-                    B = null;
-                }
-                else
-                {
-                    B = new List<string>();
-                    foreach (BadgeReference curBadge in value)
-                    {
-                        B.Add(curBadge.ID);
-                    }
-                }
-            }
-        }
-
-        public void AwaitBadgeData(bool_callback callback)
-        {
-            if (B == null)
-            {
-                callback(true);
-            }
-            else
-            {
-                _badgeList = new BadgeList();
-                List<string> idList = new List<string>(B);
-                FetchBadgeSerially(idList, callback);
-
-            }
-        }
+        
 
 
-        protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
-        {
-                BadgeReference newBadge = new BadgeReference();
-                newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
-                    {
-                        if (didIt)
-                        {
-                            if (_badgeList.Contains(newBadge))
-                            {
-                                System.Diagnostics.Debug.WriteLine("Duplicate call!");
-                                return;
-                            }
-
-                            _badgeList.Add(newBadge);
-                        }
-
-                        if (badgeIdList.Count > 0)
-                            badgeIdList.RemoveAt(0);
-
-                        if (badgeIdList.Count > 0)
-                            FetchBadgeSerially(badgeIdList, callback);
-                        else
-                            callback(true);
-                    }
-            );
-        }
 
         public string TypeName
         {

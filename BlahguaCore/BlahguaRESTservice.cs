@@ -20,9 +20,9 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void Blah_callback(Blah theBlah);
 	public delegate void Comment_callback(Comment theBlah);
 	public delegate void UserDescription_callback(UserDescription theDesc);
+	public delegate void UserDescriptionList_callback(UserDescriptionList theDescList);
 	public delegate void Comments_callback(CommentList theList);
 	public delegate void Blahs_callback(BlahList theList);
-	public delegate void CommentAuthorDescriptionList_callback(CommentAuthorDescriptionList theList);
 	public delegate void string_callback(String theResult);
 	public delegate void User_callback(User theResult);
 	public delegate void BadgeAuthorities_callback(BadgeAuthorityList theResult);
@@ -31,9 +31,7 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void PredictionVote_callback(UserPredictionVote theResult);
 	public delegate void PollVote_callback(UserPollVote theResult);  
 	public delegate void Stats_callback(Stats theResult);
-	public delegate void UserInfo_callback(UserInfoObject theResult);
 	public delegate void ProfileSchema_callback(ProfileSchema theResult);
-	public delegate void ProfileSchemaWrapper_callback(ProfileSchemaWrapper theResult);
 	public delegate void Profile_callback(UserProfile theResult); 
 	public delegate void bool_callback(bool theResult);
 	public delegate void WhatsNew_callback(WhatsNewInfo theResult);
@@ -47,7 +45,7 @@ namespace BlahguaMobile.BlahguaCore
 		public Dictionary<string, string> userGroupNames = null;
 		public Dictionary<string, string> blahTypes = null;
 		public string BaseShareURL { get; set; }
-		private bool usingQA = false;//false; //false; //true;
+		public static bool usingQA = true;//false; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
 
@@ -57,7 +55,7 @@ namespace BlahguaMobile.BlahguaCore
 			if (usingQA)
 			{
 				System.Console.WriteLine("Using QA Server");
-				apiClient = new RestClient("http://192.168.0.35:8090/v2");  // "http://192.168.0.35:8090/v2" ;; "http://qa.rest.blahgua.com:8080/v2"
+				apiClient = new RestClient("http://localhost:8080/api/v3");  // "http://192.168.0.35:8090/v2" ;; "http://localhost:8080/v2"
 				BaseShareURL = "http://qa.rest.goheard.com:8080/";
 				imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
 			}
@@ -80,30 +78,17 @@ namespace BlahguaMobile.BlahguaCore
 		}
 
         
-		public void GetBlahComments(string blahId, Comments_callback callback)
+		public void GetBlahComments(long blahId, Comments_callback callback)
 		{
 			RestRequest request = new RestRequest("comments", Method.GET);
 			request.AddParameter("blahId", blahId);
-			apiClient.ExecuteAsync(request, (response) =>
+			apiClient.ExecuteAsync<CommentList>(request, (response) =>
 				{
-					CommentList commentList = null;
-					try
-					{
-						string resStr = response.Content;
-						resStr = resStr.Replace("\"D\":", "\"Downvotes\":");
-						resStr = resStr.Replace("\"U\":", "\"Upvotes\":");
-						commentList = resStr.FromJson<CommentList>();
-					}
-					catch (SerializationException)
-					{
-						commentList = null;
-					}
-
-					callback(commentList);
+					callback(response.Data);
 				});
 		}
 
-		public void GetBlahTopComments(string blahId, Comments_callback callback)
+		public void GetBlahTopComments(long blahId, Comments_callback callback)
 		{
 			RestRequest request = new RestRequest("comments/hot", Method.GET);
 			request.AddParameter("blahId", blahId);
@@ -137,9 +122,10 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetChannelPermissionById(string channelId, ChannelPermissions_callback theCallback)
+		public void GetChannelPermissionById(long channelId, ChannelPermissions_callback theCallback)
 		{
-			RestRequest request = new RestRequest("groups/" + channelId + "/permission", Method.GET);
+			RestRequest request = new RestRequest ("ChannelPermission", Method.GET);
+			request.AddParameter ("id", channelId);
 			apiClient.ExecuteAsync(request, (response) =>
 				{
 					ChannelPermissions thePerm = response.Content.FromJson<ChannelPermissions>();
@@ -148,25 +134,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetUserStatsInfo(DateTime startDate, DateTime endDate, UserInfo_callback callback)
-		{
-			string startDateString = Utilities.CreateDateString(startDate, false);
-			string endDateString = Utilities.CreateDateString(endDate, false);
 
-			RestRequest request = new RestRequest("users/info", Method.GET);
-			request.AddParameter("stats", "true");
-			request.AddParameter("s", startDateString);
-			request.AddParameter("e", endDateString);
-
-			apiClient.ExecuteAsync(request, (response) =>
-				{
-					UserInfoObject infoObj = response.Content.FromJson<UserInfoObject>();
-
-
-					callback(infoObj);
-				});
-
-		}
 
         public void GetAdForUser(InboxBlah_callback callback)
         {
@@ -193,11 +161,11 @@ namespace BlahguaMobile.BlahguaCore
 		}
 
 
-		public void RecordImpressions(Dictionary<string, int> impressionMap, int_callback callback)
+		public void RecordImpressions(Dictionary<long, int> impressionMap, int_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/counts", Method.PUT);
 			string jsonString = "";
-			foreach (string curKey in impressionMap.Keys)
+			foreach (long curKey in impressionMap.Keys)
 			{
 				if (jsonString != "")
 					jsonString += ", ";
@@ -213,7 +181,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void AddBlahOpen(string blahId)
+		public void AddBlahOpen(long blahId)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/stats", Method.PUT);
 			string jsonString = "{\"O\": 1}";
@@ -225,7 +193,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void ReportPost(string contentId, int reportType)
+		public void ReportPost(long contentId, int reportType)
 		{
 			RestRequest request = new RestRequest("blahs/" + contentId + "/report", Method.POST);
 			string jsonString = "{\"type\": " + reportType + "}";
@@ -237,7 +205,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void ReportComment(string contentId, int reportType)
+		public void ReportComment(long contentId, int reportType)
 		{
 			RestRequest request = new RestRequest("comments/" + contentId + "/report", Method.POST);
 			string jsonString = "{\"type\": " + reportType + "}";
@@ -249,7 +217,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void CreateBadgeForUser(string authorityId, string badgeTypeId, string_callback callback)
+		public void CreateBadgeForUser(long authorityId, string badgeTypeId, string_callback callback)
 		{
 			RestRequest request = new RestRequest("badges", Method.POST);
 			request.AddHeader("Accept", "*/*");
@@ -266,7 +234,7 @@ namespace BlahguaMobile.BlahguaCore
 
 
 
-		public void GetBlahWithStats(string blahId, DateTime startDate, DateTime endDate, Blah_callback callback)
+		public void GetBlahWithStats(long blahId, DateTime startDate, DateTime endDate, Blah_callback callback)
 		{
 			string startDateString = Utilities.CreateDateString(startDate, false);
 			string endDateString = Utilities.CreateDateString(endDate, false);
@@ -291,7 +259,7 @@ namespace BlahguaMobile.BlahguaCore
 
 		}
 
-		public void GetUserComments(string userId, Comments_callback callback)
+		public void GetUserComments(long userId, Comments_callback callback)
 		{
 			RestRequest request = new RestRequest("comments", Method.GET);
 			request.AddParameter("authorId", userId);
@@ -333,7 +301,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void AddUserToChannel(string channelId, string_callback callback)
+		public void AddUserToChannel(long channelId, string_callback callback)
 		{
 			RestRequest request = new RestRequest("userGroups", Method.POST);
 			request.RequestFormat = DataFormat.Json;
@@ -379,9 +347,9 @@ namespace BlahguaMobile.BlahguaCore
 		public void GetProfileSchema(ProfileSchema_callback callback)
 		{
 			RestRequest request = new RestRequest("users/profile/schema", Method.GET);
-			apiClient.ExecuteAsync<ProfileSchemaWrapper>(request, (response) =>
+			apiClient.ExecuteAsync<ProfileSchema>(request, (response) =>
 				{
-					callback(response.Data.fieldNameToSpecMap);    
+					callback(response.Data);    
 				});
 
 		}
@@ -426,7 +394,7 @@ namespace BlahguaMobile.BlahguaCore
 
 		}
 
-		public void DeleteBlah(string blahId, string_callback callback)
+		public void DeleteBlah(long blahId, string_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId, Method.DELETE);
 
@@ -497,7 +465,7 @@ namespace BlahguaMobile.BlahguaCore
 
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-                    if (response.StatusCode == HttpStatusCode.Accepted)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
                         VerifyClient((didIt) =>
                         {
@@ -522,21 +490,25 @@ namespace BlahguaMobile.BlahguaCore
         {
             RestRequest request = new RestRequest("users/client", Method.GET);
             apiClient.ExecuteAsync(request, (response) =>
-            {
-                bool didIt = false;
+	            {
+	                bool didIt = false;
 
-                string keyString = response.Content;
+	                string keyString = response.Content;
 
-                string encryptStr = encrypt(keyString);
-                RestRequest authRequest = new RestRequest("users/client", Method.POST);
-                authRequest.RequestFormat = DataFormat.Json;
-                authRequest.AddBody(new { code = encryptStr });
-                apiClient.ExecuteAsync<bool>(authRequest, (authResp) =>
-                {
-                    didIt = authResp.Data;
-                    callback(didIt);
-                });
-            });
+	                string encryptStr = encrypt(keyString);
+	                RestRequest authRequest = new RestRequest("users/client", Method.POST);
+	                authRequest.RequestFormat = DataFormat.Json;
+	                authRequest.AddBody(new { code = encryptStr });
+	                apiClient.ExecuteAsync(authRequest, (authResp) =>
+		                {
+							string bool1str = "true";
+							string bool2str = "True";
+							bool bool1 = bool1str.FromJson<bool>();
+							bool bool2 = bool2str.FromJsv<bool>();
+							didIt = authResp.Content.FromJson<bool>();
+		                    callback(didIt);
+		                });
+	            });
         }
 
         private static string  SECRET_CLIENT_KEY = "ImAGZFi9J9NfcKjPNljZfw==";
@@ -639,17 +611,15 @@ namespace BlahguaMobile.BlahguaCore
 		public void CreateBlah(BlahCreateRecord theBlah , Blah_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/new", Method.POST);
-			theBlah.E = theBlah.ExpirationDate.ToString("yyy-MM-dd") + "T00:00:00";
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(theBlah);
-			Console.WriteLine("about to create blah!");
 			apiClient.ExecuteAsync(request, (response) =>
 				{
 					Blah newBlah = null;
 					if (response.StatusCode == HttpStatusCode.Created)
 					{
 						newBlah = response.Content.FromJson<Blah>();
-						newBlah.cdate = DateTime.Now.ToString();
+						newBlah.cdate = DateTime.Now;
 
 					}
 
@@ -668,7 +638,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-        public void GetComment(string commentId, Comment_callback callback)
+        public void GetComment(long commentId, Comment_callback callback)
         {
             RestRequest request = new RestRequest("comments/" + commentId, Method.GET);
             request.RequestFormat = DataFormat.Json;
@@ -678,7 +648,7 @@ namespace BlahguaMobile.BlahguaCore
             });
         }
 
-		public void SetBlahVote(string blahId, int userVote, int_callback callback)
+		public void SetBlahVote(long blahId, int userVote, int_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/stats", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
@@ -689,7 +659,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void SetCommentVote(string commentId, int userVote, int_callback callback)
+		public void SetCommentVote(long commentId, int userVote, int_callback callback)
 		{
 			RestRequest request = new RestRequest("comments/" + commentId, Method.PUT);
 			request.RequestFormat = DataFormat.Json;
@@ -739,7 +709,7 @@ namespace BlahguaMobile.BlahguaCore
 		}
 
 
-		public void UploadObjectPhoto(string objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
+		public void UploadObjectPhoto(long objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
 		{
 			string uploadURL = GetImageUploadURL ();
 			var request = new RestRequest("images/upload", Method.POST);
@@ -882,7 +852,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetUserPollVote(string blahId, PollVote_callback callback)
+		public void GetUserPollVote(long blahId, PollVote_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/pollVote", Method.GET);
 			apiClient.ExecuteAsync<UserPollVote>(request, (response) =>
@@ -891,7 +861,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void SetUserPollVote(string blahId, int theOption, PollVote_callback callback)
+		public void SetUserPollVote(long blahId, int theOption, PollVote_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/pollVote/" + theOption, Method.PUT);
 			apiClient.ExecuteAsync(request, (response) =>
@@ -905,7 +875,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetUserPredictionVote(string blahId, PredictionVote_callback callback)
+		public void GetUserPredictionVote(long blahId, PredictionVote_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/predicts", Method.GET);
 			apiClient.ExecuteAsync<UserPredictionVote>(request, (response) =>
@@ -914,7 +884,7 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void SetUserPredictionVote(string blahId, string theVote, bool expired, PredictionVote_callback callback)
+		public void SetUserPredictionVote(long blahId, string theVote, bool expired, PredictionVote_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs/" + blahId + "/predicts", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
@@ -934,7 +904,7 @@ namespace BlahguaMobile.BlahguaCore
 		}
 
 
-		public void GetUserDescription(string userId, UserDescription_callback callback)
+		public void GetUserDescription(long userId, UserDescription_callback callback)
 		{
 			RestRequest request = new RestRequest("users/descriptor", Method.POST);
 			request.RequestFormat = DataFormat.Json;
@@ -947,12 +917,12 @@ namespace BlahguaMobile.BlahguaCore
 
 		}
 
-		public void GetCommentAuthorDescriptions(List<string> userIds, CommentAuthorDescriptionList_callback callback)
+		public void GetCommentAuthorDescriptions(List<long> userIds, UserDescriptionList_callback callback)
 		{
 			RestRequest request = new RestRequest("users/descriptors", Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(new { IDS = userIds });
-			apiClient.ExecuteAsync<CommentAuthorDescriptionList>(request, (response) =>
+			apiClient.ExecuteAsync<UserDescriptionList>(request, (response) =>
 				{
 					callback(response.Data);
 				});
@@ -961,20 +931,18 @@ namespace BlahguaMobile.BlahguaCore
 
 
 
-		public void FetchFullBlah(string blahId, Blah_callback callback)
+		public void FetchFullBlah(long blahId, Blah_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId, Method.GET);
-			apiClient.ExecuteAsync(request, (response) =>
+			RestRequest request = new RestRequest("blahs", Method.GET);
+			request.AddParameter ("blahId", blahId);
+			apiClient.ExecuteAsync<Blah>(request, (response) =>
 				{
-					string resStr = response.Content;
-					resStr = resStr.Replace("\"c\":", "\"cdate\":");
-					Blah newBlah = resStr.FromJson<Blah>();
-
-					callback(newBlah);
+					
+					callback(response.Data);
 				});
 		}
 
-		public void GetBadgeInfo(string badgeId, BadgeRecord_callback callback)
+		public void GetBadgeInfo(long badgeId, BadgeRecord_callback callback)
 		{
 			RestRequest request = new RestRequest("badges/" + badgeId, Method.GET);
 			apiClient.ExecuteAsync<BadgeRecord>(request, (response) =>
@@ -1003,7 +971,7 @@ namespace BlahguaMobile.BlahguaCore
 
 		}
 
-		public void GetInbox(string groupId, Inbox_callback callback)
+		public void GetInbox(long groupId, Inbox_callback callback)
 		{
 			RestRequest request = new RestRequest("users/inbox", Method.GET);
 			request.AddParameter("groupId", groupId);

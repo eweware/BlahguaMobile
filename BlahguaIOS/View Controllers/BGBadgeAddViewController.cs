@@ -145,7 +145,7 @@ namespace BlahguaMobile.IOS
                     return;
                 }
 				InvokeOnMainThread(() => {
-					string authId = authorities[0]._id;
+					long authId = authorities[0]._id;
 					string emailAddr = emailTextField.Text;
                     BlahguaAPIObject.Current.GetEmailBadgeForUser(authId, emailAddr, (ticket) => {
 						InvokeOnMainThread(() => {

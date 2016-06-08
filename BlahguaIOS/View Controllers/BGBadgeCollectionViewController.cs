@@ -65,8 +65,8 @@ namespace BlahguaMobile.IOS
             };
 
 			CollectionView.ReloadData ();
-            if ((BlahguaAPIObject.Current.CurrentUser.Badges == null) ||
-                (BlahguaAPIObject.Current.CurrentUser.Badges.Count == 0))
+            if ((BlahguaAPIObject.Current.CurrentUser.B == null) ||
+                (BlahguaAPIObject.Current.CurrentUser.B.Count == 0))
             {
                 noBadgeLabel.LineBreakMode = UILineBreakMode.WordWrap;
                 noBadgeLabel.Lines = 0;
@@ -97,15 +97,15 @@ namespace BlahguaMobile.IOS
 		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath)
 		{
 			var cell = (BGBadgeCell)collectionView.DequeueReusableCell (new NSString("badgeCell"), indexPath);
-			var badge = BlahguaAPIObject.Current.CurrentUser.Badges[indexPath.Row];
-			cell.SetUp (badge.BadgeImage, badge.BadgeName);
+			var badge = BlahguaAPIObject.Current.CurrentUser.B[indexPath.Row];
+			cell.SetUp (badge.URL, badge.N);
 			return cell;
 		}
 
 		public override nint GetItemsCount (UICollectionView collectionView, nint section)
 		{
 
-			return BlahguaAPIObject.Current.CurrentUser.Badges == null ? 0 : BlahguaAPIObject.Current.CurrentUser.Badges.Count;
+			return BlahguaAPIObject.Current.CurrentUser.B == null ? 0 : BlahguaAPIObject.Current.CurrentUser.B.Count;
 		}
 
 		public override nint NumberOfSections (UICollectionView collectionView)

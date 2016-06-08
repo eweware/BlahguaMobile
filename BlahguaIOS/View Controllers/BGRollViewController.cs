@@ -203,7 +203,7 @@ namespace BlahguaMobile.IOS
 			if (BlahguaAPIObject.Current.CurrentUser != null)
 				theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
 			else
-				theAction.userid = "0";
+				theAction.userid = 0;
 			
 			string theStr = theAction.ToJson<PublishAction>();
 
@@ -260,7 +260,7 @@ namespace BlahguaMobile.IOS
 					{
 					case "openblah":
 					case "blahactivity":
-						string blahId = theTurn.blahid;
+						long blahId = theTurn.blahid;
 						ShowBlahActivity(blahId);
 						break;
 
@@ -280,7 +280,7 @@ namespace BlahguaMobile.IOS
 			}
 		}
 
-		private void ShowBlahActivity(string blahId)
+		private void ShowBlahActivity(long blahId)
 		{
 			InvokeOnMainThread (() => {
 				BGRollViewDataSource dataSource = this.CollectionView.DataSource as BGRollViewDataSource;
