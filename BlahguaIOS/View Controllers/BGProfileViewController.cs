@@ -9,10 +9,11 @@ using Foundation;
 using MonoTouch.Dialog.Utilities;
 using UIKit;
 using MessageUI;
+using SDWebImage;
 
 namespace BlahguaMobile.IOS
 {
-	partial class BGProfileViewController : UIViewController, IImageUpdated
+	partial class BGProfileViewController : UIViewController
 	{
 
 		#region Fields
@@ -143,21 +144,12 @@ namespace BlahguaMobile.IOS
 			{
 				selectImage.Hidden = true;
 				if (url != null) {
-					//UIImage profileImage = UIImageHelper.ImageFromUrl (url);
-
-					//UIImageView profileImageView = new UIImageView (profileImage);
-					Uri imageToLoad = new Uri (url);
-
-					profileImageView.Image = ImageLoader.DefaultRequestImage  (imageToLoad, this);
-
-					//profileImageView.Frame = new RectangleF (89, 24, 128, 128);
+					profileImageView.SetImage(new NSUrl(url));
 
 					var button = new UIButton (profileImageView.Frame);
 					button.TouchUpInside += ActionForImage;
 
 					profileView.Add (button);
-
-					//profileView.SendSubviewToBack (profileImageView);
 				}
 			}
 			else
@@ -334,14 +326,7 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
-		#region IImageUpdated implementation
 
-		public void UpdatedImage (Uri uri)
-		{
-			profileImageView.Image = ImageLoader.DefaultRequestImage (uri, this);
-		}
-
-		#endregion
 	}
 
 	[Register("BGImagePickerController")]

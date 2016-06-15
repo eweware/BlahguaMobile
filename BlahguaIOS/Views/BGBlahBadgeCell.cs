@@ -6,6 +6,7 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using BlahguaMobile.BlahguaCore;
+using SDWebImage;
 
 namespace BlahguaMobile.IOS
 {
@@ -23,18 +24,22 @@ namespace BlahguaMobile.IOS
 				UIColor.Black
 			);
 			Uri uri = null;
-			if (Uri.TryCreate (theBadge.URL, UriKind.RelativeOrAbsolute, out uri))
-				badgeImage.Image = ImageLoader.DefaultRequestImage (uri, new ImageUpdateDelegate (badgeImage));
-			else
+			if (Uri.TryCreate (theBadge.URL, UriKind.RelativeOrAbsolute, out uri)) {
+				badgeImage.SetImage(new NSUrl(uri.ToString()), UIImage.FromBundle("badges"), 
+				                    (image, error, cacheType, imageUrl) =>
+				{
+
+				});
+			} else
 				badgeImage.Image = UIImage.FromBundle ("badges");
 
 			DecorateBadge(theBadge.N);
         }
 
-        private void DecorateBadge (string badgeName)
+        private void DecorateBadge (string badgeNameStr)
         {
             this.badgeName.AttributedText = new NSAttributedString (
-                badgeName, 
+                badgeNameStr, 
                 UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
                 UIColor.Black
             );

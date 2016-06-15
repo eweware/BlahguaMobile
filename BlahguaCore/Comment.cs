@@ -161,6 +161,7 @@ namespace BlahguaMobile.BlahguaCore
         public int uv { get; set; }
         private int _indentLevel;
 		private BadgeList _badgeList = null;
+		public string _m { get; set;} // the user's image
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -241,13 +242,9 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				if ((XX == false) && (M != null) && (M.Count > 0))
+				if ((XX == false) && (string.IsNullOrEmpty(_m)))
                 {
-					string urlStr = M [0].url;
-					if (!string.IsNullOrEmpty (urlStr))
-						return BlahguaAPIObject.Current.GetImageURL (urlStr, "A");
-					else
-						return null;
+					return BlahguaAPIObject.Current.GetImageURL (_m, "A");
                 }
                 else
 					return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";

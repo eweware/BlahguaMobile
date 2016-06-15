@@ -4,7 +4,7 @@ using System;
 using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
-
+using SDWebImage;
 using Foundation;
 using MonoTouch.Dialog.Utilities;
 using UIKit;
@@ -12,7 +12,7 @@ using CoreAnimation;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGRollViewCell : UICollectionViewCell, IImageUpdated
+	public partial class BGRollViewCell : UICollectionViewCell
 	{
 		private InboxBlah blah;
 		private UIImageView imageView;
@@ -82,12 +82,6 @@ namespace BlahguaMobile.IOS
 
 		}
 
-        public void UpdatedImage(Uri uri)
-        {
-            imageView.Image = ImageLoader.DefaultRequestImage(uri, this);
-
-        }
-
 
 		public void SetCellProperties(InboxBlah blah, string reusableId, CGSize size, NSIndexPath path)
 		{
@@ -97,7 +91,7 @@ namespace BlahguaMobile.IOS
 				try {
 					imageView.Frame = new CGRect (new CGPoint (0, 0), size);
 					imageView.Image = null;
-					imageView.Image = ImageLoader.DefaultRequestImage(new Uri(blah.ImageURL), this);
+					imageView.SetImage(new NSUrl(blah.ImageURL));
 					imageView.Hidden = false;
 				}
 				catch (Exception exp) {

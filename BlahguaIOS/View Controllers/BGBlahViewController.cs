@@ -14,12 +14,13 @@ using Foundation;
 using UIKit;
 //using MonoTouch.Dialog.Utilities;
 using MessageUI;
+using SDWebImage;
 
 
 
 namespace BlahguaMobile.IOS
 {
-    public partial class BGBlahViewController : UIViewController, IImageUpdated
+    public partial class BGBlahViewController : UIViewController
     {
         #region Fields
 		private bool badgesShown = true;
@@ -148,8 +149,8 @@ namespace BlahguaMobile.IOS
 
         private void SetUpHeaderView()
         {
-            userImage.Image = ImageLoader.DefaultRequestImage(new Uri(CurrentBlah.UserImage),
-                new ImageUpdateDelegate(userImage));
+			userImage.SetImage(url: new NSUrl(CurrentBlah.UserImage));
+
 
             SetAuthorName();
             SetAuthorDescription();
@@ -223,18 +224,27 @@ namespace BlahguaMobile.IOS
             if (CurrentBlah.ImageURL != null)
             {
 				try {
-					Uri imageToLoad = new Uri (CurrentBlah.ImageURL);
-					UIImage theImage = ImageLoader.DefaultRequestImage (imageToLoad, this);
-					blahImage.Image = theImage;
+					blahImage.SetImage(new NSUrl(CurrentBlah.ImageURL),
+					                   (image, error, cacheType, url) =>
+					{
+						if (image == null)
+						{
+							blahImageHeight.Constant = 0;
+						}
+						else
+						{
+							nfloat newHeight = image.Size.Height / image.Size.Width * View.Frame.Width;
 
-					if (blahImage.Image != null) {
-						UIImage img = blahImage.Image;
-                        nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
+							blahImageHeight.Constant = newHeight;
+							nfloat finalHeight = blahBodyView.Frame.Bottom;
+							if (tableView != null)
+								finalHeight += (BlahExtraItemCount + 1) * 64f;
+							finalHeight += newHeight;
+							contentView.ContentSize = new CGSize(contentView.ContentSize.Width, finalHeight);
+						}
 
-						blahImageHeight.Constant = newHeight;
-					} else {
-						blahImageHeight.Constant = 0;
-					}
+					});
+
 				}
 				catch (Exception exp) {
 					System.Console.WriteLine (exp.Message);
@@ -321,22 +331,24 @@ namespace BlahguaMobile.IOS
                 {
                     if (lastViewController.CurrentBlah.TypeName == "polls" || lastViewController.CurrentBlah.TypeName == "predicts")
                     {
+						InvokeOnMainThread(() =>
+						{
+							var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, viewController.View.Frame.Width);
+							var height = NSLayoutConstraint.Create(
+											 lastViewController.tableView,
+											 NSLayoutAttribute.Height,
+											 NSLayoutRelation.Equal,
+											 null,
+											 NSLayoutAttribute.NoAttribute,
+											 1,
+											 (lastViewController.BlahExtraItemCount + 1) * 64.0f);
+							var left = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, lastViewController.contentView, NSLayoutAttribute.Left, 1, 0);
 
-                        var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, viewController.View.Frame.Width);
-                        var height = NSLayoutConstraint.Create(
-                                         lastViewController.tableView,
-                                         NSLayoutAttribute.Height,
-                                         NSLayoutRelation.Equal,
-                                         null,
-                                         NSLayoutAttribute.NoAttribute,
-                                         1,
-                                         (lastViewController.BlahExtraItemCount + 1) * 64.0f);
-                        var left = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, lastViewController.contentView, NSLayoutAttribute.Left, 1, 0);
-
-                        lastViewController.tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
-                        var positionYTop = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, lastViewController.blahBodyView, NSLayoutAttribute.Bottom, 1, 8);                  
-                        lastViewController.contentView.AddConstraints(new NSLayoutConstraint[] { left, positionYTop });
-                        lastViewController.contentView.LayoutIfNeeded();
+							lastViewController.tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
+							var positionYTop = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, lastViewController.blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+							lastViewController.contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop });
+							lastViewController.contentView.LayoutIfNeeded();
+						});
                     }
                     setUp = true;
                 }
@@ -749,26 +761,7 @@ namespace BlahguaMobile.IOS
 
         #endregion
 
-        #region IImageUpdated implementation
-
-        public void UpdatedImage(Uri uri)
-        {
-            blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
-			if (blahImage.Image != null) {
-				UIImage img = blahImage.Image;
-                nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
-
-				blahImageHeight.Constant = newHeight;
-                nfloat finalHeight = blahBodyView.Frame.Bottom;
-                if (tableView != null)
-                    finalHeight += (BlahExtraItemCount + 1) * 64f;
-                finalHeight += newHeight;
-                contentView.ContentSize = new CGSize (contentView.ContentSize.Width, finalHeight);
-			}
-
-        }
-
-        #endregion
+        
 
 
         private enum BlahPollType
@@ -1000,27 +993,7 @@ namespace BlahguaMobile.IOS
         }
     }
 
-    public class ImageUpdateDelegate : IImageUpdated
-    {
-        private UIImageView image;
 
-        public ImageUpdateDelegate(UIImageView image)
-        {
-            this.image = image;
-			//if(((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView != null)
-			//	((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SummaryViewController.AdjustViewLayout ();
-        }
-
-        #region IImageUpdated implementation
-
-        public void UpdatedImage(Uri uri)
-        {
-            image.Image = ImageLoader.DefaultRequestImage(uri, this);
-
-		}
-
-        #endregion
-    }
 		
     public class AlertDelegate : UIAlertViewDelegate
     {

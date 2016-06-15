@@ -48,24 +48,19 @@ namespace BlahguaMobile.BlahguaCore
 		public static bool usingQA = true;//false; //false; //true;
 		private RestClient apiClient;
 		private string imageBaseURL = "";
-
+		private static string apiPath = "/api/v3";
+		private static string localHostPath = "http://localhost:8080";
+		private static string networkHostPath = "http://192.168.0.6:8080";
+		private static string prodHostPath = "https://heard-gae.appspot.com";
+		private static string serverPath = localHostPath;
 
 		public BlahguaRESTservice()
 		{
-			if (usingQA)
-			{
-				System.Console.WriteLine("Using QA Server");
-				apiClient = new RestClient("http://localhost:8080/api/v3");  // "http://192.168.0.35:8090/v2" ;; "http://localhost:8080/v2"
-				BaseShareURL = "http://qa.rest.goheard.com:8080/";
-				imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
-			}
-			else
-			{
-				System.Console.WriteLine("Using Production Server");
-				apiClient = new RestClient("http://app.goheard.com/v2");
-				BaseShareURL = "http://app.goheard.com/";
-				imageBaseURL = "https://s3-us-west-2.amazonaws.com/blahguaimages/image/";
-			}
+			System.Console.WriteLine("Using server @" + serverPath + apiPath);
+			apiClient = new RestClient(serverPath + apiPath);
+			BaseShareURL = serverPath;
+			imageBaseURL = "https://s3-us-west-2.amazonaws.com/qa.blahguaimages/image/";
+
 
 			apiClient.CookieContainer = new CookieContainer();
 		}
@@ -610,13 +605,18 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void CreateBlah(BlahCreateRecord theBlah , Blah_callback callback)
 		{
+			string mediaRecordArray = "[{\"_id\":21,\"url\":\"http://127.0.0.1:8080/_ah/img/U1P8e2VrDWymC2a1DVzweg\",\"type\":1}]";
+			string mediaRecord = "{\"_id\":21,\"url\":\"http://127.0.0.1:8080/_ah/img/U1P8e2VrDWymC2a1DVzweg\",\"type\":1}";
+
+
+				
 			RestRequest request = new RestRequest("blahs/new", Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(theBlah);
 			apiClient.ExecuteAsync(request, (response) =>
 				{
 					Blah newBlah = null;
-					if (response.StatusCode == HttpStatusCode.Created)
+					if (response.StatusCode == HttpStatusCode.OK)
 					{
 						newBlah = response.Content.FromJson<Blah>();
 						newBlah.cdate = DateTime.Now;
@@ -661,9 +661,10 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void SetCommentVote(long commentId, int userVote, int_callback callback)
 		{
-			RestRequest request = new RestRequest("comments/" + commentId, Method.PUT);
+			RestRequest request = new RestRequest("comments", Method.PUT);
+			request.AddParameter("id", commentId);
+			request.AddParameter("vote", userVote);
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(new { C = userVote });
 			apiClient.ExecuteAsync<int>(request, (response) =>
 				{
 					callback(userVote);
@@ -701,10 +702,8 @@ namespace BlahguaMobile.BlahguaCore
 
 		public string GetImageUploadURL()
 		{
-			RestClient onetimeClient = new RestClient("http://heard-test-001.appspot.com/api/image");
-			//onetimeClient.CookieContainer = apiClient.CookieContainer;
-			var request = new RestRequest("", Method.GET);
-			IRestResponse response = onetimeClient.Execute (request);
+			RestRequest request = new RestRequest("uploadimage", Method.GET);
+			IRestResponse response = apiClient.Execute (request);
 			return response.Content;
 		}
 
@@ -935,10 +934,11 @@ namespace BlahguaMobile.BlahguaCore
 		{
 			RestRequest request = new RestRequest("blahs", Method.GET);
 			request.AddParameter ("blahId", blahId);
-			apiClient.ExecuteAsync<Blah>(request, (response) =>
+			apiClient.ExecuteAsync(request, (response) =>
 				{
-					
-					callback(response.Data);
+					string blahStr = response.Content;
+					Blah theBlah3 = blahStr.FromJson<Blah>();
+					callback(theBlah3);
 				});
 		}
 

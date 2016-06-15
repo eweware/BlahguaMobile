@@ -831,7 +831,7 @@ namespace BlahguaMobile.BlahguaCore
 					fullURL = baseURL + "=s" + BlahguaAPIObject.largeTileSize + "-c";
 					break;
 				default:
-					fullURL = baseURL + "=s2048";
+						fullURL = baseURL + "";// todo: determine max size "=s2048";
 					break;
 				}
 			}
@@ -845,7 +845,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             string fullURL;
 			if (baseURL.Contains ("http"))
-				fullURL = baseURL + "=s2048";
+				fullURL = baseURL + "";// todo: determine max size"=s2048";
 			else
 				fullURL = BlahguaRest.ImageBaseURL + baseURL + ".jpg";
 
@@ -1126,7 +1126,10 @@ namespace BlahguaMobile.BlahguaCore
                     {
                         curComm.K = curDesc.K;
                         curComm.d = curDesc.d;
-						curComm.M = curDesc.m;
+						if (curDesc.m != null && curDesc.m.Count > 0)
+							curComm._m = curDesc.m[0].url;
+						else
+							curComm._m = null;
                     }
                 }
             }
@@ -1405,7 +1408,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             BlahguaRest.Register(userName, password, (resultStr) =>
                 {
-                    if (resultStr == "")
+                    if (resultStr == "OK")
                     {
                         SignIn(userName, password, saveIt, callBack);
                     }

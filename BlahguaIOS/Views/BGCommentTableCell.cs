@@ -9,11 +9,12 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using SWTableViewCell;
+using SDWebImage;
 
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell, IImageUpdated
+	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell
     {
 		private UITapGestureRecognizer tapRecognizer;
 		private UITapGestureRecognizer imageTapRecognizer;
@@ -129,20 +130,28 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(userComment.AuthorImage))
 			{
-                imgAvatar.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.AuthorImage), new ImageUpdateDelegate(imgAvatar));
+				imgAvatar.SetImage(new NSUrl(userComment.AuthorName), (image, error, cacheType, imageUrl) =>
+				{
+
+				});
 			}
 
             if (!String.IsNullOrEmpty(userComment.ImageURL))
             {
 				try {
 					commentImageView.LayoutIfNeeded ();
-					commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
+					commentImageView.SetImage(new NSUrl(userComment.ImageURL), (image, error, cacheType, imageUrl) =>
+					{
+						if (image != null)
+						{
+							imageViewHeight.Constant = image.Size.Height / image.Size.Width * commentImageView.Frame.Width;
+						}
+						else
+							imageViewHeight.Constant = 0;
+					});
 
-					if (commentImageView.Image != null) {
-						UIImage img = commentImageView.Image;
-						imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
-					} else
-						imageViewHeight.Constant = 0;
+
+
 				}
 				catch (Exception exp) {
 					System.Console.WriteLine (exp.Message);
@@ -191,16 +200,16 @@ namespace BlahguaMobile.IOS
 
 		public void UpdatedImage(Uri uri)
 		{
-			commentImageView.Image = ImageLoader.DefaultRequestImage(uri, this);
-			if (commentImageView.Image != null) {
-				UIImage img = commentImageView.Image;
-				nfloat newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+			commentImageView.SetImage(new NSUrl(uri.ToString()), (image, error, cacheType, imageUrl) =>
+			{
+				if (image != null)
+				{
+					nfloat newHeight = image.Size.Height / image.Size.Width * commentImageView.Frame.Width;
 
-
-				imageViewHeight.Constant = newHeight;
-				parentTableView.ReloadData ();
-			}
-
+					imageViewHeight.Constant = newHeight;
+					parentTableView.ReloadData();
+				}
+			});
 		}
 
 

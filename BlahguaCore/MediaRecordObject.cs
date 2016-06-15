@@ -5,8 +5,8 @@ namespace BlahguaMobile.BlahguaCore
 {
 
 	public class MediaRecordObject {
-		public long _id;    // the id
-		public string url;  // the URL
-		public int type;
+		public long _id { get; set;}    // the id
+		public string url { get; set; }  // the URL
+		public int type { get; set; }
 	}
 }

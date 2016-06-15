@@ -4,7 +4,7 @@ using System;
 using CoreGraphics;
 
 using BlahguaMobile.BlahguaCore;
-
+using SDWebImage;
 using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
@@ -38,25 +38,28 @@ namespace BlahguaMobile.IOS
 			SetUp (comment.ImageURL, comment.T, comment.UpVoteCount.ToString () + "/" + comment.DownVoteCount.ToString (),comment.AuthorName,comment.ElapsedTimeString);
 		}
 
-		private void SetUp(string imageUrl, string text, string upAndDownVotesText,string userNameString,string timeString)
+		private void SetUp(string imageUrl, string textStr, string upAndDownVotesText,string userNameString,string timeString)
 		{
             nfloat width = Frame.Width, height = Frame.Height;
 			yCoordStart = space;
 			labelXCoordStart = baseXStart;
+			ContentView.AddSubview(commentImageView);
 			if(!String.IsNullOrEmpty(imageUrl))
 			{
 				commentImageView = new UIImageView ();
-	
-				commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(imageUrl), new ImageUpdateDelegate (commentImageView));
-				ContentView.AddSubview (commentImageView);
+				commentImageView.SetImage(new NSUrl(imageUrl), (image, error, cacheType, loadedUrl) =>
+				{
+					// todo:  don't we need to resize this??
+				});
+
 				commentImageView.Frame = new CGRect (0, yCoordStart, width, 161f);
 				yCoordStart += commentImageView.Frame.Height + space;
 			}
 
 			this.text.RemoveFromSuperview ();
-			if(!String.IsNullOrEmpty(text))
+			if(!String.IsNullOrEmpty(textStr))
 			{
-				this.text.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
+				this.text.AttributedText = new NSAttributedString (textStr, UIFont.FromName (BGAppearanceConstants.FontName, 14), UIColor.Black);
 
 				var newSize = this.text.SizeThatFits (new CGSize (width - baseXStart * 2, height));
 				ContentView.AddSubview (this.text);

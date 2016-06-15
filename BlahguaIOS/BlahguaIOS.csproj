@@ -347,7 +347,6 @@
     <Compile Include="View Controllers\EmbeddedWebController.designer.cs">
       <DependentUpon>EmbeddedWebController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ImageLoader.cs" />
     <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
       <DependentUpon>BGNewPostViewController.cs</DependentUpon>
     </Compile>
@@ -359,6 +358,7 @@
     <Compile Include="..\BlahguaCore\MediaRecordObject.cs">
       <Link>BlahguaCore\MediaRecordObject.cs</Link>
     </Compile>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -390,6 +390,9 @@
     </Reference>
     <Reference Include="ServiceStack.Text.XamarinIOS">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
+    </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -618,6 +621,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.2.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="sdwebimage">
+      <Version>3.7.5</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

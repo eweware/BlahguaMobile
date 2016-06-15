@@ -16,7 +16,7 @@ using ServiceStack.Text;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGRollViewController : UICollectionViewController, IImageUpdated
+	public partial class BGRollViewController : UICollectionViewController
 	{
 		#region Fields
 
@@ -149,7 +149,8 @@ namespace BlahguaMobile.IOS
 
 			BlahguaAPIObject.Current.PropertyChanged += (object sender, PropertyChangedEventArgs e) => {
 				if (e.PropertyName == "CurrentChannel") {
-                    ImageLoader.Purge();
+					//ImageLoader.Purge();
+					SDWebImage.SDWebImageManager.SharedManager.ImageCache.ClearMemory();
 					
 					InvokeOnMainThread (() => {
 						PrepareChannelBar();
@@ -524,8 +525,18 @@ namespace BlahguaMobile.IOS
 
 		public void UpdateProfileImage()
 		{
-			if(profile != null)
-				profile.SetImage (GetProfileImage (), UIControlState.Normal);
+			if (profile != null)
+			{
+				SDWebImage.SDWebImageDownloader.SharedDownloader.DownloadImage(new NSUrl(BlahguaAPIObject.Current.CurrentUser.UserImage),
+																			   SDWebImage.SDWebImageDownloaderOptions.HighPriority, null, (image, data, error, finished) =>
+																			   {
+																				   InvokeOnMainThread(() =>
+																				   {
+																					   profile.SetImage(image, UIControlState.Normal);
+					});
+				});
+
+			}
 		}
 
 		public void ClearRightBarButton()
@@ -554,7 +565,14 @@ namespace BlahguaMobile.IOS
 				if ((NavigationItem.RightBarButtonItems == null) || (NavigationItem.RightBarButtonItems.Length < 2))
 				{
 					profile = new UIButton(new CGRect(44, 0, 44, 44));
-					profile.SetImage(GetProfileImage(), UIControlState.Normal);
+					SDWebImage.SDWebImageDownloader.SharedDownloader.DownloadImage(new NSUrl(BlahguaAPIObject.Current.CurrentUser.UserImage),
+																			   SDWebImage.SDWebImageDownloaderOptions.HighPriority, null, (image, data, error, finished) =>
+																			   {
+																				   InvokeOnMainThread(() =>
+																				   {
+																					   profile.SetImage(image, UIControlState.Normal);
+						});
+																			   });
 					newBlah = new UIButton(new CGRect(0, 0, 44, 44));
 					//newBlah.SetBackgroundImage (UIImage.FromBundle ("new_post_tap"), UIControlState.Normal);
 					newBlah.SetImage(UIImage.FromBundle("icon_createpost"), UIControlState.Normal);
@@ -679,32 +697,12 @@ namespace BlahguaMobile.IOS
 			}, completionHandler);
 		}
 
-		private UIImage GetProfileImage ()
-		{
-			UIImage theImage = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
-			if (theImage != null)
-				UpdatedImage(null);
-
-			return theImage;
-		}
 
 
 
 		#endregion
 
-		#region IImageUpdated implementation
 
-		public void UpdatedImage (Uri uri)
-		{
-			var image = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
-			if (image != null)
-			{
-				if (profile != null)
-					profile.SetImage(image, UIControlState.Normal);
-			}
-		}
-
-		#endregion
 
 	}
 

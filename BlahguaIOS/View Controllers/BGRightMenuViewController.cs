@@ -5,11 +5,12 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using BlahguaMobile.BlahguaCore;
+using SDWebImage;
 
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGRightMenuViewController : UIViewController, IImageUpdated
+	public partial class BGRightMenuViewController : UIViewController
 	{
 		private bool _isProcessing = false;
 
@@ -62,7 +63,7 @@ namespace BlahguaMobile.IOS
 		{
 			base.ViewDidLoad ();
 
-            m_imgAvatar.Image = GetProfileImage ();
+            m_imgAvatar.SetImage(new NSUrl(BlahguaAPIObject.Current.CurrentUser.UserImage));
           
 			m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
 
@@ -147,30 +148,13 @@ namespace BlahguaMobile.IOS
 		{
             if (BlahguaAPIObject.Current.CurrentUser != null)
             {
-                if (m_imgAvatar != null)
-                    m_imgAvatar.Image = GetProfileImage();
+				if (m_imgAvatar != null)
+					m_imgAvatar.SetImage(new NSUrl(BlahguaAPIObject.Current.CurrentUser.UserImage));
                 if (m_lblUserName != null)
                     m_lblUserName.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
             }
 		}
 
-		private UIImage GetProfileImage ()
-		{
-			return ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
-
-		}
-
-
-		#region IImageUpdated implementation
-
-		public void UpdatedImage (Uri uri)
-		{
-			var image = ImageLoader.DefaultRequestImage (new Uri (BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserImage), this);
-			//profile.SetImage (image, UIControlState.Normal);
-			m_imgAvatar.Image = image;
-		}
-
-		#endregion
 	}
 }
 
