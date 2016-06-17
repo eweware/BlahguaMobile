@@ -52,7 +52,7 @@ namespace BlahguaMobile.BlahguaCore
 		private static string localHostPath = "http://localhost:8080";
 		private static string networkHostPath = "http://192.168.0.6:8080";
 		private static string prodHostPath = "https://heard-gae.appspot.com";
-		private static string serverPath = localHostPath;
+		private static string serverPath = networkHostPath;
 
 		public BlahguaRESTservice()
 		{
@@ -178,14 +178,21 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void AddBlahOpen(long blahId)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/stats", Method.PUT);
-			string jsonString = "{\"O\": 1}";
+			try
+			{
+				RestRequest request = new RestRequest("blahs", Method.PUT);
+				string jsonString = "{\"blahId\":" + blahId + ", \"O\":1, \"stats\": true}";
+				request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
 
-			request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
-			apiClient.ExecuteAsync(request, (response) =>
-				{
+				apiClient.ExecuteAsync(request, (response) =>
+					{
 
-				});
+					});
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine("err: " + exp.Message);
+			}
 		}
 
 		public void ReportPost(long contentId, int reportType)
@@ -650,9 +657,9 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void SetBlahVote(long blahId, int userVote, int_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/stats", Method.PUT);
+			RestRequest request = new RestRequest("blahs", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(new { uv = userVote });
+			request.AddBody(new { vote = userVote, id = blahId });
 			apiClient.ExecuteAsync<int>(request, (response) =>
 				{
 					callback(userVote);
@@ -853,7 +860,10 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void GetUserPollVote(long blahId, PollVote_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/pollVote", Method.GET);
+			RestRequest request = new RestRequest("blahs", Method.GET);
+			request.AddParameter("blahId", blahId);
+			request.AddParameter("poll", true);
+
 			apiClient.ExecuteAsync<UserPollVote>(request, (response) =>
 				{
 					callback(response.Data);
@@ -862,21 +872,20 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void SetUserPollVote(long blahId, int theOption, PollVote_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/pollVote/" + theOption, Method.PUT);
-			apiClient.ExecuteAsync(request, (response) =>
+			RestRequest request = new RestRequest("blahs", Method.PUT);
+			request.AddBody(new { v = theOption, id = blahId, poll = true });
+			apiClient.ExecuteAsync<UserPollVote>(request, (response) =>
 				{
-					if (response.StatusCode == HttpStatusCode.NoContent)
-					{
-						GetUserPollVote(blahId, callback);
-					}
-					else
-						callback(null);
+					callback(response.Data);
 				});
 		}
 
 		public void GetUserPredictionVote(long blahId, PredictionVote_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/predicts", Method.GET);
+			RestRequest request = new RestRequest("blahs", Method.GET);
+			request.AddParameter("blahId", blahId);
+			request.AddParameter("predict", true);
+
 			apiClient.ExecuteAsync<UserPredictionVote>(request, (response) =>
 				{
 					callback(response.Data);
@@ -885,12 +894,12 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void SetUserPredictionVote(long blahId, string theVote, bool expired, PredictionVote_callback callback)
 		{
-			RestRequest request = new RestRequest("blahs/" + blahId + "/predicts", Method.PUT);
+			RestRequest request = new RestRequest("blahs", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
 			if (expired)
-				request.AddBody(new { t = "post", v = theVote });
+				request.AddBody(new { t = "post", v = theVote, id = blahId, predict = true });
 			else
-				request.AddBody(new { t = "pre", v = theVote });
+				request.AddBody(new { t = "pre", v = theVote , id = blahId, predict = true });
 			apiClient.ExecuteAsync<UserPredictionVote>(request, (response) =>
 				{
 					if (response.StatusCode == HttpStatusCode.NoContent)

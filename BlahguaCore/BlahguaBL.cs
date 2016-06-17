@@ -1280,21 +1280,21 @@ namespace BlahguaMobile.BlahguaCore
                         {
                             case "y":
                                 if (isExpired)
-                                    CurrentBlah._1++;
+                                    CurrentBlah.PS.expYesCount++;
                                 else
-                                    CurrentBlah._4++;
+                                    CurrentBlah.PS.yesCount++;
                                 break;
                             case "n":
                                 if (isExpired)
-                                    CurrentBlah._2++;
+                                    CurrentBlah.PS.expNoCount++;
                                 else
-                                    CurrentBlah._5++;
+                                    CurrentBlah.PS.noCount++;
                                 break;
                             case "u":
                                 if (isExpired)
-                                    CurrentBlah._3++;
+                                    CurrentBlah.PS.expUnknownCount++;
                                 else
-                                    CurrentBlah._6++;
+                                    CurrentBlah.PS.unknownCount++;
                                 break;
                         }
 

@@ -943,8 +943,19 @@ namespace BlahguaMobile.BlahguaCore
     public class UserPredictionVote
     {
         public string D {get; set;}
-        public string Z {get; set;}
+        public string Z { get; set; }
     }
+
+	public class PredictionVoteStatsObj
+	{
+		public int yesCount { get; set; }
+		public int unknownCount { get; set; }
+		public int noCount { get; set; }
+
+		public int expYesCount { get; set; }
+		public int expNoCount { get; set; }
+		public int expUnknownCount { get; set; }
+	}
 
     [DataContract]
     public class Blah
@@ -979,6 +990,9 @@ namespace BlahguaMobile.BlahguaCore
         [DataMember]
 		public DateTime cdate { get; set; }
 
+		[DataMember]
+		public PredictionVoteStatsObj PS { get; set;}
+
         [DataMember]
         public List<BadgeRecord> B { get; set; }
 
@@ -993,25 +1007,6 @@ namespace BlahguaMobile.BlahguaCore
 
 		[DataMember]
 		public DateTime E { get; set; }
-
-
-        [DataMember(Name = "1")]
-        public int _1 { get; set; }
-
-        [DataMember(Name = "2")]
-        public int _2 { get; set; }
-
-        [DataMember(Name = "3")]
-        public int _3 { get; set; }
-
-        [DataMember(Name = "4")]
-        public int _4 { get; set; }
-
-        [DataMember(Name = "5")]
-        public int _5 { get; set; }
-
-        [DataMember(Name = "6")]
-        public int _6 { get; set; }
 
         [DataMember]
         public bool XX { get; set; }
@@ -1054,12 +1049,6 @@ namespace BlahguaMobile.BlahguaCore
             D = 0;
             P = 0;
             XXX = false;
-            _1 = 0;
-            _2 = 0;
-            _3 = 0;
-            _4 = 0;
-            _5 = 0;
-            _6 = 0;
             L = null;
         }
 
@@ -1189,19 +1178,19 @@ namespace BlahguaMobile.BlahguaCore
 
         public void UpdateUserPredictionVote(UserPredictionVote theVote)
         {
-            int totalExpVotes = _1 + _2 + _3;
-            int maxExpVote = Math.Max(Math.Max(_1, _2), _3);
-            int totalVotes = _4 + _5 + _6;
-            int maxVote = Math.Max(Math.Max(_4, _5), _6);
+			int totalExpVotes = PS.expNoCount + PS.expYesCount + PS.expUnknownCount;
+            int maxExpVote = Math.Max(Math.Max(PS.expNoCount, PS.expYesCount), PS.expUnknownCount);
+			int totalVotes = PS.noCount + PS.yesCount + PS.unknownCount;
+            int maxVote = Math.Max(Math.Max(PS.noCount, PS.yesCount), PS.unknownCount);
             _predictionItems = new PollItemList();
-            _predictionItems.Add(new PollItem("I agree", _4, maxVote, totalVotes, false, "y"));
-            _predictionItems.Add(new PollItem("I disagree", _5, maxVote, totalVotes, false, "n"));
-            _predictionItems.Add(new PollItem("It is unclear", _6, maxVote, totalVotes, false, "u"));
+            _predictionItems.Add(new PollItem("I agree", PS.yesCount, maxVote, totalVotes, false, "y"));
+            _predictionItems.Add(new PollItem("I disagree", PS.noCount, maxVote, totalVotes, false, "n"));
+            _predictionItems.Add(new PollItem("It is unclear", PS.unknownCount, maxVote, totalVotes, false, "u"));
 
             _expPredictionItems = new PollItemList();
-            _expPredictionItems.Add(new PollItem("The prediction was right", _1, maxExpVote, totalExpVotes, false, "y"));
-            _expPredictionItems.Add(new PollItem("The prediction was wrong", _2, maxExpVote, totalExpVotes, false, "n"));
-            _expPredictionItems.Add(new PollItem("It is unclear", _3, maxExpVote, totalExpVotes, false, "u"));
+            _expPredictionItems.Add(new PollItem("The prediction was right", PS.expYesCount, maxExpVote, totalExpVotes, false, "y"));
+            _expPredictionItems.Add(new PollItem("The prediction was wrong", PS.expNoCount, maxExpVote, totalExpVotes, false, "n"));
+            _expPredictionItems.Add(new PollItem("It is unclear", PS.expUnknownCount, maxExpVote, totalExpVotes, false, "u"));
 
 
             if (theVote == null)
