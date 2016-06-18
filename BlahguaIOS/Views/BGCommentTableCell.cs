@@ -192,7 +192,7 @@ namespace BlahguaMobile.IOS
 
             upAndDownVotes.AttributedText = new NSAttributedString(
                 userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
-                UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
+                userComment.uv == 0 ? UIFont.FromName(BGAppearanceConstants.MediumFontName, 16) : UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
                 UIColor.Black
             );
 
@@ -233,7 +233,7 @@ namespace BlahguaMobile.IOS
                                 {
                                     upAndDownVotes.AttributedText = new NSAttributedString(
                                         userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
-                                        UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                                        UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
                                         UIColor.Black);
 									LeftEdgeConstraint.Constant = 0;
 									BGRollViewController.NotifyBlahActivity();

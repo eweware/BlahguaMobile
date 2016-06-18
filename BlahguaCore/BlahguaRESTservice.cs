@@ -29,7 +29,6 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void int_callback(int theResult);
 	public delegate void BadgeRecord_callback(BadgeRecord theResult);
 	public delegate void PredictionVote_callback(UserPredictionVote theResult);
-	public delegate void PollVote_callback(UserPollVote theResult);  
 	public delegate void Stats_callback(Stats theResult);
 	public delegate void ProfileSchema_callback(ProfileSchema theResult);
 	public delegate void Profile_callback(UserProfile theResult); 
@@ -197,8 +196,8 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void ReportPost(long contentId, int reportType)
 		{
-			RestRequest request = new RestRequest("blahs/" + contentId + "/report", Method.POST);
-			string jsonString = "{\"type\": " + reportType + "}";
+			RestRequest request = new RestRequest("ReportContent", Method.POST);
+			string jsonString = "{\"type\": " + reportType + ", \"blah\": true, \"id\":" + contentId + "}";
 
 			request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
 			apiClient.ExecuteAsync(request, (response) =>
@@ -209,8 +208,20 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void ReportComment(long contentId, int reportType)
 		{
-			RestRequest request = new RestRequest("comments/" + contentId + "/report", Method.POST);
-			string jsonString = "{\"type\": " + reportType + "}";
+			RestRequest request = new RestRequest("ReportContent", Method.POST);
+			string jsonString = "{\"type\": " + reportType + ", \"comment\": true, \"id\":" + contentId + "}";
+
+			request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
+			apiClient.ExecuteAsync(request, (response) =>
+				{
+
+				});
+		}
+
+		public void ReportUser(long contentId, int reportType)
+		{
+			RestRequest request = new RestRequest("ReportContent", Method.POST);
+			string jsonString = "{\"type\": " + reportType + ", \"user\": true, \"id\":" + contentId + "}";
 
 			request.AddParameter("application/json", jsonString, ParameterType.RequestBody);
 			apiClient.ExecuteAsync(request, (response) =>
@@ -612,14 +623,11 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void CreateBlah(BlahCreateRecord theBlah , Blah_callback callback)
 		{
-			string mediaRecordArray = "[{\"_id\":21,\"url\":\"http://127.0.0.1:8080/_ah/img/U1P8e2VrDWymC2a1DVzweg\",\"type\":1}]";
-			string mediaRecord = "{\"_id\":21,\"url\":\"http://127.0.0.1:8080/_ah/img/U1P8e2VrDWymC2a1DVzweg\",\"type\":1}";
-
-
-				
 			RestRequest request = new RestRequest("blahs/new", Method.POST);
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(theBlah);
+			JsConfig.DateHandler = JsonDateHandler.ISO8601;
+			string theStr = theBlah.ToJson();
+			request.AddParameter("application/json", theStr, ParameterType.RequestBody);
 			apiClient.ExecuteAsync(request, (response) =>
 				{
 					Blah newBlah = null;
@@ -858,23 +866,25 @@ namespace BlahguaMobile.BlahguaCore
 				});
 		}
 
-		public void GetUserPollVote(long blahId, PollVote_callback callback)
+		public void GetUserPollVote(long blahId, int_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs", Method.GET);
 			request.AddParameter("blahId", blahId);
 			request.AddParameter("poll", true);
 
-			apiClient.ExecuteAsync<UserPollVote>(request, (response) =>
+			apiClient.ExecuteAsync(request, (response) =>
 				{
-					callback(response.Data);
+					int theResult = response.Content.FromJson<int>();
+					callback(theResult);
 				});
 		}
 
-		public void SetUserPollVote(long blahId, int theOption, PollVote_callback callback)
+		public void SetUserPollVote(long blahId, int theOption, int_callback callback)
 		{
 			RestRequest request = new RestRequest("blahs", Method.PUT);
+			request.RequestFormat = DataFormat.Json;
 			request.AddBody(new { v = theOption, id = blahId, poll = true });
-			apiClient.ExecuteAsync<UserPollVote>(request, (response) =>
+			apiClient.ExecuteAsync<int>(request, (response) =>
 				{
 					callback(response.Data);
 				});
@@ -902,12 +912,7 @@ namespace BlahguaMobile.BlahguaCore
 				request.AddBody(new { t = "pre", v = theVote , id = blahId, predict = true });
 			apiClient.ExecuteAsync<UserPredictionVote>(request, (response) =>
 				{
-					if (response.StatusCode == HttpStatusCode.NoContent)
-					{
-						GetUserPredictionVote(blahId, callback);
-					}
-					else
-						callback(null);
+					callback(response.Data);
 				});
 		}
 
@@ -941,6 +946,7 @@ namespace BlahguaMobile.BlahguaCore
 
 		public void FetchFullBlah(long blahId, Blah_callback callback)
 		{
+			
 			RestRequest request = new RestRequest("blahs", Method.GET);
 			request.AddParameter ("blahId", blahId);
 			apiClient.ExecuteAsync(request, (response) =>

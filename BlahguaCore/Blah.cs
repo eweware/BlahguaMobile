@@ -269,21 +269,21 @@ namespace BlahguaMobile.BlahguaCore
         }
     }
 
-    [DataContract]
+
     public class PollItem
     {
-        [DataMember]
         public string G {get; set;}
 		public string F { get; set; }
 		public long _id { get; set; }
 		public long blahId { get; set; }
+		public int count { get; set;}
+
 
         //[DataMember]
         //public string T {get; set;}
 
         private int _maxVotes = 0;
         private int _totalVotes = 0;
-        private int _itemVotes = 0;
         private bool _isUserVote = false;
         private string expVote = "";
 
@@ -297,7 +297,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             G = theText;
             _maxVotes = maxVotes;
-            _itemVotes = numVotes;
+            count = numVotes;
             _isUserVote = isUserVote;
             _totalVotes = totalVotes;
             expVote = eVote;
@@ -328,7 +328,7 @@ namespace BlahguaMobile.BlahguaCore
             { 
                 double votes = 0;
                 if (_maxVotes > 0)
-                votes = 360.0 * ((double)_itemVotes / (double)_maxVotes);
+                votes = 360.0 * ((double)count / (double)_maxVotes);
                 return Math.Max(5, votes); 
             }
         }
@@ -340,7 +340,7 @@ namespace BlahguaMobile.BlahguaCore
                 int percent = 0;
 
                 if (_totalVotes > 0)
-                    percent = (int)(((double)_itemVotes / (double)_totalVotes) * 100);
+                    percent = (int)(((double)count / (double)_totalVotes) * 100);
 
                 if (percent > 0)
                     return percent.ToString() + "%";
@@ -363,8 +363,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public int Votes
         {
-            get { return _itemVotes; }
-            set { _itemVotes = value; }
+			get { return (int)count; }
         }
 
         public bool IsUserVote
@@ -930,16 +929,6 @@ namespace BlahguaMobile.BlahguaCore
 
   
 
-    public class UserPollVote
-    {
-        public int W {get; set;}
-
-        public UserPollVote()
-        {
-            W = -1;
-        }
-    }
-
     public class UserPredictionVote
     {
         public string D {get; set;}
@@ -957,79 +946,33 @@ namespace BlahguaMobile.BlahguaCore
 		public int expUnknownCount { get; set; }
 	}
 
-    [DataContract]
     public class Blah
     {
-        [DataMember]
         public long A { get; set; }
-
-        [DataMember]        
-        public string F { get; set; }
-
-        [DataMember]
-        public long G { get; set; }
-
-        [DataMember]
-        public int O { get; set; }
-
-        [DataMember]
-        public double S { get; set; }
-
-        [DataMember]
-        public string T { get; set; }
-
-        [DataMember]
-        public int V { get; set; }
-
-        [DataMember]
-        public long Y { get; set; }
-
-        [DataMember]
-        public long _id { get; set; }
-
-        [DataMember]
+		public string F { get; set; }
+		public long G { get; set; }
+		public int O { get; set; }
+		public double S { get; set; }
+		public string T { get; set; }
+		public int V { get; set; }
+		public long Y { get; set; }
+		public long _id { get; set; }
 		public DateTime cdate { get; set; }
-
-		[DataMember]
 		public PredictionVoteStatsObj PS { get; set;}
-
-        [DataMember]
-        public List<BadgeRecord> B { get; set; }
-
-        [DataMember]
-        public List<MediaRecordObject> M { get; set; }
-
-        [DataMember]
-        public PollItemList I { get; set; }
-
-        [DataMember]
-        public List<int> J { get; set; }
-
-		[DataMember]
+		public List<BadgeRecord> B { get; set; }
+		public List<MediaRecordObject> M { get; set; }
+		public PollItemList I { get; set; }
 		public DateTime E { get; set; }
-
-        [DataMember]
-        public bool XX { get; set; }
-
-         [DataMember]
-        public bool XXX { get; set; }
-
-        [DataMember]
-        public Stats L { get; set; }
-
-        [DataMember]
-        public int uv { get; set; }
-
-        [DataMember]
-        public int P { get; set; }
-
-        [DataMember]
-        public int D { get; set; }
-
-        [DataMember]
-        public int C { get; set; }
+		public bool XX { get; set; }
+		public bool XXX { get; set; }
+		public Stats L { get; set; }
+		public int uv { get; set; }
+		public int P { get; set; }
+		public int D { get; set; }
+		public int C { get; set; }
 
 
+		// private
         public bool IsPollInited = false;
         public bool IsPredictInited = false;
         public UserDescription Description {get; set;}
@@ -1229,20 +1172,17 @@ namespace BlahguaMobile.BlahguaCore
             IsPredictInited = true;
         }
 
-        public void UpdateUserPollVote(UserPollVote theVote)
+        public void UpdateUserPollVote(int userVote)
         {
             int maxVote = 0;
-            int userVote = -1;
             int totalVotes = 0;
 
-            if (theVote != null)
-                userVote = theVote.W;
 
-            foreach (int curVote in J)
+            foreach (PollItem curVote in I)
             {
-                totalVotes += curVote;
-                if (curVote > maxVote)
-                    maxVote = curVote;
+                totalVotes += curVote.count;
+                if (curVote.count > maxVote)
+                    maxVote = curVote.count;
             }
             PollItem curPollItem = null;
 
@@ -1250,8 +1190,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 curPollItem = I[i];
                 curPollItem.MaxVotes = maxVote;
-                curPollItem.Votes = J[i];
-                curPollItem.IsUserVote = (userVote == i);
+                curPollItem.IsUserVote = (userVote == i+1);
                 curPollItem.TotalVotes = totalVotes;
             }
 

@@ -1151,7 +1151,7 @@ namespace BlahguaMobile.BlahguaCore
         }
 
 
-        public void GetUserPollVote(PollVote_callback callback)
+        public void GetUserPollVote(int_callback callback)
         {
             if (!CurrentBlah.IsPollInited)
             {
@@ -1166,12 +1166,12 @@ namespace BlahguaMobile.BlahguaCore
                 }
                 else
                 {
-                    CurrentBlah.UpdateUserPollVote(null);
-                    callback(null);
+                    CurrentBlah.UpdateUserPollVote(0);
+                    callback(0);
                 }
             }
             else
-                callback(null);
+                callback(0);
         }
 
         
@@ -1247,18 +1247,18 @@ namespace BlahguaMobile.BlahguaCore
                 callback(null);
         }
 
-        public void SetPollVote(PollItem theVote, PollVote_callback callback)
+		public void SetPollVote(PollItem theVote, int_callback callback)
         {
             // first, ensure we really have a poll and we are voting on it...
             if ((CurrentBlah != null) && (CurrentBlah.I != null))
             {
                 int index = CurrentBlah.I.IndexOf(theVote);
-                BlahguaRest.SetUserPollVote(CurrentBlah._id, index, (thePollVote) =>
+                BlahguaRest.SetUserPollVote(CurrentBlah._id, index+1, (thePollVote) =>
                 {
                     // need to update everything
-                    if (thePollVote != null)
+                    if (thePollVote != 0)
                     {
-                        CurrentBlah.J[thePollVote.W]++;
+                        CurrentBlah.I[thePollVote + 1].count++;
                         CurrentBlah.UpdateUserPollVote(thePollVote);
                     }
                     callback(thePollVote);

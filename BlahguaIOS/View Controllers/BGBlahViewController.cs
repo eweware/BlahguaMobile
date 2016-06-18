@@ -83,10 +83,11 @@ namespace BlahguaMobile.IOS
             SetUpToolbar();
 
             //Synsoft on 14 July 2014 for swipping between screens
-
+			/*
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Left;
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
+*/
 
 			Action showFullScreen = () => {
 
@@ -378,7 +379,7 @@ namespace BlahguaMobile.IOS
 
             }
         }
-        private void PollVoteFetched(UserPollVote theVote)
+        private void PollVoteFetched(int theVote)
         {
             BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(theVote);
             FinalizeVote();
@@ -749,7 +750,7 @@ namespace BlahguaMobile.IOS
                 UIColor.Black);
         }
 
-        public void PollVoted(UserPollVote item)
+        public void PollVoted(int item)
         {
             InvokeOnMainThread(() => tableView.ReloadData());
         }
@@ -901,9 +902,9 @@ namespace BlahguaMobile.IOS
             {
                 if (type == BlahPollType.Poll)
                 {
-                    var pollItem = BlahguaAPIObject.Current.CurrentBlah.I[indexPath.Row];
-                    BlahguaAPIObject.Current.SetPollVote(pollItem, vc.PollVoted);
-                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(new UserPollVote() { W = indexPath.Row });
+                    var curPollItem = BlahguaAPIObject.Current.CurrentBlah.I[indexPath.Row];
+                    BlahguaAPIObject.Current.SetPollVote(curPollItem, vc.PollVoted);
+                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(indexPath.Row+1);
                 }
                 else
                 {

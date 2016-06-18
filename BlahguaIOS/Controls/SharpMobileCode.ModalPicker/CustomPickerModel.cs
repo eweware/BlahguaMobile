@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2014 
  * Author: Ruben Macias
  * http://sharpmobilecode.com @SharpMobileCode
@@ -48,7 +48,7 @@ namespace SharpMobileCode.ModalPicker
             var label = new UILabel(new CGRect(0, 0, 300, 37))
             {
                 BackgroundColor = UIColor.Clear,
-                    Text = _itemsList[(int)row],
+                Text = _itemsList[(int)row],
                 TextAlignment = UITextAlignment.Center,
                 Font = UIFont.BoldSystemFontOfSize(22.0f)
             };
