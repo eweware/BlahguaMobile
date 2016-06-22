@@ -79,6 +79,7 @@ namespace BlahguaMobile.IOS
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController(vc, true);
 			};
 
+			/*
             BGAppearanceHelper.SetButtonFont(m_btnBadges, BGAppearanceConstants.MediumFontName); 
 			m_btnBadges.TouchUpInside += (sender, e) => {
 	
@@ -87,14 +88,14 @@ namespace BlahguaMobile.IOS
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGBadgeCollectionViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGBadgeCollectionViewController"), true);
 
 			};
-
+*/
             BGAppearanceHelper.SetButtonFont(m_btnHistory, BGAppearanceConstants.MediumFontName); 
 			m_btnHistory.TouchUpInside += (sender, e) => {
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.CloseRightMenuForNavigation();
 
 				((AppDelegate)UIApplication.SharedApplication.Delegate).SlideMenu.NavigationController.PushViewController((BGHistoryViewController)((AppDelegate)UIApplication.SharedApplication.Delegate).MainStoryboard.InstantiateViewController("BGHistoryViewController"), true);
 			};
-			
+			/*
             BGAppearanceHelper.SetButtonFont(m_btnDemographics, BGAppearanceConstants.MediumFontName); 
 			m_btnDemographics.TouchUpInside += (sender, e) => {
 				BlahguaAPIObject.Current.GetUserProfile ((profile) => {
@@ -106,7 +107,7 @@ namespace BlahguaMobile.IOS
 					});
 				});
 			};
-
+*/
             BGAppearanceHelper.SetButtonFont(m_btnStats, BGAppearanceConstants.MediumFontName); 
             m_btnStats.Hidden = true; // TO DO:  renable when this page is fixed
 			m_btnStats.TouchUpInside += (sender, e) => {

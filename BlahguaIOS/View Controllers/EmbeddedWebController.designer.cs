@@ -11,19 +11,19 @@ using UIKit;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("EmbeddedWebController")]
-	partial class EmbeddedWebController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIWebView EmbeddedWebView { get; set; }
+    [Register ("EmbeddedWebController")]
+    partial class EmbeddedWebController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIWebView EmbeddedWebView { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (EmbeddedWebView != null) {
-				EmbeddedWebView.Dispose ();
-				EmbeddedWebView = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (EmbeddedWebView != null) {
+                EmbeddedWebView.Dispose ();
+                EmbeddedWebView = null;
+            }
+        }
+    }
 }

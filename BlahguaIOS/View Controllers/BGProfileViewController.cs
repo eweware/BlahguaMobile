@@ -182,8 +182,7 @@ namespace BlahguaMobile.IOS
 		private void DoneHandler(object sender, EventArgs args)
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
-            BlahguaAPIObject.Current.UpdateMatureFlag(showMatureBtn.On, null);
-
+			BlahguaAPIObject.Current.UpdateMatureFlag(showMatureBtn.On, null);
 
 			NavigationController.PopToRootViewController (true);
 		}
@@ -193,8 +192,9 @@ namespace BlahguaMobile.IOS
 			NavigationController.PopViewController (true);
 		}
 
-		private void NicknameUpdateCallback(string result)
+		private void NicknameUpdateCallback(UserProfile result)
 		{
+			BlahguaCore.BlahguaAPIObject.Current.CurrentUser.Profile = result;
 			InvokeOnMainThread (() => {
 				BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserName = nicknameTextField.Text;
                 BlahguaAPIObject.Current.CurrentUser.WantsMatureContent = showMatureBtn.On;
@@ -227,7 +227,7 @@ namespace BlahguaMobile.IOS
 			filePicker.Canceled += (sender1, eventArguments) => {
 
 				filePicker.DismissViewController(true, 
-					() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+					() => UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide));
 			};
 			if (eventArgs.ButtonIndex == 1) {
 				filePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
@@ -267,7 +267,7 @@ namespace BlahguaMobile.IOS
 			progressIndicator.StartAnimating ();
 
 			((BGImagePickerController) sender).DismissViewController(true, 
-				() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+				() => UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide));
 
 		}
 

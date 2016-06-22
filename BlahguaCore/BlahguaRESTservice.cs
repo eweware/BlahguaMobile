@@ -29,7 +29,7 @@ namespace BlahguaMobile.BlahguaCore
 	public delegate void int_callback(int theResult);
 	public delegate void BadgeRecord_callback(BadgeRecord theResult);
 	public delegate void PredictionVote_callback(UserPredictionVote theResult);
-	public delegate void Stats_callback(Stats theResult);
+	public delegate void Stats_callback(StatsList theResult);
 	public delegate void ProfileSchema_callback(ProfileSchema theResult);
 	public delegate void Profile_callback(UserProfile theResult); 
 	public delegate void bool_callback(bool theResult);
@@ -51,7 +51,7 @@ namespace BlahguaMobile.BlahguaCore
 		private static string localHostPath = "http://localhost:8080";
 		private static string networkHostPath = "http://192.168.0.6:8080";
 		private static string prodHostPath = "https://heard-gae.appspot.com";
-		private static string serverPath = networkHostPath;
+		private static string serverPath = localHostPath;
 
 		public BlahguaRESTservice()
 		{
@@ -245,31 +245,37 @@ namespace BlahguaMobile.BlahguaCore
 
 		}
 
-
-
-		public void GetBlahWithStats(long blahId, DateTime startDate, DateTime endDate, Blah_callback callback)
+		public void GetBlahStats(long blahId, int dayCount, Stats_callback callback)
 		{
-			string startDateString = Utilities.CreateDateString(startDate, false);
-			string endDateString = Utilities.CreateDateString(endDate, false);
+			GetObjStats("blahId", blahId, dayCount, callback);
+		}
 
-			RestRequest request = new RestRequest("blahs/" + blahId, Method.GET);
-			request.AddParameter("stats", "true");
-			request.AddParameter("s", startDateString);
-			request.AddParameter("e", endDateString);
+		public void GetUserStats(long userId, int dayCount, Stats_callback callback)
+		{
+			GetObjStats("userId", userId, dayCount, callback);
+		}
 
-			apiClient.ExecuteAsync(request, (response) =>
+		public void GetChannelStats(long channelId, int dayCount, Stats_callback callback)
+		{
+			GetObjStats("channelId", channelId, dayCount, callback);
+		}
+
+		public void GetGlobalStats(long blahId, int dayCount, Stats_callback callback)
+		{
+			GetObjStats(null, 0, dayCount, callback);
+		}
+
+		public void GetObjStats(string objType, long objectId, int dayCount, Stats_callback callback)
+		{
+			RestRequest request = new RestRequest("stats", Method.GET);
+			request.AddParameter("numDays", dayCount);
+			if (!string.IsNullOrEmpty(objType))
+				request.AddParameter(objType, objectId);
+
+			apiClient.ExecuteAsync<StatsList>(request, (response) =>
 				{
-					string resStr = response.Content;
-					resStr = resStr.Replace("\"c\":", "\"cdate\":");
-					Blah theBlah = resStr.FromJson<Blah>();
-
-
-					callback(theBlah);
+					callback(response.Data);
 				});
-
-
-
-
 		}
 
 		public void GetUserComments(long userId, Comments_callback callback)
@@ -373,24 +379,9 @@ namespace BlahguaMobile.BlahguaCore
 			apiClient.ExecuteAsync(request, (response) =>
 				{
 					string resStr = response.Content;
-					resStr = resStr.Replace("\"c\":", "\"cdate\":");
 					UserProfile profile = resStr.FromJson<UserProfile>();
 
 					callback(profile);
-				});
-
-		}
-
-		public void UpdateUserName(string userName, string_callback callback)
-		{
-			RestRequest request = new RestRequest("users/profile/info", Method.PUT);
-
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(new { A = userName});
-
-			apiClient.ExecuteAsync(request, (response) =>
-				{
-					callback("ok");
 				});
 
 		}
@@ -399,6 +390,19 @@ namespace BlahguaMobile.BlahguaCore
 		{
 			RestRequest request = new RestRequest("users/images", Method.DELETE);
 
+
+			apiClient.ExecuteAsync(request, (response) =>
+				{
+					callback("ok");
+				});
+
+		}
+
+		public void UpdateUserImage(MediaRecordObject newImage, string_callback callback)
+		{
+			RestRequest request = new RestRequest("users/images", Method.POST);
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody(newImage);
 
 			apiClient.ExecuteAsync(request, (response) =>
 				{
@@ -421,22 +425,17 @@ namespace BlahguaMobile.BlahguaCore
 
 
 
-		public void UpdateUserProfile(UserProfile theProfile, string_callback callback)
+		public void UpdateUserProfile(UserProfile theProfile, Profile_callback callback)
 		{
 			RestRequest request = new RestRequest("users/profile/info", Method.PUT);
-			MemoryStream ms = new MemoryStream();
+			string profileStr = theProfile.ToJson();
+			request.RequestFormat = DataFormat.Json;
+			request.AddParameter("application/json", profileStr, ParameterType.RequestBody);
 
-			// Serializer the User object to the stream.
-			DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(UserProfile));
-			ser.WriteObject(ms, theProfile);
-			byte[] json = ms.ToArray();
-			ms.Close();
-			string dataStr = Encoding.UTF8.GetString(json, 0, json.Length);
-			request.AddParameter("application/json", dataStr, ParameterType.RequestBody); 
 
-			apiClient.ExecuteAsync(request, (response) =>
+			apiClient.ExecuteAsync<UserProfile>(request, (response) =>
 				{
-					callback("ok");
+					callback(response.Data);
 				});
 
 		}
@@ -687,18 +686,16 @@ namespace BlahguaMobile.BlahguaCore
 		}
 
 
+
 		public void UploadPhoto(Stream photoStream, string fileName, string_callback callback)
 		{
-			string uploadURL = GetImageUploadURL ();
-            int pathSplit =  uploadURL.IndexOf("/", 7);
-            string appPath = uploadURL.Substring(0, pathSplit);
-            string requestPath = uploadURL.Substring(pathSplit);
-            RestClient onetimeClient = new RestClient(appPath);
+			string uploadURL = GetImageUploadURL();
+			int pathSplit = uploadURL.IndexOf("/", 7);
+			string appPath = uploadURL.Substring(0, pathSplit);
+			string requestPath = uploadURL.Substring(pathSplit);
+			RestClient onetimeClient = new RestClient(appPath);
 			var request = new RestRequest(requestPath, Method.POST);
-			request.AddHeader("Accept", "*/*"); 
-			request.AddParameter("objectType", "X");
-			request.AddParameter("objectId", "");
-			request.AddParameter("primary", "true");
+			request.AddHeader("Accept", "*/*");
 			request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
 
 			onetimeClient.ExecuteAsync(request, (response) =>
@@ -722,31 +719,6 @@ namespace BlahguaMobile.BlahguaCore
 			return response.Content;
 		}
 
-
-		public void UploadObjectPhoto(long objectId, string objectType, Stream photoStream, string fileName, string_callback callback)
-		{
-			string uploadURL = GetImageUploadURL ();
-			var request = new RestRequest("images/upload", Method.POST);
-			request.AddHeader("Accept", "*/*");
-			//request.AlwaysMultipartFormData = true;
-			request.AddParameter("objectType", objectType);
-			request.AddParameter("objectId", objectId);
-			request.AddParameter("primary", "true");
-			request.AddFile("file", ReadToEnd(photoStream), fileName, "image/jpeg");
-
-			apiClient.ExecuteAsync(request, (response) =>
-				{
-					if (response.StatusCode == HttpStatusCode.OK)
-					{
-						callback(response.Content);
-					}
-					else
-					{
-						//error ocured during upload
-						callback(null);
-					}
-				});
-		}
 
 		//method for converting stream to byte[]
 		public byte[] ReadToEnd(System.IO.Stream stream)
@@ -842,15 +814,15 @@ namespace BlahguaMobile.BlahguaCore
 
 
 
-		public void UpdateMatureFlag(bool wantsMature, string_callback callback)
+		public void UpdateMatureFlag(bool wantsMature, bool_callback callback)
 		{
 			RestRequest request = new RestRequest("users/update/mature", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(new { XXX = wantsMature });
 
-			apiClient.ExecuteAsync(request, (response) =>
+			apiClient.ExecuteAsync<bool>(request, (response) =>
 				{
-					callback(response.Content);
+					callback(response.Data);
 				});
 		}
 

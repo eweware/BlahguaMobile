@@ -604,10 +604,16 @@ namespace BlahguaMobile.BlahguaCore
 
         public void UploadUserImage(System.IO.Stream photo, string fileName, string_callback callback)
         {
-            BlahguaRest.UploadObjectPhoto(CurrentUser._id, "U", photo, fileName, (newPhotoId) =>
+            BlahguaRest.UploadPhoto(photo, fileName, (newPhotoId) =>
             {
-                CurrentUser.RefreshUserImage(newPhotoId);
-                callback(newPhotoId);
+				MediaRecordObject theRecord = new MediaRecordObject();
+				theRecord.type = 1;
+				theRecord.url = newPhotoId;
+				BlahguaRest.UpdateUserImage(theRecord, (theResult) =>
+				{
+					CurrentUser.RefreshUserImage(newPhotoId);
+					callback(newPhotoId);
+				});
             }
             );
         }
@@ -758,25 +764,21 @@ namespace BlahguaMobile.BlahguaCore
         }
             
 
-        public void UpdateUserProfile(string_callback callback)
+		public void UpdateUserProfile(Profile_callback callback)
         {
             BlahguaRest.UpdateUserProfile(CurrentUser.Profile, callback);
         }
 
-        public void UpdateUserName(string userName, string_callback callback)
+        public void UpdateUserName(string userName, Profile_callback callback)
         {
-            UserProfile theProfile = CurrentUser.Profile;
+			UserProfile tempProf = new UserProfile();
+			ProfileSchema newSchema = new ProfileSchema();
 
-            if (theProfile == null)
-            {
-                BlahguaRest.UpdateUserName(userName, callback);
-            }
-            else
-            {
-  
+			newSchema.name = "nickname";
+			newSchema.currentValue = userName;
+			tempProf.Add("nickname", newSchema);
 
-                BlahguaRest.UpdateUserProfile(theProfile, callback);
-            }
+            BlahguaRest.UpdateUserProfile(tempProf, callback);
         }
 
         public void EnsureUserDescription(string_callback callback)
@@ -1178,50 +1180,42 @@ namespace BlahguaMobile.BlahguaCore
 
         public void LoadBlahStats(Stats_callback callback)
         {
-            if (CurrentBlah.L != null)
-                callback(CurrentBlah.L);
-            else
-            {
-                DateTime endDate = DateTime.Today;
-                DateTime startDate = endDate - new TimeSpan(7, 0, 0, 0);
-                BlahguaRest.GetBlahWithStats(CurrentBlah._id, startDate, endDate, (blahWithStats) =>
-                {
-                    int curStatIndex = 0;
-                    CurrentBlah.L = new Stats();
-                    if (blahWithStats != null)
-                    {
-                        DateTime curDate = startDate;
+			int duration = 7;
+            BlahguaRest.GetBlahStats(CurrentBlah._id, duration, (theStats) =>
+			{
+				if (theStats != null)
+				{
+					StatsList paddedList = new StatsList();
+					DateTime endDate = DateTime.Now.Date;
+					DateTime curDate = endDate.AddDays(-duration);
+					int curStatIndex = 0;
 
-                        while (curDate <= endDate)
-                        {
-                            if (curStatIndex >= blahWithStats.L.Count)
-                            {
-                                CurrentBlah.L.Add(new StatDayRecord(curDate));
-                            }
-                            else
-                            {
-                                if (blahWithStats.L[curStatIndex].StatDate != curDate)
-                                {
-                                    CurrentBlah.L.Add(new StatDayRecord(curDate));
-                                }
-                                else
-                                {
-                                    CurrentBlah.L.Add(blahWithStats.L[curStatIndex]);
-                                    curStatIndex++;
-                                }
-                            }
-                            curDate = curDate.AddDays(1);
-                        }
-                    }
-                    else
-                        CurrentBlah.L = null;
+					while (curDate <= endDate)
+					{
+						if (curStatIndex >= theStats.Count)
+						{
+							paddedList.Add(new StatDayRecord(curDate));
+						}
+						else
+						{
+							if (theStats[curStatIndex].date.Date != curDate)
+							{
+								paddedList.Add(new StatDayRecord(curDate));
+							}
+							else
+							{
+								paddedList.Add(theStats[curStatIndex]);
+								curStatIndex++;
+							}
+						}
+						curDate = curDate.AddDays(1);
+					}
 
-                    callback(CurrentBlah.L);
+					callback(paddedList);
+				} else 
+					callback(null);
 
-                }
-                );
-
-            }
+			});
         }
 
         public void GetUserPredictionVote(PredictionVote_callback callback)
@@ -1619,7 +1613,7 @@ namespace BlahguaMobile.BlahguaCore
            );
         }
 
-        public void UpdateMatureFlag(bool matureFlag, string_callback callback)
+        public void UpdateMatureFlag(bool matureFlag, bool_callback callback)
         {
             BlahguaRest.UpdateMatureFlag(matureFlag, (resultStr) =>
             {
