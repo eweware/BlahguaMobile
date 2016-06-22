@@ -11,35 +11,37 @@ using UIKit;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("BGSignUpPage02")]
-	partial class BGSignUpPage02
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton CommunityChannelBtn { get; set; }
+    [Register ("BGSignUpPage02")]
+    partial class BGSignUpPage02
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton CommunityChannelBtn { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton PublisherChannelBtn { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton PublisherChannelBtn { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIView SignUpPage02View { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView SignUpPage02View { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (CommunityChannelBtn != null) {
-				CommunityChannelBtn.Dispose ();
-				CommunityChannelBtn = null;
-			}
-			if (PublisherChannelBtn != null) {
-				PublisherChannelBtn.Dispose ();
-				PublisherChannelBtn = null;
-			}
-			if (SignUpPage02View != null) {
-				SignUpPage02View.Dispose ();
-				SignUpPage02View = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (CommunityChannelBtn != null) {
+                CommunityChannelBtn.Dispose ();
+                CommunityChannelBtn = null;
+            }
+
+            if (PublisherChannelBtn != null) {
+                PublisherChannelBtn.Dispose ();
+                PublisherChannelBtn = null;
+            }
+
+            if (SignUpPage02View != null) {
+                SignUpPage02View.Dispose ();
+                SignUpPage02View = null;
+            }
+        }
+    }
 }

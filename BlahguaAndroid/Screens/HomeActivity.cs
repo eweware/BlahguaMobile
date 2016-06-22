@@ -669,7 +669,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void InitAnalytics()
 		{
-			string uniqueId;
+			string uniqueId = "";
+
 
 			IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 			if (settings.Contains("uniqueId"))

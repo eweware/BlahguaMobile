@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2014 
  * Author: Ruben Macias
  * http://sharpmobilecode.com @SharpMobileCode

@@ -1,82 +1,86 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
 using Foundation;
+using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("BGBlahHistoryCell")]
-	partial class BGBlahHistoryCell
-	{
-		[Outlet]
-		UIKit.UILabel BlahCommentsLabel { get; set; }
+    [Register ("BGBlahHistoryCell")]
+    partial class BGBlahHistoryCell
+    {
+        [Outlet]
+        UIKit.UILabel BlahCommentsLabel { get; set; }
 
-		[Outlet]
-		UIKit.UILabel BlahConversionLabel { get; set; }
 
-		[Outlet]
-		UIKit.UILabel BlahDownVotesLabel { get; set; }
+        [Outlet]
+        UIKit.UILabel BlahConversionLabel { get; set; }
 
-		[Outlet]
-		UIKit.UIImageView BlahImageView { get; set; }
 
-		[Outlet]
-		UIKit.UILabel BlahTimeLabel { get; set; }
+        [Outlet]
+        UIKit.UILabel BlahDownVotesLabel { get; set; }
 
-		[Outlet]
-		UIKit.UILabel BlahTitleLabel { get; set; }
 
-		[Outlet]
-		UIKit.UIImageView BlahTypeImage { get; set; }
+        [Outlet]
+        UIKit.UIImageView BlahImageView { get; set; }
 
-		[Outlet]
-		UIKit.UILabel BlahUpVotesLabel { get; set; }
-		
-		void ReleaseDesignerOutlets ()
-		{
-			if (BlahCommentsLabel != null) {
-				BlahCommentsLabel.Dispose ();
-				BlahCommentsLabel = null;
-			}
 
-			if (BlahConversionLabel != null) {
-				BlahConversionLabel.Dispose ();
-				BlahConversionLabel = null;
-			}
+        [Outlet]
+        UIKit.UILabel BlahTimeLabel { get; set; }
 
-			if (BlahDownVotesLabel != null) {
-				BlahDownVotesLabel.Dispose ();
-				BlahDownVotesLabel = null;
-			}
 
-			if (BlahImageView != null) {
-				BlahImageView.Dispose ();
-				BlahImageView = null;
-			}
+        [Outlet]
+        UIKit.UILabel BlahTitleLabel { get; set; }
 
-			if (BlahTimeLabel != null) {
-				BlahTimeLabel.Dispose ();
-				BlahTimeLabel = null;
-			}
 
-			if (BlahTitleLabel != null) {
-				BlahTitleLabel.Dispose ();
-				BlahTitleLabel = null;
-			}
+        [Outlet]
+        UIKit.UIImageView BlahTypeImage { get; set; }
 
-			if (BlahUpVotesLabel != null) {
-				BlahUpVotesLabel.Dispose ();
-				BlahUpVotesLabel = null;
-			}
 
-			if (BlahTypeImage != null) {
-				BlahTypeImage.Dispose ();
-				BlahTypeImage = null;
-			}
-		}
-	}
+        [Outlet]
+        UIKit.UILabel BlahUpVotesLabel { get; set; }
+
+        void ReleaseDesignerOutlets ()
+        {
+            if (BlahCommentsLabel != null) {
+                BlahCommentsLabel.Dispose ();
+                BlahCommentsLabel = null;
+            }
+
+            if (BlahConversionLabel != null) {
+                BlahConversionLabel.Dispose ();
+                BlahConversionLabel = null;
+            }
+
+            if (BlahDownVotesLabel != null) {
+                BlahDownVotesLabel.Dispose ();
+                BlahDownVotesLabel = null;
+            }
+
+            if (BlahTimeLabel != null) {
+                BlahTimeLabel.Dispose ();
+                BlahTimeLabel = null;
+            }
+
+            if (BlahTitleLabel != null) {
+                BlahTitleLabel.Dispose ();
+                BlahTitleLabel = null;
+            }
+
+            if (BlahTypeImage != null) {
+                BlahTypeImage.Dispose ();
+                BlahTypeImage = null;
+            }
+
+            if (BlahUpVotesLabel != null) {
+                BlahUpVotesLabel.Dispose ();
+                BlahUpVotesLabel = null;
+            }
+        }
+    }
 }

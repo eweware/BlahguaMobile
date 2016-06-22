@@ -329,8 +329,8 @@ namespace BlahguaMobile.IOS
                 case "predicts":
                     InvokeOnMainThread(() =>
                         {
-                            ExpirationDateInput.AttributedText = new NSAttributedString(
-                                    NewPost.E ?? String.Empty, 
+						ExpirationDateInput.AttributedText = new NSAttributedString(
+							NewPost.E.ToShortDateString(), 
                                     UIFont.FromName(BGAppearanceConstants.FontName, 14),
                                     UIColor.Black
                                 );
@@ -601,7 +601,7 @@ namespace BlahguaMobile.IOS
                     case "predicts":
                         DateTime expDate;
                         if (DateTime.TryParse(expirationDateInput.Text, out expDate))
-                            NewPost.ExpirationDate = expDate;
+                            NewPost.E = expDate;
                         break;
 
                     case "polls":
@@ -807,9 +807,12 @@ namespace BlahguaMobile.IOS
                         selectImageButton.ImageEdgeInsets = new UIEdgeInsets(0, 56, 0, 56);
                         if (NewPost.M == null || NewPost.M.Count == 0)
                         {
-                            NewPost.M = new List<string>();
+                            NewPost.M = new List<MediaRecordObject>();
                         }
-                        NewPost.M.Add(s);
+						MediaRecordObject newRec = new MediaRecordObject();
+						newRec.type = 1;
+						newRec.url = s;
+                        NewPost.M.Add(newRec);
                         UpdatePostBtn();
                     });
             }

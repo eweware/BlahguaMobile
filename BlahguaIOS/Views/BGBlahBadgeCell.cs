@@ -6,6 +6,7 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using BlahguaMobile.BlahguaCore;
+using SDWebImage;
 
 namespace BlahguaMobile.IOS
 {
@@ -15,52 +16,34 @@ namespace BlahguaMobile.IOS
 		{
 		}
 
-        public void SetUp(BadgeReference theBadge)
+        public void SetUp(BadgeRecord theBadge)
         {
-            SetUp(theBadge.BadgeName, theBadge.BadgeImage);
-            if (String.IsNullOrEmpty(theBadge.BadgeName))
-            {
-                BlahguaAPIObject.Current.GetBadgeInfo(theBadge.ID, (badgeResult) =>
-                    {
-                        if (badgeResult != null)
-                        {
-                            theBadge.BadgeName = badgeResult.N;
-                            theBadge.CreationDate = badgeResult.CreationDate;
-                            theBadge.ExpirationDate = badgeResult.ExpirationDate;
-                            theBadge.AuthorityDisplayName = badgeResult.D;
-                            theBadge.AuthorityEndpoint = badgeResult.A;
-                            DecorateBadge(theBadge.BadgeName);
-                        }
-
-
-                    }
-                );
-            }
-        }
-
-        private void DecorateBadge (string badgeName)
-        {
-            this.badgeName.AttributedText = new NSAttributedString (
-                badgeName, 
-                UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
-                UIColor.Black
-            );
-        }
-
-		public void SetUp(string badgeName, string badgeImageUrl)
-		{
 			verifiedLabel.AttributedText = new NSAttributedString (
 				"verified", 
 				UIFont.FromName (BGAppearanceConstants.MediumFontName, 10), 
 				UIColor.Black
 			);
 			Uri uri = null;
-			if (Uri.TryCreate (badgeImageUrl, UriKind.RelativeOrAbsolute, out uri))
-				badgeImage.Image = ImageLoader.DefaultRequestImage (uri, new ImageUpdateDelegate (badgeImage));
-			else
-                badgeImage.Image = UIImage.FromBundle ("badges");
+			if (Uri.TryCreate (theBadge.URL, UriKind.RelativeOrAbsolute, out uri)) {
+				badgeImage.SetImage(new NSUrl(uri.ToString()), UIImage.FromBundle("badges"), 
+				                    (image, error, cacheType, imageUrl) =>
+				{
 
-            DecorateBadge(badgeName);
-		}
+				});
+			} else
+				badgeImage.Image = UIImage.FromBundle ("badges");
+
+			DecorateBadge(theBadge.N);
+        }
+
+        private void DecorateBadge (string badgeNameStr)
+        {
+            this.badgeName.AttributedText = new NSAttributedString (
+                badgeNameStr, 
+                UIFont.FromName (BGAppearanceConstants.BoldFontName, 10), 
+                UIColor.Black
+            );
+        }
+			
 	}
 }

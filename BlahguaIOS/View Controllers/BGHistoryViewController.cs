@@ -88,7 +88,7 @@ namespace BlahguaMobile.IOS
 
 		private void BlahsLoaded(BlahList blahs)
 		{
-            UserBlahs = blahs.OrderByDescending(b => b.CreationDate).ToList();
+            UserBlahs = blahs.OrderByDescending(b => b.cdate).ToList();
 			InvokeOnMainThread (() => {
 				TableView.ReloadData();
 			});
@@ -96,7 +96,7 @@ namespace BlahguaMobile.IOS
 
 		private void CommentsLoaded(CommentList comments)
 		{
-            UserComments = comments.OrderByDescending(b => b.CreationDate).ToList();;
+            UserComments = comments.OrderByDescending(b => b.c).ToList();;
 			InvokeOnMainThread (() => {
 				TableView.ReloadData();
 			});

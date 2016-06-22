@@ -113,7 +113,7 @@ namespace BlahguaMobile.IOS
             {
                 case 0:
                     {
-                        string blahID;
+                        long blahID;
                         UITableView tableView = (UITableView)vc.View;
                         NSIndexPath indexPath = tableView.IndexPathForCell(cell);
 

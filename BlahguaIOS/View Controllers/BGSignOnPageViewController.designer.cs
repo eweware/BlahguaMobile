@@ -11,11 +11,11 @@ using UIKit;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("BGSignOnPageViewController")]
-	partial class BGSignOnPageViewController
-	{
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    [Register ("BGSignOnPageViewController")]
+    partial class BGSignOnPageViewController
+    {
+        void ReleaseDesignerOutlets ()
+        {
+        }
+    }
 }

@@ -14,7 +14,10 @@ namespace BlahguaMobile.IOS
 			{
 				using(var data = NSData.FromUrl(url))
 				{
-					return UIImage.LoadFromData(data);
+					if (data != null)
+						return UIImage.LoadFromData (data);
+					else
+						return null;
 				}
 			}
 		}

@@ -57,44 +57,29 @@ namespace BlahguaMobile.IOS
                 //Synsoft on 14 July 2014 for swipping between screens                
                 UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentsController);
                 objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-                this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
+                //this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
 
 
                 scrollView.ScrollEnabled = true;
 
-                //Synsoft on 10 June 2014 
-                if (CurrentBlah != null)
-                {
-                    AppDelegate.analytics.PostPageView("/blah/stats");
-                    lblConversionRatio.Text = CurrentBlah.ConversionString;
-                    lblOpen.Text = CurrentBlah.O.ToString();
-                    lblDemotes.Text = CurrentBlah.D.ToString();
-                    lblPromotes.Text = CurrentBlah.P.ToString();
-                    lblComment.Text = CurrentBlah.C.ToString();
-                    lblImpression.Text = CurrentBlah.V.ToString();
-                    lblHeardRatio.Text = CurrentBlah.StrengthString;
-                    lblOpenedImpression.Text = CurrentBlah.O.ToString() + "/" + CurrentBlah.V.ToString();
-                }
-                else if (BlahguaAPIObject.Current.CurrentUser != null && BlahguaAPIObject.Current.CurrentUser.UserInfo != null)
-                {
-                    AppDelegate.analytics.PostPageView("/profile/stats");
-                    var userinfo = BlahguaAPIObject.Current.CurrentUser.UserInfo;
-                    int userviews, opens, creates, comments, views;
-                    userviews = opens = creates = comments = views = 0;
+				//Synsoft on 10 June 2014 
 
-                    for (int i = 0; i < userinfo.DayCount; i++)
-                    {
-                        userviews += userinfo.UserViews(i);
-                        opens += userinfo.Opens(i);
-                        creates += userinfo.UserCreates(i);
-                        comments += userinfo.UserComments(i);
-                        views += userinfo.Views(i);
-                    }
-
-                    lblOpen.Text = opens.ToString();
-                    lblComment.Text = comments.ToString();
-                    lblImpression.Text = views.ToString();
-                }
+				if (CurrentBlah != null)
+				{
+					AppDelegate.analytics.PostPageView("/blah/stats");
+					lblConversionRatio.Text = CurrentBlah.ConversionString;
+					lblOpen.Text = CurrentBlah.O.ToString();
+					lblDemotes.Text = CurrentBlah.D.ToString();
+					lblPromotes.Text = CurrentBlah.P.ToString();
+					lblComment.Text = CurrentBlah.C.ToString();
+					lblImpression.Text = CurrentBlah.V.ToString();
+					lblHeardRatio.Text = CurrentBlah.StrengthString;
+					lblOpenedImpression.Text = CurrentBlah.O + "/" + CurrentBlah.V;
+					BlahguaAPIObject.Current.LoadBlahStats((statList) =>
+					{
+						UpdateBlahStats(statList);
+					});
+				}
 
                 // change everything to a certain
                 ChangeLabelFonts(this.View, BGAppearanceConstants.MediumFontName);
@@ -108,6 +93,24 @@ namespace BlahguaMobile.IOS
 			SetUpToolbar ();
 
         }
+
+		private void UpdateBlahStats(StatsList theStats)
+		{
+			int totalViews = 0, totalOpens = 0, totalComments = 0;
+
+			foreach (StatDayRecord curDay in theStats)
+			{
+				totalViews += curDay.views;
+				totalComments += curDay.comments;
+				totalOpens += curDay.opens;
+			}
+			InvokeOnMainThread(() =>
+			{
+				lblOpen.Text = totalOpens.ToString();
+				lblComment.Text = totalComments.ToString();
+				lblImpression.Text = totalViews.ToString();
+			});
+		}
 
         private void ChangeLabelFonts(UIView anyView, string fontName)
         {

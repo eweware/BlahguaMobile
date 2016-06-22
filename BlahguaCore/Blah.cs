@@ -13,13 +13,13 @@ namespace BlahguaMobile.BlahguaCore
 
     public class InboxBlah
     {
-        public string I { get; set; }
-        public long c { get; set; }
+        public long I { get; set; }
+        public DateTime cdate { get; set; }
         public string T { get; set; }
-        public string Y { get; set; }
-        public string G { get; set; }
-        public string A { get; set; }
-        public List<string> M { get; set; }
+        public long Y { get; set; }
+        public long G { get; set; }
+        public long A { get; set; }
+        public List<MediaRecordObject> M { get; set; }
         public string B { get; set; }
         public double S { get; set; }
         public int displaySize { get; set; }
@@ -35,7 +35,7 @@ namespace BlahguaMobile.BlahguaCore
         public InboxBlah(InboxBlah otherBlah)
         {
             I = otherBlah.I;
-            c = otherBlah.c;
+            cdate = otherBlah.cdate;
             T = otherBlah.T;
             Y = otherBlah.Y;
             G = otherBlah.G;
@@ -50,12 +50,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public InboxBlah(Blah otherBlah)
         {
-			if (otherBlah.cdate != null) {
-				double otherDate = otherBlah.CreationDate
-					.Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Local))
-					.TotalMilliseconds;
-				c = (long)otherDate;
-			}
+			cdate = otherBlah.cdate;
             I = otherBlah._id;
             T = otherBlah.T;
             Y = otherBlah.Y;
@@ -67,16 +62,7 @@ namespace BlahguaMobile.BlahguaCore
                 B = "B";
             displaySize = 2;
         }
-
-        public DateTime Created
-        {
-            get
-            {
-                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                origin = System.TimeZoneInfo.ConvertTime(origin, TimeZoneInfo.Local);
-                return origin.AddSeconds(c / 1000);
-            }
-        }
+			
 
         public string ImageSize
         {
@@ -108,8 +94,11 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if ((M != null) && (M.Count > 0)) 
                 {
-                    string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], ImageSize);
+                    string imageName = M[0].url;
+					if (imageName != null)
+						return BlahguaAPIObject.Current.GetImageURL (M [0].url, ImageSize);
+					else
+						return null;
                 }
                 else
                     return null;
@@ -256,16 +245,14 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahType
     {
-        public string _id { get; set; }
+        public long _id { get; set; }
         public string N { get; set; }
-        public string c { get; set; }
-        public int C { get; set; }
     }
 
 
     public class BlahTypeList : List<BlahType> 
     {
-        public string GetTypeName(string typeId)
+        public string GetTypeName(long typeId)
         {
 			if (typeId != null)
 				return this.First (i => i._id == typeId).N;
@@ -273,27 +260,30 @@ namespace BlahguaMobile.BlahguaCore
 				return null;
         }
 
-        public string GetTypeId(string typeName)
+        public long GetTypeId(string typeName)
         {
             if (typeName != null)
                 return this.First (i => i.N == typeName)._id;
             else
-                return null;
+                return 0;
         }
     }
 
-    [DataContract]
+
     public class PollItem
     {
-        [DataMember]
         public string G {get; set;}
+		public string F { get; set; }
+		public long _id { get; set; }
+		public long blahId { get; set; }
+		public int count { get; set;}
+
 
         //[DataMember]
         //public string T {get; set;}
 
         private int _maxVotes = 0;
         private int _totalVotes = 0;
-        private int _itemVotes = 0;
         private bool _isUserVote = false;
         private string expVote = "";
 
@@ -307,7 +297,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             G = theText;
             _maxVotes = maxVotes;
-            _itemVotes = numVotes;
+            count = numVotes;
             _isUserVote = isUserVote;
             _totalVotes = totalVotes;
             expVote = eVote;
@@ -338,7 +328,7 @@ namespace BlahguaMobile.BlahguaCore
             { 
                 double votes = 0;
                 if (_maxVotes > 0)
-                votes = 360.0 * ((double)_itemVotes / (double)_maxVotes);
+                votes = 360.0 * ((double)count / (double)_maxVotes);
                 return Math.Max(5, votes); 
             }
         }
@@ -350,7 +340,7 @@ namespace BlahguaMobile.BlahguaCore
                 int percent = 0;
 
                 if (_totalVotes > 0)
-                    percent = (int)(((double)_itemVotes / (double)_totalVotes) * 100);
+                    percent = (int)(((double)count / (double)_totalVotes) * 100);
 
                 if (percent > 0)
                     return percent.ToString() + "%";
@@ -373,8 +363,7 @@ namespace BlahguaMobile.BlahguaCore
 
         public int Votes
         {
-            get { return _itemVotes; }
-            set { _itemVotes = value; }
+			get { return (int)count; }
         }
 
         public bool IsUserVote
@@ -390,16 +379,15 @@ namespace BlahguaMobile.BlahguaCore
 
     public class BlahCreateRecord
     {
-        public List<string> B { get; set; }
+        public List<BadgeRecord> B { get; set; }
         public string F { get; set; }
-        public string E { get; set; } // expiration date
-        public DateTime ExpirationDate { get; set; }
-        public string G { get; set; } // group ID
-        public List<string> M { get; set; } // image IDs
+		public DateTime E { get; set; } // expiration date
+        public long G { get; set; } // group ID
+        public List<MediaRecordObject> M { get; set; } // image IDs
         public int H { get; set; } // poll option count
         public PollItemList I { get; set; } // poll text
         public string T { get; set; } // blah text
-        public string Y { get; set; } // type ID
+        public long Y { get; set; } // type ID
         public bool XX { get; set; } // wehter or not the blah is private
         public bool XXX { get; set;  } // whether or not the blah is mature
        
@@ -410,7 +398,7 @@ namespace BlahguaMobile.BlahguaCore
             XXX = false;
             Y = BlahguaAPIObject.Current.CurrentBlahTypes.First<BlahType>(n => n.N == "says")._id;
             G = BlahguaAPIObject.Current.CurrentChannelList.First(c => c.N == BlahguaAPIObject.Current.GetDefaultChannel().N)._id;
-            ExpirationDate = DateTime.Now + new TimeSpan(30, 0, 0, 0);
+            E = DateTime.Now + new TimeSpan(30, 0, 0, 0);
 
             I = new PollItemList();
             I.Add(new PollItem("first choice"));
@@ -494,603 +482,79 @@ namespace BlahguaMobile.BlahguaCore
                 }
             }
         }
-
-        public BadgeList Badges
-        {
-            get
-            {
-                if (B == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    BadgeList badges = new BadgeList();
-                    foreach (string badgeId in B)
-                    {
-                        badges.Add(new BadgeReference(badgeId));
-                    }
-
-                    return badges;
-                }
-            }
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
-                    B = null;
-                }
-                else
-                {
-                    B = new List<string>();
-                    foreach (BadgeReference curBadge in value)
-                    {
-                        B.Add(curBadge.ID);
-                    }
-                }
-            }
-        }
     }
 
     public class StatDayRecord
     {
-        public int C { get; set; }
-        public int D { get; set; }
-        public int O { get; set; }
-        public int P { get; set; }
-        public int U { get; set; }
-        public int V { get; set; }
-        public int X { get; set; }
-        public int XX { get; set; }
-        public int T { get; set; }
-        public int DT { get; set; }
-        public string _id { get; set; }
+        public int views { get; set; }
+        public int opens { get; set; }
+        public int comments { get; set; }
+		public int upvotes { get; set;}
+		public int downvotes { get; set;}
+		public DateTime date { get; set;}
+
 
         public StatDayRecord()
         {
-            C = D = O = P = U = V = 0;
+            views = opens = comments = 0;
         }
 
-        public StatDayRecord(DateTime theDate)
-        {
-            string timeStr = theDate.ToString("yyMMdd");
-            _id = timeStr;
-            C = D = O = P = U = V = 0;
-        }
-
-        public DateTime StatDate
-        {
-            get
-            {
-                string datePart = _id.Substring(_id.Length - 6);
-                string statYear = datePart.Substring(0, 2);
-                string statMonth = datePart.Substring(2, 2);
-                string statDay = datePart.Substring(4, 2);
-                return new DateTime(2000 + int.Parse(statYear), int.Parse(statMonth), int.Parse(statDay));
-            }
-        }
+		public StatDayRecord(DateTime someDate)
+		{
+			views = opens = comments = 0;
+			date = someDate;
+		}
     }
 
 
-    public class UserStatsList : ObservableCollection<StatDayRecord>
-    {
-        List<int> _openList = null;
-        List<int> _commentList = null;
-        List<int> _viewList = null;
-        List<int> _userOpenList = null;
-        List<int> _userCommentList = null;
-        List<int> _userViewList = null;
-        List<int> _userCreateList = null;
+	public class StatsList : ObservableCollection<StatDayRecord> { }
 
-        bool? _hasComments;
-        bool? _hasViews;
-        bool? _hasOpens;
-        bool? _hasUserOpens;
-        bool? _hasUserViews;
-        bool? _hasUserCreates;
-        bool? _hasUserComments;
-
-        public List<int> Opens
-        {
-            get
-            {
-                if (_openList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _openList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.O;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _openList.Add(curVote);
-                    }
-
-                    _hasOpens = hasVotes;
-                }
-
-
-                return _openList;
-            }
-        }
-
-        public List<int> Impressions
-        {
-            get
-            {
-                if (_viewList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _viewList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.V;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _viewList.Add(curVote);
-                    }
-
-                    _hasViews = hasVotes;
-                }
-
-
-                return _viewList;
-            }
-        }
-
-        public List<int> Comments
-        {
-            get
-            {
-                if (_commentList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _commentList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.O;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _commentList.Add(curVote);
-                    }
-
-                    _hasComments = hasVotes;
-                }
-
-
-                return _commentList;
-            }
-        }
-
-        public List<int> UserComments
-        {
-            get
-            {
-                if (_userCommentList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _userCommentList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.XX;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _userCommentList.Add(curVote);
-                    }
-
-                    _hasUserComments = hasVotes;
-                }
-
-
-                return _userCommentList;
-            }
-        }
-
-        public List<int> UserOpens
-        {
-            get
-            {
-                if (_userOpenList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _userOpenList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.O;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _userOpenList.Add(curVote);
-                    }
-
-                    _hasUserOpens = hasVotes;
-                }
-
-
-                return _userOpenList;
-            }
-        }
-
-        public List<int> UserViews
-        {
-            get
-            {
-                if (_userViewList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _userViewList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.V;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _userViewList.Add(curVote);
-                    }
-
-                    _hasUserViews = hasVotes;
-                }
-
-
-                return _userViewList;
-            }
-        }
-
-        public List<int> UserCreates
-        {
-            get
-            {
-                if (_userCreateList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _userCreateList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.X;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _userCreateList.Add(curVote);
-                    }
-
-                    _hasUserCreates = hasVotes;
-                }
-
-
-                return _userCreateList;
-            }
-        }
-
-        public bool HasOpens
-        {
-            get
-            {
-                if (_hasOpens == null)
-                {
-                    List<int> theOpens = Opens;
-                }
-                return (bool)_hasOpens;
-            }
-        }
-
-        public bool HasViews
-        {
-            get
-            {
-                if (_hasViews == null)
-                {
-                    List<int> views = Impressions;
-                }
-                return (bool)_hasViews;
-            }
-        }
-
-        public bool HasComments
-        {
-            get
-            {
-                if (_hasComments == null)
-                {
-                    List<int> theComments = Comments;
-                }
-                return (bool)_hasComments;
-            }
-        }
-
-        public bool HasUserComments
-        {
-            get
-            {
-                if (_hasUserComments == null)
-                {
-                    List<int> theComments = UserComments;
-                }
-                return (bool)_hasUserComments;
-            }
-        }
-
-        public bool HasUserOpens
-        {
-            get
-            {
-                if (_hasUserOpens == null)
-                {
-                    List<int> theList = UserOpens;
-                }
-                return (bool)_hasUserOpens;
-            }
-        }
-
-        public bool HasUserCreates
-        {
-            get
-            {
-                if (_hasUserCreates == null)
-                {
-                    List<int> theList = UserCreates;
-                }
-                return (bool)_hasUserCreates;
-            }
-        }
-
-        public bool HasUserViews
-        {
-            get
-            {
-                if (_hasUserViews == null)
-                {
-                    List<int> theList = UserViews;
-                }
-                return (bool)_hasUserViews;
-            }
-        }
-
-
-    }
-
-    public class Stats : ObservableCollection<StatDayRecord>
-    {
-
-        List<int> _openList = null;
-        List<int> _commentList = null;
-        List<int> _viewList = null;
-
-        bool? _hasComments;
-        bool? _hasViews;
-        bool? _hasOpens;
-
-        public List<int> Opens
-        {
-            get
-            {
-                if (_openList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _openList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.O;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _openList.Add(curVote);
-                    }
-
-                    _hasOpens = hasVotes;
-                }
-
-
-                return _openList;
-            }
-        }
-
-        public List<int> Impressions
-        {
-            get
-            {
-                if (_viewList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _viewList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.V;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _viewList.Add(curVote);
-                    }
-
-                    _hasViews = hasVotes;
-                }
-
-
-                return _viewList;
-            }
-        }
-
-        public List<int> Comments
-        {
-            get
-            {
-                if (_commentList == null)
-                {
-                    bool hasVotes = false;
-                    int curVote;
-                    _commentList = new List<int>();
-                    foreach (StatDayRecord dayRec in this)
-                    {
-                        curVote = dayRec.O;
-                        if (curVote > 0)
-                            hasVotes = true;
-                        _commentList.Add(curVote);
-                    }
-
-                    _hasComments = hasVotes;
-                }
-
-
-                return _commentList;
-            }
-        }
-
-        public bool HasOpens
-        {
-            get 
-            {
-                if (_hasOpens == null)
-                {
-                    List<int> theOpens = Opens;
-                }
-                return (bool)_hasOpens;
-            }
-        }
-
-        public bool HasViews
-        {
-            get
-            {
-                if (_hasViews == null)
-                {
-                    List<int> views = Impressions;
-                }
-                return (bool)_hasViews;
-            }
-        }
-
-        public bool HasComments
-        {
-            get
-            {
-                if (_hasComments == null)
-                {
-                    List<int> theComments = Comments;
-                }
-                return (bool)_hasComments;
-            }
-        }
-    }
 
   
-
-    public class UserPollVote
-    {
-        public int W {get; set;}
-
-        public UserPollVote()
-        {
-            W = -1;
-        }
-    }
 
     public class UserPredictionVote
     {
         public string D {get; set;}
-        public string Z {get; set;}
+        public string Z { get; set; }
     }
 
-    [DataContract]
+	public class PredictionVoteStatsObj
+	{
+		public int yesCount { get; set; }
+		public int unknownCount { get; set; }
+		public int noCount { get; set; }
+
+		public int expYesCount { get; set; }
+		public int expNoCount { get; set; }
+		public int expUnknownCount { get; set; }
+	}
+
     public class Blah
     {
-        [DataMember]
-        public string A { get; set; }
-
-        [DataMember]        
-        public string F { get; set; }
-
-        [DataMember]
-        public string G { get; set; }
-
-        [DataMember]
-        public int O { get; set; }
-
-        [DataMember]
-        public double S { get; set; }
-
-        [DataMember]
-        public string T { get; set; }
-
-        [DataMember]
-        public int V { get; set; }
-
-        [DataMember]
-        public string Y { get; set; }
-
-        [DataMember]
-        public string _id { get; set; }
-
-        [DataMember]
-		public string cdate { get; set; }
-		private DateTime _createDate = DateTime.MinValue;
-
-		[DataMember]
-		public string u { get; set; }
-		private DateTime _updateDate = DateTime.MinValue;
-
-        [DataMember]
-        public List<string> B { get; set; }
-
-        [DataMember]
-        public List<string> M { get; set; }
-
-        [DataMember]
-        public PollItemList I { get; set; }
-
-        [DataMember]
-        public List<int> J { get; set; }
-
-		[DataMember]
-		public string E { get; set; }
-		private DateTime _expireDate = DateTime.MinValue;
+        public long A { get; set; }
+		public string F { get; set; }
+		public long G { get; set; }
+		public int O { get; set; }
+		public double S { get; set; }
+		public string T { get; set; }
+		public int V { get; set; }
+		public long Y { get; set; }
+		public long _id { get; set; }
+		public DateTime cdate { get; set; }
+		public PredictionVoteStatsObj PS { get; set;}
+		public List<BadgeRecord> B { get; set; }
+		public List<MediaRecordObject> M { get; set; }
+		public PollItemList I { get; set; }
+		public DateTime E { get; set; }
+		public bool XX { get; set; }
+		public bool XXX { get; set; }
+		public int uv { get; set; }
+		public int P { get; set; }
+		public int D { get; set; }
+		public int C { get; set; }
 
 
-        [DataMember(Name = "1")]
-        public int _1 { get; set; }
-
-        [DataMember(Name = "2")]
-        public int _2 { get; set; }
-
-        [DataMember(Name = "3")]
-        public int _3 { get; set; }
-
-        [DataMember(Name = "4")]
-        public int _4 { get; set; }
-
-        [DataMember(Name = "5")]
-        public int _5 { get; set; }
-
-        [DataMember(Name = "6")]
-        public int _6 { get; set; }
-
-        [DataMember]
-        public bool XX { get; set; }
-
-         [DataMember]
-        public bool XXX { get; set; }
-
-        [DataMember]
-        public DemographicRecord _d { get; set; }
-
-        [DataMember]
-        public Stats L { get; set; }
-
-        [DataMember]
-        public int uv { get; set; }
-
-        [DataMember]
-        public int P { get; set; }
-
-        [DataMember]
-        public int D { get; set; }
-
-        [DataMember]
-        public int C { get; set; }
-
-
+		// private
         public bool IsPollInited = false;
         public bool IsPredictInited = false;
         public UserDescription Description {get; set;}
@@ -1110,13 +574,6 @@ namespace BlahguaMobile.BlahguaCore
             D = 0;
             P = 0;
             XXX = false;
-            _1 = 0;
-            _2 = 0;
-            _3 = 0;
-            _4 = 0;
-            _5 = 0;
-            _6 = 0;
-            L = null;
         }
 
         // 
@@ -1134,36 +591,11 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				return ExpireDate < DateTime.Now;
+				return E < DateTime.Now;
             }
         }
 
-			public DateTime CreationDate {
-			get {
-				if (_createDate == DateTime.MinValue)
-                {
-                    if (cdate != null)
-                        _createDate = DateTime.Parse(cdate);
-                }
-				return _createDate;
-			}
-		}
 
-		public DateTime UpdateDate {
-			get {
-				if (_updateDate == DateTime.MinValue)
-					_updateDate = DateTime.Parse (u);
-				return _updateDate;
-			}
-		}
-
-		public DateTime ExpireDate {
-			get {
-				if (_expireDate == DateTime.MinValue)
-					_expireDate = DateTime.Parse (E);
-				return _expireDate;
-			}
-		}
 
 
 
@@ -1270,19 +702,19 @@ namespace BlahguaMobile.BlahguaCore
 
         public void UpdateUserPredictionVote(UserPredictionVote theVote)
         {
-            int totalExpVotes = _1 + _2 + _3;
-            int maxExpVote = Math.Max(Math.Max(_1, _2), _3);
-            int totalVotes = _4 + _5 + _6;
-            int maxVote = Math.Max(Math.Max(_4, _5), _6);
+			int totalExpVotes = PS.expNoCount + PS.expYesCount + PS.expUnknownCount;
+            int maxExpVote = Math.Max(Math.Max(PS.expNoCount, PS.expYesCount), PS.expUnknownCount);
+			int totalVotes = PS.noCount + PS.yesCount + PS.unknownCount;
+            int maxVote = Math.Max(Math.Max(PS.noCount, PS.yesCount), PS.unknownCount);
             _predictionItems = new PollItemList();
-            _predictionItems.Add(new PollItem("I agree", _4, maxVote, totalVotes, false, "y"));
-            _predictionItems.Add(new PollItem("I disagree", _5, maxVote, totalVotes, false, "n"));
-            _predictionItems.Add(new PollItem("It is unclear", _6, maxVote, totalVotes, false, "u"));
+            _predictionItems.Add(new PollItem("I agree", PS.yesCount, maxVote, totalVotes, false, "y"));
+            _predictionItems.Add(new PollItem("I disagree", PS.noCount, maxVote, totalVotes, false, "n"));
+            _predictionItems.Add(new PollItem("It is unclear", PS.unknownCount, maxVote, totalVotes, false, "u"));
 
             _expPredictionItems = new PollItemList();
-            _expPredictionItems.Add(new PollItem("The prediction was right", _1, maxExpVote, totalExpVotes, false, "y"));
-            _expPredictionItems.Add(new PollItem("The prediction was wrong", _2, maxExpVote, totalExpVotes, false, "n"));
-            _expPredictionItems.Add(new PollItem("It is unclear", _3, maxExpVote, totalExpVotes, false, "u"));
+            _expPredictionItems.Add(new PollItem("The prediction was right", PS.expYesCount, maxExpVote, totalExpVotes, false, "y"));
+            _expPredictionItems.Add(new PollItem("The prediction was wrong", PS.expNoCount, maxExpVote, totalExpVotes, false, "n"));
+            _expPredictionItems.Add(new PollItem("It is unclear", PS.expUnknownCount, maxExpVote, totalExpVotes, false, "u"));
 
 
             if (theVote == null)
@@ -1321,20 +753,17 @@ namespace BlahguaMobile.BlahguaCore
             IsPredictInited = true;
         }
 
-        public void UpdateUserPollVote(UserPollVote theVote)
+        public void UpdateUserPollVote(int userVote)
         {
             int maxVote = 0;
-            int userVote = -1;
             int totalVotes = 0;
 
-            if (theVote != null)
-                userVote = theVote.W;
 
-            foreach (int curVote in J)
+            foreach (PollItem curVote in I)
             {
-                totalVotes += curVote;
-                if (curVote > maxVote)
-                    maxVote = curVote;
+                totalVotes += curVote.count;
+                if (curVote.count > maxVote)
+                    maxVote = curVote.count;
             }
             PollItem curPollItem = null;
 
@@ -1342,8 +771,7 @@ namespace BlahguaMobile.BlahguaCore
             {
                 curPollItem = I[i];
                 curPollItem.MaxVotes = maxVote;
-                curPollItem.Votes = J[i];
-                curPollItem.IsUserVote = (userVote == i);
+                curPollItem.IsUserVote = (userVote == i+1);
                 curPollItem.TotalVotes = totalVotes;
             }
 
@@ -1355,7 +783,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				return Utilities.ElapsedDateString(CreationDate);
+				return Utilities.ElapsedDateString(cdate);
             }
         }
 
@@ -1387,8 +815,8 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-                if ((!XX) && (Description != null) && (Description.m != null))
-                    return BlahguaAPIObject.Current.GetImageURL(Description.m, "A");
+				if ((!XX) && (Description != null) && (Description.m != null) && (Description.m.Count > 0) && !string.IsNullOrEmpty(Description.m[0].url))
+                    return BlahguaAPIObject.Current.GetImageURL(Description.m[0].url, "A");
                 else
                     return "https://s3-us-west-2.amazonaws.com/app.goheard.com/images/unknown-user.png";
             }
@@ -1402,8 +830,11 @@ namespace BlahguaMobile.BlahguaCore
             {
                 if ((M != null) && (M.Count > 0)) 
                 {
-                    string imageName = M[0];
-                    return BlahguaAPIObject.Current.GetImageURL(M[0], "D");
+                    string imageName = M[0].url;
+					if (!string.IsNullOrEmpty (imageName))
+						return BlahguaAPIObject.Current.GetImageURL (imageName, "D");
+					else
+						return null;
                 }
                 else
                     return null;
@@ -1411,71 +842,9 @@ namespace BlahguaMobile.BlahguaCore
 
         }
 
-        public BadgeList Badges
-        {
-            get
-            {
-                return _badgeList;
-            }
-            set
-            {
-                if ((value == null) || (value.Count == 0))
-                {
-                    B = null;
-                }
-                else
-                {
-                    B = new List<string>();
-                    foreach (BadgeReference curBadge in value)
-                    {
-                        B.Add(curBadge.ID);
-                    }
-                }
-            }
-        }
-
-        public void AwaitBadgeData(bool_callback callback)
-        {
-            if (B == null)
-            {
-                callback(true);
-            }
-            else
-            {
-                _badgeList = new BadgeList();
-                List<string> idList = new List<string>(B);
-                FetchBadgeSerially(idList, callback);
-
-            }
-        }
+        
 
 
-        protected void FetchBadgeSerially(List<string> badgeIdList, bool_callback callback)
-        {
-                BadgeReference newBadge = new BadgeReference();
-                newBadge.UpdateBadgeForId(badgeIdList[0], (didIt) =>
-                    {
-                        if (didIt)
-                        {
-                            if (_badgeList.Contains(newBadge))
-                            {
-                                System.Diagnostics.Debug.WriteLine("Duplicate call!");
-                                return;
-                            }
-
-                            _badgeList.Add(newBadge);
-                        }
-
-                        if (badgeIdList.Count > 0)
-                            badgeIdList.RemoveAt(0);
-
-                        if (badgeIdList.Count > 0)
-                            FetchBadgeSerially(badgeIdList, callback);
-                        else
-                            callback(true);
-                    }
-            );
-        }
 
         public string TypeName
         {

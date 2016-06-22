@@ -93,7 +93,7 @@ namespace BlahguaMobile.IOS
 
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToSummaryController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Right;
-            this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);  
+            //this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);  
 
 			BlahguaAPIObject.Current.LoadBlahComments(CommentsLoaded);
             AppDelegate.analytics.PostPageView("/blah/comments");

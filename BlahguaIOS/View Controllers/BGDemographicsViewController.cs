@@ -72,14 +72,15 @@ namespace BlahguaMobile.IOS
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
+			base.PrepareForSegue(segue, sender);
+
 			if(segue.Identifier == "fromDemographicsToItemSelection")
 			{
-				base.PrepareForSegue(segue, sender);
 				var vc = (BGItemsSelectionTableViewCotroller)segue.DestinationViewController;
 				if (vc != null) {
 					vc.ParentViewController = this;
 					vc.index = index;
-
+					/*
 					switch (index) {
 					case 0:
 						{
@@ -104,14 +105,16 @@ namespace BlahguaMobile.IOS
 							break;
 						}
 					}
+					*/
 					index = 0;
 				}
 			}
-			base.PrepareForSegue (segue, sender);
+
 		}
 
 		public void SetValue(int index, string value)
 		{
+			/*
 			switch(index)
 			{
 			case 0:
@@ -160,10 +163,12 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			}
+			*/
 		}
 
 		public string GetValue(int index)
 		{
+			/*
 			switch(index)
 			{
 			case 0:
@@ -211,10 +216,13 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.Income;
 				}
 			}
+			*/
+			return "";
 		}
 
 		public void SetPermission(int index, bool perm)
 		{
+			/*
 			switch(index)
 			{
 			case 0:
@@ -263,10 +271,12 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			}
+			*/
 		}
 
 		public bool GetPermission(int index)
 		{
+			/*
 			switch(index)
 			{
 			case 0:
@@ -303,6 +313,8 @@ namespace BlahguaMobile.IOS
 					return BlahguaAPIObject.Current.CurrentUser.Profile.IncomePerm;
 				}
 			}
+			*/
+			return true;
 		}
 
 		public void PushSelectingTable(int index)

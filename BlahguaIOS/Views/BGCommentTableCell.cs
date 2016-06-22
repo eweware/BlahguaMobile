@@ -9,11 +9,12 @@ using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
 using SWTableViewCell;
+using SDWebImage;
 
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell, IImageUpdated
+	public partial class BGCommentTableCell : SWTableViewCell.SWTableViewCell
     {
 		private UITapGestureRecognizer tapRecognizer;
 		private UITapGestureRecognizer imageTapRecognizer;
@@ -36,7 +37,7 @@ namespace BlahguaMobile.IOS
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
                 var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
-                cell.SetUp(linkedComment.Badges[indexPath.Row]);
+                cell.SetUp(linkedComment.BD[indexPath.Row]);
                 return cell;
             }
 
@@ -46,13 +47,7 @@ namespace BlahguaMobile.IOS
                 set
                 {
                     linkedComment = value;
-                    if (linkedComment.Badges != null)
-                    {
-                        foreach (BadgeReference curBadge in linkedComment.Badges)
-                        {
-                            curBadge.UpdateBadge();
-                        }
-                    }
+                    
                 }
             }
 
@@ -74,7 +69,7 @@ namespace BlahguaMobile.IOS
 
 		public void SetUp(Comment theComment, UITableView tableView)
         {
-            string userId = "0";  // signed out user
+            long userId = 0;  // signed out user
             if (BlahguaAPIObject.Current.CurrentUser != null)
                 userId = BlahguaAPIObject.Current.CurrentUser._id;
             this.userComment = theComment;
@@ -122,11 +117,9 @@ namespace BlahguaMobile.IOS
             if ((userComment.BD != null) && (userComment.BD.Count > 0))
             {
 				badgeTable.Hidden = false;
-				userComment.AwaitBadgeData ((didIt) => {
-					int count = userComment.Badges.Count;
-					badgeTableHeight.Constant = count * 28;
-					badgeTable.ReloadData();
-				});
+				int count = userComment.BD.Count;
+				badgeTableHeight.Constant = count * 28;
+				badgeTable.ReloadData();
                 
             }
             else
@@ -137,20 +130,28 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(userComment.AuthorImage))
 			{
-                imgAvatar.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.AuthorImage), new ImageUpdateDelegate(imgAvatar));
+				imgAvatar.SetImage(new NSUrl(userComment.AuthorName), (image, error, cacheType, imageUrl) =>
+				{
+
+				});
 			}
 
             if (!String.IsNullOrEmpty(userComment.ImageURL))
             {
 				try {
 					commentImageView.LayoutIfNeeded ();
-					commentImageView.Image = ImageLoader.DefaultRequestImage(new Uri(userComment.ImageURL), this);
+					commentImageView.SetImage(new NSUrl(userComment.ImageURL), (image, error, cacheType, imageUrl) =>
+					{
+						if (image != null)
+						{
+							imageViewHeight.Constant = image.Size.Height / image.Size.Width * commentImageView.Frame.Width;
+						}
+						else
+							imageViewHeight.Constant = 0;
+					});
 
-					if (commentImageView.Image != null) {
-						UIImage img = commentImageView.Image;
-						imageViewHeight.Constant = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
-					} else
-						imageViewHeight.Constant = 0;
+
+
 				}
 				catch (Exception exp) {
 					System.Console.WriteLine (exp.Message);
@@ -181,7 +182,7 @@ namespace BlahguaMobile.IOS
 				BGAppearanceConstants.TealGreen
             );
 
-            string timeAgo= Utilities.ElapsedDateString(userComment.CreationDate);
+            string timeAgo= Utilities.ElapsedDateString(userComment.c);
 
             timespan.AttributedText = new NSAttributedString(
 				timeAgo,
@@ -191,7 +192,7 @@ namespace BlahguaMobile.IOS
 
             upAndDownVotes.AttributedText = new NSAttributedString(
                 userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
-                UIFont.FromName(BGAppearanceConstants.MediumFontName, 16),
+                userComment.uv == 0 ? UIFont.FromName(BGAppearanceConstants.MediumFontName, 16) : UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
                 UIColor.Black
             );
 
@@ -199,16 +200,16 @@ namespace BlahguaMobile.IOS
 
 		public void UpdatedImage(Uri uri)
 		{
-			commentImageView.Image = ImageLoader.DefaultRequestImage(uri, this);
-			if (commentImageView.Image != null) {
-				UIImage img = commentImageView.Image;
-				nfloat newHeight = img.Size.Height / img.Size.Width * commentImageView.Frame.Width;
+			commentImageView.SetImage(new NSUrl(uri.ToString()), (image, error, cacheType, imageUrl) =>
+			{
+				if (image != null)
+				{
+					nfloat newHeight = image.Size.Height / image.Size.Width * commentImageView.Frame.Width;
 
-
-				imageViewHeight.Constant = newHeight;
-				parentTableView.ReloadData ();
-			}
-
+					imageViewHeight.Constant = newHeight;
+					parentTableView.ReloadData();
+				}
+			});
 		}
 
 
@@ -232,7 +233,7 @@ namespace BlahguaMobile.IOS
                                 {
                                     upAndDownVotes.AttributedText = new NSAttributedString(
                                         userComment.UpVoteCount.ToString() + "/" + userComment.DownVoteCount.ToString(),
-                                        UIFont.FromName(BGAppearanceConstants.BoldFontName, 14),
+                                        UIFont.FromName(BGAppearanceConstants.BoldFontName, 16),
                                         UIColor.Black);
 									LeftEdgeConstraint.Constant = 0;
 									BGRollViewController.NotifyBlahActivity();

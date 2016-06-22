@@ -43,7 +43,7 @@ namespace BlahguaMobile.IOS
 		{
 			var cell = tableView.DequeueReusableCell("simpleCell");
 			cell.TextLabel.AttributedText = new NSAttributedString(vc.source[indexPath.Row], UIFont.FromName(BGAppearanceConstants.FontName, 17), UIColor.Black);
-			// Synsoft Global on 23 July 2014
+			/*
 			switch (vc.index)
 			{
 			case 0:
@@ -95,7 +95,7 @@ namespace BlahguaMobile.IOS
 					break;
 				}
 			}
-
+*/
 
 
 			return cell;

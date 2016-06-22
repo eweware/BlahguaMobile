@@ -347,7 +347,6 @@
     <Compile Include="View Controllers\EmbeddedWebController.designer.cs">
       <DependentUpon>EmbeddedWebController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ImageLoader.cs" />
     <Compile Include="View Controllers\BGNewPostViewController.designer.cs">
       <DependentUpon>BGNewPostViewController.cs</DependentUpon>
     </Compile>
@@ -356,6 +355,10 @@
     <Compile Include="..\BlahguaCore\pubnub.cs">
       <Link>BlahguaCore\pubnub.cs</Link>
     </Compile>
+    <Compile Include="..\BlahguaCore\MediaRecordObject.cs">
+      <Link>BlahguaCore\MediaRecordObject.cs</Link>
+    </Compile>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -367,26 +370,29 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="RestSharp.MonoTouch">
-      <HintPath>..\Components\restsharp-105.0.1.0\lib\ios-unified\RestSharp.MonoTouch.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text.XamarinIOS">
-      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
-    </Reference>
-    <Reference Include="SWTableViewCell">
-      <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
-    </Reference>
     <Reference Include="PubnubMessaging">
       <HintPath>libs\PubnubMessaging.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json.MonoTouch">
       <HintPath>libs\Newtonsoft.Json.MonoTouch.dll</HintPath>
     </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.8.2.1\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="ToastIOS">
       <HintPath>..\Components\ToastIOS-1.5\lib\ios-unified\ToastIOS.dll</HintPath>
     </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\Components\hockeyappios-3.8.2.1\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    <Reference Include="SWTableViewCell">
+      <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.MonoTouch">
+      <HintPath>..\Components\restsharp-105.0.1.0\lib\ios-unified\RestSharp.MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text.XamarinIOS">
+      <HintPath>..\Components\servicestacktext-3.9.61.3\lib\ios-unified\ServiceStack.Text.XamarinIOS.dll</HintPath>
+    </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -615,6 +621,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.2.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="sdwebimage">
+      <Version>3.7.5</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

@@ -14,12 +14,13 @@ using Foundation;
 using UIKit;
 //using MonoTouch.Dialog.Utilities;
 using MessageUI;
+using SDWebImage;
 
 
 
 namespace BlahguaMobile.IOS
 {
-    public partial class BGBlahViewController : UIViewController, IImageUpdated
+    public partial class BGBlahViewController : UIViewController
     {
         #region Fields
 		private bool badgesShown = true;
@@ -82,10 +83,11 @@ namespace BlahguaMobile.IOS
             SetUpToolbar();
 
             //Synsoft on 14 July 2014 for swipping between screens
-
+			/*
             UISwipeGestureRecognizer objUISwipeGestureRecognizer = new UISwipeGestureRecognizer(SwipeToCommentController);
             objUISwipeGestureRecognizer.Direction = UISwipeGestureRecognizerDirection.Left;
             this.View.AddGestureRecognizer(objUISwipeGestureRecognizer);
+*/
 
 			Action showFullScreen = () => {
 
@@ -148,8 +150,8 @@ namespace BlahguaMobile.IOS
 
         private void SetUpHeaderView()
         {
-            userImage.Image = ImageLoader.DefaultRequestImage(new Uri(CurrentBlah.UserImage),
-                new ImageUpdateDelegate(userImage));
+			userImage.SetImage(url: new NSUrl(CurrentBlah.UserImage));
+
 
             SetAuthorName();
             SetAuthorDescription();
@@ -223,18 +225,27 @@ namespace BlahguaMobile.IOS
             if (CurrentBlah.ImageURL != null)
             {
 				try {
-					Uri imageToLoad = new Uri (CurrentBlah.ImageURL);
-					UIImage theImage = ImageLoader.DefaultRequestImage (imageToLoad, this);
-					blahImage.Image = theImage;
+					blahImage.SetImage(new NSUrl(CurrentBlah.ImageURL),
+					                   (image, error, cacheType, url) =>
+					{
+						if (image == null)
+						{
+							blahImageHeight.Constant = 0;
+						}
+						else
+						{
+							nfloat newHeight = image.Size.Height / image.Size.Width * View.Frame.Width;
 
-					if (blahImage.Image != null) {
-						UIImage img = blahImage.Image;
-                        nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
+							blahImageHeight.Constant = newHeight;
+							nfloat finalHeight = blahBodyView.Frame.Bottom;
+							if (tableView != null)
+								finalHeight += (BlahExtraItemCount + 1) * 64f;
+							finalHeight += newHeight;
+							contentView.ContentSize = new CGSize(contentView.ContentSize.Width, finalHeight);
+						}
 
-						blahImageHeight.Constant = newHeight;
-					} else {
-						blahImageHeight.Constant = 0;
-					}
+					});
+
 				}
 				catch (Exception exp) {
 					System.Console.WriteLine (exp.Message);
@@ -321,22 +332,24 @@ namespace BlahguaMobile.IOS
                 {
                     if (lastViewController.CurrentBlah.TypeName == "polls" || lastViewController.CurrentBlah.TypeName == "predicts")
                     {
+						InvokeOnMainThread(() =>
+						{
+							var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, viewController.View.Frame.Width);
+							var height = NSLayoutConstraint.Create(
+											 lastViewController.tableView,
+											 NSLayoutAttribute.Height,
+											 NSLayoutRelation.Equal,
+											 null,
+											 NSLayoutAttribute.NoAttribute,
+											 1,
+											 (lastViewController.BlahExtraItemCount + 1) * 64.0f);
+							var left = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, lastViewController.contentView, NSLayoutAttribute.Left, 1, 0);
 
-                        var width = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1, viewController.View.Frame.Width);
-                        var height = NSLayoutConstraint.Create(
-                                         lastViewController.tableView,
-                                         NSLayoutAttribute.Height,
-                                         NSLayoutRelation.Equal,
-                                         null,
-                                         NSLayoutAttribute.NoAttribute,
-                                         1,
-                                         (lastViewController.BlahExtraItemCount + 1) * 64.0f);
-                        var left = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, lastViewController.contentView, NSLayoutAttribute.Left, 1, 0);
-
-                        lastViewController.tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
-                        var positionYTop = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, lastViewController.blahBodyView, NSLayoutAttribute.Bottom, 1, 8);                  
-                        lastViewController.contentView.AddConstraints(new NSLayoutConstraint[] { left, positionYTop });
-                        lastViewController.contentView.LayoutIfNeeded();
+							lastViewController.tableView.AddConstraints(new NSLayoutConstraint[] { width, height });
+							var positionYTop = NSLayoutConstraint.Create(lastViewController.tableView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, lastViewController.blahBodyView, NSLayoutAttribute.Bottom, 1, 8);
+							lastViewController.contentView.AddConstraints(new NSLayoutConstraint[] { positionYTop });
+							lastViewController.contentView.LayoutIfNeeded();
+						});
                     }
                     setUp = true;
                 }
@@ -366,7 +379,7 @@ namespace BlahguaMobile.IOS
 
             }
         }
-        private void PollVoteFetched(UserPollVote theVote)
+        private void PollVoteFetched(int theVote)
         {
             BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(theVote);
             FinalizeVote();
@@ -737,7 +750,7 @@ namespace BlahguaMobile.IOS
                 UIColor.Black);
         }
 
-        public void PollVoted(UserPollVote item)
+        public void PollVoted(int item)
         {
             InvokeOnMainThread(() => tableView.ReloadData());
         }
@@ -749,26 +762,7 @@ namespace BlahguaMobile.IOS
 
         #endregion
 
-        #region IImageUpdated implementation
-
-        public void UpdatedImage(Uri uri)
-        {
-            blahImage.Image = ImageLoader.DefaultRequestImage(uri, this);
-			if (blahImage.Image != null) {
-				UIImage img = blahImage.Image;
-                nfloat newHeight = img.Size.Height / img.Size.Width * View.Frame.Width;
-
-				blahImageHeight.Constant = newHeight;
-                nfloat finalHeight = blahBodyView.Frame.Bottom;
-                if (tableView != null)
-                    finalHeight += (BlahExtraItemCount + 1) * 64f;
-                finalHeight += newHeight;
-                contentView.ContentSize = new CGSize (contentView.ContentSize.Width, finalHeight);
-			}
-
-        }
-
-        #endregion
+        
 
 
         private enum BlahPollType
@@ -857,9 +851,9 @@ namespace BlahguaMobile.IOS
                 if (type == BlahPollType.Predict)
                 {
                     if (BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired)
-                        return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate);
+                        return "expired " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.E);
                     else
-                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.ExpireDate, true);
+                        return "expires " + Utilities.ElapsedDateString(BlahguaAPIObject.Current.CurrentBlah.E, true);
                 }
                 else
                     return null;
@@ -871,7 +865,7 @@ namespace BlahguaMobile.IOS
                     new UIView() :
                     BGPollTableHeaderView.Create((BlahguaAPIObject.Current.CurrentBlah.IsPredictionExpired ?
                         "Predection expired at " :
-                        "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.ExpireDate.ToString());
+                        "Predection will expire at ") + BlahguaAPIObject.Current.CurrentBlah.E.ToString());
                 header.Frame = new CGRect(0, 0, tableView.Frame.Width, 24);
                 return header;
             }
@@ -908,9 +902,9 @@ namespace BlahguaMobile.IOS
             {
                 if (type == BlahPollType.Poll)
                 {
-                    var pollItem = BlahguaAPIObject.Current.CurrentBlah.I[indexPath.Row];
-                    BlahguaAPIObject.Current.SetPollVote(pollItem, vc.PollVoted);
-                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(new UserPollVote() { W = indexPath.Row });
+                    var curPollItem = BlahguaAPIObject.Current.CurrentBlah.I[indexPath.Row];
+                    BlahguaAPIObject.Current.SetPollVote(curPollItem, vc.PollVoted);
+                    BlahguaAPIObject.Current.CurrentBlah.UpdateUserPollVote(indexPath.Row+1);
                 }
                 else
                 {
@@ -978,8 +972,7 @@ namespace BlahguaMobile.IOS
             {
                 var cell = (BGBlahBadgeCell)tableView.DequeueReusableCell("cell");
                 cell.SetUp(
-                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeName,
-                    BlahguaAPIObject.Current.CurrentBlah.Badges[indexPath.Row].BadgeImage
+                    BlahguaAPIObject.Current.CurrentBlah.B[indexPath.Row]
                 );
                 return cell;
             }
@@ -1001,27 +994,7 @@ namespace BlahguaMobile.IOS
         }
     }
 
-    public class ImageUpdateDelegate : IImageUpdated
-    {
-        private UIImageView image;
 
-        public ImageUpdateDelegate(UIImageView image)
-        {
-            this.image = image;
-			//if(((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView != null)
-			//	((AppDelegate)UIApplication.SharedApplication.Delegate).swipeView.SummaryViewController.AdjustViewLayout ();
-        }
-
-        #region IImageUpdated implementation
-
-        public void UpdatedImage(Uri uri)
-        {
-            image.Image = ImageLoader.DefaultRequestImage(uri, this);
-
-		}
-
-        #endregion
-    }
 		
     public class AlertDelegate : UIAlertViewDelegate
     {

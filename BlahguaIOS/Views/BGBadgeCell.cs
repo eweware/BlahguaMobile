@@ -5,10 +5,11 @@ using System;
 using Foundation;
 using UIKit;
 using MonoTouch.Dialog.Utilities;
+using SDWebImage;
 
 namespace BlahguaMobile.IOS
 {
-	public partial class BGBadgeCell : UICollectionViewCell, IImageUpdated
+	public partial class BGBadgeCell : UICollectionViewCell
 	{
 		public BGBadgeCell (IntPtr handle) : base (handle)
 		{
@@ -17,13 +18,10 @@ namespace BlahguaMobile.IOS
 		public void SetUp(string imageUrl, string text)
 		{
 			name.AttributedText = new NSAttributedString (text, UIFont.FromName (BGAppearanceConstants.FontName, 15), UIColor.Black);
-			badgeImage.Image = ImageLoader.DefaultRequestImage (new Uri (imageUrl), this);
+			badgeImage.SetImage(new NSUrl(imageUrl));
 		}
 
-		public void UpdatedImage (Uri uri)
-		{
-			badgeImage.Image = ImageLoader.DefaultRequestImage (uri, this);
-		}
+
 
 	}
 }

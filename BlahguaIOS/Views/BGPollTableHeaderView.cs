@@ -5,7 +5,6 @@ using Foundation;
 
 namespace BlahguaMobile.IOS
 {
-	[Register ("BGPollTableHeaderView")]
 	public partial class BGPollTableHeaderView : UIView
 	{
 

@@ -202,7 +202,9 @@ namespace BlahguaMobile.IOS
             {
                 AppDelegate.analytics.PostRegisterUser();
                 InvokeOnMainThread(() =>
-                    {
+					{
+						((BGSignOnPageViewController)ParentViewController).Finish();
+					/*
 						NSUserDefaults.StandardUserDefaults.SetInt(2,"signupStage");
 						NSUserDefaults.StandardUserDefaults.Synchronize();
                         indicator.StopAnimating();
@@ -218,6 +220,7 @@ namespace BlahguaMobile.IOS
                         }
                         else
                             ((BGSignOnPageViewController)ParentViewController).GoToNext();
+                            */
                     });
             }
             else

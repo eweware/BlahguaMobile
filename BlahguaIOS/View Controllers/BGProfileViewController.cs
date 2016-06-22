@@ -9,10 +9,11 @@ using Foundation;
 using MonoTouch.Dialog.Utilities;
 using UIKit;
 using MessageUI;
+using SDWebImage;
 
 namespace BlahguaMobile.IOS
 {
-	partial class BGProfileViewController : UIViewController, IImageUpdated
+	partial class BGProfileViewController : UIViewController
 	{
 
 		#region Fields
@@ -143,21 +144,12 @@ namespace BlahguaMobile.IOS
 			{
 				selectImage.Hidden = true;
 				if (url != null) {
-					//UIImage profileImage = UIImageHelper.ImageFromUrl (url);
-
-					//UIImageView profileImageView = new UIImageView (profileImage);
-					Uri imageToLoad = new Uri (url);
-
-					profileImageView.Image = ImageLoader.DefaultRequestImage  (imageToLoad, this);
-
-					//profileImageView.Frame = new RectangleF (89, 24, 128, 128);
+					profileImageView.SetImage(new NSUrl(url));
 
 					var button = new UIButton (profileImageView.Frame);
 					button.TouchUpInside += ActionForImage;
 
 					profileView.Add (button);
-
-					//profileView.SendSubviewToBack (profileImageView);
 				}
 			}
 			else
@@ -190,8 +182,7 @@ namespace BlahguaMobile.IOS
 		private void DoneHandler(object sender, EventArgs args)
 		{
 			BlahguaCore.BlahguaAPIObject.Current.UpdateUserName(nicknameTextField.Text, NicknameUpdateCallback);
-            BlahguaAPIObject.Current.UpdateMatureFlag(showMatureBtn.On, null);
-
+			BlahguaAPIObject.Current.UpdateMatureFlag(showMatureBtn.On, null);
 
 			NavigationController.PopToRootViewController (true);
 		}
@@ -201,8 +192,9 @@ namespace BlahguaMobile.IOS
 			NavigationController.PopViewController (true);
 		}
 
-		private void NicknameUpdateCallback(string result)
+		private void NicknameUpdateCallback(UserProfile result)
 		{
+			BlahguaCore.BlahguaAPIObject.Current.CurrentUser.Profile = result;
 			InvokeOnMainThread (() => {
 				BlahguaCore.BlahguaAPIObject.Current.CurrentUser.UserName = nicknameTextField.Text;
                 BlahguaAPIObject.Current.CurrentUser.WantsMatureContent = showMatureBtn.On;
@@ -235,7 +227,7 @@ namespace BlahguaMobile.IOS
 			filePicker.Canceled += (sender1, eventArguments) => {
 
 				filePicker.DismissViewController(true, 
-					() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+					() => UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide));
 			};
 			if (eventArgs.ButtonIndex == 1) {
 				filePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
@@ -275,7 +267,7 @@ namespace BlahguaMobile.IOS
 			progressIndicator.StartAnimating ();
 
 			((BGImagePickerController) sender).DismissViewController(true, 
-				() => UIApplication.SharedApplication.SetStatusBarHidden (false, UIStatusBarAnimation.Slide));
+				() => UIApplication.SharedApplication.SetStatusBarHidden (true, UIStatusBarAnimation.Slide));
 
 		}
 
@@ -334,14 +326,7 @@ namespace BlahguaMobile.IOS
 
 		#endregion
 
-		#region IImageUpdated implementation
 
-		public void UpdatedImage (Uri uri)
-		{
-			profileImageView.Image = ImageLoader.DefaultRequestImage (uri, this);
-		}
-
-		#endregion
 	}
 
 	[Register("BGImagePickerController")]

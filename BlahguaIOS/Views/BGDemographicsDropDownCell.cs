@@ -55,6 +55,7 @@ namespace BlahguaMobile.IOS
 			ddButton.TouchUpInside += (sender, e) => {
 				viewController.PushSelectingTable(index);
 			};
+			/*
 			BlahguaAPIObject.Current.CurrentUser.Profile.PropertyChanged += (sender, e) => 
 			{
 				switch(section)
@@ -113,6 +114,7 @@ namespace BlahguaMobile.IOS
 				}
 
 			};
+			*/
 
 		}
 	}
