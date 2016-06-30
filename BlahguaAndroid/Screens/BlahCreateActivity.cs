@@ -92,8 +92,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                                 {
                                     string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
                                     imageCreateBlah.SetUrlDrawable(photoURL, this);
-                                    BlahguaAPIObject.Current.CreateRecord.M = new List<string>();
-                                    BlahguaAPIObject.Current.CreateRecord.M.Add(photoString);
+                                    BlahguaAPIObject.Current.CreateRecord.M = new List<MediaRecordObject>();
+                                    MediaRecordObject newRec = new MediaRecordObject();
+                                    newRec.type = 1;
+                                    newRec.url = photoString;
+                                    BlahguaAPIObject.Current.CreateRecord.M.Add(newRec);
                                     HomeActivity.analytics.PostUploadBlahImage();
                                 }
                                 else
@@ -736,7 +739,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                     break;
 
                 case "predicts":
-                    if (curBlah.ExpirationDate <= DateTime.Now.AddDays(1))
+                    if (curBlah.E <= DateTime.Now.AddDays(1))
                         return "Predictions must be at least a day in the future.";
 
                     break;
@@ -782,11 +785,11 @@ namespace BlahguaMobile.AndroidClient.Screens
 				BlahguaAPIObject.Current.CreateRecord.XXX = args.IsChecked;
 			else {
 				int whichBadge = args.Which - 2;
-				string badgeId = BlahguaAPIObject.Current.CurrentUser.Badges [whichBadge].ID;
+				BadgeRecord badgeId = BlahguaAPIObject.Current.CurrentUser.B [whichBadge];
 				if (args.IsChecked) {
 					// add badge
 					if (BlahguaAPIObject.Current.CreateRecord.B == null)
-						BlahguaAPIObject.Current.CreateRecord.B = new List<string> ();
+						BlahguaAPIObject.Current.CreateRecord.B = new List<BadgeRecord> ();
 					BlahguaAPIObject.Current.CreateRecord.B.Add (badgeId);
 				} else {
 					BlahguaAPIObject.Current.CreateRecord.B.Remove (badgeId);
@@ -824,7 +827,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private void UpdateBadgeInfo()
 		{
-			BadgeList badges = BlahguaAPIObject.Current.CurrentUser.Badges;
+			List<BadgeRecord> badges = BlahguaAPIObject.Current.CurrentUser.B;
 
 			if (badgeItemNames == null) {
 				List<string>	badgeNames = new List<string> ();
@@ -832,8 +835,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 				badgeNames.Add ("mature content");
 
 				if (badges != null) {
-					foreach (BadgeReference curBadge in badges) {
-						badgeNames.Add (curBadge.BadgeName);
+					foreach (BadgeRecord curBadge in badges) {
+						badgeNames.Add (curBadge.N);
 					}
 				}
 				badgeItemNames = badgeNames.ToArray ();
@@ -848,12 +851,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 			if (badges != null) {
 				int i = 2;
 				if (BlahguaAPIObject.Current.CreateRecord.B == null) {
-					foreach (BadgeReference curBadge in badges) {
+					foreach (BadgeRecord curBadge in badges) {
 						badgeItemBools [i++] = false;
 					}
 				} else {
-					foreach (BadgeReference curBadge in badges) {
-						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateRecord.B.Contains (curBadge.ID);
+					foreach (BadgeRecord curBadge in badges) {
+						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateRecord.B.Contains (curBadge);
 					}
 				}
 			}

@@ -82,16 +82,16 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.LoadBlahStats((stats) =>
             {
                 int viewsCount = 0;
-                foreach (int v in stats.Impressions)
-                    viewsCount += v;
-
                 int opensCount = 0;
-                foreach (int o in stats.Opens)
-                    opensCount += o;
-
                 int commentsCount = 0;
-                foreach (int c in stats.Comments)
-                    commentsCount += c;
+
+                foreach (var curStat in stats)
+                {
+                    viewsCount += curStat.views;
+                    opensCount += curStat.opens;
+                    commentsCount += curStat.comments;
+                }
+
 
                 Activity.RunOnUiThread(() =>
                 {

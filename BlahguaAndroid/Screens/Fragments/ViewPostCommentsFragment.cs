@@ -91,8 +91,11 @@ namespace BlahguaMobile.AndroidClient.Screens
                         {
                             string photoURL = BlahguaAPIObject.Current.GetImageURL(photoString, "B");
                             imageCreateComment.SetUrlDrawable(photoURL, this);
-                            BlahguaAPIObject.Current.CreateCommentRecord.M = new List<string>();
-                            BlahguaAPIObject.Current.CreateCommentRecord.M.Add(photoString);
+                            BlahguaAPIObject.Current.CreateCommentRecord.M = new List<MediaRecordObject>();
+                            MediaRecordObject newRec = new MediaRecordObject();
+                            newRec.type = 1;
+                            newRec.url = photoString;
+                            BlahguaAPIObject.Current.CreateCommentRecord.M.Add(newRec);
                             HomeActivity.analytics.PostUploadBlahImage();
                         }
                         else

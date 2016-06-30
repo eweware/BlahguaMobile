@@ -107,6 +107,9 @@
     <Compile Include="..\BlahguaCore\BlahguaBL.cs">
       <Link>BlahguaCore\BlahguaBL.cs</Link>
     </Compile>
+    <Compile Include="..\BlahguaCore\BlahguaRESTservice.cs">
+      <Link>BlahguaCore\BlahguaRESTservice.cs</Link>
+    </Compile>
     <Compile Include="..\BlahguaCore\Channel.cs">
       <Link>BlahguaCore\Channel.cs</Link>
     </Compile>
@@ -121,6 +124,9 @@
     </Compile>
     <Compile Include="..\BlahguaCore\IsolatedStorageSettings.cs">
       <Link>BlahguaCore\IsolatedStorageSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\BlahguaCore\MediaRecordObject.cs">
+      <Link>BlahguaCore\MediaRecordObject.cs</Link>
     </Compile>
     <Compile Include="..\BlahguaCore\ProfileSchema.cs">
       <Link>BlahguaCore\ProfileSchema.cs</Link>
@@ -140,7 +146,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BlahguaCore\BlahguaRESTservice.cs" />
     <Compile Include="Controls\BadgeElement.xaml.cs">
       <DependentUpon>BadgeElement.xaml</DependentUpon>
     </Compile>

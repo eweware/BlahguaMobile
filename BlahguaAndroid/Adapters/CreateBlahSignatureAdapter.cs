@@ -23,13 +23,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
 		    public CheckBox chkbox;
 	    }
 
-        private BadgeList mListItems;
+        private List<BadgeRecord> mListItems;
 	    private LayoutInflater mInflater;
 	    private ViewHolder holder;
 
-	    public CreateBlahSignatureAdapter(Context context, BadgeList items) {
+	    public CreateBlahSignatureAdapter(Context context, List<BadgeRecord> items) {
             if (items == null)
-                mListItems = new BadgeList();
+                mListItems = new List<BadgeRecord>();
             else
                 mListItems = items;
 		    mInflater = LayoutInflater.From(context);
@@ -100,10 +100,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
 			}
 			else
 			{
-				BadgeReference badge = (BadgeReference)mListItems[position - 3];
-				holder.tv.Text = badge.BadgeName;
+				BadgeRecord badge = (BadgeRecord)mListItems[position - 3];
+				holder.tv.Text = badge.N;
 				if ((BlahguaAPIObject.Current.CreateRecord.B != null) &&
-					BlahguaAPIObject.Current.CreateRecord.B.Contains(badge.ID))
+					BlahguaAPIObject.Current.CreateRecord.B.Contains(badge))
 					holder.chkbox.Checked = true;
 				else
 					holder.chkbox.Checked = false;
@@ -131,9 +131,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
 					{
 						if (BlahguaAPIObject.Current.CreateRecord.B == null)
 						{
-							BlahguaAPIObject.Current.CreateRecord.B = new List<string>();
+							BlahguaAPIObject.Current.CreateRecord.B = new List<BadgeRecord>();
 						}
-						string badgeId = mListItems[pos].ID;
+						BadgeRecord badgeId = mListItems[pos];
 						if (cb.Checked && !BlahguaAPIObject.Current.CreateRecord.B.Contains(badgeId))
 						{
 							BlahguaAPIObject.Current.CreateRecord.B.Add(badgeId);

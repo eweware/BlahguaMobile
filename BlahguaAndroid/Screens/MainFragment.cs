@@ -317,7 +317,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				if (theBlah.M != null)
 				{
 					image.Visibility = ViewStates.Visible;
-					string imageBase = theBlah.M[0];
+					string imageBase = theBlah.M[0].url;
 					string imageSize = "B";
 					string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
 					homeActivity.RunOnUiThread(() =>

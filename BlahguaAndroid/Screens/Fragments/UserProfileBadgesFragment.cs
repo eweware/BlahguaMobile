@@ -137,7 +137,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                 LinearLayout rowLayout = createNewRowLayout();
 
-                foreach (BadgeReference b in BlahguaAPIObject.Current.CurrentUser.Badges)
+                foreach (BadgeRecord b in BlahguaAPIObject.Current.CurrentUser.B)
                 {
                     InsertElementForBadge(b, rowLayout, count);
                     count++;
@@ -178,10 +178,10 @@ namespace BlahguaMobile.AndroidClient.Screens
             list.AddView(rowLayout);
         }
 
-        private void InsertElementForBadge(BadgeReference badge, LinearLayout rowLayout, int column)
+        private void InsertElementForBadge(BadgeRecord badge, LinearLayout rowLayout, int column)
         {
-            String imageUrl = badge.BadgeImage;
-            String badgeTitle = badge.BadgeName;
+            String imageUrl = badge.URL;
+            String badgeTitle = badge.N;
 
             //int x = column * badgeSize;
 
@@ -254,7 +254,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             progressBar1.Visibility = ViewStates.Visible;
             BlahguaAPIObject.Current.GetBadgeAuthorities((authList) =>
             {
-                string badgeId = authList[0]._id;
+                long badgeId = authList[0]._id;
                 string emailAddr = emailField.Text;
 
                 BlahguaAPIObject.Current.GetEmailBadgeForUser(badgeId, emailAddr, (ticket) =>

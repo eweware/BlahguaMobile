@@ -1055,12 +1055,12 @@ namespace BlahguaMobile.BlahguaCore
                 {
                     if (comments != null)
                     {
-                        List<Comment>   sortedList = comments.OrderByDescending(c => c.c).ToList();
+                        List<Comment> sortedList = comments.OrderByDescending(c => c.c).ToList();
                         comments = new CommentList();
 
                         foreach (Comment theComment in sortedList)
                         {
-                            if ((theComment.XXX == false) || 
+                            if ((theComment.XXX == false) ||
                                 ((CurrentUser != null) && (CurrentUser.WantsMatureContent == true)))
                             {
                                 theComment.T = UnprocessText(theComment.T);
@@ -1079,6 +1079,8 @@ namespace BlahguaMobile.BlahguaCore
                             }
                         );
                     }
+                    else
+                        callback(new CommentList());
                    
                 }
             );
@@ -1216,6 +1218,47 @@ namespace BlahguaMobile.BlahguaCore
 					callback(null);
 
 			});
+        }
+
+        public void LoadUserStats(Stats_callback callback)
+        {
+            int duration = 7;
+            BlahguaRest.GetUserStats(CurrentUser._id, duration, (theStats) =>
+            {
+                if (theStats != null)
+                {
+                    StatsList paddedList = new StatsList();
+                    DateTime endDate = DateTime.Now.Date;
+                    DateTime curDate = endDate.AddDays(-duration);
+                    int curStatIndex = 0;
+
+                    while (curDate <= endDate)
+                    {
+                        if (curStatIndex >= theStats.Count)
+                        {
+                            paddedList.Add(new StatDayRecord(curDate));
+                        }
+                        else
+                        {
+                            if (theStats[curStatIndex].date.Date != curDate)
+                            {
+                                paddedList.Add(new StatDayRecord(curDate));
+                            }
+                            else
+                            {
+                                paddedList.Add(theStats[curStatIndex]);
+                                curStatIndex++;
+                            }
+                        }
+                        curDate = curDate.AddDays(1);
+                    }
+
+                    callback(paddedList);
+                }
+                else
+                    callback(null);
+
+            });
         }
 
         public void GetUserPredictionVote(PredictionVote_callback callback)

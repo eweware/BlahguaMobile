@@ -28,7 +28,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 	    public override int Count {
             get
             {
-                return BlahguaAPIObject.Current.CurrentBlah.Badges.Count;
+                return BlahguaAPIObject.Current.CurrentBlah.B.Count;
             }
 	    }
 
@@ -46,14 +46,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 convertView = inflater.Inflate(Resource.Layout.listitem_viewpost_summary_badge, parent, false);
 		    }
 
-            BadgeReference b = BlahguaAPIObject.Current.CurrentBlah.Badges[position];
+            BadgeRecord b = BlahguaAPIObject.Current.CurrentBlah.B[position];
 
             //var badgeImage = convertView.FindViewById<ImageView>(Resource.Id.image);
             var badgeName = convertView.FindViewById<TextView>(Resource.Id.text);
             //var verifiedText = convertView.FindViewById<TextView>(Resource.Id.verified_text);
             // TO DO:  For some reason this does not load the image correctly
             //badgeImage.SetUrlDrawable(b.BadgeImage);
-            badgeName.Text = b.BadgeName;
+            badgeName.Text = b.N;
             UiHelper.SetGothamTypeface(TypefaceStyle.Bold, badgeName);
             //UiHelper.SetGothamTypeface(TypefaceStyle.Normal, verifiedText);
 		    return convertView;

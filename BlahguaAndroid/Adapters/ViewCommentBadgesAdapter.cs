@@ -19,13 +19,13 @@ namespace BlahguaMobile.AndroidClient.Adapters
 {
 	class ViewCommentBadgesAdapter : BaseAdapter
 	{
-		BadgeList _badges;
+        List<BadgeRecord> _badges;
 
 		LayoutInflater inflater;
 		public ViewCommentBadgesAdapter(Activity activity, Comment comment)
 		{
 			inflater = activity.LayoutInflater;
-			_badges = comment.Badges;
+			_badges = comment.BD;
 		}
 
 		public override int Count {
@@ -49,14 +49,14 @@ namespace BlahguaMobile.AndroidClient.Adapters
 				convertView = inflater.Inflate(Resource.Layout.listitem_viewpost_summary_badge, parent, false);
 			}
 
-			BadgeReference b = _badges[position];
+			BadgeRecord b = _badges[position];
 
 			//var badgeImage = convertView.FindViewById<ImageView>(Resource.Id.image);
 			var badgeName = convertView.FindViewById<TextView>(Resource.Id.text);
 			var verifiedText = convertView.FindViewById<TextView>(Resource.Id.verified_text);
 			// TO DO:  For some reason this does not load the image correctly
 			//badgeImage.SetUrlDrawable(b.BadgeImage);
-			badgeName.Text = b.BadgeName;
+			badgeName.Text = b.N;
 			UiHelper.SetGothamTypeface(TypefaceStyle.Bold, badgeName);
 			UiHelper.SetGothamTypeface(TypefaceStyle.Normal, verifiedText);
 			return convertView;

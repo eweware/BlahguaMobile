@@ -67,8 +67,8 @@ namespace BlahguaMobile.AndroidClient
         private class ScreenSlidePageAdapter : FragmentStatePagerAdapter
         {
             private SignUpPage01Fragment page1 = null;
-            private SignUpPage02Fragment page2 = null;
-            private SignUpPage03Fragment page3 = null;
+            //private SignUpPage02Fragment page2 = null;
+            //private SignUpPage03Fragment page3 = null;
 
             public ScreenSlidePageAdapter(Android.Support.V4.App.FragmentManager mgr)
                 : base(mgr)
@@ -78,7 +78,7 @@ namespace BlahguaMobile.AndroidClient
 
             public override int Count
             {
-                get { return 3; }
+                get { return 1; }
             }
 
             public override Android.Support.V4.App.Fragment GetItem(int position)
@@ -97,7 +97,7 @@ namespace BlahguaMobile.AndroidClient
                         newFragment = page1;
 
                         break;
-
+                        /*
                     case 1:
                         if (page2 == null)
                         {
@@ -113,6 +113,7 @@ namespace BlahguaMobile.AndroidClient
                         }
                         newFragment = page3;
                         break;
+                        */
                 }
 
                 return newFragment;

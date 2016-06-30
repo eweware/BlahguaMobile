@@ -491,7 +491,14 @@ namespace BlahguaMobile.BlahguaCore
         public int comments { get; set; }
 		public int upvotes { get; set;}
 		public int downvotes { get; set;}
-		public DateTime date { get; set;}
+        public int userViews { get; set; }
+        public int userOpens { get; set; }
+        public int userComments { get; set; }
+        public int userUpvotes { get; set; }
+        public int userDownvotes { get; set; }
+        public int userCreates { get; set; }
+
+        public DateTime date { get; set;}
 
 
         public StatDayRecord()
@@ -502,6 +509,8 @@ namespace BlahguaMobile.BlahguaCore
 		public StatDayRecord(DateTime someDate)
 		{
 			views = opens = comments = 0;
+            upvotes = downvotes = userUpvotes = userDownvotes = 0;
+            userViews = userOpens = userComments = userCreates = 0;
 			date = someDate;
 		}
     }

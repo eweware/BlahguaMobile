@@ -242,7 +242,7 @@ namespace BlahguaMobile.BlahguaCore
         {
             get
             {
-				if ((XX == false) && (string.IsNullOrEmpty(_m)))
+				if ((XX == false) && (!string.IsNullOrEmpty(_m)))
                 {
 					return BlahguaAPIObject.Current.GetImageURL (_m, "A");
                 }

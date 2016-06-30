@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 using System.Text;
 using RestSharp;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using ServiceStack.Text;
 using System.Security.Cryptography;
 
@@ -51,7 +50,7 @@ namespace BlahguaMobile.BlahguaCore
 		private static string localHostPath = "http://localhost:8080";
 		private static string networkHostPath = "http://192.168.0.6:8080";
 		private static string prodHostPath = "https://heard-gae.appspot.com";
-		private static string serverPath = localHostPath;
+		private static string serverPath = prodHostPath;
 
 		public BlahguaRESTservice()
 		{
@@ -76,9 +75,10 @@ namespace BlahguaMobile.BlahguaCore
 		{
 			RestRequest request = new RestRequest("comments", Method.GET);
 			request.AddParameter("blahId", blahId);
-			apiClient.ExecuteAsync<CommentList>(request, (response) =>
+			apiClient.ExecuteAsync(request, (response) =>
 				{
-					callback(response.Data);
+                    var theList = response.Content.FromJson<CommentList>();
+					callback(theList);
 				});
 		}
 
@@ -690,7 +690,7 @@ namespace BlahguaMobile.BlahguaCore
 		public void UploadPhoto(Stream photoStream, string fileName, string_callback callback)
 		{
 			string uploadURL = GetImageUploadURL();
-			int pathSplit = uploadURL.IndexOf("/", 7);
+			int pathSplit = uploadURL.IndexOf("/", 10);
 			string appPath = uploadURL.Substring(0, pathSplit);
 			string requestPath = uploadURL.Substring(pathSplit);
 			RestClient onetimeClient = new RestClient(appPath);
@@ -846,8 +846,12 @@ namespace BlahguaMobile.BlahguaCore
 
 			apiClient.ExecuteAsync(request, (response) =>
 				{
-					int theResult = response.Content.FromJson<int>();
-					callback(theResult);
+                    if (response.Content != null)
+                    {
+                        int theResult = response.Content.FromJson<int>();
+                        callback(theResult);
+                    }
+                    else callback(0);
 				});
 		}
 
@@ -868,9 +872,16 @@ namespace BlahguaMobile.BlahguaCore
 			request.AddParameter("blahId", blahId);
 			request.AddParameter("predict", true);
 
-			apiClient.ExecuteAsync<UserPredictionVote>(request, (response) =>
+			apiClient.ExecuteAsync(request, (response) =>
 				{
-					callback(response.Data);
+                    if (response.Content != null)
+                    {
+                        UserPredictionVote theVote = response.Content.FromJson<UserPredictionVote>();
+                        callback(theVote);
+                    } else
+                    {
+                        callback(null);
+                    }
 				});
 		}
 

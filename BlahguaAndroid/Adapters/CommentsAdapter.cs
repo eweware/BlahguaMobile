@@ -119,7 +119,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
             author.Text = c.AuthorName;
             author_avatar.SetUrlDrawable(c.AuthorImage);
 			author_avatar.Visibility = ViewStates.Visible;
-            time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);
+            time_ago.Text = StringHelper.ConstructTimeAgo(c.c);
 
 
             upvoted.Text = c.UpVoteCount.ToString();
@@ -151,11 +151,8 @@ namespace BlahguaMobile.AndroidClient.Adapters
             else
             {
                 badgeIcon.Visibility = ViewStates.Visible;
-				c.AwaitBadgeData ((didIt) => {
-					badgeList.Visibility = ViewStates.Visible;
-					badgeList.Adapter = new ViewCommentBadgesAdapter(_activity, c);
-				});
-
+				badgeList.Visibility = ViewStates.Visible;
+				badgeList.Adapter = new ViewCommentBadgesAdapter(_activity, c);
             }
             view.Tag = position;
 

@@ -72,7 +72,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             //populate the drop-down list
             ListView list = (ListView)layout.FindViewById(Resource.Id.dropDownList);
-			CreateBlahSignatureAdapter adapter = new CreateBlahSignatureAdapter(this.Activity, BlahguaAPIObject.Current.CurrentUser.Badges);
+			CreateBlahSignatureAdapter adapter = new CreateBlahSignatureAdapter(this.Activity, BlahguaAPIObject.Current.CurrentUser.B);
             list.Adapter = adapter;
         }
     }

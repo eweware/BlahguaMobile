@@ -70,46 +70,28 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void LoadStats()
         {
-            BlahguaAPIObject.Current.LoadUserStatsInfo((userInfo) =>
+            BlahguaAPIObject.Current.LoadUserStats((userInfo) =>
             {
                 ///// user /////
                 int userViewsCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    userViewsCount += userInfo.UserViews(i);
-                }
                 int userOpensCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    userOpensCount += userInfo.UserOpens(i);
-                }
                 int userCreatesCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    userCreatesCount += userInfo.UserCreates(i);
-                }
                 int userCommentsCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    userCommentsCount += userInfo.UserComments(i);
-                }
-                ///// other /////
                 int viewsCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    viewsCount += userInfo.Views(i);
-                }
                 int opensCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    opensCount += userInfo.Opens(i);
-                }
                 int commentsCount = 0;
-                for (int i = 0; i < userInfo.DayCount; ++i)
-                {
-                    commentsCount += userInfo.Comments(i);
-                }
 
+                foreach (var curStat in userInfo)
+                {
+                    userViewsCount += curStat.userViews;
+                    userOpensCount += curStat.userOpens;
+                    userCreatesCount += curStat.userCreates;
+                    userCommentsCount += curStat.userComments;
+                    viewsCount += curStat.views;
+                    opensCount += curStat.opens;
+                    commentsCount += curStat.comments;
+                } 
+                
                 Activity.RunOnUiThread(() =>
                 {
                     views.Text = viewsCount.ToString();

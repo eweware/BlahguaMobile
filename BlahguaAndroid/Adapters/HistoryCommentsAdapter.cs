@@ -26,12 +26,12 @@ namespace BlahguaMobile.AndroidClient.Adapters
         public HistoryCommentsAdapter(HistoryCommentsFragment fragment, CommentList list)
         {
             _activity = fragment.Activity;
-            _list = list.OrderByDescending(b => b.CreationDate).ToList();
+            _list = list.OrderByDescending(b => b.c).ToList();
         }
 
         public void setComments(CommentList list)
         {
-            _list = list.OrderByDescending(b => b.CreationDate).ToList();
+            _list = list.OrderByDescending(b => b.c).ToList();
         }
 
 
@@ -54,7 +54,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
 		public void RemoveView(int position)
 		{
-			string id = _list[position]._id;
+			long id = _list[position]._id;
 
 			/*
 			BlahguaAPIObject.Current.DeleteC(id, (theString) =>
@@ -99,9 +99,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             text.SetText(c.T, Android.Widget.TextView.BufferType.Normal);
 
-            if (!(c.u == null && c.c == null))
+            if ( c.c != null)
             {
-                time_ago.Text = StringHelper.ConstructTimeAgo(c.CreationDate);
+                time_ago.Text = StringHelper.ConstructTimeAgo(c.c);
             }
 
             upvoted.Text = c.UpVoteCount.ToString();
@@ -112,7 +112,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
 			if (convertView == null) {
 				btnOpenPost.Click += (s, e) => {
 					var btn = (Button)s;
-					string id = (string)btn.Tag;
+					long id = (long)btn.Tag;
 					App.BlahIdToOpen = id;
 					_activity.StartActivity (typeof(ViewPostActivity));
 				};

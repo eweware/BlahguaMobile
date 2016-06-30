@@ -32,17 +32,17 @@ namespace BlahguaMobile.AndroidClient.Adapters
         {
             _activity = fragment.Activity;
             _fragment = fragment;
-            _list = list.OrderByDescending(b => b.CreationDate).ToList();
+            _list = list.OrderByDescending(b => b.cdate).ToList();
         }
 
         public void setEntries(BlahList list)
         {
-            _list = list.OrderByDescending(b => b.CreationDate).ToList();
+            _list = list.OrderByDescending(b => b.cdate).ToList();
         }
 
 		public void RemoveView(int position)
 		{
-			string id = _list[position]._id;
+			long id = _list[position]._id;
 
 			BlahguaAPIObject.Current.DeleteBlah(id, (theString) =>
 				{
@@ -114,9 +114,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
 
             text.Text = b.T;
 
-            if (!(b.u == null && b.cdate == null))
+            if (b.cdate != null)
             {
-                time_ago.Text = StringHelper.ConstructTimeAgo(b.CreationDate);
+                time_ago.Text = StringHelper.ConstructTimeAgo(b.cdate);
             }
 
             switch (b.TypeName)
@@ -152,7 +152,7 @@ namespace BlahguaMobile.AndroidClient.Adapters
                 // add events to new item
 				btnOpenPost.Click += (s, e) => {
 					var btn = (Button)s;
-					string id = (string)btn.Tag;
+					long id = (long)btn.Tag;
 					App.BlahIdToOpen = id;
 					_activity.StartActivity(typeof(ViewPostActivity));
 				};

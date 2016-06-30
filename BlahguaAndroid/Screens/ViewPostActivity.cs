@@ -442,11 +442,11 @@ namespace BlahguaMobile.AndroidClient
 				BlahguaAPIObject.Current.CreateCommentRecord.XXX = args.IsChecked;
 			else {
 				int whichBadge = args.Which - 2;
-				string badgeId = BlahguaAPIObject.Current.CurrentUser.Badges [whichBadge].ID;
+				BadgeRecord badgeId = BlahguaAPIObject.Current.CurrentUser.B [whichBadge];
 				if (args.IsChecked) {
 					// add badge
 					if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
-						BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string> ();
+						BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<BadgeRecord> ();
 					BlahguaAPIObject.Current.CreateCommentRecord.BD.Add (badgeId);
 				} else {
 					BlahguaAPIObject.Current.CreateCommentRecord.BD.Remove (badgeId);
@@ -484,7 +484,7 @@ namespace BlahguaMobile.AndroidClient
 
 		private void UpdateBadgeInfo()
 		{
-			BadgeList badges = BlahguaAPIObject.Current.CurrentUser.Badges;
+			List<BadgeRecord> badges = BlahguaAPIObject.Current.CurrentUser.B;
 
 			if (badgeItemNames == null) {
 				List<string>	badgeNames = new List<string> ();
@@ -492,8 +492,8 @@ namespace BlahguaMobile.AndroidClient
 				badgeNames.Add ("mature content");
 
 				if (badges != null) {
-					foreach (BadgeReference curBadge in badges) {
-						badgeNames.Add (curBadge.BadgeName);
+					foreach (BadgeRecord curBadge in badges) {
+						badgeNames.Add (curBadge.N);
 					}
 				}
 				badgeItemNames = badgeNames.ToArray ();
@@ -508,12 +508,12 @@ namespace BlahguaMobile.AndroidClient
 			if (badges != null) {
 				int i = 2;
 				if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null) {
-					foreach (BadgeReference curBadge in badges) {
+					foreach (BadgeRecord curBadge in badges) {
 						badgeItemBools [i++] = false;
 					}
 				} else {
-					foreach (BadgeReference curBadge in badges) {
-						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains (curBadge.ID);
+					foreach (BadgeRecord curBadge in badges) {
+						badgeItemBools [i++] = BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains (curBadge);
 					}
 				}
 			}
@@ -690,7 +690,7 @@ namespace BlahguaMobile.AndroidClient
         {
             if (BlahguaAPIObject.Current.CurrentInboxBlah != null)
             {
-                string blahId = BlahguaAPIObject.Current.CurrentInboxBlah.I;
+                long blahId = BlahguaAPIObject.Current.CurrentInboxBlah.I;
 
                 ChannelName = "blah" + blahId;
                 HomeActivity.pubnub.Subscribe<string>(ChannelName, DisplaySubscribeReturnMessage, DisplaySubscribeConnectStatusMessage, DisplayErrorMessage);

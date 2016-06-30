@@ -63,14 +63,14 @@ namespace BlahguaMobile.AndroidClient.Screens
 			FetchInitialBlahList ();
 		}
 
-		public void ShowBlahActivity(string blahId)
+		public void ShowBlahActivity(long blahId)
 		{
 			for (int i = 0; i < BlahContainerLayout.ChildCount; i++) {
 				BlahFrameLayout curFrame = BlahContainerLayout.GetChildAt (i) as BlahFrameLayout;
 
 				for (int curItem = 0; curItem < curFrame.ChildCount; curItem++) {
 					FrameLayout curBlahItem = curFrame.GetChildAt (curItem) as FrameLayout;
-					string curTag = (string)curBlahItem.Tag;
+					long curTag = (long)curBlahItem.Tag;
 
 					if (curTag == blahId) {
 						AnimateBlahActivity (curBlahItem); 
@@ -259,7 +259,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		}
 
-        public void OpenBlahFromId(string blahId)
+        public void OpenBlahFromId(long blahId)
         {
             StopTimers();
             BlahguaAPIObject.Current.CurrentInboxBlah = null;
@@ -456,9 +456,9 @@ namespace BlahguaMobile.AndroidClient.Screens
 			if (theBlah.M != null)
 			{
 				image.Visibility = ViewStates.Visible;
-				string imageBase = theBlah.M[0];
+				MediaRecordObject imageBase = theBlah.M[0];
 				string imageSize = theBlah.ImageSize;
-				string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase, imageSize);
+				string imageURL = BlahguaAPIObject.Current.GetImageURL(imageBase.url, imageSize);
 				this.Activity.RunOnUiThread(() =>
 					{
 						image.SetUrlDrawable(imageURL);
@@ -509,10 +509,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					
 
 					// icons
-					double currentUtc = DateTime.Now.ToUniversalTime().Subtract(
-						new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-					).TotalMilliseconds;
-					if (currentUtc - theBlah.c < 86400000)
+					if (theBlah.cdate < DateTime.Now.AddMinutes(-15))
 						new_mark.Visibility = ViewStates.Visible;
 					else
 						new_mark.Visibility = ViewStates.Gone;

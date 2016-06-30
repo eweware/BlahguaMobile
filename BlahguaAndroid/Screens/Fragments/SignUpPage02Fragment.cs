@@ -70,7 +70,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             communityMenu.Menu.Add(0, itemCount++, 0, defChannel.N); 
             
-            string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
+            long typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Industry")._id;
             List<Channel> newList = null;
 
             try
@@ -116,7 +116,7 @@ namespace BlahguaMobile.AndroidClient.Screens
         {
             publisherMenu = new PopupMenu(this.Activity, publisherBtn);
 
-            string typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
+            long typeId = BlahguaAPIObject.Current.CurrentChannelTypeList.Find(i => i.N == "Publishers")._id;
             List<Channel> newList = null;
             int itemCount = 0;
 

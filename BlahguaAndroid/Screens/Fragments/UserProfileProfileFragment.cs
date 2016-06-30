@@ -88,8 +88,8 @@ namespace BlahguaMobile.AndroidClient.Screens
 
             if (newProfileName != oldUserName)
             {
-                BlahguaAPIObject.Current.CurrentUser.Profile.Nickname = newProfileName;
-                BlahguaAPIObject.Current.UpdateUserProfile((theString) =>
+                BlahguaAPIObject.Current.CurrentUser.UserName = newProfileName;
+                BlahguaAPIObject.Current.UpdateUserName(newProfileName, (theString) =>
                 {
                     oldUserName = newProfileName;
                     BlahguaAPIObject.Current.GetUserDescription((theDesc) =>
@@ -115,7 +115,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
         private void initUi()
         {
-            nickname.Text = BlahguaAPIObject.Current.CurrentUser.Profile.Nickname;
+            nickname.Text = BlahguaAPIObject.Current.CurrentUser.UserName;
             if (!String.IsNullOrEmpty(BlahguaAPIObject.Current.CurrentUser.UserImage))
             {
                 btn_avatar.Visibility = ViewStates.Gone;

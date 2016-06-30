@@ -65,9 +65,9 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (BlahguaAPIObject.Current.CurrentUser.Profile != null)
             {
                 string newVal = nickname.Text;
-                if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.City)
+                if (newVal != BlahguaAPIObject.Current.CurrentUser.UserName)
                 {
-                    BlahguaAPIObject.Current.CurrentUser.Profile.Nickname = newVal;
+                    BlahguaAPIObject.Current.CurrentUser.UserName = newVal;
                     UpdateProfile();
                 }
             }

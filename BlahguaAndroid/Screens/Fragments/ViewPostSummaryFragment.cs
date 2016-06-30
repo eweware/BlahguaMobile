@@ -180,9 +180,9 @@ namespace BlahguaMobile.AndroidClient.Screens
                 parent.RunOnUiThread(() =>
                 {
                     author.Text = loadedBlah.UserName;
-                    if (!(loadedBlah.u == null && loadedBlah.cdate == null))
+                    if ( loadedBlah.cdate != null)
                     {
-                        timeago.Text = StringHelper.ConstructTimeAgo(loadedBlah.CreationDate);
+                        timeago.Text = StringHelper.ConstructTimeAgo(loadedBlah.cdate);
                     }
 
                     if (BlahguaAPIObject.Current.CurrentChannel.SAD == false)
@@ -206,7 +206,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                     authorAvatar.SetUrlDrawable(loadedBlah.UserImage);
 
-                    if (loadedBlah.Badges != null)
+                    if (loadedBlah.B != null)
                     {
                         badgesIcon.Visibility = ViewStates.Visible;
 						authorBadgeList.Visibility = ViewStates.Visible;
@@ -262,7 +262,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             BlahguaAPIObject.Current.GetUserPollVote((theVote) =>
             {
                 Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
-                bool isVoted = pollsTapped || ((theVote != null) && (theVote.W > -1));
+                bool isVoted = pollsTapped || theVote != 0;
                 parent.RunOnUiThread(() =>
                 {
                     pollsVotes.Adapter = new VotesAdapter(Activity, curBlah.I, !isVoted, pollsTap);
@@ -284,21 +284,21 @@ namespace BlahguaMobile.AndroidClient.Screens
                     Blah curBlah = BlahguaAPIObject.Current.CurrentBlah;
                     parent.RunOnUiThread(() =>
                     {
-                        if (curBlah.ExpireDate > DateTime.Now)
+                        if (curBlah.E > DateTime.Now)
                         {
                             // still has time
                             bool isVoted = predictsTapped || (theVote != null && !String.IsNullOrEmpty(theVote.D));
                             predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.PredictionItems, !isVoted, predictsTap);
-								    predictsDatebox.Text = "happening by " + curBlah.ExpireDate.ToShortDateString();
-								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
+								    predictsDatebox.Text = "happening by " + curBlah.E.ToShortDateString();
+								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
                         }
                         else
                         {
                             // expired
                             bool isVoted = predictsTapped || (theVote != null && !String.IsNullOrEmpty(theVote.Z));
                             predictsVotes.Adapter = new VotesAdapter(Activity, curBlah.ExpPredictionItems, !isVoted, predictsTap);
-								    predictsDatebox.Text = "should have happened on " + curBlah.ExpireDate.ToShortDateString();
-								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.ExpireDate) + ")";
+								    predictsDatebox.Text = "should have happened on " + curBlah.E.ToShortDateString();
+								    predictsElapsedtime.Text = "(" + Utilities.ElapsedDateString(curBlah.E) + ")";
                         }
 
                         UiHelper.SetListViewHeightBasedOnChildren(predictsVotes);

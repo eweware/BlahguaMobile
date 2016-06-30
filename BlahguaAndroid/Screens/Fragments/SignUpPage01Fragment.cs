@@ -199,12 +199,12 @@ namespace BlahguaMobile.AndroidClient.Screens
 
                             Activity.RunOnUiThread(() =>
                                 {
-                                    ((FirstRunActivity)this.Activity).GoToNext();
+                                    ((FirstRunActivity)this.Activity).FinishSignin();
                                 });
                         });
                     }
                     else
-                        ((FirstRunActivity)this.Activity).GoToNext();
+                        ((FirstRunActivity)this.Activity).FinishSignin();
                 });
             }
             else

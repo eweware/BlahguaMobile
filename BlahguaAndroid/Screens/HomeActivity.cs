@@ -65,7 +65,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 
 		private DrawerLayout drawerLayout;
 		private ListView drawerListView;
-        private string blahToOpen = null;
+        private long blahToOpen = 0;
 
 		public static bool forceFirstTime = false;
         public static int FIRST_RUN_RESULT = 0x1111, PHOTO_CAPTURE_EVENT = 0x2222;
@@ -158,7 +158,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 string idStr = intentData.GetQueryParameter("blahId");
                 if (!String.IsNullOrEmpty(idStr))
-                    blahToOpen = idStr;
+                    blahToOpen = long.Parse(idStr);
             }
                 
 
@@ -290,7 +290,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             String seenIt = _sharedPref.GetString("sawtutorial", "");
 
 
-            if (!String.IsNullOrEmpty(blahToOpen))
+            if (blahToOpen != 0)
             {
                 this.mainFragment.OpenBlahFromId(blahToOpen);
             }
@@ -561,6 +561,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 				intent_profile.PutExtra("Page", 0);
 				StartActivity(intent_profile);
 				break;
+                    /*
 			case Resource.Id.action_badges:
 
 				intent_profile = new Intent(this, typeof(UserProfileActivity));
@@ -573,14 +574,15 @@ namespace BlahguaMobile.AndroidClient.Screens
 				intent_profile.PutExtra("Page",1 );
 				StartActivity(intent_profile);
 				break;
+                */
 			case Resource.Id.action_history:
                 intent_profile = new Intent(this, typeof(UserProfileActivity));
-                intent_profile.PutExtra("Page", 3);
+                intent_profile.PutExtra("Page", 1);
                 StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_stats:
 				intent_profile = new Intent(this, typeof(UserProfileActivity));
-				intent_profile.PutExtra("Page", 5);
+				intent_profile.PutExtra("Page", 2);
 				StartActivity(intent_profile);
 				break;
 			case Resource.Id.action_logout:
@@ -800,7 +802,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 			if (BlahguaAPIObject.Current.CurrentUser != null)
             	theAction.userid = BlahguaAPIObject.Current.CurrentUser._id;
 			else
-				theAction.userid = "0";
+				theAction.userid = 0;
 			
             string channelStr = "heard" + BlahguaAPIObject.Current.CurrentChannel._id;
             HomeActivity.pubnub.Publish<PublishAction>(channelStr, theAction,
@@ -848,7 +850,7 @@ namespace BlahguaMobile.AndroidClient.Screens
 					{
 					case "openblah":
 					case "blahactivity":
-						string blahId = theTurn.blahid;
+						long blahId = theTurn.blahid;
 						ShowBlahActivity(blahId);
 						break;
 
@@ -869,7 +871,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             }
         }
 
-		private void ShowBlahActivity(string blahId)
+		private void ShowBlahActivity(long blahId)
 		{
 			mainFragment.ShowBlahActivity (blahId);
 		}

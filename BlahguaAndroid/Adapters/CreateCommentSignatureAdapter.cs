@@ -102,10 +102,10 @@ namespace BlahguaMobile.AndroidClient.Adapters
 			}
 			else
             {
-                BadgeReference badge = (BadgeReference)mListItems[position - 3];
-                holder.tv.Text = badge.BadgeName;
+                BadgeRecord badge = (BadgeRecord)mListItems[position - 3];
+                holder.tv.Text = badge.N;
                 if ((BlahguaAPIObject.Current.CreateCommentRecord.BD != null) &&
-                    BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge.ID))
+                    BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badge))
                     holder.chkbox.Checked = true;
                 else
                     holder.chkbox.Checked = false;
@@ -130,9 +130,9 @@ namespace BlahguaMobile.AndroidClient.Adapters
                     {
                         if (BlahguaAPIObject.Current.CreateCommentRecord.BD == null)
                         {
-                            BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<string>();
+                            BlahguaAPIObject.Current.CreateCommentRecord.BD = new List<BadgeRecord>();
                         }
-                        string badgeId = mListItems[pos].ID;
+                        BadgeRecord badgeId = mListItems[pos];
                         if (cb.Checked && !BlahguaAPIObject.Current.CreateCommentRecord.BD.Contains(badgeId))
                         {
                             BlahguaAPIObject.Current.CreateCommentRecord.BD.Add(badgeId);

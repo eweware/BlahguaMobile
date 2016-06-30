@@ -15,30 +15,20 @@
 				android:alphabeticShortcut="p"
 				android:orderInCategory="2"
 				android:showAsAction="never"/>
-			<item android:id="@+id/action_demographics"
-				android:title="Demographics"
-				android:alphabeticShortcut="d"
-				android:orderInCategory="3"
-				android:showAsAction="never"/>
-			<item android:id="@+id/action_badges"
-				android:title="Badges"
-				android:alphabeticShortcut="b"
-				android:orderInCategory="4"
-				android:showAsAction="never"/>
 			<item android:id="@+id/action_history"
 				android:title="Posts"
 				android:alphabeticShortcut="h"
-				android:orderInCategory="5"
+				android:orderInCategory="3"
 				android:showAsAction="never"/>
 			<item android:id="@+id/action_stats"
 				android:title="Stats"
 				android:alphabeticShortcut="s"
-				android:orderInCategory="6"
+				android:orderInCategory="4"
 				android:showAsAction="never"/>
 			<item android:id="@+id/action_logout"
 				android:title="sign out"
 				android:alphabeticShortcut="o"
-				android:orderInCategory="7"
+				android:orderInCategory="5"
 				android:showAsAction="never"/>
 		</menu>
 	</item>

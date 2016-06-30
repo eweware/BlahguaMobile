@@ -111,11 +111,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 string newVal = city.Text;
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.City)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.City = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void state_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
@@ -123,11 +125,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 string newVal = state.Text;
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.State)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.State = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void post_code_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
@@ -135,11 +139,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 string newVal = post_code.Text;
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.Zipcode)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.Zipcode = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         #endregion
@@ -150,12 +156,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 bool newVal = (bool)e.IsChecked;
-
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.GenderPerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.GenderPerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_dob_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -164,11 +171,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 bool newVal = (bool)e.IsChecked;
 
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.DOBPerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.DOBPerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_ethnicity_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -177,11 +186,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 bool newVal = (bool)e.IsChecked;
 
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.RacePerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.RacePerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_city_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -189,12 +200,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 bool newVal = (bool)e.IsChecked;
-
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.CityPerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.CityPerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_state_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -203,11 +215,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 bool newVal = (bool)e.IsChecked;
 
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.StatePerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.StatePerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_post_code_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -216,11 +230,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 bool newVal = (bool)e.IsChecked;
 
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.ZipcodePerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.ZipcodePerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void check_public_country_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -229,11 +245,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             {
                 bool newVal = (bool)e.IsChecked;
 
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.CountryPerm)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.CountryPerm = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         #endregion
@@ -244,11 +262,13 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 string newVal = spinnerGender.SelectedItem.ToString();
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.Gender)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.Gender = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void spinnerEthnicity_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -256,23 +276,27 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
                 string newVal = spinnerEthnicity.SelectedItem.ToString();
+                /*
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.Race)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.Race = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         private void spinnerCountry_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             if (isDemoPopulated && (BlahguaAPIObject.Current.CurrentUser.Profile != null))
             {
+                /*
                 string newVal = spinnerCountry.SelectedItem.ToString();
                 if (newVal != BlahguaAPIObject.Current.CurrentUser.Profile.Country)
                 {
                     BlahguaAPIObject.Current.CurrentUser.Profile.Country = newVal;
                     UpdateProfile();
                 }
+                */
             }
         }
         #endregion
@@ -297,6 +321,7 @@ namespace BlahguaMobile.AndroidClient.Screens
             if (theProfile != null)
             {
                 isDemoPopulated = false;
+                /*
                 String[] genders = Activity.Resources.GetStringArray(Resource.Array.gender_array);
                 String[] ethnicities = Activity.Resources.GetStringArray(Resource.Array.ethnicity_array);
                 String[] countries = Activity.Resources.GetStringArray(Resource.Array.country_array);
@@ -321,7 +346,7 @@ namespace BlahguaMobile.AndroidClient.Screens
                 check_public_post_code.Checked = theProfile.ZipcodePerm;
                 check_public_country.Checked = theProfile.CountryPerm;
                 //IncomePerm.IsChecked = theProfile.IncomePerm;
-
+                */
                 isDemoPopulated = true;
             }
         }

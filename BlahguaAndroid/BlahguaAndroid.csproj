@@ -132,6 +132,9 @@
     <Compile Include="..\BlahguaCore\HelperClasses.cs">
       <Link>BlahguaCore\HelperClasses.cs</Link>
     </Compile>
+    <Compile Include="..\BlahguaCore\MediaRecordObject.cs">
+      <Link>BlahguaCore\MediaRecordObject.cs</Link>
+    </Compile>
     <Compile Include="..\BlahguaCore\ProfileSchema.cs">
       <Link>BlahguaCore\ProfileSchema.cs</Link>
     </Compile>

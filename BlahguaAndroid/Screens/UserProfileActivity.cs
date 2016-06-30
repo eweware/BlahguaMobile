@@ -37,8 +37,8 @@ namespace BlahguaMobile.AndroidClient
 		private BGActionBarDrawerToggle drawerToggle;
 		private Android.Support.V7.Widget.Toolbar toolbar = null;
         public static UserProfileProfileFragment profileFragment;
-        public static UserProfileDemographicsFragment demographicsFragment;
-        public static UserProfileBadgesFragment badgesFragment;
+        //public static UserProfileDemographicsFragment demographicsFragment;
+        //public static UserProfileBadgesFragment badgesFragment;
         public static UserProfileStatsFragment statsFragment;
         public static HistoryPostsFragment postsFragment;
         public static HistoryCommentsFragment commentsFragment;
@@ -51,7 +51,7 @@ namespace BlahguaMobile.AndroidClient
 
 		public class ProfilePageAdapter : FragmentPagerAdapter
 		{
-			private string[] Titles = { "Account", "Demographics", "Badges", "Posts", "Comments", "Stats" };
+			private string[] Titles = { "Account", "Posts", "Comments", "Stats" };
 			Android.Support.V7.App.AppCompatActivity activity;
 
 			public ProfilePageAdapter(Android.Support.V4.App.FragmentManager fm, Android.Support.V7.App.AppCompatActivity theActivity)
@@ -83,22 +83,14 @@ namespace BlahguaMobile.AndroidClient
 					break;
 
 				case 1:
-					theItem = UserProfileActivity.demographicsFragment;
-					break;
-
-				case 2:
-					theItem = UserProfileActivity.badgesFragment;
-					break;
-
-				case 3:
 					theItem = UserProfileActivity.postsFragment;
 					break;
 
-				case 4:
+				case 2:
 					theItem = UserProfileActivity.commentsFragment;
 					break;
 
-				case 5:
+				case 3:
 					theItem = UserProfileActivity.statsFragment;
 					break;
 				}
@@ -169,8 +161,8 @@ namespace BlahguaMobile.AndroidClient
 
 
             profileFragment = new UserProfileProfileFragment();
-            demographicsFragment = new UserProfileDemographicsFragment();
-            badgesFragment = new UserProfileBadgesFragment();
+            //demographicsFragment = new UserProfileDemographicsFragment();
+            //badgesFragment = new UserProfileBadgesFragment();
             postsFragment = new HistoryPostsFragment();
             commentsFragment = new HistoryCommentsFragment();
             statsFragment = new UserProfileStatsFragment();
@@ -292,14 +284,6 @@ namespace BlahguaMobile.AndroidClient
                     break;
 
                 case 1:
-                    //demographics
-                    break;
-
-                case 2:
-                    // badges
-                    break;
-
-                case 3:
                     // posts
                     if (postsFragment.Activity != null)
                         postsFragment.DrawUserPosts();
@@ -307,12 +291,12 @@ namespace BlahguaMobile.AndroidClient
                         postsFragment.NeedsDraw = true;
                     break;
 
-                case 4:
+                case 2:
                     // comments
 					commentsFragment.DrawUserComments();
                     break;
 
-                case 5:
+                case 3:
                     // stats
                     break;
             }
@@ -351,6 +335,7 @@ namespace BlahguaMobile.AndroidClient
                 Finish();
                 //commentsFragment.triggerCreateBlock();
             }
+            /*
             if (badgesFragment != null)
             {
                 badgesFragment.triggerNewBlock();
@@ -360,6 +345,7 @@ namespace BlahguaMobile.AndroidClient
                 Finish();
                 //commentsFragment.triggerCreateBlock();
             }
+            */
         }
 
 
