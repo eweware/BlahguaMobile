@@ -74,7 +74,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignProvision>df490f32-4a06-4ce2-a721-d2558e4a81e8</CodesignProvision>
+    <CodesignProvision>6c75e1b6-6dd5-4aff-b564-1a494332b6a9</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -379,9 +379,6 @@
     <Reference Include="HockeyApp.iOS">
       <HintPath>..\Components\hockeyappios-3.8.2.1\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="ToastIOS">
-      <HintPath>..\Components\ToastIOS-1.5\lib\ios-unified\ToastIOS.dll</HintPath>
-    </Reference>
     <Reference Include="SWTableViewCell">
       <HintPath>..\Components\swtableviewcell-0.3.6.1\lib\ios-unified\SWTableViewCell.dll</HintPath>
     </Reference>
@@ -393,6 +390,9 @@
     </Reference>
     <Reference Include="SDWebImage">
       <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastIOS">
+      <HintPath>..\Components\ToastIOS-1.6\lib\ios-unified\ToastIOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -615,16 +615,16 @@
       <Version>0.3.6.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="ToastIOS">
-      <Version>1.5</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.2.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="sdwebimage">
       <Version>3.7.5</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="ToastIOS">
+      <Version>1.6</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

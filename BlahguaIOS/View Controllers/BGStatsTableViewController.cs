@@ -77,7 +77,8 @@ namespace BlahguaMobile.IOS
 					lblOpenedImpression.Text = CurrentBlah.O + "/" + CurrentBlah.V;
 					BlahguaAPIObject.Current.LoadBlahStats((statList) =>
 					{
-						UpdateBlahStats(statList);
+						if (statList != null)
+							UpdateBlahStats(statList);
 					});
 				}
 

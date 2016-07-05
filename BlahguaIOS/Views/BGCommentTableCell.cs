@@ -130,7 +130,7 @@ namespace BlahguaMobile.IOS
 
             if (!String.IsNullOrEmpty(userComment.AuthorImage))
 			{
-				imgAvatar.SetImage(new NSUrl(userComment.AuthorName), (image, error, cacheType, imageUrl) =>
+				imgAvatar.SetImage(new NSUrl(userComment.AuthorImage), (image, error, cacheType, imageUrl) =>
 				{
 
 				});

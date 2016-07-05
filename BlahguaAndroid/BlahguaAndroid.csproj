@@ -52,15 +52,9 @@
     <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
     <AndroidLinkSkip />
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <BundleAssemblies>False</BundleAssemblies>
-    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis />
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
-    <AotAssemblies>False</AotAssemblies>
-    <EnableLLVM>False</EnableLLVM>
-    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
-    <EnableProguard>False</EnableProguard>
     <DebugSymbols>False</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
@@ -94,14 +88,14 @@
       <HintPath>..\packages\Refractored.PagerSlidingTabStrip.1.1.2\lib\MonoAndroid10\Refractored.PagerSlidingTabStrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="HockeyApp.Android">
-      <HintPath>..\Components\hockeyappandroid-3.6.2.0\lib\android\HockeyApp.Android.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Text.XamarinAndrod">
       <HintPath>..\Components\servicestacktext-3.9.61.3\lib\android\ServiceStack.Text.XamarinAndrod.dll</HintPath>
     </Reference>
     <Reference Include="FortySevenDeg.SwipeListView">
       <HintPath>..\Components\android-swipelistview-2.0.0\lib\android\FortySevenDeg.SwipeListView.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.Android">
+      <HintPath>..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
